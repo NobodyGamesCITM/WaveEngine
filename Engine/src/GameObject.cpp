@@ -43,7 +43,7 @@ GameObject::~GameObject() {
     MarkCleaning();
 
     for (auto* component : components) {
-        delete component;
+        componentOwners.clear();
         component = nullptr;
     }
 
@@ -155,6 +155,7 @@ Component* GameObject::CreateComponent(ComponentType type) {
     }
 
     if (newComponent) {
+        componentOwners.push_back(std::unique_ptr<Component>(newComponent));
         components.push_back(newComponent);
     }
     

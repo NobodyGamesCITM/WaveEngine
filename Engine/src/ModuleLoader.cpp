@@ -110,16 +110,17 @@ bool ModuleLoader::CleanUp()
     return true;
 }
 
-bool ModuleLoader::LoadFbx(const std::string& fbxPath)
+GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
 {
     // Cargar el modelo
     bool modelLoaded = false;
+    GameObject* firstLoaded = nullptr;
     UID modelUID = MetaFileManager::GetUIDFromAsset(fbxPath);
     
     if (modelUID != 0) {
         
-        ResourceModel* resource = (ResourceModel*) Application::GetInstance().resources.get()->RequestResource(modelUID);
 
+        ResourceModel* resource = (ResourceModel*)Application::GetInstance().resources.get()->RequestResource(modelUID);
         if (resource)
         {
             nlohmann::json modelHierarchy = resource->GetModelHierarchy();
@@ -128,9 +129,9 @@ bool ModuleLoader::LoadFbx(const std::string& fbxPath)
 
             for (const auto& jsonNode : modelHierarchy) {
 
-                GameObject::Deserialize(jsonNode, root);
+                GameObject* node = GameObject::Deserialize(jsonNode, root);
+                if (node && !firstLoaded) firstLoaded = node;
             }
-
             Application::GetInstance().scene->RebuildOctree();
             LOG_CONSOLE("[FileSystem] Model instanciado desde Library con éxito: %s", fbxPath.c_str());
             modelLoaded = true;
@@ -151,9 +152,11 @@ bool ModuleLoader::LoadFbx(const std::string& fbxPath)
         GameObject* root = Application::GetInstance().scene->GetRoot();
         root->AddChild(pyramidObject);
         Application::GetInstance().scene->RebuildOctree();
+        return pyramidObject;
     }
         
-    return modelLoaded;
+
+    return firstLoaded;
 }
 
 bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, const std::string& texturePath)

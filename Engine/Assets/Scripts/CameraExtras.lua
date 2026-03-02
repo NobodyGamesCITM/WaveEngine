@@ -1,32 +1,33 @@
-
+-- Controls:
+-- 5 → Zoom In  (hold)
+-- 6 → Zoom Out (hold)
+-- 7 → Camera Shake (press)
 
 
 
 public = {
-    playerName     = "MC",  -- nombre del GameObject del jugador
-    followSpeed    = 5.0,        -- velocidad de interpolacion del seguimiento
-    zoomSpeed      = 3.0,        -- unidades por segundo
-    zoomMin        = 0.3,        -- escala minima del offset (muy cerca)
-    zoomMax        = 3.0,        -- escala maxima del offset (muy lejos)
+    playerName     = "MC",
+    followSpeed    = 5.0,
+    zoomSpeed      = 3.0,
+    zoomMin        = 0.3,
+    zoomMax        = 3.0,
     shakeDuration  = 0.4,
     shakeMagnitude = 0.3,
     shakeFrequency = 25.0,
 }
 
-local initialized  = false
-local playerTransform = nil
+-- Internal state
+local initialized      = false
+local playerTransform  = nil
 
--- Offset inicial camara - player (se calcula en Init)
+-- Initial world offset (camera - player)
 local offsetX, offsetY, offsetZ = 0.0, 0.0, 0.0
--- Escala del offset (zoom): 1.0 = distancia original
-local offsetScale = 1.0
+local offsetScale = 1.0  -- 1.0 = original distance
 
--- Shake
+-- Shake state
 local shakeTimer   = 0.0
 local shakeOffsetX = 0.0
 local shakeOffsetZ = 0.0
-
-
 
 local function clamp(v, min, max)
     if v < min then return min end
@@ -38,18 +39,13 @@ local function lerp(a, b, t)
     return a + (b - a) * t
 end
 
-
-
 local function Init(self)
     local playerObj = GameObject.Find(self.public.playerName)
-    if not playerObj then
-        Engine.Log("[CameraFeatures] ERROR: No se encontro el GameObject '" .. self.public.playerName .. "'")
-        return
-    end
+    if not playerObj then return end
 
     playerTransform = playerObj.transform
 
-    
+    -- Compute initial world offset
     local camPos    = self.transform.worldPosition
     local playerPos = playerTransform.worldPosition
 
@@ -61,32 +57,33 @@ local function Init(self)
     initialized = true
 end
 
-
-
+-- Smooth follow towards player + scaled offset
 local function UpdateFollow(self, dt)
     local playerPos = playerTransform.worldPosition
 
-   
     local targetX = playerPos.x + offsetX * offsetScale
     local targetY = playerPos.y + offsetY * offsetScale
     local targetZ = playerPos.z + offsetZ * offsetScale
 
-   
+    -- Remove previous frame shake before interpolation
     local camPos = self.transform.worldPosition
+    local cleanX = camPos.x - shakeOffsetX
+    local cleanZ = camPos.z - shakeOffsetZ
 
-    
     local t = clamp(self.public.followSpeed * dt, 0.0, 1.0)
-    local newX = lerp(camPos.x, targetX, t) + shakeOffsetX
-    local newY = lerp(camPos.y, targetY, t)
-    local newZ = lerp(camPos.z, targetZ, t) + shakeOffsetZ
 
-    self.transform:SetPosition(newX, newY, newZ)
+    local baseX = lerp(cleanX, targetX, t)
+    local baseY = lerp(camPos.y, targetY, t)
+    local baseZ = lerp(cleanZ, targetZ, t)
+
+    -- Apply shake on top of base position
+    self.transform:SetPosition(baseX + shakeOffsetX, baseY, baseZ + shakeOffsetZ)
 end
 
 local function UpdateZoom(self, dt)
     local zoomDir = 0
-    if Input.GetKey("5") then zoomDir = -1 end  -- acercar
-    if Input.GetKey("6") then zoomDir =  1 end  -- alejar
+    if Input.GetKey("5") then zoomDir = -1 end
+    if Input.GetKey("6") then zoomDir =  1 end
     if zoomDir == 0 then return end
 
     local cfg = self.public
@@ -97,10 +94,7 @@ local function UpdateZoom(self, dt)
     )
 end
 
-
-
 local function TriggerShake(self)
-     
     shakeTimer = self.public.shakeDuration
 end
 
@@ -115,10 +109,12 @@ local function UpdateShake(self, dt)
 
     shakeTimer = shakeTimer - dt
 
+    -- Linearly decreasing amplitude
     local progress  = shakeTimer / cfg.shakeDuration
     local amplitude = cfg.shakeMagnitude * progress
     local t         = cfg.shakeDuration - shakeTimer
 
+    -- 2D shake on XZ plane
     shakeOffsetX = amplitude * math.sin(t * cfg.shakeFrequency * 2.0 * math.pi)
     shakeOffsetZ = amplitude * math.sin(t * cfg.shakeFrequency * 2.0 * math.pi * 1.3)
 
@@ -128,7 +124,6 @@ local function UpdateShake(self, dt)
     end
 end
 
-
 function Start(self)
     Init(self)
 end
@@ -137,10 +132,14 @@ function Update(self, dt)
     if not initialized then
         Init(self)
         return
-        
     end
 
     UpdateZoom(self, dt)
+
+    if Input.GetKeyDown("7") then
+        TriggerShake(self)
+    end
+
     UpdateShake(self, dt)
     UpdateFollow(self, dt)
 end

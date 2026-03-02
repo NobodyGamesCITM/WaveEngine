@@ -112,35 +112,7 @@ void ComponentNavigation::OnEditor()
                     linkedSurface = nullptr;
                 }
             }
-
-            ImGui::Separator();
-            ImGui::Text("Test Movement");
-
-            static float testDest[3] = { 0.0f, 0.0f, 0.0f };
-            ImGui::DragFloat3("Test Destination", testDest, 0.1f);
-
-            if (ImGui::Button("Move To Destination", ImVec2(-1, 25)))
-            {
-                glm::vec3 dest = { testDest[0], testDest[1], testDest[2] };
-                bool ok = SetDestination(dest);
-                LOG_CONSOLE("SetDestination -> %s", ok ? "OK" : "FAILED");
-            }
-
-            if (ImGui::Button("Stop", ImVec2(-1, 25)))
-            {
-                StopMovement();
-            }
-
-            // Muestra estado actual
-            ImGui::Text("Moving: %s", moving ? "YES" : "NO");
-            ImGui::Text("Waypoint: %d / %d", pathIndex, (int)path.size());
-            if (!path.empty() && pathIndex < (int)path.size())
-            {
-                glm::vec3& wp = path[pathIndex];
-                ImGui::Text("Next WP: (%.1f, %.1f, %.1f)", wp.x, wp.y, wp.z);
-            }
         }
-
         ImGui::Spacing();
 
         if (type != NavType::AGENT) {

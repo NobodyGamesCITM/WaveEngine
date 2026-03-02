@@ -395,15 +395,11 @@ target_link_libraries(Game PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(Game PRIVATE Tracy::TracyClient)
 target_link_libraries(Game PRIVATE unofficial::omniverse-physx-sdk::sdk)
 target_link_libraries(Game PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(Engine PRIVATE 
-    RecastNavigation::Recast 
-    RecastNavigation::Detour 
-    RecastNavigation::DetourCrowd
-)
-target_include_directories(Engine PRIVATE 
-    $<TARGET_PROPERTY:RecastNavigation::Recast,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:RecastNavigation::Detour,INTERFACE_INCLUDE_DIRECTORIES>
-)
+target_link_libraries(Game PRIVATE RecastNavigation::Recast)
+target_link_libraries(Game PRIVATE RecastNavigation::Detour)
+target_link_libraries(Game PRIVATE RecastNavigation::DetourCrowd)
+target_link_libraries(Game PRIVATE imgui::imgui)
+target_link_libraries(Game PRIVATE imguizmo::imguizmo)
 
 
 target_include_directories(Game PRIVATE ${LUA_INCLUDE_DIR})

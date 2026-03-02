@@ -8,11 +8,11 @@
                     "active": true,
                     "position": [
                         -11.0,
-                        5.0,
+                        8.0,
                         11.770000457763672
                     ],
                     "rotation": [
-                        -30.0,
+                        -40.0,
                         -2.0355550198972866e-13,
                         1.001791224553017e-05
                     ],
@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.9201141595840454,
+                    "aspectRatio": 1.7544909715652466,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -40,29 +40,14 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
                             "name": "shakeFrequency",
                             "type": 0,
                             "value": 25.0
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "shakeDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "MC"
                         },
                         {
                             "name": "shakeMagnitude",
@@ -70,14 +55,29 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "zoomMax",
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "MC"
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
                         },
                         {
-                            "name": "followSpeed",
+                            "name": "zoomMin",
                             "type": 0,
-                            "value": 5.0
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "zoomMax",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -4048,24 +4048,24 @@
                             "value": 1.5
                         },
                         {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
                             "name": "speed",
                             "type": 0,
                             "value": 10.0
                         },
                         {
-                            "name": "rollDuration",
+                            "name": "tiredMultiplier",
                             "type": 0,
-                            "value": 0.05000000074505806
+                            "value": 0.699999988079071
                         },
                         {
                             "name": "stamina",
                             "type": 0,
                             "value": 4.0
+                        },
+                        {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.05000000074505806
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -4074,174 +4074,6 @@
             ],
             "name": "MC",
             "uid": 1061568222571516528
-        },
-        {
-            "active": true,
-            "children": [
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "scale": [
-                                100.0,
-                                100.0,
-                                100.0
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "meshUID": 2089204567326953221,
-                            "type": 1
-                        },
-                        {
-                            "active": true,
-                            "ambientColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "diffuseColor": [
-                                0.800000011920929,
-                                0.800000011920929,
-                                0.800000011920929,
-                                1.0
-                            ],
-                            "emissiveColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "hasMaterialProperties": true,
-                            "lightingMode": 1,
-                            "materialType": 0,
-                            "metallic": 0.0,
-                            "opacity": 1.0,
-                            "originalTextureUID": 5001539453290044947,
-                            "roughness": 0.5,
-                            "shininess": 32.0,
-                            "specularColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "textureUID": 5001539453290044947,
-                            "type": 3,
-                            "useCheckerboard": false
-                        }
-                    ],
-                    "name": "Chimney",
-                    "uid": 10858309535908870655
-                },
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "scale": [
-                                100.0,
-                                100.0,
-                                100.0
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "meshUID": 15323657381393298197,
-                            "type": 1
-                        },
-                        {
-                            "active": true,
-                            "ambientColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "diffuseColor": [
-                                0.800000011920929,
-                                0.800000011920929,
-                                0.800000011920929,
-                                1.0
-                            ],
-                            "emissiveColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "hasMaterialProperties": true,
-                            "lightingMode": 1,
-                            "materialType": 0,
-                            "metallic": 0.0,
-                            "opacity": 1.0,
-                            "originalTextureUID": 5001539453290044947,
-                            "roughness": 0.5,
-                            "shininess": 32.0,
-                            "specularColor": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "textureUID": 5001539453290044947,
-                            "type": 3,
-                            "useCheckerboard": false
-                        }
-                    ],
-                    "name": "Baker_house",
-                    "uid": 16171945933127845888
-                }
-            ],
-            "components": [
-                {
-                    "active": true,
-                    "position": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "rotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "scale": [
-                        0.01260315626859665,
-                        0.01260315626859665,
-                        0.01260315626859665
-                    ],
-                    "type": 0
-                }
-            ],
-            "name": "BakerHouse",
-            "uid": 8491956145404163670
         }
     ],
     "version": 1

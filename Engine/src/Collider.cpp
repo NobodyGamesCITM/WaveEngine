@@ -68,8 +68,18 @@ void Collider::OnEditorBase()
     //ATRIBUTES
     ImGui::PushID(this);
 
-    ImGui::Text("Show Debug");
     ImGui::Checkbox("##ShowDebug", &showDebug);
+    ImGui::SameLine();
+    ImGui::Text("Show Debug");
+    ImGui::SameLine();
+
+    static bool showAll = false;
+    if (ImGui::Checkbox("##ShowAll", &showAll))
+    {
+        Application::GetInstance().physics->SetDebugAll(showAll);
+    }
+    ImGui::SameLine();
+    ImGui::Text("Show All");
     ImGui::Separator();
 
     ImGui::Text("Trigger");

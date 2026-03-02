@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Rigidbody.h"
 #include "Collider.h"
+#include "Joint.h"
 
 using namespace physx;
 
@@ -77,6 +78,7 @@ bool ModulePhysics::FixedUpdate() {
 
     gScene->fetchResults(true);
 
+    DrawDebug();
     return true;
 }
 
@@ -159,4 +161,27 @@ void ModulePhysics::DrawDebug()
         if (col && col->showDebug)
             col->DebugShape();
     }
+
+    for (Joint* joint : registeredJoints)
+        if (joint && joint->showDebug) joint->DrawDebug();
+}
+
+void ModulePhysics::SetDebugAll(bool value)
+{
+    for (Collider* col : registeredColliders)
+    {
+        if (col) col->showDebug = value;
+    }
+}
+
+void ModulePhysics::RegisterJoint(Joint* joint)
+{
+    if (joint) registeredJoints.push_back(joint);
+}
+
+void ModulePhysics::UnregisterJoint(Joint* joint)
+{
+    auto it = std::find(registeredJoints.begin(), registeredJoints.end(), joint);
+    if (it != registeredJoints.end())
+        registeredJoints.erase(it);
 }

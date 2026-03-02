@@ -20,6 +20,7 @@ void CreateCommand::Undo()
     m_Parent->RemoveChild(m_Object);
     m_OwnedObject.reset(m_Object);
 
+    Application::GetInstance().selectionManager->ClearSelection();
     Application::GetInstance().scene->RebuildOctree();
 }
 
@@ -30,5 +31,6 @@ void CreateCommand::Execute()
     m_Parent->InsertChildAt(m_OwnedObject.get(), m_ChildIndex);
     m_OwnedObject.release();
 
+    Application::GetInstance().selectionManager->ClearSelection();
     Application::GetInstance().scene->RebuildOctree();
 }

@@ -155,11 +155,6 @@ void ComponentAnimation::UnloadAnimation(AnimationInstance& animation)
 
 void ComponentAnimation::Update()
 {
-
-    if (!playing) {
-        Play("Idle");
-    }
-
     if (!playing || !currentAnimation.resource) return;
 
     float dt = Application::GetInstance().time->GetRealDeltaTime();

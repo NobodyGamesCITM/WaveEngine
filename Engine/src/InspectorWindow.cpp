@@ -1313,9 +1313,10 @@ bool InspectorWindow::DrawGameObjectSection(GameObject* selectedObject)
             if (selectedObject != Application::GetInstance().scene->GetRoot())
             {
                 Application::GetInstance().selectionManager->ClearSelection();
-                Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                    std::make_unique<DeleteCommand>(selectedObject)
-                );
+                //Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
+                //    std::make_unique<DeleteCommand>(selectedObject)
+                //);
+                selectedObject->MarkForDeletion();
                 LOG_DEBUG("GameObject '%s' marked for deletion", selectedObject->GetName().c_str());
                 LOG_CONSOLE("GameObject '%s' marked for deletion", selectedObject->GetName().c_str());
                 objectDeleted = true;

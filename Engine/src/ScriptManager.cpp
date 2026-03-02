@@ -553,8 +553,8 @@ static int Lua_Animation_Play(lua_State* L)
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
 
     const char* animName = lua_tostring(L, 2);
-
-    anim->Play(std::string(animName));
+    if (anim->currentAnimation.name != animName)
+        anim->Play(std::string(animName));
 
     return 0; 
 }

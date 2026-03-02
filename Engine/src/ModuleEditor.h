@@ -122,6 +122,7 @@ private:
     bool autoSaveLayout = true;
     std::string layoutDirectory = "../Scene/Editor Layout/";
     std::string currentLayoutFile = "editor_layout.ini";
+    std::string defaultLayoutFile = "editor_layout_default.ini";
     bool showSaveLayoutPopup = false;
     char layoutNameBuffer[128] = "my_layout";
 

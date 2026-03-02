@@ -2,8 +2,10 @@
 -- This script is attached to a GameObject
 -- Access the GameObject through: self.gameObject
 -- Access the Transform through: self.transform
+idlePlaying = true
+idleWalking = true
 
-function Start()
+function Start(self)
     -- Called once when the script is initialized
     Engine.Log("Script Started!")
     
@@ -17,7 +19,10 @@ function Start()
     Engine.Log("Is Playing: " .. tostring(anim.isPlaying))
 end
 
-function Update(deltaTime)
+function Update(self,dt)
+
+    local anim = self.gameObject:GetComponent("Animation")
+
     -- Called every frame
     -- deltaTime = time since last frame in seconds
     
@@ -29,9 +34,12 @@ function Update(deltaTime)
     -- local pos = self.transform.position
     -- local speed = 5.0
     -- 
-    -- if Input.GetKey("W") then
-    --     self.transform:SetPosition(pos.x, pos.y, pos.z - speed * deltaTime)
-    -- end
+    if Input.GetKey("W") then
+        anim:Play("Walking")
+
+    elseif idlePlaying then 
+        anim:Play("Idle")
+    end
     -- if Input.GetKey("S") then
     --     self.transform:SetPosition(pos.x, pos.y, pos.z + speed * deltaTime)
     -- end

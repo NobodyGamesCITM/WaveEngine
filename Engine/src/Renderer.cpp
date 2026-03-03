@@ -351,6 +351,7 @@ bool Renderer::PostUpdate()
     bool ret = true;
 
 #ifndef WAVE_GAME
+    
     for (CameraLens* camera : activeCameras)
     {
         RenderScene(camera);
@@ -454,7 +455,6 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     //CLEAN BUFFERS
     glDisable(GL_SCISSOR_TEST);
-    glEnable(GL_MULTISAMPLE);
     glClearColor(clearColorR, clearColorG, clearColorB, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glClearStencil(0);

@@ -1360,7 +1360,13 @@ GameObject* ModuleEditor::CloneGameObject(GameObject* original)
         ComponentMesh* newMesh =
             (ComponentMesh*)clone->CreateComponent(ComponentType::MESH);
        
-        newMesh->LoadMeshByUID(originalMesh->GetMeshUID());
+		UID meshUid = originalMesh->GetMeshUID();
+        if(meshUid == 0)
+		{
+			newMesh->SetMesh(originalMesh->GetMesh());
+			newMesh->SetPrimitiveType(originalMesh->GetPrimitiveType());
+        }
+        else newMesh->LoadMeshByUID(meshUid);
     }
 
     if (original->GetComponent(ComponentType::MATERIAL))
@@ -1372,7 +1378,8 @@ GameObject* ModuleEditor::CloneGameObject(GameObject* original)
             (ComponentMaterial*)clone->CreateComponent(ComponentType::MATERIAL);
         UID tempUid = originalMaterial->GetTextureUID();
         if(tempUid !=0)newMaterial->LoadTextureByUID(tempUid);
-    
+		else if (originalMaterial->IsUsingCheckerboard()) newMaterial->CreateCheckerboardTexture();
+
         newMaterial->SetDiffuseColor(originalMaterial->GetDiffuseColor());
     }
     if (original->GetComponent(ComponentType::SCRIPT))

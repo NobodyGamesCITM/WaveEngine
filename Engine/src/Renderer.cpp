@@ -538,6 +538,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 {
     for (ComponentMesh* mesh : meshes)
     {
+        if (!mesh || !mesh->owner || !mesh->owner->transform) continue;
         if (!mesh->owner->IsActive()) continue;
 
         Mesh resMesh = mesh->GetMesh();
@@ -569,6 +570,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
     for (ComponentParticleSystem* ps : particles)
     {
+        if (!ps || !ps->owner || !ps->owner->transform) continue;
         if (!ps->IsActive() || !ps->GetEmitter()) continue;
 
         ParticleObject pObj;

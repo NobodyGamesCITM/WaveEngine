@@ -159,7 +159,7 @@ void ModulePhysics::DrawDebug()
     for (Collider* col : registeredColliders)
     {
         if (col && col->showDebug)
-            col->DebugShape();
+            col->SafeDebugDraw();
     }
 
     for (Joint* joint : registeredJoints)

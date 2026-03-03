@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EditorCommand.h"
+#include "Globals.h"
 #include <glm/glm.hpp>
 
 class GameObject;
@@ -18,13 +19,8 @@ public:
 private:
     void ApplyTransform(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scl);
 
-    GameObject* m_Object;
+    UID m_ObjectUID = 0;
 
-    glm::vec3 m_OldPosition;
-    glm::vec3 m_OldRotation;
-    glm::vec3 m_OldScale;
-
-    glm::vec3 m_NewPosition;
-    glm::vec3 m_NewRotation;
-    glm::vec3 m_NewScale;
+    glm::vec3 m_OldPosition, m_OldRotation, m_OldScale;
+    glm::vec3 m_NewPosition, m_NewRotation, m_NewScale;
 };

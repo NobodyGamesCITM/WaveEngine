@@ -65,6 +65,7 @@ public:
     void SetShape(physx::PxShape* s) { shape = s; };
     physx::PxShape* GetShape() { return shape; };
     virtual void DebugShape() {}
+    void SafeDebugDraw();
 
     virtual void OnGameObjectEvent(GameObjectEvent event, Component* component) override;
 

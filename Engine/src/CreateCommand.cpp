@@ -5,32 +5,55 @@
 #include "ModuleScene.h"
 
 CreateCommand::CreateCommand(GameObject* object)
-    : m_Object(object)
 {
-    m_Parent = object->GetParent();
-    m_ChildIndex = m_Parent ? m_Parent->GetChildIndex(object) : -1;
-}
+    m_ObjectUID = object->GetUID();
+    m_ChildIndex = -1;
 
-void CreateCommand::Undo()
-{
-    if (!m_Object || !m_Parent) return;
+    GameObject* parent = object->GetParent();
+    if (parent)
+    {
+        m_ParentUID = parent->GetUID();
+        m_ChildIndex = parent->GetChildIndex(object);
+    }
 
-    Application::GetInstance().selectionManager->RemoveFromSelection(m_Object);
-
-    m_Parent->RemoveChild(m_Object);
-    m_OwnedObject.reset(m_Object);
-
-    Application::GetInstance().selectionManager->ClearSelection();
-    Application::GetInstance().scene->RebuildOctree();
+    nlohmann::json arr = nlohmann::json::array();
+    object->Serialize(arr);
+    m_SerializedObject = arr[0];
 }
 
 void CreateCommand::Execute()
 {
-    if (!m_OwnedObject || !m_Parent) return;
+    GameObject* existing = Application::GetInstance().scene->FindObject(m_ObjectUID);
+    if (existing) return;
 
-    m_Parent->InsertChildAt(m_OwnedObject.get(), m_ChildIndex);
-    m_OwnedObject.release();
+    GameObject* parent = Application::GetInstance().scene->FindObject(m_ParentUID);
+    if (!parent) parent = Application::GetInstance().scene->GetRoot();
+
+    GameObject* restored = GameObject::Deserialize(m_SerializedObject, nullptr);
+    if (!restored) return;
+
+    restored->SolveReferences();
+    int childCount = (int)parent->GetChildren().size();
+    int safeIndex = (m_ChildIndex >= 0 && m_ChildIndex <= childCount) ? m_ChildIndex : childCount;
+    parent->InsertChildAt(restored, safeIndex);
+    m_ObjectUID = restored->GetUID();
 
     Application::GetInstance().selectionManager->ClearSelection();
-    Application::GetInstance().scene->RebuildOctree();
+    Application::GetInstance().selectionManager->SetSelectedObject(restored);
+    Application::GetInstance().scene->MarkOctreeForRebuild();
+}
+
+void CreateCommand::Undo()
+{
+    GameObject* obj = Application::GetInstance().scene->FindObject(m_ObjectUID);
+    if (!obj) return;
+
+    Application::GetInstance().selectionManager->RemoveFromSelection(obj);
+    Application::GetInstance().selectionManager->ClearSelection();
+
+    GameObject* parent = obj->GetParent();
+    if (parent) parent->RemoveChild(obj);
+    delete obj;
+
+    Application::GetInstance().scene->MarkOctreeForRebuild();
 }

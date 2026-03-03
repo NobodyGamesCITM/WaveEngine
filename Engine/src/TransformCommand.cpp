@@ -7,7 +7,7 @@
 TransformCommand::TransformCommand(GameObject* object,
     const glm::vec3& oldPos, const glm::vec3& oldRot, const glm::vec3& oldScale,
     const glm::vec3& newPos, const glm::vec3& newRot, const glm::vec3& newScale)
-    : m_Object(object)
+    : m_ObjectUID(object->GetUID())
     , m_OldPosition(oldPos), m_OldRotation(oldRot), m_OldScale(oldScale)
     , m_NewPosition(newPos), m_NewRotation(newRot), m_NewScale(newScale)
 {
@@ -25,11 +25,13 @@ void TransformCommand::Undo()
 
 void TransformCommand::ApplyTransform(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scl)
 {
-    if (!m_Object || !m_Object->transform) return;
+    // Buscar por UID: si el objeto fue borrado devuelve nullptr y no crashea
+    GameObject* obj = Application::GetInstance().scene->FindObject(m_ObjectUID);
+    if (!obj || !obj->transform) return;
 
-    m_Object->transform->SetPosition(pos);
-    m_Object->transform->SetRotation(rot);
-    m_Object->transform->SetScale(scl);
+    obj->transform->SetPosition(pos);
+    obj->transform->SetRotation(rot);
+    obj->transform->SetScale(scl);
 
     Application::GetInstance().scene->MarkOctreeForRebuild();
 }

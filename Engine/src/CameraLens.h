@@ -48,6 +48,11 @@ public:
     unsigned int fboID = 0;
     unsigned int rboID = 0;
     unsigned int textureID = 0;
+
+    unsigned int msaaFBO = 0;
+    unsigned int msaaColorBuffer = 0;
+    unsigned int msaaDepthRBO = 0;
+
     int textureWidth = 0;
     int textureHeight = 0;
     int depth;

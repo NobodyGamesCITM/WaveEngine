@@ -37,13 +37,6 @@ void ConfigurationWindow::Draw()
 
     ImGui::Separator();
 
-    if (ImGui::CollapsingHeader("Camera"))
-    {
-        DrawCameraSettings();
-    }
-
-    ImGui::Separator();
-
     if (ImGui::CollapsingHeader("Audio")) {
 
         DrawAudioVolumeSettings();
@@ -188,163 +181,6 @@ void ConfigurationWindow::DrawWindowSettings()
     }
 }
 
-void ConfigurationWindow::DrawCameraSettings()
-{
-    /*Application& app = Application::GetInstance();
-
-    ImGui::Text("Camera Controls");
-    ImGui::Separator();
-
-    bool usingEditorCamera = app.editor.get()->IsUsingEditorCamera();
-    ImGui::Text("Active Camera Mode:");
-    if (ImGui::RadioButton("Editor Camera", usingEditorCamera))
-    {
-        app.camera->SetUseEditorCamera(true);
-    }
-    ImGui::SameLine();
-    if (ImGui::RadioButton("Scene Camera", !usingEditorCamera))
-    {
-        if (app.camera->GetSceneCamera() != nullptr)
-        {
-            app.camera->SetUseEditorCamera(false);
-        }
-        else
-        {
-            LOG_CONSOLE("WARNING: No Scene Camera found. Create one from Camera menu.");
-        }
-    }
-    ImGui::Separator();
-
-    ComponentCamera* camera = nullptr;
-
-    if (camera == nullptr)
-    {
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: Camera not available");
-        return;
-    }
-
-    if (usingEditorCamera)
-    {
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Active: Editor Camera");
-    }
-    else
-    {
-        ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "Active: Scene Camera");
-    }
-
-    ImGui::Separator();
-
-    cameraMouseSensitivity = camera->GetMouseSensitivity();
-    cameraScrollSpeed = camera->GetScrollSpeed();
-    cameraPanSensitivity = camera->GetPanSensitivity();
-    cameraMovementSpeed = camera->GetMovementSpeed();
-    cameraFOV = camera->GetFov();
-
-    ImGui::PushItemWidth(80);
-
-    if (ImGui::SliderFloat("Movement Speed", &cameraMovementSpeed, 0.1f, 10.0f, "%.2f"))
-    {
-        camera->SetMovementSpeed(cameraMovementSpeed);
-    }
-    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Controls how fast the camera moves (WASD keys)");
-
-    if (ImGui::SliderFloat("Mouse Sensitivity", &cameraMouseSensitivity, 0.01f, 1.0f, "%.3f"))
-    {
-        camera->SetMouseSensitivity(cameraMouseSensitivity);
-    }
-    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Controls camera rotation sensitivity when right-clicking");
-
-    if (ImGui::SliderFloat("Scroll Speed", &cameraScrollSpeed, 0.1f, 2.0f, "%.2f"))
-    {
-        camera->SetScrollSpeed(cameraScrollSpeed);
-    }
-    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Controls zoom speed with mouse wheel");
-
-    if (ImGui::SliderFloat("Pan Sensitivity", &cameraPanSensitivity, 0.001f, 0.01f, "%.4f"))
-    {
-        camera->SetPanSensitivity(cameraPanSensitivity);
-    }
-    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Controls camera panning sensitivity (middle mouse button)");
-
-    ImGui::Spacing();
-
-    if (ImGui::SliderFloat("Field of View", &cameraFOV, 20.0f, 120.0f, "%.1f"))
-    {
-        camera->SetFov(cameraFOV);
-    }
-    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Camera field of view in degrees");
-
-    ImGui::PopItemWidth();
-
-    ImGui::Spacing();
-    ImGui::Separator();
-
-    if (ImGui::Button("Reset to Defaults"))
-    {
-        cameraMovementSpeed = 2.5f;
-        cameraMouseSensitivity = 0.2f;
-        cameraScrollSpeed = 0.5f;
-        cameraFOV = 45.0f;
-        cameraPanSensitivity = 0.003f;
-
-        camera->SetMovementSpeed(cameraMovementSpeed);
-        camera->SetMouseSensitivity(cameraMouseSensitivity);
-        camera->SetScrollSpeed(cameraScrollSpeed);
-        camera->SetFov(cameraFOV);
-        camera->SetPanSensitivity(cameraPanSensitivity);
-
-        LOG_CONSOLE("Camera settings reset to defaults");
-        LOG_DEBUG("Camera settings reset to defaults");
-    }
-
-    ImGui::Spacing();
-
-    glm::vec3 camPos = camera->GetPosition();
-    ImGui::Text("Camera Position:");
-    ImGui::BulletText("X: %.2f  Y: %.2f  Z: %.2f", camPos.x, camPos.y, camPos.z);
-
-    ImGui::Spacing();
-    if (ImGui::CollapsingHeader("Camera Controls")) {
-        ImGui::Text("Camera Controls:");
-        ImGui::BulletText("Right Click + Drag: Rotate camera");
-        ImGui::BulletText("Middle Click + Drag: Pan camera");
-        ImGui::BulletText("Mouse Wheel: Zoom in/out");
-        ImGui::BulletText("Alt + Right Click: Orbit around target");
-        ImGui::BulletText("F: Focus on selected object");
-    }
-    ImGui::Separator();
-
-    ComponentCamera* renderCam = app.renderer->GetCamera();
-    ComponentCamera* sceneCam = app.camera->GetSceneCamera();
-
-    ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "Render Camera:");
-    ImGui::SameLine();
-    ImGui::Text("%s", app.camera->IsUsingEditorCamera() ? "Editor Camera" : "Scene Camera");
-
-    ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "Culling Camera:");
-    ImGui::SameLine();
-    if (sceneCam)
-    {
-        ImGui::Text("Scene Camera");
-        if (sceneCam->IsFrustumCullingEnabled())
-        {
-            ImGui::SameLine();
-            ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "? ACTIVE");
-        }
-        else
-        {
-            ImGui::SameLine();
-            ImGui::TextColored(ImVec4(1.0f, 0.6f, 0.0f, 1.0f), "? DISABLED");
-        }
-    }
-    else
-    {
-        ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "None (create one)");
-    }
-
-    ImGui::Separator();*/
-}
-
 void ConfigurationWindow::DrawAudioVolumeSettings() {
     
     
@@ -431,6 +267,15 @@ void ConfigurationWindow::DrawRendererSettings()
 
     ImGui::Spacing();
 
+    bool msaa = renderer->IsMSAAEnabled();
+    if (ImGui::Checkbox("Multisample Antialiasing", &msaa))
+    {
+        renderer->SetMSAA(msaa);
+    }
+    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Enable/disable Multisample Antialiasing");
+
+    ImGui::Spacing();
+
     bool wireframe = renderer->IsWireframeMode();
     if (ImGui::Checkbox("Wireframe Mode", &wireframe))
     {
@@ -510,6 +355,7 @@ void ConfigurationWindow::DrawRendererSettings()
         renderer->SetWireframeMode(false);
         renderer->SetCullFaceMode(0);
         renderer->SetClearColor(0.2f, 0.25f, 0.3f);
+        renderer->SetMSAA(true);
 
         editColor[0] = 0.2f;
         editColor[1] = 0.25f;

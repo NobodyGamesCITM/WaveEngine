@@ -12,8 +12,8 @@
             <RowDefinition Height="120*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="268*"/>
-            <ColumnDefinition Width="678*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="746*"/>
             <ColumnDefinition Width="334*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
@@ -23,12 +23,21 @@
                 <GradientStop Offset="1" Color="#00123859"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Viewbox x:Name="Life_HUD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" Grid.RowSpan="2" Margin="4,0,81,516">
-            <Image x:Name="Life_Image" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Source="HUD_Player.png"/>
-        </Viewbox>
-        <Viewbox x:Name="Bottom_HUD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Grid.Row="2" Stretch="Uniform">
-            <Image Margin="0,56,0,0" IsEnabled="False" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="Bottom_HUD.png"/>
-        </Viewbox>
-    </Grid>
 
+        <Viewbox x:Name="Life_HUD"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Stretch="Uniform"
+                 Grid.Row="0"
+                 Grid.RowSpan="2"
+                 Grid.Column="0"
+                 Margin="4,4,0,0">
+            <Image x:Name="Life_Image"
+                   IsEnabled="False"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="HUD_Player.png"/>
+        </Viewbox>
+
+    </Grid>
 </Grid>

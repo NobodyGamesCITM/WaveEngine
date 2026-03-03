@@ -96,6 +96,9 @@ public:
     void SetLightDir(const glm::vec3& dir) { lightDir = dir; }
     glm::vec3 GetLightDir() const { return lightDir; }
 
+    void SetMSAA(bool enabled);
+    bool IsMSAAEnabled() const { return msaaEnabled; }
+
     // zBuffer visualization
     bool IsShowingZBuffer() const { return showZBuffer; }
     void SetShowZBuffer(bool show) { showZBuffer = show; }
@@ -105,8 +108,6 @@ public:
     void DrawArc(glm::vec3 center, glm::quat rotation, float r, int segments, glm::vec4 col, glm::vec3 axisA, glm::vec3 axisB);
     void DrawCircle(glm::vec3 center, glm::quat rotation, float r, int segments, glm::vec4 col, glm::vec3 axisA, glm::vec3 axisB);
     void DrawSphere(const glm::vec3& center, float radius, const glm::vec4& color, int segments = 16);
-    void DrawAABB(const glm::vec3& min, const glm::vec3& max,
-        const glm::vec3& color);
 
     // Cameras
     void UpdateProjectionMatrix(glm::mat4 projectionMatrix);
@@ -195,4 +196,10 @@ private:
     std::vector<RenderObject> normalsList;
     std::vector<RenderObject> meshLinesList;
     std::vector<RenderLine> linesList;
+
+    // ANTIALIAS
+    bool msaaEnabled = true;
+    unsigned int msaaFBO = 0;
+    unsigned int msaaColorBuffer = 0;
+    unsigned int msaaDepthStencilRBO = 0;
 };

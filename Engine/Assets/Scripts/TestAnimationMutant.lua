@@ -40,6 +40,8 @@ function Update(self,dt)
     elseif idlePlaying then 
         anim:Play("Idle")
     end
+
+
     -- if Input.GetKey("S") then
     --     self.transform:SetPosition(pos.x, pos.y, pos.z + speed * deltaTime)
     -- end

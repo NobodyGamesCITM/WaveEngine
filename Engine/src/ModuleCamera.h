@@ -26,6 +26,6 @@ public:
 
 private:  
     std::vector<ComponentCamera*> cameras;
-    ComponentCamera* mainCamera;     
+    ComponentCamera* mainCamera = nullptr;     
 };
 

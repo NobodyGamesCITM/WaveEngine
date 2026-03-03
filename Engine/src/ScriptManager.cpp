@@ -552,11 +552,57 @@ static int Lua_Animation_Play(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
 
-    const char* animName = lua_tostring(L, 2);
-    if (anim->currentAnimation.name != animName)
-        anim->Play(std::string(animName));
+    const char* animName = luaL_checkstring(L, 2);
 
-    return 0; 
+    float blendTime = static_cast<float>(luaL_optnumber(L, 3, 0.2));
+
+    if (anim)
+    {
+        anim->Play(std::string(animName), blendTime);
+    }
+
+    return 0;
+}
+
+static int Lua_Animation_Stop(lua_State* L)
+{
+    ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
+
+    if (anim)
+    {
+        anim->Stop();
+    }
+
+    return 0;
+}
+
+static int Lua_Animation_IsPlaying(lua_State* L)
+{
+    ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
+
+    bool playing = false;
+    if (anim)
+    {
+        playing = anim->IsPlaying();
+    }
+
+    lua_pushboolean(L, playing);
+    return 1;
+}
+
+static int Lua_Animation_IsPlayingAnimation(lua_State* L)
+{
+    ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
+    const char* animName = luaL_checkstring(L, 2);
+
+    bool playing = false;
+    if (anim)
+    {
+        playing = anim->IsPlayingAnimation(animName);
+    }
+
+    lua_pushboolean(L, playing);
+    return 1;
 }
 
 // GameObject.Create(name) - Deferred operation
@@ -1265,11 +1311,16 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, Lua_Animation_Play);
     lua_setfield(L, -2, "Play");
+    lua_pushcfunction(L, Lua_Animation_Stop);
+    lua_setfield(L, -2, "Stop");
+    lua_pushcfunction(L, Lua_Animation_IsPlaying);
+    lua_setfield(L, -2, "IsPlaying");
+    lua_pushcfunction(L, Lua_Animation_IsPlayingAnimation);
+    lua_setfield(L, -2, "IsPlayingAnimation");
     lua_pop(L, 1); 
 }
 
 // PREFAB API
-
 // Prefab.Load(name, filepath)
 static int Lua_Prefab_Load(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);

@@ -61,11 +61,10 @@ public:
 
     void Play(const std::string& name, float blendTime = 0.2f);
     void Stop();
-    void Pause();
     void ResetPose();
 
     const bool IsPlaying() { return playing; };
-    const bool IsPlayingAnimation(std::string animationName) { IsPlaying() && currentAnimation.name == animationName; };
+    const bool IsPlayingAnimation(std::string animationName) { return IsPlaying() && currentAnimation.name == animationName; };
 
     void SetAnimationSpeed(const std::string& name, float newSpeed);
     void SetAnimationLoop(const std::string& name, bool loop);

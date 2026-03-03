@@ -91,6 +91,9 @@ function Start(self)
 end
 
 function Update(self, dt)
+    
+    local anim = self.gameObject:GetComponent("Animation")
+
     Player.rollTimer = max_(0, Player.rollTimer - dt)
     Player.coolTimer = max_(0, Player.coolTimer - dt)
 
@@ -109,6 +112,12 @@ function Update(self, dt)
 
     moveX, moveZ   = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
+
+    if inputLen > 0 then
+        anim:Play("Walking", 0.5)
+    else
+        anim:Play("Idle", 0.5)
+    end
 
     if inputLen > 1 then
         Player.lastDirX = moveX / INPUT_SCALE

@@ -21,7 +21,6 @@ private:
     void DrawFPSGraph();
     void DrawHardwareInfo();
     void DrawWindowSettings();
-    void DrawCameraSettings();
     void DrawRendererSettings();
     void DrawAudioVolumeSettings();
 

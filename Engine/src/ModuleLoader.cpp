@@ -24,7 +24,7 @@ bool ModuleLoader::Start()
         return false;
     }
 
-    std::string defaultScenePath = "../Scene/scene.json";
+    std::string defaultScenePath = "../Scene/testMarc.json";
     if (fs::exists(defaultScenePath)) {
         LOG_CONSOLE("[FileSystem] Loading default scene: %s", defaultScenePath.c_str());
         if (Application::GetInstance().scene->LoadScene(defaultScenePath)) {

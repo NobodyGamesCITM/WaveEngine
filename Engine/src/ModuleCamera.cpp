@@ -11,7 +11,6 @@ ModuleCamera::ModuleCamera() :
 {
     name = "Camera";
     mainCamera = nullptr;
-    
 }
 
 ModuleCamera::~ModuleCamera()
@@ -43,8 +42,9 @@ void ModuleCamera::AddCamera(ComponentCamera* cam) {
 
 void ModuleCamera::RemoveCamera(ComponentCamera* cam)
 {
+    if (mainCamera == cam) mainCamera = nullptr;
+    
     auto it = std::find(cameras.begin(), cameras.end(), cam);
-
     if (it != cameras.end())
     {
         cameras.erase(it);

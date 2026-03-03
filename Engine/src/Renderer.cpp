@@ -426,23 +426,36 @@ bool Renderer::RenderScene(CameraLens* camera)
 {
     if (!camera) return false;
 
-    //BIND FRAMEBUFFER
-    if (camera->fboID != 0)
+    int width = 0;
+    int height = 0;
+
+    //VIEWPORT SIZE
+    if (camera->fboID == 0)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
-        glViewport(0, 0, camera->textureWidth, camera->textureHeight);
+        Application::GetInstance().window->GetWindowSize(width, height);
     }
     else
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        width = camera->textureWidth;
+        height = camera->textureHeight;
+    }
+    glViewport(0, 0, width, height);
 
-        int width, height;
-        Application::GetInstance().window.get()->GetWindowSize(width, height);
-        glViewport(0, 0, width, height);
+    //BIND FRAMEBUFFER
+    bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
+    if (usingMSAA) {
+        glBindFramebuffer(GL_FRAMEBUFFER, camera->msaaFBO);
+        glEnable(GL_MULTISAMPLE);
+    }
+    else {
+        glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+        glDisable(GL_MULTISAMPLE);
     }
 
     //CLEAN BUFFERS
     glDisable(GL_SCISSOR_TEST);
+    glEnable(GL_MULTISAMPLE);
+    glClearColor(clearColorR, clearColorG, clearColorB, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glClearStencil(0);
 
@@ -507,12 +520,16 @@ bool Renderer::RenderScene(CameraLens* camera)
     glDisable(GL_BLEND);
     glEnable(GL_CULL_FACE);
 
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glUseProgram(0);
+    if (msaaEnabled && camera->msaaFBO != 0)
+    {
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, camera->msaaFBO);
+        GLuint targetFBO = (camera->fboID != 0) ? camera->fboID : 0;
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO);
+        glBlitFramebuffer(0, 0, camera->textureWidth, camera->textureHeight, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    }
 
-    //UNBINF FRAMEBUFFER
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glUseProgram(0);
 
     return true;
 }
@@ -1134,4 +1151,12 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
     glBindVertexArray(0);
 
     return finalUID;
+}
+
+void Renderer::SetMSAA(bool enabled) {
+    msaaEnabled = enabled;
+    if (msaaEnabled)
+        glEnable(GL_MULTISAMPLE);
+    else
+        glDisable(GL_MULTISAMPLE);
 }

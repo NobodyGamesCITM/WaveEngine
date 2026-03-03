@@ -61,6 +61,8 @@ void ComponentAnimation::ResetPose()
 
 void ComponentAnimation::Play(const std::string& name, float blendTime)
 {
+    if (currentAnimation.name == name) return;
+
     auto it = animationsLibrary.find(name);
     if (it == animationsLibrary.end()) return;
 

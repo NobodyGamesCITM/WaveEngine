@@ -138,56 +138,60 @@ bool CameraLens::CleanUp()
 
 void CameraLens::SetRenderTarget(int width, int height)
 {
-    if (this->textureWidth == width && this->textureHeight == height && fboID != 0)
+    if (this->textureWidth == width && this->textureHeight == height && fboID != 0 && msaaFBO != 0)
         return;
 
-    if (fboID != 0)
-    {
-        glDeleteFramebuffers(1, &fboID);
-        fboID = 0;
-    }
-    if (textureID != 0)
-    {
-        glDeleteTextures(1, &textureID);
-        textureID = 0;
-    }
-    if (rboID != 0)
-    {
-        glDeleteRenderbuffers(1, &rboID);
-        rboID = 0;
-    }
+    if (fboID != 0) glDeleteFramebuffers(1, &fboID);
+    if (textureID != 0) glDeleteTextures(1, &textureID);
+    if (rboID != 0) glDeleteRenderbuffers(1, &rboID);
+
+    if (msaaFBO != 0) glDeleteFramebuffers(1, &msaaFBO);
+    if (msaaColorBuffer != 0) glDeleteTextures(1, &msaaColorBuffer);
+    if (msaaDepthRBO != 0) glDeleteRenderbuffers(1, &msaaDepthRBO);
 
     this->textureWidth = width;
     this->textureHeight = height;
+    int samples = 4;
+
+    glGenFramebuffers(1, &msaaFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, msaaFBO);
+
+    glGenTextures(1, &msaaColorBuffer);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaColorBuffer);
+    glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, width, height, GL_TRUE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaColorBuffer, 0);
+
+    glGenRenderbuffers(1, &msaaDepthRBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, msaaDepthRBO);
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, msaaDepthRBO);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        LOG_DEBUG("ERROR: Framebuffer MSAA isn't complete");
 
     glGenFramebuffers(1, &fboID);
     glBindFramebuffer(GL_FRAMEBUFFER, fboID);
 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
-
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
 
     glGenRenderbuffers(1, &rboID);
     glBindRenderbuffer(GL_RENDERBUFFER, rboID);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboID);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        LOG_CONSOLE("Framebuffer de la cámara no está completo.");
-    }
+        LOG_DEBUG("ERROR: Framebuffer de salida no está completo.");
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
+
 
 void CameraLens::SetActiveCamera(bool b)
 {

@@ -210,7 +210,7 @@ private:
     std::unique_ptr<Shader> postProcessShader;
     void ResizePostProcessingBuffer(int width, int height);
     // ANTIALIAS
-    bool msaaEnabled = true;
+    bool msaaEnabled = false;
     unsigned int msaaFBO = 0;
     unsigned int msaaColorBuffer = 0;
     unsigned int msaaDepthStencilRBO = 0;

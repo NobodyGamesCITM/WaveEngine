@@ -205,3 +205,11 @@ void Collider::OnGameObjectEvent(GameObjectEvent event, Component* component)
 //    if (componentObj.contains("restitution"))
 //        SetRestitution(componentObj["restitution"].get<float>());
 //}
+
+void Collider::SafeDebugDraw()
+{
+    if (!owner) return;
+    if (!Application::GetInstance().scene->FindObject(owner->GetUID())) return;
+    if (!owner->transform) return;
+    DebugShape();
+}

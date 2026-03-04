@@ -77,6 +77,8 @@ public:
     //INTERNAL EVENTS
     void PublishGameObjectEvent(GameObjectEvent event, Component* component = nullptr);
 
+    void SetParentDirect(GameObject* p) { parent = p; }
+
 public:
     UID objectUID;
     std::string name;

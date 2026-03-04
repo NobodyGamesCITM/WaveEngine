@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EditorCommand.h"
-#include "GameObject.h"
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
 
@@ -9,27 +9,31 @@ class ReparentCommand : public EditorCommand
 {
 public:
     ReparentCommand(GameObject* object, GameObject* newParent, int newIndex)
-        : m_Object(object)
-        , m_OldParent(object->GetParent())
-        , m_OldIndex(m_OldParent ? m_OldParent->GetChildIndex(object) : -1)
-        , m_NewParent(newParent)
+        : m_ObjectUID(object->GetUID())
+        , m_OldParentUID(object->GetParent() ? object->GetParent()->GetUID() : 0)
+        , m_OldIndex(object->GetParent() ? object->GetParent()->GetChildIndex(object) : -1)
+        , m_NewParentUID(newParent->GetUID())
         , m_NewIndex(newIndex)
-    {}
+    {
+    }
 
-    void Execute() override { Apply(m_NewParent, m_NewIndex); }
-    void Undo() override { Apply(m_OldParent, m_OldIndex); }
+    void Execute() override { Apply(m_NewParentUID, m_NewIndex); }
+    void Undo()    override { Apply(m_OldParentUID, m_OldIndex); }
 
 private:
-    void Apply(GameObject* parent, int index)
+    void Apply(UID parentUID, int index)
     {
-        if (!m_Object || !parent) return;
-        parent->InsertChildAt(m_Object, index);
+        GameObject* obj = Application::GetInstance().scene->FindObject(m_ObjectUID);
+        GameObject* parent = Application::GetInstance().scene->FindObject(parentUID);
+        if (!obj || !parent) return;
+
+        parent->InsertChildAt(obj, index);
         Application::GetInstance().scene->MarkOctreeForRebuild();
     }
 
-    GameObject* m_Object;
-    GameObject* m_OldParent;
+    UID m_ObjectUID;
+    UID m_OldParentUID;
     int m_OldIndex;
-    GameObject* m_NewParent;
+    UID m_NewParentUID;
     int m_NewIndex;
 };

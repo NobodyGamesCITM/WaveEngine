@@ -25,11 +25,13 @@ ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, Component
     opacity = 1.0f;
     GenerateFramebuffer(width, height);
     Application::GetInstance().ui->RegisterCanvas(this);
+    Application::GetInstance().renderer->AddCanvas(this);
 }
 
 ComponentCanvas::~ComponentCanvas()
 {
-    Application::GetInstance().ui->UnregisterCanvas(this);
+    Application::GetInstance().ui->UnregisterCanvas(this); 
+    Application::GetInstance().renderer->RemoveCanvas(this);
     ShutdownView();               
     device.Reset();
 
@@ -136,6 +138,7 @@ void ComponentCanvas::RenderToTexture()
 
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, width, height);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 

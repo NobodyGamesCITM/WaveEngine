@@ -876,6 +876,13 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
 {
     if (canvasList.empty()) return;
 
+    // Asegurarse de renderizar en el FBO correcto
+    glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+    glViewport(0, 0, camera->textureWidth, camera->textureHeight);
+
+    LOG_DEBUG("DrawCanvasList - fboID: %d, w: %d, h: %d",
+        camera->fboID, camera->textureWidth, camera->textureHeight);
+
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
@@ -887,15 +894,30 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
     for (CanvasObject& canvasObject : canvasList)
     {
         ComponentCanvas* c = canvasObject.canvas;
-
         c->Resize(camera->textureWidth, camera->textureHeight);
         c->Update();
         c->RenderToTexture();
 
+        glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+        glViewport(0, 0, camera->textureWidth, camera->textureHeight);
+
+        // Restaurar TODO el estado que Noesis rompe
+        glUseProgram(0);
+        glBindVertexArray(0);
         glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        uiShader->Use();
+        glBindVertexArray(quadVAO);  // ? Re-bindear después de limpiar
+
         glBindTexture(GL_TEXTURE_2D, c->GetTextureID());
         uiShader->SetInt("uTexture", 0);
         uiShader->SetFloat("uOpacity", c->GetOpacity());
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
 
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
@@ -905,7 +927,6 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
     glBindVertexArray(0);
     glUseProgram(0);
 }
-
 void Renderer::DrawStencilList(const CameraLens* camera)
 {
     if (stencilList.empty()) return;

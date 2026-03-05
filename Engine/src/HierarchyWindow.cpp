@@ -340,17 +340,23 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
 
             if (dropPos == DropPosition::BEFORE && parent)
             {
+                int realIndex = parent->GetChildIndex(gameObject);
+                if (realIndex < 0) realIndex = 0;
                 Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                    std::make_unique<ReparentCommand>(dragged, parent, childIndex));
+                    std::make_unique<ReparentCommand>(dragged, parent, realIndex));
             }
             else if (dropPos == DropPosition::AFTER && parent)
             {
+                int realIndex = parent->GetChildIndex(gameObject);
                 Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                    std::make_unique<ReparentCommand>(dragged, parent, childIndex + 1));
+					std::make_unique<ReparentCommand>(dragged, parent, realIndex + 1));
             }
             else if (dropPos == DropPosition::ON)
             {
-                int newIndex = static_cast<int>(gameObject->GetChildren().size());
+                const auto& ch = gameObject->GetChildren();
+                int newIndex = static_cast<int>(ch.size());
+                if (dragged->GetParent() == gameObject) --newIndex;
+                newIndex = std::max(0, newIndex);
                 Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
                     std::make_unique<ReparentCommand>(dragged, gameObject, newIndex));
             }

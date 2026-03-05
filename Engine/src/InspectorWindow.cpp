@@ -1466,23 +1466,25 @@ bool InspectorWindow::IsDescendantOf(GameObject* potentialDescendant, GameObject
 
 void InspectorWindow::DrawScriptComponent(Component* component)
 {
-    ComponentScript* scriptComp = static_cast<ComponentScript*>(
-        component
-        );
-
+    ComponentScript* scriptComp = static_cast<ComponentScript*>(component);
     if (scriptComp == nullptr) return;
 
-    bool open = ImGui::CollapsingHeader("Script", ImGuiTreeNodeFlags_DefaultOpen);
-    DrawComponentContextMenu(scriptComp,true);
+    std::string headerLabel = "Script##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+    std::string popupID = "SelectScript##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+
+    bool open = ImGui::CollapsingHeader(headerLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+    DrawComponentContextMenu(scriptComp, true);
     if (open)
     {
         ImGui::Indent();
 
-        if (scriptComp->HasScript()) {
+        if (scriptComp->HasScript())
+        {
             ModuleResources* resources = Application::GetInstance().resources.get();
             const Resource* res = resources->GetResourceDirect(scriptComp->GetScriptUID());
 
-            if (res) {
+            if (res)
+            {
                 std::string filename = std::filesystem::path(res->GetAssetFile()).filename().string();
 
                 ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "Current Script:");
@@ -1493,27 +1495,31 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
                 ImGui::Spacing();
 
-                if (ImGui::Button("Change Script", ImVec2(120, 0))) {
-                    ImGui::OpenPopup("SelectScript");
-                }
+                std::string changeBtn = "Change Script##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+                std::string removeBtn = "Remove Script##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+                std::string reloadBtn = "Reload##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+
+                if (ImGui::Button(changeBtn.c_str(), ImVec2(120, 0)))
+                    ImGui::OpenPopup(popupID.c_str());
 
                 ImGui::SameLine();
 
-                if (ImGui::Button("Remove Script", ImVec2(120, 0))) {
+                if (ImGui::Button(removeBtn.c_str(), ImVec2(120, 0)))
+                {
                     scriptComp->UnloadScript();
                     LOG_CONSOLE("[Inspector] Script removed from: %s", component->owner->GetName().c_str());
                 }
 
                 ImGui::SameLine();
 
-                if (ImGui::Button("Reload", ImVec2(80, 0))) {
+                if (ImGui::Button(reloadBtn.c_str(), ImVec2(80, 0)))
+                {
                     scriptComp->ReloadScript();
                     LOG_CONSOLE("[Inspector] Script reloaded for: %s", component->owner->GetName().c_str());
                 }
 
-                if (ImGui::IsItemHovered()) {
+                if (ImGui::IsItemHovered())
                     ImGui::SetTooltip("Hot reload the script");
-                }
 
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -1521,67 +1527,68 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
                 const auto& publicVars = scriptComp->GetPublicVariables();
 
-                if (!publicVars.empty()) {
+                if (!publicVars.empty())
+                {
                     ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f), "Public Variables");
                     ImGui::Spacing();
 
-                    for (size_t i = 0; i < publicVars.size(); ++i) {
+                    for (size_t i = 0; i < publicVars.size(); ++i)
+                    {
                         const ScriptVariable& var = publicVars[i];
 
-                        ImGui::PushID(i);
+                        ImGui::PushID((void*)((uintptr_t)scriptComp + i * 1000));
 
-                        switch (var.type) {
-                        case ScriptVarType::NUMBER: {
+                        switch (var.type)
+                        {
+                        case ScriptVarType::NUMBER:
+                        {
                             float value = std::get<float>(var.value);
-                            if (ImGui::DragFloat(var.name.c_str(), &value, 0.1f)) {
+                            if (ImGui::DragFloat(var.name.c_str(), &value, 0.1f))
+                            {
                                 ScriptVariable newVar(var.name, value);
                                 scriptComp->UpdatePublicVariable(i, newVar);
                             }
                             break;
                         }
-
-                        case ScriptVarType::STRING: {
+                        case ScriptVarType::STRING:
+                        {
                             static char buffer[256];
                             std::string value = std::get<std::string>(var.value);
                             strncpy(buffer, value.c_str(), sizeof(buffer) - 1);
-
-                            if (ImGui::InputText(var.name.c_str(), buffer, sizeof(buffer))) {
+                            if (ImGui::InputText(var.name.c_str(), buffer, sizeof(buffer)))
+                            {
                                 ScriptVariable newVar(var.name, std::string(buffer));
                                 scriptComp->UpdatePublicVariable(i, newVar);
                             }
                             break;
                         }
-
-                        case ScriptVarType::BOOLEAN: {
+                        case ScriptVarType::BOOLEAN:
+                        {
                             bool value = std::get<bool>(var.value);
-                            if (ImGui::Checkbox(var.name.c_str(), &value)) {
+                            if (ImGui::Checkbox(var.name.c_str(), &value))
+                            {
                                 ScriptVariable newVar(var.name, value);
                                 scriptComp->UpdatePublicVariable(i, newVar);
                             }
                             break;
                         }
-
-                        case ScriptVarType::VEC3: {
+                        case ScriptVarType::VEC3:
+                        {
                             glm::vec3 value = std::get<glm::vec3>(var.value);
-
                             ImGui::Text("%s", var.name.c_str());
                             ImGui::PushItemWidth(80);
-
                             bool changed = false;
                             ImGui::Text("X"); ImGui::SameLine(20);
                             if (ImGui::DragFloat("##X", &value.x, 0.1f)) changed = true;
-
                             ImGui::SameLine(120);
                             ImGui::Text("Y"); ImGui::SameLine(130);
                             if (ImGui::DragFloat("##Y", &value.y, 0.1f)) changed = true;
-
                             ImGui::SameLine(230);
                             ImGui::Text("Z"); ImGui::SameLine(240);
                             if (ImGui::DragFloat("##Z", &value.z, 0.1f)) changed = true;
-
                             ImGui::PopItemWidth();
-
-                            if (changed) {
+                            if (changed)
+                            {
                                 ScriptVariable newVar(var.name, value);
                                 scriptComp->UpdatePublicVariable(i, newVar);
                             }
@@ -1592,24 +1599,25 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                         ImGui::PopID();
                     }
                 }
-                else {
-                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f),
-                        "No public variables defined");
+                else
+                {
+                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No public variables defined");
                     ImGui::Spacing();
                     ImGui::TextWrapped("Define variables in a 'public' table in your Lua script");
                 }
             }
         }
-        else {
+        else
+        {
             ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No script assigned");
 
-            if (ImGui::Button("Assign Script", ImVec2(150, 0))) {
-                ImGui::OpenPopup("SelectScript");
-            }
+            std::string assignBtn = "Assign Script##" + std::to_string(reinterpret_cast<uintptr_t>(scriptComp));
+            if (ImGui::Button(assignBtn.c_str(), ImVec2(150, 0)))
+                ImGui::OpenPopup(popupID.c_str());
         }
 
-        // Popup para seleccionar script
-        if (ImGui::BeginPopup("SelectScript")) {
+        if (ImGui::BeginPopup(popupID.c_str()))
+        {
             ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f), "Select Lua Script");
             ImGui::Separator();
 
@@ -1618,8 +1626,10 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
             bool foundScripts = false;
 
-            for (const auto& [uid, resource] : allResources) {
-                if (resource->GetType() == Resource::SCRIPT) {
+            for (const auto& [uid, resource] : allResources)
+            {
+                if (resource->GetType() == Resource::SCRIPT)
+                {
                     foundScripts = true;
 
                     std::string filepath = resource->GetAssetFile();
@@ -1627,22 +1637,22 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
                     bool isSelected = (scriptComp->HasScript() && scriptComp->GetScriptUID() == uid);
 
-                    if (ImGui::Selectable(filename.c_str(), isSelected)) {
-                        if (scriptComp->LoadScriptByUID(uid)) {
+                    if (ImGui::Selectable(filename.c_str(), isSelected))
+                    {
+                        if (scriptComp->LoadScriptByUID(uid))
                             LOG_CONSOLE("[Inspector] Script '%s' assigned to '%s'",
                                 filename.c_str(), component->owner->GetName().c_str());
-                        }
-                        else {
+                        else
                             LOG_CONSOLE("[Inspector] Failed to load script '%s'", filename.c_str());
-                        }
+
                         ImGui::CloseCurrentPopup();
                     }
 
-                    if (isSelected) {
+                    if (isSelected)
                         ImGui::SetItemDefaultFocus();
-                    }
 
-                    if (ImGui::IsItemHovered()) {
+                    if (ImGui::IsItemHovered())
+                    {
                         ImGui::BeginTooltip();
                         ImGui::Text("UID: %llu", uid);
                         ImGui::Text("Path: %s", filepath.c_str());
@@ -1651,7 +1661,8 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                 }
             }
 
-            if (!foundScripts) {
+            if (!foundScripts)
+            {
                 ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No .lua scripts found");
                 ImGui::Spacing();
                 ImGui::TextWrapped("Create a .lua file in Assets/Scripts/");
@@ -1663,7 +1674,6 @@ void InspectorWindow::DrawScriptComponent(Component* component)
         ImGui::Unindent();
     }
 }
-
 void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
 {
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.5f, 0.8f, 1.0f));
@@ -1693,15 +1703,7 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
         ImGui::Separator();
         ImGui::Spacing();
 
-        // Script Component
-        bool hasScript = (selectedObject->GetComponent(ComponentType::SCRIPT) != nullptr);
-
-        if (hasScript)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.5f, 1.0f));
-        }
-
-        if (ImGui::Selectable("Script", false, hasScript ? ImGuiSelectableFlags_Disabled : 0))
+        if (ImGui::Selectable("Script"))
         {
             Component* newComp = selectedObject->CreateComponent(ComponentType::SCRIPT);
             if (newComp)
@@ -1713,21 +1715,10 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
             ImGui::CloseCurrentPopup();
         }
 
-        if (hasScript)
-        {
-            ImGui::PopStyleColor();
-        }
-
-        if (ImGui::IsItemHovered() && !hasScript)
+        if (ImGui::IsItemHovered())
         {
             ImGui::BeginTooltip();
             ImGui::Text("Add a Lua script to this GameObject");
-            ImGui::EndTooltip();
-        }
-        else if (ImGui::IsItemHovered() && hasScript)
-        {
-            ImGui::BeginTooltip();
-            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Already has a Script component");
             ImGui::EndTooltip();
         }
 

@@ -110,7 +110,6 @@
                     <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
-                                <noesis:SetFocusAction/>    
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

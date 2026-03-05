@@ -35,9 +35,9 @@ ComponentCanvas::~ComponentCanvas()
     ShutdownView();               
     device.Reset();
 
-    if (fbo) glDeleteFramebuffers(1, &fbo);
+    if (fbo)       glDeleteFramebuffers(1, &fbo);
     if (textureID) glDeleteTextures(1, &textureID);
-    if (rbo) glDeleteRenderbuffers(1, &rbo);
+    if (rbo)       glDeleteRenderbuffers(1, &rbo);
 }
 
 void ComponentCanvas::ShutdownView()
@@ -49,7 +49,7 @@ void ComponentCanvas::ShutdownView()
 
 void ComponentCanvas::CleanUp()
 {
-    ShutdownView();                   
+    ShutdownView();
     device.Reset();
 }
 
@@ -88,11 +88,13 @@ bool ComponentCanvas::LoadXAML(const char* filename)
 void ComponentCanvas::Update()
 {
     if (!view) return;
+
     double dt = Application::GetInstance().time->GetRealDeltaTime();
     view->Update(Application::GetInstance().time->GetTotalTime());
 
+    const bool stickActive =
+        (fabs(stickX) >= STICK_THRESHOLD || fabs(stickY) >= STICK_THRESHOLD);
 
-    const bool stickActive = (fabs(stickX) >= STICK_THRESHOLD || fabs(stickY) >= STICK_THRESHOLD);
     if (stickActive)
     {
         if (!stickInitialFired)
@@ -108,6 +110,7 @@ void ComponentCanvas::Update()
         else
         {
             stickRepeatTimer += dt;
+            // Fire repeat ticks for every elapsed STICK_REPEAT_RATE interval
             while (stickRepeatTimer >= STICK_INITIAL_DELAY + STICK_REPEAT_RATE)
             {
                 TryNavigateStick(stickX, stickY);
@@ -158,15 +161,14 @@ void ComponentCanvas::Resize(int newWidth, int newHeight)
     height = newHeight;
 
     if (view) view->SetSize(width, height);
-
     GenerateFramebuffer(width, height);
 }
 
 void ComponentCanvas::GenerateFramebuffer(int w, int h)
 {
-    if (fbo) glDeleteFramebuffers(1, &fbo);
+    if (fbo)       glDeleteFramebuffers(1, &fbo);
     if (textureID) glDeleteTextures(1, &textureID);
-    if (rbo) glDeleteRenderbuffers(1, &rbo);
+    if (rbo)       glDeleteRenderbuffers(1, &rbo);
 
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -186,39 +188,42 @@ void ComponentCanvas::GenerateFramebuffer(int w, int h)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-// Mouse Input handling
 void ComponentCanvas::OnMouseMove(int x, int y)
 {
     if (!view) return;
     view->MouseMove(x, y);
 }
+
 void ComponentCanvas::OnMouseButtonDown(int x, int y, Noesis::MouseButton button)
 {
     if (!view) return;
     view->MouseButtonDown(x, y, button);
 }
+
 void ComponentCanvas::OnMouseButtonUp(int x, int y, Noesis::MouseButton button)
 {
     if (!view) return;
     view->MouseButtonUp(x, y, button);
 }
+
 void ComponentCanvas::OnMouseWheel(int x, int y, int delta)
 {
     if (!view) return;
     view->MouseWheel(x, y, delta);
 }
 
-// Gamepad input handling
 void ComponentCanvas::OnGamepadButtonDown(Noesis::Key key)
 {
     if (!view) return;
-    bool handled = view->KeyDown(key);
+    view->KeyDown(key);
 }
+
 void ComponentCanvas::OnGamepadButtonUp(Noesis::Key key)
 {
     if (!view) return;
     view->KeyUp(key);
 }
+
 void ComponentCanvas::OnGamepadLeftStick(float x, float y)
 {
     stickX = x;
@@ -227,7 +232,7 @@ void ComponentCanvas::OnGamepadLeftStick(float x, float y)
     const bool active = (fabs(x) >= STICK_THRESHOLD || fabs(y) >= STICK_THRESHOLD);
     if (!active)
     {
-        stickInitialFired = false;  
+        stickInitialFired = false;
         stickRepeatTimer = 0.0;
     }
 }
@@ -235,28 +240,58 @@ void ComponentCanvas::OnGamepadLeftStick(float x, float y)
 void ComponentCanvas::TryNavigateStick(float x, float y)
 {
     if (!view) return;
+
     if (fabs(y) >= fabs(x))
     {
-        if (y >= STICK_THRESHOLD)
-            view->KeyDown(Noesis::Key_GamepadUp);
+        if (y > STICK_THRESHOLD)
+            view->KeyDown(Noesis::Key_GamepadDown);   
         else
-            view->KeyDown(Noesis::Key_GamepadDown);
+            view->KeyDown(Noesis::Key_GamepadUp);   
     }
     else
     {
-        if (x >= STICK_THRESHOLD)
+        if (x > STICK_THRESHOLD)
             view->KeyDown(Noesis::Key_GamepadRight);
         else
             view->KeyDown(Noesis::Key_GamepadLeft);
     }
 }
+
 void ComponentCanvas::OnGamepadRightStick(float x, float y)
 {
-    if (!view) return;
+    (void)x; (void)y;
 }
+
 void ComponentCanvas::OnGamepadTrigger(float left, float right)
 {
     if (!view) return;
+
+    static bool ltWasDown = false;
+    static bool rtWasDown = false;
+
+    const float TRIGGER_THRESHOLD = 0.5f;
+
+    if (left >= TRIGGER_THRESHOLD && !ltWasDown)
+    {
+        view->KeyDown(Noesis::Key_GamepadPageLeft);
+        ltWasDown = true;
+    }
+    else if (left < TRIGGER_THRESHOLD && ltWasDown)
+    {
+        view->KeyUp(Noesis::Key_GamepadPageLeft);
+        ltWasDown = false;
+    }
+
+    if (right >= TRIGGER_THRESHOLD && !rtWasDown)
+    {
+        view->KeyDown(Noesis::Key_GamepadPageRight);
+        rtWasDown = true;
+    }
+    else if (right < TRIGGER_THRESHOLD && rtWasDown)
+    {
+        view->KeyUp(Noesis::Key_GamepadPageRight);
+        rtWasDown = false;
+    }
 }
 
 void ComponentCanvas::Serialize(nlohmann::json& componentObj) const
@@ -266,6 +301,7 @@ void ComponentCanvas::Serialize(nlohmann::json& componentObj) const
     componentObj["uiLayer"] = uiLayer;
 
 }
+
 void ComponentCanvas::Deserialize(const nlohmann::json& componentObj)
 {
     if (componentObj.contains("opacity"))
@@ -283,7 +319,7 @@ void ComponentCanvas::Deserialize(const nlohmann::json& componentObj)
 
 void ComponentCanvas::UnloadXAML()
 {
-    ShutdownView();  
+    ShutdownView();
     currentXAML = "";
 }
 

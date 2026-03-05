@@ -7,7 +7,6 @@ class GameWindow : public EditorWindow
 {
 public:
     GameWindow();
-    ~GameWindow() override = default;
 
     void Draw() override;
 
@@ -15,6 +14,7 @@ public:
     ImVec2 GetViewportSize() const { return gameViewportSize; }
 
 private:
+    void DispatchInputToCanvases();
     ImVec2 gameViewportPos;
     ImVec2 gameViewportSize;
 };

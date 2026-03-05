@@ -35,7 +35,7 @@
             <Image x:Name="Life_Image"
                    IsEnabled="False"
                    HorizontalAlignment="Left"
-                   VerticalAlignment="Top" Source="Textures/HUD_Player.png"/>
+                   VerticalAlignment="Top" Source="HUD_Player.png"/>
         </Viewbox>
 
     </Grid>

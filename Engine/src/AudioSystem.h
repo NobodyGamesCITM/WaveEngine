@@ -166,7 +166,7 @@ private:
     ReverbZone* currentListenerZone;
 
 	// Toggle to reduce log noise (default: false)
-	bool enableDebugLogs = true;
+	bool enableDebugLogs = false;
 
 
 

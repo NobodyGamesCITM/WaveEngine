@@ -843,7 +843,8 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         }
 
         ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
-        materialComp->Use();
+
+        if(materialComp) materialComp->Use();
 
         GLint currentProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);

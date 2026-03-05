@@ -28,7 +28,7 @@
                         },
                         {
                             "active": true,
-                            "meshUID": 10027636387599370896,
+                            "meshUID": 7465604858031829272,
                             "type": 1
                         },
                         {
@@ -73,7 +73,7 @@
                             "active": true,
                             "eventName": "Play_ACTalkingSFX",
                             "playOnAwake": true,
-                            "type": 24,
+                            "type": 26,
                             "volume": 100.0
                         },
                         {
@@ -95,7 +95,7 @@
                             "priority": -2,
                             "radius": 1.899999976158142,
                             "shape": 0,
-                            "type": 25,
+                            "type": 27,
                             "wetLevel": 0.5320000052452087
                         }
                     ],
@@ -267,7 +267,7 @@
                             "active": true,
                             "eventName": "Play_ClubPenguin",
                             "playOnAwake": true,
-                            "type": 24,
+                            "type": 26,
                             "volume": 100.0
                         }
                     ],
@@ -385,14 +385,14 @@
                             "priority": 3,
                             "radius": 4.400000095367432,
                             "shape": 1,
-                            "type": 25,
+                            "type": 27,
                             "wetLevel": 1.0
                         },
                         {
                             "active": true,
                             "eventName": "Play_Ambience",
                             "playOnAwake": true,
-                            "type": 24,
+                            "type": 25,
                             "volume": 100.0
                         }
                     ],
@@ -492,7 +492,7 @@
                     "active": true,
                     "eventName": "Play_RadioStatic",
                     "playOnAwake": true,
-                    "type": 24,
+                    "type": 26,
                     "volume": 77.98699951171875
                 },
                 {
@@ -514,7 +514,7 @@
                     "priority": 0,
                     "radius": 1.0,
                     "shape": 0,
-                    "type": 25,
+                    "type": 27,
                     "wetLevel": 1.0
                 }
             ],

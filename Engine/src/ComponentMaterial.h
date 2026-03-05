@@ -98,7 +98,7 @@ private:
     UID textureUID;
     UID shaderUID = 0;
     UID originalTextureUID;
-    bool useCheckerboard;
+    bool useCheckerboard = true;
 
     std::string texturePath;
     std::string originalTexturePath;

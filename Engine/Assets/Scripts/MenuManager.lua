@@ -5,8 +5,8 @@ local canvas    = nil
 local fading    = false
 local fadeTimer = 0.0
 local phase     = "idle"
-local history   = {}          -- historial de XAML
-local current   = "MainMenu.xaml"  -- xaml actual
+local history   = {}
+local current   = nil
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -19,11 +19,11 @@ end
 local function SetPhase(newPhase)
     phase     = newPhase
     fadeTimer = 0.0
-    Engine.Log("[Transition] Phase → " .. newPhase)
+    Engine.Log("[Transition] Phase: " .. newPhase)
 end
 
 local function NavigateTo(xaml)
-    table.insert(history, current) --save current in history
+    table.insert(history, current)
     NEXT_XAML = xaml
     fading    = true
     Engine.Log("[Transition] Navegando a: " .. xaml .. " (historial: " .. #history .. ")")
@@ -45,6 +45,13 @@ function Start(self)
         Engine.Log("[Transition] ERROR: No tiene ComponentCanvas")
         return
     end
+
+    current = canvas:GetCurrentXAML()
+    if not current or current == "" then
+        current = "MainMenu.xaml"
+        Engine.Log("[Transition] WARN: Canvas sin XAML, usando fallback")
+    end
+    Engine.Log("[Transition] XAML inicial: " .. current)
 
     canvas:SetOpacity(1.0)
     SetPhase("idle")
@@ -71,8 +78,17 @@ function Update(self, dt)
     end
 
     if phase == "idle" then
+        -- Pause toggle
+        if current == "HUD.xaml" or current == "PauseMenu.xaml" then
+            if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
+                if current == "HUD.xaml" then
+                    NavigateTo("PauseMenu.xaml")
+                else
+                    NavigateTo("HUD.xaml")
+                end
+            end
+        end
 
-        
         -- Main Menu
         if UI.WasClicked("StartButton") then
             NavigateTo("HUD.xaml")
@@ -85,11 +101,6 @@ function Update(self, dt)
         end
 
         -- Pause Menu
-        if current == "HUD.xaml" then
-            if Input.WasKeyPressed("Escape") or Input.WasButtonPressed("Options") then
-                NavigateTo("PauseMenu.xaml")
-            end
-        end
         if UI.WasClicked("ResumeButton") then
             NavigateTo("HUD.xaml")
         end
@@ -105,14 +116,17 @@ function Update(self, dt)
             NavigateTo("GraphicsMenu.xaml")
         end
 
-        -- Back (universal)
-        if UI.WasClicked("BackButton") then
+       -- Back (universal)
+        local isEscapeHandled = (current == "HUD.xaml" or current == "PauseMenu.xaml")
+        local canGoBack = #history > 0 and current ~= "MainMenu.xaml"
+        if canGoBack and (UI.WasClicked("BackButton") or Input.GetGamepadButtonDown("East") or 
+           (Input.GetKeyDown("Escape") and not isEscapeHandled)) then
             NavigateBack()
         end
-
+        
         if fading then
-            fading    = false
-            current   = NEXT_XAML  
+            fading  = false
+            current = NEXT_XAML
             SetPhase("fadeOut")
         end
     end

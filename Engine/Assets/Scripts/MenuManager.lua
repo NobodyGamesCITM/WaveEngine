@@ -47,9 +47,11 @@ function Start(self)
     end
 
     current = canvas:GetCurrentXAML()
+    Engine.Log("[Transition] current detectado: '" .. tostring(current) .. "'")
+
     if not current or current == "" then
-        current = "MainMenu.xaml"
-        Engine.Log("[Transition] WARN: Canvas sin XAML, usando fallback")
+        current = "HUD.xaml"
+        Engine.Log("[Transition] WARN: Canvas sin XAML, usando fallback HUD")
     end
     Engine.Log("[Transition] XAML inicial: " .. current)
 
@@ -116,17 +118,16 @@ function Update(self, dt)
             NavigateTo("GraphicsMenu.xaml")
         end
 
-       -- Back (universal)
+        -- Back (universal)
         local isEscapeHandled = (current == "HUD.xaml" or current == "PauseMenu.xaml")
         local canGoBack = #history > 0 and current ~= "MainMenu.xaml"
-        if canGoBack and (UI.WasClicked("BackButton") or Input.GetGamepadButtonDown("East") or 
+        if canGoBack and (UI.WasClicked("BackButton") or Input.GetGamepadButtonDown("East") or
            (Input.GetKeyDown("Escape") and not isEscapeHandled)) then
             NavigateBack()
         end
-        
+
         if fading then
-            fading  = false
-            current = NEXT_XAML
+            fading = false
             SetPhase("fadeOut")
         end
     end
@@ -143,6 +144,7 @@ function Update(self, dt)
 
     elseif phase == "swap" then
         canvas:LoadXAML(NEXT_XAML)
+        current = NEXT_XAML
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
     end

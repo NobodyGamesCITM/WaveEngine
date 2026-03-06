@@ -963,6 +963,16 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         lua_pushcclosure(L, Lua_ComponentCanvas_SetOpacity, 1);
         lua_setfield(L, -2, "SetOpacity");
 
+        // GetCurrentXAML
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            lua_pushstring(L, canvas->GetCurrentXAML().c_str());
+            return 1;
+            }, 1);
+        lua_setfield(L, -2, "GetCurrentXAML");
+
         // LoadXAML (nuevo)
         lua_pushlightuserdata(L, canvas);
         lua_pushcclosure(L, [](lua_State* L) -> int {

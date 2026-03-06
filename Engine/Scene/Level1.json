@@ -25,11 +25,13 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.8526829481124878,
+                    "aspectRatio": 2.1605136394500732,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
-                    "type": 4
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": true
                 },
                 {
                     "active": true,
@@ -44,14 +46,14 @@
                             "value": 0.30000001192092896
                         },
                         {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
                             "name": "playerName",
                             "type": 1,
                             "value": "Player"
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
                         },
                         {
                             "name": "followSpeed",
@@ -59,9 +61,9 @@
                             "value": 5.0
                         },
                         {
-                            "name": "shakeFrequency",
+                            "name": "zoomMax",
                             "type": 0,
-                            "value": 25.0
+                            "value": 3.0
                         },
                         {
                             "name": "shakeDuration",
@@ -69,12 +71,12 @@
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "zoomSpeed",
+                            "name": "zoomMin",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "zoomMax",
+                            "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
                         }
@@ -44149,9 +44151,19 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 4.0
+                        },
+                        {
                             "name": "sprintMultiplier",
                             "type": 0,
                             "value": 1.5
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 10.0
                         },
                         {
                             "name": "rollDuration",
@@ -44162,16 +44174,6 @@
                             "name": "tiredMultiplier",
                             "type": 0,
                             "value": 0.699999988079071
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 4.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -44185,39 +44187,6 @@
             ],
             "name": "Player",
             "uid": 17184423464013482683
-        },
-        {
-            "active": true,
-            "children": [],
-            "components": [
-                {
-                    "active": true,
-                    "position": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "rotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "type": 0
-                },
-                {
-                    "active": true,
-                    "opacity": 1.0,
-                    "type": 29,
-                    "xamlPath": ""
-                }
-            ],
-            "name": "Canvas",
-            "uid": 11415510623607170543
         },
         {
             "active": true,
@@ -44853,6 +44822,123 @@
             ],
             "name": "Columna_copy",
             "uid": 4981281993534713736
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "opacity": 1.0,
+                    "type": 30,
+                    "uiLayer": 0,
+                    "xamlPath": "HUD.xaml"
+                },
+                {
+                    "active": true,
+                    "scriptUID": 845068803312502122,
+                    "type": 6
+                }
+            ],
+            "name": "UIManager",
+            "uid": 7164432609074589705
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "bloom": {
+                        "clamp": 65472.0,
+                        "diffusion": 7.0,
+                        "enabled": true,
+                        "intensity": 1.0,
+                        "softKnee": 0.5,
+                        "threshold": 1.0,
+                        "tint": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "colorGrading": {
+                        "colorFilter": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "contrast": 1.0,
+                        "enabled": true,
+                        "exposure": 1.0,
+                        "gamma": 1.0,
+                        "saturation": 1.0,
+                        "temperature": 0.0,
+                        "tint": 0.0,
+                        "toneMapper": 0
+                    },
+                    "grain": {
+                        "animated": true,
+                        "enabled": false,
+                        "intensity": 0.0,
+                        "scale": 1.0
+                    },
+                    "lens": {
+                        "caEnabled": false,
+                        "caIntensity": 0.0,
+                        "vigColor": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "vigEnabled": false,
+                        "vigIntensity": 0.4000000059604645,
+                        "vigRoundness": 1.0,
+                        "vigSmoothness": 0.20000000298023224
+                    },
+                    "type": 29
+                }
+            ],
+            "name": "PostProcessing",
+            "uid": 9473216322181740016
         }
     ],
     "version": 1

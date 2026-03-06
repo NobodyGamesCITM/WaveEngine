@@ -266,7 +266,7 @@ bool ModuleScene::SaveScene(const std::string& filepath)
     file << document.dump(4);
     file.close();
 
-    LOG_CONSOLE("Scene saved successfully");
+    //LOG_CONSOLE("Scene saved successfully");
     return true;
 }
 

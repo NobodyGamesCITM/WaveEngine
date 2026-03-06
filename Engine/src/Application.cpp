@@ -266,9 +266,9 @@ bool Application::PostUpdate()
 void Application::Play()
 {
     if (playState == PlayState::EDITING) {
-        std::filesystem::create_directories("../Library/TempScene");
+        // Crear la carpeta TempScene que ya existe desde Backup::Start()
         LOG_CONSOLE("Saving initial scene state...");
-        scene->SaveScene("../Library/TempScene/__temp_scene_state__.json");
+        scene->SaveScene("../TempScene/__temp_scene_state__.json");
     }
 
     playState = PlayState::PLAYING;
@@ -287,7 +287,7 @@ void Application::Play()
         for (GameObject* child : obj->GetChildren()) {
             callStartOnAll(child);
         }
-        };
+    };
     callStartOnAll(scene->GetRoot());
 
     time->Resume();
@@ -307,7 +307,7 @@ void Application::Stop()
 {
     // Procesar operaciones pendientes de scripts ANTES de restaurar
     if (scripts) {
-        scripts->PostUpdate(); // Ejecuta pendingOperations y pendingDestroy
+        scripts->PostUpdate();
     }
 
     // Limpiar objetos marcados para eliminación
@@ -318,7 +318,7 @@ void Application::Stop()
     // Restore
     if (playState != PlayState::EDITING) {
         LOG_CONSOLE("Restoring initial scene state...");
-        scene->LoadScene("../Library/TempScene/__temp_scene_state__.json");
+        scene->LoadScene("../TempScene/__temp_scene_state__.json");
     }
 
     playState = PlayState::EDITING;

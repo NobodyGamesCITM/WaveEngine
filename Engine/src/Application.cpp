@@ -10,6 +10,7 @@
 #endif
 #include "UIManager.h"
 #include "ComponentScript.h"
+#include "Backup.h" 
 
 Application::Application() : isRunning(true), playState(PlayState::EDITING)
 {

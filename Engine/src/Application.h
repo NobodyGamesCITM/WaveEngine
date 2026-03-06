@@ -13,6 +13,7 @@
 #include "Grid.h"
 #ifndef WAVE_GAME
 #include "ModuleEditor.h"
+#include "Backup.h"
 #else
 #include "ModuleGame.h"
 #endif
@@ -80,6 +81,7 @@ public:
     std::shared_ptr<ModuleCamera> camera;
 #ifndef WAVE_GAME
     std::shared_ptr<ModuleEditor> editor;
+    std::shared_ptr<Backup> backup;
 #else
     std::shared_ptr<ModuleGame> game;
 #endif

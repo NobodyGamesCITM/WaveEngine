@@ -26,6 +26,7 @@
 #include "ConsoleWindow.h"
 #include "Application.h"
 #include "ComponentAnimation.h"
+#include "UIManager.h"
 
 #include <filesystem>
 #include <cmath>            
@@ -489,6 +490,13 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+static int Lua_UI_WasClicked(lua_State* L) {
+    const char* buttonName = luaL_checkstring(L, 1);
+    bool clicked = UIManager::GetInstance().WasButtonJustClicked(buttonName);
+    lua_pushboolean(L, clicked);
+    return 1;
+}
+
 void ScriptManager::RegisterEngineFunctions() {
     if (!L) {
         LOG_CONSOLE("[ScriptManager] ERROR: Cannot register functions, Lua state is null");
@@ -544,7 +552,13 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
-    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera");
+    // UI
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_UI_WasClicked);
+    lua_setfield(L, -2, "WasClicked");
+    lua_setglobal(L, "UI");
+
+    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI");
 }
 // GAMEOBJECT API
 
@@ -881,7 +895,7 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
 // Helper for ComponentCanvas.SetOpacity
 static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
     ComponentCanvas* canvas = static_cast<ComponentCanvas*>(lua_touserdata(L, lua_upvalueindex(1)));
-    float opacity = static_cast<float>(luaL_checknumber(L, 1));
+    float opacity = static_cast<float>(luaL_checknumber(L, 2));
 
     auto& app = Application::GetInstance();
     app.scripts->EnqueueOperation([canvas, opacity]() {
@@ -934,7 +948,6 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
         return 1;
     }
-
     if (strcmp(componentType, "Canvas") == 0) {
         Component* comp = obj->GetComponent(ComponentType::CANVAS);
         ComponentCanvas* canvas = static_cast<ComponentCanvas*>(comp);
@@ -944,9 +957,25 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         }
 
         lua_newtable(L);
+
+        // SetOpacity (ya existente)
         lua_pushlightuserdata(L, canvas);
         lua_pushcclosure(L, Lua_ComponentCanvas_SetOpacity, 1);
         lua_setfield(L, -2, "SetOpacity");
+
+        // LoadXAML (nuevo)
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            const char* xamlPath = luaL_checkstring(L, 2); 
+            std::string path(xamlPath);
+            Application::GetInstance().scripts->EnqueueOperation([canvas, path]() {
+                canvas->LoadXAML(path.c_str());
+                });
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "LoadXAML");
 
         return 1;
     }

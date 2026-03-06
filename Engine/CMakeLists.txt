@@ -60,8 +60,6 @@ set(RENDERING_SRC
     src/ComponentSkinnedMesh.cpp
     src/CameraLens.h
     src/CameraLens.cpp
-    src/UI.h
-    src/UI.cpp 
 )
 
 set(VFX_SRC
@@ -271,6 +269,12 @@ set(NAVIGATION_SRC
     src/ComponentNavigation.h
 )
 
+set(UI_SRC
+    src/UI.h
+    src/UI.cpp
+    src/UiManager.h
+    src/UiManager.cpp
+)
 source_group("Source\\Core" FILES ${CORE_SRC})
 source_group("Source\\Events" FILES ${EVENTS_SRC})
 source_group("Source\\Rendering" FILES ${RENDERING_SRC})
@@ -285,8 +289,9 @@ source_group("Source\\Loaders\\Importers" FILES ${IMPORTERS_SRC})
 source_group("Scripting" FILES ${SCRIPTING_SRC})
 source_group("Source\\Physics" FILES ${PHYSICS_SRC})
 source_group("Source\\Navigation" FILES ${NAVIGATION_SRC})
+source_group("Source\\UI" FILES ${UI_SRC})
 
-set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
+set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${UI_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
 
 add_executable(Engine ${SRCS})
 
@@ -479,7 +484,7 @@ endif()
 
 # =========== End NoesisGUI ===========
 # Game (standalone)
-set(GAME_SRC ${CORE_SRC} ${RENDERING_SRC} ${UTILS_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${VFX_SRC} ${AUDIO_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
+set(GAME_SRC ${CORE_SRC} ${RENDERING_SRC} ${UTILS_SRC} ${UI_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${VFX_SRC} ${AUDIO_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
 
 add_executable(Game ${GAME_SRC})
 

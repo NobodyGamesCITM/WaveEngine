@@ -85,7 +85,6 @@ public:
 private:
     void CreateLuaTable();
     void DestroyLuaTable();
-    void SetupLuaEnvironment();
     bool CompileAndExecuteScript(const std::string& scriptContent);
 
     void SetupScriptEnvironment(lua_State* L);

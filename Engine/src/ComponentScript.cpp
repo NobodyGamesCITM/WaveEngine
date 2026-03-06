@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include <glm/glm.hpp>
-#include <imgui.h>
 #include <filesystem>
 #include "Log.h"
 #include <sstream>
@@ -24,7 +23,6 @@ ComponentScript::~ComponentScript()
 void ComponentScript::Enable()
 {
     if (!HasScript()) return;
-
     if (!startCalled && active) {
         CallStart();
     }
@@ -328,6 +326,7 @@ void ComponentScript::CallUpdate(float deltaTime)
 
     if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
         const char* error = lua_tostring(L, -1);
+        LOG_CONSOLE("[ComponentScript] ERROR in Update(): %s", error);
         lua_pop(L, 1);
     }
 
@@ -370,10 +369,6 @@ void ComponentScript::DestroyLuaTable()
     luaTableName.clear();
 }
 
-void ComponentScript::SetupLuaEnvironment()
-{
-}
-
 bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
 {
     ScriptManager* scriptManager = Application::GetInstance().scripts.get();
@@ -408,29 +403,35 @@ bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
     lua_getglobal(L, luaTableName.c_str());
 
     if (lua_istable(L, -1)) {
+        // Mover la funcion Start del scope global a la tabla de la instancia
         lua_getglobal(L, "Start");
         if (lua_isfunction(L, -1)) {
             lua_setfield(L, -2, "Start");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar Start global
+        lua_setglobal(L, "Start");
 
+        // Mover la funcion Update del scope global a la tabla de la instancia
         lua_getglobal(L, "Update");
         if (lua_isfunction(L, -1)) {
             lua_setfield(L, -2, "Update");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar Update global
+        lua_setglobal(L, "Update");
 
+        // Mover la tabla public del scope global a la tabla de la instancia
         lua_getglobal(L, "public");
         if (lua_istable(L, -1)) {
             lua_setfield(L, -2, "public");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar public global
+        lua_setglobal(L, "public");
 
         SetupScriptEnvironment(L);
     }

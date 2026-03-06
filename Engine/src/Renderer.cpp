@@ -880,9 +880,6 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
     glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
     glViewport(0, 0, camera->textureWidth, camera->textureHeight);
 
-    LOG_DEBUG("DrawCanvasList - fboID: %d, w: %d, h: %d",
-        camera->fboID, camera->textureWidth, camera->textureHeight);
-
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);

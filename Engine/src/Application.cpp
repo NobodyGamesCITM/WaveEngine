@@ -8,6 +8,8 @@
 #include <nlohmann/json.hpp>
 #include <windows.h>
 #endif
+#include "UIManager.h"
+#include "ComponentScript.h"
 
 Application::Application() : isRunning(true), playState(PlayState::EDITING)
 {
@@ -41,7 +43,6 @@ Application::Application() : isRunning(true), playState(PlayState::EDITING)
     AddModule(std::static_pointer_cast<Module>(input));
     AddModule(std::static_pointer_cast<Module>(physics));
     AddModule(std::static_pointer_cast<Module>(renderContext));
-    AddModule(std::static_pointer_cast<Module>(resources));
     AddModule(std::static_pointer_cast<Module>(scene));
     AddModule(std::static_pointer_cast<Module>(camera));
     AddModule(std::static_pointer_cast<Module>(audio));
@@ -249,6 +250,9 @@ bool Application::PostUpdate()
         }
     }
 
+    // Limpiar el estado de los botones pulsados en este frame
+    UIManager::GetInstance().ClearFrameClicks();
+
     if (result) {
         result = window->PostUpdate();
     }
@@ -258,13 +262,31 @@ bool Application::PostUpdate()
 
 void Application::Play()
 {
-    // Save
     if (playState == PlayState::EDITING) {
+        std::filesystem::create_directories("../Library/TempScene");
         LOG_CONSOLE("Saving initial scene state...");
         scene->SaveScene("../Library/TempScene/__temp_scene_state__.json");
     }
 
     playState = PlayState::PLAYING;
+
+    // Llamar Start en todos los scripts de la escena
+    std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
+        if (!obj || !obj->IsActive()) return;
+        for (Component* comp : obj->GetComponents()) {
+            if (comp->GetType() == ComponentType::SCRIPT) {
+                ComponentScript* script = static_cast<ComponentScript*>(comp);
+                if (script->IsActive()) {
+                    script->CallStart();
+                }
+            }
+        }
+        for (GameObject* child : obj->GetChildren()) {
+            callStartOnAll(child);
+        }
+        };
+    callStartOnAll(scene->GetRoot());
+
     time->Resume();
     AK::SoundEngine::WakeupFromSuspend();
 }
@@ -336,7 +358,6 @@ bool Application::CleanUp()
     time.reset();
     loader.reset();
     scripts.reset();
-    resources.reset();
     renderContext.reset();
     physics.reset();
     input.reset();

@@ -238,19 +238,36 @@ void EditorCamera::MoveCamera()
 		viewChanged = true;
 	}
 
-	//ZOOM
+	//ZOOM and SPEED CHANGE
 	if (zoom)
 	{
 		float mouseWheel = Application::GetInstance().input->GetMouseWheelY();
-		if (mouseWheel < 0)
+
+		bool cameraMoving = move && (
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT ||
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT ||
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT ||
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT ||
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT ||
+			Application::GetInstance().input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT
+		);
+
+		if (cameraMoving)
 		{
-			position -= forward * 2.0f;
+			speed = glm::clamp(speed + mouseWheel * 0.5f, 0.1f, 50.0f);
 		}
-		else if (mouseWheel > 0)
+		else
 		{
-			position += forward * 2.0f;
+			if (mouseWheel < 0)
+			{
+				position -= forward * 2.0f;
+			}
+			else if (mouseWheel > 0)
+			{
+				position += forward * 2.0f;
+			}
+			viewChanged = true;
 		}
-		viewChanged = true;
 	}
 }
 

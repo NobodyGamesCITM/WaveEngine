@@ -3,7 +3,7 @@
 
 local sqrt  = math.sqrt
 local abs   = math.abs
-local atan2 = math.atan2
+local atan2 = math.atan
 local pi    = math.pi
 
 local attackCol

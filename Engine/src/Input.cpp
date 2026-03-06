@@ -325,6 +325,8 @@ bool Input::PreUpdate()
             mouseButtons[i] = KEY_IDLE;
     }
 
+    SDL_StartTextInput(Application::GetInstance().window->GetWindow());
+
     while (SDL_PollEvent(&event) != 0)
     {
         Application::GetInstance().events->PublishImmediate(Event(Event::Type::EventSDL, &event));

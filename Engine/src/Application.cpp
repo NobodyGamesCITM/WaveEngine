@@ -133,7 +133,7 @@ bool Application::Start()
         }
 
         std::string scenePath = (projectRoot / "Scene" / startupScene).string();
-        if (scene->LoadScene(scenePath))
+        if (scene->in(scenePath))
         {
             LOG_CONSOLE("[Game] Loaded scene: %s", scenePath.c_str());
         }

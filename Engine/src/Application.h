@@ -110,6 +110,9 @@ private:
 
     bool isRunning;
     PlayState playState;
+    
+    // Scene state saved in memory for Play/Stop
+    std::string savedSceneState;  
 
     // Call modules before each loop iteration
     bool PreUpdate();

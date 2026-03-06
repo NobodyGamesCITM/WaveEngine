@@ -266,9 +266,8 @@ bool Application::PostUpdate()
 void Application::Play()
 {
     if (playState == PlayState::EDITING) {
-        // Crear la carpeta TempScene que ya existe desde Backup::Start()
-        LOG_CONSOLE("Saving initial scene state...");
-        scene->SaveScene("../TempScene/__temp_scene_state__.json");
+        LOG_CONSOLE("Saving scene state to memory...");
+        savedSceneState = scene->SerializeSceneToString();
     }
 
     playState = PlayState::PLAYING;
@@ -315,10 +314,10 @@ void Application::Stop()
         scene->CleanupMarkedObjects(scene->GetRoot());
     }
 
-    // Restore
-    if (playState != PlayState::EDITING) {
-        LOG_CONSOLE("Restoring initial scene state...");
-        scene->LoadScene("../TempScene/__temp_scene_state__.json");
+    // Restore from memory
+    if (playState != PlayState::EDITING && !savedSceneState.empty()) {
+        LOG_CONSOLE("Restoring scene from memory...");
+        scene->DeserializeSceneFromString(savedSceneState);
     }
 
     playState = PlayState::EDITING;

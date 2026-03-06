@@ -123,9 +123,8 @@ bool ComponentCanvas::LoadXAML(const char* filename)
 void ComponentCanvas::Update()
 {
     if (!view) return;
-
-    view->Update(Application::GetInstance().time->GetTotalTime());
     double dt = Application::GetInstance().time->GetRealDeltaTime();
+    view->Update(Application::GetInstance().time->GetTotalTime());
 
     if (needsHookEvents)
     {
@@ -133,6 +132,7 @@ void ComponentCanvas::Update()
         Noesis::FrameworkElement* root = view->GetContent();
         if (root) HookEvents(root);
     }
+
     const bool stickActive =
         (fabs(stickX) >= STICK_THRESHOLD || fabs(stickY) >= STICK_THRESHOLD);
 

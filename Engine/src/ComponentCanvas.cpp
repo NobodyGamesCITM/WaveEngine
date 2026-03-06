@@ -125,9 +125,10 @@ void ComponentCanvas::Update()
     if (!view) return;
 
     view->Update(Application::GetInstance().time->GetTotalTime());
+    double dt = Application::GetInstance().time->GetRealDeltaTime();
+
     if (needsHookEvents)
     {
-        double dt = Application::GetInstance().time->GetRealDeltaTime();
         needsHookEvents = false;
         Noesis::FrameworkElement* root = view->GetContent();
         if (root) HookEvents(root);

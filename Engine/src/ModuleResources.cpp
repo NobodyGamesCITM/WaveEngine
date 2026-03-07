@@ -67,11 +67,6 @@ bool ModuleResources::CleanUp() {
 
     for (auto& pair : resources) {
 
-        if (pair.second->GetType() == Resource::MATERIAL) {
-            
-            continue;
-        }
-
         if (pair.second->IsLoadedToMemory()) {
             pair.second->UnloadFromMemory();
         }

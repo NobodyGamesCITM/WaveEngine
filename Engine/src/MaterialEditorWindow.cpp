@@ -145,6 +145,7 @@ void MaterialEditorWindow::ChangeMaterialType(MaterialType newType) {
 
 void MaterialEditorWindow::SetMaterialToEdit(UID materialUID) {
     if (editingMaterial) {
+        
         delete editingMaterial;
         editingMaterial = nullptr;
     }

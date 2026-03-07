@@ -12,7 +12,7 @@ class MaterialStandard : public Material
 public:
     
     MaterialStandard(MaterialType type);
-    ~MaterialStandard();
+    ~MaterialStandard() override;
 
     void Bind(Shader* shader) override;
 

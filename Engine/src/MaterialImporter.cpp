@@ -1,6 +1,8 @@
 #include "MaterialImporter.h"
 #include "MaterialStandard.h"
 #include "LibraryManager.h"
+#include "Application.h"
+#include "ModuleResources.h"
 #include "Globals.h"
 #include <fstream>
 #include "nlohmann/json.hpp"
@@ -111,6 +113,8 @@ UID MaterialImporter::CreateNewMaterial(const std::string& directory, const std:
         file.close();
         success = true;
     }
+
+    Application::GetInstance().resources.get()->ImportFile(fileName.c_str(), true);
 
     delete defaultMat;
     return success ? newUID : 0;

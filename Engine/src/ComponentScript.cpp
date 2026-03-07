@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "Log.h"
 #include <sstream>
+#include "Rigidbody.h"
 
 ComponentScript::ComponentScript(GameObject* owner)
     : Component(owner, ComponentType::SCRIPT)
@@ -790,4 +791,32 @@ void ComponentScript::UpdatePublicVariable(size_t index, const ScriptVariable& v
 
     publicVariables[index] = var;
     SyncPublicVariablesToLua();
+}
+
+void ComponentScript::CallPhysicsEvent(const char* funcName, Rigidbody* other)
+{
+    if (!HasScript()) return;
+    lua_State* L = Application::GetInstance().scripts->GetState();
+
+    lua_getglobal(L, luaTableName.c_str());
+    if (!lua_istable(L, -1)) { lua_pop(L, 1); return; }
+
+    lua_getfield(L, -1, funcName);
+
+    if (!lua_isfunction(L, -1))
+    {
+        lua_pop(L, 1);
+        lua_getglobal(L, funcName);
+    }
+
+    if (!lua_isfunction(L, -1)) { lua_pop(L, 2); return; }
+
+    lua_pushvalue(L, -2);
+    lua_pushstring(L, other->owner->GetName().c_str());
+
+    if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
+        LOG_CONSOLE("[ComponentScript] ERROR in %s: %s", funcName, lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
+    lua_pop(L, 1);
 }

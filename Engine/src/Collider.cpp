@@ -24,21 +24,28 @@ Collider::~Collider()
 
 void Collider::Enable() 
 {
-    if (shape) 
+    if (attachedRigidbody)
     {
-        shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
+        attachedRigidbody->UpdateShapeProperties(this);
+    }
+    else if (shape)
+    {
+        if (isTrigger)
+        {
+            shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+            shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
+        else
+        {
+            shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, false);
+            shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
+        }
         shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
     }
-    else {
-        if (attachedRigidbody) 
-        {
-            attachedRigidbody->CreateBody();
-        }
-        else 
-        {
-            Rigidbody* rb = (Rigidbody*)owner->GetComponentInParent(ComponentType::RIGIDBODY);
-            if (rb) rb->CreateBody();
-        }
+    else
+    {
+        Rigidbody* rb = (Rigidbody*)owner->GetComponentInParent(ComponentType::RIGIDBODY);
+        if (rb) rb->CreateBody();
     }
 }
 
@@ -47,6 +54,7 @@ void Collider::Disable()
     if (shape) 
     {
         shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+        shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, false);
         shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
     }
 }
@@ -224,6 +232,7 @@ void Collider::SafeDebugDraw()
     if (!owner) return;
     if (!Application::GetInstance().scene->FindObject(owner->GetUID())) return;
     if (!owner->transform) return;
-    if (shape && !shape->getFlags().isSet(physx::PxShapeFlag::eSIMULATION_SHAPE)) return;
+    if (shape && !shape->getFlags().isSet(physx::PxShapeFlag::eSIMULATION_SHAPE)
+        && !shape->getFlags().isSet(physx::PxShapeFlag::eTRIGGER_SHAPE)) return;
     DebugShape();
 }

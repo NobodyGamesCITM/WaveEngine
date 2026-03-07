@@ -46,12 +46,17 @@
                             "value": 3.0
                         },
                         {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player"
+                            "name": "zoomMax",
+                            "type": 0,
+                            "value": 3.0
                         },
                         {
-                            "name": "zoomMin",
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "shakeMagnitude",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
@@ -61,7 +66,7 @@
                             "value": 25.0
                         },
                         {
-                            "name": "shakeMagnitude",
+                            "name": "zoomMin",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
@@ -71,14 +76,9 @@
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "zoomMax",
-                            "type": 0,
-                            "value": 3.0
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player"
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -44151,6 +44151,16 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
                             "name": "rollDuration",
                             "type": 0,
                             "value": 0.05000000074505806
@@ -44166,14 +44176,9 @@
                             "value": 4.0
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "attackDuration",
                             "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
+                            "value": 0.10000000149011612
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -44198,7 +44203,7 @@
                         300.0
                     ],
                     "StaticFriction": 0.5,
-                    "Trigger": false,
+                    "Trigger": true,
                     "active": true,
                     "type": 10
                 }

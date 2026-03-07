@@ -235,3 +235,11 @@ function Update(self, dt)
         States[Player.currentState].Update(self, dt)
     end
 end
+
+function OnCollisionEnter(self, otherName)
+    Engine.Log("[Player] Hit a: " .. otherName)
+end
+
+function OnTriggerEnter(self, otherName)
+    Engine.Log("[Player] Triggered with a: " .. otherName)
+end

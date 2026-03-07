@@ -8,10 +8,12 @@
 #include "TextureImporter.h"
 #include "ModelImporter.h"
 #include "MeshImporter.h"
+#include "MaterialImporter.h"
 #include "Log.h"
 #include "ResourceScript.h"
 #include "ResourcePrefab.h"
 #include "ResourceAnimation.h"
+#include "ResourceMaterial.h"
 #include <filesystem>
 #include <random>
 
@@ -61,10 +63,21 @@ bool ModuleResources::Update() {
 
 bool ModuleResources::CleanUp() {
 
+    shuttingDown = true;
+
     for (auto& pair : resources) {
+
+        if (pair.second->GetType() == Resource::MATERIAL) {
+            
+            continue;
+        }
+
         if (pair.second->IsLoadedToMemory()) {
             pair.second->UnloadFromMemory();
         }
+    }
+
+    for (auto& pair : resources) {
         delete pair.second;
     }
 
@@ -230,6 +243,18 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
                 registered++;
             }
             break;
+        case AssetType::MATERIAL:
+
+            resourceType = Resource::MATERIAL;
+            resource = new ResourceMaterial(meta.uid);  
+
+            if (resource) {
+                resource->SetAssetFile(assetPath);
+                resource->SetLibraryFile(assetPath);
+                resources[meta.uid] = resource;
+                registered++;
+            }
+            break;
         default:
             continue;
         }
@@ -325,6 +350,10 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
         importSuccess = ImportPrefab(resource, newFileInAssets);
         break;
     }
+    case Resource::MATERIAL: {
+        importSuccess = ImportMaterial(resource, newFileInAssets);
+        break;
+    }
     default:
         LOG_CONSOLE("ERROR: Import not implemented for this type");
         break;
@@ -357,7 +386,6 @@ Resource* ModuleResources::CreateNewResourceWithUID(const char* assetsFile, Reso
     case Resource::TEXTURE:
         resource = new ResourceTexture(uid);
         break;
-
     case Resource::MESH:
         resource = new ResourceMesh(uid);
         break;
@@ -372,6 +400,9 @@ Resource* ModuleResources::CreateNewResourceWithUID(const char* assetsFile, Reso
         break;
     case Resource::PREFAB:
         resource = new ResourcePrefab(uid);
+        break;
+    case Resource::MATERIAL:
+        resource = new ResourceMaterial(uid);
         break;
     default:
         LOG_CONSOLE("ERROR: Unsupported resource type");
@@ -499,6 +530,9 @@ Resource::Type ModuleResources::GetResourceTypeFromExtension(const std::string& 
     if (ext == ".prefab") { 
         return Resource::PREFAB;
     }
+    if (ext == ".mat") { 
+        return Resource::MATERIAL;
+    }
 
     return Resource::UNKNOWN;
 }
@@ -508,24 +542,9 @@ Resource* ModuleResources::CreateNewResource(const char* assetsFile, Resource::T
 }
 
 std::string ModuleResources::GenerateLibraryPath(Resource* resource) {
+    
     if (!resource) return "";
-
-    switch (resource->GetType()) {
-    case Resource::TEXTURE:
-        return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
-    case Resource::MESH:
-        return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
-    case Resource::MODEL:
-        return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
-    case Resource::MATERIAL:
-        return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
-    case Resource::ANIMATION:
-        return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
-    case Resource::SHADER:
-        return ""; // Shaders load directly from assets
-    default:
-        return "";
-    }
+    return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
 }
 
 Resource* ModuleResources::LoadResourceFromLibrary(UID uid) {
@@ -541,7 +560,6 @@ bool ModuleResources::LoadResourceMetadata(UID uid) {
 
 bool ModuleResources::ImportTexture(Resource* resource, const std::string& assetPath) {
     
-    std::string filename = std::to_string(resource->GetUID()) + ".texture";
     std::string libraryPath = LibraryManager::GetLibraryPathFromUID(resource->GetUID());
 
     std::string metaPath = assetPath + ".meta";
@@ -588,9 +606,29 @@ bool ModuleResources::ImportMesh(Resource* resource, const std::string& assetPat
     return false;
 }
 
+bool ModuleResources::ImportMaterial(Resource* resource, const std::string& assetPath) {
+    
+    std::string libraryPath = LibraryManager::GetLibraryPathFromUID(resource->GetUID());
+
+    std::string metaPath = assetPath + ".meta";
+    MetaFile meta;
+
+    if (std::filesystem::exists(metaPath)) {
+        meta = MetaFile::Load(metaPath);
+    }
+    else {
+        meta = MetaFileManager::GetOrCreateMeta(assetPath);
+        meta.Save(metaPath);
+    }
+
+    if (MaterialImporter::ImportMaterial(assetPath, meta.uid))
+        resource->SetLibraryFile(libraryPath);
+    
+    return true;
+}
+
 bool ModuleResources::ImportModel(Resource* resource, const std::string& assetPath) {
     
-    std::string filename = std::to_string(resource->GetUID()) + ".model";
     std::string libraryPath = LibraryManager::GetLibraryPathFromUID(resource->GetUID());
 
     std::string metaPath = assetPath + ".meta";
@@ -630,7 +668,7 @@ bool ModuleResources::GetResourceInfo(UID uid, std::string& outAssetPath, std::s
 
     outAssetPath = MetaFileManager::GetAssetFromUID(uid);
     if (!outAssetPath.empty()) {
-        // Generate library path from UID and asset type
+
         MetaFile meta = MetaFileManager::LoadMeta(outAssetPath);
 
         switch (meta.type) {

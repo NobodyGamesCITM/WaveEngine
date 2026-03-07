@@ -195,7 +195,7 @@ set(COMPONENTS_SRC
     src/ComponentAnimation.cpp
     src/ComponentPostProcessing.h
     src/ComponentPostProcessing.cpp
-)
+) 
 
 set(LOADERS_SRC 
     src/Texture.h 
@@ -228,6 +228,8 @@ set(EDITOR_SRC
     src/ShaderEditorWindow.cpp
     src/ScriptEditorWindow.h
     src/ScriptEditorWindow.cpp
+    src/MaterialEditorWindow.h
+    src/MaterialEditorWindow.cpp
     src/TextEditor.h
     src/TextEditor.cpp
     src/Editorcommand.h
@@ -243,7 +245,7 @@ set(EDITOR_SRC
     src/Reparentcommand.h
     src/Componentcommand.h
     src/Componentstatecommand.h
-)
+)  
 
 set(IMPORTERS_SRC 
     src/MeshImporter.cpp 
@@ -258,6 +260,8 @@ set(IMPORTERS_SRC
     src/TextureImporter.h 
     src/ModelImporter.cpp 
     src/ModelImporter.h 
+    src/MaterialImporter.cpp 
+    src/MaterialImporter.h 
     src/ModuleResources.cpp 
     src/ModuleResources.h 
     src/ResourceMesh.cpp 

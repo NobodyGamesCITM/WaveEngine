@@ -35,6 +35,4 @@ private:
     static void CalculateBoundingBox(GameObject* obj, glm::vec3& minBounds, glm::vec3& maxBounds, const glm::mat4& parentTransform);
     static UID ProcessMesh(aiMesh* aiMesh, const aiScene* scene, const UID uid);
     static void NormalizeModelScale(GameObject* rootObject, float targetSize);
-    
-
 };

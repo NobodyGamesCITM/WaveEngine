@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "glm/glm.hpp"
 
+
 class ResourceTexture;
 
 class MaterialStandard : public Material
@@ -34,6 +35,18 @@ public:
     void SetHeightScale(float _heightScale) { heightScale = _heightScale; }
     void SetTiling(glm::vec2  _tiling) { tiling = _tiling; }
     void SetOffset(glm::vec2  _offset) { offset = _offset; }
+
+    const UID GetAlbedoMapUID() { return albedoMapUID; }
+    const UID GetMetallicMapUID() { return metallicMapUID; }
+    const UID GetNormalMapUID() { return normalMapUID; }
+    const UID GetHeightMapUID() { return heightMapUID; }
+    const UID GetOcclusioMapUID() { return occlusionMapUID; }
+
+    void LoadCustomData(std::ifstream& file) override;
+    void SaveCustomData(std::ofstream& file) const override;
+
+    void SaveToJson(nlohmann::json& j) const override;
+    void LoadFromJson(const nlohmann::json& j) override;
 
 private:
     

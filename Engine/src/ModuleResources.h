@@ -155,6 +155,9 @@ public:
     }
 
     bool ImportScript(Resource* resource, const std::string& assetPath);
+
+    bool IsShuttingDown() const { return shuttingDown; }
+
 private:
     // Create new resource by type
     Resource* CreateNewResource(const char* assetsFile, Resource::Type type);
@@ -176,7 +179,11 @@ private:
     bool ImportMesh(Resource* resource, const std::string& assetPath);
     bool ImportModel(Resource* resource, const std::string& assetPath);
     bool ImportPrefab(Resource* resource, const std::string& assetPath);
+    bool ImportMaterial(Resource* resource, const std::string& assetPath);
+
+
 private:
-    std::map<UID, Resource*> resources;  // UID -> Resource* map
-    UID nextUID = 1;                     // UID counter
+    std::map<UID, Resource*> resources;
+    UID nextUID = 1;
+    bool shuttingDown = false;
 };

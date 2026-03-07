@@ -158,10 +158,11 @@ bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, const std::string& t
                 obj->CreateComponent(ComponentType::MATERIAL));
         }
 
-        if (matComp->LoadTexture(texturePath))
+        //FIXMAT
+        /*  if (matComp->LoadTexture(texturePath))
         {
             applied = true;
-        }
+        }*/
     }
 
     // Apply recursively to children

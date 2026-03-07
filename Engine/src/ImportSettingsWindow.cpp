@@ -459,11 +459,12 @@ void ImportSettingsWindow::ReloadTextureRecursive(GameObject* obj, UID textureUI
         obj->GetComponent(ComponentType::MATERIAL)
         );
 
-    if (material && material->GetTextureUID() == textureUID) {
-        LOG_DEBUG("[ImportSettings] Reloading texture for: %s", obj->GetName().c_str());
-        material->ReloadTexture();
-        count++;
-    }
+    //FIXMAT
+    //if (material && material->GetTextureUID() == textureUID) {
+    //    LOG_DEBUG("[ImportSettings] Reloading texture for: %s", obj->GetName().c_str());
+    //    material->ReloadTexture();
+    //    count++;
+    //}
 
     // Process children recursively
     for (GameObject* child : obj->GetChildren()) {

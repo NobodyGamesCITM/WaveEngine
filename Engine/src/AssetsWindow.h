@@ -18,6 +18,7 @@ namespace fs = std::filesystem;
 //Test
 struct Mesh;
 class ImportSettingsWindow;
+class MaterialEditorWindow;
 
 struct AssetEntry
 {
@@ -48,7 +49,8 @@ enum class DragDropAssetType
     TEXTURE,        // Texture (PNG, JPG, DDS, etc)
     SCRIPT,         // Lua script
     PREFAB,
-    ANIMATION
+    ANIMATION,
+    MATERIAL
 };
 
 // Payload para drag & drop interno
@@ -68,6 +70,7 @@ public:
     void Draw() override;
     
     ScriptEditorWindow* scriptEditorWindow;  
+
 private:
     void RefreshAssets();
     void ScanDirectory(const fs::path& directory, std::vector<AssetEntry>& outAssets);

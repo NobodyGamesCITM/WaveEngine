@@ -12,6 +12,7 @@
 #include "CameraLens.h"
 #include "ComponentPostProcessing.h"
 #include "Texture.h"
+#include "Material.h"
 
 #include "Shader.h"
 #include "ShaderDepthVisualization.h"
@@ -518,7 +519,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() < 1.0f)
+            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity())
             {
                 transparentList.emplace(distanceToCamera, renderObject);
             }
@@ -641,34 +642,30 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
     {
         RenderObject renderObject = pair->second;
         ComponentMesh* meshComp = renderObject.mesh;
-
-        if (meshComp->GetDrawNormals()) normalsList.push_back(renderObject);
-        if (meshComp->GetDrawMesh()) meshLinesList.push_back(renderObject);
-        if (meshComp->owner->IsSelected()) {
-            stencilList.push_back(renderObject);
-            glStencilFunc(GL_ALWAYS, 1, 0xFF);
-            glStencilMask(0xFF);
-        }
-        else {
-            glStencilFunc(GL_ALWAYS, 0, 0xFF);
-            glStencilMask(0x00);
-        }
-
         ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
-        materialComp->Use();
 
-        GLint currentProgram;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
-        glUniform3fv(glGetUniformLocation(currentProgram, "lightDir"), 1, glm::value_ptr(lightDir));
-        glUniform3fv(glGetUniformLocation(currentProgram, "viewPos"), 1, glm::value_ptr(camera->position));
+        Shader* currentShader = defaultShader.get();
 
-        glUniform1i(glGetUniformLocation(currentProgram, "texture1"), 0);
-        glUniform1i(glGetUniformLocation(currentProgram, "hasTexture"), true);
-        glUniformMatrix4fv(glGetUniformLocation(currentProgram, "model"), 1, GL_FALSE, glm::value_ptr(renderObject.globalModelMatrix));
+        if (materialComp && materialComp->GetMaterial()) {
+            Material* data = materialComp->GetMaterial();
 
-        if (materialComp) {
-            glUniform3fv(glGetUniformLocation(currentProgram, "materialDiffuse"), 1, glm::value_ptr(materialComp->GetDiffuseColor()));
-            glUniform1f(glGetUniformLocation(currentProgram, "opacity"), materialComp->GetOpacity());
+            switch (data->GetType()) {
+            case MaterialType::STANDARD: currentShader = standardShader.get(); break;
+
+            }
+        }
+
+        currentShader->Use();
+        currentShader->SetMat4("model", renderObject.globalModelMatrix);
+        currentShader->SetVec3("viewPos", camera->position);
+        currentShader->SetVec3("lightDir", lightDir);
+
+        if (materialComp && materialComp->GetMaterial()) {
+            materialComp->GetMaterial()->Bind(currentShader);
+        }
+        else 
+        {
+            glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
         }
 
         DrawMesh(meshComp);
@@ -691,7 +688,6 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        // Aplicar la matriz de modelo de la entidad (si es LOCAL)
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
@@ -701,7 +697,6 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
         glPopMatrix();
     }
 
-    // 3. Restaurar matrices
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);

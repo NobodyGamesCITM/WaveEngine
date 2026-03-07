@@ -184,33 +184,6 @@ void SceneWindow::HandleAssetDropTarget()
                 {
                     ApplyMeshTransformFromFBX(meshObject, dropData->assetUID);
 
-                    ComponentMaterial* matComp = static_cast<ComponentMaterial*>(
-                        meshObject->CreateComponent(ComponentType::MATERIAL)
-                        );
-
-                    if (matComp)
-                    {
-                        unsigned long long textureUID = FindTextureForDroppedMesh(dropData->assetUID);
-
-                        if (textureUID != 0)
-                        {
-                            if (matComp->LoadTextureByUID(textureUID))
-                            {
-                                LOG_CONSOLE("Loaded original texture (UID: %llu)", textureUID);
-                            }
-                            else
-                            {
-                                LOG_CONSOLE("Failed to load texture, using checkerboard");
-                                matComp->CreateCheckerboardTexture();
-                            }
-                        }
-                        else
-                        {
-                            LOG_CONSOLE("No texture found for mesh, using checkerboard");
-                            matComp->CreateCheckerboardTexture();
-                        }
-                    }
-
                     GameObject* root = Application::GetInstance().scene->GetRoot();
                     root->AddChild(meshObject);
                     Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
@@ -246,15 +219,6 @@ void SceneWindow::HandleAssetDropTarget()
                             targetObject->CreateComponent(ComponentType::MATERIAL)
                             );
                     }
-
-                    if (material && material->LoadTextureByUID(dropData->assetUID))
-                    {
-                        LOG_CONSOLE("Texture applied to: %s", targetObject->GetName().c_str());
-                    }
-                    else
-                    {
-                        LOG_CONSOLE("ERROR: Failed to apply texture to: %s", targetObject->GetName().c_str());
-                    }
                 }
                 else
                 {
@@ -283,11 +247,6 @@ void SceneWindow::HandleAssetDropTarget()
                             material = static_cast<ComponentMaterial*>(
                                 obj->CreateComponent(ComponentType::MATERIAL)
                                 );
-                        }
-
-                        if (material && material->LoadTextureByUID(dropData->assetUID))
-                        {
-                            successCount++;
                         }
                     }
 

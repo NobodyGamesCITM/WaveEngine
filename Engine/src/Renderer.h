@@ -158,6 +158,8 @@ private:
     std::unique_ptr<Shader> meshShader;
     std::unique_ptr<Shader> pickingShader;
     std::unique_ptr<Shader> uiShader;
+    
+    std::unique_ptr<Shader> currentShader;
 
     // Default assets
     std::unique_ptr<Texture> defaultTexture;

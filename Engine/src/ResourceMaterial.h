@@ -8,10 +8,10 @@ public:
     ResourceMaterial(UID uid);
     virtual ~ResourceMaterial();
 
-    virtual bool LoadInMemory() override = 0;
-    virtual void UnloadFromMemory() override = 0;
+    bool LoadInMemory() override;
+    void UnloadFromMemory() override;
     
-    const Material* GetMaterial() { return material; }
+    Material* GetMaterial() { return material; }
 
 private:
     

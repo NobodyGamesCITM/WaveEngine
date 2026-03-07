@@ -230,114 +230,114 @@ GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const
                 meshRenderer->LoadMeshByUID(meshUID);
             }
         }
+    //FIXMAT
+//    // PROCESSING MATERIALS WITH EMBEDDED PROPERTIES
+//    if (aiMesh->mMaterialIndex >= 0)
+//    {
+//        aiMaterial* material = scene->mMaterials[aiMesh->mMaterialIndex];
 
-        // PROCESSING MATERIALS WITH EMBEDDED PROPERTIES
-        if (aiMesh->mMaterialIndex >= 0)
-        {
-            aiMaterial* material = scene->mMaterials[aiMesh->mMaterialIndex];
+//        ComponentMaterial* matComponent = static_cast<ComponentMaterial*>(
+//            gameObject->GetComponent(ComponentType::MATERIAL));
 
-            ComponentMaterial* matComponent = static_cast<ComponentMaterial*>(
-                gameObject->GetComponent(ComponentType::MATERIAL));
+//        if (matComponent == nullptr)
+//        {
+//            matComponent = static_cast<ComponentMaterial*>(
+//                gameObject->CreateComponent(ComponentType::MATERIAL));
+//        }
 
-            if (matComponent == nullptr)
-            {
-                matComponent = static_cast<ComponentMaterial*>(
-                    gameObject->CreateComponent(ComponentType::MATERIAL));
-            }
+//        // extract diffuse color
+//        aiColor4D diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+//        if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
+//        {
+//            matComponent->SetDiffuseColor(glm::vec4(
+//                diffuseColor.r,
+//                diffuseColor.g,
+//                diffuseColor.b,
+//                diffuseColor.a
+//            ));
+//            LOG_DEBUG("Material diffuse color: (%.2f, %.2f, %.2f, %.2f)",
+//                diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+//        }
 
-            // extract diffuse color
-            aiColor4D diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
-            {
-                matComponent->SetDiffuseColor(glm::vec4(
-                    diffuseColor.r,
-                    diffuseColor.g,
-                    diffuseColor.b,
-                    diffuseColor.a
-                ));
-                LOG_DEBUG("Material diffuse color: (%.2f, %.2f, %.2f, %.2f)",
-                    diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-            }
+//        // extract specular color (no implementado)
+//        aiColor4D specularColor(1.0f, 1.0f, 1.0f, 1.0f);
+//        if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specularColor))
+//        {
+//            matComponent->SetSpecularColor(glm::vec4(
+//                specularColor.r,
+//                specularColor.g,
+//                specularColor.b,
+//                specularColor.a
+//            ));
+//            LOG_DEBUG("Material specular color: (%.2f, %.2f, %.2f)",
+//                specularColor.r, specularColor.g, specularColor.b);
+//        }
 
-            // extract specular color (no implementado)
-            aiColor4D specularColor(1.0f, 1.0f, 1.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specularColor))
-            {
-                matComponent->SetSpecularColor(glm::vec4(
-                    specularColor.r,
-                    specularColor.g,
-                    specularColor.b,
-                    specularColor.a
-                ));
-                LOG_DEBUG("Material specular color: (%.2f, %.2f, %.2f)",
-                    specularColor.r, specularColor.g, specularColor.b);
-            }
+//        // Extraer color ambiente(no implementado)
+//        aiColor4D ambientColor(0.2f, 0.2f, 0.2f, 1.0f);
+//        if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambientColor))
+//        {
+//            matComponent->SetAmbientColor(glm::vec4(
+//                ambientColor.r,
+//                ambientColor.g,
+//                ambientColor.b,
+//                ambientColor.a
+//            ));
+//        }
 
-            // Extraer color ambiente(no implementado)
-            aiColor4D ambientColor(0.2f, 0.2f, 0.2f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambientColor))
-            {
-                matComponent->SetAmbientColor(glm::vec4(
-                    ambientColor.r,
-                    ambientColor.g,
-                    ambientColor.b,
-                    ambientColor.a
-                ));
-            }
+//        // Extraer color emisivo(no implementado)
+//        aiColor4D emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
+//        if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_EMISSIVE, &emissiveColor))
+//        {
+//            matComponent->SetEmissiveColor(glm::vec4(
+//                emissiveColor.r,
+//                emissiveColor.g,
+//                emissiveColor.b,
+//                emissiveColor.a
+//            ));
+//        }
 
-            // Extraer color emisivo(no implementado)
-            aiColor4D emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_EMISSIVE, &emissiveColor))
-            {
-                matComponent->SetEmissiveColor(glm::vec4(
-                    emissiveColor.r,
-                    emissiveColor.g,
-                    emissiveColor.b,
-                    emissiveColor.a
-                ));
-            }
+//        // Cargar texturas difusas si existen
+//        if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+//        {
+//            aiString texturePath;
+//            material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
 
-            // Cargar texturas difusas si existen
-            if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-            {
-                aiString texturePath;
-                material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
+//            std::string textureFile = texturePath.C_Str();
+//            std::string fileName;
 
-                std::string textureFile = texturePath.C_Str();
-                std::string fileName;
+//            size_t lastSlash = textureFile.find_last_of("/\\");
+//            if (lastSlash != std::string::npos)
+//                fileName = textureFile.substr(lastSlash + 1);
+//            else
+//                fileName = textureFile;
 
-                size_t lastSlash = textureFile.find_last_of("/\\");
-                if (lastSlash != std::string::npos)
-                    fileName = textureFile.substr(lastSlash + 1);
-                else
-                    fileName = textureFile;
+//            std::vector<std::string> searchPaths = {
+//                directory + "\\" + fileName,
+//                directory + "\\Textures\\" + fileName,
+//            };
 
-                std::vector<std::string> searchPaths = {
-                    directory + "\\" + fileName,
-                    directory + "\\Textures\\" + fileName,
-                };
+//            bool loaded = false;
+//            for (const auto& path : searchPaths)
+//            {
+//                if (std::filesystem::exists(path))
+//                {
+//                    UID uid = Application::GetInstance().resources.get()->ImportFile(path.c_str());
+//                    if (uid != 0 && matComponent->LoadTextureByUID(uid))
+//                    {
+//                        loaded = true;
+//                        LOG_DEBUG("Loaded diffuse texture: %s", fileName.c_str());
+//                        break;
+//                    }
+//                }
+//            }
 
-                bool loaded = false;
-                for (const auto& path : searchPaths)
-                {
-                    if (std::filesystem::exists(path))
-                    {
-                        UID uid = Application::GetInstance().resources.get()->ImportFile(path.c_str());
-                        if (uid != 0 && matComponent->LoadTextureByUID(uid))
-                        {
-                            loaded = true;
-                            LOG_DEBUG("Loaded diffuse texture: %s", fileName.c_str());
-                            break;
-                        }
-                    }
-                }
-
-                if (!loaded)
-                {
-                    LOG_DEBUG("Diffuse texture not found: %s", fileName.c_str());
-                }
-            }
-        }
+//            if (!loaded)
+//            {
+//                LOG_DEBUG("Diffuse texture not found: %s", fileName.c_str());
+//            }
+//        }
+//    }
     }
 
     // Process child nodes recursively

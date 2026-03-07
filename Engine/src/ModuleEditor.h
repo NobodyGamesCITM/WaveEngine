@@ -19,6 +19,7 @@ class GameObject;
 struct Mesh;
 class AssetsWindow;
 class ShaderEditorWindow;
+class MaterialEditorWindow;
 class EditorCamera;
 
 enum class EditorWindowType
@@ -56,6 +57,7 @@ public:
     ConsoleWindow* GetConsoleWindow() { return consoleWindow.get(); }
     EditorCamera* GetEditorCamera() const { return editorCamera; }
     CommandHistory* GetCommandHistory() { return commandHistory.get(); }
+    MaterialEditorWindow* GetMaterialEditor() { return materialEditorWindow.get(); }
 
     ImVec2 sceneViewportPos = ImVec2(0, 0);
     ImVec2 sceneViewportSize = ImVec2(1280, 720);
@@ -110,6 +112,7 @@ private:
     std::unique_ptr<GameWindow> gameWindow;
     std::unique_ptr<AssetsWindow> assetsWindow;
     std::unique_ptr<ShaderEditorWindow> shaderEditorWindow;
+    std::unique_ptr<MaterialEditorWindow> materialEditorWindow;
 
     // About window state
     bool showAbout = false;

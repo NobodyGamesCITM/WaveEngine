@@ -16,6 +16,7 @@ public:
         MESH,
         MODEL,
         MATERIAL,
+        CUBEMAP,
         ANIMATION,
         SHADER,
         PREFAB,

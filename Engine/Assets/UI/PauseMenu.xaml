@@ -13,7 +13,7 @@
           <ResourceDictionary Source="Resources.xaml"/>
         </ResourceDictionary.MergedDictionaries>
         <Storyboard x:Key="Intro">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="StartButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ResumeButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
@@ -22,7 +22,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StartButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ResumeButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
@@ -49,7 +49,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ExitButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackToMenuButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1">
@@ -58,7 +58,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ExitButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackToMenuButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
@@ -88,10 +88,9 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Offset="0" Color="#9618A6FF"/>
-                <GradientStop Offset="0.41000003" Color="#9664F1FF"/>
-                <GradientStop Offset="1" Color="#9618A6FF"/>
-                <GradientStop Offset="0.69000006" Color="#9664F6FF"/>
+                <GradientStop Color="#9E184C79" Offset="0"/>
+                <GradientStop Offset="0.05" Color="#8C1B5688"/>
+                <GradientStop Offset="1" Color="#8C123859"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid Grid.Column="1" Grid.Row="1">
@@ -99,14 +98,9 @@
                 <RowDefinition Height="200*"/>
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
-            <Viewbox x:Name="pauseText_Viewbox" Stretch="Uniform">
-                <Grid Width="300" Height="80">
-                    <!-- Sombra -->
-                    <!-- Contorno (offset multiple) -->
-                    <!-- Texto principal con gradiente -->
-                    <TextBlock x:Name="PauseText" TextAlignment="Center" FontSize="65" FontFamily="Arial"
-                               Text="PAUSE"
-                               VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="8">
+            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
+                <Grid Height="80" Width="445">
+                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Width="445" Text="PAUSE">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -122,7 +116,7 @@
                     </TextBlock>
                 </Grid>
             </Viewbox>
-            <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
                 <Grid Height="460" Width="768">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100*"/>
@@ -132,9 +126,10 @@
                         <RowDefinition Height="30*"/>
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="StartButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="RESUME">   
+                    <Button x:Name="ResumeButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[ResumeButton]}" Content="RESUME">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
+                                  <noesis:SetFocusAction/>
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -149,7 +144,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SettingsButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="SETTINGS">
+                    <Button x:Name="SettingsButton" Command="{Binding Commands[SettingsButton]}" Grid.Row="3" Content="SETTINGS" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -164,7 +159,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ExitButton" Grid.Row="5" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="BACK TO MENU">
+                    <Button x:Name="BackToMenuButton" Grid.Row="5" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="BACK TO MENU" Command="{Binding Path=Commands[BackToMenuButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

@@ -159,7 +159,7 @@ void ComponentAnimation::Update()
 {
     if (!playing || !currentAnimation.resource) return;
 
-    float dt = Application::GetInstance().time->GetRealDeltaTime();
+    float dt = Application::GetInstance().time->GetDeltaTime();
 
     currentTime += dt * currentAnimation.resource->GetTicksPerSecond() * currentAnimation.speed;
 

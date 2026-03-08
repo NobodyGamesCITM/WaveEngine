@@ -48,7 +48,7 @@ bool UI::Start()
 
     auto assetsDir = exeDir / "Assets";
     if (!std::filesystem::exists(assetsDir))
-        assetsDir = exeDir / "../Assets";
+        assetsDir = exeDir / "../../Assets";
 
     std::string xamlPath = (assetsDir / "UI").string();
     std::string fontPath = (assetsDir / "Fonts").string();

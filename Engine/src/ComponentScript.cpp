@@ -34,9 +34,14 @@ void ComponentScript::Update()
     if (!HasScript()) return;
 
     auto& app = Application::GetInstance();
-    if (app.GetPlayState() != Application::PlayState::PLAYING) {
-        return;
-    }
+    bool isPaused = (app.GetPlayState() == Application::PlayState::PAUSED);
+    
+    // Permitir update si está marcado explícitamente O si es parte de la UI (Canvas)
+    bool isPlaying = (app.GetPlayState() == Application::PlayState::PLAYING);
+    bool isUIScript = (owner->GetComponentInParent(ComponentType::CANVAS) != nullptr);
+    bool canUpdate  = isPlaying || updateWhenPaused || isUIScript;
+
+    if (!canUpdate) return;
 
     // Hot reload check
     ModuleResources* resources = app.resources.get();
@@ -50,6 +55,12 @@ void ComponentScript::Update()
     }
 
     float deltaTime = app.time->GetDeltaTime();
+    
+    // Si estamos en pausa, usamos el tiempo real para que la UI siga animada/respondiendo
+    if (isPaused) {
+        deltaTime = app.time->GetRealDeltaTime();
+    }
+
     CallUpdate(deltaTime);
 
     if (pendingDestroy) {
@@ -223,6 +234,7 @@ void ComponentScript::UnloadScript()
 
     scriptUID = 0;
     startCalled = false;
+    updateWhenPaused = false;
     publicVariables.clear();
     variableOrder.clear();  
 }
@@ -295,10 +307,7 @@ void ComponentScript::CallUpdate(float deltaTime)
     if (!active || !HasScript()) return;
     if (!owner || owner->IsMarkedForDeletion()) return;
 
-    auto& app = Application::GetInstance();
-    if (app.GetPlayState() != Application::PlayState::PLAYING) return;
-
-    ScriptManager* scriptManager = app.scripts.get();
+    ScriptManager* scriptManager = Application::GetInstance().scripts.get();
     lua_State* L = scriptManager->GetState();
 
     if (!L) {
@@ -439,6 +448,13 @@ bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
     lua_pop(L, 1);
 
     ExtractPublicVariables();
+
+    for (const auto& var : publicVariables) {
+        if (var.name == "updateWhenPaused" && var.type == ScriptVarType::BOOLEAN) {
+            this->updateWhenPaused = std::get<bool>(var.value);
+            break;
+        }
+    }
 
     return true;
 }

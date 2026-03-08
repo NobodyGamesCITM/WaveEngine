@@ -4,6 +4,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+      xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
@@ -12,25 +13,7 @@
           <ResourceDictionary Source="Resources.xaml"/>
         </ResourceDictionary.MergedDictionaries>
         <Storyboard x:Key="Intro">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="StartButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StartButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SettingsButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ResolutionButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
@@ -39,10 +22,28 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ResolutionButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CircleEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -67,20 +68,31 @@
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <RadialGradientBrush>
-                <GradientStop Offset="0"/>
-                <GradientStop Offset="0.86800003" Color="#E1000000"/>
-            </RadialGradientBrush>
-        </Grid.Background>
-        <Grid Grid.Column="1" Grid.Row="1">
+        <Grid x:Name="Background" Grid.RowSpan="3" Grid.Column="1" Height="550">
+            <Rectangle StrokeThickness="13">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF3784E7" Offset="0"/>
+                        <GradientStop Offset="1" Color="#FF002555"/>
+                        <GradientStop Offset="0.13004546" Color="#FF074697"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Offset="0" Color="#FF0089DF"/>
+                        <GradientStop Offset="1" Color="#FF003650"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+        </Grid>
+        <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
-            <Viewbox x:Name="YouLose_Viewbox" Stretch="Uniform" Width="445">
+            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="YouLose_Text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Width="445" Text="YOU LOSE">
+                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Width="445" Text="GRAPHICS">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -89,23 +101,27 @@
                         </TextBlock.Foreground>
                         <TextBlock.Stroke>
                             <RadialGradientBrush>
-                                <GradientStop Offset="1" Color="#FF4E0000"/>
-                                <GradientStop Color="#FF000000" Offset="0.669"/>
+                                <GradientStop Offset="1" Color="#FF50B1FF"/>
+                                <GradientStop Color="#FFC0F9FF"/>
                             </RadialGradientBrush>
                         </TextBlock.Stroke>
                     </TextBlock>
                 </Grid>
             </Viewbox>
-            <Viewbox Grid.Row="1" Stretch="Uniform" Width="555">
-                <Grid Height="300" Width="500">
+            <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
+                <Grid x:Name="Buttons" Height="460" Width="768">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="150"/>
-                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="StartButton" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="TRY AGAIN" Command="{Binding Path=Commands[TryAgainButton]}">   
+                    <RadioButton x:Name="FullScreen" Content="FullScreen" FontSize="20"/>
+                    <RadioButton x:Name="AntiAliasing" Grid.Row="1" Content="AntiAliasing"/>
+                    <Button x:Name="ResolutionButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[ResolutionButton]}" Content="RESOLUTION">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
-                            </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </i:EventTrigger>
@@ -119,7 +135,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SettingsButton" RenderTransformOrigin="0.5,0.5" Content="BACK TO MENU" Grid.RowSpan="2" Margin="0,15,0,100" Command="{Binding Path=Commands[BackToMenuButton]}">
+                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="BACK" Command="{Binding Path=Commands[BackButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

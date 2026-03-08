@@ -92,22 +92,7 @@
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
             <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Text="MAIN MENU" Width="445">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                        <TextBlock.Stroke>
-                            <RadialGradientBrush>
-                                <GradientStop Offset="1" Color="#FF50B1FF"/>
-                                <GradientStop Color="#FFC0F9FF"/>
-                            </RadialGradientBrush>
-                        </TextBlock.Stroke>
-                    </TextBlock>
-                </Grid>
+                <Grid Height="80" Width="445"/>
             </Viewbox>
             <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
                 <Grid Height="460" Width="768">
@@ -119,7 +104,7 @@
                         <RowDefinition Height="30*"/>
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="StartButton" Command="{Binding Commands[StartButton]}" Grid.Row="1" Content="START" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5">   
+                    <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[StartButton]}">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                   <noesis:SetFocusAction/>
@@ -169,6 +154,20 @@
                     </Button>
                 </Grid>
             </Viewbox>
+            <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Text="MAIN MENU" Width="445">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                        <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+                <TextBlock.Stroke>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="1" Color="#FF50B1FF"/>
+                        <GradientStop Color="#FFC0F9FF"/>
+                    </RadialGradientBrush>
+                </TextBlock.Stroke>
+            </TextBlock>
         </Grid>
     </Grid>
 

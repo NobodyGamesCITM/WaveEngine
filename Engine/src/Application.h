@@ -64,6 +64,7 @@ public:
     void Play();
     void Pause();
     void Stop();
+	void Resume() { if (playState == PlayState::PAUSED) playState = PlayState::PLAYING; }
     void Step();
     PlayState GetPlayState() const { return playState; }
 

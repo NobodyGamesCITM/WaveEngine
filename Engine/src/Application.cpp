@@ -149,6 +149,23 @@ bool Application::Start()
         {
             LOG_CONSOLE("[Game] WARNING: Could not load scene: %s", scenePath.c_str());
         }
+
+        std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
+            if (!obj || !obj->IsActive()) return;
+            for (Component* comp : obj->GetComponents()) {
+                if (comp->GetType() == ComponentType::SCRIPT) {
+                    ComponentScript* script = static_cast<ComponentScript*>(comp);
+                    if (script->IsActive()) {
+                        script->CallStart();
+                    }
+                }
+            }
+            for (GameObject* child : obj->GetChildren()) {
+                callStartOnAll(child);
+            }
+        };
+        callStartOnAll(scene->GetRoot());
+
         playState = PlayState::PLAYING;
         time->Resume();
         LOG_CONSOLE("[Game] Play state: PLAYING");
@@ -189,6 +206,10 @@ bool Application::Update()
 
 bool Application::FixedUpdate()
 {
+    if (playState == PlayState::PAUSED) {
+        return true;
+    }
+
     bool result = true;
     for (const auto& module : moduleList) {
         result = module.get()->FixedUpdate();
@@ -265,29 +286,34 @@ bool Application::PostUpdate()
 
 void Application::Play()
 {
-    if (playState == PlayState::EDITING) {
+    bool wasEditing = (playState == PlayState::EDITING);
+
+    if (wasEditing) {
         LOG_CONSOLE("Saving scene state to memory...");
         savedSceneState = scene->SerializeSceneToString();
     }
 
     playState = PlayState::PLAYING;
 
-    // Llamar Start en todos los scripts de la escena
-    std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
-        if (!obj || !obj->IsActive()) return;
-        for (Component* comp : obj->GetComponents()) {
-            if (comp->GetType() == ComponentType::SCRIPT) {
-                ComponentScript* script = static_cast<ComponentScript*>(comp);
-                if (script->IsActive()) {
-                    script->CallStart();
+    if (wasEditing)
+    {
+        // Llamar Start en todos los scripts de la escena
+        std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
+            if (!obj || !obj->IsActive()) return;
+            for (Component* comp : obj->GetComponents()) {
+                if (comp->GetType() == ComponentType::SCRIPT) {
+                    ComponentScript* script = static_cast<ComponentScript*>(comp);
+                    if (script->IsActive()) {
+                        script->CallStart();
+                    }
                 }
             }
-        }
-        for (GameObject* child : obj->GetChildren()) {
-            callStartOnAll(child);
-        }
-    };
-    callStartOnAll(scene->GetRoot());
+            for (GameObject* child : obj->GetChildren()) {
+                callStartOnAll(child);
+            }
+        };
+        callStartOnAll(scene->GetRoot());
+    }
 
     time->Resume();
     AK::SoundEngine::WakeupFromSuspend();

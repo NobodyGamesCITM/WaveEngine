@@ -1155,6 +1155,31 @@ static int Lua_GameObject_Index(lua_State* L) {
         return 1;
     }
 
+    if (strcmp(key, "tag") == 0) {
+        lua_pushstring(L, obj->GetTag().c_str());
+        return 1;
+    }
+
+    if (strcmp(key, "SetTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            (*objPtr)->SetTag(tag);
+            return 0;
+            });
+        return 1;
+    }
+
+    if (strcmp(key, "CompareTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            lua_pushboolean(L, (*objPtr)->CompareTag(tag));
+            return 1;
+            });
+        return 1;
+    }
+
     return 0;
 }
 

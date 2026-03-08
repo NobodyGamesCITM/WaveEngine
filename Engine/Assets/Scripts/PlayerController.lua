@@ -34,7 +34,8 @@ public = {
     sprintMultiplier    = 1.5,
     stamina             = 4,
     tiredMultiplier     = 0.7,  
-    attackDuration      = 0.1
+    attackDuration      = 0.5,
+    attackCooldown      = 0.5
 }
 
 local function normalizeInput(x, z)
@@ -66,8 +67,9 @@ local function GetMovementInput()
     return moveX, moveZ, inputLen
 end
 
-local function GetAttackInput()
-    if Input.GetKey("E") then return 1 end
+local function GetAttackInput(self)
+    if attackCooldown > 0 then return 0 end
+    if Input.GetKeyDown("E") then return 1 end
     return 0
 end
 
@@ -123,7 +125,7 @@ States[State.IDLE] = {
             
         end
         
-        if GetAttackInput() == 1 then
+        if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
         end
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
@@ -151,7 +153,7 @@ States[State.WALK] = {
             return
         end
         
-        if GetAttackInput() == 1 then
+        if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
@@ -208,6 +210,7 @@ States[State.ATTACK_LIGHT] = {
         -- wait anim end and return idle
         attackTimer = attackTimer + dt
         if attackTimer >= self.public.attackDuration then
+            attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)
         end
     end,
@@ -219,6 +222,8 @@ States[State.ATTACK_LIGHT] = {
 function Start(self)
     Engine.Log("Player inicializado")
 
+    attackCooldown = 0
+
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end 
 
@@ -226,6 +231,10 @@ function Start(self)
 end
 
 function Update(self, dt)
+    if attackCooldown > 0 then
+        attackCooldown = attackCooldown - dt
+    end
+
     if not Player.currentState then
         Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
@@ -236,10 +245,8 @@ function Update(self, dt)
     end
 end
 
-function OnCollisionEnter(self, otherName)
-    Engine.Log("[Player] Hit a: " .. otherName)
-end
-
-function OnTriggerEnter(self, otherName)
-    Engine.Log("[Player] Triggered with a: " .. otherName)
+function OnTriggerEnter(self, other)
+    if other:CompareTag("Enemy") then
+        Engine.Log("[Player] Hit an enemy: " .. other.name)
+    end
 end

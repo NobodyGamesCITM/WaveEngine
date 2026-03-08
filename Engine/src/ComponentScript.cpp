@@ -828,7 +828,10 @@ void ComponentScript::CallPhysicsEvent(const char* funcName, Rigidbody* other)
     if (!lua_isfunction(L, -1)) { lua_pop(L, 2); return; }
 
     lua_pushvalue(L, -2);
-    lua_pushstring(L, other->owner->GetName().c_str());
+    GameObject** goUserdata = (GameObject**)lua_newuserdata(L, sizeof(GameObject*));
+    *goUserdata = other->owner;
+    luaL_getmetatable(L, "GameObject");
+    lua_setmetatable(L, -2);
 
     if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
         LOG_CONSOLE("[ComponentScript] ERROR in %s: %s", funcName, lua_tostring(L, -1));

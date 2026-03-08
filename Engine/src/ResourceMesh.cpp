@@ -82,6 +82,11 @@ bool ResourceMesh::LoadInMemory() {
     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
         (void*)offsetof(Vertex, weights));
 
+    // Tangents
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+        (void*)offsetof(Vertex, tangent));
+
     glBindVertexArray(0);
 
     return true;

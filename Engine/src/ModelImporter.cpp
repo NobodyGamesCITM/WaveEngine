@@ -365,14 +365,6 @@ UID ModelImporter::ProcessMesh(aiMesh* aiMesh, const aiScene* scene, const UID u
     // BaseUID (from .meta) + mesh index
     UID meshUID = uid;
 
-    // Check if this UID already exists
-    const auto& allResources = resources->GetAllResources();
-    auto it = allResources.find(meshUID);
-    if (it != allResources.end() && it->second->GetType() == Resource::MESH) {
-        // Mesh already registered, return its UID
-        return meshUID;
-    }
-
     // Import and save mesh
     Mesh mesh = MeshImporter::ImportFromAssimp(aiMesh);
 

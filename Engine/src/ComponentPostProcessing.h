@@ -33,14 +33,7 @@ struct LensSettings {
     float vignetteIntensity = 0.4f;
     float vignetteSmoothness = 0.2f;
     float vignetteRoundness = 1.0f;
-    glm::vec3 vignetteColor = glm::vec3(0.0f);
-};
-
-struct GrainSettings {
-    bool enabled = false;
-    float intensity = 0.0f;
-    float scale = 1.0f;
-    bool animated = true;
+    glm::vec4 vignetteColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 };
 
 class ComponentPostProcessing : public Component {
@@ -60,5 +53,5 @@ public:
     BloomSettings bloom;
     ColorGradingSettings colorGrading;
     LensSettings lens;
-    GrainSettings grain;
+    //GrainSettings grain;
 };

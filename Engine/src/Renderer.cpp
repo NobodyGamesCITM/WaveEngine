@@ -236,7 +236,7 @@ bool Renderer::Start()
         uniform float vignetteIntensity;
         uniform float vignetteSmoothness;
         uniform float vignetteRoundness;
-        uniform vec3  vignetteColor;
+        uniform vec4  vignetteColor;
 
         // Chromatic aberration
         uniform bool  caEnabled;
@@ -249,11 +249,14 @@ bool Renderer::Start()
         uniform float bloomSoftKnee;   // NEW
         uniform vec3  bloomTint;       // NEW
 
+        /*
         // Grain
         uniform bool  grainEnabled;
         uniform float grainIntensity;
         uniform float grainScale;
         uniform float grainTime;
+        uniform vec4  grainColor;
+        */
 
         vec3 ACESFilm(vec3 x) {
             const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
@@ -309,18 +312,20 @@ bool Renderer::Start()
                 float boxDist = max(d.x, d.y);
                 float cirDist = length(d);
                 float dist    = mix(boxDist, cirDist, vignetteRoundness);
-                float radius  = 1.0 - vignetteIntensity;
+                float radius  = 1.5 - vignetteIntensity * 2.0;
                 float soft    = vignetteSmoothness + 0.05;
-                float vig     = smoothstep(radius, radius - soft, dist);
-                color = mix(vignetteColor, color, vig);
+                float vig     = smoothstep(radius, radius + soft, dist);
+                color = mix(color, vignetteColor.rgb, vig * vignetteColor.a);
             }
 
+            /*
             // --- Grain ---
             if (grainEnabled) {
                 vec2  res  = textureSize(sceneTexture, 0);
                 float noise = random(floor(uv * res / grainScale) + grainTime);
-                color += (noise - 0.5) * grainIntensity;
+                color += (noise - 0.5) * grainIntensity * grainColor.rgb * grainColor.a;
             }
+            */
 
             // --- Color Grading ---
             if (gradingEnabled) {
@@ -782,14 +787,7 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
     postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
     postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
-    postProcessShader->SetVec3("vignetteColor", activePP->lens.vignetteColor);
-
-    // Grain
-    postProcessShader->SetBool("grainEnabled", activePP->grain.enabled);
-    postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
-    postProcessShader->SetFloat("grainScale", std::max(0.001f, activePP->grain.scale));
-    postProcessShader->SetFloat("grainTime", activePP->grain.animated
-        ? Application::GetInstance().time->GetTotalTimeStatic() : 0.0f);
+    postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -905,7 +903,7 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
         glBindTexture(GL_TEXTURE_2D, 0);
 
         uiShader->Use();
-        glBindVertexArray(quadVAO);  // ? Re-bindear después de limpiar
+        glBindVertexArray(quadVAO);  // ? Re-bindear despuï¿½s de limpiar
 
         glBindTexture(GL_TEXTURE_2D, c->GetTextureID());
         uiShader->SetInt("uTexture", 0);

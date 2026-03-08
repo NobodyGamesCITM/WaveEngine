@@ -673,7 +673,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         const AABB& globalAABB = mesh->GetGlobalAABB();
 
-        if (/*camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB())*/true)
+        if (camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB()))
         {
             mesh->UpdateSkinningMatrices();
 
@@ -1400,7 +1400,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         Mesh& mesh = meshComponent->GetMesh();
         if (mesh.VAO == 0) continue;
 
-        if (/*!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())*/false) continue;
+        if (!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())) continue;
 
         UID realUID = meshComponent->owner->GetUID();
         uint32_t currentPickingID = nextID++;

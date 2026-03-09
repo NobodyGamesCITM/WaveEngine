@@ -1,22 +1,22 @@
 #pragma once
 
 #include "Module.h"
-#include "ModuleLoader.h"
-#include "Shader.h"
-#include "Texture.h"
 #include "Frustum.h"
+#include "Primitives.h"
+#include "glad/glad.h"
 #include <memory>
 #include <map>
 #include <vector>
-#include "Primitives.h"
-#include "ComponentCamera.h"
 
 class GameObject;
 class ComponentMesh;
 class ComponentParticleSystem;
 class CameraLens;
 class ComponentCanvas;
+class ComponentCamara;
 class ComponentPostProcessing;
+class Shader;
+class Texture;
 
 class Renderer : public Module
 {
@@ -148,6 +148,8 @@ private:
 
     // Shaders
     std::unique_ptr<Shader> defaultShader;
+    std::unique_ptr<Shader> postProcessShader;
+    std::unique_ptr<Shader> standardShader;
     std::unique_ptr<Shader> waterShader;
     std::unique_ptr<Shader> lineShader;
     std::unique_ptr<Shader> outlineShader;
@@ -156,6 +158,8 @@ private:
     std::unique_ptr<Shader> meshShader;
     std::unique_ptr<Shader> pickingShader;
     std::unique_ptr<Shader> uiShader;
+    
+    std::unique_ptr<Shader> currentShader;
 
     // Default assets
     std::unique_ptr<Texture> defaultTexture;
@@ -219,7 +223,7 @@ private:
     GLuint postProcessFBO = 0;
     GLuint postProcessTexture = 0;
     GLuint postProcessRBO = 0;
-    std::unique_ptr<Shader> postProcessShader;
+
     void ResizePostProcessingBuffer(int width, int height);
     
     // ANTIALIAS

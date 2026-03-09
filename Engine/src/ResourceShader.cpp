@@ -11,28 +11,28 @@ ResourceShader::~ResourceShader() {
 }
 
 bool ResourceShader::LoadInMemory() {
-    if (loadedInMemory) return true;
+    //if (IsLoadedToMemory()) return true;
 
-    // Load from Assets file (GLSL)
-    std::ifstream file(assetsFile);
-    if (!file.is_open()) {
-        LOG_CONSOLE("ERROR: Could not open shader file %s", assetsFile.c_str());
-        return false;
-    }
+    //// Load from Assets file (GLSL)
+    //std::ifstream file(assetsFile);
+    //if (!file.is_open()) {
+    //    LOG_CONSOLE("ERROR: Could not open shader file %s", assetsFile.c_str());
+    //    return false;
+    //}
 
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    sourceCode = buffer.str();
-    file.close();
+    //std::stringstream buffer;
+    //buffer << file.rdbuf();
+    //sourceCode = buffer.str();
+    //file.close();
 
-    shader = new Shader();
-    if (Compile()) {
-        loadedInMemory = true;
-        return true;
-    }
+    //shader = new Shader();
+    //if (Compile()) {
+    //    
+    //    return true;
+    //}
 
-    delete shader;
-    shader = nullptr;
+    //delete shader;
+    //shader = nullptr;
     return false;
 }
 
@@ -42,7 +42,6 @@ void ResourceShader::UnloadFromMemory() {
         shader = nullptr;
     }
     sourceCode.clear();
-    loadedInMemory = false;
 }
 
 bool ResourceShader::Compile() {

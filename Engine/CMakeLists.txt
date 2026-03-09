@@ -50,8 +50,6 @@ set(RENDERING_SRC
     src/RenderContext.cpp 
     src/Renderer.h 
     src/Renderer.cpp 
-    src/Shader.h 
-    src/Shader.cpp 
     src/Frustum.h 
     src/AABB.h 
     src/ComponentMesh.h
@@ -60,7 +58,38 @@ set(RENDERING_SRC
     src/ComponentSkinnedMesh.cpp
     src/CameraLens.h
     src/CameraLens.cpp
-)
+    src/UI.h
+    src/UI.cpp  
+) 
+ 
+set(SHADERS_SRC 
+    src/Shader.h
+    src/Shader.cpp
+    src/ShaderSimpleColor.h
+    src/ShaderSimpleColor.cpp
+    src/ShaderSingleColor.h
+    src/ShaderSingleColor.cpp
+    src/ShaderDepthVisualization.h
+    src/ShaderDepthVisualization.cpp
+    src/ShaderNoTexture.h
+    src/ShaderNoTexture.cpp
+    src/ShaderWater.h
+    src/ShaderWater.cpp
+    src/ShaderLines.h
+    src/ShaderLines.cpp
+    src/ShaderNormal.h
+    src/ShaderNormal.cpp
+    src/ShaderMesh.h
+    src/ShaderMesh.cpp
+    src/ShaderPicking.h
+    src/ShaderPicking.cpp
+    src/ShaderUiOverlay.h
+    src/ShaderUiOverlay.cpp
+    src/ShaderStandard.h
+    src/ShaderStandard.cpp
+    src/ShaderPostPorcessing.h
+    src/ShaderPostPorcessing.cpp 
+)  
 
 set(VFX_SRC
     src/ParticleSystem.h
@@ -168,7 +197,7 @@ set(COMPONENTS_SRC
     src/ComponentAnimation.cpp
     src/ComponentPostProcessing.h
     src/ComponentPostProcessing.cpp
-)
+) 
 
 set(LOADERS_SRC 
     src/Texture.h 
@@ -201,6 +230,8 @@ set(EDITOR_SRC
     src/ShaderEditorWindow.cpp
     src/ScriptEditorWindow.h
     src/ScriptEditorWindow.cpp
+    src/MaterialEditorWindow.h
+    src/MaterialEditorWindow.cpp
     src/TextEditor.h
     src/TextEditor.cpp
     src/Editorcommand.h
@@ -216,7 +247,7 @@ set(EDITOR_SRC
     src/Reparentcommand.h
     src/Componentcommand.h
     src/Componentstatecommand.h
-)
+)  
 
 set(IMPORTERS_SRC 
     src/MeshImporter.cpp 
@@ -231,6 +262,8 @@ set(IMPORTERS_SRC
     src/TextureImporter.h 
     src/ModelImporter.cpp 
     src/ModelImporter.h 
+    src/MaterialImporter.cpp 
+    src/MaterialImporter.h 
     src/ModuleResources.cpp 
     src/ModuleResources.h 
     src/ResourceMesh.cpp 
@@ -245,7 +278,12 @@ set(IMPORTERS_SRC
     src/ResourceShader.h
     src/ResourceAnimation.cpp
     src/ResourceAnimation.h
-)
+    src/ResourceMaterial.cpp
+    src/ResourceMaterial.h
+    src/Material.h
+    src/MaterialStandard.cpp
+    src/MaterialStandard.h
+) 
 
 set(SCRIPTING_SRC 
     src/ScriptManager.h
@@ -281,6 +319,7 @@ source_group("Source\\Core" FILES ${CORE_SRC})
 source_group("Source\\Events" FILES ${EVENTS_SRC})
 source_group("Source\\Rendering" FILES ${RENDERING_SRC})
 source_group("Source\\Rendering\\VFX" FILES ${VFX_SRC})
+source_group("Source\\Rendering\\Shaders" FILES ${SHADERS_SRC})
 source_group("Source\\Audio" FILES ${AUDIO_SRC})
 source_group("Source\\Utils" FILES ${UTILS_SRC})
 source_group("Source\\Utils\\Editor" FILES ${EDITOR_SRC})
@@ -293,7 +332,7 @@ source_group("Source\\Physics" FILES ${PHYSICS_SRC})
 source_group("Source\\Navigation" FILES ${NAVIGATION_SRC})
 source_group("Source\\UI" FILES ${UI_SRC})
 
-set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${UI_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
+set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
 add_executable(Engine ${SRCS})
 
@@ -486,9 +525,9 @@ endif()
 
 # =========== End NoesisGUI ===========
 # Game (standalone)
-set(GAME_SRC ${CORE_SRC} ${RENDERING_SRC} ${UTILS_SRC} ${UI_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${VFX_SRC} ${AUDIO_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC})
+set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
-add_executable(Game ${GAME_SRC})
+add_executable(Game ${SRCS})
 
 target_compile_definitions(Game PRIVATE WAVE_GAME)
 
@@ -559,7 +598,7 @@ target_compile_definitions(Game PRIVATE
     NS_APP_INTERACTIVITY_API=
     NS_RENDER_GLRENDERDEVICE_API=
     NS_APP_MEDIAELEMENT_API=
-)
+) 
 
 if(MSVC)
     target_compile_options(Game PRIVATE /FS)

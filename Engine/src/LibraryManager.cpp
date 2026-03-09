@@ -176,10 +176,10 @@ void LibraryManager::RegenerateFromAssets() {
             }
             else
             {
-                if (meta.fileHash != MetaFileManager::GetFileHash(assetPath.generic_string()))
+   /*             if (meta.fileHash != MetaFileManager::GetFileHash(assetPath.generic_string()))
                 {
                     needsImport = true;
-                }
+                }*/
             }
 
             if (!needsImport) {

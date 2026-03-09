@@ -184,33 +184,6 @@ void SceneWindow::HandleAssetDropTarget()
                 {
                     ApplyMeshTransformFromFBX(meshObject, dropData->assetUID);
 
-                    ComponentMaterial* matComp = static_cast<ComponentMaterial*>(
-                        meshObject->CreateComponent(ComponentType::MATERIAL)
-                        );
-
-                    if (matComp)
-                    {
-                        unsigned long long textureUID = FindTextureForDroppedMesh(dropData->assetUID);
-
-                        if (textureUID != 0)
-                        {
-                            if (matComp->LoadTextureByUID(textureUID))
-                            {
-                                LOG_CONSOLE("Loaded original texture (UID: %llu)", textureUID);
-                            }
-                            else
-                            {
-                                LOG_CONSOLE("Failed to load texture, using checkerboard");
-                                matComp->CreateCheckerboardTexture();
-                            }
-                        }
-                        else
-                        {
-                            LOG_CONSOLE("No texture found for mesh, using checkerboard");
-                            matComp->CreateCheckerboardTexture();
-                        }
-                    }
-
                     GameObject* root = Application::GetInstance().scene->GetRoot();
                     root->AddChild(meshObject);
                     Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
@@ -226,82 +199,91 @@ void SceneWindow::HandleAssetDropTarget()
                 }
                 break;
             }
-
             case DragDropAssetType::TEXTURE:
             {
                 LOG_CONSOLE("Applying texture...");
 
-                GameObject* targetObject = GetGameObjectUnderMouse();
+                std::vector<GameObject*> targetObjects;
 
-                if (targetObject)
+                GameObject* objectUnderMouse = GetGameObjectUnderMouse();
+
+                if (objectUnderMouse)
                 {
-                    // Apply texture to the specific object under the mouse
-                    ComponentMaterial* material = static_cast<ComponentMaterial*>(
-                        targetObject->GetComponent(ComponentType::MATERIAL)
-                        );
-
-                    if (!material)
-                    {
-                        material = static_cast<ComponentMaterial*>(
-                            targetObject->CreateComponent(ComponentType::MATERIAL)
-                            );
-                    }
-
-                    if (material && material->LoadTextureByUID(dropData->assetUID))
-                    {
-                        LOG_CONSOLE("Texture applied to: %s", targetObject->GetName().c_str());
-                    }
-                    else
-                    {
-                        LOG_CONSOLE("ERROR: Failed to apply texture to: %s", targetObject->GetName().c_str());
-                    }
+                    targetObjects.push_back(objectUnderMouse);
                 }
                 else
                 {
-                    // Fallback 
-                    std::vector<GameObject*> selectedObjects =
-                        Application::GetInstance().selectionManager->GetSelectedObjects();
+                    targetObjects = Application::GetInstance().selectionManager->GetSelectedObjects();
+                }
 
-                    if (selectedObjects.empty())
-                    {
-                        LOG_CONSOLE("No object under mouse and no selection");
-                        break;
-                    }
 
-                    int successCount = 0;
-                    for (GameObject* obj : selectedObjects)
-                    {
-                        if (!obj || !obj->IsActive())
-                            continue;
+                if (targetObjects.empty())
+                {
+                    LOG_CONSOLE("No object under mouse and no selection");
+                    break;
+                }
 
-                        ComponentMaterial* material = static_cast<ComponentMaterial*>(
-                            obj->GetComponent(ComponentType::MATERIAL)
-                            );
+                int successCount = 0;
+                for (GameObject* obj : targetObjects)
+                {
+                    if (Application::GetInstance().loader->LoadTextureToGameObject(obj, dropData->assetUID));
+                        successCount++;
+                }
 
-                        if (!material)
-                        {
-                            material = static_cast<ComponentMaterial*>(
-                                obj->CreateComponent(ComponentType::MATERIAL)
-                                );
-                        }
 
-                        if (material && material->LoadTextureByUID(dropData->assetUID))
-                        {
-                            successCount++;
-                        }
-                    }
-
-                    if (successCount > 0)
-                    {
-                        LOG_CONSOLE("Texture applied to %d selected object(s)", successCount);
-                    }
-                    else
-                    {
-                        LOG_CONSOLE("ERROR: Failed to apply texture");
-                    }
+                if (successCount > 0)
+                {
+                    LOG_CONSOLE("Texture applied to %d selected object(s)", successCount);
+                }
+                else
+                {
+                    LOG_CONSOLE("ERROR: Failed to apply texture");
                 }
                 break;
             }
+            case DragDropAssetType::MATERIAL:
+            {
+                LOG_CONSOLE("Applying Material...");
+
+                std::vector<GameObject*> targetObjects;
+
+                GameObject* objectUnderMouse = GetGameObjectUnderMouse();
+
+                if (objectUnderMouse)
+                {
+                    targetObjects.push_back(objectUnderMouse);
+                }
+                else
+                {
+                    targetObjects = Application::GetInstance().selectionManager->GetSelectedObjects();
+                }
+
+
+                if (targetObjects.empty())
+                {
+                    LOG_CONSOLE("No object under mouse and no selection");
+                    break;
+                }
+
+                int successCount = 0;
+                for (GameObject* obj : targetObjects)
+                {
+                    if (Application::GetInstance().loader->LoadMaterialToGameObject(obj, dropData->assetUID));
+                        successCount++;
+                }
+
+
+                if (successCount > 0)
+                {
+                    LOG_CONSOLE("Material applied to %d selected object(s)", successCount);
+                }
+                else
+                {
+                    LOG_CONSOLE("ERROR: Failed to apply material");
+                }
+                break;
+            }
+
 
             default:
                 LOG_CONSOLE("Unknown asset type dropped");

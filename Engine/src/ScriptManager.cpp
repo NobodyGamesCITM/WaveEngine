@@ -29,7 +29,8 @@
 #include "UIManager.h"
 
 #include <filesystem>
-#include <cmath>            
+#include <cmath>
+
 ScriptManager::ScriptManager() : Module(), L(nullptr) {
     name = "ScriptManager";
 }
@@ -878,10 +879,11 @@ static int Lua_GameObject_LoadTexture(lua_State* L) {
     }
 
     // Enqueue texture load for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     lua_pushboolean(L, true);
     return 1;
@@ -907,10 +909,11 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     UID textureUID = static_cast<UID>(luaL_checknumber(L, 1));
 
     // Enqueue texture change for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     return 0;
 }

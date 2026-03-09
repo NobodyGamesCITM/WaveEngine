@@ -15,7 +15,7 @@ ResourceAnimation::~ResourceAnimation() {
 bool ResourceAnimation::LoadInMemory() {
     
     Animation animation;
-    if (loadedInMemory)
+    if (IsLoadedToMemory())
         return true;
 
     if (libraryFile.empty()) {
@@ -36,7 +36,6 @@ bool ResourceAnimation::LoadInMemory() {
     if (animation.IsValid())
     {
         this->animation = animation;
-        loadedInMemory = true;
         return true;
     }
     else
@@ -48,7 +47,6 @@ bool ResourceAnimation::LoadInMemory() {
 
 void ResourceAnimation::UnloadFromMemory() {
     
-    loadedInMemory = false;
     animation.duration = 0.0;
     animation.ticksPerSecond = 0.0;
     animation.channels.clear();

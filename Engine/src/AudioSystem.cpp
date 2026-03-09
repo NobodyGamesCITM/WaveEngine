@@ -212,6 +212,7 @@ bool AudioSystem::Update() {
 
     // Process reverb zones (set aux sends on listener)
     ProcessReverbZones();
+    
 
     //ProcessAudio() in the Sound Integration Walkthrough
     //processes bank requests, events, positions, RTPC, etc.
@@ -491,6 +492,8 @@ void AudioSystem::ProcessReverbZones()
                 SetGameObjectAuxSend(sourceID, zone->auxBusID, 0.0f);
             }
         }
+
+        
     }
 }
 
@@ -530,7 +533,7 @@ void AudioSystem::SetGameObjectAuxSend(AkGameObjectID id, AkUniqueID busId, floa
         SetRTPCValue(AK::GAME_PARAMETERS::REVERB_VOLUME, controlValue);
     }
     else {
-        AK::SoundEngine::SetGameObjectAuxSendValues(AK_INVALID_UNIQUE_ID, 0, 0);
+        AK::SoundEngine::SetGameObjectAuxSendValues(id, nullptr, 0);
     }
     
 

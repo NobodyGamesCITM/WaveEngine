@@ -171,53 +171,8 @@ void ReverbZone::Deserialize(const nlohmann::json& componentObj)
 
 void ReverbZone::DrawDebug()
 {
-    if (!enabled) return;
 
-    Transform* t = owner->transform;
-    if (!t) return;
-
-    glm::vec4 debugColor(1.0f, 0.0f, 0.0f, 1.0f);
-
-    if (shape == Shape::SPHERE)
-    {
-        glm::vec3 worldPos = t->GetGlobalPosition();
-        Application::GetInstance().renderer->DrawSphere(worldPos, radius, debugColor);
-    }
-    else
-    {
-        glm::mat4 worldMat = t->GetGlobalMatrix();
-        glm::vec3 zonePos = t->GetGlobalPosition();
-
-        glm::mat4 rotationMat = worldMat;
-        rotationMat[0] = glm::normalize(rotationMat[0]);
-        rotationMat[1] = glm::normalize(rotationMat[1]);
-        rotationMat[2] = glm::normalize(rotationMat[2]);
-        rotationMat[3] = glm::vec4(0, 0, 0, 1);
-
-        glm::mat4 noScaleWorldMat = glm::translate(glm::mat4(1.0f), zonePos) * rotationMat;
-
-        glm::vec3 v[8];
-        v[0] = glm::vec3(-extents.x, -extents.y, -extents.x);
-        v[1] = glm::vec3(extents.x, -extents.y, -extents.x);
-        v[2] = glm::vec3(extents.x, extents.y, -extents.x);
-        v[3] = glm::vec3(-extents.x, extents.y, -extents.x);
-        v[4] = glm::vec3(-extents.x, -extents.y, extents.x);
-        v[5] = glm::vec3(extents.x, -extents.y, extents.x);
-        v[6] = glm::vec3(extents.x, extents.y, extents.x);
-        v[7] = glm::vec3(-extents.x, extents.y, extents.x);
-
-        for (int i = 0; i < 8; ++i) {
-            v[i] = glm::vec3(noScaleWorldMat * glm::vec4(v[i], 1.0f));
-        }
-
-        auto draw = [&](int a, int b) {
-            Application::GetInstance().renderer->DrawLine(v[a], v[b], debugColor);
-            };
-
-        draw(0, 1); draw(1, 2); draw(2, 3); draw(3, 0);
-        draw(4, 5); draw(5, 6); draw(6, 7); draw(7, 4);
-        draw(0, 4); draw(1, 5); draw(2, 6); draw(3, 7);
-    }
+    
 }
 
 void ReverbZone::OnEditor()

@@ -52,6 +52,9 @@ public:
 
     void SetSFXVolume(float volume);
 
+    //for drawing reverbZones on editor
+    void DrawReverbZones();
+
     //for switching bg music
     void SwitchBGM();
     float musicTimer = 0.0f;

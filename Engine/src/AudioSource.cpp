@@ -23,8 +23,6 @@ AudioSource::AudioSource(GameObject* containerGO)
 
 AudioSource::~AudioSource()
 {
-
-    
     AK::SoundEngine::StopAll(this->goID);
     Application::GetInstance().audio->audioSystem->UnregisterAudioComponent(this);
     AK::SoundEngine::UnregisterGameObj(this->goID);

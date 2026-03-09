@@ -4089,14 +4089,14 @@
                 {
                     "active": true,
                     "position": [
-                        -7.0,
+                        -9.0,
                         0.0,
-                        107.0
+                        -137.0
                     ],
                     "rotation": [
-                        -180.0,
+                        180.0,
                         -5.0091371122107375e-06,
-                        -180.0
+                        180.0
                     ],
                     "scale": [
                         0.011657719500362873,
@@ -4161,14 +4161,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "speed",
+                            "name": "staminaRecover",
                             "type": 0,
-                            "value": 10.0
+                            "value": 0.10000000149011612
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.05000000074505806
                         },
                         {
                             "name": "speedIncrease",
@@ -4176,19 +4176,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "staminaRecover",
+                            "name": "speed",
                             "type": 0,
-                            "value": 0.10000000149011612
+                            "value": 10.0
                         },
                         {
-                            "name": "sprintMultiplier",
+                            "name": "tiredMultiplier",
                             "type": 0,
-                            "value": 1.5
+                            "value": 0.699999988079071
                         },
                         {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.05000000074505806
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
                         },
                         {
                             "name": "staminaCost",
@@ -4201,9 +4201,9 @@
                             "value": 4.0
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 1.5
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -4217,6 +4217,94 @@
             ],
             "name": "Player_0",
             "uid": 17184423464013482683
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -9.019001007080078,
+                        25.200000762939453,
+                        -118.9530029296875
+                    ],
+                    "rotation": [
+                        -45.0,
+                        4.071110039794573e-13,
+                        1.0017914064519573e-05
+                    ],
+                    "scale": [
+                        1.000035047531128,
+                        1.0000638961791992,
+                        1.0000548362731934
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 1.4536082744598389,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": true
+                },
+                {
+                    "active": true,
+                    "type": 24
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "shakeMagnitude",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player_0"
+                        },
+                        {
+                            "name": "zoomMax",
+                            "type": 0,
+                            "value": 3.0
+                        }
+                    ],
+                    "scriptUID": 3302217500676688058,
+                    "type": 6
+                }
+            ],
+            "name": "Camera_1",
+            "uid": 15272521139987133155
         },
         {
             "active": true,
@@ -4276,91 +4364,166 @@
         },
         {
             "active": true,
-            "children": [],
+            "children": [
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        16.0,
+                                        4.0,
+                                        118.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        8.208000183105469,
+                                        6.220800876617432,
+                                        9.82800006866455
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "primitiveType": "Cube",
+                                    "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "hasMaterialProperties": false,
+                                    "materialType": 0,
+                                    "type": 3,
+                                    "useCheckerboard": true
+                                }
+                            ],
+                            "name": "Cube",
+                            "uid": 3868967120422258596
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        -6.0,
+                                        2.0,
+                                        119.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        8.208000183105469,
+                                        5.184000492095947,
+                                        7.559999942779541
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "primitiveType": "Cube",
+                                    "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "ambientColor": [
+                                        0.20000000298023224,
+                                        0.20000000298023224,
+                                        0.20000000298023224,
+                                        1.0
+                                    ],
+                                    "diffuseColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "emissiveColor": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "hasMaterialProperties": true,
+                                    "lightingMode": 1,
+                                    "materialType": 0,
+                                    "metallic": 0.0,
+                                    "opacity": 1.0,
+                                    "roughness": 0.5,
+                                    "shininess": 32.0,
+                                    "specularColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 3,
+                                    "useCheckerboard": true
+                                }
+                            ],
+                            "name": "Cube_copy",
+                            "uid": 2514251909445688250
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "Walls",
+                    "uid": 5482764790277099770
+                }
+            ],
             "components": [
                 {
                     "active": true,
                     "position": [
-                        -7.019001007080078,
-                        22.200000762939453,
-                        125.0469970703125
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "rotation": [
-                        -45.0,
-                        4.071110039794573e-13,
-                        1.0017914064519573e-05
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "scale": [
-                        1.000035047531128,
-                        1.0000638961791992,
-                        1.0000548362731934
+                        1.0,
+                        1.0,
+                        1.0
                     ],
                     "type": 0
-                },
-                {
-                    "active": true,
-                    "aspectRatio": 1.9875389337539673,
-                    "farPlane": 1000.0,
-                    "fov": 60.0,
-                    "nearPlane": 0.30000001192092896,
-                    "type": 4,
-                    "uiCullingMask": 0,
-                    "usesPostProcessing": true
-                },
-                {
-                    "active": true,
-                    "type": 24
-                },
-                {
-                    "active": true,
-                    "publicVariables": [
-                        {
-                            "name": "shakeMagnitude",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "zoomMax",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player_0"
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "shakeFrequency",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "shakeDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        }
-                    ],
-                    "scriptUID": 3302217500676688058,
-                    "type": 6
                 }
             ],
-            "name": "Camera_1",
-            "uid": 15272521139987133155
+            "name": "ZonaTuto",
+            "uid": 13628028914661620189
         },
         {
             "active": true,
@@ -4369,9 +4532,9 @@
                 {
                     "active": true,
                     "position": [
-                        16.0,
-                        4.0,
-                        118.0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "rotation": [
                         0.0,
@@ -4379,9 +4542,88 @@
                         0.0
                     ],
                     "scale": [
-                        8.208000183105469,
-                        6.220800876617432,
-                        9.82800006866455
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "HUB_Central",
+            "uid": 11646660629019764534
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -10.0,
+                        -6.0,
+                        -155.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        63.14419937133789,
+                        12.628840446472168,
+                        63.14419937133789
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cylinder",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "hasMaterialProperties": false,
+                    "materialType": 0,
+                    "type": 3,
+                    "useCheckerboard": true
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 15
+                }
+            ],
+            "name": "Cylinder",
+            "uid": 17512202919544413525
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -10.0,
+                        2.9749011993408203,
+                        -123.0
+                    ],
+                    "rotation": [
+                        -20.432842254638672,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        28.512001037597656,
+                        1.440000057220459,
+                        18.4320011138916
                     ],
                     "type": 0
                 },
@@ -4396,10 +4638,28 @@
                     "materialType": 0,
                     "type": 3,
                     "useCheckerboard": true
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
                 }
             ],
             "name": "Cube",
-            "uid": 3868967120422258596
+            "uid": 11802525136456578150
         },
         {
             "active": true,
@@ -4408,9 +4668,9 @@
                 {
                     "active": true,
                     "position": [
-                        -6.0,
-                        2.0,
-                        119.0
+                        -10.0,
+                        6.180760383605957,
+                        -108.83196258544922
                     ],
                     "rotation": [
                         0.0,
@@ -4418,9 +4678,9 @@
                         0.0
                     ],
                     "scale": [
-                        8.208000183105469,
-                        5.184000492095947,
-                        7.559999942779541
+                        28.193662643432617,
+                        1.440000057220459,
+                        11.520000457763672
                     ],
                     "type": 0
                 },
@@ -4464,10 +4724,28 @@
                     ],
                     "type": 3,
                     "useCheckerboard": true
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
                 }
             ],
             "name": "Cube_copy",
-            "uid": 2514251909445688250
+            "uid": 15068183388935075210
         }
     ],
     "version": 1

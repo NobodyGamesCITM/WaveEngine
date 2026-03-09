@@ -192,9 +192,7 @@ bool ScriptManager::HasGlobalFunction(const std::string& functionName) {
     return isFunc;
 }
 
-
 //basic lua functions
-
 static int Lua_Engine_Log(lua_State* L) {
     const char* message = luaL_checkstring(L, 1);
     LOG_CONSOLE("[Lua] %s", message);
@@ -206,7 +204,10 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
     {"Space", SDL_SCANCODE_SPACE}, {"Escape", SDL_SCANCODE_ESCAPE},
     {"LeftShift", SDL_SCANCODE_LSHIFT}, {"RightShift", SDL_SCANCODE_RSHIFT},
-    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}
+    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}, 
+    {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9}, {"0", SDL_SCANCODE_0}, 
+    {"1", SDL_SCANCODE_1},{"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3}, 
+    {"4", SDL_SCANCODE_4},
 };
 
 static int Lua_Input_GetKey(lua_State* L) {

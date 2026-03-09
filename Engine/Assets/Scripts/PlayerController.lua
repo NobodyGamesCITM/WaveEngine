@@ -9,10 +9,16 @@ local pi    = math.pi
 local INPUT_SCALE = 10
 
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
+local HEALTH_BAR_MAX_HEIGHT  = 68.0 
 
 local function UpdateStaminaBar(stamina)
     local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
     UI.SetElementHeight("StaminaGrid", fill) 
+end
+
+local function UpdateHealthBar(health)
+    local fill = (health / 100.0) * HEALTH_BAR_MAX_HEIGHT
+    UI.SetElementHeight("HealthGrid", fill) 
 end
 
 -- STATES
@@ -27,9 +33,9 @@ local State = {
 }
 
 local Player = {
-    currentState = nil,
-    lastDirX     = 0,
-    lastDirZ     = 1,
+    currentState    = nil,
+    lastDirX        = 0,
+    lastDirZ        = 1,
 }
 
 public = {
@@ -37,11 +43,14 @@ public = {
     rollDuration        = 0.05,
     sprintMultiplier    = 1.5,
     stamina             = 100.0,
+    health              = 100.0,
     speedIncrease       = 10,
-    staminaCost         = 0.5,
+    staminaCost         = 0.1,
     staminaRecover      = 0.1,
     usingStamina        = false,
-    tiredMultiplier     = 0.7
+    tiredMultiplier     = 0.7,
+    hpLossCost          = 0.2,   
+    hpRecover           = 0.2,  
 }
 
 local function normalizeInput(x, z)
@@ -116,7 +125,6 @@ States[State.IDLE] = {
     
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
-        
         if inputLen > 0.1 then
             ChangeState(self, State.WALK)
         end
@@ -126,12 +134,14 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        usingStamina = false
+        self.public.usingStamina = false
         if anim then anim:Play("Walking", 0.5) end
     end,
     
     Update = function(self, dt)
-        if Input.GetKey("LeftShift") and self.public.stamina > 10 then ChangeState(self, State.RUNNING) end
+        if Input.GetKey("LeftShift") and self.public.stamina > 10 then
+            ChangeState(self, State.RUNNING)
+        end
         local moveX, moveZ, inputLen = GetMovementInput()
         
         if inputLen > 1 then
@@ -152,7 +162,7 @@ States[State.RUNNING] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Walking", 0.5) end
-        usingStamina = true
+        self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
     end,
     Update = function(self, dt)
@@ -172,7 +182,7 @@ States[State.RUNNING] = {
             ChangeState(self, State.WALK) 
         end
 
-        self.public.stamina = self.public.stamina - 0.5
+        self.public.stamina = self.public.stamina - self.public.staminaCost
 
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
         
@@ -181,36 +191,29 @@ States[State.RUNNING] = {
 }
 
 States[State.ROLL] = {
-    Enter = function(self)
-    end,
-    Update = function(self, dt)
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.CHARGING] = {
-    Enter = function(self)
-    end,
-    Update = function(self, dt)
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.ATTACK_HEAVY] = {
-    Enter = function(self)
-    end,
-    Update = function(self, dt)
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.ATTACK_LIGHT] = {
-    Enter = function(self)
-    end,
-    Update = function(self, dt)
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 function Start(self)
     Engine.Log("Player inicializado")
     self.public.stamina = 100
+    self.public.health  = 100
     ChangeState(self, State.IDLE)
 end
 
@@ -222,10 +225,23 @@ function Update(self, dt)
 
     if Player.currentState and States[Player.currentState] then
         States[Player.currentState].Update(self, dt)
+
+        -- Recuperar stamina si no se está usando
         if not self.public.usingStamina and self.public.stamina < 100 then
             self.public.stamina = self.public.stamina + self.public.staminaRecover
         end
     end
 
+    if Input.GetKey("1") then
+        self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
+        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    if Input.GetKey("2") then
+        self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
     UpdateStaminaBar(self.public.stamina)
+    UpdateHealthBar(self.public.health)
 end

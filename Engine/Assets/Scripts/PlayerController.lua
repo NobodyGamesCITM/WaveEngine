@@ -13,6 +13,7 @@ local STAMINA_BAR_MAX_HEIGHT = 68.0
 local function UpdateStaminaBar(stamina)
     local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
     UI.SetElementHeight("StaminaGrid", fill) 
+end
 
 -- STATES
 local State = {

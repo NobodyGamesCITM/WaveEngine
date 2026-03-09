@@ -64,3 +64,13 @@ void UIManager::SetElementHeight(const std::string& elementName, float height) {
     if (auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName)))
         fe->SetHeight(height);
 }
+
+void UIManager::SetElementWidth(const std::string& elementName, float width)
+{
+    if (auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName)))
+        fe->SetWidth(width);
+}
+
+void UIManager::SetElementVisibility(const std::string& elementName, bool visible)
+{
+}

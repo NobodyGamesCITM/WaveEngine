@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 #include <vector>
+#include "DetourNavMesh.h"
 
 class NavMeshManager;
 
@@ -53,4 +54,5 @@ public:
 private:
     bool SnapPositionToNavMesh(glm::vec3& position);
     uint64_t tempSurfaceUID = 0; // Variable temporal para guardar el ID durante la carga
+    dtPolyRef currentPolyRef = 0;
 };

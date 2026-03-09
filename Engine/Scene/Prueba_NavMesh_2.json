@@ -93,14 +93,14 @@
                 {
                     "active": true,
                     "position": [
-                        -1.3069428205490112,
-                        0.5500021576881409,
-                        -0.6145139336585999
+                        1.0485475063323975,
+                        0.5561531186103821,
+                        1.762776255607605
                     ],
                     "rotation": [
-                        0.004540319554507732,
-                        2.5794270038604736,
-                        -0.0021712169982492924
+                        16.53172492980957,
+                        89.96043395996094,
+                        16.601085662841797
                     ],
                     "scale": [
                         1.0,
@@ -210,7 +210,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 4.722891330718994,
+                    "aspectRatio": 0.9679012298583984,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -281,6 +281,26 @@
                     "Trigger": false,
                     "active": true,
                     "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
                 }
             ],
             "name": "Cube",

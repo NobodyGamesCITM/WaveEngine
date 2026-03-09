@@ -80,7 +80,6 @@ void ModuleNavMesh::ExtractVertices(ComponentMesh* mesh, std::vector<float>& ver
 }
 void ModuleNavMesh::Bake(GameObject* root)
 {
-    // ── Buscar el objeto con NavType::SURFACE ─────────────────────────────────
     std::function<GameObject* (GameObject*)> FindSurface = [&](GameObject* obj) -> GameObject*
         {
             if (!obj || !obj->IsActive()) return nullptr;
@@ -107,9 +106,8 @@ void ModuleNavMesh::Bake(GameObject* root)
 
     RemoveNavMeshRecursive(surface);
     navObstacles.clear();
-    RecollectObstacles(root); // obstáculos desde el root entero
+    RecollectObstacles(Application::GetInstance().scene->GetRoot()); // ← escena entera, no solo el surface
 
-    // ── Recolectar geometría solo del objeto SURFACE ──────────────────────────
     std::vector<float> allVertices;
     std::vector<int>   allIndices;
     RecollectGeometry(surface, allVertices, allIndices);
@@ -147,40 +145,55 @@ void ModuleNavMesh::Bake(GameObject* root)
     rcFilterLedgeSpans(&ctx, cfg.walkableHeight, cfg.walkableClimb, *hf);
     rcFilterWalkableLowHeightSpans(&ctx, cfg.walkableHeight, *hf);
 
-    // ── Compact Heightfield ───────────────────────────────────────────────────
     rcCompactHeightfield* chf = rcAllocCompactHeightfield();
     if (!rcBuildCompactHeightfield(&ctx, cfg.walkableHeight, cfg.walkableClimb, *hf, *chf))
     {
         LOG_CONSOLE("NavMesh Error: compact heightfield"); return;
     }
+
+    // ── Marcar obstáculos como RC_NULL_AREA ───────────────────────────────────
+    for (GameObject* obs : navObstacles)
+    {
+        if (!obs || !obs->IsActive()) continue;
+
+        ComponentMesh* meshComp = static_cast<ComponentMesh*>(obs->GetComponent(ComponentType::MESH));
+        if (!meshComp || !meshComp->HasMesh()) continue;
+
+        const AABB& aabb = meshComp->GetGlobalAABB();
+        float obsMin[3] = { aabb.min.x, aabb.min.y, aabb.min.z };
+        float obsMax[3] = { aabb.max.x, aabb.max.y, aabb.max.z };
+
+        rcMarkBoxArea(&ctx, obsMin, obsMax, RC_NULL_AREA, *chf);
+        LOG_CONSOLE("NavMesh: Obstacle baked -> %s", obs->GetName().c_str());
+    }
+
     rcErodeWalkableArea(&ctx, cfg.walkableRadius, *chf);
 
-    // ── Regiones ──────────────────────────────────────────────────────────────
     rcBuildDistanceField(&ctx, *chf);
     rcBuildRegions(&ctx, *chf, 0, cfg.minRegionArea, cfg.mergeRegionArea);
 
-    // ── Contornos ─────────────────────────────────────────────────────────────
     rcContourSet* cset = rcAllocContourSet();
     rcBuildContours(&ctx, *chf, cfg.maxSimplificationError, cfg.maxEdgeLen, *cset);
 
-    // ── Poly Mesh ─────────────────────────────────────────────────────────────
     rcPolyMesh* pmesh = rcAllocPolyMesh();
     rcBuildPolyMesh(&ctx, *cset, cfg.maxVertsPerPoly, *pmesh);
 
-    // ── Poly Mesh Detail ──────────────────────────────────────────────────────
     rcPolyMeshDetail* dmesh = rcAllocPolyMeshDetail();
     rcBuildPolyMeshDetail(&ctx, *pmesh, *chf, sampleDist, sampleMaxError, *dmesh);
 
-    // Marcar todos los polígonos como caminables
+    //solo walkable los polys que NO son obstáculo
     for (int i = 0; i < pmesh->npolys; ++i)
-        pmesh->flags[i] = 1;
+    {
+        if (pmesh->areas[i] == RC_WALKABLE_AREA)
+            pmesh->flags[i] = 1;
+        else
+            pmesh->flags[i] = 0;
+    }
 
-    // ── Diagnóstico ───────────────────────────────────────────────────────────
     LOG_CONSOLE("AABB: min=(%.1f,%.1f,%.1f) max=(%.1f,%.1f,%.1f)",
         bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2]);
     LOG_CONSOLE("NavMesh stats: polys=%d, verts=%d", pmesh->npolys, pmesh->nverts);
 
-    // ── Crear dtNavMesh ───────────────────────────────────────────────────────
     dtNavMeshCreateParams params;
     memset(&params, 0, sizeof(params));
     params.verts = pmesh->verts;
@@ -214,12 +227,10 @@ void ModuleNavMesh::Bake(GameObject* root)
     dtNavMeshQuery* navQuery = dtAllocNavMeshQuery();
     navQuery->init(navMesh, 2048);
 
-    // ── Liberar temporales ────────────────────────────────────────────────────
     rcFreeContourSet(cset);
     rcFreePolyMesh(pmesh);
     rcFreePolyMeshDetail(dmesh);
 
-    // ── Guardar con tileRef ───────────────────────────────────────────────────
     NavMeshData meshData;
     meshData.heightfield = hf;
     meshData.chf = chf;
@@ -256,7 +267,7 @@ rcConfig ModuleNavMesh::CreateDefaultConfig(const float* minBounds, const float*
     cfg.walkableSlopeAngle = 45.0f;
     cfg.walkableHeight = 10;
     cfg.walkableClimb = 2;
-    cfg.walkableRadius = 0;
+    cfg.walkableRadius = 3;
     cfg.maxEdgeLen = 12;
     cfg.maxSimplificationError = 1.3f;
     cfg.minRegionArea = 8;

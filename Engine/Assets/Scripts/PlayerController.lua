@@ -123,6 +123,7 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
+        usingStamina = false;
         if anim then anim:Play("Walking", 0.5) end
     end,
     
@@ -155,7 +156,7 @@ States[State.RUNNING] = {
         -- Anim running
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Walking", 0.5) end
-
+        usingStamina = true;
         self.public.speed  = self.public.speed  + self.public.speedIncrease 
     end,
     Update = function(self, dt)
@@ -224,6 +225,7 @@ States[State.ATTACK_LIGHT] = {
 
 function Start(self)
     Engine.Log("Player inicializado")
+    self.public.stamina = 100
     ChangeState(self, State.IDLE)
 end
 

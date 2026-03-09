@@ -28,54 +28,34 @@
                 <Grid VerticalAlignment="Bottom" Width="28" Margin="11,0" Height="68">
                     <Rectangle x:Name="HealthFill" Width="28" Height="68" VerticalAlignment="Bottom">
                         <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FF56FF00"/>
-                                <GradientStop Offset="1" Color="#FF288B00"/>
-                            </LinearGradientBrush>
+                            <ImageBrush ImageSource="Textures/HealthBar_Interior.png"/>
                         </Rectangle.Fill>
-                        <Rectangle.OpacityMask>
-                            <ImageBrush ImageSource="HealthBar_Interior.png"
-                                        Stretch="Fill"
-                                        AlignmentY="Bottom"
-                                        ViewportUnits="Absolute"
-                                        Viewport="0,0,28,68"/>
-                        </Rectangle.OpacityMask>
                     </Rectangle>
                 </Grid>
-                <Image x:Name="HealthBar_Image" Source="Health_Bar.png" Margin="11,0"/>
+                <Image x:Name="HealthBar_Image" Margin="11,0" Source="Textures/Health_Bar.png"/>
             </Grid>
         </Viewbox>
 
         <!-- Imagen del jugador: columna central -->
-        <Viewbox x:Name="PlayerImage_Viewport" Stretch="Uniform" Grid.Row="0" Grid.Column="1">
-            <Image x:Name="mask" Width="100" Height="100" Source="HUD_Player.png"/>
+        <Viewbox x:Name="PlayerImage_Viewport" Stretch="Uniform" Grid.Row="0">
+            <Image x:Name="mask" Width="100" Height="100" Source="Textures/HUD_Player.png" Margin="-1,0,1,0"/>
         </Viewbox>
 
         <!-- StaminaBar: columna derecha -->
-        <Viewbox x:Name="StaminaBar_Viewport" Grid.Row="0" Grid.Column="2" Stretch="Uniform">
+        <Viewbox x:Name="StaminaBar_Viewport" Grid.Row="0" Stretch="Uniform">
             <Grid Width="50" Height="68" Margin="50,6,0,26" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <ScaleTransform ScaleX="-1"/>
                 </Grid.RenderTransform>
-                <Grid Width="50" VerticalAlignment="Bottom" Margin="11,0,-11,0" Height="68">
+                <Grid x:Name="StaminaGrid" Width="50" VerticalAlignment="Bottom" Margin="11,0,-11,0" Height="68">
                     <Rectangle x:Name="StaminaFill" Height="68" Width="28"
                             VerticalAlignment="Bottom" Margin="1,0,21,0">
                         <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FF00FFFD"/>
-                                <GradientStop Offset="1" Color="#FF0BA9B8"/>
-                            </LinearGradientBrush>
+                            <ImageBrush ImageSource="Textures/StaminaBar_Interior.png"/>
                         </Rectangle.Fill>
-                        <Rectangle.OpacityMask>
-                            <ImageBrush ImageSource="HealthBar_Interior.png"
-                                        Stretch="Fill"
-                                        AlignmentY="Bottom"
-                                        ViewportUnits="Absolute"
-                                        Viewport="0,0,28,68"/>
-                        </Rectangle.OpacityMask>
                     </Rectangle>
                 </Grid>
-                <Image x:Name="StaminaBar_Image" Source="Health_Bar.png" Margin="12,0,10,0"/>
+                <Image x:Name="StaminaBar_Image" Source="Textures/Health_Bar.png" Margin="12,0,10,0"/>
             </Grid>
         </Viewbox>
 

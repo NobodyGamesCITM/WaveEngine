@@ -562,6 +562,13 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_newtable(L);
     lua_pushcfunction(L, Lua_UI_WasClicked);
     lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, [](lua_State* L) -> int {
+        const char* name   = luaL_checkstring(L, 1);
+        float       height = static_cast<float>(luaL_checknumber(L, 2));
+        UIManager::GetInstance().SetElementHeight(name, height);
+        return 0;
+    });
+    lua_setfield(L, -2, "SetElementHeight");
     lua_setglobal(L, "UI");
 
     // Game
@@ -573,7 +580,6 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_Game_Exit);
     lua_setfield(L, -2, "Exit");
     lua_setglobal(L, "Game");
-
 
     LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI, Game");
 }

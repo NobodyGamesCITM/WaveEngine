@@ -8,6 +8,12 @@ local pi    = math.pi
 
 local INPUT_SCALE = 10
 
+local STAMINA_BAR_MAX_HEIGHT = 68.0 
+
+local function UpdateStaminaBar(stamina)
+    local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
+    UI.SetElementHeight("StaminaGrid", fill) 
+
 -- STATES
 local State = {
     IDLE         = "Idle",
@@ -68,13 +74,11 @@ end
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ)
     local pos = self.transform.position
     
-    -- Calculates the new pos
     local nextX = pos.x + (moveX / INPUT_SCALE) * self.public.speed * dt
     local nextZ = pos.z + (moveZ / INPUT_SCALE) * self.public.speed * dt
 
     self.transform:SetPosition(nextX, pos.y, nextZ)
 
-    -- Apply rotation
     local faceDirX = moveX / INPUT_SCALE
     local faceDirZ = moveZ / INPUT_SCALE
 
@@ -83,6 +87,7 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ)
         self.transform:SetRotation(0, angleDeg, 0)
     end
 end
+
 -- STATE MACHINE
 local States = {}
 
@@ -111,74 +116,61 @@ States[State.IDLE] = {
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
         
-        -- TRANSITION, se usa 0.1 por el drift
         if inputLen > 0.1 then
             ChangeState(self, State.WALK)
         end
-        
-        -- Check if can trasition to Roll, AttackLight, Charging y todo eso
     end
 }
 
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        usingStamina = false;
+        usingStamina = false
         if anim then anim:Play("Walking", 0.5) end
     end,
     
     Update = function(self, dt)
-        --Runing conditions
         if Input.GetKey("LeftShift") and self.public.stamina > 10 then ChangeState(self, State.RUNNING) end
         local moveX, moveZ, inputLen = GetMovementInput()
         
-        -- Save the last direction looking so the roll is on that direction
         if inputLen > 1 then
             Player.lastDirX = moveX / INPUT_SCALE
             Player.lastDirZ = moveZ / INPUT_SCALE
         end
 
-        -- Transition to idle if you can move
         if inputLen <= 0.1 then
             ChangeState(self, State.IDLE)
             return
         end
         
-        -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        
-        -- Movement and rotation
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
 }
 
 States[State.RUNNING] = {
     Enter = function(self)
-        -- Anim running
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Walking", 0.5) end
-        usingStamina = true;
-        self.public.speed  = self.public.speed  + self.public.speedIncrease 
+        usingStamina = true
+        self.public.speed = self.public.speed + self.public.speedIncrease
     end,
     Update = function(self, dt)
-
         if not Input.GetKey("LeftShift") then 
-            self.public.speed  = self.public.speed  - self.public.speedIncrease
-            ChangeState(self, State.Walking) 
+            self.public.speed = self.public.speed - self.public.speedIncrease
+            ChangeState(self, State.WALK) 
         end
         local moveX, moveZ, inputLen = GetMovementInput()
         
-        -- Save the last direction looking so the roll is on that direction
         if inputLen > 1 then
             Player.lastDirX = moveX / INPUT_SCALE
             Player.lastDirZ = moveZ / INPUT_SCALE
         end
 
-        --Stop When player run out of stamina
-        if self.public.stamina <=0 then
-            self.public.speed  = self.public.speed  - self.public.speedIncrease
-            ChangeState(self, State.Walking) 
+        if self.public.stamina <= 0 then
+            self.public.speed = self.public.speed - self.public.speedIncrease
+            ChangeState(self, State.WALK) 
         end
-        --Stamina cost
+
         self.public.stamina = self.public.stamina - 0.5
 
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
@@ -189,37 +181,29 @@ States[State.RUNNING] = {
 
 States[State.ROLL] = {
     Enter = function(self)
-        -- Anim roll, fix direction, stamina...
     end,
     Update = function(self, dt)
-        -- Move on the direction fixed ignoring the input digo yo, transition to idle at end
     end
 }
 
 States[State.CHARGING] = {
     Enter = function(self)
-        -- Anim attackheavy
     end,
     Update = function(self, dt)
-        -- Move slow y todo eso
     end
 }
 
 States[State.ATTACK_HEAVY] = {
     Enter = function(self)
-        -- Stamina, anim attack y todo eso
     end,
     Update = function(self, dt)
-        -- return idle
     end
 }
 
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
-        -- Anim attacklight
     end,
     Update = function(self, dt)
-        -- wait anim end and return idle
     end
 }
 
@@ -237,6 +221,10 @@ function Update(self, dt)
 
     if Player.currentState and States[Player.currentState] then
         States[Player.currentState].Update(self, dt)
-        if not self.public.usingStamina and self.public.stamina < 100 then self.public.stamina = self.public.stamina + self.public.staminaRecover end
+        if not self.public.usingStamina and self.public.stamina < 100 then
+            self.public.stamina = self.public.stamina + self.public.staminaRecover
+        end
     end
+
+    UpdateStaminaBar(self.public.stamina)
 end

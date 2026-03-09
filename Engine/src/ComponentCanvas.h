@@ -52,7 +52,8 @@ public:
     int GetUILayer() const { return uiLayer; }
 
     float opacity = 1.0f;
-
+    
+    Noesis::IView* GetView() const { return view.GetPtr(); }
 private:
     void GenerateFramebuffer(int w, int h);
     void TryNavigateStick(float x, float y);

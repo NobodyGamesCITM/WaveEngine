@@ -52,7 +52,7 @@ bool UI::Start()
 
     std::string xamlPath = (assetsDir / "UI").string();
     std::string fontPath = (assetsDir / "Fonts").string();
-    std::string texturePath = (assetsDir / "UI/Textures").string();
+    std::string texturePath = (assetsDir / "UI").string();
     LOG_DEBUG("[UI] Texture path: %s", texturePath.c_str());
 
     Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::LocalXamlProvider>(xamlPath.c_str()));

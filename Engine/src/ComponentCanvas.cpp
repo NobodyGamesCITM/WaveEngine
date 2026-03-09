@@ -30,12 +30,14 @@ ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, Component
     GenerateFramebuffer(width, height);
     Application::GetInstance().ui->RegisterCanvas(this);
     Application::GetInstance().renderer->AddCanvas(this);
+    UIManager::GetInstance().RegisterCanvas(this);
 }
 
 ComponentCanvas::~ComponentCanvas()
 {
     Application::GetInstance().ui->UnregisterCanvas(this); 
     Application::GetInstance().renderer->RemoveCanvas(this);
+    UIManager::GetInstance().UnregisterCanvas(this); ;
     ShutdownView();               
     device.Reset();
 

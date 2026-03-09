@@ -19,6 +19,8 @@ class GameObject;
 struct Mesh;
 class AssetsWindow;
 class ShaderEditorWindow;
+class MaterialEditorWindow;
+class ScriptEditorWindow;
 class EditorCamera;
 
 enum class EditorWindowType
@@ -56,6 +58,8 @@ public:
     ConsoleWindow* GetConsoleWindow() { return consoleWindow.get(); }
     EditorCamera* GetEditorCamera() const { return editorCamera; }
     CommandHistory* GetCommandHistory() { return commandHistory.get(); }
+    MaterialEditorWindow* GetMaterialEditor() { return materialEditorWindow.get(); }
+    ScriptEditorWindow* GetScriptEditor() { return scriptEditorWindow.get(); }
 
     ImVec2 sceneViewportPos = ImVec2(0, 0);
     ImVec2 sceneViewportSize = ImVec2(1280, 720);
@@ -86,7 +90,7 @@ private:
     void CreatePrimitiveGameObject(const std::string& name, Mesh mesh);
     void HandleDeleteKey();
     void UpdateCurrentWindow();
-    const char* EditorWindowTypeToString(EditorWindowType type); // For debug // Delete before release
+    const char* EditorWindowTypeToString(EditorWindowType type);
 
     // Layout management
     void SaveLayoutAs(const std::string& filename);
@@ -110,6 +114,8 @@ private:
     std::unique_ptr<GameWindow> gameWindow;
     std::unique_ptr<AssetsWindow> assetsWindow;
     std::unique_ptr<ShaderEditorWindow> shaderEditorWindow;
+    std::unique_ptr<MaterialEditorWindow> materialEditorWindow;
+    std::unique_ptr<ScriptEditorWindow> scriptEditorWindow;
 
     // About window state
     bool showAbout = false;

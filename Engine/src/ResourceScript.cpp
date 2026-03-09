@@ -12,14 +12,14 @@ ResourceScript::ResourceScript(UID uid)
 
 ResourceScript::~ResourceScript()
 {
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         UnloadFromMemory();
     }
 }
 
 bool ResourceScript::LoadInMemory()
 {
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         LOG_DEBUG("[ResourceScript] Script already loaded: %llu", uid);
         return true;
     }
@@ -49,19 +49,18 @@ bool ResourceScript::LoadInMemory()
     // Store load time for hot reloading
     lastLoadTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
 
-    loadedInMemory = true;
+    
 
     return true;
 }
 
 void ResourceScript::UnloadFromMemory()
 {
-    if (!loadedInMemory) {
+    if (!IsLoadedToMemory()) {
         return;
     }
 
     scriptContent.clear();
-    loadedInMemory = false;
     lastLoadTime = 0;
 
 }
@@ -85,7 +84,7 @@ bool ResourceScript::Reload()
 
 bool ResourceScript::NeedsReload() const
 {
-    if (!loadedInMemory || assetsFile.empty()) {
+    if (!IsLoadedToMemory() || assetsFile.empty()) {
         return false;
     }
 

@@ -13,7 +13,7 @@ ResourceTexture::~ResourceTexture() {
 }
 
 bool ResourceTexture::LoadInMemory() {
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         LOG_DEBUG("[ResourceTexture] Already loaded in memory: %llu", uid);
         return true;
     }
@@ -120,15 +120,13 @@ bool ResourceTexture::LoadInMemory() {
     bytes = textureData.width * textureData.height * textureData.channels;
     format = (textureData.channels == 4) ? RGBA : RGB;
 
-    loadedInMemory = true;
-
     LOG_DEBUG("[ResourceTexture] Successfully loaded in GPU memory (ID: %u)", gpu_id);
 
     return true;
 }
 
 void ResourceTexture::UnloadFromMemory() {
-    if (!loadedInMemory) {
+    if (!IsLoadedToMemory()) {
         return;
     }
 
@@ -144,7 +142,5 @@ void ResourceTexture::UnloadFromMemory() {
     depth = 0;
     bytes = 0;
     format = UNKNOWN;
-
-    loadedInMemory = false;
 }
 

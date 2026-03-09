@@ -65,6 +65,21 @@
                     "textureUID": 15605759606043628666,
                     "type": 3,
                     "useCheckerboard": false
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "SizeX": 1.0,
+                    "SizeY": 1.0,
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 13
                 }
             ],
             "name": "Plane",

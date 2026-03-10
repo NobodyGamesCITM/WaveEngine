@@ -68,6 +68,7 @@ public = {
     speedIncrease       = 10,
     staminaCost         = 0.1,
     staminaRecover      = 0.1,
+    rollStaminaCost     = 25,
     usingStamina        = false,
     tiredMultiplier     = 0.7,
     hpLossCost          = 0.2,   
@@ -157,7 +158,7 @@ States[State.IDLE] = {
         end
         
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        if Input.GetKeyDown("LeftCtrl") then
+        if Input.GetKeyDown("LeftCtrl") and self.public.stamina >= self.public.rollStaminaCost then
             ChangeState(self, State.ROLL)
             return
         end
@@ -194,7 +195,7 @@ States[State.WALK] = {
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
         
-        if Input.GetKeyDown("LeftCtrl") then
+        if Input.GetKeyDown("LeftCtrl") and self.public.stamina >= self.public.rollStaminaCost then
             ChangeState(self, State.ROLL)
             return
         end
@@ -254,6 +255,7 @@ States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
         -- Anim roll, fix direction, stamina...
+        self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         States[State.ROLL].timer = self.public.rollDuration
     end,
     Update = function(self, dt)

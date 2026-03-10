@@ -8,12 +8,13 @@
 #include <nlohmann/json.hpp>
 #include "ResourceModel.h"
 
-struct ImportSettings;
 class GameObject;
+class MaterialStandard;
 struct aiNode;
 struct aiScene;
 struct aiMesh;
 struct aiMaterial;
+struct ImportSettings;
 
 class ModelImporter
 {
@@ -31,10 +32,9 @@ public:
 
 private:
     
-    static GameObject* ProcessNode(aiNode* node, const aiScene* scene, const std::string& directory, std::map<std::string, UID>& referedObject);
+    static GameObject* ProcessNode(aiNode* node, const aiScene* scene, const std::string& directory, std::map<std::string, UID>& referedObject, std::map<unsigned int, UID>& materialMap);
     static void CalculateBoundingBox(GameObject* obj, glm::vec3& minBounds, glm::vec3& maxBounds, const glm::mat4& parentTransform);
     static UID ProcessMesh(aiMesh* aiMesh, const aiScene* scene, const UID uid);
     static void NormalizeModelScale(GameObject* rootObject, float targetSize);
-    
-
+    static void FillMaterialTextures(const aiScene* scene ,aiMaterial* aiMat, MaterialStandard* outMat, const std::string& modelDirectory);
 };

@@ -25,6 +25,7 @@ AssetType MetaFile::GetAssetType(const std::string& extension) {
     if (ext == ".glsl") return AssetType::SHADER_GLSL;
     if (ext == ".lua") return AssetType::SCRIPT_LUA;
     if (ext == ".prefab") return AssetType::PREFAB; 
+    if (ext == ".mat") return AssetType::MATERIAL; 
 
     return AssetType::UNKNOWN;
 }
@@ -221,7 +222,6 @@ void MetaFileManager::ScanAssets() {
     int metasCreated = 0;
     int metasExisting = 0;
 
-    // Recursively iterate through Assets/
     for (const auto& entry : std::filesystem::recursive_directory_iterator(assetsPath)) {
         
         if (!entry.is_regular_file()) continue;

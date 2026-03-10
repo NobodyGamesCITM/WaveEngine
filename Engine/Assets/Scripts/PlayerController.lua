@@ -17,6 +17,30 @@ _impactFrameTimer                    = 0
 
 local INPUT_SCALE = 10
 
+local STAMINA_BAR_MAX_HEIGHT = 68.0 
+local HEALTH_BAR_MAX_HEIGHT  = 68.0 
+
+local function UpdateStaminaBar(stamina)
+    local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
+    UI.SetElementHeight("StaminaGrid", fill) 
+end
+
+local function UpdateHealthBar(health)
+    local fill = (health / 100.0) * HEALTH_BAR_MAX_HEIGHT
+    UI.SetElementHeight("HealthGrid", fill) 
+end
+
+local function UpdatePotionUI(potions)
+    for i = 1, 4 do
+        local imageName = "Potion_Image" .. tostring(i)
+        if (4 - i) < potions then
+            UI.SetElementVisibility(imageName, true)
+        else
+            UI.SetElementVisibility(imageName, false)
+        end
+    end
+end
+
 -- STATES
 local State = {
     IDLE         = "Idle",
@@ -29,17 +53,33 @@ local State = {
 }
 
 local Player = {
-    currentState = nil,
-    lastDirX     = 0,
-    lastDirZ     = 1,
+    currentState    = nil,
+    lastDirX        = 0,
+    lastDirZ        = 1,
+
+    -- Potion state
+    potionCount         = 4,
+    potionHealing       = false,   -- ¿está recuperando vida ahora mismo?
+    potionHealRemaining = 0.0,     -- vida que queda por recuperar
+    potionHealTotal     = 30.0,    -- vida total que da cada poción
+    potionHealRate      = 15.0,    -- vida por segundo que se recupera
+    potionCooldown      = 0.0,     -- cooldown para evitar spam de la tecla 3
+    potionCooldownMax   = 0.5,
 }
 
 public = {
     speed               = 10.0,
     rollDuration        = 0.05,
     sprintMultiplier    = 1.5,
-    stamina             = 4,
-    tiredMultiplier     = 0.7,  
+    stamina             = 100.0,
+    health              = 100.0,
+    speedIncrease       = 10,
+    staminaCost         = 0.1,
+    staminaRecover      = 0.1,
+    usingStamina        = false,
+    tiredMultiplier     = 0.7,
+    hpLossCost          = 0.2,   
+    hpRecover           = 0.2,  
     attackDuration      = 0.5,
     attackCooldown      = 0.5,
     knockbackForce      = 0.2,
@@ -64,7 +104,6 @@ local function GetMovementInput()
         moveX = gpX * INPUT_SCALE
         moveZ = gpZ * INPUT_SCALE
     end
-
     if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
     if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
     if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
@@ -85,13 +124,11 @@ end
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ)
     local pos = self.transform.position
     
-    -- Calculates the new pos
     local nextX = pos.x + (moveX / INPUT_SCALE) * self.public.speed * dt
     local nextZ = pos.z + (moveZ / INPUT_SCALE) * self.public.speed * dt
 
     self.transform:SetPosition(nextX, pos.y, nextZ)
 
-    -- Apply rotation
     local faceDirX = moveX / INPUT_SCALE
     local faceDirZ = moveZ / INPUT_SCALE
 
@@ -100,6 +137,7 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ)
         self.transform:SetRotation(0, angleDeg, 0)
     end
 end
+
 -- STATE MACHINE
 local States = {}
 
@@ -128,8 +166,6 @@ States[State.IDLE] = {
     
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
-        
-        -- TRANSITION, se usa 0.1 por el drift
         if inputLen > 0.1 then
             ChangeState(self, State.WALK)
             
@@ -145,19 +181,21 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
+        self.public.usingStamina = false
         if anim then anim:Play("Walking", 0.5) end
     end,
     
     Update = function(self, dt)
+        if Input.GetKey("LeftShift") and self.public.stamina > 10 then
+            ChangeState(self, State.RUNNING)
+        end
         local moveX, moveZ, inputLen = GetMovementInput()
         
-        -- Save the last direction looking so the roll is on that direction
         if inputLen > 1 then
             Player.lastDirX = moveX / INPUT_SCALE
             Player.lastDirZ = moveZ / INPUT_SCALE
         end
 
-        -- Transition to idle if you can move
         if inputLen <= 0.1 then
             ChangeState(self, State.IDLE)
             return
@@ -176,38 +214,49 @@ States[State.WALK] = {
 
 States[State.RUNNING] = {
     Enter = function(self)
-        -- Anim running
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Walking", 0.5) end
+        self.public.usingStamina = true
+        self.public.speed = self.public.speed + self.public.speedIncrease
     end,
     Update = function(self, dt)
-        -- Logic running, muliply vel and stamina
+        if not Input.GetKey("LeftShift") then 
+            self.public.speed = self.public.speed - self.public.speedIncrease
+            ChangeState(self, State.WALK) 
+        end
+        local moveX, moveZ, inputLen = GetMovementInput()
+        
+        if inputLen > 1 then
+            Player.lastDirX = moveX / INPUT_SCALE
+            Player.lastDirZ = moveZ / INPUT_SCALE
+        end
+
+        if self.public.stamina <= 0 then
+            self.public.speed = self.public.speed - self.public.speedIncrease
+            ChangeState(self, State.WALK) 
+        end
+
+        self.public.stamina = self.public.stamina - self.public.staminaCost
+
+        Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
+        
+        ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
 }
 
 States[State.ROLL] = {
-    Enter = function(self)
-        -- Anim roll, fix direction, stamina...
-    end,
-    Update = function(self, dt)
-        -- Move on the direction fixed ignoring the input digo yo, transition to idle at end
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.CHARGING] = {
-    Enter = function(self)
-        -- Anim attackheavy
-    end,
-    Update = function(self, dt)
-        -- Move slow y todo eso
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.ATTACK_HEAVY] = {
-    Enter = function(self)
-        -- Stamina, anim attack y todo eso
-    end,
-    Update = function(self, dt)
-        -- return idle
-    end
+    Enter = function(self) end,
+    Update = function(self, dt) end
 }
 
 States[State.ATTACK_LIGHT] = {
@@ -230,15 +279,40 @@ States[State.ATTACK_LIGHT] = {
     end
 }
 
+local function UpdatePotionHeal(self, dt)
+    if Player.potionHealing then
+        local healThisTick = Player.potionHealRate * dt
+        local actualHeal   = math.min(healThisTick, Player.potionHealRemaining)
+        local maxHeal      = math.min(actualHeal, 100.0 - self.public.health)
+
+        self.public.health          = self.public.health + maxHeal
+        Player.potionHealRemaining  = Player.potionHealRemaining - actualHeal
+
+        Engine.Log("[Player] POTION HEAL: +" .. tostring(maxHeal) .. " | HP: " .. tostring(self.public.health))
+
+        -- Terminar curación cuando se agota la cantidad o la vida ya está llena
+        if Player.potionHealRemaining <= 0 or self.public.health >= 100.0 then
+            Player.potionHealing       = false
+            Player.potionHealRemaining = 0.0
+        end
+    end
+end
+
 function Start(self)
     Engine.Log("Player inicializado")
 
-    attackCooldown = 0
+    --stamina
+    self.public.stamina = 100
+    self.public.health  = 100
+    Player.potionCount  = 4
 
+    --attack
+    attackCooldown = 0
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end 
 
     ChangeState(self, State.IDLE)
+    UpdatePotionUI(Player.potionCount)
 end
 
 function Update(self, dt)
@@ -253,7 +327,47 @@ function Update(self, dt)
 
     if Player.currentState and States[Player.currentState] then
         States[Player.currentState].Update(self, dt)
+
+        -- Recuperar stamina si no se está usando
+        if not self.public.usingStamina and self.public.stamina < 100 then
+            self.public.stamina = self.public.stamina + self.public.staminaRecover
+        end
     end
+
+    -- Cooldown de la tecla de poción (evita consumir varias en un frame)
+    if Player.potionCooldown > 0 then
+        Player.potionCooldown = Player.potionCooldown - dt
+    end
+
+    -- Tecla 3: usar poción
+    if Input.GetKey("3") and Player.potionCooldown <= 0 then
+        if Player.potionCount > 0 and self.public.health < 100 and not Player.potionHealing then
+            Player.potionCount          = Player.potionCount - 1
+            Player.potionHealing        = true
+            Player.potionHealRemaining  = Player.potionHealTotal
+            Player.potionCooldown       = Player.potionCooldownMax
+            Engine.Log("[Player] POCION USADA | Restantes: " .. tostring(Player.potionCount))
+            UpdatePotionUI(Player.potionCount)
+        end
+    end
+
+    -- Aplicar curación gradual de la poción
+    UpdatePotionHeal(self, dt)
+
+    -- Tecla 1: perder vida (debug)
+    if Input.GetKey("1") then
+        self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
+        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    -- Tecla 2: ganar vida (debug)
+    if Input.GetKey("2") then
+        self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    UpdateStaminaBar(self.public.stamina)
+    UpdateHealthBar(self.public.health)
 
     if _impactFrameTimer > 0 then
         _impactFrameTimer = _impactFrameTimer - dt

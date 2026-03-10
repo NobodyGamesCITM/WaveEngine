@@ -30,7 +30,8 @@
 #include "Rigidbody.h"
 
 #include <filesystem>
-#include <cmath>            
+#include <cmath>
+
 ScriptManager::ScriptManager() : Module(), L(nullptr) {
     name = "ScriptManager";
 }
@@ -192,9 +193,7 @@ bool ScriptManager::HasGlobalFunction(const std::string& functionName) {
     return isFunc;
 }
 
-
 //basic lua functions
-
 static int Lua_Engine_Log(lua_State* L) {
     const char* message = luaL_checkstring(L, 1);
     LOG_CONSOLE("[Lua] %s", message);
@@ -206,7 +205,10 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
     {"Space", SDL_SCANCODE_SPACE}, {"Escape", SDL_SCANCODE_ESCAPE},
     {"LeftShift", SDL_SCANCODE_LSHIFT}, {"RightShift", SDL_SCANCODE_RSHIFT},
-    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}
+    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}, 
+    {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9}, {"0", SDL_SCANCODE_0}, 
+    {"1", SDL_SCANCODE_1},{"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3}, 
+    {"4", SDL_SCANCODE_4},
 };
 
 static int Lua_Input_GetKey(lua_State* L) {
@@ -479,11 +481,52 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+// UI
+// UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
-    const char* buttonName = luaL_checkstring(L, 1);
-    bool clicked = UIManager::GetInstance().WasButtonJustClicked(buttonName);
-    lua_pushboolean(L, clicked);
+    const char* name = luaL_checkstring(L, 1);
+    lua_pushboolean(L, UIManager::GetInstance().WasButtonJustClicked(name));
     return 1;
+}
+
+// UI.SetElementHeight("GridName", 42.0)
+static int Lua_UI_SetElementHeight(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float height = static_cast<float>(luaL_checknumber(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, height]() {
+        UIManager::GetInstance().SetElementHeight(name, height);
+    });
+    return 0;
+}
+
+// UI.SetElementWidth("GridName", 42.0)
+static int Lua_UI_SetElementWidth(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float width = static_cast<float>(luaL_checknumber(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, width]() {
+        UIManager::GetInstance().SetElementWidth(name, width);
+    });
+    return 0;
+}
+
+// UI.SetElementText("TextBlockName", "Hello")
+static int Lua_UI_SetElementText(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    std::string text(luaL_checkstring(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, text]() {
+        UIManager::GetInstance().SetElementText(name, text);
+    });
+    return 0;
+}
+
+// UI.SetElementVisibility("ImageName", true/false)
+static int Lua_UI_SetElementVisibility(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    bool visible = lua_toboolean(L, 2) != 0;
+    Application::GetInstance().scripts->EnqueueOperation([name, visible]() {
+        UIManager::GetInstance().SetElementVisibility(name, visible);
+    });
+    return 0;
 }
 
 // Game API
@@ -559,10 +602,13 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
-    // UI
+    //UI
     lua_newtable(L);
-    lua_pushcfunction(L, Lua_UI_WasClicked);
-    lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, Lua_UI_WasClicked);            lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, Lua_UI_SetElementHeight);      lua_setfield(L, -2, "SetElementHeight");
+    lua_pushcfunction(L, Lua_UI_SetElementWidth);       lua_setfield(L, -2, "SetElementWidth");
+    lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
+    lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
     lua_setglobal(L, "UI");
 
     // Game
@@ -590,11 +636,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "Exit");
     lua_setglobal(L, "Game");
 
-
     LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI, Game");
 }
-// GAMEOBJECT API
 
+// GAMEOBJECT API
 static int Lua_Animation_Play(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
@@ -888,10 +933,11 @@ static int Lua_GameObject_LoadTexture(lua_State* L) {
     }
 
     // Enqueue texture load for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     lua_pushboolean(L, true);
     return 1;
@@ -917,10 +963,11 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     UID textureUID = static_cast<UID>(luaL_checknumber(L, 1));
 
     // Enqueue texture change for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     return 0;
 }

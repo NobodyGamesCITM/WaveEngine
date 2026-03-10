@@ -9,6 +9,7 @@
 ScriptEditorWindow::ScriptEditorWindow()
     : EditorWindow("Script Editor")
 {
+    isOpen = false;
     InitializeLuaKeywords();
 
     colorKeyword = ImVec4(0.98f, 0.45f, 0.45f, 1.0f);
@@ -653,6 +654,7 @@ void ScriptEditorWindow::DrawEditableView(ImVec2 editorSize, float lineNumberWid
 
 void ScriptEditorWindow::DrawLineNumbers()
 {
+
 }
 
 void ScriptEditorWindow::DrawErrorPanel()

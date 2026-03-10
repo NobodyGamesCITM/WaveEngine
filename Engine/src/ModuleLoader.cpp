@@ -5,7 +5,10 @@
 #include "ComponentMesh.h"
 #include "ResourceModel.h"
 #include "MetaFile.h"
+#include "FileUtils.h"
 #include "ComponentMaterial.h"
+#include "MaterialStandard.h"
+#include "ComponentCamera.h"
 
 ModuleLoader::ModuleLoader() : Module() {}
 ModuleLoader::~ModuleLoader() {}
@@ -45,9 +48,6 @@ bool ModuleLoader::Start()
         ComponentMesh* meshComp = static_cast<ComponentMesh*>(pyramidObject->CreateComponent(ComponentType::MESH));
         Mesh pyramidMesh = Primitives::CreatePyramid();
         meshComp->SetMesh(pyramidMesh);
-
-        ComponentMaterial* material = static_cast<ComponentMaterial*>(pyramidObject->CreateComponent(ComponentType::MATERIAL));
-        material->CreateCheckerboardTexture();
 
         GameObject* root = Application::GetInstance().scene->GetRoot();
         root->AddChild(pyramidObject);
@@ -98,9 +98,9 @@ GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
     GameObject* firstLoaded = nullptr;
     UID modelUID = MetaFileManager::GetUIDFromAsset(fbxPath);
     
-    if (modelUID != 0) {
+    if (modelUID != 0) 
+    {
         
-
         ResourceModel* resource = (ResourceModel*)Application::GetInstance().resources.get()->RequestResource(modelUID);
         if (resource)
         {
@@ -130,9 +130,6 @@ GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
         Mesh pyramidMesh = Primitives::CreatePyramid();
         meshComp->SetMesh(pyramidMesh);
 
-        ComponentMaterial* material = static_cast<ComponentMaterial*>(pyramidObject->CreateComponent(ComponentType::MATERIAL));
-        material->CreateCheckerboardTexture();
-
         GameObject* root = Application::GetInstance().scene->GetRoot();
         root->AddChild(pyramidObject);
         Application::GetInstance().scene->RebuildOctree();
@@ -145,38 +142,105 @@ GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
 
 bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, const std::string& texturePath)
 {
-    if (!obj || !obj->IsActive())
+    UID uid = Application::GetInstance().resources.get()->Find(texturePath.c_str());
+
+    if (uid != 0) return LoadTextureToGameObject(obj, uid);
+    else return false;
+}
+
+bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, UID textureUID)
+{
+    if (!obj)
         return false;
 
     bool applied = false;
 
     ComponentMesh* meshComp = static_cast<ComponentMesh*>(obj->GetComponent(ComponentType::MESH));
 
-    if (meshComp && meshComp->IsActive() && meshComp->HasMesh())
+    if (meshComp && meshComp->HasMesh())
     {
-        ComponentMaterial* matComp = static_cast<ComponentMaterial*>(
-            obj->GetComponent(ComponentType::MATERIAL));
-
+        ComponentMaterial* matComp = static_cast<ComponentMaterial*>(obj->GetComponent(ComponentType::MATERIAL));
         if (matComp == nullptr)
         {
-            matComp = static_cast<ComponentMaterial*>(
-                obj->CreateComponent(ComponentType::MATERIAL));
+            matComp = static_cast<ComponentMaterial*>(obj->CreateComponent(ComponentType::MATERIAL));
         }
 
-        if (matComp->LoadTexture(texturePath))
-        {
-            applied = true;
-        }
-    }
+        UID texUID = textureUID;
 
-    // Apply recursively to children
-    for (GameObject* child : obj->GetChildren())
-    {
-        if (LoadTextureToGameObject(child, texturePath))
+        if (texUID != 0)
         {
-            applied = true;
+            const Resource* resource = Application::GetInstance().resources.get()->PeekResource(textureUID);
+            if (resource)
+            {
+                std::string folder = GetDirectoryFromPath(resource->GetAssetFile());
+                std::string matName = GetFileNameNoExtension(resource->GetAssetFile()) + "_mat.mat";
+                std::string matPath = folder + "/" + matName;
+
+                UID matUID = 0;
+
+                if (std::filesystem::exists(matPath)) {
+                    matUID = Application::GetInstance().resources->ImportFile(matPath.c_str());
+                }
+                else {
+                    MaterialStandard* newMat = new MaterialStandard();
+                    newMat->SetAlbedoMap(texUID);
+
+                    nlohmann::json matJson;
+                    newMat->SaveToJson(matJson);
+                    std::ofstream o(matPath);
+                    o << matJson.dump(4);
+                    o.close();
+
+                    matUID = Application::GetInstance().resources->ImportFile(matPath.c_str());
+                    delete newMat;
+                }
+
+                if (matUID != 0) {
+                    matComp->SetMaterial(matUID);
+                    applied = true;
+                }
+            }
         }
     }
 
     return applied;
 }
+
+bool ModuleLoader::LoadMaterialToGameObject(GameObject* obj, const std::string& materialPath)
+{
+    UID uid = Application::GetInstance().resources.get()->Find(materialPath.c_str());
+
+    if (uid != 0) return LoadMaterialToGameObject(obj, uid);
+    else return false;
+}
+
+bool ModuleLoader::LoadMaterialToGameObject(GameObject* obj, UID materialUID)
+{
+    if (!obj)
+        return false;
+
+    bool applied = false;
+    ComponentMesh* meshComp = static_cast<ComponentMesh*>(obj->GetComponent(ComponentType::MESH));
+
+    if (meshComp && meshComp->HasMesh())
+    {
+        ComponentMaterial* material = static_cast<ComponentMaterial*>(
+            obj->GetComponent(ComponentType::MATERIAL)
+            );
+
+        if (!material)
+        {
+            material = static_cast<ComponentMaterial*>(
+                obj->CreateComponent(ComponentType::MATERIAL)
+                );
+        }
+
+        if (material) 
+        {
+            material->SetMaterial(materialUID);
+            applied = true;
+        }
+    }
+    return applied;
+}
+

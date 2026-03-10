@@ -14,7 +14,7 @@ ResourceModel::~ResourceModel() {
 
 bool ResourceModel::LoadInMemory() {
     
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         LOG_DEBUG("[ResourceModel] Already loaded in memory: %llu", uid);
         return true;
     }
@@ -42,14 +42,11 @@ bool ResourceModel::LoadInMemory() {
 
     model = modelData;
 
-    loadedInMemory = true;
-
     return true;
 }
 
 void ResourceModel::UnloadFromMemory() {
     
     model.modelJson.clear();
-    loadedInMemory = false;
 }
 

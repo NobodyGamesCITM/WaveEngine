@@ -753,14 +753,12 @@ void InspectorWindow::DrawMeshComponent(Component* component)
             if (ImGui::Checkbox("Show Normals", &showNormals))
             {
                 meshComp->SetDrawNormals(showNormals);
-                LOG_DEBUG("Vertex normals visualization: %s", showNormals ? "ON" : "OFF");
             }
 
             bool showMesh = meshComp->GetDrawMesh();
             if (ImGui::Checkbox("Show Mesh", &showMesh))
             {
-                meshComp->SetDrawMesh(showNormals);
-                LOG_DEBUG("Face normals visualization: %s", showMesh ? "ON" : "OFF");
+                meshComp->SetDrawMesh(showMesh);
             }
         }
     }

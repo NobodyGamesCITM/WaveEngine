@@ -1,10 +1,10 @@
 <Grid
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
-      xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
@@ -70,44 +70,80 @@
         </Storyboard>
       </ResourceDictionary>
     </Grid.Resources>
+
     <Grid.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
-    <Grid x:Name="LayoutRoot" Background="{StaticResource NoesisLogoBg}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="300*"/>
-            <RowDefinition Height="120*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="300*"/>
-            <ColumnDefinition Width="60*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200*"/>
-                <RowDefinition Height="800*"/>
-            </Grid.RowDefinitions>
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
-                <Grid Height="80" Width="445"/>
-            </Viewbox>
-            <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
-                <Grid Height="460" Width="768">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[StartButton]}">   
+
+    <!-- Fondo que cubre TODA la pantalla real, fuera del Viewbox -->
+    <Grid.Background>
+        <ImageBrush ImageSource="{StaticResource NoesisLogoBg}" Stretch="UniformToFill"/>
+    </Grid.Background>
+
+    <!-- Viewbox Uniform: mantiene proporciones 16:9, sin deformación -->
+    <Viewbox Stretch="Uniform"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
+        <Grid x:Name="LayoutRoot" Width="1280" Height="720">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="768"/>
+                <ColumnDefinition Width="512"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Columna izquierda vacía, el fondo ya está en el Grid raíz -->
+
+            <!-- Título arriba izquierda -->
+            <TextBlock x:Name="MainMenu_text"
+                       Grid.Column="0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Margin="30,25,0,0"
+                       FontSize="52"
+                       FontFamily="Arial"
+                       FontWeight="Bold"
+                       Text="MAIN MENU"
+                       Foreground="Black"/>
+
+            <!-- Columna derecha: panel cyan con borde diagonal -->
+            <Grid Grid.Column="1">
+
+                <Path Fill="#FF4DD9D9"
+                      Stretch="Fill"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0.35,0" IsClosed="True">
+                                <LineSegment Point="1,0"/>
+                                <LineSegment Point="1,1"/>
+                                <LineSegment Point="0,1"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="80,0,0,0">
+
+                    <Button x:Name="StartButton"
+                            Content="START"
+                            Margin="0,0,0,40"
+                            FontSize="36"
+                            FontWeight="Bold"
+                            FontFamily="Arial"
+                            Foreground="Black"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            RenderTransformOrigin="0.5,0.5"
+                            Command="{Binding Path=Commands[StartButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
-                                  <noesis:SetFocusAction/>
+                                <noesis:SetFocusAction/>
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -122,7 +158,19 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SettingsButton" Command="{Binding Commands[SettingsButton]}" Grid.Row="3" Content="SETTINGS" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5">
+
+                    <Button x:Name="SettingsButton"
+                            Content="SETTINGS"
+                            Margin="0,0,0,40"
+                            FontSize="36"
+                            FontWeight="Bold"
+                            FontFamily="Arial"
+                            Foreground="Black"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            RenderTransformOrigin="0.5,0.5"
+                            Command="{Binding Commands[SettingsButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -137,7 +185,19 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ExitButton" Command="{Binding Commands[ExitButton]}" Grid.Row="5" Content="EXIT" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5">
+
+                    <Button x:Name="ExitButton"
+                            Content="EXIT"
+                            Margin="0,0,0,0"
+                            FontSize="36"
+                            FontWeight="Bold"
+                            FontFamily="Arial"
+                            Foreground="Black"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            RenderTransformOrigin="0.5,0.5"
+                            Command="{Binding Commands[ExitButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -152,23 +212,11 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                </Grid>
-            </Viewbox>
-            <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Text="MAIN MENU" Width="445">
-                <TextBlock.Foreground>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                        <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                    </LinearGradientBrush>
-                </TextBlock.Foreground>
-                <TextBlock.Stroke>
-                    <RadialGradientBrush>
-                        <GradientStop Offset="1" Color="#FF50B1FF"/>
-                        <GradientStop Color="#FFC0F9FF"/>
-                    </RadialGradientBrush>
-                </TextBlock.Stroke>
-            </TextBlock>
+
+                </StackPanel>
+            </Grid>
+
         </Grid>
-    </Grid>
+    </Viewbox>
 
 </Grid>

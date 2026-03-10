@@ -47,6 +47,7 @@ local Player = {
     currentState    = nil,
     lastDirX        = 0,
     lastDirZ        = 1,
+    godMode         = false,
 
     -- Potion state
     potionCount         = 4,
@@ -244,7 +245,9 @@ States[State.RUNNING] = {
             return
         end
 
-        self.public.stamina = self.public.stamina - self.public.staminaCost
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.staminaCost
+        end
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
@@ -255,7 +258,9 @@ States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
         -- Anim roll, fix direction, stamina...
-        self.public.stamina = self.public.stamina - self.public.rollStaminaCost
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.rollStaminaCost
+        end
         States[State.ROLL].timer = self.public.rollDuration
     end,
     Update = function(self, dt)
@@ -354,9 +359,15 @@ function Update(self, dt)
     UpdatePotionHeal(self, dt)
 
     -- Tecla 1: perder vida (debug)
-    if Input.GetKey("1") then
+    if Input.GetKey("1") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    -- Tecla G: toggle god mode (debug)
+    if Input.GetKeyDown("G") then
+        Player.godMode = not Player.godMode
+        Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
     end
 
     -- Tecla 2: ganar vida (debug)

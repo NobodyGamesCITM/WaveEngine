@@ -207,6 +207,7 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"Space", SDL_SCANCODE_SPACE}, {"Escape", SDL_SCANCODE_ESCAPE},
     {"LeftShift", SDL_SCANCODE_LSHIFT}, {"RightShift", SDL_SCANCODE_RSHIFT},
     {"LeftCtrl", SDL_SCANCODE_LCTRL}, {"RightCtrl", SDL_SCANCODE_RCTRL},
+    {"G", SDL_SCANCODE_G},
     {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}
 };
 

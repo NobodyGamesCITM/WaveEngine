@@ -1428,6 +1428,16 @@ bool InspectorWindow::DrawGameObjectSection(GameObject* selectedObject)
             ImGui::Text("of this GameObject");
             ImGui::EndTooltip();
         }
+        // Tag
+        ImGui::Text("Tag");
+        ImGui::SameLine();
+        static char tagBuffer[64];
+        strncpy(tagBuffer, selectedObject->GetTag().c_str(), sizeof(tagBuffer) - 1);
+        tagBuffer[sizeof(tagBuffer) - 1] = '\0';
+        if (ImGui::InputText("##Tag", tagBuffer, sizeof(tagBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            selectedObject->SetTag(tagBuffer);
+        }
     }
     return objectDeleted;
 }

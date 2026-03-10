@@ -6,6 +6,15 @@ local abs   = math.abs
 local atan2 = math.atan
 local pi    = math.pi
 
+local attackCol
+local attackTimer = 0
+
+_PlayerController_triggerCameraShake = false
+_PlayerController_shakeDuration      = 0.4
+_PlayerController_shakeMagnitude     = 4.0
+_PlayerController_lastAttack         = ""
+_impactFrameTimer                    = 0
+
 local INPUT_SCALE = 10
 
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
@@ -71,6 +80,11 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost          = 0.2,   
     hpRecover           = 0.2,  
+    attackDuration      = 0.5,
+    attackCooldown      = 0.5,
+    knockbackForce      = 0.2,
+    hitShakeDuration    = 0.3,
+    hitShakeMagnitude   = 0.4
 }
 
 local function normalizeInput(x, z)
@@ -99,6 +113,12 @@ local function GetMovementInput()
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
     
     return moveX, moveZ, inputLen
+end
+
+local function GetAttackInput(self)
+    if attackCooldown > 0 then return 0 end
+    if Input.GetKeyDown("E") then return 1 end
+    return 0
 end
 
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ)
@@ -139,6 +159,7 @@ end
 
 States[State.IDLE] = {
     Enter = function(self)
+        _PlayerController_lastAttack = ""
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Idle", 0.5) end
     end,
@@ -147,7 +168,13 @@ States[State.IDLE] = {
         local moveX, moveZ, inputLen = GetMovementInput()
         if inputLen > 0.1 then
             ChangeState(self, State.WALK)
+            
         end
+        
+        if GetAttackInput(self) == 1 then
+            ChangeState(self, State.ATTACK_LIGHT)
+        end
+        -- Check if can trasition to Roll, AttackLight, Charging y todo eso
     end
 }
 
@@ -174,6 +201,13 @@ States[State.WALK] = {
             return
         end
         
+        if GetAttackInput(self) == 1 then
+            ChangeState(self, State.ATTACK_LIGHT)
+            return
+        end
+        -- Check if can trasition to Roll, AttackLight, Charging y todo eso
+        
+        -- Movement and rotation
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
 }
@@ -226,8 +260,23 @@ States[State.ATTACK_HEAVY] = {
 }
 
 States[State.ATTACK_LIGHT] = {
-    Enter = function(self) end,
-    Update = function(self, dt) end
+    Enter = function(self)
+        -- Anim attacklight
+        _PlayerController_lastAttack = "light"
+        attackTimer = 0
+        if attackCol then attackCol:Enable() end
+    end,
+    Update = function(self, dt)
+        -- wait anim end and return idle
+        attackTimer = attackTimer + dt
+        if attackTimer >= self.public.attackDuration then
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
+    end,
+    Exit = function(self)
+        if attackCol then attackCol:Disable() end
+    end
 }
 
 local function UpdatePotionHeal(self, dt)
@@ -251,14 +300,26 @@ end
 
 function Start(self)
     Engine.Log("Player inicializado")
+
+    --stamina
     self.public.stamina = 100
     self.public.health  = 100
     Player.potionCount  = 4
+
+    --attack
+    attackCooldown = 0
+    attackCol = self.gameObject:GetComponent("Box Collider")
+    if attackCol then attackCol:Disable() end 
+
     ChangeState(self, State.IDLE)
     UpdatePotionUI(Player.potionCount)
 end
 
 function Update(self, dt)
+    if attackCooldown > 0 then
+        attackCooldown = attackCooldown - dt
+    end
+
     if not Player.currentState then
         Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
@@ -307,4 +368,18 @@ function Update(self, dt)
 
     UpdateStaminaBar(self.public.stamina)
     UpdateHealthBar(self.public.health)
+
+    if _impactFrameTimer > 0 then
+        _impactFrameTimer = _impactFrameTimer - dt
+        if _impactFrameTimer <= 0 then
+            _impactFrameTimer = 0
+            Game.SetTimeScale(1.0)
+        end
+    end
+end
+
+function OnTriggerEnter(self, other)
+    if other:CompareTag("Enemy") then
+        Engine.Log("[Player] Hit an enemy: " .. other.name)
+    end
 end

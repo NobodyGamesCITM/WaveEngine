@@ -430,6 +430,7 @@ void GameObject::Serialize(nlohmann::json& gameObjectArray) const {
     gameObjectObj["name"] = name;
     gameObjectObj["uid"] = objectUID;
     gameObjectObj["active"] = active;
+    gameObjectObj["tag"] = tag;
 
     // Components
     nlohmann::json componentsArray = nlohmann::json::array();
@@ -472,6 +473,10 @@ GameObject* GameObject::Deserialize(const nlohmann::json& gameObjectObj, GameObj
 
     if (parent) {
         parent->AddChild(newObject);
+    }
+
+    if (gameObjectObj.contains("tag")) {
+        newObject->tag = gameObjectObj["tag"].get<std::string>();
     }
 
     // Components

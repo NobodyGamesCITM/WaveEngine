@@ -27,6 +27,7 @@
 #include "Application.h"
 #include "ComponentAnimation.h"
 #include "UIManager.h"
+#include "Rigidbody.h"
 
 #include <filesystem>
 #include <cmath>
@@ -616,6 +617,21 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "Pause");
     lua_pushcfunction(L, Lua_Game_Resume);
     lua_setfield(L, -2, "Resume");
+
+    //time scale
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        float scale = (float)luaL_checknumber(L, 1);
+        Application::GetInstance().time->SetTimeScale(scale);
+        return 0;
+        });
+    lua_setfield(L, -2, "SetTimeScale");
+
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        lua_pushnumber(L, Application::GetInstance().time->GetTimeScale());
+        return 1;
+        });
+    lua_setfield(L, -2, "GetTimeScale");
+
     lua_pushcfunction(L, Lua_Game_Exit);
     lua_setfield(L, -2, "Exit");
     lua_setglobal(L, "Game");
@@ -956,6 +972,58 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     return 0;
 }
 
+static int Lua_Rigidbody_AddForce(lua_State* L) {
+    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    //modes: 1=FORCE(default), 2=IMPULSE, 3=VELOCITY_CHANGE, 4=ACCELERATION
+    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
+    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
+    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
+    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
+    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
+
+    if (rb) {
+        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
+            rb->AddForce(glm::vec3(x, y, z), mode);
+            });
+    }
+    return 0;
+}
+
+static int Lua_Rigidbody_AddTorque(lua_State* L) {
+    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
+    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
+    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
+    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
+    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
+
+    if (rb) {
+        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
+            rb->AddTorque(glm::vec3(x, y, z), mode);
+            });
+    }
+    return 0;
+}
+
+static int Lua_Rigidbody_GetLinearVelocity(lua_State* L) {
+    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (rb) {
+        glm::vec3 v = rb->GetLinearVelocity();
+        lua_pushnumber(L, v.x);
+        lua_pushnumber(L, v.y);
+        lua_pushnumber(L, v.z);
+        return 3;
+    }
+    lua_pushnumber(L, 0); lua_pushnumber(L, 0); lua_pushnumber(L, 0);
+    return 3;
+}
+
 // Helper for ComponentCanvas.SetOpacity
 static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
     ComponentCanvas* canvas = static_cast<ComponentCanvas*>(lua_touserdata(L, lua_upvalueindex(1)));
@@ -966,6 +1034,31 @@ static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
         canvas->SetOpacity(opacity);
         });
 
+    return 0;
+}
+
+static int Lua_Collider_Enable(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (comp) 
+    {
+        Application::GetInstance().scripts->EnqueueOperation([comp]() {
+            comp->Enable();
+            comp->SetActive(true);
+            });
+    }
+    return 0;
+}
+
+static int Lua_Collider_Disable(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (comp) 
+    {
+        Application::GetInstance().scripts->EnqueueOperation([comp]() 
+            {
+            comp->Disable();
+            comp->SetActive(false);
+            });
+    }
     return 0;
 }
 
@@ -1073,6 +1166,59 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         return 1;
     }
 
+    if (strcmp(componentType, "Box Collider") == 0 ||
+        strcmp(componentType, "Sphere Collider") == 0 ||
+        strcmp(componentType, "Capsule Collider") == 0)
+    {
+        ComponentType ctype = ComponentType::BOX_COLLIDER;
+        if (strcmp(componentType, "Sphere Collider") == 0)   ctype = ComponentType::SPHERE_COLLIDER;
+        if (strcmp(componentType, "Capsule Collider") == 0)  ctype = ComponentType::CAPSULE_COLLIDER;
+
+        Component* comp = obj->GetComponent(ctype);
+        if (!comp) 
+        {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_Enable, 1);
+        lua_setfield(L, -2, "Enable");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_Disable, 1);
+        lua_setfield(L, -2, "Disable");
+
+        return 1;
+    }
+
+    if (strcmp(componentType, "Rigidbody") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::RIGIDBODY);
+        Rigidbody* rb = static_cast<Rigidbody*>(comp);
+        if (!rb) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        lua_pushlightuserdata(L, rb);
+        lua_pushcclosure(L, Lua_Rigidbody_AddForce, 1);
+        lua_setfield(L, -2, "AddForce");
+
+        lua_pushlightuserdata(L, rb);
+        lua_pushcclosure(L, Lua_Rigidbody_AddTorque, 1);
+        lua_setfield(L, -2, "AddTorque");
+
+        lua_pushlightuserdata(L, rb);
+        lua_pushcclosure(L, Lua_Rigidbody_GetLinearVelocity, 1);
+        lua_setfield(L, -2, "GetLinearVelocity");
+
+        return 1;
+    }
+
     lua_pushnil(L);
     return 1;
 }
@@ -1146,6 +1292,31 @@ static int Lua_GameObject_Index(lua_State* L) {
 
     if (strcmp(key, "LoadTexture") == 0) {
         lua_pushcfunction(L, Lua_GameObject_LoadTexture);
+        return 1;
+    }
+
+    if (strcmp(key, "tag") == 0) {
+        lua_pushstring(L, obj->GetTag().c_str());
+        return 1;
+    }
+
+    if (strcmp(key, "SetTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            (*objPtr)->SetTag(tag);
+            return 0;
+            });
+        return 1;
+    }
+
+    if (strcmp(key, "CompareTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            lua_pushboolean(L, (*objPtr)->CompareTag(tag));
+            return 1;
+            });
         return 1;
     }
 

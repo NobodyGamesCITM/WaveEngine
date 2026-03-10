@@ -207,7 +207,7 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}, 
     {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9}, {"0", SDL_SCANCODE_0}, 
     {"1", SDL_SCANCODE_1},{"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3}, 
-    {"4", SDL_SCANCODE_4},
+    {"4", SDL_SCANCODE_4},{"P", SDL_SCANCODE_P},
 };
 
 static int Lua_Input_GetKey(lua_State* L) {

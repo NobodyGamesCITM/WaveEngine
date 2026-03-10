@@ -25,7 +25,7 @@
         <!-- HealthBar: columna izquierda -->
         <Viewbox x:Name="HealtBar_Viewport" Grid.Row="0" Grid.Column="0" Stretch="Uniform">
             <Grid Width="50" Height="68" Margin="0,6,50,26">
-                <Grid x:Name="HealthGrid" VerticalAlignment="Bottom" Width="28" Margin="11,0" Height="68">
+                <Grid x:Name="HealthGrid" VerticalAlignment="Bottom" Width="28" Height="68" Margin="11,0">
                     <Rectangle x:Name="HealthFill" Width="28" Height="68" VerticalAlignment="Bottom">
                         <Rectangle.Fill>
                             <ImageBrush ImageSource="Textures/HealthBar_Interior.png"/>
@@ -56,6 +56,21 @@
                     </Rectangle>
                 </Grid>
                 <Image x:Name="StaminaBar_Image" Source="Textures/Health_Bar.png" Margin="12,0,10,0"/>
+            </Grid>
+        </Viewbox>
+        <Viewbox x:Name="Potion_Viewport" Grid.Row="0" Stretch="Uniform" Grid.Column="2" Margin="282,0,0,0">
+            <Grid Width="50" Height="68" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Grid.RenderTransform>
+                <Image x:Name="PotionContainer_Image" Source="Textures/PotionContainer.png" Margin="9,10,9,24"/>
+                <Grid Width="50" Height="68" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </Grid.RenderTransform>
+                    <Image x:Name="Potion_Image" Source="Textures/HealthPotion.png" Margin="15,16,16,33"/>
+                    <TextBlock x:Name="PotionsNumber" TextWrapping="Wrap" Text="1" Foreground="#FFFFFFFF" TextAlignment="Center" FontSize="4" FontFamily="Arial" Margin="-0.5,36,0,26"/>
+                </Grid>
             </Grid>
         </Viewbox>
 

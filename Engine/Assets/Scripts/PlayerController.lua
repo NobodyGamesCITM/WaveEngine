@@ -21,6 +21,18 @@ local function UpdateHealthBar(health)
     UI.SetElementHeight("HealthGrid", fill) 
 end
 
+local function UpdatePotionUI(potions)
+    -- Actualizar número de pociones en el TextBlock
+    UI.SetElementText("PotionsNumber", tostring(potions))
+
+    -- Ocultar imagen de poción si no quedan
+    if potions <= 0 then
+        UI.SetElementVisibility("Potion_Image", false)
+    else
+        UI.SetElementVisibility("Potion_Image", true)
+    end
+end
+
 -- STATES
 local State = {
     IDLE         = "Idle",
@@ -36,6 +48,15 @@ local Player = {
     currentState    = nil,
     lastDirX        = 0,
     lastDirZ        = 1,
+
+    -- Potion state
+    potionCount         = 2,
+    potionHealing       = false,   -- ¿está recuperando vida ahora mismo?
+    potionHealRemaining = 0.0,     -- vida que queda por recuperar
+    potionHealTotal     = 30.0,    -- vida total que da cada poción
+    potionHealRate      = 15.0,    -- vida por segundo que se recupera
+    potionCooldown      = 0.0,     -- cooldown para evitar spam de la tecla 3
+    potionCooldownMax   = 0.5,
 }
 
 public = {
@@ -210,11 +231,32 @@ States[State.ATTACK_LIGHT] = {
     Update = function(self, dt) end
 }
 
+local function UpdatePotionHeal(self, dt)
+    if Player.potionHealing then
+        local healThisTick = Player.potionHealRate * dt
+        local actualHeal   = math.min(healThisTick, Player.potionHealRemaining)
+        local maxHeal      = math.min(actualHeal, 100.0 - self.public.health)
+
+        self.public.health          = self.public.health + maxHeal
+        Player.potionHealRemaining  = Player.potionHealRemaining - actualHeal
+
+        Engine.Log("[Player] POTION HEAL: +" .. tostring(maxHeal) .. " | HP: " .. tostring(self.public.health))
+
+        -- Terminar curación cuando se agota la cantidad o la vida ya está llena
+        if Player.potionHealRemaining <= 0 or self.public.health >= 100.0 then
+            Player.potionHealing       = false
+            Player.potionHealRemaining = 0.0
+        end
+    end
+end
+
 function Start(self)
     Engine.Log("Player inicializado")
     self.public.stamina = 100
     self.public.health  = 100
+    Player.potionCount  = 2
     ChangeState(self, State.IDLE)
+    UpdatePotionUI(Player.potionCount)
 end
 
 function Update(self, dt)
@@ -232,11 +274,33 @@ function Update(self, dt)
         end
     end
 
+    -- Cooldown de la tecla de poción (evita consumir varias en un frame)
+    if Player.potionCooldown > 0 then
+        Player.potionCooldown = Player.potionCooldown - dt
+    end
+
+    -- Tecla 3: usar poción
+    if Input.GetKey("3") and Player.potionCooldown <= 0 then
+        if Player.potionCount > 0 and self.public.health < 100 and not Player.potionHealing then
+            Player.potionCount          = Player.potionCount - 1
+            Player.potionHealing        = true
+            Player.potionHealRemaining  = Player.potionHealTotal
+            Player.potionCooldown       = Player.potionCooldownMax
+            Engine.Log("[Player] POCION USADA | Restantes: " .. tostring(Player.potionCount))
+            UpdatePotionUI(Player.potionCount)
+        end
+    end
+
+    -- Aplicar curación gradual de la poción
+    UpdatePotionHeal(self, dt)
+
+    -- Tecla 1: perder vida (debug)
     if Input.GetKey("1") then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
+    -- Tecla 2: ganar vida (debug)
     if Input.GetKey("2") then
         self.public.health = math.min(100, self.public.health + self.public.hpRecover)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))

@@ -27,8 +27,9 @@ local Player = {
 
 public = {
     speed               = 10.0,
-    rollDuration        = 0.05,
+    rollDuration        = 5,
     sprintMultiplier    = 1.5,
+    rollMultiplier      = 10,
     stamina             = 4,
     tiredMultiplier     = 0.7
 }
@@ -119,6 +120,10 @@ States[State.IDLE] = {
         end
         
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
+        if Input.GetKeyDown("LeftCtrl") then
+            ChangeState(self, State.ROLL)
+            return
+        end
     end
 }
 
@@ -150,6 +155,11 @@ States[State.WALK] = {
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
         
+        if Input.GetKeyDown("LeftCtrl") then
+            ChangeState(self, State.ROLL)
+            return
+        end
+
         -- Movement and rotation
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
@@ -177,17 +187,37 @@ States[State.RUNNING] = {
             Player.lastDirZ = moveZ / INPUT_SCALE
         end
 
+        -- Check if can trasition to Roll, AttackLight, Charging y todo eso
+        if Input.GetKeyDown("LeftCtrl") then
+            ChangeState(self, State.ROLL)
+            return
+        end
+
         local sprintSpeed = self.public.speed * self.public.sprintMultiplier
         ApplyMovementAndRotation(self, dt, moveX, moveZ, sprintSpeed)
     end
 }
 
 States[State.ROLL] = {
+    timer = 0,
     Enter = function(self)
         -- Anim roll, fix direction, stamina...
+        States[State.ROLL].timer = self.public.rollDuration
     end,
     Update = function(self, dt)
         -- Move on the direction fixed ignoring the input digo yo, transition to idle at end
+        States[State.ROLL].timer = States[State.ROLL].timer - dt
+
+        if States[State.ROLL].timer <= 0 then
+            ChangeState(self, State.IDLE)
+            return
+        end
+
+        local pos = self.transform.position
+        local rollSpeed = self.public.speed * self.public.rollMultiplier
+        local nextX = pos.x + Player.lastDirX * rollSpeed * dt
+        local nextZ = pos.z + Player.lastDirZ * rollSpeed * dt
+        self.transform:SetPosition(nextX, pos.y, nextZ)
     end
 }
 

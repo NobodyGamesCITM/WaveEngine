@@ -1,25 +1,18 @@
-#include "ResourcePrefab.h"
-#include "PrefabImporter.h"
-#include "GameObject.h"
-#include "Application.h"
-#include "ModuleScene.h"
+#include "ResourceScene.h"
+#include "SceneImporter.h"
 #include "Log.h"
-#include <fstream>
+#include "MetaFile.h"
 
-ResourcePrefab::ResourcePrefab(UID uid)
-    : Resource(uid, Resource::PREFAB)
-{
+ResourceScene::ResourceScene(UID uid)
+    : Resource(uid, Resource::SCENE) {
 }
 
-ResourcePrefab::~ResourcePrefab()
-{
-    if (IsLoadedToMemory()) {
-        UnloadFromMemory();
-    }
+ResourceScene::~ResourceScene() {
+    UnloadFromMemory();
 }
 
-bool ResourcePrefab::LoadInMemory()
-{
+bool ResourceScene::LoadInMemory() {
+    
     if (IsLoadedToMemory()) {
         LOG_DEBUG("[ResourceModel] Already loaded in memory: %llu", uid);
         return true;
@@ -39,19 +32,20 @@ bool ResourcePrefab::LoadInMemory()
 
     LOG_DEBUG("[ResourceModel] Loading from Library: %s", filename.c_str());
 
-    Prefab modelData = PrefabImporter::LoadFromCustomFormat(uid);;
+    Scene modelData = SceneImporter::LoadFromCustomFormat(uid);;
 
     if (!modelData.IsValid()) {
         LOG_DEBUG("[ResourceModel] ERROR: Failed to load model data");
         return false;
     }
 
-    prefab = modelData;
+    scene = modelData;
 
     return true;
 }
 
-void ResourcePrefab::UnloadFromMemory()
-{
-    prefab.prefabJson.clear();
+void ResourceScene::UnloadFromMemory() {
+    
+    scene.sceneJson.clear();
 }
+

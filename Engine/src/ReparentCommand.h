@@ -41,8 +41,6 @@ private:
             static_cast<int>(parent->GetChildren().size())));
 
         parent->InsertChildAt(obj, adjustedIndex);
-
-        Application::GetInstance().scene->MarkOctreeForRebuild();
     }
 
     UID m_ObjectUID;

@@ -537,7 +537,6 @@ void InspectorWindow::DrawTransformComponent(Component* component)
                 transform->GetPosition(), transform->GetRotation(), transform->GetScale()
             ));
 
-            Application::GetInstance().scene->MarkOctreeForRebuild();
             LOG_DEBUG("Octree rebuild requested after editing transform");
             snapshotTaken = false;
         }
@@ -552,9 +551,6 @@ void InspectorWindow::DrawTransformComponent(Component* component)
                 transform->GetPosition(), transform->GetRotation(), transform->GetScale(),
                 glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f)
             ));
-
-            // Rebuild después de reset
-            Application::GetInstance().scene->MarkOctreeForRebuild();
 
             LOG_DEBUG("Transform reset for: %s", component->owner->GetName().c_str());
             LOG_CONSOLE("Transform reset for: %s", component->owner->GetName().c_str());

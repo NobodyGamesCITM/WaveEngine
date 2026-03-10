@@ -26,6 +26,7 @@ AssetType MetaFile::GetAssetType(const std::string& extension) {
     if (ext == ".lua") return AssetType::SCRIPT_LUA;
     if (ext == ".prefab") return AssetType::PREFAB; 
     if (ext == ".mat") return AssetType::MATERIAL; 
+    if (ext == ".scene") return AssetType::SCENE;
 
     return AssetType::UNKNOWN;
 }

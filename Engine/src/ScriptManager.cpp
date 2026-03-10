@@ -1447,37 +1447,37 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                 }
             }
 
-            if (prefabUID != 0) {
-                // Request the prefab resource
-                Resource* res = resources->RequestResource(prefabUID);
-                if (res && res->GetType() == Resource::PREFAB) {
-                    ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
-                    instance = prefabRes->Instantiate();
+            //if (prefabUID != 0) {
+            //    // Request the prefab resource
+            //    Resource* res = resources->RequestResource(prefabUID);
+            //    if (res && res->GetType() == Resource::PREFAB) {
+            //        ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
+            //        instance = prefabRes->Instantiate();
 
-                    if (instance) {
-                        // Enable all scripts in the instantiated object and its children
-                        std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
-                            // Get all script components and call their Start()
-                            auto components = obj->GetComponents();
-                            for (auto* comp : components) {
-                                if (comp->GetType() == ComponentType::SCRIPT) {
-                                    ComponentScript* script = static_cast<ComponentScript*>(comp);
-                                    if (script->IsActive()) {
-                                        script->CallStart();
-                                    }
-                                }
-                            }
+            //        if (instance) {
+            //            // Enable all scripts in the instantiated object and its children
+            //            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
+            //                // Get all script components and call their Start()
+            //                auto components = obj->GetComponents();
+            //                for (auto* comp : components) {
+            //                    if (comp->GetType() == ComponentType::SCRIPT) {
+            //                        ComponentScript* script = static_cast<ComponentScript*>(comp);
+            //                        if (script->IsActive()) {
+            //                            script->CallStart();
+            //                        }
+            //                    }
+            //                }
 
-                            // Recursively enable scripts in children
-                            for (GameObject* child : obj->GetChildren()) {
-                                enableScripts(child);
-                            }
-                            };
+            //                // Recursively enable scripts in children
+            //                for (GameObject* child : obj->GetChildren()) {
+            //                    enableScripts(child);
+            //                }
+            //                };
 
-                        enableScripts(instance);
-                    }
-                }
-            }
+            //            enableScripts(instance);
+            //        }
+            //    }
+            //}
         }
 
         if (instance) {

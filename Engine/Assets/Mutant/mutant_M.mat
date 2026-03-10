@@ -1,5 +1,5 @@
 {
-    "AlbedoMapUID": 4454292896459581158,
+    "AlbedoMapUID": 6517271296473353553,
     "Color": [
         1.0,
         1.0,
@@ -10,15 +10,17 @@
     "HeightScale": 0.05000000074505806,
     "Metallic": 0.0,
     "MetallicMapUID": 0,
-    "NormalMapUID": 4975262732187231500,
+    "NormalMapUID": 17623224247985287800,
     "OcclusionMapUID": 0,
     "Offset": [
         0.0,
         0.0
     ],
+    "Opacity": 1.0,
     "Roughness": 0.5,
     "Tiling": [
         1.0,
         1.0
-    ]
+    ],
+    "Type": 0
 }

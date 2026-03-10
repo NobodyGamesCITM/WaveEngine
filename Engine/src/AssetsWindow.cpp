@@ -41,7 +41,6 @@ AssetsWindow::AssetsWindow()
     assetsRootPath = LibraryManager::GetAssetsRoot();
     currentPath = assetsRootPath;
 
-    sceneRootPath = fs::path(assetsRootPath).parent_path().string() + "/Scene";
     importSettingsWindow = new ImportSettingsWindow();
 }
 
@@ -315,8 +314,6 @@ void AssetsWindow::Draw()
 
     if (ImGui::Begin(name.c_str(), &isOpen))
     {
-        
-
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
 
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
@@ -478,16 +475,8 @@ void AssetsWindow::Draw()
         fs::path activeRoot;
         std::string rootName;
 
-        bool isInScene = (currentPath.find(sceneRootPath) != std::string::npos);
-
-        if (isInScene) {
-            activeRoot = sceneRootPath;
-            rootName = "Scene";
-        }
-        else {
-            activeRoot = assetsRootPath;
-            rootName = "Assets";
-        }
+        activeRoot = assetsRootPath;
+        rootName = "Assets";
 
         fs::path relativePath = fs::relative(currentPath, activeRoot);
 
@@ -541,7 +530,6 @@ void AssetsWindow::Draw()
 
         ImGui::BeginChild("FolderTree", ImVec2(200, 0), true);
         DrawFolderTree(assetsRootPath, "Assets");
-        DrawFolderTree(sceneRootPath, "Scene");
         ImGui::EndChild();
 
         ImGui::SameLine();
@@ -622,7 +610,7 @@ void AssetsWindow::DrawAssetsList()
 {
     static bool openMatRenamePopup = false;
 
-    if (currentPath != assetsRootPath && currentPath != sceneRootPath)
+    if (currentPath != assetsRootPath)
     {
         if (ImGui::Button("<- Back"))
         {
@@ -842,7 +830,8 @@ void AssetsWindow::DrawAssetsList()
 
         if (ImGui::Button("Create", ImVec2(120, 0)) && canCreate)
         {
-            HandlePrefabCreationDrop(s_prefabName);
+            Application::GetInstance().loader.get()->SavePrefab(s_objectToConvertToPrefab, destinationPath.generic_string());
+            Application::GetInstance().resources.get()->ImportFile(destinationPath.generic_string().c_str());
 
             s_objectToConvertToPrefab = nullptr;
             strcpy(s_prefabName, "");
@@ -1203,6 +1192,11 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
             payload.assetType = DragDropAssetType::MATERIAL;
             ImGui::Text("Material: %s", asset.name.c_str());
         }
+        else if (asset.extension == ".scene")  
+        {
+            payload.assetType = DragDropAssetType::SCENE;
+            ImGui::Text("Scene: %s", asset.name.c_str());
+        }
         else
         {
             payload.assetType = DragDropAssetType::UNKNOWN;
@@ -1248,39 +1242,9 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
                 Application::GetInstance().editor.get()->GetMaterialEditor()->SetMaterialToEdit(asset.uid);
             }
         }
-        else if (asset.extension == ".prefab")  
+        else if (asset.extension == ".scene")  
         {
-            // Instanciar prefab en la escena (en el root)
-            ModuleResources* resources = Application::GetInstance().resources.get();
-            if (resources && asset.uid != 0)
-            {
-                ResourcePrefab* prefabRes = dynamic_cast<ResourcePrefab*>(
-                    resources->RequestResource(asset.uid)
-                    );
-
-                if (prefabRes && prefabRes->IsLoadedToMemory())
-                {
-                    GameObject* instance = prefabRes->Instantiate();
-                    if (instance)
-                    {
-                        LOG_CONSOLE("[AssetsWindow] Instantiated prefab: %s", asset.name.c_str());
-                        Application::GetInstance().scene->MarkOctreeForRebuild();
-
-                        // Seleccionar el objeto instanciado
-                        Application::GetInstance().selectionManager->SetSelectedObject(instance);
-                    }
-                    else
-                    {
-                        LOG_CONSOLE("[AssetsWindow] ERROR: Failed to instantiate prefab");
-                    }
-
-                    resources->ReleaseResource(asset.uid);
-                }
-                else
-                {
-                    LOG_CONSOLE("[AssetsWindow] ERROR: Failed to load prefab resource");
-                }
-            }
+            Application::GetInstance().loader->LoadScene(asset.path);
         }
     }
 
@@ -1360,35 +1324,6 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
             if (ImGui::Combo("##defaulteditor", &currentIdx, editorNames, 4))
             {
                 EditorPreferences::SetPreferredEditor(static_cast<ExternalEditor>(currentIdx));
-            }
-
-            ImGui::Separator();
-        }
-
-        // Menú específico para PREFABS (.prefab)
-        if (!asset.isDirectory && asset.extension == ".prefab")  
-        {
-            if (ImGui::MenuItem("Instantiate in Scene"))
-            {
-                ModuleResources* resources = Application::GetInstance().resources.get();
-                if (resources && asset.uid != 0)
-                {
-                    ResourcePrefab* prefabRes = dynamic_cast<ResourcePrefab*>(
-                        resources->RequestResource(asset.uid)
-                        );
-
-                    if (prefabRes && prefabRes->IsLoadedToMemory())
-                    {
-                        GameObject* instance = prefabRes->Instantiate();
-                        if (instance)
-                        {
-                            LOG_CONSOLE("[AssetsWindow] Instantiated prefab: %s", asset.name.c_str());
-                            Application::GetInstance().scene->MarkOctreeForRebuild();
-                            Application::GetInstance().selectionManager->SetSelectedObject(instance);
-                        }
-                        resources->ReleaseResource(asset.uid);
-                    }
-                }
             }
 
             ImGui::Separator();
@@ -1958,7 +1893,8 @@ bool AssetsWindow::IsAssetFile(const std::string& extension) const
         extension == ".json" ||
         extension == ".lua"  ||
         extension == ".mat"  ||
-        extension == ".prefab";
+        extension == ".prefab" ||
+        extension == ".scene";
 }
 
 void AssetsWindow::LoadPreviewForAsset(AssetEntry& asset)
@@ -2684,126 +2620,6 @@ function Update(deltaTime)
     -- end
 end
 )";
-}
-
-void AssetsWindow::HandlePrefabCreationDrop(const std::string& prefabName)
-{
-    SelectionManager* selection = Application::GetInstance().selectionManager;
-
-    if (!selection->HasSelection())
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: No GameObject selected");
-        return;
-    }
-
-    GameObject* selectedObject = selection->GetSelectedObject();
-    if (!selectedObject)
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: Selected object is null");
-        return;
-    }
-
-    // Generar nombre de archivo
-    std::string filename = prefabName;
-    if (filename.find(".prefab") == std::string::npos)
-    {
-        filename += ".prefab";
-    }
-
-    // Ruta completa en la carpeta actual
-    fs::path prefabPath = fs::path(currentPath) / filename;
-
-    // Verificar si ya existe
-    if (fs::exists(prefabPath))
-    {
-        LOG_CONSOLE("[AssetsWindow] WARNING: Prefab already exists, generating unique name");
-
-        std::string baseName = prefabName;
-        int counter = 1;
-
-        do {
-            filename = baseName + "_" + std::to_string(counter) + ".prefab";
-            prefabPath = fs::path(currentPath) / filename;
-            counter++;
-        } while (fs::exists(prefabPath));
-    }
-
-    // Crear prefab
-    if (CreatePrefabFromGameObject(selectedObject, prefabPath.string()))
-    {
-        LOG_CONSOLE("[AssetsWindow] Prefab created: %s", prefabPath.string().c_str());
-        RefreshAssets();
-    }
-    else
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: Failed to create prefab");
-    }
-}
-
-bool AssetsWindow::CreatePrefabFromGameObject(GameObject* obj, const std::string& prefabPath)
-{
-    if (!obj)
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: GameObject is null");
-        return false;
-    }
-
-    // Serialize GameObject to JSON
-    nlohmann::json prefabArray = nlohmann::json::array();
-    obj->Serialize(prefabArray);
-
-    if (prefabArray.empty())
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: Failed to serialize GameObject");
-        return false;
-    }
-
-    // Get first element (the serialized GameObject)
-    nlohmann::json prefabData = prefabArray[0];
-
-    // Save to file
-    std::ofstream file(prefabPath);
-    if (!file.is_open())
-    {
-        LOG_CONSOLE("[AssetsWindow] ERROR: Cannot create prefab file: %s", prefabPath.c_str());
-        return false;
-    }
-
-    file << prefabData.dump(4);
-    file.close();
-
-    // Create .meta file
-    MetaFile meta;
-    meta.uid = GenerateUID();
-    meta.type = AssetType::PREFAB;
-    meta.originalPath = prefabPath;
-    meta.fileHash = MetaFileManager::GetFileHash(prefabPath);
-
-    std::string metaPath = prefabPath + ".meta";
-    if (!meta.Save(metaPath))
-    {
-        LOG_CONSOLE("[AssetsWindow] WARNING: Failed to create .meta file");
-    }
-
-    // Register in ModuleResources
-    ModuleResources* resources = Application::GetInstance().resources.get();
-    if (resources)
-    {
-        Resource* prefabResource = resources->CreateNewResourceWithUID(
-            prefabPath.c_str(),
-            Resource::PREFAB,
-            meta.uid
-        );
-
-        if (prefabResource)
-        {
-            prefabResource->SetAssetFile(prefabPath);
-            prefabResource->SetLibraryFile(prefabPath);
-            LOG_DEBUG("[AssetsWindow] Prefab registered with UID: %llu", meta.uid);
-        }
-    }
-
-    return true;
 }
 
 void AssetsWindow::OnEvent(const Event& event)

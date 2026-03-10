@@ -49,7 +49,8 @@ enum class DragDropAssetType
     SCRIPT,         // Lua script
     PREFAB,
     ANIMATION,
-    MATERIAL
+    MATERIAL,
+    SCENE
 };
 
 // Payload para drag & drop interno
@@ -102,15 +103,11 @@ private:
     // Script management
     void CreateNewScript(const std::string& scriptName);
     std::string GetDefaultScriptTemplate();
-
-    void HandlePrefabCreationDrop(const std::string& prefabName);
-    bool CreatePrefabFromGameObject(GameObject* obj, const std::string& prefabPath);
     
     void OnEvent(const Event& event) override;
 
     std::string assetsRootPath;
     std::string currentPath;
-    std::string sceneRootPath;
     std::vector<AssetEntry> currentAssets;
 
     AssetEntry* selectedAsset;

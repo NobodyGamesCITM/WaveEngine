@@ -254,6 +254,10 @@ set(IMPORTERS_SRC
     src/MeshImporter.h 
     src/AnimationImporter.cpp 
     src/AnimationImporter.h 
+    src/SceneImporter.cpp 
+    src/SceneImporter.h 
+    src/PrefabImporter.cpp 
+    src/PrefabImporter.h 
     src/LibraryManager.cpp 
     src/LibraryManager.h 
     src/MetaFile.cpp 
@@ -270,6 +274,8 @@ set(IMPORTERS_SRC
     src/ResourceMesh.h 
     src/ResourceModel.cpp 
     src/ResourceModel.h 
+    src/ResourceScene.cpp 
+    src/ResourceScene.h 
     src/ResourceTexture.cpp 
     src/ResourceTexture.h 
     src/ResourceAnimation.cpp 
@@ -280,6 +286,8 @@ set(IMPORTERS_SRC
     src/ResourceAnimation.h
     src/ResourceMaterial.cpp
     src/ResourceMaterial.h
+    src/ResourcePrefab.h
+    src/ResourcePrefab.cpp
     src/Material.h
     src/MaterialStandard.cpp
     src/MaterialStandard.h
@@ -298,8 +306,6 @@ set(SCRIPTING_SRC
     src/Prefab.cpp
     src/PrefabManager.h
     src/PrefabManager.cpp
-    src/ResourcePrefab.h
-    src/ResourcePrefab.cpp
 )
 
 set(NAVIGATION_SRC

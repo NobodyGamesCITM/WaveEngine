@@ -156,7 +156,7 @@ void SceneWindow::HandleAssetDropTarget()
             {
             case DragDropAssetType::FBX_MODEL:
             {
-                GameObject* loadedModel = Application::GetInstance().loader->LoadFbx(dropData->assetPath);
+                GameObject* loadedModel = Application::GetInstance().loader->LoadModel(dropData->assetUID);
                 if (loadedModel)
                 {
                     Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
@@ -189,7 +189,6 @@ void SceneWindow::HandleAssetDropTarget()
                     Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
                         std::make_unique<CreateCommand>(meshObject)
                     );
-                    Application::GetInstance().scene->RebuildOctree();
                     LOG_CONSOLE("Mesh loaded successfully (UID: %llu)", dropData->assetUID);
                 }
                 else
@@ -283,7 +282,22 @@ void SceneWindow::HandleAssetDropTarget()
                 }
                 break;
             }
-
+            case DragDropAssetType::PREFAB:
+            {
+                GameObject* loadedModel = Application::GetInstance().loader->LoadPrefab(dropData->assetUID);
+                if (loadedModel)
+                {
+                    Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
+                        std::make_unique<CreateCommand>(loadedModel)
+                    );
+                    LOG_CONSOLE("FBX model loaded successfully");
+                }
+                else
+                {
+                    LOG_CONSOLE("ERROR: Failed to load FBX model");
+                }
+                break;
+            }
 
             default:
                 LOG_CONSOLE("Unknown asset type dropped");
@@ -332,9 +346,7 @@ void SceneWindow::DrawGizmo()
 {
     // 1. Verificaci�n de objeto seleccionado
     GameObject* selectedObject = Application::GetInstance().selectionManager->GetSelectedObject();
-    if (!selectedObject) {
-        if (isGizmoActive) Application::GetInstance().scene->MarkOctreeForRebuild();
-        }
+
     // First check if the gizmo was being used in the previous frame
     bool wasUsingGizmo = isGizmoActive;
     std::vector<GameObject*> selectedObjects = Application::GetInstance().selectionManager->GetFilteredObjects();
@@ -358,11 +370,6 @@ void SceneWindow::DrawGizmo()
         if (!transform)
         {
             isGizmoActive = false;
-
-            if (wasUsingGizmo)
-            {
-                Application::GetInstance().scene->MarkOctreeForRebuild();
-            }
             return;
         }
         transforms.push_back(transform);
@@ -370,11 +377,6 @@ void SceneWindow::DrawGizmo()
     if (sceneViewportSize.y <= 0.0f)
     {
         isGizmoActive = false;
-
-        if (wasUsingGizmo)
-        {
-            Application::GetInstance().scene->MarkOctreeForRebuild();
-        }
         return;
     }
 
@@ -519,8 +521,6 @@ void SceneWindow::DrawGizmo()
                 ));
                 gizmoSnapshotTaken = false;
             }
-
-            Application::GetInstance().scene->MarkOctreeForRebuild();
         }
     }
 }

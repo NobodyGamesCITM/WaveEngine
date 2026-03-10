@@ -23,7 +23,9 @@ public:
     bool LoadInMemory() override;
     void UnloadFromMemory() override;
 
-    nlohmann::json GetModelHierarchy() { return model.modelJson; }
+    nlohmann::json GetModelHierarchy() {
+        return model.IsValid() ? model.modelJson : nlohmann::json();
+    }
 
 private:
     

@@ -19,7 +19,8 @@ enum class AssetType {
     SHADER_GLSL = 6,
     SCRIPT_LUA = 7,
     PREFAB = 8,
-    MATERIAL = 9
+    MATERIAL = 9,
+    SCENE = 10
 };
 
 struct ImportSettings {

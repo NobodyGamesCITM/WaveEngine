@@ -1,8 +1,5 @@
 {
-    "animations": {
-        "mixamo.com": 4088288891600950796
-    },
-    "fileHash": 3927119390,
+    "fileHash": 3650731171,
     "importSettings": {
         "flipUVs": true,
         "frontAxis": 0,
@@ -12,8 +9,8 @@
         "upAxis": 0
     },
     "meshes": {
-        "MutantMesh": 13919874331015993463
+        "arco_piedra": 16819695898067767622
     },
     "type": 1,
-    "uid": 16336097251654784293
+    "uid": 8777524850598958482
 }

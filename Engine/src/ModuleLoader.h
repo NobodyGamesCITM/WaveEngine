@@ -26,12 +26,25 @@ public:
     bool Start() override;
     bool CleanUp() override;
     
+    //TEXTURES
     bool LoadTextureToGameObject(GameObject* obj, const std::string& texturePath);
     bool LoadTextureToGameObject(GameObject* obj, UID textureUID);
+
+    //MATERIALS
     bool LoadMaterialToGameObject(GameObject* obj, const std::string& materialPath);
     bool LoadMaterialToGameObject(GameObject* obj, UID materialUID);
-    GameObject* LoadFbx(const std::string& assetPath);
 
-private:
-    
+    //SCENES
+    bool LoadScene(const std::string& scenePath);
+    bool LoadScene(UID sceneUID);
+    bool SaveScene(const std::string& savePath);
+
+    //MODELS
+    GameObject* LoadModel(const std::string& modelPath);
+    GameObject* LoadModel(UID modelUID);
+
+    //PREFABS
+    GameObject* LoadPrefab(const std::string& modelPath);
+    GameObject* LoadPrefab(UID modelUID);
+    bool SavePrefab(GameObject* obj, const std::string& savePath);
 };

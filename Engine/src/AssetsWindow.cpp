@@ -422,6 +422,7 @@ void AssetsWindow::Draw()
 
             ImGui::EndPopup();
         }
+
         if (ImGui::IsItemHovered())
         {
             ImGui::BeginTooltip();
@@ -537,6 +538,11 @@ void AssetsWindow::Draw()
         ImGui::BeginChild("AssetsList", ImVec2(0, 0), true);
         DrawAssetsList();
         ImGui::EndChild();
+
+        HandleInternalDragDrop();
+
+        ShowMaterialNamingModal();
+        ShowPrefabNamingModal();
     }
 
     if (importSettingsWindow)
@@ -608,7 +614,7 @@ void AssetsWindow::DrawFolderTree(const fs::path& path, const std::string& label
 
 void AssetsWindow::DrawAssetsList()
 {
-    static bool openMatRenamePopup = false;
+    ImVec2 startPos = ImGui::GetCursorScreenPos();
 
     if (currentPath != assetsRootPath)
     {
@@ -661,199 +667,16 @@ void AssetsWindow::DrawAssetsList()
         RefreshAssets();
     }
 
-    ImVec2 contentRegion = ImGui::GetContentRegionAvail();
-
-    // Si hay espacio vacío, crear un área invisible para drop
-    if (contentRegion.y > 10.0f)
-    {
-        ImGui::InvisibleButton("##droparea", contentRegion);
-
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY_GAMEOBJECT"))
-            {
-                GameObject* droppedObject = *(GameObject**)payload->Data;
-
-                if (droppedObject)
-                {
-                    LOG_CONSOLE("[AssetsWindow] GameObject dropped: %s", droppedObject->GetName().c_str());
-
-                    // Abrir popup para crear prefab
-                    ImGui::OpenPopup("CreatePrefabFromHierarchy");
-                }
-            }
-
-            // Visual feedback cuando se arrastra sobre el área
-            if (ImGui::GetDragDropPayload() && ImGui::GetDragDropPayload()->IsDataType("HIERARCHY_GAMEOBJECT"))
-            {
-                ImVec2 minPos = ImGui::GetItemRectMin();
-                ImVec2 maxPos = ImGui::GetItemRectMax();
-                ImDrawList* drawList = ImGui::GetWindowDrawList();
-
-                // Dibujar borde punteado cuando se arrastra sobre
-                drawList->AddRect(minPos, maxPos, IM_COL32(100, 200, 255, 200), 0.0f, 0, 2.0f);
-
-                // Texto de ayuda
-                ImVec2 textPos = ImVec2(
-                    minPos.x + (maxPos.x - minPos.x) * 0.5f - 100.0f,
-                    minPos.y + (maxPos.y - minPos.y) * 0.5f
-                );
-                drawList->AddText(textPos, IM_COL32(100, 200, 255, 255), "Drop here to create Prefab");
-            }
-
-            ImGui::EndDragDropTarget();
-        }
-    }
-
-    if (ImGui::BeginPopupContextWindow("AssetsContextMenu", ImGuiPopupFlags_MouseButtonRight))
+    if (ImGui::BeginPopupContextWindow("AssetsContextMenu", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems))
     {
         if (ImGui::BeginMenu("Create"))
         {
             if (ImGui::MenuItem("Material"))
             {
-                openMatRenamePopup = true;
+                materialNamingOpened = true;
             }
             ImGui::EndMenu();
         }
-        ImGui::EndPopup();
-    }
-
-    if (openMatRenamePopup) {
-        ImGui::OpenPopup("NameNewMaterial");
-        openMatRenamePopup = false;
-    }
-
-    if (ImGui::BeginPopupModal("NameNewMaterial", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-    {
-        static char matName[128] = "NewMaterial";
-        ImGui::Text("Enter material name:");
-        ImGui::InputText("##matname", matName, 128);
-
-        ImGui::Spacing();
-        if (ImGui::Button("Create", ImVec2(120, 0))) {
-            UID newMatUID = MaterialImporter::CreateNewMaterial(currentPath, matName);
-            if(newMatUID != 0) {
-                RefreshAssets();
-            }
-            ImGui::CloseCurrentPopup();
-            strcpy(matName, "NewMaterial");
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::EndPopup();
-    }
-
-    // Popup modal para nombrar el prefab
-    static char s_prefabName[256] = "";
-    static bool s_popupJustOpened = false;
-    static GameObject* s_objectToConvertToPrefab = nullptr;
-
-    if (ImGui::BeginPopupModal("CreatePrefabFromHierarchy", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-    {
-        if (ImGui::IsWindowAppearing())
-        {
-            SelectionManager* selection = Application::GetInstance().selectionManager;
-            if (selection->HasSelection())
-            {
-                s_objectToConvertToPrefab = selection->GetSelectedObject();
-
-                if (s_objectToConvertToPrefab)
-                {
-                    strncpy(s_prefabName, s_objectToConvertToPrefab->GetName().c_str(), sizeof(s_prefabName) - 1);
-                    s_prefabName[sizeof(s_prefabName) - 1] = '\0';
-                    s_popupJustOpened = true;
-                }
-            }
-        }
-
-        ImGui::Text("Create Prefab from GameObject");
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        if (s_objectToConvertToPrefab)
-        {
-            ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "GameObject: %s",
-                s_objectToConvertToPrefab->GetName().c_str());
-        }
-        else
-        {
-            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "ERROR: No GameObject selected");
-        }
-
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::Text("Prefab Name:");
-        ImGui::SetNextItemWidth(300.0f);
-
-        if (s_popupJustOpened)
-        {
-            ImGui::SetKeyboardFocusHere();
-            s_popupJustOpened = false;
-        }
-
-        ImGui::InputText("##prefabname", s_prefabName, sizeof(s_prefabName));
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Extension .prefab will be added automatically");
-
-        ImGui::Spacing();
-
-        fs::path destinationPath = fs::path(currentPath) / (std::string(s_prefabName) + ".prefab");
-        std::string relativePath = destinationPath.string();
-        std::string assetsRoot = LibraryManager::GetAssetsRoot();
-
-        if (relativePath.find(assetsRoot) == 0)
-        {
-            relativePath = relativePath.substr(assetsRoot.length());
-            if (!relativePath.empty() && (relativePath[0] == '\\' || relativePath[0] == '/'))
-            {
-                relativePath = relativePath.substr(1);
-            }
-        }
-
-        ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), "Will be saved to:");
-        ImGui::SameLine();
-        ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.5f, 1.0f), "Assets/%s", relativePath.c_str());
-
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        bool canCreate = (strlen(s_prefabName) > 0 && s_objectToConvertToPrefab != nullptr);
-
-        if (!canCreate)
-        {
-            ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.5f);
-        }
-
-        if (ImGui::Button("Create", ImVec2(120, 0)) && canCreate)
-        {
-            Application::GetInstance().loader.get()->SavePrefab(s_objectToConvertToPrefab, destinationPath.generic_string());
-            Application::GetInstance().resources.get()->ImportFile(destinationPath.generic_string().c_str());
-
-            s_objectToConvertToPrefab = nullptr;
-            strcpy(s_prefabName, "");
-            s_popupJustOpened = false;
-            ImGui::CloseCurrentPopup();
-        }
-
-        if (!canCreate)
-        {
-            ImGui::PopStyleVar();
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("Cancel", ImVec2(120, 0)))
-        {
-            s_objectToConvertToPrefab = nullptr;
-            strcpy(s_prefabName, "");
-            s_popupJustOpened = false;
-            ImGui::CloseCurrentPopup();
-        }
-
         ImGui::EndPopup();
     }
 }
@@ -1141,6 +964,7 @@ void AssetsWindow::DrawExpandableAssetItem(AssetEntry& asset, std::string& pathP
 
     ImGui::PopID();
 }
+
 void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendingToLoad)
 {
     ImGui::PushID(asset.path.c_str());
@@ -1514,6 +1338,7 @@ void AssetsWindow::LoadFBXSubresources(AssetEntry& fbxAsset)
 
     LOG_DEBUG("[AssetsWindow] FBX Subresources loaded: %d items", (int)fbxAsset.subResources.size());
 }
+
 bool AssetsWindow::DeleteAsset(const AssetEntry& asset)
 {
     try {
@@ -2402,6 +2227,26 @@ void AssetsWindow::HandleExternalDragDrop(const std::string& filePath)
     }
 }
 
+void AssetsWindow::HandleInternalDragDrop()
+{
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY_GAMEOBJECT"))
+        {
+            GameObject* droppedObject = *(GameObject**)payload->Data;
+
+            if (droppedObject)
+            {
+                LOG_CONSOLE("[AssetsWindow] GameObject dropped: %s", droppedObject->GetName().c_str());
+
+                prefabNamingOpened = true;
+            }
+        }
+
+        ImGui::EndDragDropTarget();
+    }
+}
+
 bool AssetsWindow::ProcessDroppedFile(const std::string& sourceFilePath)
 {
     LOG_CONSOLE("[AssetsWindow] Processing dropped file: %s", sourceFilePath.c_str());
@@ -2491,6 +2336,162 @@ bool AssetsWindow::CopyFileToAssets(const std::string& sourceFilePath, std::stri
     {
         LOG_CONSOLE("[AssetsWindow] ERROR copying file: %s", e.what());
         return false;
+    }
+}
+
+// Modals
+void AssetsWindow::ShowMaterialNamingModal()
+{
+    if (materialNamingOpened) ImGui::OpenPopup("Create New Material");
+    
+    if (ImGui::BeginPopupModal("Create New Material", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        static char matName[128] = "NewMaterial";
+        
+        if (ImGui::IsWindowAppearing())
+        {
+            materialNamingOpened = true;
+        }
+
+        if (materialNamingOpened)
+        {
+            ImGui::SetKeyboardFocusHere();
+            materialNamingOpened = false;
+        }
+
+        ImGui::Text("Enter material name:");
+        ImGui::InputText("##matname", matName, 128);
+
+        ImGui::Spacing();
+        if (ImGui::Button("Create", ImVec2(120, 0))) {
+            UID newMatUID = MaterialImporter::CreateNewMaterial(currentPath, matName);
+            if (newMatUID != 0) {
+                RefreshAssets();
+            }
+            ImGui::CloseCurrentPopup();
+            strcpy(matName, "NewMaterial");
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
+}
+
+void AssetsWindow::ShowPrefabNamingModal()
+{
+    if (prefabNamingOpened) ImGui::OpenPopup("Create Prefab");
+
+    if (ImGui::BeginPopupModal("Create Prefab", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        static char prefabName[256] = "";
+        static GameObject* s_objectToConvertToPrefab = nullptr;
+        
+        if (ImGui::IsWindowAppearing())
+        {
+            SelectionManager* selection = Application::GetInstance().selectionManager;
+            if (selection->HasSelection())
+            {
+                s_objectToConvertToPrefab = selection->GetSelectedObject();
+
+                if (s_objectToConvertToPrefab)
+                {
+                    strncpy(prefabName, s_objectToConvertToPrefab->GetName().c_str(), sizeof(prefabName) - 1);
+                    prefabName[sizeof(prefabName) - 1] = '\0';
+                }
+            }
+        }
+
+        ImGui::Text("Create Prefab from GameObject");
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        if (s_objectToConvertToPrefab)
+        {
+            ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "GameObject: %s",
+                s_objectToConvertToPrefab->GetName().c_str());
+        }
+        else
+        {
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "ERROR: No GameObject selected");
+        }
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        ImGui::Text("Prefab Name:");
+        ImGui::SetNextItemWidth(300.0f);
+
+        if (prefabNamingOpened)
+        {
+            ImGui::SetKeyboardFocusHere();
+            prefabNamingOpened = false;
+        }
+
+        ImGui::InputText("##prefabname", prefabName, sizeof(prefabName));
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Extension .prefab will be added automatically");
+
+        ImGui::Spacing();
+
+        fs::path destinationPath = fs::path(currentPath) / (std::string(prefabName) + ".prefab");
+        std::string relativePath = destinationPath.string();
+        std::string assetsRoot = LibraryManager::GetAssetsRoot();
+
+        if (relativePath.find(assetsRoot) == 0)
+        {
+            relativePath = relativePath.substr(assetsRoot.length());
+            if (!relativePath.empty() && (relativePath[0] == '\\' || relativePath[0] == '/'))
+            {
+                relativePath = relativePath.substr(1);
+            }
+        }
+
+        ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), "Will be saved to:");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.5f, 1.0f), "Assets/%s", relativePath.c_str());
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        bool canCreate = (strlen(prefabName) > 0 && s_objectToConvertToPrefab != nullptr);
+
+        if (!canCreate)
+        {
+            ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.5f);
+        }
+
+        if (ImGui::Button("Create", ImVec2(120, 0)) && canCreate)
+        {
+            Application::GetInstance().loader.get()->SavePrefab(s_objectToConvertToPrefab, destinationPath.generic_string());
+            Application::GetInstance().resources.get()->ImportFile(destinationPath.generic_string().c_str());
+            RefreshAssets();
+
+            s_objectToConvertToPrefab = nullptr;
+            strcpy(prefabName, "");
+            prefabNamingOpened = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        if (!canCreate)
+        {
+            ImGui::PopStyleVar();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel", ImVec2(120, 0)))
+        {
+            s_objectToConvertToPrefab = nullptr;
+            strcpy(prefabName, "");
+            prefabNamingOpened = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
     }
 }
 

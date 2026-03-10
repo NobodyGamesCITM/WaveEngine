@@ -11,7 +11,6 @@
 #include "GameObject.h"
 
 class MetaFile;
-class ScriptEditorWindow;  // Forward declaration
 namespace fs = std::filesystem;
 
 // Forward declarations
@@ -85,6 +84,12 @@ private:
     bool DeleteAsset(const AssetEntry& asset);
     bool DeleteDirectory(const fs::path& dirPath);
 
+
+
+    // Modals
+    void ShowPrefabNamingModal();
+    void ShowMaterialNamingModal();
+
     // Funciones para expandir FBX
     void LoadFBXSubresources(AssetEntry& fbxAsset);
     void DrawExpandableAssetItem(AssetEntry& asset, std::string& pathPendingToLoad);
@@ -95,7 +100,8 @@ private:
     unsigned int RenderMeshToTexture(const Mesh& mesh, int width, int height);
     unsigned int RenderMultipleMeshesToTexture(const std::vector<const Mesh*>& meshes, int width, int height);
 
-    // Drag & Drop from external files
+    // Drag & Drop
+    void HandleInternalDragDrop();
     void HandleExternalDragDrop(const std::string& filePath);
     bool ProcessDroppedFile(const std::string& sourceFilePath);
     bool CopyFileToAssets(const std::string& sourceFilePath, std::string& outDestPath);
@@ -114,7 +120,6 @@ private:
     float iconSize;
     bool showInMemoryOnly;
     bool show3DPreviews;
-
     bool showDeleteConfirmation;
     AssetEntry assetToDelete;
 
@@ -122,4 +127,7 @@ private:
 
     ImportSettingsWindow* importSettingsWindow;
 
+    
+    bool materialNamingOpened = false;
+    bool prefabNamingOpened = false;
 };

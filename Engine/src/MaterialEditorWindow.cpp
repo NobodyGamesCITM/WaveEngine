@@ -95,19 +95,24 @@ void MaterialEditorWindow::Draw() {
             ImGui::Separator();
 
             UID albedoUID = sMat->GetAlbedoMapUID();
-            if (DrawTextureSlot("Albedo Map", albedoUID, sMat)) sMat->SetAlbedoMap(albedoUID);
+            if (DrawTextureSlot("Albedo Map", albedoUID, sMat)) 
+                sMat->SetAlbedoMap(albedoUID);
 
             UID normalUID = sMat->GetNormalMapUID();
-            if (DrawTextureSlot("Normal Map", normalUID, sMat)) sMat->SetNormalMap(normalUID);
+            if (DrawTextureSlot("Normal Map", normalUID, sMat)) 
+                sMat->SetNormalMap(normalUID);
 
             UID heightUID = sMat->GetHeightMapUID();
-            if (DrawTextureSlot("Height Map", heightUID, sMat)) sMat->SetHeightMap(heightUID);
+            if (DrawTextureSlot("Height Map", heightUID, sMat)) 
+                sMat->SetHeightMap(heightUID);
 
             UID metallicUID = sMat->GetMetallicMapUID();
-            if (DrawTextureSlot("Metallic Map", metallicUID, sMat)) sMat->SetMetallicMap(metallicUID);
+            if (DrawTextureSlot("Metallic Map", metallicUID, sMat)) 
+                sMat->SetMetallicMap(metallicUID);
 
             UID occlusionUID = sMat->GetOcclusioMapUID();
-            if (DrawTextureSlot("Occlusion Map", occlusionUID, sMat)) sMat->SetOcclusionMap(occlusionUID);
+            if (DrawTextureSlot("Occlusion Map", occlusionUID, sMat)) 
+                sMat->SetOcclusionMap(occlusionUID);
         }
 
         ImGui::Spacing();

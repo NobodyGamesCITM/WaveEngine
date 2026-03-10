@@ -15,5 +15,5 @@ public:
 
 private:
     
-    Material* material;
+    Material* material = nullptr;
 };

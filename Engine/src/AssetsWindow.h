@@ -18,7 +18,6 @@ namespace fs = std::filesystem;
 //Test
 struct Mesh;
 class ImportSettingsWindow;
-class MaterialEditorWindow;
 
 struct AssetEntry
 {
@@ -68,8 +67,6 @@ public:
     ~AssetsWindow();
 
     void Draw() override;
-    
-    ScriptEditorWindow* scriptEditorWindow;  
 
 private:
     void RefreshAssets();

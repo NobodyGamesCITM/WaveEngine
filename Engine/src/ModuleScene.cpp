@@ -266,7 +266,7 @@ bool ModuleScene::SaveScene(const std::string& filepath)
     file << document.dump(4);
     file.close();
 
-    LOG_CONSOLE("Scene saved successfully");
+    //LOG_CONSOLE("Scene saved successfully");
     return true;
 }
 
@@ -387,4 +387,62 @@ ComponentCamera* ModuleScene::FindCameraInHierarchy(GameObject* obj)
     }
 
     return nullptr;
+}
+
+std::string ModuleScene::SerializeSceneToString()
+{
+    nlohmann::json document;
+    document["version"] = 1;
+
+    // Serialize gameobjects
+    nlohmann::json gameObjectsArray = nlohmann::json::array();
+
+    if (root) {
+        for (GameObject* child : root->GetChildren()) {
+            child->Serialize(gameObjectsArray);
+        }
+    }
+
+    document["gameObjects"] = gameObjectsArray;
+
+    // Return as JSON string 
+    return document.dump(4);
+}
+
+bool ModuleScene::DeserializeSceneFromString(const std::string& jsonString)
+{
+    nlohmann::json document;
+
+    try {
+        document = nlohmann::json::parse(jsonString);
+    }
+    catch (const nlohmann::json::parse_error& e) {
+        LOG_CONSOLE("[ModuleScene] ERROR: Failed to parse scene JSON: %s", e.what());
+        return false;
+    }
+
+    Application::GetInstance().selectionManager->ClearSelection();
+
+    ClearScene();
+
+    // Deserialize GameObjects
+    if (document.contains("gameObjects") && document["gameObjects"].is_array()) {
+        const nlohmann::json& gameObjectsArray = document["gameObjects"];
+
+        for (size_t i = 0; i < gameObjectsArray.size(); ++i) {
+            GameObject* obj = GameObject::Deserialize(gameObjectsArray[i], root);
+            if (!obj) {
+                LOG_CONSOLE("[ModuleScene] WARNING: Failed to deserialize GameObject at index %zu", i);
+            }
+        }
+    }
+
+    if (root) 
+        root->SolveReferences();
+
+    // Force full rebuild after loading scene
+    needsOctreeRebuild = true;
+
+    LOG_CONSOLE("Scene restored from memory");
+    return true;
 }

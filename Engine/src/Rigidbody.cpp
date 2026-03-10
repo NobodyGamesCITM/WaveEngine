@@ -183,6 +183,9 @@ void Rigidbody::CreateBody()
             tempActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
     }
 
+    if (!tempActor) 
+        return;
+
     tempActor->userData = (void*)this;
     CollectListeners();
     physicsModule->GetScene()->addActor(*tempActor);

@@ -11,7 +11,7 @@ class MaterialStandard : public Material
 {
 public:
     
-    MaterialStandard(MaterialType type);
+    MaterialStandard(MaterialType type = STANDARD);
     ~MaterialStandard() override;
 
     void Bind(Shader* shader) override;

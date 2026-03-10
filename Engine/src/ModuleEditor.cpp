@@ -100,6 +100,7 @@ bool ModuleEditor::Start()
     assetsWindow = std::make_unique<AssetsWindow>();
     shaderEditorWindow = std::make_unique<ShaderEditorWindow>();
     materialEditorWindow = std::make_unique<MaterialEditorWindow>();
+    scriptEditorWindow = std::make_unique<ScriptEditorWindow>();
     commandHistory = std::make_unique<CommandHistory>();
     editorCamera = new EditorCamera();
 
@@ -160,6 +161,7 @@ bool ModuleEditor::Update()
     assetsWindow->Draw();
     materialEditorWindow->Draw();
     shaderEditorWindow->Draw();
+    scriptEditorWindow->Draw();
 
     if (showAbout) {
         DrawAboutWindow();
@@ -377,15 +379,6 @@ void ModuleEditor::ShowMenuBar()
 
         if (ImGui::BeginMenu("Edit"))
         {
-            if (assetsWindow->scriptEditorWindow)
-            {
-                bool scriptEditorOpen = assetsWindow->scriptEditorWindow->IsOpen();
-                if (ImGui::MenuItem("Script Editor", NULL, &scriptEditorOpen))
-                {
-                    assetsWindow->scriptEditorWindow->SetOpen(scriptEditorOpen);
-                }
-            }
-
             bool shaderEditorOpen = shaderEditorWindow->IsOpen();
             if (ImGui::MenuItem("Shader Editor", NULL, &shaderEditorOpen))
             {
@@ -396,6 +389,12 @@ void ModuleEditor::ShowMenuBar()
             if (ImGui::MenuItem("Material Editor", NULL, &materialEditorOpen))
             {
                 materialEditorWindow->SetOpen(materialEditorOpen);
+            }
+            
+            bool scriptEditorOpen = scriptEditorWindow->IsOpen();
+            if (ImGui::MenuItem("Script Editor", NULL, &scriptEditorOpen))
+            {
+                scriptEditorWindow->SetOpen(scriptEditorOpen);
             }
 
             ImGui::EndMenu();
@@ -1056,29 +1055,6 @@ void ModuleEditor::OnEvent(const Event& event)
     {
         ImGui_ImplSDL3_ProcessEvent(event.data.event.event);
         break;
-    }
-    case Event::Type::CastRay:
-    {
-        //startLastRay = event.data.ray.ray->origin;
-        //endLastRay = event.data.ray.ray->origin + (event.data.ray.ray->direction * 100.0f);
-        break;
-    }
-    case Event::Type::SceneCleared:
-    {
-        /*selectedGameObjects.clear();*/
-        break;
-    }
-    case Event::Type::GameObjectDestroyed:
-    {
-        /*GameObject* destroyedGO = event.data.gameObject.gameObject;
-
-        auto it = std::remove(selectedGameObjects.begin(), selectedGameObjects.end(), destroyedGO);
-
-        if (it != selectedGameObjects.end())
-        {
-            selectedGameObjects.erase(it, selectedGameObjects.end());
-        }
-        break;*/
     }
     default:
         break;

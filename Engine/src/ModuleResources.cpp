@@ -19,7 +19,7 @@
 
 // Resource Implementation
 Resource::Resource(UID uid, Type type)
-    : uid(uid), type(type), referenceCount(0), loadedInMemory(false) {
+    : uid(uid), type(type), referenceCount(0) {
 }
 
 Resource::~Resource() {
@@ -362,6 +362,12 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
             resources.erase(meta.uid);
         }
         return 0;
+    }
+
+    if (resource->IsLoadedToMemory())
+    {
+        resource->UnloadFromMemory();
+        resource->LoadInMemory();
     }
 
     uint32_t fileHash = MetaFileManager::GetFileHash(newFileInAssets);

@@ -29,6 +29,9 @@ public:
     void OnMouseButtonUp(int x, int y, Noesis::MouseButton button);
     void OnMouseWheel(int x, int y, int delta);
 
+    void OnKeyDown(Noesis::Key key) { OnGamepadButtonDown(key); }
+    void OnKeyUp(Noesis::Key key) { OnGamepadButtonUp(key); }
+
     void OnGamepadButtonDown(Noesis::Key key);
     void OnGamepadButtonUp(Noesis::Key key);
     void OnGamepadLeftStick(float x, float y);
@@ -49,7 +52,8 @@ public:
     int GetUILayer() const { return uiLayer; }
 
     float opacity = 1.0f;
-
+    
+    Noesis::IView* GetView() const { return view.GetPtr(); }
 private:
     void GenerateFramebuffer(int w, int h);
     void TryNavigateStick(float x, float y);
@@ -73,6 +77,6 @@ private:
     static constexpr float  STICK_THRESHOLD = 0.5f;
     static constexpr double STICK_INITIAL_DELAY = 0.4;
     static constexpr double STICK_REPEAT_RATE = 0.15;
-
+    bool needsHookEvents = false;
     int uiLayer = 0;
 };

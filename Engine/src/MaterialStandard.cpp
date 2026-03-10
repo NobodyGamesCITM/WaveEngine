@@ -47,29 +47,45 @@ void MaterialStandard::Bind(Shader* shader)
         glBindTexture(GL_TEXTURE_2D, albedoMap->GetGPU_ID());
         shader->SetInt("uAlbedoMap", 0);
     }
-    
+
     glActiveTexture(GL_TEXTURE1);
     if (metallicMap && metallicMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, metallicMap->GetGPU_ID());
         shader->SetInt("uMetallicMap", 1);
+        shader->SetBool("uUseMetallicMap", true);
+    }
+    else {
+        shader->SetBool("uUseMetallicMap", false);
     }
 
     glActiveTexture(GL_TEXTURE2);
     if (normalMap && normalMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, normalMap->GetGPU_ID());
         shader->SetInt("uNormalMap", 2);
+        shader->SetBool("uUseNormalMap", true);
+    }
+    else {
+        shader->SetBool("uUseNormalMap", false);
     }
 
     glActiveTexture(GL_TEXTURE3);
     if (occlusionMap && occlusionMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, occlusionMap->GetGPU_ID());
         shader->SetInt("uOcclusionMap", 3);
+        shader->SetBool("uUseOcclusionMap", true);
+    }
+    else {
+        shader->SetBool("uUseOcclusionMap", false);
     }
 
     glActiveTexture(GL_TEXTURE4);
     if (heightMap && heightMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, heightMap->GetGPU_ID());
         shader->SetInt("uHeightMap", 4);
+        shader->SetBool("uUseHeightMap", true);
+    }
+    else {
+        shader->SetBool("uUseHeightMap", false);
     }
 
     glActiveTexture(GL_TEXTURE0);
@@ -133,11 +149,11 @@ void MaterialStandard::SaveToJson(nlohmann::json& j) const {
 
 void MaterialStandard::LoadFromJson(const nlohmann::json& j) {
 
-    albedoMapUID = j.value("AlbedoMapUID", 0ull);
-    normalMapUID = j.value("NormalMapUID", 0ull);
-    heightMapUID = j.value("HeightMapUID", 0ull);
-    metallicMapUID = j.value("MetallicMapUID", 0ull);
-    occlusionMapUID = j.value("OcclusionMapUID", 0ull);
+    UID tempAlbedoMapUID = j.value("AlbedoMapUID", 0ull);
+    UID tempNormalMapUID = j.value("NormalMapUID", 0ull);
+    UID tempHeightMapUID = j.value("HeightMapUID", 0ull);
+    UID tempMetallicMapUID = j.value("MetallicMapUID", 0ull);
+    UID tempOcclusionMapUID = j.value("OcclusionMapUID", 0ull);
 
     if (j.contains("Color")) {
         auto c = j["Color"];
@@ -156,11 +172,11 @@ void MaterialStandard::LoadFromJson(const nlohmann::json& j) {
         offset = glm::vec2(o[0], o[1]);
     }
 
-    SetAlbedoMap(albedoMapUID);
-    SetNormalMap(normalMapUID);
-    SetHeightMap(heightMapUID);
-    SetMetallicMap(metallicMapUID);
-    SetOcclusionMap(occlusionMapUID);
+    SetAlbedoMap(tempAlbedoMapUID);
+    SetNormalMap(tempNormalMapUID);
+    SetHeightMap(tempHeightMapUID);
+    SetMetallicMap(tempMetallicMapUID);
+    SetOcclusionMap(tempOcclusionMapUID);
 }
 
 void MaterialStandard::SetAlbedoMap(UID uid) {

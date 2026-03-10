@@ -23,6 +23,7 @@ private:
     void DrawWindowSettings();
     void DrawRendererSettings();
     void DrawAudioVolumeSettings();
+    void DrawCameraSettings();
 
     // FPS tracking
     std::vector<float> fpsHistory;

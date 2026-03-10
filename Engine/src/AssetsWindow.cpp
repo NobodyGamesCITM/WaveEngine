@@ -43,7 +43,6 @@ AssetsWindow::AssetsWindow()
 
     sceneRootPath = fs::path(assetsRootPath).parent_path().string() + "/Scene";
     importSettingsWindow = new ImportSettingsWindow();
-    scriptEditorWindow = new ScriptEditorWindow();  
 }
 
 AssetsWindow::~AssetsWindow()
@@ -55,7 +54,6 @@ AssetsWindow::~AssetsWindow()
         UnloadPreviewForAsset(asset);
     }
     delete importSettingsWindow;
-    delete scriptEditorWindow;  
 }
 
 std::string AssetsWindow::TruncateFileName(const std::string& name, float maxWidth) const
@@ -557,10 +555,7 @@ void AssetsWindow::Draw()
     {
         importSettingsWindow->Draw();
     }
-    if (scriptEditorWindow)
-    {
-        scriptEditorWindow->Draw();
-    }
+   
     ImGui::End();
 }
 
@@ -749,7 +744,7 @@ void AssetsWindow::DrawAssetsList()
         ImGui::Spacing();
         if (ImGui::Button("Create", ImVec2(120, 0))) {
             UID newMatUID = MaterialImporter::CreateNewMaterial(currentPath, matName);
-            if (newMatUID != 0) {
+            if(newMatUID != 0) {
                 RefreshAssets();
             }
             ImGui::CloseCurrentPopup();
@@ -1239,23 +1234,17 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
         }
         else if (asset.extension == ".lua")
         {
-            if (EditorPreferences::GetPreferredEditor() == ExternalEditor::INTERNAL)
+            if (Application::GetInstance().editor.get()->GetScriptEditor())
             {
-                if (scriptEditorWindow)
-                {
-                    scriptEditorWindow->OpenScript(asset.path);
-                }
-            }
-            else
-            {
-                // Abrir con editor externo
-                EditorPreferences::OpenFileWithPreferredEditor(asset.path);
+                Application::GetInstance().editor.get()->GetScriptEditor()->SetOpen(true);
+                Application::GetInstance().editor.get()->GetScriptEditor()->OpenScript(asset.path);
             }
         }
         else if (asset.extension == ".mat")
         {
             if (Application::GetInstance().editor.get()->GetMaterialEditor())
             {
+                Application::GetInstance().editor.get()->GetMaterialEditor()->SetOpen(true);
                 Application::GetInstance().editor.get()->GetMaterialEditor()->SetMaterialToEdit(asset.uid);
             }
         }
@@ -2646,9 +2635,10 @@ void AssetsWindow::CreateNewScript(const std::string& scriptName)
     RefreshAssets();
 
     // Abrir en el editor interno por defecto
-    if (scriptEditorWindow)
+    if (Application::GetInstance().editor.get()->GetScriptEditor())
     {
-        scriptEditorWindow->OpenScript(scriptPath.string());
+        Application::GetInstance().editor.get()->GetScriptEditor()->SetOpen(true);
+        Application::GetInstance().editor.get()->GetScriptEditor()->OpenScript(scriptPath.string());
     }
 }
 

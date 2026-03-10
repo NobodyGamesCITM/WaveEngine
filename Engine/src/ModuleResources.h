@@ -35,17 +35,10 @@ public:
     const std::string& GetAssetFile() const { return assetsFile; }
     const std::string& GetLibraryFile() const { return libraryFile; }
     unsigned int GetReferenceCount() const { return referenceCount; }
-    bool IsLoadedToMemory() const { return loadedInMemory; }
+    bool IsLoadedToMemory() const { return referenceCount > 0; }
 
     void SetAssetFile(const std::string& file) { assetsFile = file; }
     void SetLibraryFile(const std::string& file) { libraryFile = file; }
-
-    void ForceUnload() {
-        if (loadedInMemory) {
-            UnloadFromMemory();
-        }
-        referenceCount = 0;
-    }
 
 protected:
     UID uid = 0;
@@ -53,7 +46,6 @@ protected:
     std::string assetsFile;
     std::string libraryFile;
     unsigned int referenceCount = 0;
-    bool loadedInMemory = false;
 
     friend class ModuleResources;
 };

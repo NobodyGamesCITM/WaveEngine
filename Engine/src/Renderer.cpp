@@ -231,6 +231,9 @@ void Renderer::LoadMesh(Mesh& mesh)
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
 
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+
     // Upload index data
     glGenBuffers(1, &mesh.EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
@@ -446,7 +449,6 @@ bool Renderer::RenderScene(CameraLens* camera)
         defaultShader->Use();
     }
 
-    // --- Render ---
     glEnable(GL_STENCIL_TEST);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
@@ -510,7 +512,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         const AABB& globalAABB = mesh->GetGlobalAABB();
 
-        if (/*camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB())*/true)
+        if (camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB()))
         {
             mesh->UpdateSkinningMatrices();
 
@@ -519,7 +521,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity())
+            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
             {
                 transparentList.emplace(distanceToCamera, renderObject);
             }
@@ -619,14 +621,7 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
     postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
     postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
-    postProcessShader->SetVec3("vignetteColor", activePP->lens.vignetteColor);
-
-    // Grain
-    postProcessShader->SetBool("grainEnabled", activePP->grain.enabled);
-    postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
-    postProcessShader->SetFloat("grainScale", std::max(0.001f, activePP->grain.scale));
-    postProcessShader->SetFloat("grainTime", activePP->grain.animated
-        ? Application::GetInstance().time->GetTotalTimeStatic() : 0.0f);
+    postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -644,14 +639,26 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         ComponentMesh* meshComp = renderObject.mesh;
         ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
 
+        if (meshComp->GetDrawNormals()) normalsList.push_back(renderObject);
+        if (meshComp->GetDrawMesh()) meshLinesList.push_back(renderObject);
+        if (meshComp->owner->IsSelected()) {
+            stencilList.push_back(renderObject);
+            glStencilFunc(GL_ALWAYS, 1, 0xFF);
+            glStencilMask(0xFF);
+        }
+        else {
+            glStencilFunc(GL_ALWAYS, 0, 0xFF);
+            glStencilMask(0x00);
+        }
+
         Shader* currentShader = defaultShader.get();
 
         if (materialComp && materialComp->GetMaterial()) {
             Material* data = materialComp->GetMaterial();
 
             switch (data->GetType()) {
-            case MaterialType::STANDARD: currentShader = standardShader.get(); break;
-
+            case MaterialType::STANDARD: currentShader = standardShader.get(); 
+                break;
             }
         }
 
@@ -711,9 +718,6 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
     glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
     glViewport(0, 0, camera->textureWidth, camera->textureHeight);
 
-    LOG_DEBUG("DrawCanvasList - fboID: %d, w: %d, h: %d",
-        camera->fboID, camera->textureWidth, camera->textureHeight);
-
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
@@ -739,7 +743,7 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
         glBindTexture(GL_TEXTURE_2D, 0);
 
         uiShader->Use();
-        glBindVertexArray(quadVAO);  // ? Re-bindear después de limpiar
+        glBindVertexArray(quadVAO);  // ? Re-bindear despuï¿½s de limpiar
 
         glBindTexture(GL_TEXTURE_2D, c->GetTextureID());
         uiShader->SetInt("uTexture", 0);
@@ -1234,7 +1238,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         Mesh& mesh = meshComponent->GetMesh();
         if (mesh.VAO == 0) continue;
 
-        if (/*!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())*/false) continue;
+        if (!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())) continue;
 
         UID realUID = meshComponent->owner->GetUID();
         uint32_t currentPickingID = nextID++;

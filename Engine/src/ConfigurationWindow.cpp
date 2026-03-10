@@ -7,6 +7,8 @@
 #include <psapi.h>
 #include "Application.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "EditorCamera.h"
 #include "Log.h"
 
 ConfigurationWindow::ConfigurationWindow()
@@ -33,6 +35,13 @@ void ConfigurationWindow::Draw()
     if (ImGui::CollapsingHeader("Window"))
     {
         DrawWindowSettings();
+    }
+
+    ImGui::Separator();
+
+    if (ImGui::CollapsingHeader("Camera"))
+    {
+        DrawCameraSettings();
     }
 
     ImGui::Separator();
@@ -179,6 +188,24 @@ void ConfigurationWindow::DrawWindowSettings()
     {
         SDL_SetWindowSize(Application::GetInstance().window->GetWindow(), 1280, 720);
     }
+}
+
+void ConfigurationWindow::DrawCameraSettings()
+{
+    EditorCamera* camera = Application::GetInstance().editor->GetEditorCamera();
+    if (!camera) return;
+
+    float speed = camera->GetSpeed();
+    if (ImGui::SliderFloat("Speed", &speed, 0.1f, 50.0f))
+        camera->SetSpeed(speed);
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Editor Camera WASD movement speed");
+
+    float multiplier = camera->GetSpeedMultiplier();
+    if (ImGui::SliderFloat("Shift Multiplier", &multiplier, 1.0f, 20.0f))
+        camera->SetSpeedMultiplier(multiplier);
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Speed multiplier when holding Shift");
 }
 
 void ConfigurationWindow::DrawAudioVolumeSettings() {

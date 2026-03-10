@@ -26,6 +26,7 @@
 #include "ConsoleWindow.h"
 #include "Application.h"
 #include "ComponentAnimation.h"
+#include "UIManager.h"
 
 #include <filesystem>
 #include <cmath>
@@ -191,54 +192,38 @@ bool ScriptManager::HasGlobalFunction(const std::string& functionName) {
     return isFunc;
 }
 
-
 //basic lua functions
-
 static int Lua_Engine_Log(lua_State* L) {
     const char* message = luaL_checkstring(L, 1);
     LOG_CONSOLE("[Lua] %s", message);
     return 0;
 }
 
+static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
+    {"W", SDL_SCANCODE_W}, {"A", SDL_SCANCODE_A}, {"S", SDL_SCANCODE_S},
+    {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
+    {"Space", SDL_SCANCODE_SPACE}, {"Escape", SDL_SCANCODE_ESCAPE},
+    {"LeftShift", SDL_SCANCODE_LSHIFT}, {"RightShift", SDL_SCANCODE_RSHIFT},
+    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}, 
+    {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9}, {"0", SDL_SCANCODE_0}, 
+    {"1", SDL_SCANCODE_1},{"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3}, 
+    {"4", SDL_SCANCODE_4},
+};
+
 static int Lua_Input_GetKey(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
-
-    bool pressed = false;
-
-    if (strcmp(keyName, "W") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT;
-    else if (strcmp(keyName, "A") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT;
-    else if (strcmp(keyName, "S") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT;
-    else if (strcmp(keyName, "D") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT;
-    else if (strcmp(keyName, "Space") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT;
-    else if (strcmp(keyName, "Q") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT;
-    else if (strcmp(keyName, "E") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT;
-    else if (strcmp(keyName, "LeftShift") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT;
-    else if (strcmp(keyName, "RightShift") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT;
-    else if (strcmp(keyName, "5") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_5) == KEY_REPEAT;
-    else if (strcmp(keyName, "6") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_6) == KEY_REPEAT;
-    else if (strcmp(keyName, "7") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_7) == KEY_REPEAT;
-    
-
+    auto it = keyMap.find(keyName);
+    bool pressed = (it != keyMap.end()) &&
+        Application::GetInstance().input->GetKey(it->second) == KEY_REPEAT;
     lua_pushboolean(L, pressed);
     return 1;
 }
 
 static int Lua_Input_GetKeyDown(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
-
-    bool pressed = false;
-
-    if (strcmp(keyName, "Space") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN;
-    else if (strcmp(keyName, "W") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_DOWN;
-    else if (strcmp(keyName, "A") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_DOWN;
-    else if (strcmp(keyName, "S") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_DOWN;
-    else if (strcmp(keyName, "D") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_DOWN;
-    else if (strcmp(keyName, "Q") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN;
-    else if (strcmp(keyName, "E") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_E) == KEY_DOWN;
-    else if (strcmp(keyName, "LeftShift") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN;
-    else if (strcmp(keyName, "RightShift") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN;
-    else if (strcmp(keyName, "7") == 0) pressed = Application::GetInstance().input->GetKey(SDL_SCANCODE_7) == KEY_DOWN;
-
+    auto it = keyMap.find(keyName);
+    bool pressed = (it != keyMap.end()) &&
+        Application::GetInstance().input->GetKey(it->second) == KEY_DOWN;
     lua_pushboolean(L, pressed);
     return 1;
 }
@@ -419,6 +404,11 @@ static int Lua_Time_GetDeltaTime(lua_State* L) {
     return 1;
 }
 
+static int Lua_Time_GetRealDeltaTime(lua_State* L) {
+    lua_pushnumber(L, Time::GetRealDeltaTimeStatic());
+    return 1;
+}
+
 static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     int mouseX = static_cast<int>(luaL_checknumber(L, 1));
     int mouseY = static_cast<int>(luaL_checknumber(L, 2));
@@ -490,6 +480,29 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+static int Lua_UI_WasClicked(lua_State* L) {
+    const char* buttonName = luaL_checkstring(L, 1);
+    bool clicked = UIManager::GetInstance().WasButtonJustClicked(buttonName);
+    lua_pushboolean(L, clicked);
+    return 1;
+}
+
+// Game API
+static int Lua_Game_Exit(lua_State* L) {
+    Application::GetInstance().RequestExit();
+    return 0;
+}
+static int Lua_Game_Pause(lua_State* L) {
+    Application::GetInstance().Pause();
+    return 0;
+}
+
+static int Lua_Game_Resume(lua_State* L) {
+    Application::GetInstance().Play();
+    return 0;
+}
+
+
 void ScriptManager::RegisterEngineFunctions() {
     if (!L) {
         LOG_CONSOLE("[ScriptManager] ERROR: Cannot register functions, Lua state is null");
@@ -537,6 +550,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Time_GetDeltaTime);
     lua_setfield(L, -2, "GetDeltaTime");
+    lua_pushcfunction(L, Lua_Time_GetRealDeltaTime);
+    lua_setfield(L, -2, "GetRealDeltaTime");
     lua_setglobal(L, "Time");
 
     // Camera
@@ -545,7 +560,30 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
-    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera");
+    // UI
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_UI_WasClicked);
+    lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, [](lua_State* L) -> int {
+        const char* name   = luaL_checkstring(L, 1);
+        float       height = static_cast<float>(luaL_checknumber(L, 2));
+        UIManager::GetInstance().SetElementHeight(name, height);
+        return 0;
+    });
+    lua_setfield(L, -2, "SetElementHeight");
+    lua_setglobal(L, "UI");
+
+    // Game
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_Game_Pause);
+    lua_setfield(L, -2, "Pause");
+    lua_pushcfunction(L, Lua_Game_Resume);
+    lua_setfield(L, -2, "Resume");
+    lua_pushcfunction(L, Lua_Game_Exit);
+    lua_setfield(L, -2, "Exit");
+    lua_setglobal(L, "Game");
+
+    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI, Game");
 }
 // GAMEOBJECT API
 
@@ -884,7 +922,7 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
 // Helper for ComponentCanvas.SetOpacity
 static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
     ComponentCanvas* canvas = static_cast<ComponentCanvas*>(lua_touserdata(L, lua_upvalueindex(1)));
-    float opacity = static_cast<float>(luaL_checknumber(L, 1));
+    float opacity = static_cast<float>(luaL_checknumber(L, 2));
 
     auto& app = Application::GetInstance();
     app.scripts->EnqueueOperation([canvas, opacity]() {
@@ -937,7 +975,6 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
         return 1;
     }
-
     if (strcmp(componentType, "Canvas") == 0) {
         Component* comp = obj->GetComponent(ComponentType::CANVAS);
         ComponentCanvas* canvas = static_cast<ComponentCanvas*>(comp);
@@ -947,9 +984,35 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         }
 
         lua_newtable(L);
+
+        // SetOpacity (ya existente)
         lua_pushlightuserdata(L, canvas);
         lua_pushcclosure(L, Lua_ComponentCanvas_SetOpacity, 1);
         lua_setfield(L, -2, "SetOpacity");
+
+        // GetCurrentXAML
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            lua_pushstring(L, canvas->GetCurrentXAML().c_str());
+            return 1;
+            }, 1);
+        lua_setfield(L, -2, "GetCurrentXAML");
+
+        // LoadXAML (nuevo)
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            const char* xamlPath = luaL_checkstring(L, 2); 
+            std::string path(xamlPath);
+            Application::GetInstance().scripts->EnqueueOperation([canvas, path]() {
+                canvas->LoadXAML(path.c_str());
+                });
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "LoadXAML");
 
         return 1;
     }

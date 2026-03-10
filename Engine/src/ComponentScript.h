@@ -82,10 +82,11 @@ public:
     void MarkGameObjectForDestroy() { pendingDestroy = true; }
     bool IsPendingDestroy() const { return pendingDestroy; }
 
+    bool updateWhenPaused = false;
+
 private:
     void CreateLuaTable();
     void DestroyLuaTable();
-    void SetupLuaEnvironment();
     bool CompileAndExecuteScript(const std::string& scriptContent);
 
     void SetupScriptEnvironment(lua_State* L);

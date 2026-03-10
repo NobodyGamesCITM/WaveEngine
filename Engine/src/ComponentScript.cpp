@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include <glm/glm.hpp>
-#include <imgui.h>
 #include <filesystem>
 #include "Log.h"
 #include <sstream>
@@ -24,7 +23,6 @@ ComponentScript::~ComponentScript()
 void ComponentScript::Enable()
 {
     if (!HasScript()) return;
-
     if (!startCalled && active) {
         CallStart();
     }
@@ -36,9 +34,14 @@ void ComponentScript::Update()
     if (!HasScript()) return;
 
     auto& app = Application::GetInstance();
-    if (app.GetPlayState() != Application::PlayState::PLAYING) {
-        return;
-    }
+    bool isPaused = (app.GetPlayState() == Application::PlayState::PAUSED);
+    
+    // Permitir update si está marcado explícitamente O si es parte de la UI (Canvas)
+    bool isPlaying = (app.GetPlayState() == Application::PlayState::PLAYING);
+    bool isUIScript = (owner->GetComponentInParent(ComponentType::CANVAS) != nullptr);
+    bool canUpdate  = isPlaying || updateWhenPaused || isUIScript;
+
+    if (!canUpdate) return;
 
     // Hot reload check
     ModuleResources* resources = app.resources.get();
@@ -52,6 +55,12 @@ void ComponentScript::Update()
     }
 
     float deltaTime = app.time->GetDeltaTime();
+    
+    // Si estamos en pausa, usamos el tiempo real para que la UI siga animada/respondiendo
+    if (isPaused) {
+        deltaTime = app.time->GetRealDeltaTime();
+    }
+
     CallUpdate(deltaTime);
 
     if (pendingDestroy) {
@@ -225,6 +234,7 @@ void ComponentScript::UnloadScript()
 
     scriptUID = 0;
     startCalled = false;
+    updateWhenPaused = false;
     publicVariables.clear();
     variableOrder.clear();  
 }
@@ -297,10 +307,7 @@ void ComponentScript::CallUpdate(float deltaTime)
     if (!active || !HasScript()) return;
     if (!owner || owner->IsMarkedForDeletion()) return;
 
-    auto& app = Application::GetInstance();
-    if (app.GetPlayState() != Application::PlayState::PLAYING) return;
-
-    ScriptManager* scriptManager = app.scripts.get();
+    ScriptManager* scriptManager = Application::GetInstance().scripts.get();
     lua_State* L = scriptManager->GetState();
 
     if (!L) {
@@ -328,6 +335,7 @@ void ComponentScript::CallUpdate(float deltaTime)
 
     if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
         const char* error = lua_tostring(L, -1);
+        LOG_CONSOLE("[ComponentScript] ERROR in Update(): %s", error);
         lua_pop(L, 1);
     }
 
@@ -370,10 +378,6 @@ void ComponentScript::DestroyLuaTable()
     luaTableName.clear();
 }
 
-void ComponentScript::SetupLuaEnvironment()
-{
-}
-
 bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
 {
     ScriptManager* scriptManager = Application::GetInstance().scripts.get();
@@ -408,29 +412,35 @@ bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
     lua_getglobal(L, luaTableName.c_str());
 
     if (lua_istable(L, -1)) {
+        // Mover la funcion Start del scope global a la tabla de la instancia
         lua_getglobal(L, "Start");
         if (lua_isfunction(L, -1)) {
             lua_setfield(L, -2, "Start");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar Start global
+        lua_setglobal(L, "Start");
 
+        // Mover la funcion Update del scope global a la tabla de la instancia
         lua_getglobal(L, "Update");
         if (lua_isfunction(L, -1)) {
             lua_setfield(L, -2, "Update");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar Update global
+        lua_setglobal(L, "Update");
 
+        // Mover la tabla public del scope global a la tabla de la instancia
         lua_getglobal(L, "public");
         if (lua_istable(L, -1)) {
             lua_setfield(L, -2, "public");
-        }
-        else {
+        } else {
             lua_pop(L, 1);
         }
+        lua_pushnil(L); // Limpiar public global
+        lua_setglobal(L, "public");
 
         SetupScriptEnvironment(L);
     }
@@ -438,6 +448,13 @@ bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
     lua_pop(L, 1);
 
     ExtractPublicVariables();
+
+    for (const auto& var : publicVariables) {
+        if (var.name == "updateWhenPaused" && var.type == ScriptVarType::BOOLEAN) {
+            this->updateWhenPaused = std::get<bool>(var.value);
+            break;
+        }
+    }
 
     return true;
 }

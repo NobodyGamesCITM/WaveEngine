@@ -11,7 +11,7 @@ ResourceShader::~ResourceShader() {
 }
 
 bool ResourceShader::LoadInMemory() {
-    //if (loadedInMemory) return true;
+    //if (IsLoadedToMemory()) return true;
 
     //// Load from Assets file (GLSL)
     //std::ifstream file(assetsFile);
@@ -27,7 +27,7 @@ bool ResourceShader::LoadInMemory() {
 
     //shader = new Shader();
     //if (Compile()) {
-    //    loadedInMemory = true;
+    //    
     //    return true;
     //}
 
@@ -42,7 +42,6 @@ void ResourceShader::UnloadFromMemory() {
         shader = nullptr;
     }
     sourceCode.clear();
-    loadedInMemory = false;
 }
 
 bool ResourceShader::Compile() {

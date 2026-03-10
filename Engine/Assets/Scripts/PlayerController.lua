@@ -22,14 +22,13 @@ local function UpdateHealthBar(health)
 end
 
 local function UpdatePotionUI(potions)
-    -- Actualizar número de pociones en el TextBlock
-    UI.SetElementText("PotionsNumber", tostring(potions))
-
-    -- Ocultar imagen de poción si no quedan
-    if potions <= 0 then
-        UI.SetElementVisibility("Potion_Image", false)
-    else
-        UI.SetElementVisibility("Potion_Image", true)
+    for i = 1, 4 do
+        local imageName = "Potion_Image" .. tostring(i)
+        if (4 - i) < potions then
+            UI.SetElementVisibility(imageName, true)
+        else
+            UI.SetElementVisibility(imageName, false)
+        end
     end
 end
 
@@ -50,7 +49,7 @@ local Player = {
     lastDirZ        = 1,
 
     -- Potion state
-    potionCount         = 2,
+    potionCount         = 4,
     potionHealing       = false,   -- ¿está recuperando vida ahora mismo?
     potionHealRemaining = 0.0,     -- vida que queda por recuperar
     potionHealTotal     = 30.0,    -- vida total que da cada poción
@@ -254,7 +253,7 @@ function Start(self)
     Engine.Log("Player inicializado")
     self.public.stamina = 100
     self.public.health  = 100
-    Player.potionCount  = 2
+    Player.potionCount  = 4
     ChangeState(self, State.IDLE)
     UpdatePotionUI(Player.potionCount)
 end

@@ -14,6 +14,7 @@
 #include "AudioComponent.h"
 #include "Log.h"
 #include "ReverbZone.h"
+#include "Application.h"
 #include "AudioListener.h"
 #include "LibraryManager.h"
 
@@ -212,6 +213,7 @@ bool AudioSystem::Update() {
 
     // Process reverb zones (set aux sends on listener)
     ProcessReverbZones();
+    DrawReverbZones();
     
 
     //ProcessAudio() in the Sound Integration Walkthrough
@@ -541,6 +543,79 @@ void AudioSystem::SetGameObjectAuxSend(AkGameObjectID id, AkUniqueID busId, floa
         LOG_DEBUG("SetGameObjectAuxSendByID: Applying Bus ID %u (Vol: %.2f) to GO %u",
             (unsigned int)busId, controlValue, (unsigned int)id);
     }
+}
+
+void AudioSystem::DrawReverbZones() {
+    //Draw Reverb Zone on Editor
+
+    for (ReverbZone* zone : reverbZones) {
+        if (!zone->enabled) return;
+
+        Transform* t = zone->owner->transform;
+        if (!t) return;
+
+        float alpha;
+
+        if (zone->owner->IsSelected()) alpha = 0.8f;
+        else alpha = 0.3f;
+
+        glm::vec4 sphereDebugColor(0.0f, 6.0f, 4.0f, alpha);
+        glm::vec4 boxDebugColor(0.0f, 4.0f, 6.0f, alpha);
+
+        //transform to worldSpace
+        glm::vec3 worldPos = t->GetGlobalPosition();
+
+        glm::mat4 modelMatrix = t->GetGlobalMatrix();
+        // Transform offset from local to world space 
+        glm::mat4 rotOnly = glm::mat4(glm::mat3(
+            glm::normalize(glm::vec3(modelMatrix[0])),
+            glm::normalize(glm::vec3(modelMatrix[1])),
+            glm::normalize(glm::vec3(modelMatrix[2]))
+        ));
+        glm::vec3 worldOffset = glm::vec3(rotOnly * glm::vec4(zone->centerOffset, 0.0f));
+        glm::vec3 sphereCenter = worldPos + worldOffset;
+        glm::vec3 extents = zone->extents;
+
+
+        if (zone->shape == ReverbZone::Shape::SPHERE)
+        {
+            
+            Application::GetInstance().renderer->DrawSphere(sphereCenter, zone->radius, sphereDebugColor);
+        }
+        else
+        {
+            glm::mat4 worldMat = t->GetGlobalMatrix();
+            glm::vec3 zonePos = t->GetGlobalPosition();
+
+            glm::mat4 noScaleWorldMat = glm::translate(glm::mat4(1.0f), zonePos) * rotOnly;
+
+            glm::vec3 v[8];
+            v[0] = glm::vec3(-extents.x, -extents.y, -extents.z);
+            v[1] = glm::vec3(extents.x, -extents.y, -extents.z);
+            v[2] = glm::vec3(extents.x, extents.y, -extents.z);
+            v[3] = glm::vec3(-extents.x, extents.y, -extents.z);
+            v[4] = glm::vec3(-extents.x, -extents.y, extents.z);
+            v[5] = glm::vec3(extents.x, -extents.y, extents.z);
+            v[6] = glm::vec3(extents.x, extents.y, extents.z);
+            v[7] = glm::vec3(-extents.x, extents.y, extents.z);
+
+
+
+            for (int i = 0; i < 8; ++i) {
+                v[i] = glm::vec3(noScaleWorldMat * glm::vec4(v[i], 1.0f)) + worldOffset;
+            }
+
+            auto draw = [&](int a, int b) {
+                Application::GetInstance().renderer->DrawLine(v[a], v[b], boxDebugColor);
+                };
+
+            draw(0, 1); draw(1, 2); draw(2, 3); draw(3, 0);
+            draw(4, 5); draw(5, 6); draw(6, 7); draw(7, 4);
+            draw(0, 4); draw(1, 5); draw(2, 6); draw(3, 7);
+        }
+    }
+
+
 }
 
 void AudioSystem::DiscoverAuxBuses()

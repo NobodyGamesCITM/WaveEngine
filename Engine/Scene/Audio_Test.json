@@ -166,15 +166,15 @@
                 },
                 {
                     "active": true,
-                    "eventName": "Play_ClubPenguin",
-                    "playOnAwake": false,
+                    "eventName": "MUS_ClubPenguin",
+                    "playOnAwake": true,
                     "type": 26,
-                    "volume": 100.0
+                    "volume": 55.88199996948242
                 },
                 {
                     "active": true,
-                    "auxBusID": 1741738112,
-                    "auxBusName": "Reverb_Cathedral",
+                    "auxBusID": 2637049263,
+                    "auxBusName": "Reverb_LongDarkHall",
                     "centerOffset": [
                         0.20000000298023224,
                         3.0,
@@ -186,7 +186,7 @@
                         3.299999952316284,
                         2.799999952316284
                     ],
-                    "presetIndex": 1,
+                    "presetIndex": 4,
                     "priority": 0,
                     "radius": 4.599999904632568,
                     "shape": 1,
@@ -1489,7 +1489,7 @@
                 },
                 {
                     "active": true,
-                    "eventName": "Play_ACTalkingSFX",
+                    "eventName": "SFX_TorchFire",
                     "playOnAwake": true,
                     "type": 26,
                     "volume": 100.0
@@ -1831,7 +1831,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "aspectRatio": 0.386227548122406,
+                                    "aspectRatio": 4.722891330718994,
                                     "farPlane": 1000.0,
                                     "fov": 61.20000076293945,
                                     "nearPlane": 0.20000000298023224,
@@ -1841,6 +1841,11 @@
                                     "active": true,
                                     "isDefault": true,
                                     "type": 25
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 0,
+                                    "type": 6
                                 }
                             ],
                             "name": "Camera",

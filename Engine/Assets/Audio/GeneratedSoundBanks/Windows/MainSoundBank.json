@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{E3FEF539-AA9D-203A-890C-FBB80E5166FB}",
+    "Hash": "{25C30FE0-A68F-D554-F91F-9AE493A50858}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -30,14 +30,6 @@
       "Location": "Memory",
       "ShortName": "Lookin' Fresh (Hotlantis)_stereo.wav",
       "CachePath": "EE/{EEBA906F-9817-9DC0-E2C0-B8D58079B757}.wem"
-     },
-     {
-      "Id": "146790378",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "radio-static.wav",
-      "CachePath": "44/{4423CA7D-EAEC-F92E-6D77-5A4C31819A68}.wem"
      },
      {
       "Id": "335686779",
@@ -158,35 +150,9 @@
     },
     "Events": [
      {
-      "Id": "822131113",
-      "Name": "Play_ACTalkingSFX",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_ACTalkingSFX",
-      "GUID": "{2408F51F-9869-4000-BE1D-F416FC96603E}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
-      "MediaRefs": [
-       {
-        "Id": "60684799"
-       }
-      ]
-     },
-     {
-      "Id": "278617630",
-      "Name": "Play_Ambience",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_Ambience",
-      "GUID": "{D8092CF2-62B7-4F0B-B962-689E720F0947}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
-      "MediaRefs": [
-       {
-        "Id": "994023216"
-       }
-      ]
-     },
-     {
-      "Id": "2681289886",
-      "Name": "Play_ClubPenguin",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_ClubPenguin",
+      "Id": "647372087",
+      "Name": "MUS_ClubPenguin",
+      "ObjectPath": "\\Events\\Default Work Unit\\MUS_ClubPenguin",
       "GUID": "{6921382D-4CAF-4D5A-B5F9-AF66E9C46744}",
       "DurationType": "Infinite",
       "SwitchContainers": [
@@ -232,9 +198,9 @@
       ]
      },
      {
-      "Id": "111646406",
-      "Name": "Play_LookinFresh",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_LookinFresh",
+      "Id": "453068243",
+      "Name": "MUS_LookinFresh",
+      "ObjectPath": "\\Events\\Default Work Unit\\MUS_LookinFresh",
       "GUID": "{07EE1789-027B-4146-8C7E-47FC4E87AA00}",
       "DurationType": "Infinite",
       "SwitchContainers": [
@@ -280,22 +246,35 @@
       ]
      },
      {
-      "Id": "111273809",
-      "Name": "Play_RadioStatic",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_RadioStatic",
-      "GUID": "{3551EEE5-E060-46CA-9383-5F51686E58F0}",
+      "Id": "2015472893",
+      "Name": "SFX_ACTalking",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_ACTalking",
+      "GUID": "{2408F51F-9869-4000-BE1D-F416FC96603E}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "146790378"
+        "Id": "60684799"
        }
       ]
      },
      {
-      "Id": "3711469543",
-      "Name": "Play_TennaTalkingSFX",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_TennaTalkingSFX",
+      "Id": "3583497273",
+      "Name": "SFX_Ambience",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_Ambience",
+      "GUID": "{D8092CF2-62B7-4F0B-B962-689E720F0947}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "994023216"
+       }
+      ]
+     },
+     {
+      "Id": "5886630",
+      "Name": "SFX_TennaTalkingSFX",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_TennaTalkingSFX",
       "GUID": "{B940BB59-F169-47D8-A29E-CD694FB17130}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -306,9 +285,9 @@
       ]
      },
      {
-      "Id": "3738480268",
-      "Name": "Play_TorchFire",
-      "ObjectPath": "\\Events\\Default Work Unit\\Play_TorchFire",
+      "Id": "3020549885",
+      "Name": "SFX_TorchFire",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_TorchFire",
       "GUID": "{D448BFDB-F7C2-4599-97EF-D05104A452FB}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -507,6 +486,6 @@
     ]
    }
   ],
-  "FileHash": "{87429671-77D8-FDE3-484D-9B6BE1C99074}"
+  "FileHash": "{3AD4B64E-2844-C8A8-EAD9-7F8670526589}"
  }
 }

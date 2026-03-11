@@ -122,6 +122,7 @@ private:
 
 	// processing reverb zones each frame
 	void ProcessReverbZones();
+	void DrawReverbZones();
 	
 
 	// set aux send helper

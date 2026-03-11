@@ -16,7 +16,8 @@
 #include "ComponentCanvas.h"
 #include "ComponentCamera.h" 
 #include "Window.h"        
-#include "ModuleCamera.h"   
+#include "ModuleCamera.h"  
+#include "ModuleAudio.h"
 #include <SDL3/SDL_scancode.h>
 #include "GameWindow.h"
 #ifndef WAVE_GAME
@@ -489,6 +490,18 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+static int Lua_Audio_SetMusicState(lua_State* L) {
+    const char* stateName = luaL_checkstring(L, 1);
+    const char* stateGroupName = "BGM_State";
+    /*stateName = std::toupper(stateName.c_str());*/
+    AK::SoundEngine::SetState(stateGroupName, stateName);
+    AK::SoundEngine::RenderAudio();
+    return 1;
+}
+
+
+
+
 void ScriptManager::RegisterEngineFunctions() {
     if (!L) {
         LOG_CONSOLE("[ScriptManager] ERROR: Cannot register functions, Lua state is null");
@@ -544,7 +557,13 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
-    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera");
+    //Audio
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_Audio_SetMusicState);
+    lua_setfield(L, -2, "SetMusicState");
+    lua_setglobal(L, "Audio");
+
+    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, Audio");
 }
 // GAMEOBJECT API
 
@@ -1425,6 +1444,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
     return 1;
 }
 
+
 void ScriptManager::RegisterPrefabAPI() {
     lua_newtable(L);
 
@@ -1437,6 +1457,8 @@ void ScriptManager::RegisterPrefabAPI() {
     lua_setglobal(L, "Prefab");
 
 }
+
+
 
 static GameWindow* GetGameWindow() {
     #ifndef WAVE_GAME

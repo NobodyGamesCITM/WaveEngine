@@ -1,11 +1,10 @@
 Event	ID	Name			Wwise Object Path	Notes
-	111273809	Play_RadioStatic			\Default Work Unit\Play_RadioStatic	
-	111646406	Play_LookinFresh			\Default Work Unit\Play_LookinFresh	
-	278617630	Play_Ambience			\Default Work Unit\Play_Ambience	
-	822131113	Play_ACTalkingSFX			\Default Work Unit\Play_ACTalkingSFX	
-	2681289886	Play_ClubPenguin			\Default Work Unit\Play_ClubPenguin	
-	3711469543	Play_TennaTalkingSFX			\Default Work Unit\Play_TennaTalkingSFX	
-	3738480268	Play_TorchFire			\Default Work Unit\Play_TorchFire	
+	5886630	SFX_TennaTalkingSFX			\Default Work Unit\SFX_TennaTalkingSFX	
+	453068243	MUS_LookinFresh			\Default Work Unit\MUS_LookinFresh	
+	647372087	MUS_ClubPenguin			\Default Work Unit\MUS_ClubPenguin	
+	2015472893	SFX_ACTalking			\Default Work Unit\SFX_ACTalking	
+	3020549885	SFX_TorchFire			\Default Work Unit\SFX_TorchFire	
+	3583497273	SFX_Ambience			\Default Work Unit\SFX_Ambience	
 
 State Group	ID	Name			Wwise Object Path	Notes
 	3086301423	BGM_State			\Default Work Unit\BGM_State	
@@ -50,7 +49,6 @@ Effect plug-ins	ID	Name	Type				Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	60684799	animalCrossingTalking	.cache\DF\{DF60B5D6-E183-80D8-F9F9-17969D1694ED}.wem		\Containers\Default Work Unit\Objects\animalCrossingTalking		1764096
 	63924214	Lookin' Fresh (Hotlantis)_stereo	.cache\EE\{EEBA906F-9817-9DC0-E2C0-B8D58079B757}.wem		\Containers\Default Work Unit\LookinFresh_Switch\Lookin' Fresh (Hotlantis)_stereo\Lookin' Fresh (Hotlantis)_stereo		15978592
-	146790378	radio-static	.cache\44\{4423CA7D-EAEC-F92E-6D77-5A4C31819A68}.wem		\Containers\Default Work Unit\Objects\radio-static		1428576
 	335686779	tennaTalking	.cache\3A\{3A4D06D9-395A-5903-26CE-370498E6703B}.wem		\Containers\Default Work Unit\Objects\tennaTalking		2703456
 	352851221	coffeeShop	.cache\2B\{2B154332-6CDB-A031-4D10-CA2E596ED15D}.wem		\Containers\Default Work Unit\CPMusic_Switch\coffeeShop\coffeeShop		558934
 	516869498	Charlies Here - Pizza Parlor _ Club Penguin OST	.cache\12\{12D22832-71FA-5C42-6CAD-FFA7A59033CD}.wem		\Containers\Default Work Unit\CPMusic_Switch\pizzaParlor\Charlies Here - Pizza Parlor _ Club Penguin OST		29114464

@@ -65,34 +65,6 @@ void GameWindow::Draw()
         ImGui::Text(text);
     }
 
-    // Draw Canvases
-    if (Application::GetInstance().scene)
-    {   
-        GameObject* root = Application::GetInstance().scene->GetRoot();
-        if (root)
-        {
-            std::vector<Component*> canvases;
-            root->GetComponentsInChildren(ComponentType::CANVAS, canvases);
-
-            for (Component* comp : canvases)
-            {
-                ComponentCanvas* canvas = static_cast<ComponentCanvas*>(comp);
-                if (canvas && canvas->IsActive() && canvas->GetOwner()->IsActive())
-                {
-                    if (Application::GetInstance().GetPlayState() == Application::PlayState::EDITING)
-                    {
-                        canvas->Update();
-                    }
-
-                    canvas->Resize((int)gameViewportSize.x, (int)gameViewportSize.y);
-                    canvas->RenderToTexture();
-                    ImGui::SetCursorScreenPos(gameViewportPos);
-                    ImGui::Image((ImTextureID)(uintptr_t)canvas->GetTextureID(), gameViewportSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, canvas->GetOpacity()), ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-                }
-            }
-        }
-    }
-
     ImGui::End();
     ImGui::PopStyleVar();
 }

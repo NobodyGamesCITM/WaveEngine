@@ -1,0 +1,81 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 4.722891330718994,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": false
+                }
+            ],
+            "name": "Camera",
+            "uid": 13928588578593206042
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "opacity": 1.0,
+                    "type": 30,
+                    "uiLayer": 0,
+                    "xamlPath": "MainMenu.xaml"
+                },
+                {
+                    "active": true,
+                    "scriptUID": 845068803312502122,
+                    "type": 6
+                }
+            ],
+            "name": "MainMenuCanvas",
+            "uid": 11611350731901767834
+        }
+    ],
+    "version": 1
+}

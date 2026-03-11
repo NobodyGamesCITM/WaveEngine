@@ -10,14 +10,28 @@
 #include "ResourceShader.h"
 #include "ComponentParticleSystem.h"
 #include "CameraLens.h"
-#include "ModulePhysics.h"
 #include "ComponentPostProcessing.h"
+#include "Texture.h"
+#include "Material.h"
+
+#include "Shader.h"
+#include "ShaderDepthVisualization.h"
+#include "ShaderLines.h"
+#include "ShaderMesh.h"
+#include "ShaderNormal.h"
+#include "ShaderNoTexture.h"
+#include "ShaderPicking.h"
+#include "ShaderSimpleColor.h"
+#include "ShaderSingleColor.h"
+#include "ShaderStandard.h"
+#include "ShaderUiOverlay.h"
+#include "ShaderWater.h"
+#include "ShaderPostPorcessing.h"
+
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <stack>
 #include <algorithm>
-
-#include "tracy/Tracy.hpp"
 
 Renderer::Renderer()
 {
@@ -41,121 +55,91 @@ bool Renderer::Start()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    defaultShader = make_unique<Shader>();
-    if (!defaultShader->CreateNoTexture())
+    defaultShader = make_unique<ShaderNoTexture>();
+    if (!defaultShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create default shader");
         LOG_CONSOLE("ERROR: Failed to compile shaders");
         return false;
     }
-    else
+    
+    standardShader = make_unique<ShaderStandard>();
+    if (!standardShader->CreateShader())
     {
-        LOG_DEBUG("Shader created successfully - Program ID: %d", defaultShader->GetProgramID());
-        LOG_CONSOLE("OpenGL shaders compiled successfully");
+        LOG_DEBUG("ERROR: Failed to create standard shader");
+        LOG_CONSOLE("ERROR: Failed to compile shaders");
+        return false;
     }
 
-    lineShader = make_unique<Shader>();
-    if (!lineShader->CreateLinesShader())
+    lineShader = make_unique<ShaderLines>();
+    if (!lineShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create line shader");
         LOG_CONSOLE("ERROR: Failed to compile line shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("Line shader created successfully - Program ID: %d", lineShader->GetProgramID());
-        LOG_CONSOLE("Line shader compiled successfully");
-    }
 
-    outlineShader = make_unique<Shader>();
-    if (!outlineShader->CreateSingleColor())
+    outlineShader = make_unique<ShaderSingleColor>();
+    if (!outlineShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create outline shader");
         LOG_CONSOLE("ERROR: Failed to compile outline shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("Outline shader created successfully - Program ID: %d", outlineShader->GetProgramID());
-        LOG_CONSOLE("Outline shader compiled successfully");
-    }
 
-    waterShader = make_unique<Shader>();
-    if (!waterShader->CreateWater())
+    waterShader = make_unique<ShaderWater>();
+    if (!waterShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create water shader");
         LOG_CONSOLE("ERROR: Failed to compile water shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("Water shader created successfully - Program ID: %d", waterShader->GetProgramID());
-        LOG_CONSOLE("Water shader compiled successfully");
-    }
 
-    normalsShader = make_unique<Shader>();
-    if (!normalsShader->CreateNormalShader())
+    normalsShader = make_unique<ShaderNormal>();
+    if (!normalsShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create normals shader");
         LOG_CONSOLE("ERROR: Failed to compile normals shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("normals shader created successfully - Program ID: %d", normalsShader->GetProgramID());
-        LOG_CONSOLE("normals shader compiled successfully");
-    }
 
-    meshShader = make_unique<Shader>();
-    if (!meshShader->CreateMeshShader())
+    meshShader = make_unique<ShaderMesh>();
+    if (!meshShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create mesh shader");
         LOG_CONSOLE("ERROR: Failed to compile mesh shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("mesh shader created successfully - Program ID: %d", meshShader->GetProgramID());
-        LOG_CONSOLE("mesh shader compiled successfully");
-    }
 
-    depthShader = make_unique<Shader>();
-    if (!depthShader->CreateDepthVisualization())
+    depthShader = make_unique<ShaderDepthVisualization>();
+    if (!depthShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create depth visualization shader");
         LOG_CONSOLE("ERROR: Failed to compile depth shader");
         return false;
     }
-    else
-    {
-        LOG_DEBUG("depth shader created successfully - Program ID: %d", depthShader->GetProgramID());
-        LOG_CONSOLE("depth shader compiled successfully");
-    }
 
-    pickingShader = make_unique<Shader>();
-    if (!pickingShader->CreatePickingShader())
+    pickingShader = make_unique<ShaderPicking>();
+    if (!pickingShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create picking shader");
         LOG_CONSOLE("ERROR: Failed to compile picking shader");
     }
-    else
-    {
-        LOG_DEBUG("picking shader created successfully - Program ID: %d", pickingShader->GetProgramID());
-        LOG_CONSOLE("picking shader compiled successfully");
-    }
-
     // UI overlay shader
-    uiShader = make_unique<Shader>();
-    if (!uiShader->CreateUIOverlay())
+    uiShader = make_unique<ShaderUiOverlay>();
+    if (!uiShader->CreateShader())
     {
         LOG_DEBUG("ERROR: Failed to create UI overlay shader");
         LOG_CONSOLE("ERROR: Failed to compile UI overlay shader");
         return false;
     }
-    else
+    
+    postProcessShader = make_unique<ShaderPostPorcessing>();
+    if (!postProcessShader->CreateShader())
     {
-        LOG_DEBUG("UI overlay shader created successfully - Program ID: %d", uiShader->GetProgramID());
-        LOG_CONSOLE("UI overlay shader compiled successfully");
+        LOG_DEBUG("ERROR: Failed to create post processing shader");
+        LOG_CONSOLE("ERROR: Failed to compile post processing shader");
+        return false;
     }
 
     // Fullscreen quad VAO for UI overlay
@@ -202,153 +186,6 @@ bool Renderer::Start()
     outlineUniforms.view = glGetUniformLocation(outlineShader->GetProgramID(), "view");
     outlineUniforms.model = glGetUniformLocation(outlineShader->GetProgramID(), "model");
 
-    // Initialize Post Processing Shader
-    postProcessShader = make_unique<Shader>();
-    const char* ppVertex = R"(
-        #version 330 core
-        layout (location = 0) in vec2 aPos;
-        layout (location = 1) in vec2 aTexCoords;
-        out vec2 TexCoords;
-        void main() {
-            gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);
-            TexCoords = aTexCoords;
-        }
-    )";
-    const char* ppFragment = R"(
-        #version 330 core
-        out vec4 FragColor;
-        in vec2 TexCoords;
-        uniform sampler2D sceneTexture;
-
-        // Color grading
-        uniform bool  gradingEnabled;
-        uniform float exposure;
-        uniform float contrast;
-        uniform float saturation;
-        uniform int   toneMapper;
-        uniform float gamma;
-        uniform float temperature;
-        uniform float tint;
-        uniform vec3  colorFilter;
-
-        // Vignette
-        uniform bool  vignetteEnabled;
-        uniform float vignetteIntensity;
-        uniform float vignetteSmoothness;
-        uniform float vignetteRoundness;
-        uniform vec3  vignetteColor;
-
-        // Chromatic aberration
-        uniform bool  caEnabled;
-        uniform float caIntensity;
-
-        // Bloom
-        uniform bool  bloomEnabled;
-        uniform float bloomIntensity;
-        uniform float bloomThreshold;
-        uniform float bloomSoftKnee;   // NEW
-        uniform vec3  bloomTint;       // NEW
-
-        // Grain
-        uniform bool  grainEnabled;
-        uniform float grainIntensity;
-        uniform float grainScale;
-        uniform float grainTime;
-
-        vec3 ACESFilm(vec3 x) {
-            const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
-            return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0.0, 1.0);
-        }
-
-        float random(vec2 st) {
-            return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
-        }
-
-        // Soft-knee bloom contribution for a single sample
-        float bloomWeight(float brightness) {
-            float knee = bloomThreshold * bloomSoftKnee;
-            float soft  = brightness - bloomThreshold + knee;
-            soft = clamp(soft, 0.0, 2.0 * knee);
-            soft = (soft * soft) / (4.0 * knee + 0.00001);
-            return max(soft, brightness - bloomThreshold);
-        }
-
-        void main() {
-            vec2 uv = TexCoords;
-
-            // --- Chromatic Aberration ---
-            vec3 color;
-            if (caEnabled) {
-                vec2 offset = (uv - 0.5) * (caIntensity * 0.01);
-                color.r = texture(sceneTexture, uv - offset).r;
-                color.g = texture(sceneTexture, uv).g;
-                color.b = texture(sceneTexture, uv + offset).b;
-            } else {
-                color = texture(sceneTexture, uv).rgb;
-            }
-
-            // --- Bloom (box-blur with soft-knee + tint) ---
-            if (bloomEnabled) {
-                vec2 texel = 1.0 / textureSize(sceneTexture, 0);
-                vec3 bloomAccum = vec3(0.0);
-                const int range = 3;
-                for (int x = -range; x <= range; ++x) {
-                    for (int y = -range; y <= range; ++y) {
-                        vec3  s   = texture(sceneTexture, uv + vec2(x, y) * texel * 2.5).rgb;
-                        float lum = dot(s, vec3(0.2126, 0.7152, 0.0722));
-                        bloomAccum += s * bloomWeight(lum);
-                    }
-                }
-                bloomAccum /= float((range*2+1) * (range*2+1));
-                color += bloomAccum * bloomIntensity * bloomTint;
-            }
-
-            // --- Vignette ---
-            if (vignetteEnabled) {
-                vec2  d       = abs(uv - 0.5) * 2.0;
-                float boxDist = max(d.x, d.y);
-                float cirDist = length(d);
-                float dist    = mix(boxDist, cirDist, vignetteRoundness);
-                float radius  = 1.0 - vignetteIntensity;
-                float soft    = vignetteSmoothness + 0.05;
-                float vig     = smoothstep(radius, radius - soft, dist);
-                color = mix(vignetteColor, color, vig);
-            }
-
-            // --- Grain ---
-            if (grainEnabled) {
-                vec2  res  = textureSize(sceneTexture, 0);
-                float noise = random(floor(uv * res / grainScale) + grainTime);
-                color += (noise - 0.5) * grainIntensity;
-            }
-
-            // --- Color Grading ---
-            if (gradingEnabled) {
-                // White balance
-                float temp = temperature / 10000.0;
-                float tnt  = tint / 100.0;
-                color *= vec3(1.0 + temp, 1.0 + tnt, 1.0 - temp);
-
-                // Color filter, exposure, contrast, saturation
-                color *= colorFilter;
-                color *= exposure;
-                color  = (color - 0.5) * contrast + 0.5;
-                color  = mix(vec3(dot(color, vec3(0.2126, 0.7152, 0.0722))), color, saturation);
-
-                // Tonemapping
-                if      (toneMapper == 0) color = ACESFilm(color);
-                else if (toneMapper == 1) color = color / (color + vec3(1.0));
-                // toneMapper == 2 -> None
-
-                // Gamma AFTER tonemapping (correct order)
-                if (gamma > 0.001) color = pow(max(color, vec3(0.0)), vec3(1.0 / gamma));
-            }
-
-            FragColor = vec4(color, 1.0);
-        }
-    )";
-    postProcessShader->LoadFromSource(ppVertex, ppFragment, nullptr);
-
     LOG_DEBUG("Renderer initialized successfully");
     LOG_CONSOLE("Renderer ready");
 
@@ -393,6 +230,9 @@ void Renderer::LoadMesh(Mesh& mesh)
 
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
+
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 
     // Upload index data
     glGenBuffers(1, &mesh.EBO);
@@ -486,13 +326,40 @@ void Renderer::RemoveParticle(ComponentParticleSystem* particle) {
 
 void Renderer::AddCamera(CameraLens* camera)
 {
-    activeCameras.push_back(camera);
+    auto it = std::find(activeCameras.begin(), activeCameras.end(), camera);
+
+    if (it == activeCameras.end())
+    {
+        activeCameras.push_back(camera);
+    }
 }
 
 void Renderer::RemoveCamera(CameraLens* camera)
 {
-    auto it = std::remove(activeCameras.begin(), activeCameras.end(), camera);
-    activeCameras.erase(it, activeCameras.end());
+    auto it = std::find(activeCameras.begin(), activeCameras.end(), camera);
+    if (it != activeCameras.end())
+    {
+        activeCameras.erase(it);
+    }
+}
+
+void Renderer::AddCanvas(ComponentCanvas* canvas)
+{
+    auto it = std::find(activeCanvas.begin(), activeCanvas.end(), canvas);
+
+    if (it == activeCanvas.end())
+    {
+        activeCanvas.push_back(canvas);
+    }
+}
+
+void Renderer::RemoveCanvas(ComponentCanvas* canvas)
+{
+    auto it = std::find(activeCanvas.begin(), activeCanvas.end(), canvas);
+    if (it != activeCanvas.end())
+    {
+        activeCanvas.erase(it);
+    }
 }
 
 void Renderer::AddPostProcessing(ComponentPostProcessing* component)
@@ -512,100 +379,28 @@ bool Renderer::PostUpdate()
 {
     bool ret = true;
 
-#ifndef WAVE_GAME
+    int width = 0, height = 0;
+    Application::GetInstance().window->GetWindowSize(width, height);
 
     for (CameraLens* camera : activeCameras)
     {
         RenderScene(camera);
     }
 
-    int width = 0, height = 0;
-    Application::GetInstance().window->GetWindowSize(width, height);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, width, height);
+    
     glDisable(GL_SCISSOR_TEST);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-#else
-
-    int winWidth = 0, winHeight = 0;
-    Application::GetInstance().window->GetWindowSize(winWidth, winHeight);
-
-    auto* cameraModule = Application::GetInstance().camera.get();
-    if (cameraModule)
-    {
-        ComponentCamera* mainCam = cameraModule->GetMainCamera();
-        if (mainCam)
-        {
-            CameraLens* mainLens = mainCam->GetLens();
-            if (mainLens)
-            {
-                mainLens->textureWidth = winWidth;
-                mainLens->textureHeight = winHeight;
-                mainLens->SetAspectRatio((float)winWidth / (float)winHeight);
-
-                GLuint savedFBO = mainLens->fboID;
-                mainLens->fboID = 0;
-                RenderScene(mainLens);
-                mainLens->fboID = savedFBO;
-            }
-        }
-    }
-
-    // Update y render de todos los canvas a sus texturas
-    auto& canvasList = Application::GetInstance().ui->GetCanvas();
-    for (ComponentCanvas* c : canvasList)
-    {
-        c->Resize(winWidth, winHeight);
-        if (!c->IsActive() || !c->GetOwner()->IsActive()) continue;
-        c->Update();
-        c->RenderToTexture();
-    }
-
-    // Dibujar canvas como overlay encima del framebuffer 0
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    uiShader->Use();
-    glBindVertexArray(quadVAO);
-
-    for (ComponentCanvas* c : canvasList)
-    {
-        if (!c->IsActive() || !c->GetOwner()->IsActive()) continue;
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, c->GetTextureID());
-        uiShader->SetInt("uTexture", 0);
-        uiShader->SetFloat("uOpacity", c->GetOpacity());
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
-
-    glBindVertexArray(0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glDisable(GL_BLEND);
-    glUseProgram(0);
-
-#endif
-
     return ret;
 }
+
 bool Renderer::RenderScene(CameraLens* camera)
 {
     if (!camera) return false;
 
-    //Find active post-processing
-    ComponentPostProcessing* activePP = nullptr;
-    for (auto* pp : postProcessingComponents) {
-        if (pp->IsActive() && pp->owner && pp->owner->IsActive()) {
-            activePP = pp; break;
-        }
-    }
-
-    //Viewport setup
     int width = 0, height = 0;
     if (camera->fboID == 0)
         Application::GetInstance().window->GetWindowSize(width, height);
@@ -614,18 +409,11 @@ bool Renderer::RenderScene(CameraLens* camera)
         height = camera->textureHeight;
     }
 
-    //Bind FBO
-    //Priority --> PostProcess FBO > MSAA FBO > camera FBO > default
     bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
 
     if (usingMSAA) {
         glBindFramebuffer(GL_FRAMEBUFFER, camera->msaaFBO);
         glEnable(GL_MULTISAMPLE);
-    }
-    else if (activePP) {
-        ResizePostProcessingBuffer(width, height);
-        glBindFramebuffer(GL_FRAMEBUFFER, postProcessFBO);
-        glDisable(GL_MULTISAMPLE);
     }
     else {
         glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
@@ -649,6 +437,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     opaqueList.clear();
     transparentList.clear();
     particlesList.clear();
+    canvasList.clear();
     BuildRenderLists(camera);
 
     if (showZBuffer) {
@@ -660,7 +449,6 @@ bool Renderer::RenderScene(CameraLens* camera)
         defaultShader->Use();
     }
 
-    // --- Render ---
     glEnable(GL_STENCIL_TEST);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
@@ -683,7 +471,6 @@ bool Renderer::RenderScene(CameraLens* camera)
         DrawLinesList(camera);
     }
 
-    // --- Reset States ---
     glDisable(GL_STENCIL_TEST);
     glStencilMask(0xFF);
     glStencilFunc(GL_ALWAYS, 0, 0xFF);
@@ -695,73 +482,17 @@ bool Renderer::RenderScene(CameraLens* camera)
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);
 
-    //  MSAA Resolve if needed
+
     if (usingMSAA) {
-        GLuint targetFBO = activePP ? postProcessFBO : ((camera->fboID != 0) ? camera->fboID : 0);
-        if (activePP) {
-            ResizePostProcessingBuffer(width, height);
-        }
+        GLuint targetFBO = (camera->fboID != 0) ? camera->fboID : 0;
         glBindFramebuffer(GL_READ_FRAMEBUFFER, camera->msaaFBO);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        glDisable(GL_MULTISAMPLE);
     }
 
-    // Post-processing
-    if (activePP) {
-        GLuint targetFBO = (camera->fboID != 0) ? camera->fboID : 0;
-        glBindFramebuffer(GL_FRAMEBUFFER, targetFBO);
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        postProcessShader->Use();
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, postProcessTexture);
-        postProcessShader->SetInt("sceneTexture", 0);
-
-        // Color Grading
-        postProcessShader->SetBool ("gradingEnabled", activePP->colorGrading.enabled);
-        postProcessShader->SetFloat("exposure",       activePP->colorGrading.exposure);
-        postProcessShader->SetFloat("contrast",       activePP->colorGrading.contrast);
-        postProcessShader->SetFloat("saturation",     activePP->colorGrading.saturation);
-        postProcessShader->SetInt  ("toneMapper",     activePP->colorGrading.toneMapper);
-        postProcessShader->SetFloat("gamma",          activePP->colorGrading.gamma);
-        postProcessShader->SetFloat("temperature",    activePP->colorGrading.temperature);
-        postProcessShader->SetFloat("tint",           activePP->colorGrading.tint);
-        postProcessShader->SetVec3 ("colorFilter",    activePP->colorGrading.colorFilter);
-
-        // Bloom
-        postProcessShader->SetBool ("bloomEnabled",   activePP->bloom.enabled);
-        postProcessShader->SetFloat("bloomIntensity", activePP->bloom.intensity);
-        postProcessShader->SetFloat("bloomThreshold", activePP->bloom.threshold);
-        postProcessShader->SetFloat("bloomSoftKnee",  activePP->bloom.softKnee);
-        postProcessShader->SetVec3 ("bloomTint",      activePP->bloom.tint);
-
-        // Chromatic Aberration
-        postProcessShader->SetBool ("caEnabled",      activePP->lens.chromaticAberrationEnabled);
-        postProcessShader->SetFloat("caIntensity",    activePP->lens.chromaticAberrationIntensity);
-
-        // Vignette
-        postProcessShader->SetBool ("vignetteEnabled",     activePP->lens.vignetteEnabled);
-        postProcessShader->SetFloat("vignetteIntensity",   activePP->lens.vignetteIntensity);
-        postProcessShader->SetFloat("vignetteSmoothness",  activePP->lens.vignetteSmoothness);
-        postProcessShader->SetFloat("vignetteRoundness",   activePP->lens.vignetteRoundness);
-        postProcessShader->SetVec3 ("vignetteColor",       activePP->lens.vignetteColor);
-
-        // Grain
-        postProcessShader->SetBool ("grainEnabled",   activePP->grain.enabled);
-        postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
-        postProcessShader->SetFloat("grainScale",     std::max(0.001f, activePP->grain.scale));
-        postProcessShader->SetFloat("grainTime",      activePP->grain.animated
-            ? Application::GetInstance().time->GetTotalTimeStatic() : 0.0f);
-
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-        glBindVertexArray(quadVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glBindVertexArray(0);
-        glUseProgram(0);
-    }
+    DrawPostProcessing(camera);
+    DrawCanvasList(camera);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     return true;
@@ -781,7 +512,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         const AABB& globalAABB = mesh->GetGlobalAABB();
 
-        if (/*camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB())*/true)
+        if (camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB()))
         {
             mesh->UpdateSkinningMatrices();
 
@@ -790,7 +521,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() < 1.0f)
+            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
             {
                 transparentList.emplace(distanceToCamera, renderObject);
             }
@@ -821,6 +552,83 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         particlesList.emplace(distanceToCamera, pObj);
     }
+
+    for (ComponentCanvas* canvas : activeCanvas)
+    {
+        if (!canvas->IsActive() || !canvas->GetOwner()->IsActive()) continue;
+        if (canvas->GetUILayer() != camera->GetUiCullingMask()) continue;
+
+        CanvasObject canvasObject;
+        canvasObject.canvas = canvas;
+
+        canvasList.push_back(canvasObject);
+    }
+}
+
+void Renderer::DrawPostProcessing(const CameraLens* camera)
+{
+    if (!camera->IsUsingPostProcessing()) return;
+
+    ComponentPostProcessing* activePP = nullptr;
+    for (auto* pp : postProcessingComponents) {
+        if (pp->IsActive() && pp->owner && pp->owner->IsActive()) {
+            activePP = pp; break;
+        }
+    }
+
+    if (!activePP) return;
+
+    ResizePostProcessingBuffer(camera->textureWidth, camera->textureHeight);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postProcessFBO);
+    glBlitFramebuffer(0, 0, camera->textureWidth, camera->textureHeight,
+        0, 0, camera->textureWidth, camera->textureHeight,
+        GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
+
+    postProcessShader->Use();
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, postProcessTexture);
+    postProcessShader->SetInt("sceneTexture", 0);
+
+    // Color Grading
+    postProcessShader->SetBool("gradingEnabled", activePP->colorGrading.enabled);
+    postProcessShader->SetFloat("exposure", activePP->colorGrading.exposure);
+    postProcessShader->SetFloat("contrast", activePP->colorGrading.contrast);
+    postProcessShader->SetFloat("saturation", activePP->colorGrading.saturation);
+    postProcessShader->SetInt("toneMapper", activePP->colorGrading.toneMapper);
+    postProcessShader->SetFloat("gamma", activePP->colorGrading.gamma);
+    postProcessShader->SetFloat("temperature", activePP->colorGrading.temperature);
+    postProcessShader->SetFloat("tint", activePP->colorGrading.tint);
+    postProcessShader->SetVec3("colorFilter", activePP->colorGrading.colorFilter);
+
+    // Bloom
+    postProcessShader->SetBool("bloomEnabled", activePP->bloom.enabled);
+    postProcessShader->SetFloat("bloomIntensity", activePP->bloom.intensity);
+    postProcessShader->SetFloat("bloomThreshold", activePP->bloom.threshold);
+    postProcessShader->SetFloat("bloomSoftKnee", activePP->bloom.softKnee);
+    postProcessShader->SetVec3("bloomTint", activePP->bloom.tint);
+
+    // Chromatic Aberration
+    postProcessShader->SetBool("caEnabled", activePP->lens.chromaticAberrationEnabled);
+    postProcessShader->SetFloat("caIntensity", activePP->lens.chromaticAberrationIntensity);
+
+    // Vignette
+    postProcessShader->SetBool("vignetteEnabled", activePP->lens.vignetteEnabled);
+    postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
+    postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
+    postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
+    postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glBindVertexArray(quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera)
@@ -829,6 +637,7 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
     {
         RenderObject renderObject = pair->second;
         ComponentMesh* meshComp = renderObject.mesh;
+        ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
 
         if (meshComp->GetDrawNormals()) normalsList.push_back(renderObject);
         if (meshComp->GetDrawMesh()) meshLinesList.push_back(renderObject);
@@ -842,22 +651,28 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             glStencilMask(0x00);
         }
 
-        ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
+        Shader* currentShader = defaultShader.get();
 
-        if(materialComp) materialComp->Use();
+        if (materialComp && materialComp->GetMaterial()) {
+            Material* data = materialComp->GetMaterial();
 
-        GLint currentProgram;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
-        glUniform3fv(glGetUniformLocation(currentProgram, "lightDir"), 1, glm::value_ptr(lightDir));
-        glUniform3fv(glGetUniformLocation(currentProgram, "viewPos"), 1, glm::value_ptr(camera->position));
+            switch (data->GetType()) {
+            case MaterialType::STANDARD: currentShader = standardShader.get(); 
+                break;
+            }
+        }
 
-        glUniform1i(glGetUniformLocation(currentProgram, "texture1"), 0);
-        glUniform1i(glGetUniformLocation(currentProgram, "hasTexture"), true);
-        glUniformMatrix4fv(glGetUniformLocation(currentProgram, "model"), 1, GL_FALSE, glm::value_ptr(renderObject.globalModelMatrix));
+        currentShader->Use();
+        currentShader->SetMat4("model", renderObject.globalModelMatrix);
+        currentShader->SetVec3("viewPos", camera->position);
+        currentShader->SetVec3("lightDir", lightDir);
 
-        if (materialComp) {
-            glUniform3fv(glGetUniformLocation(currentProgram, "materialDiffuse"), 1, glm::value_ptr(materialComp->GetDiffuseColor()));
-            glUniform1f(glGetUniformLocation(currentProgram, "opacity"), materialComp->GetOpacity());
+        if (materialComp && materialComp->GetMaterial()) {
+            materialComp->GetMaterial()->Bind(currentShader);
+        }
+        else 
+        {
+            glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
         }
 
         DrawMesh(meshComp);
@@ -880,7 +695,6 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        // Aplicar la matriz de modelo de la entidad (si es LOCAL)
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
@@ -890,11 +704,63 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
         glPopMatrix();
     }
 
-    // 3. Restaurar matrices
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
+}
+
+void Renderer::DrawCanvasList(const CameraLens* camera)
+{
+    if (canvasList.empty()) return;
+
+    // Asegurarse de renderizar en el FBO correcto
+    glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+    glViewport(0, 0, camera->textureWidth, camera->textureHeight);
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    uiShader->Use();
+    glBindVertexArray(quadVAO);
+
+    for (CanvasObject& canvasObject : canvasList)
+    {
+        ComponentCanvas* c = canvasObject.canvas;
+        c->Resize(camera->textureWidth, camera->textureHeight);
+        c->Update();
+        c->RenderToTexture();
+
+        glBindFramebuffer(GL_FRAMEBUFFER, (camera->fboID != 0) ? camera->fboID : 0);
+        glViewport(0, 0, camera->textureWidth, camera->textureHeight);
+
+        // Restaurar TODO el estado que Noesis rompe
+        glUseProgram(0);
+        glBindVertexArray(0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        uiShader->Use();
+        glBindVertexArray(quadVAO);  // ? Re-bindear despu�s de limpiar
+
+        glBindTexture(GL_TEXTURE_2D, c->GetTextureID());
+        uiShader->SetInt("uTexture", 0);
+        uiShader->SetFloat("uOpacity", c->GetOpacity());
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 void Renderer::DrawStencilList(const CameraLens* camera)
 {
@@ -1020,6 +886,8 @@ void Renderer::DrawMeshLinesList(const CameraLens* camera)
     glDisable(GL_POLYGON_OFFSET_LINE);
     glBindVertexArray(0);
 }
+
+
 
 bool Renderer::CleanUp()
 {
@@ -1371,7 +1239,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         Mesh& mesh = meshComponent->GetMesh();
         if (mesh.VAO == 0) continue;
 
-        if (/*!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())*/false) continue;
+        if (!camera->GetFrustum()->InFrustum(meshComponent->GetGlobalAABB())) continue;
 
         UID realUID = meshComponent->owner->GetUID();
         uint32_t currentPickingID = nextID++;
@@ -1441,5 +1309,25 @@ void Renderer::SetMSAA(bool enabled) {
         glEnable(GL_MULTISAMPLE);
     else
         glDisable(GL_MULTISAMPLE);
+}
 
+void Renderer::DrawFullscreenTexture(unsigned int textureID)
+{
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+
+    uiShader->Use();
+
+    uiShader->SetFloat("uOpacity", 1.0f);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    uiShader->SetInt("uTexture", 0);
+
+    glBindVertexArray(quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
+    glEnable(GL_DEPTH_TEST);
 }

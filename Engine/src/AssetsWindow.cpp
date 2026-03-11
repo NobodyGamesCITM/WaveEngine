@@ -18,7 +18,9 @@
 #include "GameObject.h"        
 #include "Input.h"           
 #include "ScriptEditorWindow.h"
+#include "MaterialEditorWindow.h"
 #include "EditorPreferences.h"
+#include "MaterialImporter.h"
 #include "ResourcePrefab.h"
 #include "PrefabManager.h"
 #include "Globals.h"
@@ -41,7 +43,6 @@ AssetsWindow::AssetsWindow()
 
     sceneRootPath = fs::path(assetsRootPath).parent_path().string() + "/Scene";
     importSettingsWindow = new ImportSettingsWindow();
-    scriptEditorWindow = new ScriptEditorWindow();  
 }
 
 AssetsWindow::~AssetsWindow()
@@ -53,7 +54,6 @@ AssetsWindow::~AssetsWindow()
         UnloadPreviewForAsset(asset);
     }
     delete importSettingsWindow;
-    delete scriptEditorWindow;  
 }
 
 std::string AssetsWindow::TruncateFileName(const std::string& name, float maxWidth) const
@@ -555,10 +555,7 @@ void AssetsWindow::Draw()
     {
         importSettingsWindow->Draw();
     }
-    if (scriptEditorWindow)
-    {
-        scriptEditorWindow->Draw();
-    }
+   
     ImGui::End();
 }
 
@@ -623,6 +620,8 @@ void AssetsWindow::DrawFolderTree(const fs::path& path, const std::string& label
 
 void AssetsWindow::DrawAssetsList()
 {
+    static bool openMatRenamePopup = false;
+
     if (currentPath != assetsRootPath && currentPath != sceneRootPath)
     {
         if (ImGui::Button("<- Back"))
@@ -716,6 +715,46 @@ void AssetsWindow::DrawAssetsList()
 
             ImGui::EndDragDropTarget();
         }
+    }
+
+    if (ImGui::BeginPopupContextWindow("AssetsContextMenu", ImGuiPopupFlags_MouseButtonRight))
+    {
+        if (ImGui::BeginMenu("Create"))
+        {
+            if (ImGui::MenuItem("Material"))
+            {
+                openMatRenamePopup = true;
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::EndPopup();
+    }
+
+    if (openMatRenamePopup) {
+        ImGui::OpenPopup("NameNewMaterial");
+        openMatRenamePopup = false;
+    }
+
+    if (ImGui::BeginPopupModal("NameNewMaterial", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        static char matName[128] = "NewMaterial";
+        ImGui::Text("Enter material name:");
+        ImGui::InputText("##matname", matName, 128);
+
+        ImGui::Spacing();
+        if (ImGui::Button("Create", ImVec2(120, 0))) {
+            UID newMatUID = MaterialImporter::CreateNewMaterial(currentPath, matName);
+            if(newMatUID != 0) {
+                RefreshAssets();
+            }
+            ImGui::CloseCurrentPopup();
+            strcpy(matName, "NewMaterial");
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
     }
 
     // Popup modal para nombrar el prefab
@@ -829,6 +868,7 @@ void AssetsWindow::DrawAssetsList()
         ImGui::EndPopup();
     }
 }
+
 void AssetsWindow::DrawExpandableAssetItem(AssetEntry& asset, std::string& pathPendingToLoad)
 {
     ImGui::PushID(asset.path.c_str());
@@ -1158,6 +1198,11 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
             payload.assetType = DragDropAssetType::PREFAB;
             ImGui::Text("Prefab: %s", asset.name.c_str());
         }
+        else if (asset.extension == ".mat")  
+        {
+            payload.assetType = DragDropAssetType::MATERIAL;
+            ImGui::Text("Material: %s", asset.name.c_str());
+        }
         else
         {
             payload.assetType = DragDropAssetType::UNKNOWN;
@@ -1189,18 +1234,18 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
         }
         else if (asset.extension == ".lua")
         {
-            if (EditorPreferences::GetPreferredEditor() == ExternalEditor::INTERNAL)
+            if (Application::GetInstance().editor.get()->GetScriptEditor())
             {
-                // Abrir con editor interno
-                if (scriptEditorWindow)
-                {
-                    scriptEditorWindow->OpenScript(asset.path);
-                }
+                Application::GetInstance().editor.get()->GetScriptEditor()->SetOpen(true);
+                Application::GetInstance().editor.get()->GetScriptEditor()->OpenScript(asset.path);
             }
-            else
+        }
+        else if (asset.extension == ".mat")
+        {
+            if (Application::GetInstance().editor.get()->GetMaterialEditor())
             {
-                // Abrir con editor externo
-                EditorPreferences::OpenFileWithPreferredEditor(asset.path);
+                Application::GetInstance().editor.get()->GetMaterialEditor()->SetOpen(true);
+                Application::GetInstance().editor.get()->GetMaterialEditor()->SetMaterialToEdit(asset.uid);
             }
         }
         else if (asset.extension == ".prefab")  
@@ -1275,9 +1320,9 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
 
             if (ImGui::MenuItem("Internal Editor"))
             {
-                if (scriptEditorWindow)
+                if (Application::GetInstance().editor.get()->GetMaterialEditor())
                 {
-                    scriptEditorWindow->OpenScript(asset.path);
+                    Application::GetInstance().editor.get()->GetMaterialEditor()->SetMaterialToEdit(asset.uid);
                 }
             }
 
@@ -1912,6 +1957,7 @@ bool AssetsWindow::IsAssetFile(const std::string& extension) const
         extension == ".ogg" ||
         extension == ".json" ||
         extension == ".lua"  ||
+        extension == ".mat"  ||
         extension == ".prefab";
 }
 
@@ -2589,9 +2635,10 @@ void AssetsWindow::CreateNewScript(const std::string& scriptName)
     RefreshAssets();
 
     // Abrir en el editor interno por defecto
-    if (scriptEditorWindow)
+    if (Application::GetInstance().editor.get()->GetScriptEditor())
     {
-        scriptEditorWindow->OpenScript(scriptPath.string());
+        Application::GetInstance().editor.get()->GetScriptEditor()->SetOpen(true);
+        Application::GetInstance().editor.get()->GetScriptEditor()->OpenScript(scriptPath.string());
     }
 }
 

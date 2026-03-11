@@ -12,6 +12,7 @@
 #include "ComponentSkinnedMesh.h"
 #include "ComponentMaterial.h"
 #include "FileUtils.h"
+#include "MaterialStandard.h"
 
 #include "ResourceModel.h"
 #include "ResourceAnimation.h"
@@ -40,7 +41,8 @@ Model ModelImporter::ImportFromFile(const std::string& file_path)
 
     unsigned int importFlags = aiProcess_Triangulate |
         aiProcess_JoinIdenticalVertices |
-        aiProcess_ValidateDataStructure;
+        aiProcess_ValidateDataStructure | 
+        aiProcess_CalcTangentSpace;
 
     if (meta.importSettings.generateNormals) {
         importFlags |= aiProcess_GenNormals;
@@ -62,12 +64,53 @@ Model ModelImporter::ImportFromFile(const std::string& file_path)
         return model;
     }
 
+    bool hasMaterials = scene->HasMaterials();
+    std::map<unsigned int, UID> materialMap;
+
+    if (hasMaterials)
+    {
+        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
+        {
+            aiMaterial* assimpMat = scene->mMaterials[i];
+
+            aiString matName;
+            assimpMat->Get(AI_MATKEY_NAME, matName);
+            std::string nameStr = matName.C_Str();
+            std::string directory = GetDirectoryFromPath(file_path);
+            if (nameStr.empty()) nameStr = "Material_" + std::to_string(i);
+
+            std::string materialAssetPath = directory + "/" + nameStr + ".mat";
+
+            UID matUID = 0;
+            if (std::filesystem::exists(materialAssetPath)) {
+                matUID = Application::GetInstance().resources->ImportFile(materialAssetPath.c_str());
+            }
+            else {
+
+                MaterialStandard* newMat = new MaterialStandard();
+
+                FillMaterialTextures(scene ,assimpMat, newMat, directory);
+
+                nlohmann::json matJson;
+                newMat->SaveToJson(matJson);
+                std::ofstream o(materialAssetPath);
+                o << matJson.dump(4);
+                o.close();
+
+                matUID = Application::GetInstance().resources->ImportFile(materialAssetPath.c_str());
+                delete newMat;
+            }
+
+            materialMap[i] = matUID;
+        }
+    }
+
     bool hasAnimations = scene->HasAnimations();
     bool hasMeshes = scene->HasMeshes();
 
     GameObject* rootObj = nullptr;
     std::string directory = file_path.substr(0, file_path.find_last_of("/\\"));
-    rootObj = ProcessNode(scene->mRootNode, scene, directory, referedMeshes);
+    rootObj = ProcessNode(scene->mRootNode, scene, directory, referedMeshes, materialMap);
 
     rootObj->name = GetFileNameNoExtension(file_path);
     rootObj->objectUID = 0;
@@ -168,7 +211,7 @@ Model ModelImporter::ImportFromFile(const std::string& file_path)
 
     return model;
 }
-GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const std::string& directory, std::map<std::string, UID>& referedMeshes)
+GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const std::string& directory, std::map<std::string, UID>& referedMeshes, std::map<unsigned int, UID>& materialMap)
 {
     std::string nodeName = node->mName.C_Str();
     if (nodeName.empty()) nodeName = "Unnamed";
@@ -231,110 +274,22 @@ GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const
             }
         }
 
-        // PROCESSING MATERIALS WITH EMBEDDED PROPERTIES
         if (aiMesh->mMaterialIndex >= 0)
         {
-            aiMaterial* material = scene->mMaterials[aiMesh->mMaterialIndex];
+            // Obtenemos el UID que generamos previamente para este índice de material
+            UID matUID = materialMap[aiMesh->mMaterialIndex];
 
-            ComponentMaterial* matComponent = static_cast<ComponentMaterial*>(
-                gameObject->GetComponent(ComponentType::MATERIAL));
-
-            if (matComponent == nullptr)
+            if (matUID != 0)
             {
-                matComponent = static_cast<ComponentMaterial*>(
+                // Creamos el componente de material en el GameObject
+                ComponentMaterial* matComp = static_cast<ComponentMaterial*>(
                     gameObject->CreateComponent(ComponentType::MATERIAL));
-            }
 
-            // extract diffuse color
-            aiColor4D diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
-            {
-                matComponent->SetDiffuseColor(glm::vec4(
-                    diffuseColor.r,
-                    diffuseColor.g,
-                    diffuseColor.b,
-                    diffuseColor.a
-                ));
-                LOG_DEBUG("Material diffuse color: (%.2f, %.2f, %.2f, %.2f)",
-                    diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-            }
-
-            // extract specular color (no implementado)
-            aiColor4D specularColor(1.0f, 1.0f, 1.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specularColor))
-            {
-                matComponent->SetSpecularColor(glm::vec4(
-                    specularColor.r,
-                    specularColor.g,
-                    specularColor.b,
-                    specularColor.a
-                ));
-                LOG_DEBUG("Material specular color: (%.2f, %.2f, %.2f)",
-                    specularColor.r, specularColor.g, specularColor.b);
-            }
-
-            // Extraer color ambiente(no implementado)
-            aiColor4D ambientColor(0.2f, 0.2f, 0.2f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambientColor))
-            {
-                matComponent->SetAmbientColor(glm::vec4(
-                    ambientColor.r,
-                    ambientColor.g,
-                    ambientColor.b,
-                    ambientColor.a
-                ));
-            }
-
-            // Extraer color emisivo(no implementado)
-            aiColor4D emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
-            if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_EMISSIVE, &emissiveColor))
-            {
-                matComponent->SetEmissiveColor(glm::vec4(
-                    emissiveColor.r,
-                    emissiveColor.g,
-                    emissiveColor.b,
-                    emissiveColor.a
-                ));
-            }
-
-            // Cargar texturas difusas si existen
-            if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-            {
-                aiString texturePath;
-                material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
-
-                std::string textureFile = texturePath.C_Str();
-                std::string fileName;
-
-                size_t lastSlash = textureFile.find_last_of("/\\");
-                if (lastSlash != std::string::npos)
-                    fileName = textureFile.substr(lastSlash + 1);
-                else
-                    fileName = textureFile;
-
-                std::vector<std::string> searchPaths = {
-                    directory + "\\" + fileName,
-                    directory + "\\Textures\\" + fileName,
-                };
-
-                bool loaded = false;
-                for (const auto& path : searchPaths)
+                if (matComp)
                 {
-                    if (std::filesystem::exists(path))
-                    {
-                        UID uid = Application::GetInstance().resources.get()->ImportFile(path.c_str());
-                        if (uid != 0 && matComponent->LoadTextureByUID(uid))
-                        {
-                            loaded = true;
-                            LOG_DEBUG("Loaded diffuse texture: %s", fileName.c_str());
-                            break;
-                        }
-                    }
-                }
-
-                if (!loaded)
-                {
-                    LOG_DEBUG("Diffuse texture not found: %s", fileName.c_str());
+                    // Cargamos el recurso material usando el UID
+                    matComp->SetMaterial(matUID);
+                    LOG_DEBUG("Assigned material UID %llu to mesh %s", matUID, meshName.c_str());
                 }
             }
         }
@@ -343,7 +298,7 @@ GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const
     // Process child nodes recursively
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        GameObject* child = ProcessNode(node->mChildren[i], scene, directory, referedMeshes);
+        GameObject* child = ProcessNode(node->mChildren[i], scene, directory, referedMeshes, materialMap);
         if (child != nullptr)
         {
             gameObject->AddChild(child);
@@ -363,14 +318,6 @@ UID ModelImporter::ProcessMesh(aiMesh* aiMesh, const aiScene* scene, const UID u
 
     // BaseUID (from .meta) + mesh index
     UID meshUID = uid;
-
-    // Check if this UID already exists
-    const auto& allResources = resources->GetAllResources();
-    auto it = allResources.find(meshUID);
-    if (it != allResources.end() && it->second->GetType() == Resource::MESH) {
-        // Mesh already registered, return its UID
-        return meshUID;
-    }
 
     // Import and save mesh
     Mesh mesh = MeshImporter::ImportFromAssimp(aiMesh);
@@ -541,4 +488,73 @@ Model ModelImporter::LoadFromCustomFormat(const UID& uid)
     }
 
     return model;
+}
+
+void ModelImporter::FillMaterialTextures(const aiScene* scene, aiMaterial* aiMat, MaterialStandard* outMat, const std::string& modelDirectory)
+{
+    std::map<aiTextureType, std::string> typesToImport = {
+    { aiTextureType_DIFFUSE, "Albedo" },
+    { aiTextureType_BASE_COLOR, "Albedo" },
+    { aiTextureType_NORMALS, "Normal" },
+    { aiTextureType_HEIGHT, "Height" },
+    { aiTextureType_METALNESS, "Metallic" },
+    { aiTextureType_AMBIENT_OCCLUSION, "Occlusion" },
+    { aiTextureType_LIGHTMAP, "Occlusion" }
+    };
+
+    for (auto const& [aiType, slotName] : typesToImport)
+    {
+        if (aiMat->GetTextureCount(aiType) > 0)
+        {
+            aiString texPath;
+            if (aiMat->GetTexture(aiType, 0, &texPath) == AI_SUCCESS)
+            {
+                std::string finalPath = "";
+                std::string fileName = GetFileName(texPath.C_Str());
+
+                const aiTexture* embeddedTex = scene->GetEmbeddedTexture(texPath.C_Str());
+                if (embeddedTex != nullptr)
+                {
+                    std::string extension = (embeddedTex->achFormatHint[0] != '\0') ? embeddedTex->achFormatHint : "png";
+                    std::string embeddedName = fileName.empty() ? (slotName + "_Embedded." + extension) : fileName;
+                    finalPath = modelDirectory + "/" + embeddedName;
+
+                    if (!DoesFileExist(finalPath)) {
+                        std::ofstream out(finalPath, std::ios::binary);
+                        if (embeddedTex->mHeight == 0) {
+                            out.write((char*)embeddedTex->pcData, embeddedTex->mWidth);
+                        }
+                        else {
+                            out.write((char*)embeddedTex->pcData, embeddedTex->mWidth * embeddedTex->mHeight * 4);
+                        }
+                        out.close();
+                        LOG_DEBUG("Extracted embedded texture to: %s", finalPath.c_str());
+                    }
+                }
+                else
+                {
+                    finalPath = FindFileInDirectory(modelDirectory, fileName);
+                    if (finalPath.empty()) {
+                        finalPath = FindFileInDirectory("Assets", fileName);
+                    }
+                }
+
+                if (!finalPath.empty() && DoesFileExist(finalPath))
+                {
+                    UID texUID = Application::GetInstance().resources->ImportFile(finalPath.c_str());
+                    if (texUID != 0)
+                    {
+                        if (slotName == "Albedo") outMat->SetAlbedoMap(texUID);
+                        else if (slotName == "Normal") outMat->SetNormalMap(texUID);
+                        else if (slotName == "Height") outMat->SetHeightMap(texUID);
+                        else if (slotName == "Metallic") outMat->SetMetallicMap(texUID);
+                        else if (slotName == "Occlusion") outMat->SetOcclusionMap(texUID);
+                    }
+                }
+                else {
+                    LOG_DEBUG("[ModelImporter] Could not find texture file: %s", fileName.c_str());
+                }
+            }
+        }
+    }
 }

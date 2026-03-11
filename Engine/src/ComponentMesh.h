@@ -76,7 +76,7 @@ public:
     ComponentMaterial* GetAttachedMaterial() { return attachedMaterial; }
 
     const AABB& GetAABB() const;
-    const AABB& GetGlobalAABB() const;
+    const AABB& GetGlobalAABB();
     void UpdateStaticAABB();
     virtual void UpdateDynamicAABB() {}
 
@@ -107,6 +107,7 @@ protected:
     
     AABB staticAABB;
     AABB dynamicAABB;
+    AABB cachedGlobalAABB;
 
     //MATERIAL
     ComponentMaterial* attachedMaterial;

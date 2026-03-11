@@ -1,5 +1,6 @@
 #include "ModuleCamera.h"
 #include "ModuleEvents.h"
+#include "ComponentCamera.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Application.h"

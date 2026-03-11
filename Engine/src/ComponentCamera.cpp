@@ -65,6 +65,8 @@ void ComponentCamera::Serialize(nlohmann::json& componentObj) const
     componentObj["aspectRatio"] = lens->GetAspectRatio();
     componentObj["nearPlane"] = lens->GetNearPlane();
     componentObj["farPlane"] = lens->GetFarPlane();
+    componentObj["usesPostProcessing"] = lens->IsUsingPostProcessing();
+    componentObj["uiCullingMask"] = lens->GetUiCullingMask();
 }
 
 void ComponentCamera::Deserialize(const nlohmann::json& componentObj)
@@ -75,8 +77,12 @@ void ComponentCamera::Deserialize(const nlohmann::json& componentObj)
     float aspect = componentObj.value("aspectRatio", 1.77f);
     float nPlane = componentObj.value("nearPlane", 0.1f);
     float fPlane = componentObj.value("farPlane", 1000.0f);
+    bool usesPP = componentObj.value("usesPostProcessing", false);
+    int uiCullingMask = componentObj.value("uiCullingMask", 0);
 
     lens->SetPerspective(fov, aspect, nPlane, fPlane);
+    lens->SetUsesPostProcessing(usesPP);
+    lens->SetUICullingMask(uiCullingMask);
 }
 
 bool ComponentCamera::IsMainCamera() const

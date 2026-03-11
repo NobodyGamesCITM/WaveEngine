@@ -85,6 +85,13 @@ public:
     bool active = true;
     Transform* transform = nullptr;
 
+    //tags
+    std::string tag = "";
+
+    const std::string& GetTag() const { return tag; }
+    void SetTag(const std::string& newTag) { tag = newTag; }
+    bool CompareTag(const std::string& t) const { return tag == t; }
+
 private:
     GameObject* parent = nullptr;
     std::vector<GameObject*> children;

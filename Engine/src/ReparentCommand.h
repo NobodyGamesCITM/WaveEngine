@@ -27,7 +27,21 @@ private:
         GameObject* parent = Application::GetInstance().scene->FindObject(parentUID);
         if (!obj || !parent) return;
 
-        parent->InsertChildAt(obj, index);
+        GameObject* oldParent = obj->GetParent();
+
+        int adjustedIndex = index;
+        if (oldParent == parent)
+        {
+            int oldIdx = parent->GetChildIndex(obj);
+            if (oldIdx >= 0 && oldIdx < index)
+                --adjustedIndex;
+        }
+
+        adjustedIndex = std::max(0, std::min(adjustedIndex,
+            static_cast<int>(parent->GetChildren().size())));
+
+        parent->InsertChildAt(obj, adjustedIndex);
+
         Application::GetInstance().scene->MarkOctreeForRebuild();
     }
 

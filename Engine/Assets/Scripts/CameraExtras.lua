@@ -140,6 +140,13 @@ function Update(self, dt)
         TriggerShake(self)
     end
 
+    if _PlayerController_triggerCameraShake then
+        if _PlayerController_shakeDuration  then self.public.shakeDuration  = _PlayerController_shakeDuration  end
+        if _PlayerController_shakeMagnitude then self.public.shakeMagnitude = _PlayerController_shakeMagnitude end
+        TriggerShake(self)
+        _PlayerController_triggerCameraShake = false
+    end
+
     UpdateShake(self, dt)
     UpdateFollow(self, dt)
 end

@@ -44,17 +44,33 @@ void ComponentPostProcessing::OnEditor()
 
             ImGui::Separator();
             ImGui::Text("White Balance");
-            ImGui::DragFloat("Temperature##WB", &colorGrading.temperature, 10.0f, -10000.0f, 10000.0f);
-
-            // Visual gradient bar: blue (cold) -> orange (warm)
+            ImGui::DragFloat("Temperature", &colorGrading.temperature, 100.0f, -10000.0f, 10000.0f, "%.0f K");
+            
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
             ImVec2 p = ImGui::GetCursorScreenPos();
             float width = ImGui::GetContentRegionAvail().x;
-            draw_list->AddRectFilledMultiColor(p, ImVec2(p.x + width, p.y + 10.0f),
+            float height = 20.0f;
+            float tempMin = -10000.0f;
+            float tempMax = 10000.0f;
+
+            ImGui::InvisibleButton("TemperatureBar", ImVec2(width, height));
+            if (ImGui::IsItemActive()) {
+                float t = (ImGui::GetMousePos().x - p.x) / width;
+                colorGrading.temperature = tempMin + std::clamp(t, 0.0f, 1.0f) * (tempMax - tempMin);
+            }
+
+            draw_list->AddRectFilledMultiColor(p, ImVec2(p.x + width, p.y + height),
                 IM_COL32(0, 0, 255, 255), IM_COL32(255, 165, 0, 255),
                 IM_COL32(255, 165, 0, 255), IM_COL32(0, 0, 255, 255));
-            ImGui::Dummy(ImVec2(width, 10.0f));
 
+            // Knot / Marker
+            float t = (colorGrading.temperature - tempMin) / (tempMax - tempMin);
+            t = std::clamp(t, 0.0f, 1.0f);
+            float knotX = p.x + t * width;
+            draw_list->AddLine(ImVec2(knotX, p.y), ImVec2(knotX, p.y + height), IM_COL32(255, 255, 255, 255), 2.0f);
+            draw_list->AddCircleFilled(ImVec2(knotX, p.y + height * 0.5f), 4.0f, IM_COL32(255, 255, 255, 255));
+
+            ImGui::Spacing();
             ImGui::DragFloat("Tint##WB", &colorGrading.tint, 1.0f, -100.0f, 100.0f);
             ImGui::ColorEdit3("Color Filter##WB", &colorGrading.colorFilter.x, ImGuiColorEditFlags_PickerHueWheel);
 
@@ -81,18 +97,7 @@ void ComponentPostProcessing::OnEditor()
             ImGui::SliderFloat("Intensity##Vignette", &lens.vignetteIntensity, 0.0f, 1.0f);
             ImGui::SliderFloat("Smoothness##Vignette", &lens.vignetteSmoothness, 0.0f, 1.0f);
             ImGui::SliderFloat("Roundness##Vignette", &lens.vignetteRoundness, 0.0f, 1.0f);
-            ImGui::ColorEdit3("Color##Vignette", &lens.vignetteColor.x);
-        }
-    }
-
-    if (ImGui::CollapsingHeader("Grain", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        ImGui::Checkbox("Enable Grain", &grain.enabled);
-        if (grain.enabled)
-        {
-            ImGui::SliderFloat("Intensity##Grain", &grain.intensity, 0.0f, 1.0f);
-            ImGui::SliderFloat("Scale##Grain", &grain.scale, 1.0f, 10.0f);
-            ImGui::Checkbox("Animated##Grain", &grain.animated);
+            ImGui::ColorEdit4("Color##Vignette", &lens.vignetteColor.x);
         }
     }
 }
@@ -128,14 +133,7 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"vigIntensity", lens.vignetteIntensity},
         {"vigSmoothness",lens.vignetteSmoothness},
         {"vigRoundness", lens.vignetteRoundness},
-        {"vigColor",     {lens.vignetteColor.x, lens.vignetteColor.y, lens.vignetteColor.z}}
-    };
-
-    o["grain"] = {
-        {"enabled",   grain.enabled},
-        {"intensity", grain.intensity},
-        {"scale",     grain.scale},
-        {"animated",  grain.animated}
+        {"vigColor",     {lens.vignetteColor.x, lens.vignetteColor.y, lens.vignetteColor.z, lens.vignetteColor.w}}
     };
 }
 
@@ -173,15 +171,10 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         lens.vignetteIntensity = l.value("vigIntensity", 0.4f);
         lens.vignetteSmoothness = l.value("vigSmoothness", 0.2f);
         lens.vignetteRoundness = l.value("vigRoundness", 1.0f);
-        if (l.contains("vigColor")) lens.vignetteColor = glm::vec3(l["vigColor"][0], l["vigColor"][1], l["vigColor"][2]);
-    }
-
-    if (o.contains("grain")) {
-        const auto& g = o["grain"];
-        grain.enabled = g.value("enabled", false);
-        grain.intensity = g.value("intensity", 0.0f);
-        grain.scale = g.value("scale", 1.0f);
-        grain.animated = g.value("animated", true);
+        if (l.contains("vigColor")) {
+            auto c = l["vigColor"];
+            lens.vignetteColor = glm::vec4(c[0], c[1], c[2], (c.size() > 3 ? c[3] : 1.0f));
+        }
     }
 }
 

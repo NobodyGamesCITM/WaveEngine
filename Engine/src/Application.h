@@ -13,6 +13,9 @@
 #include "Grid.h"
 #ifndef WAVE_GAME
 #include "ModuleEditor.h"
+#include "Backup.h"
+#else
+#include "ModuleGame.h"
 #endif
 #include "SelectionManager.h"
 #include "ModuleCamera.h" 
@@ -61,6 +64,7 @@ public:
     void Play();
     void Pause();
     void Stop();
+	void Resume() { if (playState == PlayState::PAUSED) playState = PlayState::PLAYING; }
     void Step();
     PlayState GetPlayState() const { return playState; }
 
@@ -78,6 +82,9 @@ public:
     std::shared_ptr<ModuleCamera> camera;
 #ifndef WAVE_GAME
     std::shared_ptr<ModuleEditor> editor;
+    std::shared_ptr<Backup> backup;
+#else
+    std::shared_ptr<ModuleGame> game;
 #endif
     std::shared_ptr<ModuleAudio> audio;
     std::shared_ptr<Grid> grid;
@@ -104,6 +111,9 @@ private:
 
     bool isRunning;
     PlayState playState;
+    
+    // Scene state saved in memory for Play/Stop
+    std::string savedSceneState;  
 
     // Call modules before each loop iteration
     bool PreUpdate();

@@ -1,5 +1,7 @@
 #include "ResourceScript.h"
-#include "ResourceScript.h"
+#include "ScriptImporter.h"
+#include "Application.h"
+#include "ModuleResources.h"
 #include "Log.h"
 #include <fstream>
 #include <sstream>
@@ -19,50 +21,57 @@ ResourceScript::~ResourceScript()
 
 bool ResourceScript::LoadInMemory()
 {
+    //ESTO TAMPOCO LO HA DE TENER LA LIBRERIA
+    if (std::filesystem::exists(assetsFile)) {
+        long long assetTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
+        long long libTime = 0;
+
+        if (std::filesystem::exists(libraryFile)) {
+            libTime = std::filesystem::last_write_time(libraryFile).time_since_epoch().count();
+        }
+
+        if (assetTime > libTime) {
+            LOG_DEBUG("[ResourceScript] Library outdated for %s. Re-importing...", assetsFile.c_str());
+            Application::GetInstance().resources->ImportFile(assetsFile.c_str(), true);
+        }
+    }
+
     if (IsLoadedToMemory()) {
-        LOG_DEBUG("[ResourceScript] Script already loaded: %llu", uid);
+        LOG_DEBUG("[ResourceModel] Already loaded in memory: %llu", uid);
         return true;
     }
 
-    if (assetsFile.empty()) {
-        LOG_CONSOLE("[ResourceScript] ERROR: No asset file path set for script UID %llu", uid);
+    if (libraryFile.empty()) {
+        LOG_DEBUG("[ResourceModel] ERROR: No library file specified");
         return false;
     }
 
-    if (!std::filesystem::exists(assetsFile)) {
-        LOG_CONSOLE("[ResourceScript] ERROR: Script file not found: %s", assetsFile.c_str());
+    std::string filename = libraryFile;
+    size_t lastSlash = filename.find_last_of("/\\");
+    if (lastSlash != std::string::npos) {
+        filename = filename.substr(lastSlash + 1);
+    }
+
+    LOG_DEBUG("[ResourceModel] Loading from Library: %s", filename.c_str());
+
+    Script scriptData = ScriptImporter::LoadFromCustomFormat(uid);;
+
+    if (!scriptData.IsValid()) {
+        LOG_DEBUG("[ResourceModel] ERROR: Failed to load model data");
         return false;
     }
 
-    // Read script content
-    std::ifstream file(assetsFile);
-    if (!file.is_open()) {
-        LOG_CONSOLE("[ResourceScript] ERROR: Cannot open script file: %s", assetsFile.c_str());
-        return false;
-    }
+    script = scriptData;
 
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    scriptContent = buffer.str();
-    file.close();
-
-    // Store load time for hot reloading
     lastLoadTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
-
-    
 
     return true;
 }
 
 void ResourceScript::UnloadFromMemory()
 {
-    if (!IsLoadedToMemory()) {
-        return;
-    }
-
-    scriptContent.clear();
+    script.scriptContent.clear();
     lastLoadTime = 0;
-
 }
 
 bool ResourceScript::Reload()
@@ -84,19 +93,10 @@ bool ResourceScript::Reload()
 
 bool ResourceScript::NeedsReload() const
 {
-    if (!IsLoadedToMemory() || assetsFile.empty()) {
-        return false;
-    }
+    if (!IsLoadedToMemory() || assetsFile.empty()) return false;
+    if (!std::filesystem::exists(assetsFile)) return false;
 
-    if (!std::filesystem::exists(assetsFile)) {
-        return false;
-    }
-
-    // Check if file has been modified
     long long currentFileTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
 
-    // Allow 2 second tolerance
-    const long long tolerance = 20000000000LL;
-
-    return std::abs(currentFileTime - lastLoadTime) > tolerance;
+    return currentFileTime > lastLoadTime;
 }

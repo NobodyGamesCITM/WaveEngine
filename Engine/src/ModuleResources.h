@@ -95,9 +95,6 @@ public:
     // Create resource with specific UID
     Resource* CreateNewResourceWithUID(const char* assetsFile, Resource::Type type, UID uid);
 
-    // Get resource info
-    bool GetResourceInfo(UID uid, std::string& outAssetPath, std::string& outLibraryPath);
-
     // Get resource type from file extension
     Resource::Type GetResourceTypeFromExtension(const std::string& extension) const;
 

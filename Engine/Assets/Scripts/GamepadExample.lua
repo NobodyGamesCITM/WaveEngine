@@ -14,6 +14,7 @@ local frameCount = 0
 -- nil forces the first connection log
 local lastHasPad = nil
 
+
 function Start(self)
     Engine.Log("------------ GamepadExample: Start --------------------------------------------")
     Engine.Log("  Connected gamepads: " .. Input.GetGamepadCount())

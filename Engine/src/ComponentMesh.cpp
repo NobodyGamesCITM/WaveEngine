@@ -24,13 +24,6 @@ ComponentMesh::~ComponentMesh()
     attachedMaterial = nullptr;
     ReleaseCurrentMesh();
     Application::GetInstance().renderer->RemoveMesh(this);
-
-    // Clean up direct mesh GPU resources if present
-    if (hasDirectMesh && directMesh.VAO != 0) {
-        glDeleteVertexArrays(1, &directMesh.VAO);
-        glDeleteBuffers(1, &directMesh.VBO);
-        glDeleteBuffers(1, &directMesh.EBO);
-    }
 }
 
 void ComponentMesh::ReleaseCurrentMesh()
@@ -99,48 +92,6 @@ void ComponentMesh::SetMesh(const Mesh& mesh)
     // Copy mesh data for direct storage
     directMesh = mesh;
     hasDirectMesh = true;
-
-    // Upload mesh to GPU if data is available
-    if (!directMesh.vertices.empty() && !directMesh.indices.empty())
-    {
-        // Generate OpenGL buffers
-        glGenVertexArrays(1, &directMesh.VAO);
-        glGenBuffers(1, &directMesh.VBO);
-        glGenBuffers(1, &directMesh.EBO);
-
-        glBindVertexArray(directMesh.VAO);
-
-        // Upload vertex data
-        glBindBuffer(GL_ARRAY_BUFFER, directMesh.VBO);
-        glBufferData(GL_ARRAY_BUFFER,
-            directMesh.vertices.size() * sizeof(Vertex),
-            directMesh.vertices.data(),
-            GL_STATIC_DRAW);
-
-        // Upload index data
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, directMesh.EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-            directMesh.indices.size() * sizeof(unsigned int),
-            directMesh.indices.data(),
-            GL_STATIC_DRAW);
-
-        // Configure vertex attributes
-        // Position
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
-        // Normal
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-            (void*)offsetof(Vertex, normal));
-
-        // TexCoords
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-            (void*)offsetof(Vertex, texCoords));
-
-        glBindVertexArray(0);
-    }
 
     UpdateStaticAABB();
 
@@ -221,13 +172,6 @@ void ComponentMesh::Draw()
     // Use direct mesh as fallback
     if (!meshToDraw && hasDirectMesh) {
         meshToDraw = &directMesh;
-    }
-
-    // Render mesh if valid
-    if (meshToDraw && meshToDraw->VAO != 0 && !meshToDraw->indices.empty()) {
-        glBindVertexArray(meshToDraw->VAO);
-        glDrawElements(GL_TRIANGLES, meshToDraw->indices.size(), GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
     }
 }
 

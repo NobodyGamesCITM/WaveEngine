@@ -10,6 +10,7 @@
 #include "MeshImporter.h"
 #include "PrefabImporter.h"
 #include "SceneImporter.h"
+#include "ScriptImporter.h"
 #include "MaterialImporter.h"
 #include "Log.h"
 #include "ResourceScript.h"
@@ -257,15 +258,6 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
 
     LOG_CONSOLE("[ModuleResources] Resources registered: %d, skipped: %d",
         registered, skipped);
-
-    LOG_CONSOLE("[ModuleResources] LISTING ALL PREFABS");
-    for (const auto& [uid, res] : resources) {
-        if (res->GetType() == Resource::PREFAB) {
-            LOG_CONSOLE("[ModuleResources]   - Prefab: %s (UID: %llu)",
-                res->GetAssetFile().c_str(), uid);
-        }
-    }
-    LOG_CONSOLE("[ModuleResources] === END OF PREFAB LIST ===");
 }
 
 UID ModuleResources::Find(const char* assetPath, Resource::Type type) const {
@@ -648,20 +640,18 @@ bool ModuleResources::ImportScene(Resource* resource, const std::string& assetPa
 
 bool ModuleResources::ImportScript(Resource* resource, const std::string& assetPath) 
 {    
-    // Scripts don't need importing - they stay in Assets/
-    // Just verify the file exists
-    if (!std::filesystem::exists(assetPath)) {
-        LOG_CONSOLE("ERROR: Script file not found: %s", assetPath.c_str());
-        return false;
+    std::string metaPath = assetPath + ".meta";
+    MetaFile meta;
+
+    if (std::filesystem::exists(metaPath)) {
+        meta = MetaFile::Load(metaPath);
+    }
+    else {
+        meta = MetaFileManager::GetOrCreateMeta(assetPath);
+        meta.Save(metaPath);
     }
 
-    resource->SetAssetFile(assetPath);
-    resource->SetLibraryFile(assetPath);  // Scripts reference themselves
-
-    LOG_CONSOLE("[ModuleResources] Script registered: %s (UID: %llu)",
-        assetPath.c_str(), resource->GetUID());
-
-    return true;
+    return ScriptImporter::ImportFromFile(assetPath, meta);
 }
 
 bool ModuleResources::ImportPrefab(Resource* resource, const std::string& assetPath) {
@@ -680,39 +670,6 @@ bool ModuleResources::ImportPrefab(Resource* resource, const std::string& assetP
     }
 
     return PrefabImporter::ImportFromFile(assetPath, meta);
-}
-
-bool ModuleResources::GetResourceInfo(UID uid, std::string& outAssetPath, std::string& outLibraryPath) {
-    auto it = resources.find(uid);
-    if (it != resources.end()) {
-        outAssetPath = it->second->GetAssetFile();
-        outLibraryPath = it->second->GetLibraryFile();
-        return true;
-    }
-
-    outAssetPath = MetaFileManager::GetAssetFromUID(uid);
-    if (!outAssetPath.empty()) {
-
-        MetaFile meta = MetaFileManager::LoadMeta(outAssetPath);
-
-        switch (meta.type) {
-        case AssetType::TEXTURE_PNG:
-        case AssetType::TEXTURE_JPG:
-        case AssetType::TEXTURE_DDS:
-        case AssetType::TEXTURE_TGA:
-            outLibraryPath = LibraryManager::GetLibraryPathFromUID(uid);
-            break;
-        case AssetType::MODEL_FBX:
-            outLibraryPath = LibraryManager::GetLibraryPathFromUID(uid);
-            break;
-        default:
-            outLibraryPath = "";
-            break;
-        }
-        return true;
-    }
-
-    return false;
 }
 
 void ModuleResources::RemoveResource(UID uid) {

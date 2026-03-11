@@ -264,6 +264,8 @@ set(IMPORTERS_SRC
     src/MetaFile.h 
     src/TextureImporter.cpp 
     src/TextureImporter.h 
+    src/ScriptImporter.cpp 
+    src/ScriptImporter.h 
     src/ModelImporter.cpp 
     src/ModelImporter.h 
     src/MaterialImporter.cpp 

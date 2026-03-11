@@ -5,17 +5,18 @@ local sqrt  = math.sqrt
 local abs   = math.abs
 local atan2 = math.atan
 local pi    = math.pi
-
+  
 local INPUT_SCALE = 10
 
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
 local HEALTH_BAR_MAX_HEIGHT  = 68.0 
+  
 
 local function UpdateStaminaBar(stamina)
     local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
     UI.SetElementHeight("StaminaGrid", fill) 
 end
-
+  
 local function UpdateHealthBar(health)
     local fill = (health / 100.0) * HEALTH_BAR_MAX_HEIGHT
     UI.SetElementHeight("HealthGrid", fill) 

@@ -7,8 +7,6 @@ local atan2 = math.atan
 local pi    = math.pi
 
 local INPUT_SCALE = 10
-local ROTATION_SPEED = 360
-
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
 local HEALTH_BAR_MAX_HEIGHT  = 68.0 
 
@@ -51,6 +49,7 @@ local Player = {
     lastAngle       = 0,
     godMode         = false,
     rb              = nil,
+    sprintHeld      = false,
 
     -- Potion state
     potionCount         = 4,
@@ -63,13 +62,13 @@ local Player = {
 }
 
 public = {
-    speed               = 10.0,
+    speed               = 15.0,
     rollDuration        = 5,
     sprintMultiplier    = 1.5,
-    rollMultiplier      = 10,
+    rollMultiplier      = 2.5,
     stamina             = 100.0,
     health              = 100.0,
-    speedIncrease       = 10,
+    speedIncrease       = 10.0,
     staminaCost         = 0.1,
     staminaRecover      = 0.1,
     rollStaminaCost     = 25,
@@ -77,6 +76,8 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost          = 0.2,   
     hpRecover           = 0.2,  
+    ROTATION_SPEED      = 780
+
 }
 
 local function normalizeInput(x, z)
@@ -120,7 +121,7 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
     if abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
         local targetAngle = atan2(faceDirX, faceDirZ) * (180.0 / pi)
         local delta = ((targetAngle - Player.lastAngle + 180) % 360) - 180
-        local maxStep = ROTATION_SPEED * dt
+        local maxStep = self.public.ROTATION_SPEED * dt
         if math.abs(delta) <= maxStep then
             Player.lastAngle = targetAngle
         else
@@ -167,15 +168,15 @@ States[State.IDLE] = {
 
         local moveX, moveZ, inputLen = GetMovementInput()
         if inputLen > 0.1 then
-            if Input.GetKey("LeftShift") then
+            if Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5 then
                 ChangeState(self, State.RUNNING)
             else
                 ChangeState(self, State.WALK)
             end
         end
-        
+
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        if Input.GetKeyDown("LeftCtrl") and self.public.stamina >= self.public.rollStaminaCost then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost then
             ChangeState(self, State.ROLL)
             return
         end
@@ -190,7 +191,8 @@ States[State.WALK] = {
     end,
     
     Update = function(self, dt)
-        if Input.GetKey("LeftShift") and self.public.stamina > 10 then
+        local sprintInput = Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5
+        if sprintInput and not Player.sprintHeld and self.public.stamina > 10 then
             ChangeState(self, State.RUNNING)
         end
         local moveX, moveZ, inputLen = GetMovementInput()
@@ -205,14 +207,10 @@ States[State.WALK] = {
             return
         end
         
-        if Input.GetKey("LeftShift") then
-            ChangeState(self, State.RUNNING)
-            return
-        end
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        
-        if Input.GetKeyDown("LeftCtrl") and self.public.stamina >= self.public.rollStaminaCost then
+
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost then
             ChangeState(self, State.ROLL)
             return
         end
@@ -241,7 +239,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if not Input.GetKey("LeftShift") then
+        if not Input.GetKey("LeftShift") and not (Input.GetGamepadAxis("LT") > 0.5) then
             ChangeState(self, State.WALK)
             return
         end
@@ -252,7 +250,7 @@ States[State.RUNNING] = {
         end
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        if Input.GetKeyDown("LeftCtrl") then
+        if Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B") then
             ChangeState(self, State.ROLL)
             return
         end
@@ -397,6 +395,8 @@ function Update(self, dt)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
+    Player.sprintHeld = Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5
+    
     UpdateStaminaBar(self.public.stamina)
     UpdateHealthBar(self.public.health)
 end

@@ -1,20 +1,16 @@
-public = {
-    
-    musicTimer = 0,
-    music1 = true
-}
+local musicTimer = 0.0
+local music1 = true
 
 function Start(self)
     Audio.SetMusicState("CoffeeShop");
 end
 
 function Update(self, dt)
-    -- Called every frame
-    -- deltaTime = time since last frame in seconds
-    musicTimer = musicTimer + deltaTime
-    Engine.Log("musicTimer = ".. musicTimer)
+
+    musicTimer = musicTimer + dt
+    --Engine.Log("musicTimer = ".. tostring(musicTimer))
     
-    if musicTimer >= 15 then
+    if musicTimer >= 15.0 then
         musicTimer = 0.0 --reset timer
         music1 = not music1
 

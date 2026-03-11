@@ -494,7 +494,7 @@ static int Lua_Audio_SetMusicState(lua_State* L) {
     const char* stateName = luaL_checkstring(L, 1);
     const char* stateGroupName = "BGM_State";
     /*stateName = std::toupper(stateName.c_str());*/
-    AK::SoundEngine::SetState(stateGroupName, stateName);
+    Application::GetInstance().audio.get()->audioSystem->SetState(stateGroupName, stateName);
     AK::SoundEngine::RenderAudio();
     return 1;
 }

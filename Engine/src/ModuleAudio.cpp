@@ -13,7 +13,7 @@ ModuleAudio::~ModuleAudio() {}
 
 bool ModuleAudio::Start() {
     return audioSystem->Awake(); // Initializes Wwise
-    audioSystem->SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::COFFEESHOP);
+    //audioSystem->SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::COFFEESHOP);
 }
 
 

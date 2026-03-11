@@ -80,13 +80,13 @@
                         {
                             "active": true,
                             "position": [
-                                -9.1552734375e-05,
+                                -0.0001220703125,
                                 0.0,
-                                0.0
+                                -3.0517578125e-05
                             ],
                             "rotation": [
                                 0.0,
-                                4.371320756035857e-06,
+                                1.7485283024143428e-05,
                                 0.0
                             ],
                             "scale": [
@@ -1844,7 +1844,19 @@
                                 },
                                 {
                                     "active": true,
-                                    "scriptUID": 0,
+                                    "publicVariables": [
+                                        {
+                                            "name": "music1",
+                                            "type": 2,
+                                            "value": true
+                                        },
+                                        {
+                                            "name": "musicTimer",
+                                            "type": 0,
+                                            "value": 0.0
+                                        }
+                                    ],
+                                    "scriptUID": 12811375249994021417,
                                     "type": 6
                                 }
                             ],

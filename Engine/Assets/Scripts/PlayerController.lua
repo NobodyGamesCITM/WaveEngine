@@ -47,7 +47,9 @@ local Player = {
     currentState    = nil,
     lastDirX        = 0,
     lastDirZ        = 1,
+    lastAngle       = 0,
     godMode         = false,
+    rb              = nil,
 
     -- Potion state
     potionCount         = 4,
@@ -105,21 +107,26 @@ local function GetMovementInput()
 end
 
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
-    local pos = self.transform.position
     local speed = speedOverride or self.public.speed
-
-    -- Calculates the new pos
-    local nextX = pos.x + (moveX / INPUT_SCALE) * speed * dt
-    local nextZ = pos.z + (moveZ / INPUT_SCALE) * speed * dt
-
-    self.transform:SetPosition(nextX, pos.y, nextZ)
-
     local faceDirX = moveX / INPUT_SCALE
     local faceDirZ = moveZ / INPUT_SCALE
+    local velY = 0
+    
+    if Player.rb then
+        velY = Player.rb:GetLinearVelocity().y
+    end
 
     if abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
         local angleDeg = atan2(faceDirX, faceDirZ) * (180.0 / pi)
-        self.transform:SetRotation(0, angleDeg, 0)
+        local diff = math.abs(angleDeg - Player.lastAngle)
+        if diff > 0.5 then
+            Player.lastAngle = angleDeg
+            self.transform:SetRotation(0, angleDeg, 0)
+        end
+    end
+
+    if Player.rb then
+        Player.rb:SetLinearVelocity(faceDirX * speed, velY, faceDirZ * speed)
     end
 end
 
@@ -149,6 +156,11 @@ States[State.IDLE] = {
     end,
     
     Update = function(self, dt)
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
+
         local moveX, moveZ, inputLen = GetMovementInput()
         if inputLen > 0.1 then
             if Input.GetKey("LeftShift") then
@@ -213,6 +225,10 @@ States[State.RUNNING] = {
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
     end,
+    Exit = function(self)
+        self.public.speed = self.public.speed - self.public.speedIncrease
+        self.public.usingStamina = false
+    end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
 
@@ -222,7 +238,6 @@ States[State.RUNNING] = {
         end
 
         if not Input.GetKey("LeftShift") then
-            self.public.speed = self.public.speed - self.public.speedIncrease
             ChangeState(self, State.WALK)
             return
         end
@@ -234,13 +249,11 @@ States[State.RUNNING] = {
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
         if Input.GetKeyDown("LeftCtrl") then
-            self.public.speed = self.public.speed - self.public.speedIncrease
             ChangeState(self, State.ROLL)
             return
         end
 
         if self.public.stamina <= 0 then
-            self.public.speed = self.public.speed - self.public.speedIncrease
             ChangeState(self, State.WALK)
             return
         end
@@ -272,11 +285,11 @@ States[State.ROLL] = {
             return
         end
 
-        local pos = self.transform.position
-        local rollSpeed = self.public.speed * self.public.rollMultiplier
-        local nextX = pos.x + Player.lastDirX * rollSpeed * dt
-        local nextZ = pos.z + Player.lastDirZ * rollSpeed * dt
-        self.transform:SetPosition(nextX, pos.y, nextZ)
+        if Player.rb then
+            local rollSpeed = self.public.speed * self.public.rollMultiplier
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(Player.lastDirX * rollSpeed, velocity.y, Player.lastDirZ * rollSpeed)
+        end
     end
 }
 
@@ -319,6 +332,10 @@ function Start(self)
     self.public.stamina = 100
     self.public.health  = 100
     Player.potionCount  = 4
+    Player.rb = self.gameObject:GetComponent("Rigidbody")
+    if not Player.rb then
+        Engine.Log("[Player] No rigidbody found")
+    end
     ChangeState(self, State.IDLE)
     UpdatePotionUI(Player.potionCount)
 end

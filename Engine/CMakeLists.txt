@@ -264,8 +264,6 @@ set(IMPORTERS_SRC
     src/ModelImporter.h 
     src/MaterialImporter.cpp 
     src/MaterialImporter.h 
-    src/XAMLImporter.h
-    src/XAMLImporter.cpp
     src/ModuleResources.cpp 
     src/ModuleResources.h 
     src/ResourceMesh.cpp 
@@ -282,8 +280,6 @@ set(IMPORTERS_SRC
     src/ResourceAnimation.h
     src/ResourceMaterial.cpp
     src/ResourceMaterial.h
-    src/ResourceXAML.h
-    src/ResourceXAML.cpp
     src/Material.h
     src/MaterialStandard.cpp
     src/MaterialStandard.h

@@ -21,7 +21,6 @@
 #include "UIManager.h"
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/Button.h>
-#include "ResourceXAML.h"
 
 
 ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, ComponentType::CANVAS)
@@ -95,34 +94,8 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     if (currentXAML == filename)
         return true;
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml;
-
-    // --- Try to load from binary Library first ---
-    UID uid = Application::GetInstance().resources->Find(filename);
-    if (uid != 0)
-    {
-        ResourceXAML* res = dynamic_cast<ResourceXAML*>(
-            Application::GetInstance().resources->RequestResource(uid));
-
-        if (res && res->IsValid())
-        {
-            // LoadXamlFromMemory expects a null-terminated XML string or raw
-            xaml = Noesis:::LoadXamlFromMemory<Noesis::FrameworkElement>(
-                reinterpret_cast<const char*>(res->GetData()),
-                static_cast<uint32_t>(res->GetSize()));
-
-            Application::GetInstance().resources->ReleaseResource(uid);
-
-            if (!xaml)
-                LOG_CONSOLE("[Canvas] Binary XAML failed, falling back to disk: %s", filename);
-        }
-    }
-
-    // --- Fallback: load directly from disk (editor / first run) ---
-    if (!xaml)
-    {
-        xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>(filename);
-    }
+    Noesis::Ptr<Noesis::FrameworkElement> xaml =
+        Noesis::GUI::LoadXaml<Noesis::FrameworkElement>(filename);
 
     if (!xaml)
     {

@@ -28,6 +28,7 @@
 #include "ComponentAnimation.h"
 #include "UIManager.h"
 #include "Rigidbody.h"
+#include "LibraryManager.h"
 
 #include <filesystem>
 #include <cmath>
@@ -78,6 +79,12 @@ bool ScriptManager::PostUpdate() {
         }
 
         pendingOperations.clear();
+    }
+
+    if (!pendingSceneLoad.empty()) {
+        std::string path = pendingSceneLoad;
+        pendingSceneLoad.clear();
+        Application::GetInstance().scene->LoadScene(path);
     }
 
     return true;
@@ -221,6 +228,20 @@ static int Lua_Input_GetKey(lua_State* L) {
     lua_pushboolean(L, pressed);
     return 1;
 }
+
+static int Lua_Engine_LoadScene(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    Application::GetInstance().scripts->pendingSceneLoad = std::string(path);
+    return 0;
+}
+
+static int Lua_Engine_GetScenesPath(lua_State* L) {
+    std::string path = (std::filesystem::path(LibraryManager::GetLibraryRoot()).parent_path() / "Scene").string();
+    lua_pushstring(L, path.c_str());
+    return 1;
+}
+
+
 
 static int Lua_Input_GetKeyDown(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
@@ -555,10 +576,14 @@ void ScriptManager::RegisterEngineFunctions() {
 
     LOG_CONSOLE("[ScriptManager] Registering engine functions...");
 
-    // Engine.Log
+    // Engine
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Engine_Log);
     lua_setfield(L, -2, "Log");
+    lua_pushcfunction(L, Lua_Engine_LoadScene);
+    lua_setfield(L, -2, "LoadScene");
+    lua_pushcfunction(L, Lua_Engine_GetScenesPath);
+    lua_setfield(L, -2, "GetScenesPath");
     lua_setglobal(L, "Engine");
 
     // Input

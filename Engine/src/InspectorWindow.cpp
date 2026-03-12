@@ -1602,6 +1602,51 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                             }
                             break;
                         }
+                        case ScriptVarType::SCENE:
+                        {
+                            std::string currentScene = std::get<std::string>(var.value);
+
+                            std::vector<std::string> sceneFiles;
+                            if (std::filesystem::exists("../Scene"))
+                            {
+                                for (const auto& entry : std::filesystem::directory_iterator("../Scene"))
+                                {
+                                    if (entry.is_regular_file() && entry.path().extension() == ".json")
+                                        sceneFiles.push_back(entry.path().filename().string());
+                                }
+                            }
+
+                            std::string displayName = "None";
+                            if (!currentScene.empty())
+                                displayName = std::filesystem::path(currentScene).filename().string();
+
+                            ImGui::Text("%s", var.name.c_str());
+                            std::string comboID = "##scene_" + var.name + std::to_string(i);
+                            ImGui::SetNextItemWidth(-1);
+                            if (ImGui::BeginCombo(comboID.c_str(), displayName.c_str()))
+                            {
+                                if (ImGui::Selectable("None", currentScene.empty()))
+                                {
+                                    ScriptVariable newVar(var.name, ScriptVarType::SCENE, std::string(""));
+                                    scriptComp->UpdatePublicVariable(i, newVar);
+                                }
+                                for (const auto& file : sceneFiles)
+                                {
+                                    std::string fullPath = "../Scene/" + file;
+                                    bool selected = (currentScene == fullPath);
+                                    if (ImGui::Selectable(file.c_str(), selected))
+                                    {
+                                        ScriptVariable newVar(var.name, ScriptVarType::SCENE, fullPath);
+                                        scriptComp->UpdatePublicVariable(i, newVar);
+                                    }
+                                    if (selected) ImGui::SetItemDefaultFocus();
+                                }
+                                if (sceneFiles.empty())
+                                    ImGui::TextDisabled("No .json files found in Scene");
+                                ImGui::EndCombo();
+                            }
+                            break;
+                        }
                         }
 
                         ImGui::PopID();

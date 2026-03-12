@@ -20,7 +20,8 @@ enum class ScriptVarType {
     NUMBER,
     STRING,
     BOOLEAN,
-    VEC3
+    VEC3,
+    SCENE
 };
 
 struct ScriptVariable {
@@ -42,6 +43,9 @@ struct ScriptVariable {
 
     ScriptVariable(const std::string& n, const glm::vec3& v)
         : name(n), type(ScriptVarType::VEC3), value(v) {
+    }
+    ScriptVariable(const std::string& n, ScriptVarType t, const std::string& v)
+        : name(n), type(t), value(v) {
     }
 };
 

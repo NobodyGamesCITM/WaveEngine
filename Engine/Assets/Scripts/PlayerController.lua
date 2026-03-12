@@ -106,7 +106,7 @@ local Player = {
 
 public = {
     speed               = 15.0,
-    rollDuration        = 5,
+    rollDuration        = 0.4,
     sprintMultiplier    = 1.5,
     rollMultiplier      = 2.5,
     stamina             = 100.0,
@@ -123,7 +123,7 @@ public = {
     attackCooldown      = 0.5,
     knockbackForce      = 14.0,
     hitShakeDuration    = 0.3,
-    hitShakeMagnitude   = 6.0
+    hitShakeMagnitude   = 6.0,
     ROTATION_SPEED      = 780
 
 }
@@ -487,15 +487,25 @@ function Update(self, dt)
     UpdatePotionHeal(self, dt)
 
     -- Tecla 1: perder vida (debug)
-    if Input.GetKey("1") then
+    if Input.GetKey("1") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    -- Tecla G: toggle god mode (debug)
+    if Input.GetKeyDown("G") then
+        Player.godMode = not Player.godMode
+        Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
     end
 
     -- Tecla 2: ganar vida (debug)
     if Input.GetKey("2") then
         self.public.health = math.min(100, self.public.health + self.public.hpRecover)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    end
+
+    if not (Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5) then
+        Player.sprintHeld = false
     end
 
     UpdateStaminaBar(self.public.stamina)
@@ -526,47 +536,4 @@ function OnCollisionEnter(self, other)
             Engine.Log("[Player] Player not drowning")
         end
     end
-
-    -- Cooldown de la tecla de poción (evita consumir varias en un frame)
-    if Player.potionCooldown > 0 then
-        Player.potionCooldown = Player.potionCooldown - dt
-    end
-
-    -- Tecla 3: usar poción
-    if Input.GetKey("3") and Player.potionCooldown <= 0 then
-        if Player.potionCount > 0 and self.public.health < 100 and not Player.potionHealing then
-            Player.potionCount          = Player.potionCount - 1
-            Player.potionHealing        = true
-            Player.potionHealRemaining  = Player.potionHealTotal
-            Player.potionCooldown       = Player.potionCooldownMax
-            Engine.Log("[Player] POCION USADA | Restantes: " .. tostring(Player.potionCount))
-            UpdatePotionUI(Player.potionCount)
-        end
-    end
-
-    -- Aplicar curación gradual de la poción
-    UpdatePotionHeal(self, dt)
-
-    -- Tecla 1: perder vida (debug)
-    if Input.GetKey("1") and not Player.godMode then
-        self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
-        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
-    end
-
-    -- Tecla G: toggle god mode (debug)
-    if Input.GetKeyDown("G") then
-        Player.godMode = not Player.godMode
-        Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
-    end
-
-    -- Tecla 2: ganar vida (debug)
-    if Input.GetKey("2") then
-        self.public.health = math.min(100, self.public.health + self.public.hpRecover)
-        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
-    end
-
-    Player.sprintHeld = Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5
-    
-    UpdateStaminaBar(self.public.stamina)
-    UpdateHealthBar(self.public.health)
 end

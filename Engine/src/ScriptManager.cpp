@@ -670,7 +670,17 @@ static int Lua_Rigidbody_AddForce(lua_State* L) {
     float x = static_cast<float>(luaL_checknumber(L, 2));
     float y = static_cast<float>(luaL_checknumber(L, 3));
     float z = static_cast<float>(luaL_checknumber(L, 4));
-    if (rb) rb->AddForce(glm::vec3(x, y, z), Rigidbody::FORCE);
+    // modes: 1=FORCE(default), 2=IMPULSE, 3=VELOCITY_CHANGE, 4=ACCELERATION
+    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
+    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
+    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
+    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
+    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
+    if (rb) {
+        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
+            rb->AddForce(glm::vec3(x, y, z), mode);
+        });
+    }
     return 0;
 }
 
@@ -1027,25 +1037,6 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     return 0;
 }
 
-static int Lua_Rigidbody_AddForce(lua_State* L) {
-    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
-    float x = static_cast<float>(luaL_checknumber(L, 2));
-    float y = static_cast<float>(luaL_checknumber(L, 3));
-    float z = static_cast<float>(luaL_checknumber(L, 4));
-    //modes: 1=FORCE(default), 2=IMPULSE, 3=VELOCITY_CHANGE, 4=ACCELERATION
-    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
-    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
-    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
-    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
-    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
-
-    if (rb) {
-        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
-            rb->AddForce(glm::vec3(x, y, z), mode);
-            });
-    }
-    return 0;
-}
 
 static int Lua_Rigidbody_AddTorque(lua_State* L) {
     Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
@@ -1066,18 +1057,6 @@ static int Lua_Rigidbody_AddTorque(lua_State* L) {
     return 0;
 }
 
-static int Lua_Rigidbody_GetLinearVelocity(lua_State* L) {
-    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
-    if (rb) {
-        glm::vec3 v = rb->GetLinearVelocity();
-        lua_pushnumber(L, v.x);
-        lua_pushnumber(L, v.y);
-        lua_pushnumber(L, v.z);
-        return 3;
-    }
-    lua_pushnumber(L, 0); lua_pushnumber(L, 0); lua_pushnumber(L, 0);
-    return 3;
-}
 
 // Helper for ComponentCanvas.SetOpacity
 static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {

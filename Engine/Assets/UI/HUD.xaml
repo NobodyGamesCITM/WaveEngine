@@ -25,7 +25,7 @@
         <!-- HealthBar: columna izquierda -->
         <Viewbox x:Name="HealtBar_Viewport" Grid.Row="0" Grid.Column="0" Stretch="Uniform">
             <Grid Width="50" Height="68" Margin="0,6,50,26">
-                <Grid x:Name="HealthGrid" VerticalAlignment="Bottom" Width="28" Margin="11,0" Height="68">
+                <Grid x:Name="HealthGrid" VerticalAlignment="Bottom" Width="28" Height="68" Margin="11,0">
                     <Rectangle x:Name="HealthFill" Width="28" Height="68" VerticalAlignment="Bottom">
                         <Rectangle.Fill>
                             <ImageBrush ImageSource="Textures/HealthBar_Interior.png"/>
@@ -56,6 +56,28 @@
                     </Rectangle>
                 </Grid>
                 <Image x:Name="StaminaBar_Image" Source="Textures/Health_Bar.png" Margin="12,0,10,0"/>
+            </Grid>
+        </Viewbox>
+        <Viewbox x:Name="UsedPotion_Viewport" Grid.Row="0" Stretch="Uniform" Grid.Column="2">
+            <Grid RenderTransformOrigin="0.5,0.5" Height="68" Width="113">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Grid.RenderTransform>
+                <Image x:Name="UsedPotion_Image4" Margin="12,15,82,34" Source="Textures/HealthPotion_Used.png"/>
+                <Image x:Name="UsedPotion_Image3" Margin="31,15,63,34" Source="Textures/HealthPotion_Used.png"/>
+                <Image x:Name="UsedPotion_Image2" Margin="50,15,44,34" Source="Textures/HealthPotion_Used.png"/>
+                <Image x:Name="UsedPotion_Image1" Margin="69,15,25,34" Source="Textures/HealthPotion_Used.png"/>
+            </Grid>
+        </Viewbox>
+        <Viewbox x:Name="Potion_Viewport" Grid.Row="0" Stretch="Uniform" Grid.Column="2">
+            <Grid RenderTransformOrigin="0.5,0.5" Height="68" Width="113">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Grid.RenderTransform>
+                <Image x:Name="Potion_Image4" Source="Textures/HealthPotion.png" Margin="12,15,82,34"/>
+                <Image x:Name="Potion_Image3" Source="Textures/HealthPotion.png" Margin="31,15,63,34"/>
+                <Image x:Name="Potion_Image2" Source="Textures/HealthPotion.png" Margin="50,15,44,34"/>
+                <Image x:Name="Potion_Image1" Source="Textures/HealthPotion.png" Margin="69,15,25,34"/>
             </Grid>
         </Viewbox>
 

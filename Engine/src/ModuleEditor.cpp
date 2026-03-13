@@ -1166,6 +1166,7 @@ void ModuleEditor::BuildGame()
         else
         {
             LOG_CONSOLE("[Build] WARNING: Assetsfolder not found");
+            LOG_CONSOLE("[Build] WARNING: Assets folder not found");
         }
 
         // Copy Library/ folder
@@ -1180,18 +1181,31 @@ void ModuleEditor::BuildGame()
             LOG_CONSOLE("[Build] WARNING: Library folder not found");
         }
 
-        // Export scene
+        // Copy entire Scene/ folder
         fs::create_directories(dest / "Scene");
         fs::path projectRoot = fs::path(LibraryManager::GetLibraryRoot()).parent_path();
-        std::string sceneFolder = (projectRoot / "Scene").string();
-        std::string sceneSrc = OpenLoadFile(sceneFolder);
+        fs::path sceneSrcFolder = projectRoot / "Scene";
+        int sceneCopyCount = 0;
+        if (fs::exists(sceneSrcFolder))
+        {
+            fs::copy(sceneSrcFolder, dest / "Scene",
+                fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            for (const auto& entry : fs::recursive_directory_iterator(sceneSrcFolder))
+                if (entry.is_regular_file()) sceneCopyCount++;
+            LOG_CONSOLE("[Build] Copied Scene/ folder (%d file(s))", sceneCopyCount);
+        }
+        else
+        {
+            LOG_CONSOLE("[Build] WARNING: Scene folder not found at %s", sceneSrcFolder.string().c_str());
+        }
+
+        // Ask the user to pick the startup scene from the copied Scene/ folder
         std::string startupSceneName;
+        std::string sceneSrc = OpenLoadFile((dest / "Scene").string());
         if (!sceneSrc.empty())
         {
-            fs::path sceneFilename = fs::path(sceneSrc).filename();
-            fs::copy_file(sceneSrc, dest / "Scene" / sceneFilename, fs::copy_options::overwrite_existing);
-            startupSceneName = sceneFilename.string();
-            LOG_CONSOLE("[Build] Copied scene '%s'", startupSceneName.c_str());
+            startupSceneName = fs::path(sceneSrc).filename().string();
+            LOG_CONSOLE("[Build] Startup scene set to '%s'", startupSceneName.c_str());
         }
         else
         {
@@ -1212,6 +1226,7 @@ void ModuleEditor::BuildGame()
         LOG_CONSOLE("[Build] ERROR: %s", error.what());
     }
 }
+
 void ModuleEditor::HandleUndoRedo()
 {
     ImGuiIO& io = ImGui::GetIO();

@@ -44,6 +44,14 @@ Rigidbody::~Rigidbody()
     }
 }
 
+static bool IsValidPose(const physx::PxTransform& pose)
+{
+    return std::isfinite(pose.p.x) && std::isfinite(pose.p.y) && std::isfinite(pose.p.z)
+        && std::isfinite(pose.q.x) && std::isfinite(pose.q.y)
+        && std::isfinite(pose.q.z) && std::isfinite(pose.q.w)
+        && pose.isValid();
+}
+
 void Rigidbody::FixedUpdate() 
 {
     if (!Application::GetInstance().time.get()->IsPaused() && actor)
@@ -170,6 +178,13 @@ void Rigidbody::CreateBody()
         physx::PxVec3(pos.x, pos.y, pos.z),
         physx::PxQuat(rot.x, rot.y, rot.z, rot.w)
     );
+
+    if (!IsValidPose(pxTransform))
+    {
+        //LOG_CONSOLE("Rigidbody::CreateBody - Invalid transform on '%s' (pos: %.2f %.2f %.2f). Using identity.",
+        //    owner->name.c_str(), pos.x, pos.y, pos.z);
+        pxTransform = physx::PxTransform(physx::PxIdentity);
+    }
 
     lastPose = pxTransform;
     currentPose = pxTransform;
@@ -327,6 +342,14 @@ void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor ,physx::PxShape*
     );
 
     physx::PxTransform relativePose = rbGlobalPose.getInverse().transform(colGlobalPose);
+
+    if (!IsValidPose(relativePose))
+    {
+        //LOG_CONSOLE("Rigidbody::UpdateShapeLocalPose - Invalid local pose on '%s'. Skipping setLocalPose.",
+        //    col->owner->name.c_str());
+        WakeUp();
+        return;
+    }
 
     shape->setLocalPose(relativePose);
     WakeUp();
@@ -508,6 +531,21 @@ void Rigidbody::MoveRotation(const glm::quat& rotation) {
     hasKinematicTarget = true;
 }
 
+void Rigidbody::SetRotation(const glm::vec3& eulerDegrees) {
+    auto* dyn = GetDynamic();
+    if (!dyn) return;
+
+    glm::quat q = glm::quat(glm::radians(eulerDegrees));
+    physx::PxTransform pose = dyn->getGlobalPose();
+    pose.q = physx::PxQuat(q.x, q.y, q.z, q.w);
+
+    physx::PxVec3 linVel = dyn->getLinearVelocity();
+    physx::PxVec3 angVel = dyn->getAngularVelocity();
+    dyn->setGlobalPose(pose);
+    dyn->setLinearVelocity(linVel);
+    dyn->setAngularVelocity(angVel);
+}
+
 void Rigidbody::SetLinearVelocity(const glm::vec3& velocity) {
     
     if (auto* dyn = GetDynamic()) dyn->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
@@ -610,6 +648,13 @@ void Rigidbody::SyncToTransform() {
         physx::PxQuat(rot.x, rot.y, rot.z, rot.w)
     );
 
+    if (!IsValidPose(targetPose))
+    {
+        //LOG_CONSOLE("Rigidbody::SyncToTransform - Invalid pose on '%s' (pos: %.2f %.2f %.2f). Skipping setGlobalPose.",
+        //    owner->name.c_str(), pos.x, pos.y, pos.z);
+        return;
+    }
+
     actor->setGlobalPose(targetPose);
 
     lastPose = targetPose;
@@ -619,7 +664,6 @@ void Rigidbody::SyncToTransform() {
         physx::PxRigidDynamic* dyn = actor->is<physx::PxRigidDynamic>();
         if (dyn) {
             dyn->wakeUp();
-
             dyn->setLinearVelocity(physx::PxVec3(0.0f));
             dyn->setAngularVelocity(physx::PxVec3(0.0f));
         }

@@ -47,6 +47,8 @@ public:
     // Deferred operation queue
     void EnqueueOperation(std::function<void()> operation);
 
+    std::string pendingSceneLoad;
+
     // APIs de Lua
     void RegisterGameObjectAPI();
     void RegisterComponentAPI();

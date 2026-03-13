@@ -22,8 +22,8 @@ public:
     //Propiedades de elementos XAML (llamable desde Lua)
     void SetElementHeight(const std::string& elementName, float height);
     void SetElementWidth(const std::string& elementName, float width);
+    void SetElementText(const std::string& elementName, const std::string& text);
     void SetElementVisibility(const std::string& elementName, bool visible);
-
 private:
     UIManager() = default;
     ~UIManager() = default;

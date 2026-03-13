@@ -49,6 +49,10 @@ public:
     float lastRayLength = 0.0f;
     ComponentCamera* FindCameraInHierarchy(GameObject* obj);
 
+    // Scene serialization to/from string 
+    std::string SerializeSceneToString();
+    bool DeserializeSceneFromString(const std::string& jsonString);
+
 private:
     std::unique_ptr<Octree> octree;
     bool needsOctreeRebuild = false;

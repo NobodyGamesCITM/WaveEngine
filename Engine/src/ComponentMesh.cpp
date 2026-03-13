@@ -231,11 +231,11 @@ void ComponentMesh::Draw()
     }
 }
 
-const AABB& ComponentMesh::GetGlobalAABB() const
+const AABB& ComponentMesh::GetGlobalAABB()
 {
-    return staticAABB.GetGlobalAABB(owner->transform->GetGlobalMatrix());
+    cachedGlobalAABB = staticAABB.GetGlobalAABB(owner->transform->GetGlobalMatrix());
+    return cachedGlobalAABB; 
 }
-
 
 const AABB& ComponentMesh::GetAABB() const
 {

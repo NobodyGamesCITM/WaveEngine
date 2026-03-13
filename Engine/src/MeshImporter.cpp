@@ -61,6 +61,18 @@ Mesh MeshImporter::ImportFromAssimp(const aiMesh* assimpMesh) {
             vertex.texCoords = glm::vec2(0.0f, 0.0f);
         }
 
+        // Tangents
+        if (assimpMesh->HasTangentsAndBitangents()) {
+            vertex.tangent = glm::vec3(
+                assimpMesh->mTangents[i].x,
+                assimpMesh->mTangents[i].y,
+                assimpMesh->mTangents[i].z
+            );
+        }
+        else {
+            vertex.tangent = glm::vec3(0.0f);
+        }
+
         mesh.vertices.push_back(vertex);
     }
 

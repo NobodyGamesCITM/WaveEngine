@@ -7,8 +7,8 @@
 #include <filesystem>
 #include <fstream>
 #include <windows.h>
-#include <commdlg.h> // For file dialogs
-#include <shobjidl.h> // For folder selection
+#include <commdlg.h>
+#include <shobjidl.h>
 #include <nlohmann/json.hpp>
 
 #include "Application.h"
@@ -39,6 +39,7 @@
 #include "LibraryManager.h"
 #include "ShaderEditorWindow.h"
 #include "ScriptEditorWindow.h"
+#include "MaterialEditorWindow.h"
 #include "DeleteCommand.h"
 #include "CreateCommand.h"
 #include "CompositeCommand.h"
@@ -98,8 +99,9 @@ bool ModuleEditor::Start()
     gameWindow = std::make_unique<GameWindow>();
     assetsWindow = std::make_unique<AssetsWindow>();
     shaderEditorWindow = std::make_unique<ShaderEditorWindow>();
+    materialEditorWindow = std::make_unique<MaterialEditorWindow>();
+    scriptEditorWindow = std::make_unique<ScriptEditorWindow>();
     commandHistory = std::make_unique<CommandHistory>();
-
     editorCamera = new EditorCamera();
 
     Application::GetInstance().events->Subscribe(Event::Type::EventSDL, this);
@@ -157,7 +159,9 @@ bool ModuleEditor::Update()
     hierarchyWindow->Draw();
     inspectorWindow->Draw();
     assetsWindow->Draw();
+    materialEditorWindow->Draw();
     shaderEditorWindow->Draw();
+    scriptEditorWindow->Draw();
 
     if (showAbout) {
         DrawAboutWindow();
@@ -166,8 +170,6 @@ bool ModuleEditor::Update()
     HandleDeleteKey();
     HandleUndoRedo();
     HandleCopyPaste();
-
-
 
     if (sceneWindow)
     {
@@ -321,21 +323,6 @@ void ModuleEditor::ShowMenuBar()
                 assetsWindow->SetOpen(assetsOpen);
             }
 
-            if (assetsWindow->scriptEditorWindow)
-            {
-                bool scriptEditorOpen = assetsWindow->scriptEditorWindow->IsOpen();
-                if (ImGui::MenuItem("Script Editor", NULL, &scriptEditorOpen))
-                {
-                    assetsWindow->scriptEditorWindow->SetOpen(scriptEditorOpen);
-                }
-            }
-
-            bool shaderEditorOpen = shaderEditorWindow->IsOpen();
-            if (ImGui::MenuItem("Shader Editor", NULL, &shaderEditorOpen))
-            {
-                shaderEditorWindow->SetOpen(shaderEditorOpen);
-            }
-
             ImGui::Separator();
 
             if (ImGui::BeginMenu("Layout"))
@@ -387,6 +374,29 @@ void ModuleEditor::ShowMenuBar()
                 }
                 ImGui::EndMenu();
             }
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Edit"))
+        {
+            bool shaderEditorOpen = shaderEditorWindow->IsOpen();
+            if (ImGui::MenuItem("Shader Editor", NULL, &shaderEditorOpen))
+            {
+                shaderEditorWindow->SetOpen(shaderEditorOpen);
+            }
+
+            bool materialEditorOpen = materialEditorWindow->IsOpen();
+            if (ImGui::MenuItem("Material Editor", NULL, &materialEditorOpen))
+            {
+                materialEditorWindow->SetOpen(materialEditorOpen);
+            }
+            
+            bool scriptEditorOpen = scriptEditorWindow->IsOpen();
+            if (ImGui::MenuItem("Script Editor", NULL, &scriptEditorOpen))
+            {
+                scriptEditorWindow->SetOpen(scriptEditorOpen);
+            }
+
             ImGui::EndMenu();
         }
 
@@ -742,10 +752,10 @@ void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
     meshComp->SetMesh(selectedMesh);
     meshComp->SetPrimitiveType(name); 
 
-    ComponentMaterial* materialComp = static_cast<ComponentMaterial*>(
-        Object->CreateComponent(ComponentType::MATERIAL)
-        );
-    materialComp->CreateCheckerboardTexture(); 
+    //ComponentMaterial* materialComp = static_cast<ComponentMaterial*>(
+    //    Object->CreateComponent(ComponentType::MATERIAL)
+    //    );
+    //materialComp->CreateCheckerboardTexture(); 
 
     GameObject* root = Application::GetInstance().scene->GetRoot();
     root->AddChild(Object);
@@ -1046,29 +1056,6 @@ void ModuleEditor::OnEvent(const Event& event)
         ImGui_ImplSDL3_ProcessEvent(event.data.event.event);
         break;
     }
-    case Event::Type::CastRay:
-    {
-        //startLastRay = event.data.ray.ray->origin;
-        //endLastRay = event.data.ray.ray->origin + (event.data.ray.ray->direction * 100.0f);
-        break;
-    }
-    case Event::Type::SceneCleared:
-    {
-        /*selectedGameObjects.clear();*/
-        break;
-    }
-    case Event::Type::GameObjectDestroyed:
-    {
-        /*GameObject* destroyedGO = event.data.gameObject.gameObject;
-
-        auto it = std::remove(selectedGameObjects.begin(), selectedGameObjects.end(), destroyedGO);
-
-        if (it != selectedGameObjects.end())
-        {
-            selectedGameObjects.erase(it, selectedGameObjects.end());
-        }
-        break;*/
-    }
     default:
         break;
     }
@@ -1172,6 +1159,7 @@ void ModuleEditor::BuildGame()
         else
         {
             LOG_CONSOLE("[Build] WARNING: Assetsfolder not found");
+            LOG_CONSOLE("[Build] WARNING: Assets folder not found");
         }
 
         // Copy Library/ folder
@@ -1186,25 +1174,38 @@ void ModuleEditor::BuildGame()
             LOG_CONSOLE("[Build] WARNING: Library folder not found");
         }
 
-        // Export scene
+        // Copy entire Scene/ folder
         fs::create_directories(dest / "Scene");
         fs::path projectRoot = fs::path(LibraryManager::GetLibraryRoot()).parent_path();
-        std::string sceneFolder = (projectRoot / "Scene").string();
-        std::string sceneSrc = OpenLoadFile(sceneFolder);
+        fs::path sceneSrcFolder = projectRoot / "Scene";
+        int sceneCopyCount = 0;
+        if (fs::exists(sceneSrcFolder))
+        {
+            fs::copy(sceneSrcFolder, dest / "Scene",
+                fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            for (const auto& entry : fs::recursive_directory_iterator(sceneSrcFolder))
+                if (entry.is_regular_file()) sceneCopyCount++;
+            LOG_CONSOLE("[Build] Copied Scene/ folder (%d file(s))", sceneCopyCount);
+        }
+        else
+        {
+            LOG_CONSOLE("[Build] WARNING: Scene folder not found at %s", sceneSrcFolder.string().c_str());
+        }
+
+        // Ask the user to pick the startup scene from the copied Scene/ folder
         std::string startupSceneName;
+        std::string sceneSrc = OpenLoadFile((dest / "Scene").string());
         if (!sceneSrc.empty())
         {
-            fs::path sceneFilename = fs::path(sceneSrc).filename();
-            fs::copy_file(sceneSrc, dest / "Scene" / sceneFilename, fs::copy_options::overwrite_existing);
-            startupSceneName = sceneFilename.string();
-            LOG_CONSOLE("[Build] Copied scene '%s'", startupSceneName.c_str());
+            startupSceneName = fs::path(sceneSrc).filename().string();
+            LOG_CONSOLE("[Build] Startup scene set to '%s'", startupSceneName.c_str());
         }
         else
         {
             startupSceneName = "game_scene.json";
             std::string sceneDestPath = (dest / "Scene" / startupSceneName).string();
             Application::GetInstance().scene->SaveScene(sceneDestPath);
-            LOG_CONSOLE("[Build] No scene selected, saved current scene");
+            LOG_CONSOLE("[Build] No startup scene selected, saved current scene as '%s'", startupSceneName.c_str());
         }
 
         nlohmann::json config;
@@ -1218,6 +1219,7 @@ void ModuleEditor::BuildGame()
         LOG_CONSOLE("[Build] ERROR: %s", error.what());
     }
 }
+
 void ModuleEditor::HandleUndoRedo()
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -1369,19 +1371,20 @@ GameObject* ModuleEditor::CloneGameObject(GameObject* original)
         else newMesh->LoadMeshByUID(meshUid);
     }
 
-    if (original->GetComponent(ComponentType::MATERIAL))
-    {
-        ComponentMaterial* originalMaterial =
-            (ComponentMaterial*)original->GetComponent(ComponentType::MATERIAL);
+  //  if (original->GetComponent(ComponentType::MATERIAL))
+  //  {
+  //      ComponentMaterial* originalMaterial =
+  //          (ComponentMaterial*)original->GetComponent(ComponentType::MATERIAL);
 
-        ComponentMaterial* newMaterial =
-            (ComponentMaterial*)clone->CreateComponent(ComponentType::MATERIAL);
-        UID tempUid = originalMaterial->GetTextureUID();
-        if(tempUid !=0)newMaterial->LoadTextureByUID(tempUid);
-		else if (originalMaterial->IsUsingCheckerboard()) newMaterial->CreateCheckerboardTexture();
+  //      ComponentMaterial* newMaterial =
+  //          (ComponentMaterial*)clone->CreateComponent(ComponentType::MATERIAL);
+  //      UID tempUid = originalMaterial->GetTextureUID();
+  //      if(tempUid !=0)newMaterial->LoadTextureByUID(tempUid);
+		//else if (originalMaterial->IsUsingCheckerboard()) newMaterial->CreateCheckerboardTexture();
 
-        newMaterial->SetDiffuseColor(originalMaterial->GetDiffuseColor());
-    }
+  //      newMaterial->SetDiffuseColor(originalMaterial->GetDiffuseColor());
+  //  }
+
     if (original->GetComponent(ComponentType::SCRIPT))
     {
         ComponentScript * originalScript =

@@ -1,21 +1,22 @@
 #pragma once
 
 #include "Module.h"
-#include "ModuleLoader.h"
-#include "Shader.h"
-#include "Texture.h"
 #include "Frustum.h"
+#include "Primitives.h"
+#include "glad/glad.h"
 #include <memory>
 #include <map>
 #include <vector>
-#include "Primitives.h"
-#include "ComponentCamera.h"
 
 class GameObject;
 class ComponentMesh;
 class ComponentParticleSystem;
 class CameraLens;
+class ComponentCanvas;
+class ComponentCamara;
 class ComponentPostProcessing;
+class Shader;
+class Texture;
 
 class Renderer : public Module
 {
@@ -29,6 +30,11 @@ class Renderer : public Module
     {
         ComponentParticleSystem* system;
         glm::mat4 modelMatrix;
+    };
+
+    struct CanvasObject
+    {
+        ComponentCanvas* canvas;
     };
 
     struct RenderLine {
@@ -63,6 +69,10 @@ public:
     // Camera management
     void AddCamera(CameraLens* camera);
     void RemoveCamera(CameraLens* camera);
+    
+    // Canvas management
+    void AddCanvas(ComponentCanvas* canvas);
+    void RemoveCanvas(ComponentCanvas* canvas);
 
     // PostProcessing management
     void AddPostProcessing(ComponentPostProcessing* component);
@@ -70,7 +80,6 @@ public:
 
     // Scene Rendering
     bool RenderScene(CameraLens* renderCamera);
-
 
     void CreateSkinningSSBOs(unsigned int& ssboGlobal, unsigned int& ssboOffset, const std::vector<glm::mat4>& offsets);
     void UploadGlobalMatricesToGPU(unsigned int ssbo, const std::vector<glm::mat4>& globalMatrices);
@@ -113,6 +122,7 @@ public:
     void DrawArc(glm::vec3 center, glm::quat rotation, float r, int segments, glm::vec4 col, glm::vec3 axisA, glm::vec3 axisB);
     void DrawCircle(glm::vec3 center, glm::quat rotation, float r, int segments, glm::vec4 col, glm::vec3 axisA, glm::vec3 axisB);
     void DrawSphere(const glm::vec3& center, float radius, const glm::vec4& color, int segments = 16);
+    void DrawFullscreenTexture(unsigned int textureID);
 
     // Cameras
     void UpdateProjectionMatrix(glm::mat4 projectionMatrix);
@@ -132,10 +142,14 @@ private:
     void DrawStencilList(const CameraLens* camera);
     void DrawNormalsList(const CameraLens* camera);
     void DrawMeshLinesList(const CameraLens* camera);
+    void DrawCanvasList(const CameraLens* camera);
+    void DrawPostProcessing(const CameraLens* camera);
     void BuildRenderLists(const CameraLens* camera);
 
     // Shaders
     std::unique_ptr<Shader> defaultShader;
+    std::unique_ptr<Shader> postProcessShader;
+    std::unique_ptr<Shader> standardShader;
     std::unique_ptr<Shader> waterShader;
     std::unique_ptr<Shader> lineShader;
     std::unique_ptr<Shader> outlineShader;
@@ -144,6 +158,8 @@ private:
     std::unique_ptr<Shader> meshShader;
     std::unique_ptr<Shader> pickingShader;
     std::unique_ptr<Shader> uiShader;
+    
+    std::unique_ptr<Shader> currentShader;
 
     // Default assets
     std::unique_ptr<Texture> defaultTexture;
@@ -180,10 +196,6 @@ private:
 
     // zBuffer visualization
     bool showZBuffer = false;
-
-    void DrawRay(const glm::vec3& origin, const glm::vec3& direction,
-        float length, const glm::vec3& color);
-    void DrawAllAABBs(GameObject* gameObject);
  
     // SHADERS
     unsigned int uboMatrices;
@@ -192,6 +204,7 @@ private:
     // LISTS
     std::vector<ComponentMesh*> meshes;
     std::vector<ComponentParticleSystem*> particles;
+    std::vector<ComponentCanvas*> activeCanvas;
     std::vector<CameraLens*> activeCameras;
     std::vector<ComponentPostProcessing*> postProcessingComponents;
 
@@ -202,6 +215,7 @@ private:
     std::vector<RenderObject> normalsList;
     std::vector<RenderObject> meshLinesList;
     std::vector<RenderLine> linesList;
+    std::vector<CanvasObject> canvasList;
 
     // Post Processing
     int postProcessCurrentW = 0;
@@ -209,10 +223,11 @@ private:
     GLuint postProcessFBO = 0;
     GLuint postProcessTexture = 0;
     GLuint postProcessRBO = 0;
-    std::unique_ptr<Shader> postProcessShader;
+
     void ResizePostProcessingBuffer(int width, int height);
+    
     // ANTIALIAS
-    bool msaaEnabled = false;
+    bool msaaEnabled = true;
     unsigned int msaaFBO = 0;
     unsigned int msaaColorBuffer = 0;
     unsigned int msaaDepthStencilRBO = 0;

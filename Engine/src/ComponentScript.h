@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "ModuleResources.h"
 #include "GameObject.h"
+#include "PhysicsEventsListener.h"
 #include <string>
 #include <vector>
 #include <variant>
@@ -22,7 +23,8 @@ enum class ScriptVarType {
     STRING,
     BOOLEAN,
     VEC3,
-    GAMEOBJECT
+    GAMEOBJECT,
+    SCENE
 };
 
 struct ScriptVariable {
@@ -49,9 +51,13 @@ struct ScriptVariable {
     ScriptVariable(const std::string& n, GameObject* v)
         : name(n), type(ScriptVarType::GAMEOBJECT), value(v) {
     }
+    
+    ScriptVariable(const std::string& n, ScriptVarType t, const std::string& v)
+        : name(n), type(t), value(v) {
+    }
 };
 
-class ComponentScript : public Component {
+class ComponentScript : public Component, public PhysicsEventsListener {
 public:
     ComponentScript(GameObject* owner);
     ~ComponentScript() override;
@@ -89,10 +95,11 @@ public:
     void MarkGameObjectForDestroy() { pendingDestroy = true; }
     bool IsPendingDestroy() const { return pendingDestroy; }
 
+    bool updateWhenPaused = false;
+
 private:
     void CreateLuaTable();
     void DestroyLuaTable();
-    void SetupLuaEnvironment();
     bool CompileAndExecuteScript(const std::string& scriptContent);
 
     void SetupScriptEnvironment(lua_State* L);
@@ -115,4 +122,13 @@ private:
     std::variant<float, std::string, bool, glm::vec3, GameObject*> value;
 
     bool pendingDestroy = false;
+
+    void CallPhysicsEvent(const char* funcName, Rigidbody* other);
+
+    void ComponentScript::OnTriggerEnter(Rigidbody* other) { CallPhysicsEvent("OnTriggerEnter", other); }
+    void ComponentScript::OnTriggerStay(Rigidbody* other) { CallPhysicsEvent("OnTriggerStay", other); }
+    void ComponentScript::OnTriggerExit(Rigidbody* other) { CallPhysicsEvent("OnTriggerExit", other); }
+    void ComponentScript::OnCollisionEnter(Rigidbody* other) { CallPhysicsEvent("OnCollisionEnter", other); }
+    void ComponentScript::OnCollisionStay(Rigidbody* other) { CallPhysicsEvent("OnCollisionStay", other); }
+    void ComponentScript::OnCollisionExit(Rigidbody* other) { CallPhysicsEvent("OnCollisionExit", other); }
 };

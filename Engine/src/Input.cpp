@@ -9,12 +9,16 @@
 #include <algorithm>
 #include <SDL3/SDL_scancode.h>
 
-#ifdef WAVE_GAME
 #include "ComponentCanvas.h"
 #include "GameObject.h"
 #include "ModuleScene.h"
 #include "NsGui/InputEnums.h"
 #include <SDL3/SDL_mouse.h>
+
+#ifndef WAVE_GAME
+#include "ModuleEditor.h"
+#include "GameWindow.h"
+#include <imgui.h>
 #endif
 
 Input::Input() : Module()
@@ -66,7 +70,6 @@ bool Input::Start()
     return true;
 }
 
-#ifdef WAVE_GAME
 static Noesis::Key SDLScancodeToNoesisKey(SDL_Scancode sc)
 {
     switch (sc)
@@ -192,6 +195,19 @@ static void DispatchInputToCanvases(Input* input)
     int mx = static_cast<int>(mPos.x);
     int my = static_cast<int>(mPos.y);
 
+#ifndef WAVE_GAME
+    if (Application::GetInstance().editor)
+    {
+        GameWindow* gw = Application::GetInstance().editor->GetGameWindow();
+        if (gw)
+        {
+            ImVec2 vPos = gw->GetViewportPos();
+            mx -= static_cast<int>(vPos.x);
+            my -= static_cast<int>(vPos.y);
+        }
+    }
+#endif
+
     for (ComponentCanvas* canvas : canvases)
     {
         canvas->OnMouseMove(mx, my);
@@ -230,10 +246,10 @@ static void DispatchInputToCanvases(Input* input)
 
         if (ks == KEY_DOWN)
             for (ComponentCanvas* canvas : canvases)
-                canvas->OnGamepadButtonDown(nsKey);
+                canvas->OnKeyDown(nsKey);
         else if (ks == KEY_UP)
             for (ComponentCanvas* canvas : canvases)
-                canvas->OnGamepadButtonUp(nsKey);
+                canvas->OnKeyUp(nsKey);
     }
 
     // Gamepad
@@ -254,10 +270,10 @@ static void DispatchInputToCanvases(Input* input)
 
             if (ks == KEY_DOWN)
                 for (ComponentCanvas* canvas : canvases)
-                    canvas->OnGamepadButtonDown(nsKey);
+                    canvas->OnKeyDown(nsKey);
             else if (ks == KEY_UP)
                 for (ComponentCanvas* canvas : canvases)
-                    canvas->OnGamepadButtonUp(nsKey);
+                    canvas->OnKeyUp(nsKey);
         }
 
         glm::vec2 ls = input->GetLeftStick(0);
@@ -274,7 +290,6 @@ static void DispatchInputToCanvases(Input* input)
             canvas->OnGamepadTrigger(lt, rt);
     }
 }
-#endif
 
 bool Input::PreUpdate()
 {
@@ -309,6 +324,8 @@ bool Input::PreUpdate()
         if (mouseButtons[i] == KEY_UP)
             mouseButtons[i] = KEY_IDLE;
     }
+
+    SDL_StartTextInput(Application::GetInstance().window->GetWindow());
 
     while (SDL_PollEvent(&event) != 0)
     {
@@ -384,9 +401,7 @@ bool Input::PreUpdate()
 
     UpdateGamepadStates();
 
-#ifdef WAVE_GAME
     DispatchInputToCanvases(this);
-#endif
 
     return true;
 }

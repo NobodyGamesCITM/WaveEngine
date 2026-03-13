@@ -44,6 +44,14 @@ Rigidbody::~Rigidbody()
     }
 }
 
+static bool IsValidPose(const physx::PxTransform& pose)
+{
+    return std::isfinite(pose.p.x) && std::isfinite(pose.p.y) && std::isfinite(pose.p.z)
+        && std::isfinite(pose.q.x) && std::isfinite(pose.q.y)
+        && std::isfinite(pose.q.z) && std::isfinite(pose.q.w)
+        && pose.isValid();
+}
+
 void Rigidbody::FixedUpdate() 
 {
     if (!Application::GetInstance().time.get()->IsPaused() && actor)
@@ -171,6 +179,13 @@ void Rigidbody::CreateBody()
         physx::PxQuat(rot.x, rot.y, rot.z, rot.w)
     );
 
+    if (!IsValidPose(pxTransform))
+    {
+        //LOG_CONSOLE("Rigidbody::CreateBody - Invalid transform on '%s' (pos: %.2f %.2f %.2f). Using identity.",
+        //    owner->name.c_str(), pos.x, pos.y, pos.z);
+        pxTransform = physx::PxTransform(physx::PxIdentity);
+    }
+
     lastPose = pxTransform;
     currentPose = pxTransform;
 
@@ -182,6 +197,10 @@ void Rigidbody::CreateBody()
         if (type == Type::KINEMATIC)
             tempActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
     }
+
+    if (!tempActor) 
+        return;
+
     tempActor->userData = (void*)this;
     CollectListeners();
     physicsModule->GetScene()->addActor(*tempActor);
@@ -323,6 +342,14 @@ void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor ,physx::PxShape*
     );
 
     physx::PxTransform relativePose = rbGlobalPose.getInverse().transform(colGlobalPose);
+
+    if (!IsValidPose(relativePose))
+    {
+        //LOG_CONSOLE("Rigidbody::UpdateShapeLocalPose - Invalid local pose on '%s'. Skipping setLocalPose.",
+        //    col->owner->name.c_str());
+        WakeUp();
+        return;
+    }
 
     shape->setLocalPose(relativePose);
     WakeUp();
@@ -504,6 +531,21 @@ void Rigidbody::MoveRotation(const glm::quat& rotation) {
     hasKinematicTarget = true;
 }
 
+void Rigidbody::SetRotation(const glm::vec3& eulerDegrees) {
+    auto* dyn = GetDynamic();
+    if (!dyn) return;
+
+    glm::quat q = glm::quat(glm::radians(eulerDegrees));
+    physx::PxTransform pose = dyn->getGlobalPose();
+    pose.q = physx::PxQuat(q.x, q.y, q.z, q.w);
+
+    physx::PxVec3 linVel = dyn->getLinearVelocity();
+    physx::PxVec3 angVel = dyn->getAngularVelocity();
+    dyn->setGlobalPose(pose);
+    dyn->setLinearVelocity(linVel);
+    dyn->setAngularVelocity(angVel);
+}
+
 void Rigidbody::SetLinearVelocity(const glm::vec3& velocity) {
     
     if (auto* dyn = GetDynamic()) dyn->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
@@ -606,6 +648,13 @@ void Rigidbody::SyncToTransform() {
         physx::PxQuat(rot.x, rot.y, rot.z, rot.w)
     );
 
+    if (!IsValidPose(targetPose))
+    {
+        //LOG_CONSOLE("Rigidbody::SyncToTransform - Invalid pose on '%s' (pos: %.2f %.2f %.2f). Skipping setGlobalPose.",
+        //    owner->name.c_str(), pos.x, pos.y, pos.z);
+        return;
+    }
+
     actor->setGlobalPose(targetPose);
 
     lastPose = targetPose;
@@ -615,7 +664,6 @@ void Rigidbody::SyncToTransform() {
         physx::PxRigidDynamic* dyn = actor->is<physx::PxRigidDynamic>();
         if (dyn) {
             dyn->wakeUp();
-
             dyn->setLinearVelocity(physx::PxVec3(0.0f));
             dyn->setAngularVelocity(physx::PxVec3(0.0f));
         }
@@ -909,46 +957,3 @@ void Rigidbody::OnEditor()
     }
 #endif
 }
-
-//void Rigidbody::Serialize(nlohmann::json& componentObj) const
-//{
-//    componentObj["bodyType"] = static_cast<int>(type);
-//    componentObj["mass"] = mass;
-//    componentObj["linearDamping"] = linearDamping;
-//    componentObj["angularDamping"] = angularDamping;
-//    componentObj["useGravity"] = useGravity;
-//    componentObj["useCCD"] = useContiniusCollisionDetection;
-//
-//    componentObj["freezePosX"] = freezePosX;
-//    componentObj["freezePosY"] = freezePosY;
-//    componentObj["freezePosZ"] = freezePosZ;
-//    componentObj["freezeRotX"] = freezeRotX;
-//    componentObj["freezeRotY"] = freezeRotY;
-//    componentObj["freezeRotZ"] = freezeRotZ;
-//}
-//
-//void Rigidbody::Deserialize(const nlohmann::json& componentObj)
-//{
-//    if (componentObj.contains("bodyType"))
-//        SetType(static_cast<Type>(componentObj["bodyType"].get<int>()));
-//    if (componentObj.contains("mass"))
-//        SetMass(componentObj["mass"].get<float>());
-//    if (componentObj.contains("linearDamping"))
-//        SetLinearDamping(componentObj["linearDamping"].get<float>());
-//    if (componentObj.contains("angularDamping"))
-//        SetAngularDamping(componentObj["angularDamping"].get<float>());
-//    if (componentObj.contains("useGravity"))
-//        SetUseGravity(componentObj["useGravity"].get<bool>());
-//    if (componentObj.contains("useCCD"))
-//        SetUseCCD(componentObj["useCCD"].get<bool>());
-//
-//    bool px = freezePosX, py = freezePosY, pz = freezePosZ;
-//    bool rx = freezeRotX, ry = freezeRotY, rz = freezeRotZ;
-//    if (componentObj.contains("freezePosX")) px = componentObj["freezePosX"].get<bool>();
-//    if (componentObj.contains("freezePosY")) py = componentObj["freezePosY"].get<bool>();
-//    if (componentObj.contains("freezePosZ")) pz = componentObj["freezePosZ"].get<bool>();
-//    if (componentObj.contains("freezeRotX")) rx = componentObj["freezeRotX"].get<bool>();
-//    if (componentObj.contains("freezeRotY")) ry = componentObj["freezeRotY"].get<bool>();
-//    if (componentObj.contains("freezeRotZ")) rz = componentObj["freezeRotZ"].get<bool>();
-//    SetConstraints(px, py, pz, rx, ry, rz);
-//}

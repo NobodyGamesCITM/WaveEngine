@@ -595,11 +595,19 @@ void InspectorWindow::DrawCameraComponent(Component* component)
             cameraComp->GetLens()->SetFarPlane(zFar);
         }
 
-        int depth = cameraComp->GetLens()->depth;
-        if (ImGui::InputInt("Depth", &depth))
+        int uiCullingMask = cameraComp->GetLens()->GetUiCullingMask();
+        if (ImGui::InputInt("UI Culling Mask", &uiCullingMask))
         {
-            cameraComp->GetLens()->depth = glm::clamp(depth, 0, 100000);
+            cameraComp->GetLens()->SetUICullingMask(uiCullingMask);
         }
+
+        bool usesPP = cameraComp->GetLens()->IsUsingPostProcessing();
+        if (ImGui::Checkbox("Use Post Processing", &usesPP))
+        {
+            cameraComp->GetLens()->SetUsesPostProcessing(usesPP);
+        }
+
+        ImGui::Separator();
 
         bool isMain = cameraComp->IsMainCamera();
         if (ImGui::Checkbox("Is Main Camera", &isMain))
@@ -745,14 +753,12 @@ void InspectorWindow::DrawMeshComponent(Component* component)
             if (ImGui::Checkbox("Show Normals", &showNormals))
             {
                 meshComp->SetDrawNormals(showNormals);
-                LOG_DEBUG("Vertex normals visualization: %s", showNormals ? "ON" : "OFF");
             }
 
             bool showMesh = meshComp->GetDrawMesh();
             if (ImGui::Checkbox("Show Mesh", &showMesh))
             {
-                meshComp->SetDrawMesh(showNormals);
-                LOG_DEBUG("Face normals visualization: %s", showMesh ? "ON" : "OFF");
+                meshComp->SetDrawMesh(showMesh);
             }
         }
     }
@@ -1196,6 +1202,12 @@ void InspectorWindow::DrawCanvasComponent(Component* component)
     float opacity = canvasComp->GetOpacity();
     if (ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f)) canvasComp->SetOpacity(opacity);
 
+    int UILayer = canvasComp->GetUILayer();
+    if (ImGui::InputInt("UI Layer", &UILayer))
+    {
+        canvasComp->SetUILayer(UILayer);
+    }
+
     ImGui::Separator();
 
     unsigned int texID = canvasComp->GetTextureID();
@@ -1419,6 +1431,16 @@ bool InspectorWindow::DrawGameObjectSection(GameObject* selectedObject)
             ImGui::Text("of this GameObject");
             ImGui::EndTooltip();
         }
+        // Tag
+        ImGui::Text("Tag");
+        ImGui::SameLine();
+        static char tagBuffer[64];
+        strncpy(tagBuffer, selectedObject->GetTag().c_str(), sizeof(tagBuffer) - 1);
+        tagBuffer[sizeof(tagBuffer) - 1] = '\0';
+        if (ImGui::InputText("##Tag", tagBuffer, sizeof(tagBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            selectedObject->SetTag(tagBuffer);
+        }
     }
     return objectDeleted;
 }
@@ -1580,6 +1602,51 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                             {
                                 ScriptVariable newVar(var.name, value);
                                 scriptComp->UpdatePublicVariable(i, newVar);
+                            }
+                            break;
+                        }
+                        case ScriptVarType::SCENE:
+                        {
+                            std::string currentScene = std::get<std::string>(var.value);
+
+                            std::vector<std::string> sceneFiles;
+                            if (std::filesystem::exists("../Scene"))
+                            {
+                                for (const auto& entry : std::filesystem::directory_iterator("../Scene"))
+                                {
+                                    if (entry.is_regular_file() && entry.path().extension() == ".json")
+                                        sceneFiles.push_back(entry.path().filename().string());
+                                }
+                            }
+
+                            std::string displayName = "None";
+                            if (!currentScene.empty())
+                                displayName = std::filesystem::path(currentScene).filename().string();
+
+                            ImGui::Text("%s", var.name.c_str());
+                            std::string comboID = "##scene_" + var.name + std::to_string(i);
+                            ImGui::SetNextItemWidth(-1);
+                            if (ImGui::BeginCombo(comboID.c_str(), displayName.c_str()))
+                            {
+                                if (ImGui::Selectable("None", currentScene.empty()))
+                                {
+                                    ScriptVariable newVar(var.name, ScriptVarType::SCENE, std::string(""));
+                                    scriptComp->UpdatePublicVariable(i, newVar);
+                                }
+                                for (const auto& file : sceneFiles)
+                                {
+                                    std::string fullPath = "../Scene/" + file;
+                                    bool selected = (currentScene == fullPath);
+                                    if (ImGui::Selectable(file.c_str(), selected))
+                                    {
+                                        ScriptVariable newVar(var.name, ScriptVarType::SCENE, fullPath);
+                                        scriptComp->UpdatePublicVariable(i, newVar);
+                                    }
+                                    if (selected) ImGui::SetItemDefaultFocus();
+                                }
+                                if (sceneFiles.empty())
+                                    ImGui::TextDisabled("No .json files found in Scene");
+                                ImGui::EndCombo();
                             }
                             break;
                         }

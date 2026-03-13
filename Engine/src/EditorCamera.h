@@ -26,6 +26,11 @@ public:
 
 	bool GetCameraLocked() { return lockCamera; }
 
+	float GetSpeed() const { return speed; }
+	void  SetSpeed(float s) { speed = s; }
+	float GetSpeedMultiplier() const { return speedMultiplier; }
+	void  SetSpeedMultiplier(float m) { speedMultiplier = m; }
+
 	bool IsMouseCaptured() const { return mouseCaptured; }
 
 	////EVENTS

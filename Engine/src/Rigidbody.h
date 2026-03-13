@@ -74,6 +74,7 @@ public:
     glm::vec3 GetLinearVelocity() const;
     void MovePosition(const glm::vec3& position);
     void MoveRotation(const glm::quat& rotation);
+    void SetRotation(const glm::vec3& eulerDegrees);
 
     const float GetMass() { return mass; }
     const float GetLinearDamping() { return linearDamping; }

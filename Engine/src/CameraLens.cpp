@@ -23,6 +23,7 @@ CameraLens::CameraLens()
     depth = 0;
     activeCamera = true;
     debugCamera = false;
+    usesPostProcessing = false;
 
     textureWidth = 500;
     textureHeight = 500;

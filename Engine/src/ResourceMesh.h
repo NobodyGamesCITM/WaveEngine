@@ -8,6 +8,7 @@ struct Vertex {
     glm::vec3 position;
     glm::vec3 normal;
     glm::vec2 texCoords;
+    glm::vec3 tangent;
 
     int boneIDs[4] = { -1, -1, -1, -1 };
 
@@ -76,6 +77,7 @@ struct Bone {
 
 // Mesh container with vertex data and OpenGL buffer IDs
 struct Mesh {
+    
     std::vector<Vertex> vertices = {};
     std::vector<unsigned int> indices = {};
     std::vector<Bone> bones = {};

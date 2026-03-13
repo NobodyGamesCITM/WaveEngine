@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "Log.h"
 #include <sstream>
+#include "Rigidbody.h"
 
 ComponentScript::ComponentScript(GameObject* owner)
     : Component(owner, ComponentType::SCRIPT)
@@ -109,6 +110,9 @@ void ComponentScript::Serialize(nlohmann::json& componentObj) const
                 varObj["value"] = { vec.x, vec.y, vec.z };
                 break;
             }
+            case ScriptVarType::SCENE:
+                varObj["value"] = std::get<std::string>(var.value);
+                break;
             }
 
             varsArray.push_back(varObj);
@@ -166,6 +170,11 @@ void ComponentScript::Deserialize(const nlohmann::json& componentObj)
                             vec[2].get<float>()
                         );
                         savedVars.emplace_back(varName, value);
+                        break;
+                    }
+                    case ScriptVarType::SCENE: {
+                        std::string value = varObj["value"].get<std::string>();
+                        savedVars.emplace_back(varName, ScriptVarType::SCENE, value);
                         break;
                     }
                     }
@@ -649,19 +658,33 @@ void ComponentScript::ExtractPublicVariables()
                 newVariables.emplace_back(varName, value);
             }
             else if (lua_istable(L, -1)) {
-                // Verificar si es un vec3 (tabla con x, y, z)
-                lua_getfield(L, -1, "x");
-                lua_getfield(L, -2, "y");
-                lua_getfield(L, -3, "z");
+                lua_getfield(L, -1, "type");
+                lua_getfield(L, -2, "value");
 
-                if (lua_isnumber(L, -3) && lua_isnumber(L, -2) && lua_isnumber(L, -1)) {
-                    float x = (float)lua_tonumber(L, -3);
-                    float y = (float)lua_tonumber(L, -2);
-                    float z = (float)lua_tonumber(L, -1);
-                    newVariables.emplace_back(varName, glm::vec3(x, y, z));
+                bool handled = false;
+                if (lua_isstring(L, -2)) {
+                    std::string typeStr = lua_tostring(L, -2);
+                    if (typeStr == "Scene") {
+                        std::string val = lua_isstring(L, -1) ? lua_tostring(L, -1) : "";
+                        newVariables.emplace_back(varName, ScriptVarType::SCENE, val);
+                        handled = true;
+                    }
                 }
+                lua_pop(L, 2); // pop type y value
 
-                lua_pop(L, 3);
+                if (!handled) {
+                    lua_getfield(L, -1, "x");
+                    lua_getfield(L, -2, "y");
+                    lua_getfield(L, -3, "z");
+
+                    if (lua_isnumber(L, -3) && lua_isnumber(L, -2) && lua_isnumber(L, -1)) {
+                        float x = (float)lua_tonumber(L, -3);
+                        float y = (float)lua_tonumber(L, -2);
+                        float z = (float)lua_tonumber(L, -1);
+                        newVariables.emplace_back(varName, glm::vec3(x, y, z));
+                    }
+                    lua_pop(L, 3);
+                }
             }
 
             if (isFirstExtraction) {
@@ -708,8 +731,6 @@ void ComponentScript::ExtractPublicVariables()
     else {
         publicVariables = newVariables;
     }
-
-    //LOG_CONSOLE("[ComponentScript] Extracted %zu public variables");
 }
 
 void ComponentScript::RestoreSavedVariableValues(const std::vector<ScriptVariable>& savedVars)
@@ -797,6 +818,9 @@ void ComponentScript::PushVariableToLua(lua_State* L, const ScriptVariable& var)
         lua_setfield(L, -2, "z");
         break;
     }
+    case ScriptVarType::SCENE:
+        lua_pushstring(L, std::get<std::string>(var.value).c_str());
+        break;
     }
 }
 
@@ -806,4 +830,35 @@ void ComponentScript::UpdatePublicVariable(size_t index, const ScriptVariable& v
 
     publicVariables[index] = var;
     SyncPublicVariablesToLua();
+}
+
+void ComponentScript::CallPhysicsEvent(const char* funcName, Rigidbody* other)
+{
+    if (!HasScript()) return;
+    lua_State* L = Application::GetInstance().scripts->GetState();
+
+    lua_getglobal(L, luaTableName.c_str());
+    if (!lua_istable(L, -1)) { lua_pop(L, 1); return; }
+
+    lua_getfield(L, -1, funcName);
+
+    if (!lua_isfunction(L, -1))
+    {
+        lua_pop(L, 1);
+        lua_getglobal(L, funcName);
+    }
+
+    if (!lua_isfunction(L, -1)) { lua_pop(L, 2); return; }
+
+    lua_pushvalue(L, -2);
+    GameObject** goUserdata = (GameObject**)lua_newuserdata(L, sizeof(GameObject*));
+    *goUserdata = other->owner;
+    luaL_getmetatable(L, "GameObject");
+    lua_setmetatable(L, -2);
+
+    if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
+        LOG_CONSOLE("[ComponentScript] ERROR in %s: %s", funcName, lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
+    lua_pop(L, 1);
 }

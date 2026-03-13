@@ -9,16 +9,8 @@ public:
     Shader();
     ~Shader();
 
-    bool CreateSimpleColor();
-    bool CreateSingleColor();
-    bool CreateDepthVisualization();
-    bool CreateNoTexture(); 
-    bool CreateWater();
-    bool CreateLinesShader(); 
-    bool CreateNormalShader(); 
-    bool CreateMeshShader(); 
-    bool CreatePickingShader(); 
-    bool CreateUIOverlay();
+    virtual bool CreateShader() = 0;
+
     bool LoadFromSource(const char* vSource, const char* fSource, const char* gSource = nullptr);
 
     void Use() const;
@@ -32,9 +24,10 @@ public:
     void SetInt(const std::string& name, int value) const;
 
     void SetVec4(const std::string& name, const glm::vec4& value) const;
+    void SetVec2(const std::string& name, const glm::vec2& value) const;
     void SetBool(const std::string& name, bool value) const;
 
-private:
+protected:
     unsigned int CompileShader(unsigned int type, const char* source);
 
     unsigned int shaderProgram;

@@ -9,6 +9,7 @@
 ShaderEditorWindow::ShaderEditorWindow()
     : EditorWindow("Shader Editor")
 {
+    isOpen = false;
     memset(shaderEditBuffer, 0, sizeof(shaderEditBuffer));
 }
 

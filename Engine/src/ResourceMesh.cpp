@@ -13,7 +13,7 @@ ResourceMesh::~ResourceMesh() {
 
 bool ResourceMesh::LoadInMemory() {
     
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         return true;
     }
 
@@ -82,15 +82,18 @@ bool ResourceMesh::LoadInMemory() {
     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
         (void*)offsetof(Vertex, weights));
 
-    glBindVertexArray(0);
+    // Tangents
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+        (void*)offsetof(Vertex, tangent));
 
-    loadedInMemory = true;
+    glBindVertexArray(0);
 
     return true;
 }
 
 void ResourceMesh::UnloadFromMemory() {
-    if (!loadedInMemory) {
+    if (!IsLoadedToMemory()) {
         return;
     }
 
@@ -113,6 +116,4 @@ void ResourceMesh::UnloadFromMemory() {
     mesh.indices.clear();
     mesh.textures.clear();
     mesh.bones.clear();
-
-    loadedInMemory = false;
 }

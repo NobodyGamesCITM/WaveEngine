@@ -356,11 +356,6 @@ void ImportSettingsWindow::ApplyChanges()
         currentMeta.type == AssetType::TEXTURE_TGA)
     {
         Resource* resource = const_cast<Resource*>(resources->GetResource(currentMeta.uid));
-        if (resource && resource->IsLoadedToMemory()) {
-            LOG_CONSOLE("[ImportSettings] Force unloading texture (refs: %d)",
-                resource->GetReferenceCount());
-            resource->ForceUnload();
-        }
 
         // Reimport with new settings
         if (Application::GetInstance().resources.get()->ImportFile(currentAssetPath.c_str(), true)) {
@@ -384,11 +379,6 @@ void ImportSettingsWindow::ApplyChanges()
             Resource* resource = const_cast<Resource*>(resources->GetResource(meshUID));
 
             if (!resource) break;
-
-            if (resource->IsLoadedToMemory()) {
-                resource->ForceUnload();
-                unloadedCount++;
-            }
         }
         LOG_CONSOLE("[ImportSettings] Unloaded %d meshes", unloadedCount);
 
@@ -459,11 +449,12 @@ void ImportSettingsWindow::ReloadTextureRecursive(GameObject* obj, UID textureUI
         obj->GetComponent(ComponentType::MATERIAL)
         );
 
-    if (material && material->GetTextureUID() == textureUID) {
-        LOG_DEBUG("[ImportSettings] Reloading texture for: %s", obj->GetName().c_str());
-        material->ReloadTexture();
-        count++;
-    }
+    //FIXMAT
+    //if (material && material->GetTextureUID() == textureUID) {
+    //    LOG_DEBUG("[ImportSettings] Reloading texture for: %s", obj->GetName().c_str());
+    //    material->ReloadTexture();
+    //    count++;
+    //}
 
     // Process children recursively
     for (GameObject* child : obj->GetChildren()) {

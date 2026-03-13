@@ -27,9 +27,12 @@
 #include "Application.h"
 #include "ComponentAnimation.h"
 #include "UIManager.h"
+#include "Rigidbody.h"
+#include "LibraryManager.h"
 
 #include <filesystem>
-#include <cmath>            
+#include <cmath>
+
 ScriptManager::ScriptManager() : Module(), L(nullptr) {
     name = "ScriptManager";
 }
@@ -76,6 +79,12 @@ bool ScriptManager::PostUpdate() {
         }
 
         pendingOperations.clear();
+    }
+
+    if (!pendingSceneLoad.empty()) {
+        std::string path = pendingSceneLoad;
+        pendingSceneLoad.clear();
+        Application::GetInstance().scene->LoadScene(path);
     }
 
     return true;
@@ -191,9 +200,7 @@ bool ScriptManager::HasGlobalFunction(const std::string& functionName) {
     return isFunc;
 }
 
-
 //basic lua functions
-
 static int Lua_Engine_Log(lua_State* L) {
     const char* message = luaL_checkstring(L, 1);
     LOG_CONSOLE("[Lua] %s", message);
@@ -205,7 +212,12 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
     {"Space", SDL_SCANCODE_SPACE}, {"Escape", SDL_SCANCODE_ESCAPE},
     {"LeftShift", SDL_SCANCODE_LSHIFT}, {"RightShift", SDL_SCANCODE_RSHIFT},
-    {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6}, {"7", SDL_SCANCODE_7}
+    {"LeftCtrl", SDL_SCANCODE_LCTRL}, {"RightCtrl", SDL_SCANCODE_RCTRL},
+    {"G", SDL_SCANCODE_G},
+    {"1", SDL_SCANCODE_1}, {"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3},
+    {"4", SDL_SCANCODE_4}, {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6},
+    {"7", SDL_SCANCODE_7}, {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9},
+    {"0", SDL_SCANCODE_0}, {"P", SDL_SCANCODE_P},
 };
 
 static int Lua_Input_GetKey(lua_State* L) {
@@ -216,6 +228,20 @@ static int Lua_Input_GetKey(lua_State* L) {
     lua_pushboolean(L, pressed);
     return 1;
 }
+
+static int Lua_Engine_LoadScene(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    Application::GetInstance().scripts->pendingSceneLoad = std::string(path);
+    return 0;
+}
+
+static int Lua_Engine_GetScenesPath(lua_State* L) {
+    std::string path = (std::filesystem::path(LibraryManager::GetLibraryRoot()).parent_path() / "Scene").string();
+    lua_pushstring(L, path.c_str());
+    return 1;
+}
+
+
 
 static int Lua_Input_GetKeyDown(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
@@ -478,11 +504,52 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+// UI
+// UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
-    const char* buttonName = luaL_checkstring(L, 1);
-    bool clicked = UIManager::GetInstance().WasButtonJustClicked(buttonName);
-    lua_pushboolean(L, clicked);
+    const char* name = luaL_checkstring(L, 1);
+    lua_pushboolean(L, UIManager::GetInstance().WasButtonJustClicked(name));
     return 1;
+}
+
+// UI.SetElementHeight("GridName", 42.0)
+static int Lua_UI_SetElementHeight(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float height = static_cast<float>(luaL_checknumber(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, height]() {
+        UIManager::GetInstance().SetElementHeight(name, height);
+    });
+    return 0;
+}
+
+// UI.SetElementWidth("GridName", 42.0)
+static int Lua_UI_SetElementWidth(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float width = static_cast<float>(luaL_checknumber(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, width]() {
+        UIManager::GetInstance().SetElementWidth(name, width);
+    });
+    return 0;
+}
+
+// UI.SetElementText("TextBlockName", "Hello")
+static int Lua_UI_SetElementText(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    std::string text(luaL_checkstring(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, text]() {
+        UIManager::GetInstance().SetElementText(name, text);
+    });
+    return 0;
+}
+
+// UI.SetElementVisibility("ImageName", true/false)
+static int Lua_UI_SetElementVisibility(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    bool visible = lua_toboolean(L, 2) != 0;
+    Application::GetInstance().scripts->EnqueueOperation([name, visible]() {
+        UIManager::GetInstance().SetElementVisibility(name, visible);
+    });
+    return 0;
 }
 
 // Game API
@@ -509,10 +576,14 @@ void ScriptManager::RegisterEngineFunctions() {
 
     LOG_CONSOLE("[ScriptManager] Registering engine functions...");
 
-    // Engine.Log
+    // Engine
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Engine_Log);
     lua_setfield(L, -2, "Log");
+    lua_pushcfunction(L, Lua_Engine_LoadScene);
+    lua_setfield(L, -2, "LoadScene");
+    lua_pushcfunction(L, Lua_Engine_GetScenesPath);
+    lua_setfield(L, -2, "GetScenesPath");
     lua_setglobal(L, "Engine");
 
     // Input
@@ -558,10 +629,13 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
-    // UI
+    //UI
     lua_newtable(L);
-    lua_pushcfunction(L, Lua_UI_WasClicked);
-    lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, Lua_UI_WasClicked);            lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, Lua_UI_SetElementHeight);      lua_setfield(L, -2, "SetElementHeight");
+    lua_pushcfunction(L, Lua_UI_SetElementWidth);       lua_setfield(L, -2, "SetElementWidth");
+    lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
+    lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
     lua_setglobal(L, "UI");
 
     // Game
@@ -570,15 +644,92 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "Pause");
     lua_pushcfunction(L, Lua_Game_Resume);
     lua_setfield(L, -2, "Resume");
+
+    //time scale
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        float scale = (float)luaL_checknumber(L, 1);
+        Application::GetInstance().time->SetTimeScale(scale);
+        return 0;
+        });
+    lua_setfield(L, -2, "SetTimeScale");
+
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        lua_pushnumber(L, Application::GetInstance().time->GetTimeScale());
+        return 1;
+        });
+    lua_setfield(L, -2, "GetTimeScale");
+
     lua_pushcfunction(L, Lua_Game_Exit);
     lua_setfield(L, -2, "Exit");
     lua_setglobal(L, "Game");
 
-
     LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI, Game");
 }
-// GAMEOBJECT API
 
+// -------------------------- GAMEOBJECT API -------------------------------------
+
+// Rigidbody
+
+static int Lua_Rigidbody_SetLinearVelocity(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    if (rb) rb->SetLinearVelocity(glm::vec3(x, y, z));
+    return 0;
+}
+
+static int Lua_Rigidbody_GetLinearVelocity(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    glm::vec3 vel(0.0f);
+    if (rb) vel = rb->GetLinearVelocity();
+    lua_newtable(L);
+    lua_pushnumber(L, vel.x); lua_setfield(L, -2, "x");
+    lua_pushnumber(L, vel.y); lua_setfield(L, -2, "y");
+    lua_pushnumber(L, vel.z); lua_setfield(L, -2, "z");
+    return 1;
+}
+
+static int Lua_Rigidbody_AddForce(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    // modes: 1=FORCE(default), 2=IMPULSE, 3=VELOCITY_CHANGE, 4=ACCELERATION
+    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
+    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
+    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
+    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
+    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
+    if (rb) {
+        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
+            rb->AddForce(glm::vec3(x, y, z), mode);
+        });
+    }
+    return 0;
+}
+
+static int Lua_Rigidbody_MovePosition(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    if (rb) rb->MovePosition(glm::vec3(x, y, z));
+    return 0;
+}
+
+static int Lua_Rigidbody_SetRotation(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    if (rb) rb->SetRotation(glm::vec3(x, y, z));
+    return 0;
+}
+
+// Animation
+
+// GAMEOBJECT API
 static int Lua_Animation_Play(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
@@ -872,10 +1023,11 @@ static int Lua_GameObject_LoadTexture(lua_State* L) {
     }
 
     // Enqueue texture load for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     lua_pushboolean(L, true);
     return 1;
@@ -901,13 +1053,35 @@ static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     UID textureUID = static_cast<UID>(luaL_checknumber(L, 1));
 
     // Enqueue texture change for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([mat, textureUID]() {
-        mat->LoadTextureByUID(textureUID);
-        });
+    //FIXMAT
+    //auto& app = Application::GetInstance();
+    //app.scripts->EnqueueOperation([mat, textureUID]() {
+    //    mat->LoadTextureByUID(textureUID);
+    //    });
 
     return 0;
 }
+
+
+static int Lua_Rigidbody_AddTorque(lua_State* L) {
+    Rigidbody* rb = static_cast<Rigidbody*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+    int modeInt = static_cast<int>(luaL_optinteger(L, 5, 1));
+    Rigidbody::ForceMode mode = Rigidbody::ForceMode::FORCE;
+    if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
+    else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
+    else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
+
+    if (rb) {
+        Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
+            rb->AddTorque(glm::vec3(x, y, z), mode);
+            });
+    }
+    return 0;
+}
+
 
 // Helper for ComponentCanvas.SetOpacity
 static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
@@ -919,6 +1093,31 @@ static int Lua_ComponentCanvas_SetOpacity(lua_State* L) {
         canvas->SetOpacity(opacity);
         });
 
+    return 0;
+}
+
+static int Lua_Collider_Enable(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (comp) 
+    {
+        Application::GetInstance().scripts->EnqueueOperation([comp]() {
+            comp->Enable();
+            comp->SetActive(true);
+            });
+    }
+    return 0;
+}
+
+static int Lua_Collider_Disable(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (comp) 
+    {
+        Application::GetInstance().scripts->EnqueueOperation([comp]() 
+            {
+            comp->Disable();
+            comp->SetActive(false);
+            });
+    }
     return 0;
 }
 
@@ -1026,6 +1225,53 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         return 1;
     }
 
+    if (strcmp(componentType, "Box Collider") == 0 ||
+        strcmp(componentType, "Sphere Collider") == 0 ||
+        strcmp(componentType, "Capsule Collider") == 0)
+    {
+        ComponentType ctype = ComponentType::BOX_COLLIDER;
+        if (strcmp(componentType, "Sphere Collider") == 0)   ctype = ComponentType::SPHERE_COLLIDER;
+        if (strcmp(componentType, "Capsule Collider") == 0)  ctype = ComponentType::CAPSULE_COLLIDER;
+
+        Component* comp = obj->GetComponent(ctype);
+        if (!comp)
+        {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_Enable, 1);
+        lua_setfield(L, -2, "Enable");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_Disable, 1);
+        lua_setfield(L, -2, "Disable");
+
+        return 1;
+    }
+
+    if (strcmp(componentType, "Rigidbody") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::RIGIDBODY);
+        Rigidbody* rb = static_cast<Rigidbody*>(comp);
+        if (!rb) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        Rigidbody** udata = static_cast<Rigidbody**>(
+            lua_newuserdata(L, sizeof(Rigidbody*))
+        );
+        *udata = rb;
+
+        luaL_getmetatable(L, "Rigidbody");
+        lua_setmetatable(L, -2);
+
+        return 1;
+    }
+
     lua_pushnil(L);
     return 1;
 }
@@ -1099,6 +1345,31 @@ static int Lua_GameObject_Index(lua_State* L) {
 
     if (strcmp(key, "LoadTexture") == 0) {
         lua_pushcfunction(L, Lua_GameObject_LoadTexture);
+        return 1;
+    }
+
+    if (strcmp(key, "tag") == 0) {
+        lua_pushstring(L, obj->GetTag().c_str());
+        return 1;
+    }
+
+    if (strcmp(key, "SetTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            (*objPtr)->SetTag(tag);
+            return 0;
+            });
+        return 1;
+    }
+
+    if (strcmp(key, "CompareTag") == 0) {
+        lua_pushcfunction(L, +[](lua_State* L) -> int {
+            GameObject** objPtr = (GameObject**)luaL_checkudata(L, 1, "GameObject");
+            const char* tag = luaL_checkstring(L, 2);
+            lua_pushboolean(L, (*objPtr)->CompareTag(tag));
+            return 1;
+            });
         return 1;
     }
 
@@ -1359,6 +1630,22 @@ void ScriptManager::RegisterComponentAPI() {
     luaL_newmetatable(L, "Transform");
     lua_pushcfunction(L, Lua_Transform_Index);
     lua_setfield(L, -2, "__index");
+    lua_pop(L, 1);
+
+    // Rigidbody metatable
+    luaL_newmetatable(L, "Rigidbody");
+    lua_pushvalue(L, -1);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, Lua_Rigidbody_SetLinearVelocity);
+    lua_setfield(L, -2, "SetLinearVelocity");
+    lua_pushcfunction(L, Lua_Rigidbody_GetLinearVelocity);
+    lua_setfield(L, -2, "GetLinearVelocity");
+    lua_pushcfunction(L, Lua_Rigidbody_AddForce);
+    lua_setfield(L, -2, "AddForce");
+    lua_pushcfunction(L, Lua_Rigidbody_MovePosition);
+    lua_setfield(L, -2, "MovePosition");
+    lua_pushcfunction(L, Lua_Rigidbody_SetRotation);
+    lua_setfield(L, -2, "SetRotation");
     lua_pop(L, 1);
 
     // Animation metatable separada

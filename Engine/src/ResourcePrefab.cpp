@@ -12,14 +12,14 @@ ResourcePrefab::ResourcePrefab(UID uid)
 
 ResourcePrefab::~ResourcePrefab()
 {
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         UnloadFromMemory();
     }
 }
 
 bool ResourcePrefab::LoadInMemory()
 {
-    if (loadedInMemory) {
+    if (IsLoadedToMemory()) {
         return true;
     }
 
@@ -50,25 +50,24 @@ bool ResourcePrefab::LoadInMemory()
         return false;
     }
 
-    loadedInMemory = true;
+    
 
     return true;
 }
 
 void ResourcePrefab::UnloadFromMemory()
 {
-    if (!loadedInMemory) {
+    if (!IsLoadedToMemory()) {
         return;
     }
 
     prefabData.clear();
-    loadedInMemory = false;
 
 }
 
 GameObject* ResourcePrefab::Instantiate()
 {
-    if (!loadedInMemory) {
+    if (!IsLoadedToMemory()) {
         LOG_CONSOLE("[ResourcePrefab] ERROR: Prefab not loaded in memory");
         return nullptr;
     }

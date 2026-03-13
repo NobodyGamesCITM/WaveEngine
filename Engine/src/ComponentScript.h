@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "ModuleResources.h"
+#include "PhysicsEventsListener.h"
 #include <string>
 #include <vector>
 #include <variant>
@@ -19,7 +20,8 @@ enum class ScriptVarType {
     NUMBER,
     STRING,
     BOOLEAN,
-    VEC3
+    VEC3,
+    SCENE
 };
 
 struct ScriptVariable {
@@ -42,9 +44,12 @@ struct ScriptVariable {
     ScriptVariable(const std::string& n, const glm::vec3& v)
         : name(n), type(ScriptVarType::VEC3), value(v) {
     }
+    ScriptVariable(const std::string& n, ScriptVarType t, const std::string& v)
+        : name(n), type(t), value(v) {
+    }
 };
 
-class ComponentScript : public Component {
+class ComponentScript : public Component, public PhysicsEventsListener {
 public:
     ComponentScript(GameObject* owner);
     ~ComponentScript() override;
@@ -107,4 +112,13 @@ private:
     std::vector<std::string> variableOrder;  
 
     bool pendingDestroy = false;
+
+    void CallPhysicsEvent(const char* funcName, Rigidbody* other);
+
+    void ComponentScript::OnTriggerEnter(Rigidbody* other) { CallPhysicsEvent("OnTriggerEnter", other); }
+    void ComponentScript::OnTriggerStay(Rigidbody* other) { CallPhysicsEvent("OnTriggerStay", other); }
+    void ComponentScript::OnTriggerExit(Rigidbody* other) { CallPhysicsEvent("OnTriggerExit", other); }
+    void ComponentScript::OnCollisionEnter(Rigidbody* other) { CallPhysicsEvent("OnCollisionEnter", other); }
+    void ComponentScript::OnCollisionStay(Rigidbody* other) { CallPhysicsEvent("OnCollisionStay", other); }
+    void ComponentScript::OnCollisionExit(Rigidbody* other) { CallPhysicsEvent("OnCollisionExit", other); }
 };

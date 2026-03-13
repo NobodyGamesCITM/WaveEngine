@@ -39,6 +39,7 @@ enum class ComponentType {
     ANIMATION,
     POSTPROCESSING,
     CANVAS,
+    LIGHT,
     UNKNOWN,
 };
 

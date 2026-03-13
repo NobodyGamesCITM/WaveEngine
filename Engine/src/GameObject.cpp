@@ -34,6 +34,7 @@
 #include "AudioListener.h"
 #include "ReverbZone.h"
 #include "ComponentPostProcessing.h"
+#include "ComponentLight.h"
 #include <nlohmann/json.hpp>
 
 GameObject::GameObject(const std::string& name) : name(name), active(true), parent(nullptr) {
@@ -163,6 +164,10 @@ Component* GameObject::CreateComponent(ComponentType type) {
         break;
     case ComponentType::POSTPROCESSING:
         newComponent = new ComponentPostProcessing(this);
+        break;
+    case ComponentType::LIGHT:
+        newComponent = new ComponentLight(this);
+        Application::GetInstance().renderer->AddLight((ComponentLight*)newComponent);
         break;
     default:
         LOG_DEBUG("ERROR: Unknown component type requested for GameObject '%s'", name.c_str());

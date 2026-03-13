@@ -17,6 +17,8 @@ class ComponentCamara;
 class ComponentPostProcessing;
 class Shader;
 class Texture;
+class ComponentLight;
+class LightManager;
 
 class Renderer : public Module
 {
@@ -131,6 +133,11 @@ public:
     // Perfect Pixel Picking
     UID GetObjectInPixel(const CameraLens* camera, int x, int y);
 
+    // lights
+    void AddLight(ComponentLight* light);
+    void RemoveLight(ComponentLight* light);
+    LightManager* GetLightManager() const { return lightManager.get(); }
+
 private:
 
     void ApplyRenderSettings();
@@ -231,4 +238,8 @@ private:
     unsigned int msaaFBO = 0;
     unsigned int msaaColorBuffer = 0;
     unsigned int msaaDepthStencilRBO = 0;
+
+    //lights
+    std::unique_ptr<LightManager> lightManager;
+
 };

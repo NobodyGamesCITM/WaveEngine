@@ -63,6 +63,7 @@ private:
     void DrawReverbZoneComponent(Component* component);
     void DrawAnimationComponent(Component* component);
     void DrawNavigationComponent(Component* component);
+    void DrawLightComponent(Component* component);
 
     void GetAllGameObjects(GameObject* root, std::vector<GameObject*>& outObjects);
     bool IsDescendantOf(GameObject* potentialDescendant, GameObject* potentialAncestor);

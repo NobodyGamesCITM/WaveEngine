@@ -33,6 +33,7 @@ Component::Component(GameObject* owner, ComponentType type) : owner(owner), type
     case ComponentType::AUDIOSOURCE:             name = "Audio Source";             break;
     case ComponentType::REVERBZONE:              name = "Reverb Zone";              break;
     case ComponentType::NAVIGATION:              name = "Navigation";               break;
+    case ComponentType::LIGHT:                   name = "Light";                    break;
     default:                                     name = "Unknown Component";        break;
     }
 }

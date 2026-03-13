@@ -39,15 +39,10 @@
 #include "ModuleEditor.h"
 #include "ComponentCommand.h"
 #include "Joint.h"
-#include "FixedJoint.h"
-#include "DistanceJoint.h"
-#include "HingeJoint.h"
-#include "SphericalJoint.h"
-#include "PrismaticJoint.h"
-#include "D6Joint.h"
 #include "ComponentStateCommand.h"
 #include "CreateCommand.h"
 #include "DeleteCommand.h"
+#include "ComponentLight.h"
 
 #include "Log.h"
 #include "ComponentScript.h"
@@ -325,6 +320,10 @@ void InspectorWindow::Draw()
             DrawCanvasComponent(component);
 			break;
 
+			// lights
+        case ComponentType::LIGHT:
+            DrawLightComponent(component);
+            break;
 		case ComponentType::UNKNOWN:
             break;
         default:
@@ -2366,6 +2365,33 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
 
         }
 
+        // Light Component
+        bool hasLight = (selectedObject->GetComponent(ComponentType::LIGHT) != nullptr);
+        if (hasLight) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.5f, 1.0f));
+
+        if (ImGui::Selectable("Light", false, hasLight ? ImGuiSelectableFlags_Disabled : 0))
+        {
+            Component* newComp = selectedObject->CreateComponent(ComponentType::LIGHT);
+            if (newComp)
+                Application::GetInstance().editor->GetCommandHistory()->PushWithoutExecute(
+                    std::make_unique<AddComponentCommand>(selectedObject, newComp)
+                );
+            LOG_CONSOLE("[Inspector] Light component added to: %s", selectedObject->GetName().c_str());
+            ImGui::CloseCurrentPopup();
+        }
+        if (hasLight) ImGui::PopStyleColor();
+        if (ImGui::IsItemHovered() && !hasLight)
+        {
+            ImGui::BeginTooltip();
+            ImGui::Text("Add a Light (Directional, Point or Spot)");
+            ImGui::EndTooltip();
+        }
+        else if (ImGui::IsItemHovered() && hasLight)
+        {
+            ImGui::BeginTooltip();
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Already has a Light component");
+            ImGui::EndTooltip();
+        }
         ImGui::EndPopup();
     }
 }
@@ -2402,4 +2428,14 @@ void InspectorWindow::DrawPostProcessingComponent(Component* component)
     {
         postProcessing->OnEditor();
     }
+}
+
+void InspectorWindow::DrawLightComponent(Component* component)
+{
+    ComponentLight* lightComp = static_cast<ComponentLight*>(component);
+    if (!lightComp) return;
+
+    bool open = ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen);
+    DrawComponentContextMenu(lightComp, true);
+    if (open) lightComp->OnEditor();
 }

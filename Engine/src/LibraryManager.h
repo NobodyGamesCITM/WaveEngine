@@ -19,6 +19,7 @@ public:
     // Base paths
     static std::string GetLibraryRoot();
     static std::string GetAssetsRoot();
+    static std::string GetProjectRoot();
 
     // Library management
     static void ClearLibrary();

@@ -113,10 +113,10 @@ bool AudioSystem::InitStreamingManager() {
     // Initializing the Deferred hook
     if (g_lowLevelIO.Init(deviceSettings) != AK_Success) return false;
 
-    std::string assetsRoot = LibraryManager::GetAssetsRoot();
-    std::wstring wAssetsRoot(assetsRoot.begin(), assetsRoot.end());
-    std::wstring bankPath = wAssetsRoot + L"\\Audio\\GeneratedSoundBanks\\Windows\\";
-    g_lowLevelIO.SetBasePath(bankPath.c_str());
+    std::string projectRoot = LibraryManager::GetProjectRoot();
+    std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
+    mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
+    g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());
 
     return true;
 }
@@ -643,10 +643,10 @@ void AudioSystem::DiscoverAuxBuses()
 {
     auxBusNames.clear();
 
-    std::string path = LibraryManager::GetAssetsRoot() + "\\Audio\\GeneratedSoundBanks\\Windows\\MainSoundBank.json";
-    std::ifstream file(path);
+    /*std::wstring path = (std::string)mainSoundBankPath;*/
+    std::ifstream file(mainSoundBankPath);
     if (!file.is_open()) {
-        LOG_CONSOLE("Audio Error: Could not open MainSoundBank.json at %s", path.c_str());
+        LOG_CONSOLE("Audio Error: Could not open MainSoundBank.json at %s", mainSoundBankPath.c_str());
         return;
     }
 
@@ -703,12 +703,14 @@ void AudioSystem::EventCallBack(AkCallbackType in_eType, AkEventCallbackInfo* in
 void AudioSystem::DiscoverEvents() {
     // Clear existing names to avoid duplicates
     eventNames.clear();
-    std::string path = LibraryManager::GetAssetsRoot() + "\\Audio\\GeneratedSoundBanks\\Windows\\MainSoundBank.json";
     
+    std::string soundBankDir(mainSoundBankPath.begin(), mainSoundBankPath.end());
+    std::string soundBankFileName = "MainSoundBank.json";
+    std::string soundBankFilePath = soundBankDir + soundBankFileName;
         
-    std::ifstream file(path);
+    std::ifstream file(soundBankFilePath);
     if (!file.is_open()) {
-        LOG_CONSOLE("Audio Error: Could not open MainSoundBank.json at %s", path.c_str()); 
+        LOG_CONSOLE("Audio Error: Could not open %s at %s", soundBankFileName, soundBankFilePath);
         return;
     }
 

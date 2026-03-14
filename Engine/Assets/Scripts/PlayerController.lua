@@ -111,7 +111,7 @@ local Player = {
     potionCooldownMax   = 0.5,
 
     -- Hermes mask
-    hermesWaterTimer = 0,
+    hermesWaterTimer = 10.0,
     isDrowning       = false,
 }
 
@@ -124,6 +124,7 @@ public = {
     health              = 100.0,
     speedIncrease       = 10.0,
     speedHermesIncrease = 15.0,
+    speedHermesBonus    = 1.5,
     staminaCost         = 0.1,
     staminaRecover      = 0.1,
     rollStaminaCost     = 25,
@@ -137,7 +138,8 @@ public = {
     hitShakeDuration    = 0.3,
     hitShakeMagnitude   = 6.0,
     ROTATION_SPEED      = 780,
-    hermesWaterMax      = 2.0
+    hermesWaterMax      = 10.0
+    
 
 }
 
@@ -231,7 +233,7 @@ local function EquipMask(self, newMask)
     --HERMES
     if Player.currentMask == Mask.HERMES then
         self.public.speedIncrease = self.public.speedIncrease - self.public.speedHermesBonus
-        Player.hermesWaterTimer   = 0
+        Player.hermesWaterTimer   = 10
         Player.isDrowning         = false
         if Player.currentState == State.RUNNING then
             self.public.speed = self.public.speed - self.public.speedHermesBonus
@@ -515,7 +517,7 @@ function Start(self)
     
     --masks
     Player.isDrowning       = false
-    Player.hermesWaterTimer = 0
+    Player.hermesWaterTimer = 10
 
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
@@ -625,7 +627,7 @@ end
 function OnCollisionEnter(self, other)
     if other:CompareTag("Water") then
         Player.currentSurface = "Water"
-        if Player.currentMask == Mask.HERMES then
+        if Player.currentMask == Mask.HERMES and Player.isDrowning == false then
             Player.isDrowning = true
             Player.hermesWaterTimer = self.public.hermesWaterMax
             Engine.Log("[Player] Hermes water immunity active: 2s")
@@ -645,10 +647,11 @@ end
 function OnCollisionExit(self, other)
     if other:CompareTag("Water") then
         Player.isDrowning= false
-        Player.hermesWaterTimer = 0
+        Player.hermesWaterTimer = 10
         Engine.Log("[Player] Player left water")
     end
 end
+
 
 
 

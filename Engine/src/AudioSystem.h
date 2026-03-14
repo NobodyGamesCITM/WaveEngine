@@ -142,7 +142,6 @@ public:
 	// list of events
 	std::vector<std::string> eventNames;
 	
-
 	// registered reverb zones
 	std::vector<ReverbZone*> reverbZones;
 
@@ -159,6 +158,9 @@ public:
 	// Populate auxBusNames from MainSoundBank.json (call from Awake for diagnostics)
 	void DiscoverAuxBuses();
 
+	//soundbankpath getter
+	std::wstring GetMainSoundBankPath() { return mainSoundBankPath; }
+
 private:
     // Registered audio components (sources + listener wrappers)
     std::vector<AudioComponent*> audioComponents;
@@ -172,9 +174,8 @@ private:
 	// Toggle to reduce log noise (default: false)
 	bool enableDebugLogs = false;
 
-
-
-
 public:
     const std::vector<AudioComponent*>& GetAudioComponents() const { return audioComponents; }
+
+	std::wstring mainSoundBankPath;
 };

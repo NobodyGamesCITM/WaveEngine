@@ -5296,9 +5296,59 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "attackDuration",
+                            "name": "rollStaminaCost",
                             "type": 0,
-                            "value": 0.5
+                            "value": 25.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 4.0
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "speedHermesIncrease",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rollMultiplier",
+                            "type": 0,
+                            "value": 2.5
                         },
                         {
                             "name": "staminaRecover",
@@ -5306,9 +5356,9 @@
                             "value": 0.10000000149011612
                         },
                         {
-                            "name": "hpLossCost",
+                            "name": "hermesWaterMax",
                             "type": 0,
-                            "value": 0.20000000298023224
+                            "value": 2.0
                         },
                         {
                             "name": "health",
@@ -5321,32 +5371,12 @@
                             "value": 0.20000000298023224
                         },
                         {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 4.0
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "staminaCost",
                             "type": 0,
                             "value": 0.10000000149011612
                         },
                         {
-                            "name": "hpRecover",
+                            "name": "hpLossCost",
                             "type": 0,
                             "value": 0.20000000298023224
                         },
@@ -5356,19 +5386,14 @@
                             "value": 0.5
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
                             "name": "rollDuration",
                             "type": 0,
                             "value": 0.05000000074505806
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "attackDuration",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 0.5
                         },
                         {
                             "name": "hitShakeDuration",
@@ -5376,7 +5401,12 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "sprintMultiplier",
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "speedHermesBonus",
                             "type": 0,
                             "value": 1.5
                         }
@@ -5551,7 +5581,7 @@
                     "position": [
                         -2.858203887939453,
                         -9.0,
-                        25.0
+                        43.0
                     ],
                     "rotation": [
                         0.0,
@@ -5561,7 +5591,7 @@
                     "scale": [
                         59.06658172607422,
                         60.295875549316406,
-                        21.103557586669922
+                        54.8692512512207
                     ],
                     "type": 0
                 },

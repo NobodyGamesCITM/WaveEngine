@@ -5,7 +5,7 @@
    "GUID": "{4BC8C0DE-9BB7-4A5D-955C-5421E1931F93}",
    "Generator": "2025.1.4.9062"
   },
-  "CacheRoot": "../../../External/Wwise/WwiseProject/.cache",
+  "CacheRoot": "../../External/Wwise/WwiseProject/.cache",
   "Platforms": [
    {
     "Name": "Windows",
@@ -24,6 +24,6 @@
     "UseAsStandIn": "true"
    }
   ],
-  "FileHash": "{EFD5D534-E51F-2FD3-D693-48A78ADDA291}"
+  "FileHash": "{A08731BA-3E63-C6D2-A67C-8A95968F7148}"
  }
 }

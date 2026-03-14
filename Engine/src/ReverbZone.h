@@ -3,7 +3,7 @@
 #include "Component.h"
 #include <string>
 #include <glm/glm.hpp>
-#include "../Assets/Audio/GeneratedSoundBanks/Wwise_IDs.h"
+#include "Wwise_IDs.h"
 
 struct ReverbPresetData {
     AkUniqueID busID;

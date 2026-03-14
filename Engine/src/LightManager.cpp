@@ -65,7 +65,12 @@ void LightManager::UploadToShader(Shader* shader)
 {
     if (!shader) return;
 
-    //Separate active lights by type 
+    for (ComponentLight* l : lights)
+    {
+        if (l && l->IsActive())
+            l->UpdateTransformData();
+    }
+
     std::vector<GPUDirLight>   dirPacked;
     std::vector<GPUPointLight> pointPacked;
     std::vector<GPUSpotLight>  spotPacked;

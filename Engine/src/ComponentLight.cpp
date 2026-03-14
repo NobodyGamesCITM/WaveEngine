@@ -7,7 +7,9 @@
 #include <imgui.h>
 
 ComponentLight::ComponentLight(GameObject* owner)
-    : Component(owner, ComponentType::LIGHT) {
+    : Component(owner, ComponentType::LIGHT)
+{
+    Application::GetInstance().renderer->GetLightManager()->RegisterLight(this);
 }
 
 ComponentLight::~ComponentLight()
@@ -17,14 +19,12 @@ ComponentLight::~ComponentLight()
 
 
 //transform sync 
-
 void ComponentLight::UpdateTransformData()
 {
     if (!owner || !owner->transform) return;
 
     glm::vec3 pos = owner->transform->GetGlobalPosition();
-    // Forward vector: -Z in local space, adjust if your engine uses a different convention
-    glm::vec3 fwd = owner->transform->GetGlobalRotation() * glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 fwd = owner->transform->GetGlobalRotationQuat() * glm::vec3(0.0f, 0.0f, -1.0f);
 
     switch (lightType)
     {
@@ -43,7 +43,6 @@ void ComponentLight::UpdateTransformData()
 
 void ComponentLight::Update()
 {
-    UpdateTransformData(); // dirt flags quizas?
 }
 
 // editor 

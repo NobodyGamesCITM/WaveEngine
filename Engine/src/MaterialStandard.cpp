@@ -35,6 +35,13 @@ void MaterialStandard::Bind(Shader* shader)
 {
     if (!shader) return;
 
+    auto* resModule = Application::GetInstance().resources.get();
+    if (albedoMap == nullptr && albedoMapUID != 0) albedoMap = (ResourceTexture*)resModule->RequestResource(albedoMapUID);
+    if (normalMap == nullptr && normalMapUID != 0) normalMap = (ResourceTexture*)resModule->RequestResource(normalMapUID);
+    if (metallicMap == nullptr && metallicMapUID != 0) metallicMap = (ResourceTexture*)resModule->RequestResource(metallicMapUID);
+    if (occlusionMap == nullptr && occlusionMapUID != 0) occlusionMap = (ResourceTexture*)resModule->RequestResource(occlusionMapUID);
+    if (heightMap == nullptr && heightMapUID != 0) heightMap = (ResourceTexture*)resModule->RequestResource(heightMapUID);
+
     shader->SetVec4("uColor", color);
     shader->SetFloat("uMetallic", metallic);
     shader->SetFloat("uRoughness", roughness);
@@ -42,51 +49,63 @@ void MaterialStandard::Bind(Shader* shader)
     shader->SetVec2("uTiling", tiling);
     shader->SetVec2("uOffset", offset);
 
+    // Albedo
     glActiveTexture(GL_TEXTURE0);
     if (albedoMap && albedoMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, albedoMap->GetGPU_ID());
-        shader->SetInt("uAlbedoMap", 0);
     }
+    else {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    shader->SetInt("uAlbedoMap", 0);
 
+    // Metallic
     glActiveTexture(GL_TEXTURE1);
     if (metallicMap && metallicMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, metallicMap->GetGPU_ID());
-        shader->SetInt("uMetallicMap", 1);
         shader->SetBool("uUseMetallicMap", true);
     }
     else {
+        glBindTexture(GL_TEXTURE_2D, 0);
         shader->SetBool("uUseMetallicMap", false);
     }
+    shader->SetInt("uMetallicMap", 1);
 
+    // Normal
     glActiveTexture(GL_TEXTURE2);
     if (normalMap && normalMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, normalMap->GetGPU_ID());
-        shader->SetInt("uNormalMap", 2);
         shader->SetBool("uUseNormalMap", true);
     }
     else {
+        glBindTexture(GL_TEXTURE_2D, 0);
         shader->SetBool("uUseNormalMap", false);
     }
+    shader->SetInt("uNormalMap", 2);
 
+    // Occlusion
     glActiveTexture(GL_TEXTURE3);
     if (occlusionMap && occlusionMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, occlusionMap->GetGPU_ID());
-        shader->SetInt("uOcclusionMap", 3);
         shader->SetBool("uUseOcclusionMap", true);
     }
     else {
+        glBindTexture(GL_TEXTURE_2D, 0);
         shader->SetBool("uUseOcclusionMap", false);
     }
+    shader->SetInt("uOcclusionMap", 3);
 
+    // Height
     glActiveTexture(GL_TEXTURE4);
     if (heightMap && heightMap->IsLoadedToMemory()) {
         glBindTexture(GL_TEXTURE_2D, heightMap->GetGPU_ID());
-        shader->SetInt("uHeightMap", 4);
         shader->SetBool("uUseHeightMap", true);
     }
     else {
+        glBindTexture(GL_TEXTURE_2D, 0);
         shader->SetBool("uUseHeightMap", false);
     }
+    shader->SetInt("uHeightMap", 4);
 
     glActiveTexture(GL_TEXTURE0);
 }

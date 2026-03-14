@@ -53,7 +53,10 @@ void ComponentLight::OnEditor()
     const char* names[] = { "Directional", "Point", "Spot" };
     int t = (int)lightType;
     if (ImGui::Combo("Type", &t, names, 3))
+    {
         lightType = (LightType)t;
+        UpdateTransformData();
+    }
 
     ImGui::Separator();
 
@@ -76,7 +79,6 @@ void ComponentLight::OnEditor()
         break;
 
     case LightType::SPOT:
-        ImGui::DragFloat3("Direction", &spotData.direction.x, 0.01f);
         ImGui::ColorEdit3("Ambient", &spotData.ambient.r);
         ImGui::ColorEdit3("Diffuse", &spotData.diffuse.r);
         ImGui::ColorEdit3("Specular", &spotData.specular.r);
@@ -85,6 +87,28 @@ void ComponentLight::OnEditor()
         ImGui::DragFloat("Constant", &spotData.constant, 0.001f, 0.001f, 10.0f);
         ImGui::DragFloat("Linear", &spotData.linear, 0.001f, 0.0f, 10.0f);
         ImGui::DragFloat("Quadratic", &spotData.quadratic, 0.001f, 0.0f, 10.0f);
+
+        ImGui::Separator();
+        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "[ Debug ]");
+
+        // Current position and direction synced from transform
+        ImGui::Text("Pos:  %.2f  %.2f  %.2f",
+            spotData.position.x, spotData.position.y, spotData.position.z);
+        ImGui::Text("Dir:  %.2f  %.2f  %.2f",
+            spotData.direction.x, spotData.direction.y, spotData.direction.z);
+
+        // Cone angles in degrees and their cosine values as sent to the shader
+        ImGui::Text("cutOff:      %.1f deg  ->  cos = %.4f",
+            spotData.cutOff, std::cos(glm::radians(spotData.cutOff)));
+        ImGui::Text("outerCutOff: %.1f deg  ->  cos = %.4f",
+            spotData.outerCutOff, std::cos(glm::radians(spotData.outerCutOff)));
+
+        // Warn if outer <= inner: epsilon in the shader becomes negative and the cone inverts
+        if (spotData.outerCutOff <= spotData.cutOff)
+        {
+            ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f),
+                "WARN: outerCutOff must be > cutOff");
+        }
         break;
     }
 }

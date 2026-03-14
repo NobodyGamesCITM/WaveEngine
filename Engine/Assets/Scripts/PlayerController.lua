@@ -103,6 +103,10 @@ local Player = {
     potionHealRate      = 15.0,    -- vida por segundo que se recupera
     potionCooldown      = 0.0,     -- cooldown para evitar spam de la tecla 3
     potionCooldownMax   = 0.5,
+
+    -- Hermes mask
+    hermesWaterTimer = 0,
+    isDrowning       = false,
 }
 
 public = {
@@ -113,6 +117,7 @@ public = {
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
+    speedHermesIncrease = 15.0,
     staminaCost         = 0.1,
     staminaRecover      = 0.1,
     rollStaminaCost     = 25,
@@ -125,8 +130,8 @@ public = {
     knockbackForce      = 14.0,
     hitShakeDuration    = 0.3,
     hitShakeMagnitude   = 6.0,
-    ROTATION_SPEED      = 780
-
+    ROTATION_SPEED      = 780,
+    hermesWaterMax      = 2.0
 }
 
 local function normalizeInput(x, z)
@@ -212,12 +217,28 @@ end
 local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
+    --HERMES
+    if Player.currentMask == Mask.HERMES then
+        self.public.speedIncrease = self.public.speedIncrease - self.public.speedHermesBonus
+        Player.hermesWaterTimer   = 0
+        Player.isDrowning         = false
+        if Player.currentState == State.RUNNING then
+            self.public.speed = self.public.speed - self.public.speedHermesBonus
+        end
+    end
+    if newMask == Mask.HERMES then
+        self.public.speedIncrease = self.public.speedIncrease + self.public.speedHermesBonus
+        if Player.currentState == State.RUNNING then
+            self.public.speed = self.public.speed + self.public.speedHermesBonus
+        end
+    end
+
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
     end
-    
+
     Player.currentMask = newMask
 end
 
@@ -443,6 +464,10 @@ function Start(self)
         Engine.Log("[Player] No rigidbody found")
     end
     
+    --masks
+    Player.isDrowning       = false
+    Player.hermesWaterTimer = 0
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)
@@ -512,6 +537,19 @@ function Update(self, dt)
     UpdateStaminaBar(self.public.stamina)
     UpdateHealthBar(self.public.health)
 
+    --hermes
+    if Input.GetKeyDown("8") then EquipMask(self, Mask.HERMES) end --debug
+    if Input.GetKeyDown("9") then EquipMask(self, Mask.NONE) end --debug
+
+    if Player.isDrowning and Player.currentMask == Mask.HERMES then
+        Player.hermesWaterTimer = Player.hermesWaterTimer - dt
+        if Player.hermesWaterTimer <= 0 and Player.currentState ~= State.DEAD then
+            self.public.health = 0
+            Engine.Log("[Player] Player is drowning")
+            ChangeState(self, State.DEAD)
+        end
+    end
+
     if _impactFrameTimer > 0 then
         _impactFrameTimer = _impactFrameTimer - dt
         if _impactFrameTimer <= 0 then
@@ -529,12 +567,22 @@ end
 
 function OnCollisionEnter(self, other)
     if other:CompareTag("Water") then
-        if Player.currentMask ~= Mask.HERMES and Player.currentState ~= States.DEAD then
+        if Player.currentMask == Mask.HERMES then
+            Player.isDrowning = true
+            Player.hermesWaterTimer = self.public.hermesWaterMax
+            Engine.Log("[Player] Hermes water immunity active: 2s")
+        elseif Player.currentState ~= State.DEAD then
             self.public.health = 0
             Engine.Log("[Player] Player is drowning")
             ChangeState(self, State.DEAD)
-        else
-            Engine.Log("[Player] Player not drowning")
         end
+    end
+end
+
+function OnCollisionExit(self, other)
+    if other:CompareTag("Water") then
+        Player.isDrowning= false
+        Player.hermesWaterTimer = 0
+        Engine.Log("[Player] Player left water")
     end
 end

@@ -49,6 +49,7 @@ public:
 
 	// ---------------------- SWITCHES ---------------------- //
 	void SetSwitch(AkSwitchGroupID switchGroup, AkSwitchStateID switchState, AkGameObjectID goID);
+	void SetSwitch(const char* switchGroup, const char* switchState, AkGameObjectID goID);
 
 	// ------------------------ RTPC ------------------------ //
 	void SetRTPCValue(const char* name, int value);
@@ -122,6 +123,7 @@ private:
 
 	// processing reverb zones each frame
 	void ProcessReverbZones();
+	void DrawReverbZones();
 	
 
 	// set aux send helper
@@ -148,6 +150,8 @@ public:
 	ReverbZone* GetCurrentListenerZone() const { return currentListenerZone; }
 	bool IsListenerInReverbZone() const { return currentListenerZone != nullptr; }
 	AkGameObjectID GetMainListenerWwiseID() const { return listenerID; }
+	AkGameObjectID GetIDfromWwiseGO(AudioComponent* comp) { return comp->goID; }
+	AudioComponent* GetAudioCompByID(AkGameObjectID goID);
 
 	// Debug: list of auxiliary bus names discovered from the soundbank JSON
 	std::vector<std::string> auxBusNames;

@@ -323,25 +323,79 @@
       "Id": "3086301423",
       "Name": "BGM_State",
       "ObjectPath": "\\States\\Default Work Unit\\BGM_State",
-      "GUID": "{212BF06F-B611-45DB-82D2-933EE818AAFE}",
+      "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
         "Id": "748895195",
         "Name": "None",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\None",
-        "GUID": "{59F33362-CF7E-4453-975B-0B83B84E7D38}"
+        "GUID": "{FF3A9A9C-03B3-4931-9DCD-C964AAFDB20D}"
        },
        {
-        "Id": "931153941",
-        "Name": "CoffeeShop",
-        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\CoffeeShop",
-        "GUID": "{234D10A0-6799-4EF8-8F4E-A9C817848F9C}"
+        "Id": "2678230381",
+        "Name": "Level2",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2",
+        "GUID": "{91CE0840-BDD8-4746-8ABF-A04924C51C9C}"
        },
        {
-        "Id": "1814469713",
-        "Name": "PizzaParlor",
-        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\PizzaParlor",
-        "GUID": "{B4515133-463C-4D09-8EF9-F32B7B62A759}"
+        "Id": "2678230382",
+        "Name": "Level1",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1",
+        "GUID": "{495B01E3-93BA-4138-9316-9B6959D77A51}"
+       },
+       {
+        "Id": "3604647259",
+        "Name": "MainMenu",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\MainMenu",
+        "GUID": "{6B52073D-149A-4EA8-A359-1E2C5B4056DB}"
+       }
+      ]
+     }
+    ],
+    "SwitchGroups": [
+     {
+      "Id": "1062779386",
+      "Name": "Player_Speed",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Player_Speed",
+      "GUID": "{62082F6E-7CF2-4C6C-A649-B29B331088BD}",
+      "Switches": [
+       {
+        "Id": "712161704",
+        "Name": "Run",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Speed\\Run",
+        "GUID": "{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"
+       },
+       {
+        "Id": "2108779966",
+        "Name": "Walk",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Speed\\Walk",
+        "GUID": "{618A7081-0280-42FA-B525-21EB4D80599D}"
+       }
+      ]
+     },
+     {
+      "Id": "4064446173",
+      "Name": "Surface_Type",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type",
+      "GUID": "{DBA9047E-FC14-4AF3-A510-8FCFF1786D4E}",
+      "Switches": [
+       {
+        "Id": "2195636714",
+        "Name": "Dirt",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Dirt",
+        "GUID": "{5CF72C46-A5F7-4A36-BE8C-4BF3918CA2B5}"
+       },
+       {
+        "Id": "2654748154",
+        "Name": "Water",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Water",
+        "GUID": "{1D925BC7-2359-487D-87FC-118493BB9693}"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "Grass",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Grass",
+        "GUID": "{A2975864-5909-41AF-957E-04E555302C0A}"
        }
       ]
      }
@@ -825,6 +879,6 @@
     ]
    }
   ],
-  "FileHash": "{D1CE659E-8AE2-4451-3D08-AD4FBD8E81E7}"
+  "FileHash": "{AF5C6AD7-906C-C3DD-7875-14EED234CE28}"
  }
 }

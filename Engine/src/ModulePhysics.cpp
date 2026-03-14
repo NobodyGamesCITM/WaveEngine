@@ -162,8 +162,8 @@ void ModulePhysics::DrawDebug()
             col->SafeDebugDraw();
     }
 
-    for (Joint* joint : registeredJoints)
-        if (joint && joint->showDebug) joint->DrawDebug();
+    //for (Joint* joint : registeredJoints)
+    //    if (joint && joint->showDebug) joint->DrawDebug();
 }
 
 void ModulePhysics::SetDebugAll(bool value)

@@ -10,6 +10,7 @@
 #include "DetourNavMesh.h"
 #include "DetourNavMeshBuilder.h"
 #include "DetourNavMeshQuery.h"
+
 ModuleNavMesh::ModuleNavMesh() : Module() {
     name = "ModuleNavMesh";
 }

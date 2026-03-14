@@ -14,6 +14,7 @@
 #include "AudioComponent.h"
 #include "Log.h"
 #include "ReverbZone.h"
+#include "Application.h"
 #include "AudioListener.h"
 #include "LibraryManager.h"
 
@@ -45,6 +46,8 @@ AudioSystem::~AudioSystem() {
 bool AudioSystem::InitEngine() {
 
     if (enableDebugLogs) LOG_DEBUG("# Initializing Audio Engine...");
+    
+    //LibraryManager::Initialize(); 
 
     //Wwise submodules must be initialized in the following order:
     if (!InitMemoryManager()) {
@@ -212,6 +215,8 @@ bool AudioSystem::Update() {
 
     // Process reverb zones (set aux sends on listener)
     ProcessReverbZones();
+    DrawReverbZones();
+    
 
     //ProcessAudio() in the Sound Integration Walkthrough
     //processes bank requests, events, positions, RTPC, etc.
@@ -294,6 +299,19 @@ void AudioSystem::ResumeEvent(AkUniqueID event, AkGameObjectID goID) {
     if (enableDebugLogs) LOG_DEBUG("Resuming event from %d audiogameobject", goID);
 }
 
+AudioComponent* AudioSystem::GetAudioCompByID(AkGameObjectID goID) {
+    bool found = false;
+    for (AudioComponent* comp : audioComponents) {
+        if (goID == comp->goID) {
+            found = true;
+            return comp;
+        }
+    }
+    if (!found) {
+        LOG_DEBUG("Could not find the corresponding GameObject from the given ID");
+    }
+}
+
 void AudioSystem::SetState(AkStateGroupID stateGroup, AkStateID state)
 {
     AK::SoundEngine::SetState(stateGroup, state);
@@ -308,6 +326,12 @@ void AudioSystem::SetState(const char* stateGroup, const char* state)
 
 
 void AudioSystem::SetSwitch(AkSwitchGroupID switchGroup, AkSwitchStateID switchState, AkGameObjectID goID)
+{
+    AK::SoundEngine::SetSwitch(switchGroup, switchState, goID);
+    if (enableDebugLogs) LOG_DEBUG("Setting wwise switch");
+}
+
+void AudioSystem::SetSwitch(const char* switchGroup, const char* switchState, AkGameObjectID goID)
 {
     AK::SoundEngine::SetSwitch(switchGroup, switchState, goID);
     if (enableDebugLogs) LOG_DEBUG("Setting wwise switch");
@@ -382,15 +406,15 @@ void AudioSystem::ProcessReverbZones()
         }
     }
 
-    if (listenerID == AK_INVALID_GAME_OBJECT || !listenerGO) {
-        // no listener, still process source sends (they can be independent)
-    }
+    //if (listenerID == AK_INVALID_GAME_OBJECT || !listenerGO) {
+    //    // no listener, still process source sends (they can be independent)
+    //}
 
     // Get listener world position (if available)
     glm::vec3 listenerPos(0.0f);
     if (listenerGO) {
         Transform* lt = static_cast<Transform*>(listenerGO->GetComponent(ComponentType::TRANSFORM));
-        if (lt) listenerPos = glm::vec3(lt->GetGlobalMatrix()[3]);
+        if (lt) listenerPos = glm::vec3(lt->GetWorldMatrixRecursive()[3]);
 
         if (enableDebugLogs) LOG_DEBUG("Listener Pos: %.2f, %.2f, %.2f", listenerPos.x, listenerPos.y, listenerPos.z);
     }
@@ -463,7 +487,7 @@ void AudioSystem::ProcessReverbZones()
             // Skip clearing here (listener will still handle global reverb)
             continue;
         }
-        glm::vec3 sourcePos = glm::vec3(st->GetGlobalMatrix()[3]);
+        glm::vec3 sourcePos = glm::vec3(st->GetWorldMatrixRecursive()[3]);
 
         // Find the best matching zone for this source (highest priority)
         ReverbZone* bestZone = nullptr;
@@ -471,7 +495,7 @@ void AudioSystem::ProcessReverbZones()
         for (ReverbZone* zone : reverbZones) {
             if (!zone || !zone->enabled) continue;
             if (zone->ContainsPoint(sourcePos)) {
-                if (enableDebugLogs) LOG_DEBUG("Checking zone from auxBusID %u: Result=%d", zone->auxBusID, zone->ContainsPoint(listenerPos));
+                if (enableDebugLogs) LOG_DEBUG("Checking zone from auxBusID %u: Result=%d", zone->auxBusID, zone->ContainsPoint(sourcePos));
                 if (zone->priority > bestPriority) {
                     bestPriority = zone->priority;
                     bestZone = zone;
@@ -491,6 +515,8 @@ void AudioSystem::ProcessReverbZones()
                 SetGameObjectAuxSend(sourceID, zone->auxBusID, 0.0f);
             }
         }
+
+        
     }
 }
 
@@ -522,16 +548,95 @@ void AudioSystem::SetGameObjectAuxSend(AkGameObjectID id, AkUniqueID busId, floa
     send.listenerID = listenerID;
     send.fControlValue = controlValue;
 
-    // apply the routing
-    AK::SoundEngine::SetGameObjectAuxSendValues(id, &send, 1);
 
-    // set the master reverb volume rtpc
-    SetRTPCValue(AK::GAME_PARAMETERS::REVERB_VOLUME, controlValue);
+
+    if (controlValue > 0) {
+        // apply the routing
+        AK::SoundEngine::SetGameObjectAuxSendValues(id, &send, 1);
+        SetRTPCValue(AK::GAME_PARAMETERS::REVERB_VOLUME, controlValue);
+    }
+    else {
+        AK::SoundEngine::SetGameObjectAuxSendValues(id, nullptr, 0);
+    }
+    
 
     if (enableDebugLogs) {
         LOG_DEBUG("SetGameObjectAuxSendByID: Applying Bus ID %u (Vol: %.2f) to GO %u",
             (unsigned int)busId, controlValue, (unsigned int)id);
     }
+}
+
+void AudioSystem::DrawReverbZones() {
+    //Draw Reverb Zone on Editor
+
+    for (ReverbZone* zone : reverbZones) {
+        if (!zone->enabled) return;
+
+        Transform* t = zone->owner->transform;
+        if (!t) return;
+
+        float alpha;
+
+        if (zone->owner->IsSelected()) alpha = 0.8f;
+        else alpha = 0.3f;
+
+        glm::vec4 sphereDebugColor(0.0f, 6.0f, 4.0f, alpha);
+        glm::vec4 boxDebugColor(0.0f, 4.0f, 6.0f, alpha);
+
+        //transform to worldSpace
+        glm::vec3 worldPos = t->GetGlobalPosition();
+
+        glm::mat4 modelMatrix = t->GetGlobalMatrix();
+        // Transform offset from local to world space 
+        glm::mat4 rotOnly = glm::mat4(glm::mat3(
+            glm::normalize(glm::vec3(modelMatrix[0])),
+            glm::normalize(glm::vec3(modelMatrix[1])),
+            glm::normalize(glm::vec3(modelMatrix[2]))
+        ));
+        glm::vec3 worldOffset = glm::vec3(rotOnly * glm::vec4(zone->centerOffset, 0.0f));
+        glm::vec3 sphereCenter = worldPos + worldOffset;
+        glm::vec3 extents = zone->extents;
+
+
+        if (zone->shape == ReverbZone::Shape::SPHERE)
+        {
+            
+            Application::GetInstance().renderer->DrawSphere(sphereCenter, zone->radius, sphereDebugColor);
+        }
+        else
+        {
+            glm::mat4 worldMat = t->GetGlobalMatrix();
+            glm::vec3 zonePos = t->GetGlobalPosition();
+
+            glm::mat4 noScaleWorldMat = glm::translate(glm::mat4(1.0f), zonePos) * rotOnly;
+
+            glm::vec3 v[8];
+            v[0] = glm::vec3(-extents.x, -extents.y, -extents.z);
+            v[1] = glm::vec3(extents.x, -extents.y, -extents.z);
+            v[2] = glm::vec3(extents.x, extents.y, -extents.z);
+            v[3] = glm::vec3(-extents.x, extents.y, -extents.z);
+            v[4] = glm::vec3(-extents.x, -extents.y, extents.z);
+            v[5] = glm::vec3(extents.x, -extents.y, extents.z);
+            v[6] = glm::vec3(extents.x, extents.y, extents.z);
+            v[7] = glm::vec3(-extents.x, extents.y, extents.z);
+
+
+
+            for (int i = 0; i < 8; ++i) {
+                v[i] = glm::vec3(noScaleWorldMat * glm::vec4(v[i], 1.0f)) + worldOffset;
+            }
+
+            auto draw = [&](int a, int b) {
+                Application::GetInstance().renderer->DrawLine(v[a], v[b], boxDebugColor);
+                };
+
+            draw(0, 1); draw(1, 2); draw(2, 3); draw(3, 0);
+            draw(4, 5); draw(5, 6); draw(6, 7); draw(7, 4);
+            draw(0, 4); draw(1, 5); draw(2, 6); draw(3, 7);
+        }
+    }
+
+
 }
 
 void AudioSystem::DiscoverAuxBuses()
@@ -599,10 +704,11 @@ void AudioSystem::DiscoverEvents() {
     // Clear existing names to avoid duplicates
     eventNames.clear();
     std::string path = LibraryManager::GetAssetsRoot() + "\\Audio\\GeneratedSoundBanks\\Windows\\MainSoundBank.json";
-
+    
+        
     std::ifstream file(path);
     if (!file.is_open()) {
-        LOG_CONSOLE("Audio Error: Could not open MainSoundBank.json at %s", path.c_str());
+        LOG_CONSOLE("Audio Error: Could not open MainSoundBank.json at %s", path.c_str()); 
         return;
     }
 

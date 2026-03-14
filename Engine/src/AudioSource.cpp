@@ -23,38 +23,41 @@ AudioSource::AudioSource(GameObject* containerGO)
 
 AudioSource::~AudioSource()
 {
-
-    
     AK::SoundEngine::StopAll(this->goID);
     Application::GetInstance().audio->audioSystem->UnregisterAudioComponent(this);
     AK::SoundEngine::UnregisterGameObj(this->goID);
 }
 
 void AudioSource::SetTransform() {
-    Transform* trans = static_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
-    if (trans) {
-        // Use the recursive version to ensure we have the absolute truth
-        glm::mat4 globalMat = trans->GetWorldMatrixRecursive();
 
-        // Extract World Position (4th Column)
-        glm::vec3 worldPos = glm::vec3(globalMat[3]);
+    if (owner) {
+        Transform* trans = static_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
+        if (trans) {
+            // Use the recursive version to ensure we have the absolute truth
+            glm::mat4 globalMat = trans->GetWorldMatrixRecursive();
 
-        // Extract World Orientation (Rotation only)
-        glm::vec3 worldForward = glm::normalize(glm::vec3(globalMat * glm::vec4(0, 0, 1, 0)));
-        glm::vec3 worldUp = glm::normalize(glm::vec3(globalMat * glm::vec4(0, 1, 0, 0)));
+            // Extract World Position (4th Column)
+            glm::vec3 worldPos = glm::vec3(globalMat[3]);
 
-        AkSoundPosition soundPos;
-        soundPos.SetPosition(worldPos.x, worldPos.y, worldPos.z);
+            // Extract World Orientation (Rotation only)
+            glm::vec3 worldForward = glm::normalize(glm::vec3(globalMat * glm::vec4(0, 0, 1, 0)));
+            glm::vec3 worldUp = glm::normalize(glm::vec3(globalMat * glm::vec4(0, 1, 0, 0)));
 
-        soundPos.SetOrientation(
-            worldForward.x, worldForward.y, worldForward.z,
-            worldUp.x, worldUp.y, worldUp.z
-        );
+            AkSoundPosition soundPos;
+            soundPos.SetPosition(worldPos.x, worldPos.y, worldPos.z);
 
-        //K::SoundEngine::SetRTPCValue("ObjectVolume", (AkRtpcValue)volume, goID);
-        AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
-        AK::SoundEngine::SetPosition(this->goID, soundPos);
+            soundPos.SetOrientation(
+                worldForward.x, worldForward.y, worldForward.z,
+                worldUp.x, worldUp.y, worldUp.z
+            );
+
+            //K::SoundEngine::SetRTPCValue("ObjectVolume", (AkRtpcValue)volume, goID);
+            AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
+            AK::SoundEngine::SetPosition(this->goID, soundPos);
+        }
     }
+    
+    
 }
 
 void AudioSource::Serialize(nlohmann::json& componentObj) const {

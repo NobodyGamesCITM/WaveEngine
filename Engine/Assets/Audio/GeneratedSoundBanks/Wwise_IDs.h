@@ -13,13 +13,10 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID PLAY_ACTALKINGSFX = 822131113U;
-        static const AkUniqueID PLAY_AMBIENCE = 278617630U;
-        static const AkUniqueID PLAY_CLUBPENGUIN = 2681289886U;
-        static const AkUniqueID PLAY_LOOKINFRESH = 111646406U;
-        static const AkUniqueID PLAY_RADIOSTATIC = 111273809U;
-        static const AkUniqueID PLAY_TENNATALKINGSFX = 3711469543U;
-        static const AkUniqueID PLAY_TORCHFIRE = 3738480268U;
+        static const AkUniqueID MUS_BGM = 638756417U;
+        static const AkUniqueID SFX_AMBIENCE = 3583497273U;
+        static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;
+        static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
     } // namespace EVENTS
 
     namespace STATES
@@ -30,13 +27,41 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID COFFEESHOP = 931153941U;
+                static const AkUniqueID LEVEL1 = 2678230382U;
+                static const AkUniqueID LEVEL2 = 2678230381U;
+                static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
-                static const AkUniqueID PIZZAPARLOR = 1814469713U;
             } // namespace STATE
         } // namespace BGM_STATE
 
     } // namespace STATES
+
+    namespace SWITCHES
+    {
+        namespace PLAYER_SPEED
+        {
+            static const AkUniqueID GROUP = 1062779386U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID RUN = 712161704U;
+                static const AkUniqueID WALK = 2108779966U;
+            } // namespace SWITCH
+        } // namespace PLAYER_SPEED
+
+        namespace SURFACE_TYPE
+        {
+            static const AkUniqueID GROUP = 4064446173U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DIRT = 2195636714U;
+                static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID WATER = 2654748154U;
+            } // namespace SWITCH
+        } // namespace SURFACE_TYPE
+
+    } // namespace SWITCHES
 
     namespace GAME_PARAMETERS
     {

@@ -353,8 +353,8 @@ void AssetsWindow::Draw()
         }
 
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(100.0f);
-        ImGui::SliderFloat("Icon Size", &iconSize, 32.0f, 128.0f, "%.0f");
+        /*ImGui::SetNextItemWidth(100.0f);
+        ImGui::SliderFloat("Icon Size", &iconSize, 32.0f, 128.0f, "%.0f");*/
 
         ImGui::PopStyleVar();
         ImGui::Separator();

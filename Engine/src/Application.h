@@ -63,6 +63,7 @@ public:
 
     void Play();
     void Pause();
+    void PauseGameOnly();
     void Stop();
 	void Resume() { if (playState == PlayState::PAUSED) playState = PlayState::PLAYING; }
     void Step();

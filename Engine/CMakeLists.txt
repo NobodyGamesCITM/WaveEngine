@@ -400,6 +400,7 @@ target_include_directories(Engine PRIVATE BEFORE
     "${WWISE_SDK_DIR}"
     "${WWISE_SDK_DIR}/include/Common"
     "${WWISE_SDK_DIR}/include/Win32"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Assets/Audio/GeneratedSoundBanks"
 )
 set(WWISE_IO_SOURCES
     "${WWISE_SDK_DIR}/include/Common/AkFileLocationBase.cpp"
@@ -579,6 +580,7 @@ target_include_directories(Game PRIVATE BEFORE
     "${WWISE_SDK_DIR}"
     "${WWISE_SDK_DIR}/include/Common"
     "${WWISE_SDK_DIR}/include/Win32"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Assets/Audio/GeneratedSoundBanks"
 )
 
 target_sources(Game PRIVATE

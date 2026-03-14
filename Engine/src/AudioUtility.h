@@ -36,4 +36,5 @@
 
 // Generated IDs (This connects your C++ strings to Wwise UIDs)
 // Ensure this path matches your exported Wwise project location
-#include "../Assets/Audio/GeneratedSoundBanks/Wwise_IDs.h"
+//#include "../Assets/Audio/GeneratedSoundBanks/Wwise_IDs.h"
+#include "Wwise_IDs.h"

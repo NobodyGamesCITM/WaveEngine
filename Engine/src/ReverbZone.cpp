@@ -54,38 +54,43 @@ bool ReverbZone::ContainsPoint(const glm::vec3& worldPoint) const
     Transform* t = static_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
     if (!t) return false;
 
-    glm::mat4 worldMat = t->GetGlobalMatrix();
+    glm::mat4 worldMat = t->GetWorldMatrixRecursive();
     glm::vec3 zonePos = glm::vec3(worldMat[3]);
 
     if (shape == Shape::SPHERE) {
-        // matrix scale must be ignored for some reason(?
         float actualRadius = radius;
 
-        float distance = glm::distance(worldPoint, zonePos);
+        //Transform centerOffset from local to world space using rotation only (no scale)
 
-        //LOG_DEBUG("Dist: %.2f | Actual Radius: %.2f", distance, actualRadius);
+        glm::mat4 rotationMat = glm::mat4(
+            glm::vec4(glm::normalize(glm::vec3(worldMat[0])), 0.0f),
+            glm::vec4(glm::normalize(glm::vec3(worldMat[1])), 0.0f),
+            glm::vec4(glm::normalize(glm::vec3(worldMat[2])), 0.0f),
+            glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
+        );
+
+        glm::vec3 worldOffset = glm::vec3(rotationMat * glm::vec4(centerOffset, 0.0f));
+        float distance = glm::distance(worldPoint, zonePos + worldOffset);
 
         return distance <= actualRadius;
     }
     
-    else { // BOX: transform point into local space ignoring scale
-        // 1. get the world position (translation)
-        glm::vec3 zonePos = glm::vec3(worldMat[3]);
+    else { 
+        
+        // Extract rotation only (strip scale via normalization)
+        glm::mat3 rotOnly = glm::mat3(
+            glm::normalize(glm::vec3(worldMat[0])),
+            glm::normalize(glm::vec3(worldMat[1])),
+            glm::normalize(glm::vec3(worldMat[2]))
+        );
 
-        // 2. extract rotation (normalize the columns of the world matrix to remove scale)
-        glm::mat4 rotationMat = worldMat;
-        rotationMat[0] = glm::normalize(rotationMat[0]);
-        rotationMat[1] = glm::normalize(rotationMat[1]);
-        rotationMat[2] = glm::normalize(rotationMat[2]);
-        rotationMat[3] = glm::vec4(0, 0, 0, 1); // remove translation for rotation part
+        glm::mat4 noScaleWorldMat = glm::mat4(rotOnly);
+        noScaleWorldMat[3] = glm::vec4(zonePos, 1.0f); // set translation
 
-        //build a "no-scale" world matrix
-        glm::mat4 noScaleWorldMat = glm::translate(glm::mat4(1.0f), zonePos) * rotationMat;
-
-        //invert that and check against extents
         glm::vec3 local = glm::vec3(glm::inverse(noScaleWorldMat) * glm::vec4(worldPoint, 1.0f));
+        // centerOffset check is missing for BOX too — add it:
+        local -= centerOffset; // apply offset in local space, or transform offset first
         glm::vec3 absLocal = glm::abs(local);
-
         return (absLocal.x <= extents.x) && (absLocal.y <= extents.y) && (absLocal.z <= extents.z);
     }
     
@@ -127,6 +132,7 @@ void ReverbZone::Serialize(nlohmann::json& componentObj) const
     componentObj["shape"] = static_cast<int>(shape);
     componentObj["radius"] = radius;
     componentObj["extents"] = { extents.x, extents.y, extents.z };
+    componentObj["centerOffset"] = { centerOffset.x, centerOffset.y, centerOffset.z };
     componentObj["auxBusID"] = auxBusID;
     componentObj["auxBusName"] = GetBusNameFromID(auxBusID);
     componentObj["presetIndex"] = presetIndex;
@@ -143,7 +149,10 @@ void ReverbZone::Deserialize(const nlohmann::json& componentObj)
         auto e = componentObj["extents"];
         extents = glm::vec3(e[0].get<float>(), e[1].get<float>(), e[2].get<float>());
     }
-    
+    if (componentObj.contains("centerOffset")) {
+        auto c = componentObj["centerOffset"];
+        centerOffset = glm::vec3(c[0].get<float>(), c[1].get<float>(), c[2].get<float>());
+    }
     if (componentObj.contains("auxBusName")) auxBusName = componentObj["auxBusName"].get<std::string>();
     if (componentObj.contains("auxBusID")) auxBusID = GetIDFromBusName(auxBusName);
     if (componentObj.contains("presetIndex")) {
@@ -162,53 +171,8 @@ void ReverbZone::Deserialize(const nlohmann::json& componentObj)
 
 void ReverbZone::DrawDebug()
 {
-    if (!enabled) return;
 
-    Transform* t = owner->transform;
-    if (!t) return;
-
-    glm::vec4 debugColor(1.0f, 0.0f, 0.0f, 1.0f);
-
-    if (shape == Shape::SPHERE)
-    {
-        glm::vec3 worldPos = t->GetGlobalPosition();
-        Application::GetInstance().renderer->DrawSphere(worldPos, radius, debugColor);
-    }
-    else
-    {
-        glm::mat4 worldMat = t->GetGlobalMatrix();
-        glm::vec3 zonePos = t->GetGlobalPosition();
-
-        glm::mat4 rotationMat = worldMat;
-        rotationMat[0] = glm::normalize(rotationMat[0]);
-        rotationMat[1] = glm::normalize(rotationMat[1]);
-        rotationMat[2] = glm::normalize(rotationMat[2]);
-        rotationMat[3] = glm::vec4(0, 0, 0, 1);
-
-        glm::mat4 noScaleWorldMat = glm::translate(glm::mat4(1.0f), zonePos) * rotationMat;
-
-        glm::vec3 v[8];
-        v[0] = glm::vec3(-extents.x, -extents.y, -extents.x);
-        v[1] = glm::vec3(extents.x, -extents.y, -extents.x);
-        v[2] = glm::vec3(extents.x, extents.y, -extents.x);
-        v[3] = glm::vec3(-extents.x, extents.y, -extents.x);
-        v[4] = glm::vec3(-extents.x, -extents.y, extents.x);
-        v[5] = glm::vec3(extents.x, -extents.y, extents.x);
-        v[6] = glm::vec3(extents.x, extents.y, extents.x);
-        v[7] = glm::vec3(-extents.x, extents.y, extents.x);
-
-        for (int i = 0; i < 8; ++i) {
-            v[i] = glm::vec3(noScaleWorldMat * glm::vec4(v[i], 1.0f));
-        }
-
-        auto draw = [&](int a, int b) {
-            Application::GetInstance().renderer->DrawLine(v[a], v[b], debugColor);
-            };
-
-        draw(0, 1); draw(1, 2); draw(2, 3); draw(3, 0);
-        draw(4, 5); draw(5, 6); draw(6, 7); draw(7, 4);
-        draw(0, 4); draw(1, 5); draw(2, 6); draw(3, 7);
-    }
+    
 }
 
 void ReverbZone::OnEditor()
@@ -230,7 +194,12 @@ void ReverbZone::OnEditor()
     else {
         ImGui::DragFloat3("Half Extents", &extents[0], 0.1f, 0.0f, 10000.0f);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Half extents (local space) for box shape");
+
+        
     }
+
+    ImGui::DragFloat3("Center Offset", &centerOffset[0], 0.1f, -10000.0f, 10000.0f);
+    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Reverb zone center relative to the object's center");
 
     static std::vector<const char*> presetLabels;
 
@@ -245,10 +214,7 @@ void ReverbZone::OnEditor()
     if (ImGui::Combo("Reverb Preset", &presetIndex, presetLabels.data(), static_cast<int>(presetLabels.size()))) {
 
         auxBusID = reverbPresets[presetIndex].busID;
-        /*auxBusName = reverbPresets[presetIndex].name;*/
     }
-
-    
 
     char buf[256];
     strncpy(buf, auxBusName.c_str(), sizeof(buf) - 1);

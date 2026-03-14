@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "AudioListener.h"
 #include "ModuleScene.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -16,7 +17,8 @@
 #include "ComponentCanvas.h"
 #include "ComponentCamera.h" 
 #include "Window.h"        
-#include "ModuleCamera.h"   
+#include "ModuleCamera.h"  
+#include "ModuleAudio.h"
 #include <SDL3/SDL_scancode.h>
 #include "GameWindow.h"
 #ifndef WAVE_GAME
@@ -504,6 +506,40 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 }
 
+
+//Audio
+//BGM Transitions
+static int Lua_Audio_SetMusicState(lua_State* L) {
+    const char* stateName = luaL_checkstring(L, 1);
+    const char* stateGroupName = "BGM_State";
+    /*stateName = std::toupper(stateName.c_str());*/
+    
+    Application::GetInstance().audio.get()->audioSystem->SetState(stateGroupName, stateName);
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
+//Audio Switches
+static int Lua_Audio_SetSwitch(lua_State* L) {
+    
+    const char* switchGroupName = luaL_checkstring(L, 1);
+    const char* switchStateName = luaL_checkstring(L, 2);
+    lua_getfield(L, 3, "ptr");                             // slot 3: the table (component)
+    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+
+    Application::GetInstance().audio.get()->audioSystem->SetSwitch(switchGroupName, switchStateName, source->goID);
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
+static int Lua_Audio_PlayAudioEvent(lua_State* L) {
+    lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
+    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    std::wstring wEventName(source->eventName.begin(), source->eventName.end());
+    Application::GetInstance().audio.get()->audioSystem->PlayEvent(wEventName.c_str(), source->goID);
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
 // UI
 // UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
@@ -557,8 +593,9 @@ static int Lua_Game_Exit(lua_State* L) {
     Application::GetInstance().RequestExit();
     return 0;
 }
+
 static int Lua_Game_Pause(lua_State* L) {
-    Application::GetInstance().Pause();
+    Application::GetInstance().PauseGameOnly();
     return 0;
 }
 
@@ -629,6 +666,19 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
+    //Audio
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_Audio_SetMusicState);
+    lua_setfield(L, -2, "SetMusicState");
+    lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
+    lua_setfield(L, -2, "PlayAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_SetSwitch);
+    lua_setfield(L, -2, "SetSwitch");
+    lua_setglobal(L, "Audio");
+
+
+
+    
     //UI
     lua_newtable(L);
     lua_pushcfunction(L, Lua_UI_WasClicked);            lua_setfield(L, -2, "WasClicked");
@@ -638,6 +688,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
     lua_setglobal(L, "UI");
 
+
+    // GAMEOBJECT API
     // Game
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Game_Pause);
@@ -663,7 +715,7 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "Exit");
     lua_setglobal(L, "Game");
 
-    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, UI, Game");
+    LOG_CONSOLE("[ScriptManager] Engine functions registered: Engine, Input, Time, Camera, Audio, UI, Game");
 }
 
 // -------------------------- GAMEOBJECT API -------------------------------------
@@ -741,6 +793,19 @@ static int Lua_Animation_Play(lua_State* L)
     if (anim)
     {
         anim->Play(std::string(animName), blendTime);
+    }
+
+    return 0;
+}
+
+static int Lua_Animation_SetAnimSpeed(lua_State* L) {
+    ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
+    std::string animName = luaL_checkstring(L, 2);
+    float newSpeed = luaL_checknumber(L, 3);
+    
+
+    if (anim) {
+        anim->SetAnimationSpeed(animName, newSpeed);
     }
 
     return 0;
@@ -1151,7 +1216,7 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
     if (strcmp(componentType, "Material") == 0) {
         Component* comp = obj->GetComponent(ComponentType::MATERIAL);
-        ComponentMaterial* mat = static_cast<ComponentMaterial*>(comp);
+        ComponentMaterial* mat = static_cast<ComponentMaterial*>(comp); 
         if (!mat) {
             lua_pushnil(L);
             return 1;
@@ -1269,6 +1334,39 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         luaL_getmetatable(L, "Rigidbody");
         lua_setmetatable(L, -2);
 
+        return 1;
+    }
+
+    if (strcmp(componentType, "Audio Source") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::AUDIOSOURCE);
+        AudioSource* source = static_cast<AudioSource*>(comp);
+        if (!source) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        AudioSource** ud = (AudioSource**)lua_newuserdata(L, sizeof(AudioSource*));
+        *ud = source;
+        lua_setfield(L, -2, "ptr");  // store userdata in table as "ptr"
+
+        lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  // no upvalue, just a plain function
+        lua_setfield(L, -2, "PlayAudioEvent");
+
+        return 1;
+    }
+
+    if (strcmp(componentType, "Audio Listener") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::LISTENER);
+        AudioListener* listener = static_cast<AudioListener*>(comp);
+        if (!listener) {
+            lua_pushnil(L);
+            return 1;
+        }
+        // Store it as a pointer-to-pointer (full userdata)
+        AudioListener** list = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
+        *list = listener;
         return 1;
     }
 
@@ -1654,12 +1752,15 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, Lua_Animation_Play);
     lua_setfield(L, -2, "Play");
+    lua_pushcfunction(L, Lua_Animation_SetAnimSpeed);
+    lua_setfield(L, -2, "SetSpeed");
     lua_pushcfunction(L, Lua_Animation_Stop);
     lua_setfield(L, -2, "Stop");
     lua_pushcfunction(L, Lua_Animation_IsPlaying);
     lua_setfield(L, -2, "IsPlaying");
     lua_pushcfunction(L, Lua_Animation_IsPlayingAnimation);
     lua_setfield(L, -2, "IsPlayingAnimation");
+
     lua_pop(L, 1); 
 }
 
@@ -1768,6 +1869,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
     return 1;
 }
 
+
 void ScriptManager::RegisterPrefabAPI() {
     lua_newtable(L);
 
@@ -1780,6 +1882,8 @@ void ScriptManager::RegisterPrefabAPI() {
     lua_setglobal(L, "Prefab");
 
 }
+
+
 
 static GameWindow* GetGameWindow() {
     #ifndef WAVE_GAME

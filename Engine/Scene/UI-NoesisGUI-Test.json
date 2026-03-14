@@ -25,16 +25,22 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 4.722891330718994,
+                    "aspectRatio": 0.9855421781539917,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
                     "type": 4,
                     "uiCullingMask": 0,
                     "usesPostProcessing": false
+                },
+                {
+                    "active": true,
+                    "isDefault": true,
+                    "type": 25
                 }
             ],
             "name": "Camera",
+            "tag": "",
             "uid": 13928588578593206042
         },
         {
@@ -69,11 +75,26 @@
                 },
                 {
                     "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        }
+                    ],
                     "scriptUID": 845068803312502122,
                     "type": 6
+                },
+                {
+                    "active": true,
+                    "eventName": "MUS_BGM",
+                    "playOnAwake": true,
+                    "type": 26,
+                    "volume": 100.0
                 }
             ],
             "name": "MainMenuCanvas",
+            "tag": "",
             "uid": 11611350731901767834
         }
     ],

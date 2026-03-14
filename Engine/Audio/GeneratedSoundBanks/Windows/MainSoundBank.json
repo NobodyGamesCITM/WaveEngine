@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{C9467B1F-862D-BC22-04AA-C251E929BDE2}",
+    "Hash": "{8E5FD4BA-CD6E-B3E5-D941-BE04917D6E53}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -144,6 +144,14 @@
       "CachePath": "B8/{B8205D44-66B6-C1F3-62B8-3F82E9E26058}.wem"
      },
      {
+      "Id": "424474249",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skeleton_death.wav",
+      "CachePath": "B9/{B9759144-7A27-C937-CF29-15D61BD3E085}.wem"
+     },
+     {
       "Id": "425570416",
       "Language": "SFX",
       "Streaming": "false",
@@ -214,6 +222,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_walk_01.wav",
       "CachePath": "91/{91235923-528D-B681-E796-9CDE151A28A7}.wem"
+     },
+     {
+      "Id": "663484052",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skeleton_walk.wav",
+      "CachePath": "85/{85480C67-C83E-070A-9714-960378316322}.wem"
      },
      {
       "Id": "675021197",
@@ -345,6 +361,16 @@
      }
     ],
     "Plugins": {
+     "Custom": [
+      {
+       "Id": "765864838",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Skeleton\\skeleton_Die\\[Effect Slot [1]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{3E106FDF-014E-4E3A-9BC9-6AE678D9DB8B}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      }
+     ],
      "ShareSets": [
       {
        "Id": "48620415",
@@ -702,6 +728,48 @@
       ]
      },
      {
+      "Id": "1939684258",
+      "Name": "SFX_SkeletonDie",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonDie",
+      "GUID": "{4EBB27EA-7D02-4A1F-86B5-A61D1695B5C1}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.41890422",
+      "DurationMax": "0.52778625",
+      "MediaRefs": [
+       {
+        "Id": "424474249"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "765864838"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "3164629247"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2660566025",
+      "Name": "SFX_SkeletonSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonSteps",
+      "GUID": "{24A18DDB-708D-4647-93D0-41A7F1628ED1}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.3945009",
+      "DurationMax": "0.44281235",
+      "MediaRefs": [
+       {
+        "Id": "663484052"
+       }
+      ]
+     },
+     {
       "Id": "3020549885",
       "Name": "SFX_TorchFire",
       "ObjectPath": "\\Events\\Default Work Unit\\SFX_TorchFire",
@@ -957,6 +1025,6 @@
     ]
    }
   ],
-  "FileHash": "{1DF99D22-27E5-9C6F-6B4A-DB2E3B457A80}"
+  "FileHash": "{10C94C88-2F37-1F22-C243-40CC6EDBDE4E}"
  }
 }

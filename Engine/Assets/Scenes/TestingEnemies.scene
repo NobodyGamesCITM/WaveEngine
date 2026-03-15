@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 2.5213358402252197,
+                    "aspectRatio": 1.9179104566574097,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -354,29 +354,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "dirSmoothing",
                             "type": 0,
                             "value": 12.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackRange",
@@ -384,16 +364,46 @@
                             "value": 2.0
                         },
                         {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
                             "name": "chaseUpdateRate",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "chaseRange",
+                            "type": 0,
+                            "value": 5.0
                         }
                     ],
                     "scriptUID": 7018781033903344216,
                     "type": 6
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "LinkedSurfaceUID": 1799152706734516840,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 1,
+                    "active": true,
+                    "type": 24
                 }
             ],
-            "name": "Cube",
+            "name": "Enemy",
             "tag": "",
             "uid": 14128824767707365404
         }

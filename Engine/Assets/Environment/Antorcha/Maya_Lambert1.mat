@@ -1,5 +1,5 @@
 {
-    "AlbedoMapUID": 0,
+    "AlbedoMapUID": 4676049201108877090,
     "Color": [
         1.0,
         1.0,
@@ -16,9 +16,11 @@
         0.0,
         0.0
     ],
+    "Opacity": 1.0,
     "Roughness": 0.5,
     "Tiling": [
         1.0,
         1.0
-    ]
+    ],
+    "Type": 0
 }

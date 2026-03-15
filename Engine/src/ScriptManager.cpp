@@ -727,6 +727,13 @@ static int Lua_Rigidbody_SetRotation(lua_State* L) {
     return 0;
 }
 
+static int Lua_Rigidbody_SetUseGravity(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    bool useGravity = lua_toboolean(L, 2);
+    if (rb) rb->SetUseGravity(useGravity);
+    return 0;
+}
+
 // Animation
 
 // GAMEOBJECT API
@@ -1646,6 +1653,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "MovePosition");
     lua_pushcfunction(L, Lua_Rigidbody_SetRotation);
     lua_setfield(L, -2, "SetRotation");
+    lua_pushcfunction(L, Lua_Rigidbody_SetUseGravity);
+    lua_setfield(L, -2, "SetUseGravity");
     lua_pop(L, 1);
 
     // Animation metatable separada

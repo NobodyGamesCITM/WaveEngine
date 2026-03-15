@@ -6,12 +6,17 @@
 #include "Log.h"
 #include "NavMeshManager.h"
 #include "ComponentNavigation.h"
+#include <cstdlib>
 
 #include "DetourNavMesh.h"
 #include "DetourNavMeshBuilder.h"
 #include "DetourNavMeshQuery.h"
+
+static float NavRand() { return static_cast<float>(rand()) / static_cast<float>(RAND_MAX); }
+
 ModuleNavMesh::ModuleNavMesh() : Module() {
     name = "ModuleNavMesh";
+    baked = false;
 }
 
 ModuleNavMesh::~ModuleNavMesh() {
@@ -24,6 +29,21 @@ bool ModuleNavMesh::Start() {
 }
 
 bool ModuleNavMesh::Update() {
+
+    Application::PlayState currentState = Application::GetInstance().GetPlayState();
+
+    if (currentState == Application::PlayState::PLAYING && !baked) {
+        GameObject* root = Application::GetInstance().scene->GetRoot();
+        if (root) {
+            Bake(root);
+            baked = true;
+        }
+    }
+
+    if (currentState == Application::PlayState::EDITING && baked) {
+        baked = false;
+    }
+
     DrawDebug(); // Llamamos a la función de dibujo
     return true;
 }
@@ -80,7 +100,6 @@ void ModuleNavMesh::ExtractVertices(ComponentMesh* mesh, std::vector<float>& ver
 }
 void ModuleNavMesh::Bake(GameObject* root)
 {
-    // ── Buscar el objeto con NavType::SURFACE ─────────────────────────────────
     std::function<GameObject* (GameObject*)> FindSurface = [&](GameObject* obj) -> GameObject*
         {
             if (!obj || !obj->IsActive()) return nullptr;
@@ -107,9 +126,8 @@ void ModuleNavMesh::Bake(GameObject* root)
 
     RemoveNavMeshRecursive(surface);
     navObstacles.clear();
-    RecollectObstacles(root); // obstáculos desde el root entero
+    RecollectObstacles(Application::GetInstance().scene->GetRoot()); // ← escena entera, no solo el surface
 
-    // ── Recolectar geometría solo del objeto SURFACE ──────────────────────────
     std::vector<float> allVertices;
     std::vector<int>   allIndices;
     RecollectGeometry(surface, allVertices, allIndices);
@@ -147,40 +165,55 @@ void ModuleNavMesh::Bake(GameObject* root)
     rcFilterLedgeSpans(&ctx, cfg.walkableHeight, cfg.walkableClimb, *hf);
     rcFilterWalkableLowHeightSpans(&ctx, cfg.walkableHeight, *hf);
 
-    // ── Compact Heightfield ───────────────────────────────────────────────────
     rcCompactHeightfield* chf = rcAllocCompactHeightfield();
     if (!rcBuildCompactHeightfield(&ctx, cfg.walkableHeight, cfg.walkableClimb, *hf, *chf))
     {
         LOG_CONSOLE("NavMesh Error: compact heightfield"); return;
     }
+
+    // ── Marcar obstáculos como RC_NULL_AREA ───────────────────────────────────
+    for (GameObject* obs : navObstacles)
+    {
+        if (!obs || !obs->IsActive()) continue;
+
+        ComponentMesh* meshComp = static_cast<ComponentMesh*>(obs->GetComponent(ComponentType::MESH));
+        if (!meshComp || !meshComp->HasMesh()) continue;
+
+        const AABB& aabb = meshComp->GetGlobalAABB();
+        float obsMin[3] = { aabb.min.x, aabb.min.y, aabb.min.z };
+        float obsMax[3] = { aabb.max.x, aabb.max.y, aabb.max.z };
+
+        rcMarkBoxArea(&ctx, obsMin, obsMax, RC_NULL_AREA, *chf);
+        LOG_CONSOLE("NavMesh: Obstacle baked -> %s", obs->GetName().c_str());
+    }
+
     rcErodeWalkableArea(&ctx, cfg.walkableRadius, *chf);
 
-    // ── Regiones ──────────────────────────────────────────────────────────────
     rcBuildDistanceField(&ctx, *chf);
     rcBuildRegions(&ctx, *chf, 0, cfg.minRegionArea, cfg.mergeRegionArea);
 
-    // ── Contornos ─────────────────────────────────────────────────────────────
     rcContourSet* cset = rcAllocContourSet();
     rcBuildContours(&ctx, *chf, cfg.maxSimplificationError, cfg.maxEdgeLen, *cset);
 
-    // ── Poly Mesh ─────────────────────────────────────────────────────────────
     rcPolyMesh* pmesh = rcAllocPolyMesh();
     rcBuildPolyMesh(&ctx, *cset, cfg.maxVertsPerPoly, *pmesh);
 
-    // ── Poly Mesh Detail ──────────────────────────────────────────────────────
     rcPolyMeshDetail* dmesh = rcAllocPolyMeshDetail();
     rcBuildPolyMeshDetail(&ctx, *pmesh, *chf, sampleDist, sampleMaxError, *dmesh);
 
-    // Marcar todos los polígonos como caminables
+    //solo walkable los polys que NO son obstáculo
     for (int i = 0; i < pmesh->npolys; ++i)
-        pmesh->flags[i] = 1;
+    {
+        if (pmesh->areas[i] == RC_WALKABLE_AREA)
+            pmesh->flags[i] = 1;
+        else
+            pmesh->flags[i] = 0;
+    }
 
-    // ── Diagnóstico ───────────────────────────────────────────────────────────
     LOG_CONSOLE("AABB: min=(%.1f,%.1f,%.1f) max=(%.1f,%.1f,%.1f)",
         bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2]);
     LOG_CONSOLE("NavMesh stats: polys=%d, verts=%d", pmesh->npolys, pmesh->nverts);
 
-    // ── Crear dtNavMesh ───────────────────────────────────────────────────────
     dtNavMeshCreateParams params;
     memset(&params, 0, sizeof(params));
     params.verts = pmesh->verts;
@@ -208,18 +241,24 @@ void ModuleNavMesh::Bake(GameObject* root)
     int            navDataSize = 0;
     dtCreateNavMeshData(&params, &navData, &navDataSize);
 
+    if (navData == nullptr || navDataSize == 0)
+    {
+        rcFreeContourSet(cset);
+        rcFreePolyMesh(pmesh);
+        rcFreePolyMeshDetail(dmesh);
+        return;
+    }
+
     dtNavMesh* navMesh = dtAllocNavMesh();
     navMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
 
     dtNavMeshQuery* navQuery = dtAllocNavMeshQuery();
     navQuery->init(navMesh, 2048);
 
-    // ── Liberar temporales ────────────────────────────────────────────────────
     rcFreeContourSet(cset);
     rcFreePolyMesh(pmesh);
     rcFreePolyMeshDetail(dmesh);
 
-    // ── Guardar con tileRef ───────────────────────────────────────────────────
     NavMeshData meshData;
     meshData.heightfield = hf;
     meshData.chf = chf;
@@ -256,7 +295,7 @@ rcConfig ModuleNavMesh::CreateDefaultConfig(const float* minBounds, const float*
     cfg.walkableSlopeAngle = 45.0f;
     cfg.walkableHeight = 10;
     cfg.walkableClimb = 2;
-    cfg.walkableRadius = 0;
+    cfg.walkableRadius = 3;
     cfg.maxEdgeLen = 12;
     cfg.maxSimplificationError = 1.3f;
     cfg.minRegionArea = 8;
@@ -493,4 +532,61 @@ bool ModuleNavMesh::FindPath(GameObject* surface,
         outPath.emplace_back(straightPath[i * 3], straightPath[i * 3 + 1], straightPath[i * 3 + 2]);
 
     return true;
+}
+
+bool ModuleNavMesh::SaveNavMesh(const char* path, GameObject* owner) {
+    NavMeshData* data = GetNavMeshData(owner);
+    if (!data || !data->navMesh) return false;
+
+    FILE* fp = fopen(path, "wb");
+    if (!fp) return false;
+
+    // 1. Guardar la configuración (header)
+    const dtNavMesh* mesh = data->navMesh;
+    for (int i = 0; i < mesh->getMaxTiles(); ++i) {
+        const dtMeshTile* tile = mesh->getTile(i);
+        if (!tile || !tile->header || !tile->dataSize) continue;
+
+        // Escribimos el tile ref y el tamaño de los datos
+        dtPolyRef tileRef = mesh->getTileRef(tile);
+        fwrite(&tileRef, sizeof(dtPolyRef), 1, fp);
+        fwrite(&tile->dataSize, sizeof(int), 1, fp);
+        fwrite(tile->data, 1, tile->dataSize, fp);
+    }
+    fclose(fp);
+    return true;
+}
+
+bool ModuleNavMesh::LoadNavMesh(const char* path, GameObject* owner) {
+    FILE* fp = fopen(path, "rb");
+    if (!fp) return false;
+
+    RemoveNavMesh(owner);
+
+    dtNavMesh* navMesh = dtAllocNavMesh();
+    fclose(fp);
+    return true;
+}
+
+bool ModuleNavMesh::GetRandomPoint(glm::vec3& outPoint)
+{
+    for (auto& data : navMeshes)
+    {
+        if (!data.navQuery) continue;
+
+        dtQueryFilter filter;
+        filter.setIncludeFlags(0xFFFF);
+
+        dtPolyRef randomRef = 0;
+        float     randomPt[3] = {};
+
+        dtStatus status = data.navQuery->findRandomPoint(&filter, NavRand, &randomRef, randomPt);
+
+        if (dtStatusSucceed(status))
+        {
+            outPoint = { randomPt[0], randomPt[1], randomPt[2] };
+            return true;
+        }
+    }
+    return false;
 }

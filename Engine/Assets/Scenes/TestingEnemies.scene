@@ -1,0 +1,402 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        25.5,
+                        0.0
+                    ],
+                    "rotation": [
+                        -90.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 2.5213358402252197,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": false
+                }
+            ],
+            "name": "Camera",
+            "tag": "",
+            "uid": 18332444186884880853
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        28.00971221923828,
+                        0.10000000149011612,
+                        26.217296600341797
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 0,
+                    "active": true,
+                    "type": 24
+                }
+            ],
+            "name": "Floor",
+            "tag": "",
+            "uid": 1799152706734516840
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.5263710618019104,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.5709961652755737,
+                        1.0,
+                        0.5550531148910522
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 2,
+                    "active": true,
+                    "type": 24
+                }
+            ],
+            "name": "Obstacle",
+            "tag": "",
+            "uid": 11177100577187453152
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -4.622323036193848,
+                        0.6107836365699768,
+                        -2.829308032989502
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 9658863885969430239,
+                    "type": 3
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 1,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                }
+            ],
+            "name": "Player",
+            "tag": "",
+            "uid": 6274692268248345355
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        6.9692182540893555,
+                        0.5611834526062012,
+                        1.282266616821289
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 8755486269715718534,
+                    "type": 3
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 1,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "dirSmoothing",
+                            "type": 0,
+                            "value": 12.0
+                        },
+                        {
+                            "name": "chaseRange",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "chaseUpdateRate",
+                            "type": 0,
+                            "value": 0.5
+                        }
+                    ],
+                    "scriptUID": 7018781033903344216,
+                    "type": 6
+                }
+            ],
+            "name": "Cube",
+            "tag": "",
+            "uid": 14128824767707365404
+        }
+    ],
+    "version": 1
+}

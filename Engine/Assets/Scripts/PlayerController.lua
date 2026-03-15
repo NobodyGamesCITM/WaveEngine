@@ -513,11 +513,11 @@ function Update(self, dt)
         attackCooldown = attackCooldown - dt
     end
 
-    if _PlayerController_pendingDamage > 0 then
-        TakeDamage(self, _PlayerController_pendingDamage, _PlayerController_pendingDamagePos)
-        _PlayerController_pendingDamage    = 0
-        _PlayerController_pendingDamagePos = nil
-    end
+    -- if _PlayerController_pendingDamage > 0 then
+    --     TakeDamage(self, _PlayerController_pendingDamage, _PlayerController_pendingDamagePos)
+    --     _PlayerController_pendingDamage    = 0
+    --     _PlayerController_pendingDamagePos = nil
+    -- end
 
     if not Player.currentState then
         Engine.Log("[Player] Update")

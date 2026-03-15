@@ -222,6 +222,14 @@ void ModuleNavMesh::Bake(GameObject* root)
     int            navDataSize = 0;
     dtCreateNavMeshData(&params, &navData, &navDataSize);
 
+    if (navData == nullptr || navDataSize == 0)
+    {
+        rcFreeContourSet(cset);
+        rcFreePolyMesh(pmesh);
+        rcFreePolyMeshDetail(dmesh);
+        return;
+    }
+
     dtNavMesh* navMesh = dtAllocNavMesh();
     navMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
 

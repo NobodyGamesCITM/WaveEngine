@@ -8,16 +8,20 @@ local pi    = math.pi
 
 local attackCol
 local attackTimer = 0
+local rollCooldown = 0
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_shakeDuration      = 0.4
 _PlayerController_shakeMagnitude     = 4.0
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
+_PlayerController_currentMask        = "None"
+_PlayerController_isDrowning         = false
 
 local INPUT_SCALE = 10
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
 local HEALTH_BAR_MAX_HEIGHT  = 68.0 
+local HERMES_GRACE_TIME      = 0.2
 
 local function UpdateStaminaBar(stamina)
     local fill = (stamina / 100.0) * STAMINA_BAR_MAX_HEIGHT
@@ -102,30 +106,37 @@ local Player = {
     potionHealRate      = 15.0,    -- vida por segundo que se recupera
     potionCooldown      = 0.0,     -- cooldown para evitar spam de la tecla 3
     potionCooldownMax   = 0.5,
+
+    -- Hermes mask
+    isDrowning       = false,
+    hermesGraceTimer = 0.0,
 }
 
 public = {
     speed               = 15.0,
     rollDuration        = 0.4,
     sprintMultiplier    = 1.5,
-    rollMultiplier      = 2.5,
+    rollSpeed           = 37.5,
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
+    speedHermesBonus    = 15.0,
     staminaCost         = 0.1,
     staminaRecover      = 0.1,
     rollStaminaCost     = 25,
     usingStamina        = false,
     tiredMultiplier     = 0.7,
-    hpLossCost          = 0.2,   
-    hpRecover           = 0.2,  
+    hpLossCost          = 0.2,
+    hpRecover           = 0.2,
     attackDuration      = 0.5,
     attackCooldown      = 0.5,
+    rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
     hitShakeDuration    = 0.3,
     hitShakeMagnitude   = 6.0,
-    ROTATION_SPEED      = 780
-
+    ROTATION_SPEED      = 780,
+    hermesWaterMax      = 2.0,
+    flySpeed            = 20.0
 }
 
 local function normalizeInput(x, z)
@@ -169,7 +180,7 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
     local velY = 0
     
     if Player.rb then
-        velY = Player.rb:GetLinearVelocity().y
+        velY = math.min(0, Player.rb:GetLinearVelocity().y)
     end
 
     if abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
@@ -181,11 +192,50 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
         else
             Player.lastAngle = Player.lastAngle + (delta > 0 and maxStep or -maxStep)
         end
-        Player.rb:SetRotation(0, Player.lastAngle, 0)
+        if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
     end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(faceDirX * speed, velY, faceDirZ * speed)
+    end
+end
+
+local function UpdateFlyingGodMode(self, dt)
+    local moveX, moveZ, _ = GetMovementInput()
+    local velY = 0
+
+    if Input.GetKey("E") then
+        velY =  self.public.flySpeed
+    elseif Input.GetKey("Q") then
+        velY = -self.public.flySpeed
+    end
+
+    local faceDirX = moveX / INPUT_SCALE
+    local faceDirZ = moveZ / INPUT_SCALE
+
+    local faceDirLen = sqrt(faceDirX * faceDirX + faceDirZ * faceDirZ)
+    if faceDirLen > 0.01 then
+        Player.lastDirX = faceDirX / faceDirLen
+        Player.lastDirZ = faceDirZ / faceDirLen
+
+        local targetAngle = atan2(faceDirX, faceDirZ) * (180.0 / pi)
+        local delta = ((targetAngle - Player.lastAngle + 180) % 360) - 180
+        local maxStep = self.public.ROTATION_SPEED * dt
+        if math.abs(delta) <= maxStep then
+            Player.lastAngle = targetAngle
+        else
+            Player.lastAngle = Player.lastAngle + (delta > 0 and maxStep or -maxStep)
+        end
+        Player.rb:SetRotation(0, Player.lastAngle, 0)
+    end
+
+    local hSpeed = self.public.speed
+    if Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5 then
+        hSpeed = hSpeed + self.public.speedIncrease
+    end
+
+    if Player.rb then
+        Player.rb:SetLinearVelocity(faceDirX * hSpeed, velY, faceDirZ * hSpeed)
     end
 end
 
@@ -211,6 +261,35 @@ end
 local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
+    --HERMES
+        if Player.currentMask == Mask.HERMES and Player.isDrowning then
+        Engine.Log("[Player] Hermes while on water!!")
+        return
+    end
+    if Player.currentMask == Mask.HERMES then
+        self.public.speedIncrease = self.public.speedIncrease - self.public.speedHermesBonus
+        Player.hermesGraceTimer   = 0
+        if Player.currentState == State.RUNNING then
+            self.public.speed = self.public.speed - self.public.speedHermesBonus
+        end
+        if Player.isDrowning then
+            Player.isDrowning            = false
+            _PlayerController_isDrowning = false
+            self.public.health           = 0
+            ChangeState(self, State.DEAD)
+            Player.currentMask            = newMask
+            _PlayerController_currentMask = newMask
+            return
+        end
+        Player.isDrowning = false
+    end
+    if newMask == Mask.HERMES then
+        self.public.speedIncrease = self.public.speedIncrease + self.public.speedHermesBonus
+        if Player.currentState == State.RUNNING then
+            self.public.speed = self.public.speed + self.public.speedHermesBonus
+        end
+    end
+
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
     else
@@ -218,11 +297,24 @@ local function EquipMask(self, newMask)
     end
     
     Player.currentMask = newMask
+    _PlayerController_currentMask = newMask
 end
 
 States[State.DEAD] = {
-    Enter  = function(self) end,
-    Update = function(self, dt) end
+    Enter  = function(self)
+        Engine.Log("[Player] Player is DEAD")
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+    end,
+    Update = function(self, dt)
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        if Input.GetKeyDown("1") then
+            self.public.health  = 100
+            self.public.stamina = 100
+            local p = Player.spawnPos
+            self.transform:SetPosition(p.x, p.y, p.z)
+            ChangeState(self, State.IDLE)
+        end
+    end
 }
 
 States[State.IDLE] = {
@@ -235,7 +327,7 @@ States[State.IDLE] = {
     Update = function(self, dt)
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+            Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
         end
 
         local moveX, moveZ, inputLen = GetMovementInput()
@@ -251,7 +343,7 @@ States[State.IDLE] = {
             ChangeState(self, State.ATTACK_LIGHT)
         end
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
         end
@@ -272,9 +364,9 @@ States[State.WALK] = {
         end
         local moveX, moveZ, inputLen = GetMovementInput()
         
-        if inputLen > 1 then
-            Player.lastDirX = moveX / INPUT_SCALE
-            Player.lastDirZ = moveZ / INPUT_SCALE
+        if inputLen > 0.01 then
+            Player.lastDirX = moveX / inputLen
+            Player.lastDirZ = moveZ / inputLen
         end
 
         if inputLen <= 0.1 then
@@ -289,7 +381,7 @@ States[State.WALK] = {
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
 
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
         end
@@ -323,13 +415,13 @@ States[State.RUNNING] = {
             return
         end
 
-        if inputLen > 0.1 then
-            Player.lastDirX = moveX / INPUT_SCALE
-            Player.lastDirZ = moveZ / INPUT_SCALE
+        if inputLen > 0.01 then
+            Player.lastDirX = moveX / inputLen
+            Player.lastDirZ = moveZ / inputLen
         end
 
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
-        if Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B") then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
         end
@@ -357,6 +449,9 @@ States[State.ROLL] = {
         end
         States[State.ROLL].timer = self.public.rollDuration
     end,
+    Exit = function(self)
+        rollCooldown = self.public.rollCooldownMax
+    end,
     Update = function(self, dt)
         -- Move on the direction fixed ignoring the input digo yo, transition to idle at end
         States[State.ROLL].timer = States[State.ROLL].timer - dt
@@ -367,9 +462,8 @@ States[State.ROLL] = {
         end
 
         if Player.rb then
-            local rollSpeed = self.public.speed * self.public.rollMultiplier
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * rollSpeed, velocity.y, Player.lastDirZ * rollSpeed)
+            Player.rb:SetLinearVelocity(Player.lastDirX * self.public.rollSpeed, velocity.y, Player.lastDirZ * self.public.rollSpeed)
         end
     end
 }
@@ -423,10 +517,46 @@ local function UpdatePotionHeal(self, dt)
     end
 end
 
+local function TakeDamage(self, amount, attackerPos)
+    if Player.currentState == State.DEAD then return end
+    if Player.godMode then return end
+
+    self.public.health = math.max(0, self.public.health - amount)
+    Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
+
+    _PlayerController_triggerCameraShake = true
+    _PlayerController_shakeDuration      = self.public.hitShakeDuration
+    _PlayerController_shakeMagnitude     = self.public.hitShakeMagnitude
+
+    if self.public.health > 0 and Player.rb and attackerPos then
+        local playerPos = self.transform.worldPosition
+        local dx = playerPos.x - attackerPos.x
+        local dz = playerPos.z - attackerPos.z
+        local len = sqrt(dx*dx + dz*dz)
+        if len > 0.001 then dx = dx / len; dz = dz / len end
+        Player.rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
+    end
+
+    UpdateHealthBar(self.public.health)
+
+    if self.public.health <= 0 then
+        Engine.Log("[Player] DEAD")
+        Game.SetTimeScale(0.2)
+        _impactFrameTimer = 0.17
+        ChangeState(self, State.DEAD)
+    end
+end
+
 function Start(self)
     Engine.Log("Player inicializado")
 
+    --respawn debug
+    local spawnPos = self.transform.worldPosition
+    Player.spawnPos = spawnPos
+    
     --stamina
+    _impactFrameTimer = 0
+
     self.public.stamina = 100
     self.public.health  = 100
     Player.potionCount  = 4
@@ -435,6 +565,8 @@ function Start(self)
     attackCooldown = 0
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end 
+    _PlayerController_pendingDamage    = 0
+    _PlayerController_pendingDamagePos = nil
 
     --rigidbody
     Player.rb = self.gameObject:GetComponent("Rigidbody")
@@ -442,6 +574,11 @@ function Start(self)
         Engine.Log("[Player] No rigidbody found")
     end
     
+    --masks
+    Player.isDrowning       = false
+    Player.hermesGraceTimer = 0
+    _PlayerController_currentMask = "None"
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)
@@ -451,13 +588,24 @@ function Update(self, dt)
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
+    if rollCooldown > 0 then
+        rollCooldown = rollCooldown - dt
+    end
+
+    if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
+        TakeDamage(self, _PlayerController_pendingDamage, _PlayerController_pendingDamagePos)
+        _PlayerController_pendingDamage    = 0
+        _PlayerController_pendingDamagePos = nil
+    end
 
     if not Player.currentState then
         Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
     end
 
-    if Player.currentState and States[Player.currentState] then
+    if Player.godMode then
+        UpdateFlyingGodMode(self, dt)
+    elseif Player.currentState and States[Player.currentState] then
         States[Player.currentState].Update(self, dt)
 
         -- Recuperar stamina si no se está usando
@@ -496,6 +644,13 @@ function Update(self, dt)
     if Input.GetKeyDown("G") then
         Player.godMode = not Player.godMode
         Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
+        if Player.rb then
+            Player.rb:SetUseGravity(not Player.godMode)
+            if not Player.godMode then
+                Player.rb:SetLinearVelocity(0, 0, 0)
+                ChangeState(self, State.IDLE)
+            end
+        end
     end
 
     -- Tecla 2: ganar vida (debug)
@@ -511,6 +666,27 @@ function Update(self, dt)
     UpdateStaminaBar(self.public.stamina)
     UpdateHealthBar(self.public.health)
 
+    --hermes
+    if Input.GetKeyDown("8") then EquipMask(self, Mask.HERMES) end --debug
+    if Input.GetKeyDown("9") then EquipMask(self, Mask.NONE) end --debug
+
+    if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
+        if Player.currentState == State.RUNNING then
+            Player.hermesGraceTimer = HERMES_GRACE_TIME
+        else
+            if self.public.stamina <= 0 then
+                Player.hermesGraceTimer = 0
+            end
+            if Player.hermesGraceTimer > 0 then
+                Player.hermesGraceTimer = Player.hermesGraceTimer - dt
+            else
+                self.public.health = 0
+                Engine.Log("[Player] Out of hermes :( )")
+                ChangeState(self, State.DEAD)
+            end
+        end
+    end
+
     if _impactFrameTimer > 0 then
         _impactFrameTimer = _impactFrameTimer - dt
         if _impactFrameTimer <= 0 then
@@ -520,20 +696,23 @@ function Update(self, dt)
     end
 end
 
-function OnTriggerEnter(self, other)
-    if other:CompareTag("Enemy") then
-        Engine.Log("[Player] Hit an enemy: " .. other.name)
+function OnTriggerEnter(self, other) end
+function OnTriggerExit(self, other) end
+
+function OnCollisionEnter(self, other)
+    if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
+        Player.isDrowning            = true
+        _PlayerController_isDrowning = true
+        Player.hermesGraceTimer      = HERMES_GRACE_TIME
+        Engine.Log("[Player] Hermes on water")
     end
 end
 
-function OnCollisionEnter(self, other)
+function OnCollisionExit(self, other)
     if other:CompareTag("Water") then
-        if Player.currentMask ~= Mask.HERMES and Player.currentState ~= States.DEAD then
-            self.public.health = 0
-            Engine.Log("[Player] Player is drowning")
-            ChangeState(self, State.DEAD)
-        else
-            Engine.Log("[Player] Player not drowning")
-        end
+        Player.isDrowning            = false
+        _PlayerController_isDrowning = false
+        Player.hermesGraceTimer      = 0
+        Engine.Log("[Player] Player out of water")
     end
 end

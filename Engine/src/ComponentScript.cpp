@@ -44,15 +44,10 @@ void ComponentScript::Update()
 
     if (!canUpdate) return;
 
-    // Hot reload check
-    ModuleResources* resources = app.resources.get();
-    const Resource* res = resources->GetResourceDirect(scriptUID);
-
-    if (res && res->GetType() == Resource::SCRIPT) {
-        const ResourceScript* scriptRes = static_cast<const ResourceScript*>(res);
-        if (scriptRes->NeedsReload()) {
-            ReloadScript();
-        }
+    //EN GAME ESTO NO SE HA DE HACER
+    if (scriptRes->NeedsReload()) {
+        app.resources.get()->ImportFile(scriptRes->GetAssetFile().c_str(), true);
+        ReloadScript();
     }
 
     float deltaTime = app.time->GetDeltaTime();
@@ -211,12 +206,13 @@ bool ComponentScript::LoadScriptByUID(UID uid)
         return false;
     }
 
-    const ResourceScript* scriptRes = static_cast<const ResourceScript*>(res);
+    scriptRes = static_cast<ResourceScript*>(res);
     const std::string& scriptContent = scriptRes->GetScriptContent();
 
     if (scriptContent.empty()) {
         LOG_CONSOLE("[ComponentScript] ERROR: Script content is empty");
         resources->ReleaseResource(uid);
+        scriptRes = nullptr;;
         return false;
     }
 
@@ -241,6 +237,7 @@ void ComponentScript::UnloadScript()
 
     DestroyLuaTable();
 
+    scriptRes = nullptr;
     scriptUID = 0;
     startCalled = false;
     updateWhenPaused = false;

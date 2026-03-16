@@ -8,7 +8,7 @@
 #include <functional>
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
-#include <nlohmann/json.hpp>
+#include "ComponentNavigation.h"
 #include <fstream>
 
 ModuleScene::ModuleScene() : Module()
@@ -42,99 +42,7 @@ bool ModuleScene::Start()
     return true;
 }
 
-void ModuleScene::RebuildOctree()
-{
-    LOG_DEBUG("[ModuleScene] Starting full octree rebuild");
 
-    AABB sceneAABB;
-    sceneAABB.SetNegativeInfinity();
-
-    bool hasObjects = false;
-
-    // Calculate bounds of all objects
-    std::function<void(GameObject*)> calculateBounds = [&](GameObject* obj) {
-        if (!obj || !obj->IsActive()) return;
-
-        ComponentMesh* mesh = static_cast<ComponentMesh*>(obj->GetComponent(ComponentType::MESH));
-        if (mesh && mesh->IsActive() && mesh->HasMesh())
-        {
-            AABB objectAABB;
-            mesh->GetGlobalAABB();
-
-            sceneAABB.min = glm::min(sceneAABB.min, objectAABB.min);
-            sceneAABB.max = glm::max(sceneAABB.max, objectAABB.max);
-            hasObjects = true;
-        }
-
-        for (GameObject* child : obj->GetChildren())
-        {
-            calculateBounds(child);
-        }
-        };
-
-    if (root)
-    {
-        calculateBounds(root);
-    }
-
-    // If no objects with mesh, use default bounds
-    if (!hasObjects)
-    {
-        sceneAABB.min = glm::vec3(-10.0f, -10.0f, -10.0f);
-        sceneAABB.max = glm::vec3(10.0f, 10.0f, 10.0f);
-    }
-    else
-    {
-        // Expand bounds significantly (50% margin)
-        glm::vec3 size = sceneAABB.max - sceneAABB.min;
-        glm::vec3 margin = size * 0.5f;
-        sceneAABB.min -= margin;
-        sceneAABB.max += margin;
-    }
-
-    if (!octree)
-    {
-        octree = std::make_unique<Octree>(sceneAABB.min, sceneAABB.max, 4, 5);
-    }
-    else
-    {
-        octree->Clear();
-        octree->Create(sceneAABB.min, sceneAABB.max, 4, 5);
-    }
-
-    // Insert all game objects
-    int insertedCount = 0;
-
-    std::function<void(GameObject*)> insertRecursive = [&](GameObject* obj) {
-        if (!obj || !obj->IsActive()) return;
-
-        ComponentMesh* mesh = static_cast<ComponentMesh*>(obj->GetComponent(ComponentType::MESH));
-
-        if (mesh && mesh->IsActive() && mesh->HasMesh())
-        {
-            if (octree->Insert(obj))
-            {
-                insertedCount++;
-            }
-        }
-
-        for (GameObject* child : obj->GetChildren())
-        {
-            insertRecursive(child);
-        }
-        };
-
-    if (root)
-    {
-        insertRecursive(root);
-    }
-
-    // Reset flag after rebuild
-    needsOctreeRebuild = false;
-
-    LOG_DEBUG("[ModuleScene] Octree rebuilt with %d objects", insertedCount);
-    LOG_CONSOLE("Octree rebuilt: %d objects", insertedCount);
-}
 
 bool ModuleScene::Update()
 {
@@ -142,13 +50,6 @@ bool ModuleScene::Update()
     if (root)
     {
         root->Update();
-    }
-
-    // Full rebuild only if explicitly requested
-    if (needsOctreeRebuild)
-    {
-        LOG_DEBUG("[ModuleScene] Full octree rebuild requested");
-        RebuildOctree();
     }
 
     return true;
@@ -167,13 +68,6 @@ bool ModuleScene::FixedUpdate()
 
 bool ModuleScene::PostUpdate()
 {
-    // Full rebuild only if explicitly requested
-    if (needsOctreeRebuild)
-    {
-        LOG_DEBUG("[ModuleScene] Full octree rebuild requested");
-        RebuildOctree();
-    }
-
     // Cleanup marked objects
     if (root)
     {
@@ -193,12 +87,6 @@ bool ModuleScene::CleanUp()
         root = nullptr;
     }
 
-    if (octree)
-    {
-        octree->Clear();
-        octree.reset();
-    }
-
     return true;
 }
 
@@ -210,7 +98,7 @@ GameObject* ModuleScene::CreateGameObject(const std::string& name)
     {
         root->AddChild(newObject);
     }
-    needsOctreeRebuild = true;
+
     return newObject;
 }
 
@@ -226,9 +114,6 @@ void ModuleScene::CleanupMarkedObjects(GameObject* parent)
         {
             parent->RemoveChild(child);
             delete child;
-
-            // Mark octree for rebuild after deletion
-            needsOctreeRebuild = true;
         }
         else
         {
@@ -237,14 +122,8 @@ void ModuleScene::CleanupMarkedObjects(GameObject* parent)
     }
 }
 
-bool ModuleScene::SaveScene(const std::string& filepath)
+bool ModuleScene::SaveScene(nlohmann::json& sceneHierarchy)
 {
-    LOG_CONSOLE("Saving scene to: %s", filepath.c_str());
-
-    nlohmann::json document;
-
-    document["version"] = 1;
-
     // Serialize gameobjects
     nlohmann::json gameObjectsArray = nlohmann::json::array();
 
@@ -254,71 +133,55 @@ bool ModuleScene::SaveScene(const std::string& filepath)
         }
     }
 
-    document["gameObjects"] = gameObjectsArray;
+    sceneHierarchy["gameObjects"] = gameObjectsArray;
 
-    // Write to file
-    std::ofstream file(filepath);
-    if (!file.is_open()) {
-        LOG_CONSOLE("ERROR: Failed to open file for writing: %s", filepath.c_str());
-        return false;
-    }
-
-    file << document.dump(4);
-    file.close();
-
-    //LOG_CONSOLE("Scene saved successfully");
     return true;
 }
 
-bool ModuleScene::LoadScene(const std::string& filepath)
+bool ModuleScene::LoadScene(const nlohmann::json& sceneHierarchy)
 {
-    LOG_CONSOLE("Loading scene from: %s", filepath.c_str());
-
-    // Read file
-    std::ifstream file(filepath);
-    if (!file.is_open()) {
-        LOG_CONSOLE("ERROR: Failed to open file for reading: %s", filepath.c_str());
-        return false;
-    }
-
-    nlohmann::json document;
-
-    try {
-        file >> document;
-    }
-    catch (const nlohmann::json::parse_error& e) {
-        LOG_CONSOLE("ERROR: Failed to parse JSON file: %s", e.what());
-        file.close();
-        return false;
-    }
-
-    file.close();
-
-    // Clear selection to avoid bugs
     Application::GetInstance().selectionManager->ClearSelection();
 
-    // Clear current scene
     ClearScene();
 
-    // Deserialize GameObjects
-    if (document.contains("gameObjects") && document["gameObjects"].is_array()) {
-        const nlohmann::json& gameObjectsArray = document["gameObjects"];
+    if (sceneHierarchy.contains("gameObjects") && sceneHierarchy["gameObjects"].is_array())
+    {
+        const nlohmann::json& gameObjectsArray = sceneHierarchy["gameObjects"];
 
-        for (size_t i = 0; i < gameObjectsArray.size(); ++i) {
-            GameObject* obj = GameObject::Deserialize(gameObjectsArray[i], root);
+        for (const auto& jsonNode : gameObjectsArray)
+        {
+            GameObject* obj = GameObject::Deserialize(jsonNode, root);
             if (!obj) {
-                LOG_CONSOLE("WARNING: Failed to deserialize GameObject at index %zu", i);
+                LOG_CONSOLE("WARNING: Failed to deserialize a GameObject in the scene");
             }
         }
     }
 
-    if (root) 
+    if (root)
         root->SolveReferences();
 
-    // Force full rebuild after loading scene
-    needsOctreeRebuild = true;
+    LOG_CONSOLE("Iniciando Auto-Bake de NavMeshes...");
 
-    LOG_CONSOLE("Scene loaded successfully");
+    std::function<void(GameObject*)> autoBakeNav = [&](GameObject* obj) {
+        if (!obj) return;
+
+        ComponentNavigation* nav = static_cast<ComponentNavigation*>(obj->GetComponent(ComponentType::NAVIGATION));
+
+        if (nav && nav->type == NavType::SURFACE) {
+            LOG_CONSOLE("Auto-Baking superficie: %s", obj->GetName().c_str());
+            Application::GetInstance().navMesh->Bake(obj);
+        }
+
+        for (GameObject* child : obj->GetChildren()) {
+            autoBakeNav(child);
+        }
+        };
+
+    if (root) {
+        autoBakeNav(root);
+    }
+
+    LOG_CONSOLE("Scene loaded successfully from JSON");
     return true;
 }
 
@@ -346,6 +209,11 @@ void ModuleScene::ClearScene()
 
     if (!root) return;
 
+    if (Application::GetInstance().navMesh) {
+        Application::GetInstance().navMesh->CleanUp();
+    }
+
+
     // Selection
     Application::GetInstance().selectionManager->ClearSelection();
 
@@ -354,11 +222,6 @@ void ModuleScene::ClearScene()
     for (GameObject* child : children) {
         root->RemoveChild(child);
         delete child;
-    }
-
-    // Octree
-    if (octree) {
-        octree->Clear();
     }
 
     LOG_CONSOLE("Scene cleared");
@@ -439,9 +302,6 @@ bool ModuleScene::DeserializeSceneFromString(const std::string& jsonString)
 
     if (root) 
         root->SolveReferences();
-
-    // Force full rebuild after loading scene
-    needsOctreeRebuild = true;
 
     LOG_CONSOLE("Scene restored from memory");
     return true;

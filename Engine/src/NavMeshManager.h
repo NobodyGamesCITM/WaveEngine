@@ -46,6 +46,14 @@ public:
         const glm::vec3& end,
         std::vector<glm::vec3>& outPath);
 
+    bool GetRandomPoint(glm::vec3& outPoint);
+
+    bool SaveNavMesh(const char* path, GameObject* owner);
+    bool LoadNavMesh(const char* path, GameObject* owner);
+
+
+    bool IsBlockedByObstacle(const glm::vec3& min, const glm::vec3& max);
+
 private:
 
     void RecollectGeometry(GameObject* obj, std::vector<float>& vertices, std::vector<int>& indices);
@@ -54,7 +62,6 @@ private:
     void CalculateAABB(const std::vector<float>& verts, float* minBounds, float* maxBounds);
     rcConfig CreateDefaultConfig(const float* minBounds, const float* maxBounds);
 
-    bool IsBlockedByObstacle(const glm::vec3& min, const glm::vec3& max);
     void RecollectObstacles(GameObject* obj);
  
 
@@ -64,4 +71,5 @@ private:
     float sampleDist = 6.0f; 
     float sampleMaxError = 1.0f;
 
+    bool baked = false;
 };

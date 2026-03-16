@@ -10,6 +10,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentScript.h"
+#include "NavMeshManager.h"
+#include "ComponentNavigation.h"
 #include "ModuleResources.h"
 #include "PrefabManager.h"
 #include "ResourcePrefab.h"
@@ -423,9 +425,145 @@ static int Lua_Input_StopRumble(lua_State* L)
     return 0;
 }
 
+static int Lua_Navigation_GetRandomPoint(lua_State* L)
+{
+    luaL_checkudata(L, 1, "Navigation");
+
+    glm::vec3 point;
+    bool ok = Application::GetInstance().navMesh->GetRandomPoint(point);
+
+    if (ok)
+    {
+        lua_pushnumber(L, point.x);
+        lua_pushnumber(L, point.y);
+        lua_pushnumber(L, point.z);
+        return 3;
+    }
+
+    lua_pushnil(L);
+    return 1;
+}
+
 static int Lua_Time_GetDeltaTime(lua_State* L) {
     lua_pushnumber(L, Time::GetDeltaTimeStatic());
     return 1;
+}
+
+static int Lua_Navigation_SetDestination(lua_State* L)
+{
+
+    ComponentNavigation** navPtr =
+        static_cast<ComponentNavigation**>(luaL_checkudata(L, 1, "Navigation"));
+
+    ComponentNavigation* nav = *navPtr;
+
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    float z = (float)luaL_checknumber(L, 4);
+
+    bool ok = nav->SetDestination(glm::vec3(x, y, z));
+
+    lua_pushboolean(L, ok);
+    return 1;
+
+}
+
+static int Lua_Navigation_StopMovement(lua_State* L)
+{
+    ComponentNavigation** navPtr = static_cast<ComponentNavigation**>(
+        luaL_checkudata(L, 1, "Navigation")
+        );
+
+    ComponentNavigation* nav = *navPtr;
+
+    nav->StopMovement();
+
+    return 0;
+
+}
+
+static int Lua_Navigation_IsMoving(lua_State* L)
+{
+    ComponentNavigation* nav = *static_cast<ComponentNavigation**>(lua_touserdata(L, 1));
+    lua_pushboolean(L, nav ? nav->IsMoving() : false);
+    return 1;
+}
+
+static int Lua_Navigation_Update(lua_State* L)
+{
+    ComponentNavigation* nav = *static_cast<ComponentNavigation**>(lua_touserdata(L, 1));
+    float dt = static_cast<float>(luaL_checknumber(L, 2));
+    if (nav) nav->Update(dt);
+    return 0;
+}
+
+static int Lua_Navigation_GetCurrentWaypoint(lua_State* L)
+{
+    ComponentNavigation* nav = *static_cast<ComponentNavigation**>(lua_touserdata(L, 1));
+    if (!nav || nav->path.empty() || nav->pathIndex >= (int)nav->path.size())
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+    const glm::vec3& wp = nav->path[nav->pathIndex];
+    lua_pushnumber(L, wp.x);
+    lua_pushnumber(L, wp.y);
+    lua_pushnumber(L, wp.z);
+    return 3;
+}
+
+static int Lua_Navigation_AdvanceWaypoint(lua_State* L)
+{
+    ComponentNavigation* nav = *static_cast<ComponentNavigation**>(lua_touserdata(L, 1));
+    float posX = static_cast<float>(luaL_checknumber(L, 2));
+    float posZ = static_cast<float>(luaL_checknumber(L, 3));
+    float threshold = static_cast<float>(luaL_optnumber(L, 4, 0.25));
+
+    if (!nav || nav->path.empty() || nav->pathIndex >= (int)nav->path.size())
+    {
+        lua_pushboolean(L, false);
+        return 1;
+    }
+
+    const glm::vec3& wp = nav->path[nav->pathIndex];
+    float dx = posX - wp.x;
+    float dz = posZ - wp.z;
+    float dist = std::sqrt(dx * dx + dz * dz);
+
+    if (dist <= threshold)
+    {
+        nav->pathIndex++;
+        if (nav->pathIndex >= (int)nav->path.size())
+        {
+            nav->moving = false;
+            nav->path.clear();
+            nav->pathIndex = 0;
+            lua_pushboolean(L, false);
+            return 1;
+        }
+    }
+
+    lua_pushboolean(L, true);
+    return 1;
+}
+
+static int Lua_Navigation_GetMoveDirection(lua_State* L)
+{
+    ComponentNavigation** navPtr =
+        static_cast<ComponentNavigation**>(luaL_checkudata(L, 1, "Navigation"));
+
+    ComponentNavigation* nav = *navPtr;
+
+    float threshold = (float)luaL_optnumber(L, 2, 0.3f);
+
+    float dx = 0.0f;
+    float dz = 0.0f;
+
+    nav->GetMoveDirection(threshold, dx, dz);
+
+    lua_pushnumber(L, dx);
+    lua_pushnumber(L, dz);
+    return 2;
 }
 
 static int Lua_Time_GetRealDeltaTime(lua_State* L) {
@@ -629,6 +767,29 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScreenToWorldPlane");
     lua_setglobal(L, "Camera");
 
+        //Navigation
+    luaL_newmetatable(L, "Navigation");
+    lua_pushvalue(L, -1);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, Lua_Navigation_SetDestination);
+    lua_setfield(L, -2, "SetDestination");
+    lua_pushcfunction(L, Lua_Navigation_StopMovement);
+    lua_setfield(L, -2, "StopMovement");
+    lua_pushcfunction(L, Lua_Navigation_IsMoving);
+    lua_setfield(L, -2, "IsMoving");
+    lua_pushcfunction(L, Lua_Navigation_Update);
+    lua_setfield(L, -2, "Update");
+    lua_pushcfunction(L, Lua_Navigation_GetCurrentWaypoint);
+    lua_setfield(L, -2, "GetCurrentWaypoint");
+    lua_pushcfunction(L, Lua_Navigation_AdvanceWaypoint);
+    lua_setfield(L, -2, "AdvanceWaypoint");
+    lua_pushcfunction(L, Lua_Navigation_GetMoveDirection);
+    lua_setfield(L, -2, "GetMoveDirection");
+    lua_pushcfunction(L, Lua_Navigation_GetRandomPoint);
+    lua_setfield(L, -2, "GetRandomPoint");
+
+    lua_pop(L, 1);
+
     //UI
     lua_newtable(L);
     lua_pushcfunction(L, Lua_UI_WasClicked);            lua_setfield(L, -2, "WasClicked");
@@ -724,6 +885,13 @@ static int Lua_Rigidbody_SetRotation(lua_State* L) {
     float y = static_cast<float>(luaL_checknumber(L, 3));
     float z = static_cast<float>(luaL_checknumber(L, 4));
     if (rb) rb->SetRotation(glm::vec3(x, y, z));
+    return 0;
+}
+
+static int Lua_Rigidbody_SetUseGravity(lua_State* L) {
+    Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
+    bool useGravity = lua_toboolean(L, 2);
+    if (rb) rb->SetUseGravity(useGravity);
     return 0;
 }
 
@@ -1253,6 +1421,21 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         return 1;
     }
 
+    if (strcmp(componentType, "Navigation") == 0)
+    {
+        ComponentNavigation* nav = (ComponentNavigation*)obj->GetComponent(ComponentType::NAVIGATION);
+
+        if (nav) {
+            ComponentNavigation** udata = (ComponentNavigation**)lua_newuserdata(L, sizeof(ComponentNavigation*));
+            *udata = nav;
+            luaL_getmetatable(L, "Navigation");
+            lua_setmetatable(L, -2);
+            return 1;
+        }
+
+
+    }
+
     if (strcmp(componentType, "Rigidbody") == 0) {
         Component* comp = obj->GetComponent(ComponentType::RIGIDBODY);
         Rigidbody* rb = static_cast<Rigidbody*>(comp);
@@ -1646,6 +1829,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "MovePosition");
     lua_pushcfunction(L, Lua_Rigidbody_SetRotation);
     lua_setfield(L, -2, "SetRotation");
+    lua_pushcfunction(L, Lua_Rigidbody_SetUseGravity);
+    lua_setfield(L, -2, "SetUseGravity");
     lua_pop(L, 1);
 
     // Animation metatable separada
@@ -1724,37 +1909,37 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                 }
             }
 
-            if (prefabUID != 0) {
-                // Request the prefab resource
-                Resource* res = resources->RequestResource(prefabUID);
-                if (res && res->GetType() == Resource::PREFAB) {
-                    ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
-                    instance = prefabRes->Instantiate();
+            //if (prefabUID != 0) {
+            //    // Request the prefab resource
+            //    Resource* res = resources->RequestResource(prefabUID);
+            //    if (res && res->GetType() == Resource::PREFAB) {
+            //        ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
+            //        instance = prefabRes->Instantiate();
 
-                    if (instance) {
-                        // Enable all scripts in the instantiated object and its children
-                        std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
-                            // Get all script components and call their Start()
-                            auto components = obj->GetComponents();
-                            for (auto* comp : components) {
-                                if (comp->GetType() == ComponentType::SCRIPT) {
-                                    ComponentScript* script = static_cast<ComponentScript*>(comp);
-                                    if (script->IsActive()) {
-                                        script->CallStart();
-                                    }
-                                }
-                            }
+            //        if (instance) {
+            //            // Enable all scripts in the instantiated object and its children
+            //            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
+            //                // Get all script components and call their Start()
+            //                auto components = obj->GetComponents();
+            //                for (auto* comp : components) {
+            //                    if (comp->GetType() == ComponentType::SCRIPT) {
+            //                        ComponentScript* script = static_cast<ComponentScript*>(comp);
+            //                        if (script->IsActive()) {
+            //                            script->CallStart();
+            //                        }
+            //                    }
+            //                }
 
-                            // Recursively enable scripts in children
-                            for (GameObject* child : obj->GetChildren()) {
-                                enableScripts(child);
-                            }
-                            };
+            //                // Recursively enable scripts in children
+            //                for (GameObject* child : obj->GetChildren()) {
+            //                    enableScripts(child);
+            //                }
+            //                };
 
-                        enableScripts(instance);
-                    }
-                }
-            }
+            //            enableScripts(instance);
+            //        }
+            //    }
+            //}
         }
 
         if (instance) {

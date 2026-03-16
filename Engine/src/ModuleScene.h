@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include <memory>
 #include <vector>
+#include <nlohmann/json.hpp>
 
 class GameObject;
 class FileSystem;
@@ -33,13 +34,9 @@ public:
 
     void CleanupMarkedObjects(GameObject* parent);
 
-    Octree* GetOctree() { return octree.get(); }
-    void RebuildOctree();
-    void MarkOctreeForRebuild() { needsOctreeRebuild = true; }
-
     // Scene serialization
-    bool SaveScene(const std::string& filepath);
-    bool LoadScene(const std::string& filepath);
+    bool SaveScene(nlohmann::json& sceneHierarchy);
+    bool LoadScene(const nlohmann::json& sceneHierarchy);
     void NewScene();
     void ClearScene();
 
@@ -54,8 +51,7 @@ public:
     bool DeserializeSceneFromString(const std::string& jsonString);
 
 private:
-    std::unique_ptr<Octree> octree;
-    bool needsOctreeRebuild = false;
+
     GameObject* root = nullptr;
 
     Renderer* renderer = nullptr;

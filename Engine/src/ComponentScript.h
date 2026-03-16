@@ -15,6 +15,7 @@ extern "C" {
 }
 
 class Transform;
+class ResourceScript;
 
 enum class ScriptVarType {
     NUMBER,
@@ -105,6 +106,8 @@ private:
     void RestoreSavedVariableValues(const std::vector<ScriptVariable>& savedVars);
 
     UID scriptUID = 0;
+    ResourceScript* scriptRes = nullptr;
+
     std::string luaTableName;
     bool startCalled = false;
 

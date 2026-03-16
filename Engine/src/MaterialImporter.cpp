@@ -3,6 +3,7 @@
 #include "LibraryManager.h"
 #include "Application.h"
 #include "ModuleResources.h"
+#include "MetaFile.h"
 #include "Globals.h"
 #include <fstream>
 #include "nlohmann/json.hpp"
@@ -10,7 +11,7 @@
 MaterialImporter::MaterialImporter() {}
 MaterialImporter::~MaterialImporter() {}
 
-bool MaterialImporter::ImportMaterial(const std::string& path, const UID& uid)
+bool MaterialImporter::ImportMaterial(const std::string& path, const MetaFile& meta)
 {
     std::ifstream file(path);
     if (!file.is_open()) return false;
@@ -34,7 +35,7 @@ bool MaterialImporter::ImportMaterial(const std::string& path, const UID& uid)
         mat->SetOpacity(j.value("Opacity", 1.0f));
         mat->LoadFromJson(j);
 
-        bool succes = SaveToCustomFormat(*mat, uid);
+        bool succes = SaveToCustomFormat(*mat, meta.uid);
 
         delete mat;
         return succes;

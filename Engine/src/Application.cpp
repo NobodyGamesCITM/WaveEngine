@@ -130,24 +130,27 @@ bool Application::Start()
         GetModuleFileNameA(NULL, exeBuffer, MAX_PATH);
         std::filesystem::path execDir = std::filesystem::path(exeBuffer).parent_path();
 
-        std::string startupScene = "game_scene.json";
+        LOG_CONSOLE("[Game] Loaded scene: %s", execDir.generic_string().c_str());
+
+        UID startupScene = 0;
         std::filesystem::path configPath = execDir / "build_config.json";
+
+        LOG_CONSOLE("[Game] Loaded scene: %s", configPath.generic_string().c_str());
         if (std::filesystem::exists(configPath))
         {
             std::ifstream f(configPath);
             nlohmann::json config = nlohmann::json::parse(f);
             if (config.contains("startup_scene"))
-                startupScene = config["startup_scene"].get<std::string>();
+                startupScene = config["startup_scene"].get<UID>();
         }
 
-        std::string scenePath = (projectRoot / "Scene" / startupScene).string();
-        if (scene->LoadScene(scenePath))
+        if (loader->LoadScene(startupScene))
         {
-            LOG_CONSOLE("[Game] Loaded scene: %s", scenePath.c_str());
+            LOG_CONSOLE("[Game] Loaded scene: %llu", startupScene);
         }
         else
         {
-            LOG_CONSOLE("[Game] WARNING: Could not load scene: %s", scenePath.c_str());
+            LOG_CONSOLE("[Game] WARNING: Could not load scene: %llu", startupScene);
         }
 
         std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {

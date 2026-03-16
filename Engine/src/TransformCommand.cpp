@@ -33,5 +33,5 @@ void TransformCommand::ApplyTransform(const glm::vec3& pos, const glm::vec3& rot
     obj->transform->SetRotation(rot);
     obj->transform->SetScale(scl);
 
-    Application::GetInstance().scene->MarkOctreeForRebuild();
+    
 }

@@ -19,7 +19,8 @@ enum class AssetType {
     SHADER_GLSL = 6,
     SCRIPT_LUA = 7,
     PREFAB = 8,
-    MATERIAL = 9
+    MATERIAL = 9,
+    SCENE = 10
 };
 
 struct ImportSettings {
@@ -75,8 +76,8 @@ struct MetaFile {
     std::string originalPath;
     uint32_t fileHash = 0;
     ImportSettings importSettings;
-    std::map<std::string, UID> meshes;
-    std::map<std::string, UID> animations;
+    mutable std::map<std::string, UID> meshes;
+    mutable std::map<std::string, UID> animations;
 
     static AssetType GetAssetType(const std::string& extension);
 

@@ -19,7 +19,8 @@ public:
         ANIMATION,
         SHADER,
         PREFAB,
-        SCRIPT
+        SCRIPT,
+        SCENE
     };
 
     Resource(UID uid, Type type);
@@ -60,7 +61,7 @@ public:
     bool CleanUp() override;
 
     // Find UID from Assets/ file
-    UID Find(const char* fileInAssets) const;
+    UID Find(const char* fileInAssets, Resource::Type type = Resource::UNKNOWN) const;
 
     // Import new file and return its UID
     UID ImportFile(const char* newFileInAssets, bool forceReimport = false);
@@ -93,9 +94,6 @@ public:
 
     // Create resource with specific UID
     Resource* CreateNewResourceWithUID(const char* assetsFile, Resource::Type type, UID uid);
-
-    // Get resource info
-    bool GetResourceInfo(UID uid, std::string& outAssetPath, std::string& outLibraryPath);
 
     // Get resource type from file extension
     Resource::Type GetResourceTypeFromExtension(const std::string& extension) const;
@@ -172,6 +170,7 @@ private:
     bool ImportModel(Resource* resource, const std::string& assetPath);
     bool ImportPrefab(Resource* resource, const std::string& assetPath);
     bool ImportMaterial(Resource* resource, const std::string& assetPath);
+    bool ImportScene(Resource* resource, const std::string& assetPath);
 
 
 private:

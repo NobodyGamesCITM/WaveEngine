@@ -70,9 +70,9 @@ bool Backup::CleanUp()
 void Backup::PerformBackup()
 {
 	std::string timestamp = GetTimestamp();
-	std::string backupFilename = tempSceneDir + "/backup_" + timestamp + ".json";
+	std::string backupFilename = tempSceneDir + "/backup_" + timestamp + ".scene";
 
-	bool success = Application::GetInstance().scene->SaveScene(backupFilename);
+	bool success = Application::GetInstance().loader->SaveScene(backupFilename);
 
 	/*if (success)
 	{

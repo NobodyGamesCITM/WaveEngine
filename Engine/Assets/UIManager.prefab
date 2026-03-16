@@ -1,0 +1,49 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "opacity": 1.0,
+                "type": 30,
+                "uiLayer": 0,
+                "xamlPath": "HUD.xaml"
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    }
+                ],
+                "scriptUID": 845068803312502122,
+                "type": 6
+            }
+        ],
+        "name": "UIManager",
+        "tag": "",
+        "uid": 7164432609074589705
+    }
+]

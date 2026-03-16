@@ -10,6 +10,7 @@
 
 class GameObject;
 class MaterialStandard;
+struct MetaFile;
 struct aiNode;
 struct aiScene;
 struct aiMesh;
@@ -26,7 +27,7 @@ class ModelImporter
 
 public:
 
-    static Model ImportFromFile(const std::string& filepath);
+    static bool ImportFromFile(const std::string& filepath, const MetaFile& meta);
     static bool SaveToCustomFormat(const Model& texture, const UID& filename);
     static Model LoadFromCustomFormat(const UID& filename);
 

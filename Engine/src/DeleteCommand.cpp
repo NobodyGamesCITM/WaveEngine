@@ -38,8 +38,6 @@ void DeleteCommand::Execute()
 
     //parent->RemoveChild(obj);
     m_Object = nullptr;
-
-    Application::GetInstance().scene->MarkOctreeForRebuild();
 }
 
 void DeleteCommand::Undo()
@@ -58,5 +56,4 @@ void DeleteCommand::Undo()
 
     Application::GetInstance().selectionManager->ClearSelection();
     Application::GetInstance().selectionManager->SetSelectedObject(restored);
-    Application::GetInstance().scene->MarkOctreeForRebuild();
 }

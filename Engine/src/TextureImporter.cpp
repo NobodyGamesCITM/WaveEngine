@@ -26,27 +26,16 @@ void TextureImporter::InitDevIL() {
     }
 }
 
-TextureData TextureImporter::ImportFromFile(const std::string& filepath) {
-    
-    ImportSettings defaultSettings;
-    defaultSettings.flipUVs = true;
-    defaultSettings.flipHorizontal = false;
-    defaultSettings.generateMipmaps = true;
-    defaultSettings.filterMode = 2;
-    defaultSettings.maxTextureSize = 6;
 
-    return ImportFromFile(filepath, defaultSettings);
-}
-
-TextureData TextureImporter::ImportFromFile(const std::string& filepath,
-    const ImportSettings& settings) {
+bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile& meta) 
+{
     InitDevIL();
 
     TextureData texture;
 
     if (!std::filesystem::exists(filepath)) {
         LOG_DEBUG("[TextureImporter] ERROR: File does not exist: %s", filepath.c_str());
-        return texture;
+        return false;
     }
 
     std::filesystem::path path(filepath);
@@ -60,9 +49,8 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
 
     // Clear any previous errors
     while (ilGetError() != IL_NO_ERROR);
-
     LOG_DEBUG("[TextureImporter] Loading: %s (flipV=%d, flipH=%d)",
-        filepath.c_str(), settings.flipUVs, settings.flipHorizontal);
+        filepath.c_str(), meta.importSettings, meta.importSettings.flipHorizontal);
 
     // Load image
     if (!ilLoadImage(filepath.c_str())) {
@@ -70,7 +58,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
         LOG_DEBUG("[TextureImporter] ERROR: DevIL failed to load image: %s (error: 0x%04X)",
             iluErrorString(error), error);
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     // Get original dimensions
@@ -79,19 +67,19 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     LOG_DEBUG("[TextureImporter] Original size: %dx%d", originalWidth, originalHeight);
 
     // Apply horizontal flip FIRST (if needed)
-    if (settings.flipHorizontal) {
+    if (meta.importSettings.flipHorizontal) {
         iluMirror();
         LOG_DEBUG("[TextureImporter] Applied horizontal flip");
     }
 
     // Apply vertical flip (if needed)
-    if (settings.flipUVs) {
+    if (meta.importSettings.flipUVs) {
         iluFlipImage();
         LOG_DEBUG("[TextureImporter] Applied vertical flip");
     }
 
     // Apply max texture size
-    int maxSize = settings.GetMaxTextureSizeValue();
+    int maxSize = meta.importSettings.GetMaxTextureSizeValue();
     int imgWidth = ilGetInteger(IL_IMAGE_WIDTH);
     int imgHeight = ilGetInteger(IL_IMAGE_HEIGHT);
 
@@ -115,7 +103,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
         ILenum error = ilGetError();
         LOG_DEBUG("[TextureImporter] ERROR: Failed to convert to RGBA (error: 0x%04X)", error);
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     // Get final dimensions after all operations
@@ -126,7 +114,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     if (texture.width == 0 || texture.height == 0) {
         LOG_DEBUG("[TextureImporter] ERROR: Invalid image dimensions after processing");
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     // Get pixel data
@@ -134,7 +122,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     if (!data) {
         LOG_DEBUG("[TextureImporter] ERROR: Failed to get image data");
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     size_t dataSize = static_cast<size_t>(texture.width) * static_cast<size_t>(texture.height) * 4;
@@ -142,7 +130,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     if (dataSize == 0 || dataSize > 100000000) {
         LOG_DEBUG("[TextureImporter] ERROR: Invalid data size: %zu bytes", dataSize);
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     // Allocate and copy pixel data
@@ -153,7 +141,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     catch (const std::bad_alloc&) {
         LOG_DEBUG("[TextureImporter] ERROR: Failed to allocate %zu bytes", dataSize);
         ilDeleteImages(1, &imageID);
-        return texture;
+        return false;
     }
 
     // Clean up DevIL resources
@@ -162,7 +150,7 @@ TextureData TextureImporter::ImportFromFile(const std::string& filepath,
     LOG_DEBUG("[TextureImporter] Texture imported successfully: %dx%d, %zu bytes",
         texture.width, texture.height, dataSize);
 
-    return texture;
+    return SaveToCustomFormat(texture, meta.uid);
 }
 
 bool TextureImporter::SaveToCustomFormat(const TextureData& texture, const UID& uid) {

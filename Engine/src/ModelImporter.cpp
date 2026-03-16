@@ -22,19 +22,16 @@
 #include <assimp/cimport.h>
 
 
-Model ModelImporter::ImportFromFile(const std::string& file_path)
+bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile& meta)
 {
     Model model;
 
     std::string metaPath = file_path + ".meta";
-    MetaFile meta;
 
     if (!std::filesystem::exists(metaPath)) {
         LOG_DEBUG("Failed importing model. Meta file doesn't exist for path: %s", file_path.c_str());
-        return model;
+        return false;
     }
-
-    meta = MetaFile::Load(metaPath);
 
     std::map<std::string, UID> referedMeshes = meta.meshes;
     std::map<std::string, UID> referedAnimations = meta.animations;
@@ -61,7 +58,7 @@ Model ModelImporter::ImportFromFile(const std::string& file_path)
     if (scene == nullptr)
     {
         LOG_CONSOLE("ERROR: Failed to load model - %s", aiGetErrorString());
-        return model;
+        return false;
     }
 
     bool hasMaterials = scene->HasMaterials();
@@ -209,7 +206,7 @@ Model ModelImporter::ImportFromFile(const std::string& file_path)
     model.modelJson = gameObjectHierarchy;
     delete rootObj;
 
-    return model;
+    return SaveToCustomFormat(model, meta.uid);
 }
 GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const std::string& directory, std::map<std::string, UID>& referedMeshes, std::map<unsigned int, UID>& materialMap)
 {
@@ -519,17 +516,15 @@ void ModelImporter::FillMaterialTextures(const aiScene* scene, aiMaterial* aiMat
                     std::string embeddedName = fileName.empty() ? (slotName + "_Embedded." + extension) : fileName;
                     finalPath = modelDirectory + "/" + embeddedName;
 
-                    if (!DoesFileExist(finalPath)) {
-                        std::ofstream out(finalPath, std::ios::binary);
-                        if (embeddedTex->mHeight == 0) {
-                            out.write((char*)embeddedTex->pcData, embeddedTex->mWidth);
-                        }
-                        else {
-                            out.write((char*)embeddedTex->pcData, embeddedTex->mWidth * embeddedTex->mHeight * 4);
-                        }
-                        out.close();
-                        LOG_DEBUG("Extracted embedded texture to: %s", finalPath.c_str());
+                    std::ofstream out(finalPath, std::ios::binary);
+                    if (embeddedTex->mHeight == 0) {
+                        out.write((char*)embeddedTex->pcData, embeddedTex->mWidth);
                     }
+                    else {
+                        out.write((char*)embeddedTex->pcData, embeddedTex->mWidth * embeddedTex->mHeight * 4);
+                    }
+                    out.close();
+                    LOG_DEBUG("Extracted embedded texture to: %s", finalPath.c_str());
                 }
                 else
                 {

@@ -10,12 +10,14 @@
 #include <commdlg.h>
 #include <shobjidl.h>
 #include <nlohmann/json.hpp>
+#include "FileUtils.h"
 
 #include "Application.h"
 #include "Log.h"
 #include "GameObject.h"
 #include "SelectionManager.h"
 #include "ModuleScene.h"
+#include "ModuleLoader.h"
 #include "Primitives.h"
 #include "ComponentMesh.h"
 #include "Transform.h"           
@@ -68,7 +70,6 @@ bool ModuleEditor::Start()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     std::filesystem::create_directories(layoutDirectory);
-    std::filesystem::create_directories("../Scene");
 
     // Setup layout file path
     static std::string layoutPathStatic = layoutPath;
@@ -243,22 +244,30 @@ void ModuleEditor::ShowMenuBar()
 
             if (ImGui::MenuItem("Save Scene"))
             {
-                std::string filepath = OpenSaveFile("../Scene/scene.json");
+                std::string searchPath = "";
+                if (DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
+                else searchPath = "../Assets/scene.scene";
+                    
+                std::string filepath = OpenSaveFile(searchPath);
                 if (!filepath.empty())
                 {
                     Application& app = Application::GetInstance();
-                    app.scene->SaveScene(filepath);
+                    app.loader->SaveScene(filepath);
+                    app.resources.get()->ImportFile(filepath.c_str(), true);
                     LOG_CONSOLE("Scene saved to %s", filepath.c_str());
                 }
             }
 
             if (ImGui::MenuItem("Load Scene"))
             {
-                std::string filepath = OpenLoadFile("../Scene/scene.json");
+                std::string searchPath = "";
+                if (DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
+                else searchPath = "../Assets/scene.scene";
+                std::string filepath = OpenLoadFile(searchPath);
                 if (!filepath.empty())
                 {
                     Application& app = Application::GetInstance();
-                    app.scene->LoadScene(filepath);
+                    app.loader->LoadScene(filepath);
                     LOG_CONSOLE("Scene loaded from %s", filepath.c_str());
                 }
             }
@@ -761,8 +770,6 @@ void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
     root->AddChild(Object);
     commandHistory->ExecuteCommand(std::make_unique<CreateCommand>(Object));
 
-    Application::GetInstance().scene->RebuildOctree();
-
     LOG_CONSOLE("%s created", name.c_str());
     LOG_DEBUG("Primitive created: %s", name.c_str());
 }
@@ -990,14 +997,14 @@ std::string ModuleEditor::OpenSaveFile(const std::string& defaultPath)
 	if (!defaultPath.empty()) // Default path
         sceneDir = defaultPath;
 	else // Current path
-        sceneDir = (std::filesystem::current_path().parent_path().parent_path() / "Scene").string();
+        sceneDir = (std::filesystem::current_path().parent_path() / "Assets").string();
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn); 
     ofn.hwndOwner = NULL;
     ofn.lpstrFile = szFile; // Path
     ofn.nMaxFile = sizeof(szFile); // Path size
-    ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
+    ofn.lpstrFilter = "SCENE Files\0*.scene\0All Files\0*.*\0";
 	ofn.nFilterIndex = 1; // Default filter: .json
 	ofn.lpstrFileTitle = NULL; // Filename
     ofn.nMaxFileTitle = 0; 
@@ -1022,14 +1029,14 @@ std::string ModuleEditor::OpenLoadFile(const std::string& defaultPath)
     if (!defaultPath.empty()) // Default path
         sceneDir = defaultPath;
     else // Current path
-        sceneDir = (std::filesystem::current_path().parent_path().parent_path() / "Scene").string();
+        sceneDir = (std::filesystem::current_path().parent_path() / "Assets").string();
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
+    ofn.lpstrFilter = "SCENE Files\0*.scene\0All Files\0*.*\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -1174,42 +1181,17 @@ void ModuleEditor::BuildGame()
             LOG_CONSOLE("[Build] WARNING: Library folder not found");
         }
 
-        // Copy entire Scene/ folder
-        fs::create_directories(dest / "Scene");
-        fs::path projectRoot = fs::path(LibraryManager::GetLibraryRoot()).parent_path();
-        fs::path sceneSrcFolder = projectRoot / "Scene";
-        int sceneCopyCount = 0;
-        if (fs::exists(sceneSrcFolder))
-        {
-            fs::copy(sceneSrcFolder, dest / "Scene",
-                fs::copy_options::overwrite_existing | fs::copy_options::recursive);
-            for (const auto& entry : fs::recursive_directory_iterator(sceneSrcFolder))
-                if (entry.is_regular_file()) sceneCopyCount++;
-            LOG_CONSOLE("[Build] Copied Scene/ folder (%d file(s))", sceneCopyCount);
-        }
-        else
-        {
-            LOG_CONSOLE("[Build] WARNING: Scene folder not found at %s", sceneSrcFolder.string().c_str());
-        }
-
         // Ask the user to pick the startup scene from the copied Scene/ folder
-        std::string startupSceneName;
-        std::string sceneSrc = OpenLoadFile((dest / "Scene").string());
-        if (!sceneSrc.empty())
+        UID startupSceneUID = 0;
+        std::string sceneSrc = OpenLoadFile(LibraryManager::GetAssetsRoot());
+        if (!sceneSrc.empty() && DoesFileExist(GetMetaPath(sceneSrc)))
         {
-            startupSceneName = fs::path(sceneSrc).filename().string();
-            LOG_CONSOLE("[Build] Startup scene set to '%s'", startupSceneName.c_str());
-        }
-        else
-        {
-            startupSceneName = "game_scene.json";
-            std::string sceneDestPath = (dest / "Scene" / startupSceneName).string();
-            Application::GetInstance().scene->SaveScene(sceneDestPath);
-            LOG_CONSOLE("[Build] No startup scene selected, saved current scene as '%s'", startupSceneName.c_str());
+            startupSceneUID = MetaFileManager::GetUIDFromAsset(sceneSrc);
+            LOG_CONSOLE("[Build] Startup scene set to '%s'", sceneSrc.c_str());
         }
 
         nlohmann::json config;
-        config["startup_scene"] = startupSceneName;
+        config["startup_scene"] = startupSceneUID;
         std::ofstream configFile(dest / "build_config.json");
         configFile << config.dump(4);
         LOG_CONSOLE("[Build] Export complete %s", destFolder.c_str());
@@ -1280,7 +1262,6 @@ void ModuleEditor::HandleCopyPaste()
                 if (obj && obj != Application::GetInstance().scene->GetRoot() && obj->GetParent())
                     composite->AddCommand(std::make_unique<DeleteCommand>(obj));
             commandHistory->ExecuteCommand(std::move(composite));
-            Application::GetInstance().scene->RebuildOctree();
         }
     }
 
@@ -1311,7 +1292,6 @@ void ModuleEditor::HandleCopyPaste()
             composite->AddCommand(std::make_unique<CreateCommand>(clonedObject));
         }
         commandHistory->PushWithoutExecute(std::move(composite));
-        Application::GetInstance().scene->RebuildOctree();
     }
 
     if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_D, false))
@@ -1330,7 +1310,6 @@ void ModuleEditor::HandleCopyPaste()
                 composite->AddCommand(std::make_unique<CreateCommand>(cloned));
             }
             commandHistory->PushWithoutExecute(std::move(composite));
-            Application::GetInstance().scene->RebuildOctree();
         }
     }
 }

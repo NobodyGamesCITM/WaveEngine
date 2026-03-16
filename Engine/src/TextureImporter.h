@@ -6,6 +6,7 @@
 
 struct TextureData;
 struct ImportSettings; 
+struct MetaFile; 
 
 // Header for custom texture format
 struct TextureHeader {
@@ -75,10 +76,8 @@ public:
     TextureImporter();
     ~TextureImporter();
 
-    static TextureData ImportFromFile(const std::string& filepath,
-        const ImportSettings& settings);
-
-    static TextureData ImportFromFile(const std::string& filepath);
+    static bool ImportFromFile(const std::string& filepath,
+        const MetaFile& meta);
 
     static bool SaveToCustomFormat(const TextureData& texture, const UID& uid);
     static TextureData LoadFromCustomFormat(const UID& uid);

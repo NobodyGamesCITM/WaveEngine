@@ -11,7 +11,6 @@
 #include "GameObject.h"
 
 class MetaFile;
-class ScriptEditorWindow;  // Forward declaration
 namespace fs = std::filesystem;
 
 // Forward declarations
@@ -49,7 +48,8 @@ enum class DragDropAssetType
     SCRIPT,         // Lua script
     PREFAB,
     ANIMATION,
-    MATERIAL
+    MATERIAL,
+    SCENE
 };
 
 // Payload para drag & drop interno
@@ -84,6 +84,12 @@ private:
     bool DeleteAsset(const AssetEntry& asset);
     bool DeleteDirectory(const fs::path& dirPath);
 
+
+
+    // Modals
+    void ShowPrefabNamingModal();
+    void ShowMaterialNamingModal();
+
     // Funciones para expandir FBX
     void LoadFBXSubresources(AssetEntry& fbxAsset);
     void DrawExpandableAssetItem(AssetEntry& asset, std::string& pathPendingToLoad);
@@ -94,7 +100,8 @@ private:
     unsigned int RenderMeshToTexture(const Mesh& mesh, int width, int height);
     unsigned int RenderMultipleMeshesToTexture(const std::vector<const Mesh*>& meshes, int width, int height);
 
-    // Drag & Drop from external files
+    // Drag & Drop
+    void HandleInternalDragDrop();
     void HandleExternalDragDrop(const std::string& filePath);
     bool ProcessDroppedFile(const std::string& sourceFilePath);
     bool CopyFileToAssets(const std::string& sourceFilePath, std::string& outDestPath);
@@ -102,22 +109,17 @@ private:
     // Script management
     void CreateNewScript(const std::string& scriptName);
     std::string GetDefaultScriptTemplate();
-
-    void HandlePrefabCreationDrop(const std::string& prefabName);
-    bool CreatePrefabFromGameObject(GameObject* obj, const std::string& prefabPath);
     
     void OnEvent(const Event& event) override;
 
     std::string assetsRootPath;
     std::string currentPath;
-    std::string sceneRootPath;
     std::vector<AssetEntry> currentAssets;
 
     AssetEntry* selectedAsset;
     float iconSize;
     bool showInMemoryOnly;
     bool show3DPreviews;
-
     bool showDeleteConfirmation;
     AssetEntry assetToDelete;
 
@@ -125,4 +127,7 @@ private:
 
     ImportSettingsWindow* importSettingsWindow;
 
+    
+    bool materialNamingOpened = false;
+    bool prefabNamingOpened = false;
 };

@@ -9,6 +9,7 @@
 #include "Log.h"
 #include <glad/glad.h>
 #include "Application.h"
+
 ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
     : Component(owner, type),
     meshUID(0),
@@ -25,12 +26,12 @@ ComponentMesh::~ComponentMesh()
     ReleaseCurrentMesh();
     Application::GetInstance().renderer->RemoveMesh(this);
 
-    // Clean up direct mesh GPU resources if present
     if (hasDirectMesh && directMesh.VAO != 0) {
         glDeleteVertexArrays(1, &directMesh.VAO);
         glDeleteBuffers(1, &directMesh.VBO);
         glDeleteBuffers(1, &directMesh.EBO);
     }
+
 }
 
 void ComponentMesh::ReleaseCurrentMesh()
@@ -223,7 +224,6 @@ void ComponentMesh::Draw()
         meshToDraw = &directMesh;
     }
 
-    // Render mesh if valid
     if (meshToDraw && meshToDraw->VAO != 0 && !meshToDraw->indices.empty()) {
         glBindVertexArray(meshToDraw->VAO);
         glDrawElements(GL_TRIANGLES, meshToDraw->indices.size(), GL_UNSIGNED_INT, 0);

@@ -4,6 +4,8 @@
 #include "LibraryManager.h"
 #include "ComponentMesh.h"
 #include "ResourceModel.h"
+#include "ResourcePrefab.h"
+#include "ResourceScene.h"
 #include "MetaFile.h"
 #include "FileUtils.h"
 #include "ComponentMaterial.h"
@@ -51,14 +53,14 @@ bool ModuleLoader::Start()
 
         GameObject* root = Application::GetInstance().scene->GetRoot();
         root->AddChild(pyramidObject);
-        Application::GetInstance().scene->RebuildOctree();
+        
 
         return true;
     }
 
     // Cargar street
     fs::path streetPath = assetsPath / "Street" / "street2.fbx";
-    LoadFbx(streetPath.generic_string());
+    LoadModel(streetPath.generic_string());
 
     // Crear cámara de escena
     Application& app = Application::GetInstance();
@@ -91,30 +93,33 @@ bool ModuleLoader::CleanUp()
     return true;
 }
 
-GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
+GameObject* ModuleLoader::LoadModel(const std::string& modelPath)
 {
-    // Cargar el modelo
+    UID uid = Application::GetInstance().resources.get()->Find(modelPath.c_str(), Resource::MODEL);
+
+    if (uid != 0) return LoadModel(uid);
+    else return nullptr;
+}
+
+GameObject* ModuleLoader::LoadModel(UID modelUID)
+{
     bool modelLoaded = false;
     GameObject* firstLoaded = nullptr;
-    UID modelUID = MetaFileManager::GetUIDFromAsset(fbxPath);
-    
+
     if (modelUID != 0) 
     {
-        
         ResourceModel* resource = (ResourceModel*)Application::GetInstance().resources.get()->RequestResource(modelUID);
         if (resource)
         {
             nlohmann::json modelHierarchy = resource->GetModelHierarchy();
             GameObject* root = Application::GetInstance().scene->GetRoot();
-            LOG_CONSOLE(modelHierarchy.dump().c_str());
 
             for (const auto& jsonNode : modelHierarchy) {
 
                 GameObject* node = GameObject::Deserialize(jsonNode, root);
                 if (node && !firstLoaded) firstLoaded = node;
             }
-            Application::GetInstance().scene->RebuildOctree();
-            LOG_CONSOLE("[FileSystem] Model instanciado desde Library con éxito: %s", fbxPath.c_str());
+
             modelLoaded = true;
         }
 
@@ -132,7 +137,7 @@ GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
 
         GameObject* root = Application::GetInstance().scene->GetRoot();
         root->AddChild(pyramidObject);
-        Application::GetInstance().scene->RebuildOctree();
+        
         return pyramidObject;
     }
         
@@ -140,9 +145,78 @@ GameObject* ModuleLoader::LoadFbx(const std::string& fbxPath)
     return firstLoaded;
 }
 
+GameObject* ModuleLoader::LoadPrefab(const std::string& modelPath)
+{
+    UID uid = Application::GetInstance().resources.get()->Find(modelPath.c_str(), Resource::PREFAB);
+
+    if (uid != 0) return LoadPrefab(uid);
+    else return nullptr;
+}
+
+GameObject* ModuleLoader::LoadPrefab(UID prefabUID)
+{
+    bool prefabLoaded = false;
+    GameObject* firstLoaded = nullptr;
+
+    if (prefabUID != 0)
+    {
+        ResourcePrefab* resource = (ResourcePrefab*)Application::GetInstance().resources.get()->RequestResource(prefabUID);
+        if (resource)
+        {
+            nlohmann::json prefabHierarchy = resource->GetPrefabHierarchy();
+            GameObject* root = Application::GetInstance().scene->GetRoot();
+
+            for (const auto& jsonNode : prefabHierarchy) {
+
+                GameObject* node = GameObject::Deserialize(jsonNode, root);
+                if (node && !firstLoaded) firstLoaded = node;
+            }
+
+            prefabLoaded = true;
+        }
+
+        Application::GetInstance().resources.get()->ReleaseResource(prefabUID);
+    }
+
+    if (!prefabLoaded)
+    {
+        LOG_CONSOLE("[FileSystem] Failed to load prefab.");
+    }
+
+    return firstLoaded;
+}
+
+bool ModuleLoader::SavePrefab(GameObject* obj, const std::string& savePath)
+{
+    if (obj == nullptr)
+    {
+        LOG_CONSOLE("ERROR: No se puede guardar un Prefab de un GameObject nulo");
+        return false;
+    }
+
+    LOG_CONSOLE("Guardando Prefab: %s en %s", obj->name.c_str(), savePath.c_str());
+
+    nlohmann::json prefabArray = nlohmann::json::array();
+
+    obj->Serialize(prefabArray);
+
+    std::ofstream file(savePath);
+    if (!file.is_open())
+    {
+        LOG_CONSOLE("ERROR: No se pudo abrir el archivo para guardar el prefab: %s", savePath.c_str());
+        return false;
+    }
+
+    file << prefabArray.dump(4);
+    file.close();
+
+    LOG_CONSOLE("Prefab guardado exitosamente!");
+    return true;
+}
+
 bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, const std::string& texturePath)
 {
-    UID uid = Application::GetInstance().resources.get()->Find(texturePath.c_str());
+    UID uid = Application::GetInstance().resources.get()->Find(texturePath.c_str(), Resource::TEXTURE);
 
     if (uid != 0) return LoadTextureToGameObject(obj, uid);
     else return false;
@@ -208,7 +282,7 @@ bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, UID textureUID)
 
 bool ModuleLoader::LoadMaterialToGameObject(GameObject* obj, const std::string& materialPath)
 {
-    UID uid = Application::GetInstance().resources.get()->Find(materialPath.c_str());
+    UID uid = Application::GetInstance().resources.get()->Find(materialPath.c_str(), Resource::MATERIAL);
 
     if (uid != 0) return LoadMaterialToGameObject(obj, uid);
     else return false;
@@ -244,3 +318,52 @@ bool ModuleLoader::LoadMaterialToGameObject(GameObject* obj, UID materialUID)
     return applied;
 }
 
+bool ModuleLoader::LoadScene(const std::string& scenePath)
+{
+    UID uid = Application::GetInstance().resources.get()->Find(scenePath.c_str(), Resource::SCENE);
+
+    if (uid != 0) return LoadScene(uid);
+    else return false;
+}
+
+bool ModuleLoader::LoadScene(UID sceneUID)
+{
+    if (sceneUID == 0) return false;
+
+    bool success = false;
+    ResourceScene* resource = (ResourceScene*)Application::GetInstance().resources->RequestResource(sceneUID);
+
+    if (resource)
+    {
+        success = Application::GetInstance().scene->LoadScene(resource->GetSceneHierarchy());
+
+        Application::GetInstance().resources->ReleaseResource(sceneUID);
+    }
+    else {
+        LOG_CONSOLE("ERROR: Scene resource %llu could not be loaded", sceneUID);
+    }
+
+    return success;
+}
+
+bool ModuleLoader::SaveScene(const std::string& scenePath)
+{
+    LOG_CONSOLE("Saving scene to: %s", scenePath.c_str());
+
+    nlohmann::json document;
+
+    document["version"] = 1;
+    
+    Application::GetInstance().scene.get()->SaveScene(document);
+    
+    std::ofstream file(scenePath);
+    if (!file.is_open()) {
+        LOG_CONSOLE("ERROR: Failed to open file for writing: %s", scenePath.c_str());
+        return false;
+    }
+
+    file << document.dump(4);
+    file.close();
+
+    return true;
+}

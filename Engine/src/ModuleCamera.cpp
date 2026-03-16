@@ -71,6 +71,7 @@ void ModuleCamera::OnEvent(const Event& event)
         break;
     }
 
+
     default:
         break;
     }

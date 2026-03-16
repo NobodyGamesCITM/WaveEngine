@@ -40,7 +40,6 @@ void CreateCommand::Execute()
 
     Application::GetInstance().selectionManager->ClearSelection();
     Application::GetInstance().selectionManager->SetSelectedObject(restored);
-    Application::GetInstance().scene->MarkOctreeForRebuild();
 }
 
 void CreateCommand::Undo()
@@ -54,6 +53,4 @@ void CreateCommand::Undo()
     GameObject* parent = obj->GetParent();
     if (parent) parent->RemoveChild(obj);
     delete obj;
-
-    Application::GetInstance().scene->MarkOctreeForRebuild();
 }

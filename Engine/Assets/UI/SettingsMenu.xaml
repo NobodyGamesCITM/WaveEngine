@@ -70,6 +70,9 @@
         </Storyboard>
       </ResourceDictionary>
     </Grid.Resources>
+    <Grid.Background>
+        <ImageBrush/>
+    </Grid.Background>
     <Grid.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
@@ -86,23 +89,9 @@
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="Background" Grid.RowSpan="3" Grid.Column="1" Height="550">
-            <Rectangle StrokeThickness="13">
-                <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF3784E7" Offset="0"/>
-                        <GradientStop Offset="1" Color="#FF002555"/>
-                        <GradientStop Offset="0.13004546" Color="#FF074697"/>
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-                <Rectangle.Stroke>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Offset="0" Color="#FF0089DF"/>
-                        <GradientStop Offset="1" Color="#FF003650"/>
-                    </LinearGradientBrush>
-                </Rectangle.Stroke>
-            </Rectangle>
-        </Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Textures/Settings_Background.PNG" Stretch="Uniform"/>
+        </Grid.Background>
         <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>

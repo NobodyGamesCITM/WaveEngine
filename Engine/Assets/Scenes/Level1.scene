@@ -4087,64 +4087,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "health",
+                            "name": "knockbackForce",
                             "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 37.5
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.05000000074505806
-                        },
-                        {
-                            "name": "hpLossCost",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "attackCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
+                            "value": 14.0
                         },
                         {
                             "name": "sprintMultiplier",
@@ -4152,49 +4097,34 @@
                             "value": 1.5
                         },
                         {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "speed",
                             "type": 0,
                             "value": 30.0
                         },
                         {
-                            "name": "hpRecover",
+                            "name": "stamina",
                             "type": 0,
-                            "value": 0.20000000298023224
+                            "value": 10.0
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "rollCooldownMax",
+                            "name": "attackDuration",
                             "type": 0,
                             "value": 0.5
                         },
                         {
-                            "name": "hitShakeDuration",
+                            "name": "flySpeed",
                             "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 20.0
                         },
                         {
-                            "name": "staminaRecover",
+                            "name": "hermesWaterMax",
                             "type": 0,
-                            "value": 0.10000000149011612
+                            "value": 2.0
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
                         },
                         {
                             "name": "speedHermesBonus",
@@ -4202,9 +4132,79 @@
                             "value": 15.0
                         },
                         {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.05000000074505806
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
                             "name": "staminaCost",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 0.10000000149011612
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 37.5
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -4245,7 +4245,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 0.482820987701416,
+                    "aspectRatio": 2.1875946521759033,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -4266,19 +4266,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "shakeFrequency",
+                            "name": "shakeMagnitude",
                             "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player_0"
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "zoomMax",
@@ -4286,9 +4276,19 @@
                             "value": 3.0
                         },
                         {
-                            "name": "shakeMagnitude",
+                            "name": "followSpeed",
                             "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 5.0
+                        },
+                        {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
                         },
                         {
                             "name": "zoomMin",
@@ -4301,9 +4301,9 @@
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player_0"
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -39527,6 +39527,342 @@
             "name": "Arbol_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
             "tag": "",
             "uid": 3589764893011263042
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        2.0,
+                        14.999996185302734,
+                        -64.0
+                    ],
+                    "rotation": [
+                        -89.95247650146484,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "dir": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "direction": [
+                            0.0,
+                            -0.9999996423721313,
+                            -0.0008294582366943359
+                        ],
+                        "specular": [
+                            0.5,
+                            0.5,
+                            0.5
+                        ]
+                    },
+                    "lightType": 0,
+                    "point": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "constant": 1.0,
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "linear": 0.09000000357627869,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "spot": {
+                        "ambient": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "constant": 1.0,
+                        "cutOff": 12.5,
+                        "diffuse": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "direction": [
+                            0.0,
+                            -1.0,
+                            0.0
+                        ],
+                        "linear": 0.09000000357627869,
+                        "outerCutOff": 17.5,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": 31
+                }
+            ],
+            "name": "DirectionalLight",
+            "tag": "",
+            "uid": 14735147223771313053
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -23.0,
+                        13.0,
+                        -98.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "dir": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "direction": [
+                            0.0,
+                            0.0,
+                            -1.0
+                        ],
+                        "specular": [
+                            0.5,
+                            0.5,
+                            0.5
+                        ]
+                    },
+                    "lightType": 1,
+                    "point": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "constant": 1.0,
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "linear": 0.09000000357627869,
+                        "position": [
+                            -23.0,
+                            13.0,
+                            -98.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "spot": {
+                        "ambient": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "constant": 1.0,
+                        "cutOff": 12.5,
+                        "diffuse": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "direction": [
+                            0.0,
+                            -1.0,
+                            0.0
+                        ],
+                        "linear": 0.09000000357627869,
+                        "outerCutOff": 17.5,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": 31
+                }
+            ],
+            "name": "PointLight",
+            "tag": "",
+            "uid": 5077150867998070503
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -10.0,
+                        14.000001907348633,
+                        -111.0
+                    ],
+                    "rotation": [
+                        -89.96573638916016,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "dir": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "direction": [
+                            0.0,
+                            0.0,
+                            -1.0
+                        ],
+                        "specular": [
+                            0.5,
+                            0.5,
+                            0.5
+                        ]
+                    },
+                    "lightType": 2,
+                    "point": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "constant": 1.0,
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "linear": 0.09000000357627869,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "spot": {
+                        "ambient": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "constant": 1.0,
+                        "cutOff": 21.299999237060547,
+                        "diffuse": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "direction": [
+                            0.0,
+                            -0.9999998211860657,
+                            -0.0005980730056762695
+                        ],
+                        "linear": 0.09000000357627869,
+                        "outerCutOff": 30.0,
+                        "position": [
+                            -10.0,
+                            14.000001907348633,
+                            -111.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": 31
+                }
+            ],
+            "name": "FocusLight",
+            "tag": "",
+            "uid": 17223707228258339226
         }
     ],
     "version": 1

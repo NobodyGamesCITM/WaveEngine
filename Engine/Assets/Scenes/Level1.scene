@@ -4067,7 +4067,7 @@
                     ],
                     "FreezeRot": [
                         true,
-                        false,
+                        true,
                         true
                     ],
                     "LinearDamping": 0.0,
@@ -4087,54 +4087,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 37.5
-                        },
-                        {
-                            "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "attackCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
                             "name": "hermesWaterMax",
                             "type": 0,
                             "value": 2.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
                         },
                         {
                             "name": "hitShakeDuration",
@@ -4142,19 +4097,19 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "rollSpeed",
                             "type": 0,
-                            "value": 14.0
+                            "value": 37.5
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
                         },
                         {
-                            "name": "stamina",
+                            "name": "staminaCost",
                             "type": 0,
-                            "value": 10.0
+                            "value": 0.5
                         },
                         {
                             "name": "flySpeed",
@@ -4162,7 +4117,12 @@
                             "value": 20.0
                         },
                         {
-                            "name": "attackDuration",
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "attackCooldown",
                             "type": 0,
                             "value": 0.5
                         },
@@ -4177,14 +4137,14 @@
                             "value": 0.20000000298023224
                         },
                         {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
                         },
                         {
-                            "name": "staminaRecover",
+                            "name": "rollCooldownMax",
                             "type": 0,
-                            "value": 0.10000000149011612
+                            "value": 0.5
                         },
                         {
                             "name": "hpLossCost",
@@ -4197,14 +4157,54 @@
                             "value": 6.0
                         },
                         {
-                            "name": "rollCooldownMax",
+                            "name": "attackDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "speedHermesBonus",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 0.10000000149011612
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 10.0
                         },
                         {
                             "name": "speedIncrease",
                             "type": 0,
                             "value": 10.0
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -4266,21 +4266,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player_0"
-                        },
-                        {
-                            "name": "shakeDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
                             "name": "followSpeed",
                             "type": 0,
                             "value": 5.0
@@ -4291,9 +4276,24 @@
                             "value": 0.30000001192092896
                         },
                         {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
                             "name": "shakeFrequency",
                             "type": 0,
                             "value": 25.0
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
                         },
                         {
                             "name": "zoomMax",
@@ -4301,9 +4301,9 @@
                             "value": 3.0
                         },
                         {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player_0"
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -8911,7 +8911,7 @@
                                             "position": [
                                                 -6.0,
                                                 6.0,
-                                                -33.0
+                                                -36.0
                                             ],
                                             "rotation": [
                                                 0.0,
@@ -8963,15 +8963,33 @@
                                             ],
                                             "DynamicFriction": 0.5,
                                             "Restitution": 0.6000000238418579,
+                                            "StaticFriction": 0.5,
+                                            "Trigger": false,
+                                            "active": true,
+                                            "type": 16
+                                        },
+                                        {
+                                            "Center": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "DynamicFriction": 0.5,
+                                            "Restitution": 0.6000000238418579,
                                             "Size": [
-                                                1.0,
-                                                0.029999999329447746,
-                                                1.0
+                                                0.800000011920929,
+                                                2.0,
+                                                0.800000011920929
                                             ],
                                             "StaticFriction": 0.5,
                                             "Trigger": false,
                                             "active": true,
                                             "type": 10
+                                        },
+                                        {
+                                            "active": true,
+                                            "scriptUID": 330382436338963650,
+                                            "type": 6
                                         }
                                     ],
                                     "name": "w1",
@@ -8985,14 +9003,14 @@
                                         {
                                             "active": true,
                                             "position": [
-                                                57.42078399658203,
-                                                6.0,
-                                                -60.934471130371094
+                                                65.42078399658203,
+                                                5.999999046325684,
+                                                -67.9344711303711
                                             ],
                                             "rotation": [
-                                                0.0,
-                                                0.0,
-                                                0.0
+                                                1.4282406937127234e-06,
+                                                -3.4277768463653047e-06,
+                                                -4.284721057956631e-07
                                             ],
                                             "scale": [
                                                 23.91120147705078,
@@ -9041,13 +9059,31 @@
                                             "Restitution": 0.6000000238418579,
                                             "Size": [
                                                 1.0,
-                                                0.029999999329447746,
+                                                2.0,
                                                 1.0
                                             ],
                                             "StaticFriction": 0.5,
                                             "Trigger": false,
                                             "active": true,
                                             "type": 10
+                                        },
+                                        {
+                                            "Center": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "DynamicFriction": 0.5,
+                                            "Restitution": 0.6000000238418579,
+                                            "StaticFriction": 0.5,
+                                            "Trigger": false,
+                                            "active": true,
+                                            "type": 16
+                                        },
+                                        {
+                                            "active": true,
+                                            "scriptUID": 330382436338963650,
+                                            "type": 6
                                         }
                                     ],
                                     "name": "w2",
@@ -9063,11 +9099,11 @@
                                             "position": [
                                                 77.91358184814453,
                                                 5.460238933563232,
-                                                -52.694244384765625
+                                                -60.694244384765625
                                             ],
                                             "rotation": [
                                                 0.0,
-                                                88.01258850097656,
+                                                73.03233337402344,
                                                 0.0
                                             ],
                                             "scale": [
@@ -9117,13 +9153,31 @@
                                             "Restitution": 0.6000000238418579,
                                             "Size": [
                                                 1.0,
-                                                0.029999999329447746,
+                                                3.0,
                                                 1.0
                                             ],
                                             "StaticFriction": 0.5,
                                             "Trigger": false,
                                             "active": true,
                                             "type": 10
+                                        },
+                                        {
+                                            "Center": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "DynamicFriction": 0.5,
+                                            "Restitution": 0.6000000238418579,
+                                            "StaticFriction": 0.5,
+                                            "Trigger": false,
+                                            "active": true,
+                                            "type": 16
+                                        },
+                                        {
+                                            "active": true,
+                                            "scriptUID": 330382436338963650,
+                                            "type": 6
                                         }
                                     ],
                                     "name": "w3",
@@ -13665,13 +13719,31 @@
                                     "Restitution": 0.6000000238418579,
                                     "Size": [
                                         1.0,
-                                        0.029999999329447746,
+                                        2.0,
                                         1.0
                                     ],
                                     "StaticFriction": 0.5,
                                     "Trigger": false,
                                     "active": true,
                                     "type": 10
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 16
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 330382436338963650,
+                                    "type": 6
                                 }
                             ],
                             "name": "w1",
@@ -15127,7 +15199,7 @@
                                             "position": [
                                                 253.78875732421875,
                                                 7.94981575012207,
-                                                -382.9852600097656
+                                                -385.9852600097656
                                             ],
                                             "rotation": [
                                                 0.0,
@@ -15179,15 +15251,33 @@
                                             ],
                                             "DynamicFriction": 0.5,
                                             "Restitution": 0.6000000238418579,
+                                            "StaticFriction": 0.5,
+                                            "Trigger": false,
+                                            "active": true,
+                                            "type": 16
+                                        },
+                                        {
+                                            "Center": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "DynamicFriction": 0.5,
+                                            "Restitution": 0.6000000238418579,
                                             "Size": [
                                                 1.0,
-                                                0.029999999329447746,
-                                                1.0
+                                                2.0,
+                                                0.699999988079071
                                             ],
                                             "StaticFriction": 0.5,
                                             "Trigger": false,
                                             "active": true,
                                             "type": 10
+                                        },
+                                        {
+                                            "active": true,
+                                            "scriptUID": 330382436338963650,
+                                            "type": 6
                                         }
                                     ],
                                     "name": "wP1",
@@ -15257,13 +15347,31 @@
                                             "Restitution": 0.6000000238418579,
                                             "Size": [
                                                 1.0,
-                                                0.029999999329447746,
+                                                2.0,
                                                 1.0
                                             ],
                                             "StaticFriction": 0.5,
                                             "Trigger": false,
                                             "active": true,
                                             "type": 10
+                                        },
+                                        {
+                                            "Center": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "DynamicFriction": 0.5,
+                                            "Restitution": 0.6000000238418579,
+                                            "StaticFriction": 0.5,
+                                            "Trigger": false,
+                                            "active": true,
+                                            "type": 16
+                                        },
+                                        {
+                                            "active": true,
+                                            "scriptUID": 330382436338963650,
+                                            "type": 6
                                         }
                                     ],
                                     "name": "wP1_copy",
@@ -19384,13 +19492,31 @@
                                     "Restitution": 0.6000000238418579,
                                     "Size": [
                                         1.0,
-                                        0.029999999329447746,
+                                        2.0,
                                         1.0
                                     ],
                                     "StaticFriction": 0.5,
                                     "Trigger": false,
                                     "active": true,
                                     "type": 10
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 16
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 330382436338963650,
+                                    "type": 6
                                 }
                             ],
                             "name": "w1_copy_copy_copy_copy",
@@ -19460,13 +19586,31 @@
                                     "Restitution": 0.6000000238418579,
                                     "Size": [
                                         1.0,
-                                        0.029999999329447746,
+                                        2.0,
                                         1.0
                                     ],
                                     "StaticFriction": 0.5,
                                     "Trigger": false,
                                     "active": true,
                                     "type": 10
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 16
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 330382436338963650,
+                                    "type": 6
                                 }
                             ],
                             "name": "w1_copy_copy_copy_copy",
@@ -19575,18 +19719,125 @@
                                     "Restitution": 0.6000000238418579,
                                     "Size": [
                                         1.0,
-                                        0.029999999329447746,
+                                        2.0,
                                         1.0
                                     ],
                                     "StaticFriction": 0.5,
                                     "Trigger": false,
                                     "active": true,
                                     "type": 10
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 16
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 330382436338963650,
+                                    "type": 6
                                 }
                             ],
                             "name": "w1_copy_copy_copy_copy_copy_copy",
                             "tag": "Water",
                             "uid": 15149453563551219443
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        253.78875732421875,
+                                        7.94981575012207,
+                                        -385.9852600097656
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        -1.015135407447815,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        83.13658905029297,
+                                        15.489251136779785,
+                                        90.9265365600586
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "primitiveType": "Plane",
+                                    "type": 1
+                                },
+                                {
+                                    "AngularDamping": 0.0,
+                                    "FreezePos": [
+                                        false,
+                                        false,
+                                        false
+                                    ],
+                                    "FreezeRot": [
+                                        false,
+                                        false,
+                                        false
+                                    ],
+                                    "LinearDamping": 0.0,
+                                    "Mass": 1.0,
+                                    "Type": 0,
+                                    "UseCCD": false,
+                                    "UseGravity": true,
+                                    "active": true,
+                                    "type": 8
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 16
+                                },
+                                {
+                                    "Center": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "DynamicFriction": 0.5,
+                                    "Restitution": 0.6000000238418579,
+                                    "Size": [
+                                        0.699999988079071,
+                                        2.0,
+                                        1.0
+                                    ],
+                                    "StaticFriction": 0.5,
+                                    "Trigger": false,
+                                    "active": true,
+                                    "type": 10
+                                },
+                                {
+                                    "active": true,
+                                    "scriptUID": 330382436338963650,
+                                    "type": 6
+                                }
+                            ],
+                            "name": "wP1_copy",
+                            "tag": "Water",
+                            "uid": 9083181790290879602
                         }
                     ],
                     "components": [

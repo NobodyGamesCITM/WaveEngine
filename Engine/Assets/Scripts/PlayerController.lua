@@ -15,6 +15,8 @@ _PlayerController_shakeDuration      = 0.4
 _PlayerController_shakeMagnitude     = 4.0
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
+_PlayerController_currentMask        = "None"
+_PlayerController_isDrowning         = false
 
 local INPUT_SCALE = 10
 local STAMINA_BAR_MAX_HEIGHT = 68.0 
@@ -260,13 +262,26 @@ local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
     --HERMES
+        if Player.currentMask == Mask.HERMES and Player.isDrowning then
+        Engine.Log("[Player] Hermes while on water!!")
+        return
+    end
     if Player.currentMask == Mask.HERMES then
         self.public.speedIncrease = self.public.speedIncrease - self.public.speedHermesBonus
         Player.hermesGraceTimer   = 0
-        Player.isDrowning         = false
         if Player.currentState == State.RUNNING then
             self.public.speed = self.public.speed - self.public.speedHermesBonus
         end
+        if Player.isDrowning then
+            Player.isDrowning            = false
+            _PlayerController_isDrowning = false
+            self.public.health           = 0
+            ChangeState(self, State.DEAD)
+            Player.currentMask            = newMask
+            _PlayerController_currentMask = newMask
+            return
+        end
+        Player.isDrowning = false
     end
     if newMask == Mask.HERMES then
         self.public.speedIncrease = self.public.speedIncrease + self.public.speedHermesBonus
@@ -282,6 +297,7 @@ local function EquipMask(self, newMask)
     end
     
     Player.currentMask = newMask
+    _PlayerController_currentMask = newMask
 end
 
 States[State.DEAD] = {
@@ -561,6 +577,7 @@ function Start(self)
     --masks
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
+    _PlayerController_currentMask = "None"
 
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
@@ -683,25 +700,19 @@ function OnTriggerEnter(self, other) end
 function OnTriggerExit(self, other) end
 
 function OnCollisionEnter(self, other)
-    if other:CompareTag("Water") then
-        if Player.currentMask == Mask.HERMES then
-            Player.isDrowning       = true
-            Player.hermesGraceTimer = HERMES_GRACE_TIME
-            Engine.Log("[Player] Hermes on water")
-        elseif Player.currentState ~= State.DEAD then
-            self.public.health = 0
-            Engine.Log("[Player] Player is drowning")
-            ChangeState(self, State.DEAD)
-        else
-            Engine.Log("[Player] Player not drowning")
-        end
+    if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
+        Player.isDrowning            = true
+        _PlayerController_isDrowning = true
+        Player.hermesGraceTimer      = HERMES_GRACE_TIME
+        Engine.Log("[Player] Hermes on water")
     end
 end
 
 function OnCollisionExit(self, other)
     if other:CompareTag("Water") then
-        Player.isDrowning       = false
-        Player.hermesGraceTimer = 0
+        Player.isDrowning            = false
+        _PlayerController_isDrowning = false
+        Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
     end
 end

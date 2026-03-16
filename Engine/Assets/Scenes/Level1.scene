@@ -4079,20 +4079,7 @@
                     "type": 8
                 },
                 {
-                    "Animations": [
-                        {
-                            "UID": 13789441726672052920,
-                            "loop": true,
-                            "name": "Idle",
-                            "speed": 1.0
-                        },
-                        {
-                            "UID": 16427961746144588273,
-                            "loop": true,
-                            "name": "Walking",
-                            "speed": 1.0
-                        }
-                    ],
+                    "Animations": [],
                     "active": true,
                     "type": 28
                 },
@@ -4100,34 +4087,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "health",
+                            "name": "ROTATION_SPEED",
                             "type": 0,
-                            "value": 100.0
+                            "value": 780.0
                         },
                         {
-                            "name": "stamina",
+                            "name": "rollSpeed",
                             "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.05000000074505806
+                            "value": 37.5
                         },
                         {
                             "name": "speedHermesBonus",
@@ -4135,34 +4102,34 @@
                             "value": 15.0
                         },
                         {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
                             "name": "speed",
                             "type": 0,
                             "value": 30.0
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 0.10000000149011612
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 0.20000000298023224
+                            "value": 1.5
                         },
                         {
                             "name": "rollStaminaCost",
@@ -4180,9 +4147,44 @@
                             "value": 14.0
                         },
                         {
-                            "name": "attackCooldown",
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "attackDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.05000000074505806
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 0.10000000149011612
                         },
                         {
                             "name": "hpLossCost",
@@ -4195,14 +4197,14 @@
                             "value": 6.0
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "rollCooldownMax",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 0.5
                         },
                         {
-                            "name": "rollMultiplier",
+                            "name": "speedIncrease",
                             "type": 0,
-                            "value": 2.5
+                            "value": 10.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -4264,6 +4266,16 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player_0"
+                        },
+                        {
                             "name": "shakeDuration",
                             "type": 0,
                             "value": 0.4000000059604645
@@ -4274,6 +4286,16 @@
                             "value": 5.0
                         },
                         {
+                            "name": "shakeMagnitude",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
                             "name": "zoomMax",
                             "type": 0,
                             "value": 3.0
@@ -4282,26 +4304,6 @@
                             "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
-                        },
-                        {
-                            "name": "shakeFrequency",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "shakeMagnitude",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player_0"
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -15061,9 +15063,9 @@
                                                 -373.30010986328125
                                             ],
                                             "rotation": [
-                                                -1.2521330972958822e-05,
+                                                -1.2521332791948225e-05,
                                                 -0.019792521372437477,
-                                                3.1461409033539667e-09
+                                                3.1461417915323864e-09
                                             ],
                                             "scale": [
                                                 9.534130096435547,
@@ -19522,9 +19524,9 @@
                                         -359.0
                                     ],
                                     "rotation": [
-                                        180.0,
+                                        -180.0,
                                         -89.9720230102539,
-                                        180.0
+                                        -180.0
                                     ],
                                     "scale": [
                                         28.69344139099121,

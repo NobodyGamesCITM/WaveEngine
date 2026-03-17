@@ -1,22 +1,21 @@
 {
-    "activationRadius": 20.0,
+    "activationRadius": 100.0,
     "active": true,
     "additive": false,
-    "luminance": true,
     "animLoop": false,
     "animSpeed": 1.0,
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
-        0.627,
-        0.431,
+        0.6269999742507935,
+        0.4309999942779541,
         0.0,
         0.0
     ],
     "colorGradient": [],
     "colorStart": [
-        0.627,
-        0.431,
+        0.6269999742507935,
+        0.4309999942779541,
         0.0,
         1.0
     ],
@@ -26,7 +25,7 @@
     "emissionArea": [
         6.5,
         3.0,
-        6.8
+        6.800000190734863
     ],
     "emissionRadius": 1.0,
     "emissionRate": 6.0,
@@ -34,16 +33,17 @@
     "emitFromShell": false,
     "gravity": [
         0.0,
-        -0.35,
+        -0.3499999940395355,
         0.0
     ],
     "lifetimeMax": 3.5,
     "lifetimeMin": 2.5,
     "looping": true,
+    "luminance": false,
     "maxParticles": 40,
     "noiseActive": true,
     "noiseFreq": 0.25,
-    "noiseStrength": 1.4,
+    "noiseStrength": 1.399999976158142,
     "oneShot": false,
     "oneShotCount": 30,
     "prewarm": true,
@@ -55,11 +55,11 @@
     "simulationSpace": 1,
     "sizeCurve": [],
     "sizeEnd": 0.5,
-    "sizeStart": 0.7,
-    "speedMax": 0.08,
-    "speedMin": 0.01,
+    "sizeStart": 0.699999988079071,
+    "speedMax": 0.07999999821186066,
+    "speedMin": 0.009999999776482582,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablosa2\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
     "textureRows": 1,
     "textureUID": 11107368379844993512,
     "type": 7

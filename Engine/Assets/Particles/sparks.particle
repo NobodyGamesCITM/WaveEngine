@@ -1,51 +1,50 @@
 {
-    "activationRadius": 20.0,
+    "activationRadius": 40.0,
     "active": true,
     "additive": true,
-    "luminance": false,
     "animLoop": false,
     "animSpeed": 1.0,
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
-        0.914,
-        0.800,
-        0.482,
+        0.9139999747276306,
+        0.800000011920929,
+        0.4819999933242798,
         0.0
     ],
     "colorGradient": [
         {
             "color": [
-                0.914,
-                0.800,
-                0.482,
+                0.9139999747276306,
+                0.800000011920929,
+                0.4819999933242798,
                 0.0
             ],
             "time": 0.0
         },
         {
             "color": [
-                0.914,
-                0.800,
-                0.482,
+                0.9139999747276306,
+                0.800000011920929,
+                0.4819999933242798,
                 1.0
             ],
-            "time": 0.35
+            "time": 0.3499999940395355
         },
         {
             "color": [
-                0.274,
-                0.240,
-                0.145,
+                0.27399998903274536,
+                0.23999999463558197,
+                0.14499999582767487,
                 0.0
             ],
             "time": 1.0
         }
     ],
     "colorStart": [
-        0.914,
-        0.800,
-        0.482,
+        0.9139999747276306,
+        0.800000011920929,
+        0.4819999933242798,
         1.0
     ],
     "coneAngle": 25.0,
@@ -56,7 +55,7 @@
         0.0,
         3.0
     ],
-    "emissionRadius": 1.1,
+    "emissionRadius": 4.0,
     "emissionRate": 12.0,
     "emissionRateDist": 0.0,
     "emitFromShell": true,
@@ -65,13 +64,14 @@
         0.0,
         0.0
     ],
-    "lifetimeMax": 0.9,
-    "lifetimeMin": 0.4,
+    "lifetimeMax": 0.8999999761581421,
+    "lifetimeMin": 0.4000000059604645,
     "looping": true,
+    "luminance": false,
     "maxParticles": 40,
     "noiseActive": true,
-    "noiseFreq": 0.8,
-    "noiseStrength": 0.3,
+    "noiseFreq": 0.800000011920929,
+    "noiseStrength": 0.30000001192092896,
     "oneShot": false,
     "oneShotCount": 30,
     "prewarm": false,
@@ -87,20 +87,20 @@
             "time": 0.0
         },
         {
-            "size": 0.2,
-            "time": 0.35
+            "size": 1.5,
+            "time": 0.3499999940395355
         },
         {
-            "size": 0.0,
+            "size": 1.0,
             "time": 1.0
         }
     ],
     "sizeEnd": 0.0,
-    "sizeStart": 0.2,
+    "sizeStart": 0.20000000298023224,
     "speedMax": 0.25,
     "speedMin": 0.0,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\repos\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
+    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
     "textureRows": 1,
     "textureUID": 14600480670017023417,
     "type": 7

@@ -1,46 +1,51 @@
 {
     "activationRadius": 15.0,
-    "active": false,
+    "active": true,
     "additive": false,
-    "luminance": true,
     "animLoop": false,
     "animSpeed": 1.0,
     "bursts": [],
     "circleRadius": 0.25,
     "colorEnd": [
-        0.686,
-        0.525,
-        0.439,
+        0.6859999895095825,
+        0.5249999761581421,
+        0.4390000104904175,
         0.0
     ],
     "colorGradient": [
         {
             "color": [
-                0.812,
-                0.745,
-                0.675,
-                0.85
+                0.8119999766349792,
+                0.7450000047683716,
+                0.675000011920929,
+                0.8500000238418579
             ],
             "time": 0.0
         },
         {
             "color": [
-                0.749,
-                0.635,
-                0.557,
-                0.55
+                0.7490000128746033,
+                0.6349999904632568,
+                0.5569999814033508,
+                0.550000011920929
             ],
-            "time": 0.4
+            "time": 0.4000000059604645
         },
         {
             "color": [
-                0.686,
-                0.525,
-                0.439,
+                0.6859999895095825,
+                0.5249999761581421,
+                0.4390000104904175,
                 0.0
             ],
             "time": 1.0
         }
+    ],
+    "colorStart": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
     ],
     "coneAngle": 25.0,
     "coneRadius": 0.5,
@@ -56,32 +61,33 @@
     "emitFromShell": false,
     "gravity": [
         0.0,
-        0.08,
+        0.07999999821186066,
         0.0
     ],
-    "lifetimeMax": 0.7,
-    "lifetimeMin": 0.3,
+    "lifetimeMax": 0.699999988079071,
+    "lifetimeMin": 0.30000001192092896,
     "looping": true,
+    "luminance": true,
     "maxParticles": 30,
     "noiseActive": true,
-    "noiseFreq": 0.6,
-    "noiseStrength": 0.4,
+    "noiseFreq": 0.6000000238418579,
+    "noiseStrength": 0.4000000059604645,
     "oneShot": false,
     "oneShotCount": 30,
     "prewarm": false,
     "proximityActivation": false,
     "proximityTarget": "Player",
-    "rotSpeedMax": 60.0,
-    "rotSpeedMin": -60.0,
+    "rotSpeedMax": 80.0,
+    "rotSpeedMin": -80.0,
     "shape": 3,
     "simulationSpace": 1,
     "sizeCurve": [],
-    "sizeEnd": 0.35,
-    "sizeStart": 0.1,
-    "speedMax": 0.3,
-    "speedMin": 0.05,
+    "sizeEnd": 2.5,
+    "sizeStart": 0.20000000298023224,
+    "speedMax": 0.30000001192092896,
+    "speedMin": 0.05000000074505806,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\repos\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
     "textureRows": 1,
     "textureUID": 17065513980760032408,
     "type": 7

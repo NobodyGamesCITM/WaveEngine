@@ -100,6 +100,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 
+	smokePS         = nil,
     -- Audio
     --stepSFX = nil,
 	--currentSurface = "",
@@ -182,6 +183,7 @@ end
 local function GetAttackInput(self)
     if attackCooldown > 0 then return 0 end
     if Input.GetKeyDown("E") then return 1 end
+    if Input.GetKeyDown("Q") then return 2 end
     return 0
 end
 
@@ -354,6 +356,9 @@ States[State.IDLE] = {
         if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
         end
+        if GetAttackInput(self) == 2 then
+            ChangeState(self, State.CHARGING)
+        end
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
@@ -365,7 +370,7 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Running", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
+        if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 
         self.public.usingStamina = false
 
@@ -373,8 +378,6 @@ States[State.WALK] = {
             anim:Play("Walking", 0.5) 
             anim:SetSpeed("Walking", 1.0)
         end
-
-        
     end,
     
     Update = function(self, dt)
@@ -398,7 +401,10 @@ States[State.WALK] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-
+        if GetAttackInput(self) == 2 then
+            ChangeState(self, State.CHARGING)
+            return
+        end
         -- Check if can trasition to Roll, AttackLight, Charging y todo eso
 
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
@@ -412,7 +418,7 @@ States[State.WALK] = {
             if stepTimer >= (0.5/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                Engine.Log("Playing Walk FootSteps SFX")
+                --Engine.Log("Playing Walk FootSteps SFX")
                 Player.stepSFX:PlayAudioEvent()
             end
         end
@@ -429,10 +435,14 @@ States[State.RUNNING] = {
 
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
+		
+		if Player.smokePS then Player.smokePS:Play() end 
     end,
     Exit = function(self)
         self.public.speed = self.public.speed - self.public.speedIncrease
         self.public.usingStamina = false
+		
+		if Player.smokePS then Player.smokePS:Stop() end
     end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
@@ -469,11 +479,11 @@ States[State.RUNNING] = {
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         if Player.stepSFX then
-           stepTimer = stepTimer + dt
+            stepTimer = stepTimer + dt
             if stepTimer >= (0.25/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                Engine.Log("Playing Run FootSteps SFX")
+                --Engine.Log("Playing Run FootSteps SFX")
                 Player.stepSFX:PlayAudioEvent()
             end
         end
@@ -484,14 +494,14 @@ States[State.RUNNING] = {
 States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
-        -- Anim roll, fix direction, stamina...
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Roll", 1.0) end
-
+        -- Anim roll, fix direction, stamina..
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Roll", 1.0) end
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax
@@ -501,6 +511,7 @@ States[State.ROLL] = {
         States[State.ROLL].timer = States[State.ROLL].timer - dt
 
         if States[State.ROLL].timer <= 0 then
+            rollCooldown = self.public.rollCooldownMax
             ChangeState(self, State.IDLE)
             return
         end
@@ -513,8 +524,31 @@ States[State.ROLL] = {
 }
 
 States[State.CHARGING] = {
-    Enter = function(self) end,
-    Update = function(self, dt) end
+    Enter = function(self)
+        -- Anim attacklight
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Charge", 1.0) end
+        _PlayerController_lastAttack = "charge"
+        attackTimer = 0
+        if attackCol then attackCol:Enable() end
+    end,
+    Update = function(self, dt)
+        -- wait anim end and return idle
+        attackTimer = attackTimer + dt
+        if attackTimer >= self.public.attackDuration then
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
+
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(Player.lastDirX * 10, velocity.y, Player.lastDirZ * 10)
+        end
+    end,
+    Exit = function(self)
+        if attackCol then attackCol:Disable() end
+    end
 }
 
 States[State.ATTACK_HEAVY] = {
@@ -630,7 +664,18 @@ function Start(self)
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
     _PlayerController_currentMask = "None"
-
+	
+    --smoke trail particle
+    local smokeObj = GameObject.Find("SmokeTrail")
+    if smokeObj then
+        Player.smokePS = smokeObj:GetComponent("ParticleSystem")
+        if Player.smokePS then
+            Player.smokePS:Stop()
+        end
+    else
+        Engine.Log("[Player] No SmokeTrail child found")
+    end
+	
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)
@@ -795,8 +840,6 @@ function OnCollisionExit(self, other)
         Engine.Log("[Player] Player out of water")
     end
 end
-
-
 
 
 

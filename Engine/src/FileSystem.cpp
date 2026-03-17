@@ -1,8 +1,70 @@
-#include "FileUtils.h"
+#include "FileSystem.h"
 #include "Log.h"
 #include <fstream>
+#include <windows.h>
+#include <chrono>
 
-std::string GetDirectoryFromPath(const std::string& filePath)
+namespace fs = std::filesystem;
+
+static bool s_initialized = false;
+static std::filesystem::path s_projectRoot = "";
+static std::filesystem::path s_assetsRoot = "";
+static std::filesystem::path s_libraryRoot = "";
+
+void FileSystem::Initialize()
+{
+    if (s_initialized) return;
+
+    LOG_CONSOLE("[FileSystem] Initializing FileSystem and locating paths...");
+
+    char buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+    fs::path execPath(buffer);
+
+    fs::path currentSearchPath = execPath.parent_path();
+    bool assetsFound = false;
+    int maxLevels = 5;
+
+    for (int i = 0; i < maxLevels; ++i) {
+        fs::path candidatePath = currentSearchPath / "Assets";
+
+        if (fs::exists(candidatePath) && fs::is_directory(candidatePath)) {
+
+            s_projectRoot = currentSearchPath;
+            s_assetsRoot = candidatePath;
+            s_libraryRoot = currentSearchPath / "Library";
+
+            assetsFound = true;
+            LOG_CONSOLE("[FileSystem] Project root found at: %s", s_projectRoot.string().c_str());
+            break;
+        }
+
+        currentSearchPath = currentSearchPath.parent_path();
+
+        if (currentSearchPath == currentSearchPath.parent_path()) break;
+    }
+
+    if (!assetsFound) {
+        LOG_CONSOLE("[FileSystem] FATAL ERROR: Could not find Assets folder. Engine cannot run properly.");
+        return;
+    }
+
+    s_initialized = true;
+}
+
+std::string FileSystem::GetLibraryRoot() {
+    return (s_projectRoot / "Library").string();
+}
+
+std::string FileSystem::GetAssetsRoot() {
+    return (s_projectRoot / "Assets").string();
+}
+
+std::string FileSystem::GetProjectRoot() {
+    return (s_projectRoot).string();
+}
+
+std::string FileSystem::GetDirectoryFromPath(const std::string& filePath)
 {
     std::filesystem::path path(filePath);
 
@@ -16,7 +78,7 @@ std::string GetDirectoryFromPath(const std::string& filePath)
     return directory;
 }
 
-std::string GetFileExtension(const std::string& filePath)
+std::string FileSystem::GetFileExtension(const std::string& filePath)
 {
     std::filesystem::path path(filePath);
     std::string ext = path.extension().generic_string();
@@ -32,13 +94,13 @@ std::string GetFileExtension(const std::string& filePath)
     return ext;
 }
 
-std::string GetFileName(const std::string& filePath)
+std::string FileSystem::GetFileName(const std::string& filePath)
 {
     std::filesystem::path path(filePath);
     return path.filename().generic_string();
 }
 
-std::string FindFileInDirectory(const std::string& directoryPath, const std::string& fileName)
+std::string FileSystem::FindFileInDirectory(const std::string& directoryPath, const std::string& fileName)
 {
     try
     {
@@ -58,7 +120,7 @@ std::string FindFileInDirectory(const std::string& directoryPath, const std::str
     return "";
 }
 
-std::vector<std::string> GetListDirectoryContents(const std::string& directoryPath, bool recursive)
+std::vector<std::string> FileSystem::GetListDirectoryContents(const std::string& directoryPath, bool recursive)
 {
     std::vector<std::string> allContent;
 
@@ -105,17 +167,17 @@ std::vector<std::string> GetListDirectoryContents(const std::string& directoryPa
     return allContent;
 }
 
-bool IsFileDirectory(const std::string& directoryPath)
+bool FileSystem::IsFileDirectory(const std::string& directoryPath)
 {
     return std::filesystem::is_directory(directoryPath);
 }
 
-bool DoesFileExist(const std::string& filePath)
+bool FileSystem::DoesFileExist(const std::string& filePath)
 {
     return std::filesystem::exists(filePath);
 }
 
-std::string GetPreviousPath(const std::string& directoryPath)
+std::string FileSystem::GetPreviousPath(const std::string& directoryPath)
 {
 
     std::filesystem::path path(directoryPath);
@@ -128,35 +190,12 @@ std::string GetPreviousPath(const std::string& directoryPath)
     return path.generic_string();
 }
 
-bool DoesFileHasMeta(const std::string& directoryPath)
-{
-    return std::filesystem::exists(directoryPath + ".meta");
-}
-
-std::string GetMetaPath(const std::string& directoryPath)
-{
-    return directoryPath + ".meta";
-}
-
-std::string GetLibraryPath(const UID uid)
-{
-    std::string uidStr = std::to_string(uid);
-
-    std::string folder = (uidStr.length() >= 2) ? uidStr.substr(0, 2) : "00";
-
-    std::string directoryPath = "Library/" + folder;
-
-    if (!std::filesystem::exists(directoryPath)) CreateDirectory(directoryPath);
-
-    return directoryPath + "/" + uidStr + ".bin";
-}
-
-bool CreateDirectory(const std::string& directoryPath)
+bool FileSystem::CreateNewDirectory(const std::string& directoryPath)
 {
     return std::filesystem::create_directory(directoryPath);
 }
 
-int64_t GetLastModificationTime(const std::string& path)
+int64_t FileSystem::GetLastModificationTime(const std::string& path)
 {
     if (!std::filesystem::exists(path)) return 0;
 
@@ -166,7 +205,7 @@ int64_t GetLastModificationTime(const std::string& path)
     return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
 }
 
-uint32_t GetFileHash(const std::string& path)
+uint32_t FileSystem::GetFileHash(const std::string& path)
 {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) return 0;
@@ -184,7 +223,16 @@ uint32_t GetFileHash(const std::string& path)
     return ~crc;
 }
 
-bool MoveAssetToFolder(const std::string& oldPath, const std::string& destinationFolder)
+
+long long FileSystem::GetFileTimestamp(const std::string& filePath) {
+    if (!std::filesystem::exists(filePath)) {
+        return 0;
+    }
+
+    return std::filesystem::last_write_time(filePath).time_since_epoch().count();
+}
+
+bool FileSystem::MoveAssetToFolder(const std::string& oldPath, const std::string& destinationFolder)
 {
     std::error_code ec;
 
@@ -213,7 +261,7 @@ bool MoveAssetToFolder(const std::string& oldPath, const std::string& destinatio
     return true;
 }
 
-bool CopyAssetToFolder(const std::string& sourcePath, const std::string& destinationFolder)
+bool FileSystem::CopyAssetToFolder(const std::string& sourcePath, const std::string& destinationFolder)
 {
     std::error_code ec;
 
@@ -241,7 +289,7 @@ bool CopyAssetToFolder(const std::string& sourcePath, const std::string& destina
     return true;
 }
 
-bool DeletePath(const std::string& path)
+bool FileSystem::DeletePath(const std::string& path)
 {
     std::error_code ec;
 
@@ -264,53 +312,30 @@ bool DeletePath(const std::string& path)
     return true;
 }
 
-bool DeleteAsset(const std::string& path)
-{
-    std::error_code ec;
-
-    if (!std::filesystem::exists(path))
-    {
-        LOG_DEBUG("File to delete not found: %s", path.c_str());
-        return false;
-    }
-
-    bool assetDeleted = std::filesystem::remove_all(path, ec);
-
-    if (ec)
-    {
-        LOG_DEBUG("Failed deleting asset: %s. Message: %s", path.c_str(), ec.message().c_str());
-        return false;
-    }
-
-    if (assetDeleted)
-    {
-        std::string metaPath = GetMetaPath(path);
-
-        if (std::filesystem::exists(metaPath))
-        {
-            std::filesystem::remove(metaPath, ec);
-
-            if (ec)
-            {
-                LOG_DEBUG("Asset deleted, but failed to delete meta file: %s", metaPath.c_str());
-            }
-        }
-    }
-
-    LOG_DEBUG("Deleted asset successfully: %s", path.c_str());
-
-    return true;
-}
-
-std::string GetFileNameNoExtension(const std::string& filePath)
+std::string FileSystem::GetFileNameNoExtension(const std::string& filePath)
 {
     std::filesystem::path path(filePath);
 
     return path.stem().string();
 }
 
-std::string GetCleanPath(const std::string& incomingPath)
+std::string FileSystem::GetCleanPath(const std::string& incomingPath)
 {
     std::filesystem::path path(incomingPath);
     return path.generic_string().c_str();
+}
+
+void FileSystem::EnsureDirectoryExists(const std::string& incomingPath) {
+
+    std::filesystem::path path(incomingPath);
+
+    try {
+        if (!std::filesystem::exists(path)) {
+            std::filesystem::create_directories(path);
+            LOG_DEBUG("Created directory: %s", path.string().c_str());
+        }
+    }
+    catch (const fs::filesystem_error& e) {
+        LOG_CONSOLE("[FileSystem] ERROR creating directory %s: %s", path.string().c_str(), e.what());
+    }
 }

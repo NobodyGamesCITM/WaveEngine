@@ -23,6 +23,7 @@
 #include "Window.h"        
 #include "ModuleCamera.h"  
 #include "ModuleAudio.h"
+#include "FileSystem.h"
 #include <SDL3/SDL_scancode.h>
 #include "GameWindow.h"
 #ifndef WAVE_GAME
@@ -257,13 +258,13 @@ static int Lua_Engine_LoadScene(lua_State* L) {
 }
 
 static int Lua_Engine_GetScenesPath(lua_State* L) {
-    std::string path = (std::filesystem::path(LibraryManager::GetAssetsRoot()) / "Scenes\\" ).string();
+    std::string path = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\" ).string();
     lua_pushstring(L, path.c_str());
     return 1;
 }
 
 static int Lua_Engine_GetAssetsPath(lua_State* L) {
-    std::string path = (std::filesystem::path(LibraryManager::GetAssetsRoot())).string();
+    std::string path = (std::filesystem::path(FileSystem::GetAssetsRoot())).string();
     lua_pushstring(L, path.c_str());
     return 1;
 }

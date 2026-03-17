@@ -17,7 +17,6 @@ ModuleScene::ModuleScene() : Module()
     name = "ModuleScene";
     root = nullptr;
     renderer = nullptr;
-    filesystem = nullptr;
 }
 
 ModuleScene::~ModuleScene()

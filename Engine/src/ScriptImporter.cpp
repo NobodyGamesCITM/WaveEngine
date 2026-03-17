@@ -32,7 +32,7 @@ bool ScriptImporter::ImportFromFile(const std::string& file_path, const MetaFile
 
 bool ScriptImporter::SaveToCustomFormat(const Script& script, const UID& uid)
 {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ofstream file(fullPath, std::ios::out | std::ios::binary);
 
     if (file.is_open())
@@ -58,7 +58,7 @@ bool ScriptImporter::SaveToCustomFormat(const Script& script, const UID& uid)
 Script ScriptImporter::LoadFromCustomFormat(const UID& uid)
 {
     Script script;
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ifstream file(fullPath, std::ios::in | std::ios::binary);
 
     if (file.is_open())

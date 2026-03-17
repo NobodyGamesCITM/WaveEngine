@@ -8,6 +8,7 @@
 #include "ResourceTexture.h"
 #include "LibraryManager.h"
 #include "Time.h" 
+#include "FileSystem.h"
 #include "ModuleScene.h"
 #include <fstream>
 #include <iomanip> 
@@ -490,7 +491,7 @@ void ComponentParticleSystem::OnEditor() {
     static char buf[64] = "new_effect";
     ImGui::InputText("Filename", buf, 64);
 
-    std::string assetsRoot = LibraryManager::GetAssetsRoot();
+    std::string assetsRoot = FileSystem::GetAssetsRoot();
     if (assetsRoot.back() != '/' && assetsRoot.back() != '\\') assetsRoot += "/";
     std::string particleFolder = assetsRoot + "Particles/";
 

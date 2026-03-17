@@ -154,7 +154,7 @@ bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile
 }
 
 bool TextureImporter::SaveToCustomFormat(const TextureData& texture, const UID& uid) {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     if (!texture.IsValid()) {
         LOG_DEBUG("[TextureImporter] ERROR: Invalid texture data");
@@ -214,7 +214,7 @@ bool TextureImporter::SaveToCustomFormat(const TextureData& texture, const UID& 
 }
 
 TextureData TextureImporter::LoadFromCustomFormat(const UID& uid) {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     TextureData texture;
 

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <windows.h>
 #include "MetaFile.h"
+#include "FileSystem.h"
 #include "TextureImporter.h"
 #include "ModuleLoader.h"
 #include <assimp/scene.h>
@@ -13,96 +14,38 @@
 #include "MeshImporter.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
 
 bool LibraryManager::s_initialized = false;
-fs::path LibraryManager::s_projectRoot;
+std::unordered_map<unsigned long long, uint32_t> LibraryManager::s_assetRegistry;
 
 void LibraryManager::Initialize() {
     if (s_initialized) {
         return;
     }
 
-    LOG_CONSOLE("[LibraryManager] Initializing library structure...");
-
-    namespace fs = std::filesystem;
-
-    char buffer[MAX_PATH];
-    GetModuleFileNameA(NULL, buffer, MAX_PATH);
-    fs::path execPath(buffer);
-
-    fs::path currentSearchPath = execPath.parent_path();
-
-    bool assetsFound = false;
-    int maxLevels = 5;
-
-    for (int i = 0; i < maxLevels; ++i) {
-        fs::path candidatePath = currentSearchPath / "Assets";
-
-        if (fs::exists(candidatePath) && fs::is_directory(candidatePath)) {
-            s_projectRoot = currentSearchPath;
-            assetsFound = true;
-            LOG_CONSOLE("[LibraryManager] Assets folder found at: %s", candidatePath.string().c_str());
-            break;
-        }
-
-        // Subir un nivel
-        currentSearchPath = currentSearchPath.parent_path();
-
-        // Verificar si llegamos a la raíz
-        if (currentSearchPath == currentSearchPath.parent_path()) {
-            break;
-        }
-    }
-
-    if (!assetsFound) {
-        LOG_CONSOLE("[LibraryManager] ERROR: Could not find Assets folder");
-        return;
-    }
-
-    fs::path libraryRoot = s_projectRoot / "Library";
-    EnsureDirectoryExists(libraryRoot);
+    FileSystem::EnsureDirectoryExists(FileSystem::GetLibraryRoot());
 
     for (int i = 0; i < 100; i++) {
         std::stringstream ss;
         ss << std::setfill('0') << std::setw(2) << i;
 
-        fs::path subFolder = libraryRoot / ss.str();
+        std::string subFolder = FileSystem::GetLibraryRoot()+"/"+ ss.str();
 
-        EnsureDirectoryExists(subFolder);
+        FileSystem::EnsureDirectoryExists(subFolder);
     }
+
+    LoadRegistry();
 
     s_initialized = true;
     LOG_CONSOLE("[LibraryManager] Library initialized successfully");
 }
 
-void LibraryManager::EnsureDirectoryExists(const fs::path& path) {
-    try {
-        if (!fs::exists(path)) {
-            fs::create_directories(path);
-            LOG_DEBUG("Created directory: %s", path.string().c_str());
-        }
-    }
-    catch (const fs::filesystem_error& e) {
-        LOG_CONSOLE("[LibraryManager] ERROR creating directory %s: %s", path.string().c_str(), e.what());
-    }
-}
-
 bool LibraryManager::IsInitialized() {
     return s_initialized;
-}
-
-std::string LibraryManager::GetLibraryRoot() {
-    return (s_projectRoot / "Library").string();
-}
-
-std::string LibraryManager::GetAssetsRoot() {
-    return (s_projectRoot / "Assets").string();
-}
-
-std::string LibraryManager::GetProjectRoot() {
-    return (s_projectRoot).string();
 }
 
 
@@ -111,7 +54,7 @@ bool LibraryManager::FileExists(const fs::path& path) {
 }
 
 void LibraryManager::ClearLibrary() {
-    fs::path libraryPath = s_projectRoot / "Library";
+    std::string libraryPath = FileSystem::GetLibraryRoot();
 
     LOG_CONSOLE("[LibraryManager] Clearing Library folder...");
 
@@ -135,85 +78,48 @@ void LibraryManager::ClearLibrary() {
     }
 }
 
-void LibraryManager::RegenerateFromAssets() {
-    
-    LOG_CONSOLE("[LibraryManager] Scanning Assets and checking for changes...");
 
-    fs::path assetsPath = GetAssetsRoot();
-    int processed = 0;
-    int skipped = 0;
-    int errors = 0;
-
-    try {
-        for (const auto& entry : fs::recursive_directory_iterator(assetsPath)) {
-            if (!entry.is_regular_file()) continue;
-
-            fs::path assetPath = entry.path();
-            std::string extension = assetPath.extension().string();
-
-            if (extension == ".meta") continue;
-
-            AssetType type = MetaFile::GetAssetType(extension);
-            if (type == AssetType::UNKNOWN) continue;
-
-            std::string assetPathStr = assetPath.string();
-            std::string metaPathStr = assetPathStr + ".meta";
-
-            if (!fs::exists(metaPathStr)) continue;
-
-            MetaFile meta = MetaFileManager::LoadMeta(assetPathStr);
-
-            if (meta.uid == 0) {
-                LOG_CONSOLE("[LibraryManager] ERROR: No UID in meta for: %s",
-                    assetPath.filename().string().c_str());
-                errors++;
-                continue;
-            }
-
-            bool needsImport = false;
-            std::string libraryPath = GetLibraryPathFromUID(meta.uid);
-
-            if (libraryPath == "") continue;
-            
-            if (!FileExists(libraryPath)) {
-                needsImport = true;
-            }
-            else
-            {
-                if (meta.fileHash != MetaFileManager::GetFileHash(assetPath.generic_string()))
-                {
-                    needsImport = true;
-                }
-            }
-
-            if (!needsImport) {
-                skipped++;
-                continue;
-            }
-
-            processed++;
-            Application::GetInstance().resources.get()->ImportFile(assetPath.generic_string().c_str(), true);
+void LibraryManager::LoadRegistry() {
+    std::string registryPath = FileSystem::GetLibraryRoot() + "/AssetRegistry.json";
+    if (fs::exists(registryPath)) {
+        std::ifstream file(registryPath);
+        nlohmann::json j;
+        file >> j;
+        for (auto& element : j.items()) {
+            s_assetRegistry[std::stoull(element.key())] = element.value().get<uint32_t>();
         }
+        LOG_CONSOLE("[LibraryManager] Asset Registry loaded.");
     }
-    catch (const fs::filesystem_error& e) {
-        LOG_CONSOLE("[LibraryManager] ERROR during scan: %s", e.what());
-    }
-
-    LOG_CONSOLE("[LibraryManager] Scan complete: %d re-imported/new, %d synchronized, %d errors",
-        processed, skipped, errors);
 }
 
-std::string LibraryManager::GetLibraryPathFromUID(unsigned long long uid)
+void LibraryManager::SaveRegistry() {
+    std::string registryPath = FileSystem::GetLibraryRoot() + "/AssetRegistry.json";
+    nlohmann::json j;
+    for (const auto& pair : s_assetRegistry) {
+        j[std::to_string(pair.first)] = pair.second;
+    }
+    std::ofstream file(registryPath);
+    file << j.dump(4);
+}
+
+uint32_t LibraryManager::GetLocalHash(unsigned long long uid) {
+    auto it = s_assetRegistry.find(uid);
+    return (it != s_assetRegistry.end()) ? it->second : 0;
+}
+
+void LibraryManager::UpdateLocalHash(unsigned long long uid, uint32_t newHash) {
+    s_assetRegistry[uid] = newHash;
+    SaveRegistry();
+}
+
+std::string LibraryManager::GetLibraryPath(const UID uid)
 {
     std::string uidStr = std::to_string(uid);
-    std::string folderName;
+    std::string folder = (uidStr.length() >= 2) ? uidStr.substr(0, 2) : "00";
 
-    if (uidStr.length() >= 2) {
-        folderName = uidStr.substr(0, 2);
-    }
-    else {
-        folderName = "0" + uidStr;
-    }
+    std::filesystem::path fullPath = std::filesystem::path(FileSystem::GetLibraryRoot()) / folder / (uidStr + ".waveBin");
 
-    return (s_projectRoot / "Library" / folderName / (uidStr + ".waveBin")).string();
+    std::string finalPath = fullPath.generic_string();
+
+    return finalPath;
 }

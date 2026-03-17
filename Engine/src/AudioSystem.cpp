@@ -17,6 +17,7 @@
 #include "Application.h"
 #include "AudioListener.h"
 #include "LibraryManager.h"
+#include "FileSystem.h"
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h>
@@ -113,7 +114,7 @@ bool AudioSystem::InitStreamingManager() {
     // Initializing the Deferred hook
     if (g_lowLevelIO.Init(deviceSettings) != AK_Success) return false;
 
-    std::string projectRoot = LibraryManager::GetProjectRoot();
+    std::string projectRoot = FileSystem::GetProjectRoot();
     std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
     mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
     g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());

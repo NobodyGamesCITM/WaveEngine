@@ -7,7 +7,6 @@
 #include <nlohmann/json.hpp>
 
 class GameObject;
-class FileSystem;
 class Renderer;
 class ComponentCamera;
 class SceneWindow;
@@ -55,6 +54,5 @@ private:
     GameObject* root = nullptr;
 
     Renderer* renderer = nullptr;
-    FileSystem* filesystem = nullptr;
 
 };

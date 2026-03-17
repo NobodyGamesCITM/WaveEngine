@@ -130,7 +130,7 @@ Mesh MeshImporter::ImportFromAssimp(const aiMesh* assimpMesh) {
 
 // SAVE: Our Mesh -> Custom Binary Format
 bool MeshImporter::SaveToCustomFormat(const Mesh& mesh, const UID& uid) {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ofstream file(fullPath, std::ios::binary);
 
     if (!file.is_open()) return false;
@@ -159,7 +159,7 @@ bool MeshImporter::SaveToCustomFormat(const Mesh& mesh, const UID& uid) {
 }
 
 Mesh MeshImporter::LoadFromCustomFormat(const UID& uid) {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     Mesh mesh;
     std::ifstream file(fullPath, std::ios::binary);
 

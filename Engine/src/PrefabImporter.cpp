@@ -30,7 +30,7 @@ bool PrefabImporter::ImportFromFile(const std::string& file_path, const MetaFile
 
 bool PrefabImporter::SaveToCustomFormat(const Prefab& prefab, const UID& uid)
 {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ofstream file(fullPath, std::ios::out | std::ios::binary);
 
     if (file.is_open())
@@ -60,7 +60,7 @@ bool PrefabImporter::SaveToCustomFormat(const Prefab& prefab, const UID& uid)
 Prefab PrefabImporter::LoadFromCustomFormat(const UID& uid)
 {
     Prefab prefab;
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     std::ifstream file(fullPath, std::ios::in | std::ios::binary | std::ios::ate);
 

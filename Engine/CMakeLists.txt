@@ -32,6 +32,8 @@ set(CORE_SRC
     src/Window.h
     src/ModuleGame.cpp 
     src/ModuleGame.h
+    src/FileSystem.h
+    src/FileSystem.cpp
 )
 
 set(EVENTS_SRC 
@@ -158,8 +160,6 @@ set(UTILS_SRC
     src/SelectionManager.cpp
     src/Octree.h
     src/Octree.cpp
-    src/FileUtils.h
-    src/FileUtils.cpp
     src/Backup.h
     src/Backup.cpp
 )

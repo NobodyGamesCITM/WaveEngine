@@ -46,7 +46,7 @@ bool MaterialImporter::ImportMaterial(const std::string& path, const MetaFile& m
 
 bool MaterialImporter::SaveToCustomFormat(const Material& mat, const UID& uid)
 {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ofstream file(fullPath, std::ios::binary);
 
     if (!file.is_open()) return false;
@@ -64,7 +64,7 @@ bool MaterialImporter::SaveToCustomFormat(const Material& mat, const UID& uid)
 
 Material* MaterialImporter::LoadFromCustomFormat(const UID& uid)
 {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ifstream file(fullPath, std::ios::binary);
 
     if (!file.is_open()) return nullptr;

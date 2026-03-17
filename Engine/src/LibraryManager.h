@@ -1,31 +1,33 @@
 #pragma once
 
+#include "Globals.h"
 #include <string>
 #include <filesystem>
+#include <unordered_map>
 
 namespace fs = std::filesystem;
 
 class LibraryManager {
 public:
     static void Initialize();
-    static void EnsureDirectoryExists(const fs::path& path);
     static bool IsInitialized();
 
     // UID-Number paths
-    static std::string GetLibraryPathFromUID(unsigned long long uid);
+    static std::string GetLibraryPath(const UID uid);
 
     static bool FileExists(const fs::path& path);
 
-    // Base paths
-    static std::string GetLibraryRoot();
-    static std::string GetAssetsRoot();
-    static std::string GetProjectRoot();
-
     // Library management
     static void ClearLibrary();
-    static void RegenerateFromAssets();
+
+    //Asset Registry
+    static void LoadRegistry();
+    static void SaveRegistry();
+    static uint32_t GetLocalHash(UID uid);
+    static void UpdateLocalHash(UID uid, uint32_t newHash);
 
 private:
     static bool s_initialized;
-    static fs::path s_projectRoot;
+   
+    static std::unordered_map<UID, uint32_t> s_assetRegistry;
 };

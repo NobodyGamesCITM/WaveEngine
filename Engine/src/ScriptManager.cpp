@@ -1401,7 +1401,8 @@ static int Lua_Collider_Disable(lua_State* L) {
                 comp->SetActive(false);
             });
     }
-
+    return 0;
+}
 // Particle system Lua Universal Bindings
 // All functions follow the same pattern used by Animation:
 // local ps = self.gameObject:GetComponent("ParticleSystem")

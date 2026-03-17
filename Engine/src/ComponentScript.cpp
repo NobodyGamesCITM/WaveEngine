@@ -287,6 +287,12 @@ void ComponentScript::CallStart()
         return;
     }
 
+    GameObject** udata = (GameObject**)lua_newuserdata(L, sizeof(GameObject*));
+    *udata = Component::owner;
+    luaL_getmetatable(L, "GameObject");
+    lua_setmetatable(L, -2);
+    lua_setfield(L, -2, "gameObject");
+
     lua_getfield(L, -1, "Start");
 
     if (lua_isfunction(L, -1)) {

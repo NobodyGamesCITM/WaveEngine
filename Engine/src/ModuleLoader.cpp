@@ -322,7 +322,8 @@ bool ModuleLoader::LoadScene(const std::string& scenePath)
 {
     UID uid = Application::GetInstance().resources.get()->Find(scenePath.c_str(), Resource::SCENE);
 
-    if (uid != 0) return LoadScene(uid);
+    if (uid != 0) 
+        return LoadScene(uid);
     else return false;
 }
 

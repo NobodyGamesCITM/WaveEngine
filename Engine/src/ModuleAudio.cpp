@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleAudio.h"
+//#include "ReverbZone.h"
 
 
 
@@ -12,8 +13,9 @@ ModuleAudio::~ModuleAudio() {}
 
 bool ModuleAudio::Start() {
     return audioSystem->Awake(); // Initializes Wwise
-    audioSystem->SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::COFFEESHOP);
+ 
 }
+
 
 bool ModuleAudio::Update() {
     /*audioSystem->Update();*/
@@ -45,39 +47,42 @@ bool ModuleAudio::Update() {
             }
         }
     }
-    SwitchBGM(); //Keep switching bg music
+    
 
     return true;
 }
 
-void ModuleAudio::SwitchBGM() {
-    // Accumulate time (dt is in seconds)
-    musicTimer += Application::GetInstance().time.get()->GetRealDeltaTime();
 
-    if (musicTimer >= 15.0f) //switch every 15 sec
-    {
-        musicTimer = 0.0f; //reset timer
-        music1 = !music1; 
 
-        if (music1)
-        {
-            // Make sure these strings match your Wwise Game Syncs exactly!
-            AK::SoundEngine::SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::COFFEESHOP);
-            //LOG_CONSOLE("WWISE: BGM_State switched to Music1");
-        }
-        else
-        {
-            AK::SoundEngine::SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::PIZZAPARLOR);
-            //LOG_CONSOLE("WWISE: BGM_State switched to Music2");
-        }
-
-        // Render audio to ensure Wwise processes the state change this frame
-        AK::SoundEngine::RenderAudio();
-    }
-}
+//void ModuleAudio::SwitchBGM() {
+//    // Accumulate time (dt is in seconds)
+//    musicTimer += Application::GetInstance().time.get()->GetRealDeltaTime();
+//
+//    if (musicTimer >= 15.0f) //switch every 15 sec
+//    {
+//        musicTimer = 0.0f; //reset timer
+//        music1 = !music1; 
+//
+//        if (music1)
+//        {
+//            // Make sure these strings match your Wwise Game Syncs exactly!
+//            AK::SoundEngine::SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::COFFEESHOP);
+//            //LOG_CONSOLE("WWISE: BGM_State switched to Music1");
+//        }
+//        else
+//        {
+//            AK::SoundEngine::SetState(AK::STATES::BGM_STATE::GROUP, AK::STATES::BGM_STATE::STATE::PIZZAPARLOR);
+//            //LOG_CONSOLE("WWISE: BGM_State switched to Music2");
+//        }
+//
+//        // Render audio to ensure Wwise processes the state change this frame
+//        AK::SoundEngine::RenderAudio();
+//    }
+//}
 
 bool ModuleAudio::PostUpdate() {
     audioSystem->Update();
+    
     return true;
 }
 

@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.8960468769073486,
+                    "aspectRatio": 1.539893627166748,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -71,13 +71,13 @@
                     "publicVariables": [
                         {
                             "name": "temp2",
-                            "type": 4,
-                            "value": "../Scene/Temp2.json"
+                            "type": 5,
+                            "value": "Temp2.scene"
                         },
                         {
                             "name": "temp1",
-                            "type": 4,
-                            "value": "../Scene/Temp1.json"
+                            "type": 5,
+                            "value": "Temp1.scene"
                         }
                     ],
                     "scriptUID": 1677025167670271402,
@@ -87,9 +87,21 @@
                     "active": true,
                     "materialUID": 10365454792224019955,
                     "type": 3
+                },
+                {
+                    "active": true,
+                    "isDefault": true,
+                    "type": 25
+                },
+                {
+                    "active": true,
+                    "eventName": "MUS_BGM",
+                    "playOnAwake": false,
+                    "type": 26,
+                    "volume": 100.0
                 }
             ],
-            "name": "Cube",
+            "name": "PersistentCube",
             "tag": "",
             "uid": 639769431511057513
         },
@@ -135,7 +147,7 @@
                     ],
                     "LinearDamping": 0.0,
                     "Mass": 1.0,
-                    "Type": 1,
+                    "Type": 0,
                     "UseCCD": false,
                     "UseGravity": true,
                     "active": true,

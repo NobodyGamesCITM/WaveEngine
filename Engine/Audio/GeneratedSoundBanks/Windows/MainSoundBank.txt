@@ -1,0 +1,109 @@
+Event	ID	Name			Wwise Object Path	Notes
+	638756417	MUS_BGM			\Default Work Unit\MUS_BGM	
+	724467519	SFX_PlayerFootSteps			\Default Work Unit\SFX_PlayerFootSteps	
+	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\SFX_SkeletonSwordSlash	
+	1939684258	SFX_SkeletonDie			\Default Work Unit\SFX_SkeletonDie	
+	2660566025	SFX_SkeletonSteps			\Default Work Unit\SFX_SkeletonSteps	
+	3020549885	SFX_TorchFire			\Default Work Unit\SFX_TorchFire	
+	3583497273	SFX_Ambience			\Default Work Unit\SFX_Ambience	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	1062779386	Player_Speed			\Default Work Unit\Player_Speed	
+	4064446173	Surface_Type			\Default Work Unit\Surface_Type	
+
+Switch	ID	Name	Switch Group			Notes
+	712161704	Run	Player_Speed			
+	2108779966	Walk	Player_Speed			
+	2195636714	Dirt	Surface_Type			
+	2654748154	Water	Surface_Type			
+	4248645337	Grass	Surface_Type			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	3086301423	BGM_State			\Default Work Unit\BGM_State	
+
+State	ID	Name	State Group			Notes
+	748895195	None	BGM_State			
+	2678230381	Level2	BGM_State			
+	2678230382	Level1	BGM_State			
+	3604647259	MainMenu	BGM_State			
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	1006694123	Music_Volume			\Default Work Unit\Music_Volume	
+	1564184899	SFX_Volume			\Default Work Unit\SFX_Volume	
+	4143275766	Reverb_Volume			\Default Work Unit\Reverb_Volume	
+	4155247583	AudioSource_Volume			\Default Work Unit\AudioSource_Volume	
+	4179668880	Master_Volume			\Default Work Unit\Master_Volume	
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	1502772432	SFX Bus			\Default Work Unit\Main Audio Bus\SFX Bus	
+	2246998526	Main Audio Bus			\Default Work Unit\Main Audio Bus	
+	3127962312	Music Bus			\Default Work Unit\Main Audio Bus\Music Bus	
+
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	1204176067	Reverb_Absorption			\Default Work Unit\Main Audio Bus\Reverb_Absorption	
+	1741738112	Reverb_Cathedral			\Default Work Unit\Main Audio Bus\Reverb_Cathedral	
+	2098287461	Reverb_Outside			\Default Work Unit\Main Audio Bus\Reverb_Outside	
+	2100234192	Reverb_InsideMyHead			\Default Work Unit\Main Audio Bus\Reverb_InsideMyHead	
+	2637049263	Reverb_LongDarkHall			\Default Work Unit\Main Audio Bus\Reverb_LongDarkHall	
+	2877329779	Reverb_LargePlate			\Default Work Unit\Main Audio Bus\Reverb_LargePlate	
+	3522965360	Reverb_Robotic			\Default Work Unit\Main Audio Bus\Reverb_Robotic	
+	4165278950	Reverb_AluminumTank			\Default Work Unit\Main Audio Bus\Reverb_AluminumTank	
+
+Effect plug-ins	ID	Name	Type				Notes
+	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
+	51119534	Time Stretch (Custom)	Wwise Time Stretch			
+	765864838	Time Stretch (Custom)	Wwise Time Stretch			
+	1144018367	Plate_Large	Wwise RoomVerb			
+	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
+	2900412812	Robotic_Trash	Wwise RoomVerb			
+	3036946058	Inside_Your_Head	Wwise RoomVerb			
+	3164629247	Holy	Wwise RoomVerb			
+	3290519051	Aluminium_Tank	Wwise RoomVerb			
+	3442768367	Hall_Large_Dark	Wwise RoomVerb			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
+	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
+	117517246	In The Blood Hades	.cache\77\{77DC3B2C-C429-11E2-762E-359D20698C41}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu\In The Blood Hades		1355624
+	124812761	water_run_06	.cache\4E\{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_06		7352
+	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
+	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
+	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
+	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
+	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
+	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
+	250874789	grass_run_01	.cache\44\{44A3DFA2-4ED9-48C9-BB11-1095A26AB9BC}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_01		7604
+	260713655	dirt_run_01	.cache\0F\{0FFCCFAF-A392-154C-EC07-070CAA1D808F}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_01		7604
+	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
+	328752554	water_walk_04	.cache\52\{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_04		12824
+	333608203	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
+	412634728	dirt_walk_02	.cache\B8\{B8205D44-66B6-C1F3-62B8-3F82E9E26058}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_02		14408
+	424474249	skeleton_Die	.cache\B9\{B9759144-7A27-C937-CF29-15D61BD3E085}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Die		11744
+	425570416	water_walk_06	.cache\E6\{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_06		13292
+	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
+	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
+	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
+	590521573	skeleton_longSlash	.cache\35\{35217225-7F43-07CC-5B33-841A1CF0FA16}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Slashes\skeleton_longSlash		19808
+	599602142	dirt_run_06	.cache\3F\{3F3B2D8E-433F-4FBB-63F3-6F54BCE29836}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_06		7352
+	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604
+	642231808	grass_run_02	.cache\AD\{AD62AB3C-7BDF-5173-5EA1-5D20D082709F}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_02		7244
+	647640996	torchFire	.cache\92\{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem		\Containers\Default Work Unit\Objects\torchFire		1760264
+	658947672	dirt_walk_01	.cache\91\{91235923-528D-B681-E796-9CDE151A28A7}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_01		13364
+	663484052	skeleton_Step	.cache\85\{85480C67-C83E-070A-9714-960378316322}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Step		20816
+	675021197	dirt_walk_04	.cache\45\{45192596-95B5-42EA-7167-ECF418BF08A5}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_04		12824
+	726491942	dirt_walk_05	.cache\47\{47B28077-6411-38F4-8407-242380E9024D}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_05		13400
+	786254834	grass_run_03	.cache\8A\{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_03		7532
+	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
+	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
+	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2\The Underworld_EPIC The Musical		1431512
+	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
+	908137877	water_run_05	.cache\0E\{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Run\water_run_05		6632
+	915946584	grass_walk_03	.cache\DD\{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_03		13580
+	970219648	grass_walk_05	.cache\E3\{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_05		13400
+	981963331	dirt_run_05	.cache\52\{5287170D-9AC5-9A3B-8AC3-3CA4B46F2E45}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_05		6632
+	986604710	water_walk_05	.cache\B9\{B98C69CB-B7F6-3901-EA36-46D287CD99B5}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_05		13400
+	994023216	mansionAmbience	.cache\68\{6897335D-343C-DA09-0C5A-B425F621D239}.wem		\Containers\Default Work Unit\Objects\mansionAmbience		2415248
+	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
+	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
+	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244
+

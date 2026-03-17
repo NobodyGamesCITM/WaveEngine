@@ -1024,6 +1024,7 @@ void Renderer::DeleteSSBO(unsigned int& ssbo)
 }
 
 
+
 void Renderer::DrawLinesList(const CameraLens* camera)
 {
     if (linesList.empty() || !camera) return;
@@ -1264,6 +1265,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         glm::mat4 model = meshComponent->owner->transform->GetGlobalMatrix();
         pickingShader->SetMat4("model", model);
 
+
         if (meshComponent->HasSkinning())
         {
             ComponentSkinnedMesh* skinned = (ComponentSkinnedMesh*)meshComponent;
@@ -1276,6 +1278,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         else
         {
             pickingShader->SetBool("hasBones", false);
+
         }
 
         glBindVertexArray(mesh.VAO);
@@ -1306,6 +1309,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
 
     return finalUID;
 }
+
 
 void Renderer::SetMSAA(bool enabled) {
     msaaEnabled = enabled;

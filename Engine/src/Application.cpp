@@ -47,8 +47,8 @@ Application::Application() : isRunning(true), playState(PlayState::EDITING)
     AddModule(std::static_pointer_cast<Module>(renderContext));
     AddModule(std::static_pointer_cast<Module>(scene));
     AddModule(std::static_pointer_cast<Module>(camera));
-    AddModule(std::static_pointer_cast<Module>(audio));
     AddModule(std::static_pointer_cast<Module>(resources));
+    AddModule(std::static_pointer_cast<Module>(audio));
     AddModule(std::static_pointer_cast<Module>(navMesh));
     AddModule(std::static_pointer_cast<Module>(scripts));  
     AddModule(std::static_pointer_cast<Module>(loader));
@@ -152,6 +152,10 @@ bool Application::Start()
         {
             LOG_CONSOLE("[Game] WARNING: Could not load scene: %llu", startupScene);
         }
+
+        //std::string scenePath = (projectRoot / "Scene" / startupScene).string();
+       
+
 
         std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
             if (!obj || !obj->IsActive()) return;
@@ -329,6 +333,14 @@ void Application::Pause()
     time->Pause();
 
     AK::SoundEngine::Suspend();
+}
+
+void Application::PauseGameOnly()
+{
+    playState = PlayState::PAUSED;
+
+    time->Pause();
+    AK::SoundEngine::RenderAudio();
 }
 
 void Application::Stop()

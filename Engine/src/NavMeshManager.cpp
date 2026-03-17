@@ -12,7 +12,9 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourNavMeshQuery.h"
 
+
 static float NavRand() { return static_cast<float>(rand()) / static_cast<float>(RAND_MAX); }
+
 
 ModuleNavMesh::ModuleNavMesh() : Module() {
     name = "ModuleNavMesh";
@@ -566,6 +568,7 @@ bool ModuleNavMesh::LoadNavMesh(const char* path, GameObject* owner) {
     dtNavMesh* navMesh = dtAllocNavMesh();
     fclose(fp);
     return true;
+
 }
 
 bool ModuleNavMesh::GetRandomPoint(glm::vec3& outPoint)
@@ -589,4 +592,5 @@ bool ModuleNavMesh::GetRandomPoint(glm::vec3& outPoint)
         }
     }
     return false;
+
 }

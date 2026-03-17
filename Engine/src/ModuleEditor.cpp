@@ -1169,6 +1169,17 @@ void ModuleEditor::BuildGame()
             LOG_CONSOLE("[Build] WARNING: Assets folder not found");
         }
 
+        // Copy Audio folder
+        fs::path audioFolder(LibraryManager::GetProjectRoot() + "\\Audio");
+        if (fs::exists(audioFolder)) {
+            fs::copy(audioFolder, dest / "Audio", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            LOG_CONSOLE("[Build] Copied Audio/ folder");
+        }
+        else
+        {
+            LOG_CONSOLE("[Build] WARNING: Audio folder not found");
+        }
+
         // Copy Library/ folder
         fs::path libRoot(LibraryManager::GetLibraryRoot());
         if (fs::exists(libRoot))

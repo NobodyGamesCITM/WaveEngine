@@ -91,6 +91,10 @@ public:
     const std::string& GetTag() const { return tag; }
     void SetTag(const std::string& newTag) { tag = newTag; }
     bool CompareTag(const std::string& t) const { return tag == t; }
+    void SetPersistency(bool persistent) {
+        isPersistent = persistent;
+    }
+    bool IsPersistent() { return isPersistent; }
 
 private:
     GameObject* parent = nullptr;
@@ -101,5 +105,6 @@ private:
     bool markedForDeletion = false;
     bool isCleaning = false;
     bool isSelected = false;
+    bool isPersistent = false;
 
 };

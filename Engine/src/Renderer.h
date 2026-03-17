@@ -224,6 +224,7 @@ private:
     std::vector<RenderLine> linesList;
     std::vector<CanvasObject> canvasList;
 
+
     // Post Processing
     int postProcessCurrentW = 0;
     int postProcessCurrentH = 0;
@@ -239,7 +240,6 @@ private:
     unsigned int msaaColorBuffer = 0;
     unsigned int msaaDepthStencilRBO = 0;
 
-    //lights
     std::unique_ptr<LightManager> lightManager;
 
 };

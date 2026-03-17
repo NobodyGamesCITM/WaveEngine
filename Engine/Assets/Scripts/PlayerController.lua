@@ -9,6 +9,8 @@ local pi    = math.pi
 local attackCol
 local attackTimer = 0
 local rollCooldown = 0
+local stepTimer = 0.5
+
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_shakeDuration      = 0.4
@@ -98,6 +100,11 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 
+    -- Audio
+    stepSFX = nil,
+	currentSurface = "",
+    
+
     -- Potion state
     potionCount         = 4,
     potionHealing       = false,   -- ¿está recuperando vida ahora mismo?
@@ -108,6 +115,7 @@ local Player = {
     potionCooldownMax   = 0.5,
 
     -- Hermes mask
+
     isDrowning       = false,
     hermesGraceTimer = 0.0,
 }
@@ -138,6 +146,10 @@ public = {
     hermesWaterMax      = 2.0,
     flySpeed            = 20.0
 }
+
+
+
+
 
 local function normalizeInput(x, z)
     local len = sqrt(x*x + z*z)
@@ -353,8 +365,16 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
+        
+
         self.public.usingStamina = false
-        if anim then anim:Play("Walking", 0.5) end
+
+        if anim then 
+            anim:Play("Walking", 0.5) 
+            anim:SetSpeed("Walking", 1.0)
+        end
+
+        
     end,
     
     Update = function(self, dt)
@@ -386,6 +406,17 @@ States[State.WALK] = {
             return
         end
 
+        
+        if Player.stepSFX then
+            stepTimer = stepTimer + dt
+            if stepTimer >= (0.5/self.public.sprintMultiplier) then
+				stepTimer = 0
+                Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
+                --Engine.Log("Playing Walk FootSteps SFX")
+                Player.stepSFX:PlayAudioEvent()
+            end
+        end
+        
         -- Movement and rotation
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
@@ -394,9 +425,13 @@ States[State.WALK] = {
 States[State.RUNNING] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Walking", 0.5) end
+        if anim then 
+            anim:Play("Walking", 0.5) 
+            anim:SetSpeed("Walking", 2.0)
+        end
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
+
     end,
     Exit = function(self)
         self.public.speed = self.public.speed - self.public.speedIncrease
@@ -436,6 +471,16 @@ States[State.RUNNING] = {
         end
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
+        if Player.stepSFX then
+            stepTimer = stepTimer + dt
+            if stepTimer >= (0.25/self.public.sprintMultiplier) then
+				stepTimer = 0
+                Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
+                --Engine.Log("Playing Run FootSteps SFX")
+                Player.stepSFX:PlayAudioEvent()
+            end
+        end
+        
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
 }
@@ -560,6 +605,11 @@ function Start(self)
     self.public.stamina = 100
     self.public.health  = 100
     Player.potionCount  = 4
+
+	--steps
+    self.stepTimer = 0
+    Player.stepSFX = self.gameObject:GetComponent("Audio Source")
+    Player.currentSurface = "Dirt" --default surface
 
     --attack
     attackCooldown = 0
@@ -694,18 +744,45 @@ function Update(self, dt)
             Game.SetTimeScale(1.0)
         end
     end
+
+    --Set switch for surface type in footstep SFX
+    Audio.SetSwitch("Surface_Type", Player.currentSurface, Player.stepSFX)
+
+
 end
 
-function OnTriggerEnter(self, other) end
+
+local surfaces = {"Grass", "Water", "Dirt"}
+
+function OnTriggerEnter(self, other)
+	for i, surface in ipairs(surfaces) do
+		if other:CompareTag(surface) then 
+			Player.currentSurface = surface
+		end
+	end
+
+end
 function OnTriggerExit(self, other) end
 
+
+
+
 function OnCollisionEnter(self, other)
+
     if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
         Player.isDrowning            = true
         _PlayerController_isDrowning = true
         Player.hermesGraceTimer      = HERMES_GRACE_TIME
+        --Player.currentSurface = "Water"
         Engine.Log("[Player] Hermes on water")
     end
+
+	for i, surface in ipairs(surfaces) do
+		if other:CompareTag(surface) then 
+			Player.currentSurface = surface
+		end
+	end
+
 end
 
 function OnCollisionExit(self, other)
@@ -716,3 +793,10 @@ function OnCollisionExit(self, other)
         Engine.Log("[Player] Player out of water")
     end
 end
+
+
+
+
+
+
+

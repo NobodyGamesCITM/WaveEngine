@@ -46,7 +46,9 @@ public:
         const glm::vec3& end,
         std::vector<glm::vec3>& outPath);
 
+
     bool GetRandomPoint(glm::vec3& outPoint);
+
 
     bool SaveNavMesh(const char* path, GameObject* owner);
     bool LoadNavMesh(const char* path, GameObject* owner);

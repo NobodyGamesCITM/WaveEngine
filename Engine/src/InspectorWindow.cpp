@@ -51,6 +51,7 @@
 #include "ComponentPostProcessing.h"
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <algorithm>
 
 static nlohmann::json copiedComponentData;
 static ComponentType copiedComponentType = static_cast<ComponentType>(-1);
@@ -1605,11 +1606,11 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                             std::string currentScene = std::get<std::string>(var.value);
 
                             std::vector<std::string> sceneFiles;
-                            if (std::filesystem::exists("../Scene"))
+                            if (std::filesystem::exists("../Scenes"))
                             {
-                                for (const auto& entry : std::filesystem::directory_iterator("../Scene"))
+                                for (const auto& entry : std::filesystem::directory_iterator("../Scenes"))
                                 {
-                                    if (entry.is_regular_file() && entry.path().extension() == ".json")
+                                    if (entry.is_regular_file() && entry.path().extension() == ".scene")
                                         sceneFiles.push_back(entry.path().filename().string());
                                 }
                             }
@@ -1630,7 +1631,11 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                                 }
                                 for (const auto& file : sceneFiles)
                                 {
-                                    std::string fullPath = "../Scene/" + file;
+                                    
+                                    std::string fullPath = file;
+                                    
+                                    //UID sceneUID = Application::GetInstance().resources.get()->Find(fullPath.c_str(), Resource::Type::SCENE);
+                                    
                                     bool selected = (currentScene == fullPath);
                                     if (ImGui::Selectable(file.c_str(), selected))
                                     {
@@ -1640,7 +1645,7 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                                     if (selected) ImGui::SetItemDefaultFocus();
                                 }
                                 if (sceneFiles.empty())
-                                    ImGui::TextDisabled("No .json files found in Scene");
+                                    ImGui::TextDisabled("No .scene files found in Scene");
                                 ImGui::EndCombo();
                             }
                             break;

@@ -49,6 +49,7 @@ public:
 
 	// ---------------------- SWITCHES ---------------------- //
 	void SetSwitch(AkSwitchGroupID switchGroup, AkSwitchStateID switchState, AkGameObjectID goID);
+	void SetSwitch(const char* switchGroup, const char* switchState, AkGameObjectID goID);
 
 	// ------------------------ RTPC ------------------------ //
 	void SetRTPCValue(const char* name, int value);
@@ -122,6 +123,7 @@ private:
 
 	// processing reverb zones each frame
 	void ProcessReverbZones();
+	void DrawReverbZones();
 	
 
 	// set aux send helper
@@ -140,7 +142,6 @@ public:
 	// list of events
 	std::vector<std::string> eventNames;
 	
-
 	// registered reverb zones
 	std::vector<ReverbZone*> reverbZones;
 
@@ -148,12 +149,17 @@ public:
 	ReverbZone* GetCurrentListenerZone() const { return currentListenerZone; }
 	bool IsListenerInReverbZone() const { return currentListenerZone != nullptr; }
 	AkGameObjectID GetMainListenerWwiseID() const { return listenerID; }
+	AkGameObjectID GetIDfromWwiseGO(AudioComponent* comp) { return comp->goID; }
+	AudioComponent* GetAudioCompByID(AkGameObjectID goID);
 
 	// Debug: list of auxiliary bus names discovered from the soundbank JSON
 	std::vector<std::string> auxBusNames;
 
 	// Populate auxBusNames from MainSoundBank.json (call from Awake for diagnostics)
 	void DiscoverAuxBuses();
+
+	//soundbankpath getter
+	std::wstring GetMainSoundBankPath() { return mainSoundBankPath; }
 
 private:
     // Registered audio components (sources + listener wrappers)
@@ -168,9 +174,8 @@ private:
 	// Toggle to reduce log noise (default: false)
 	bool enableDebugLogs = false;
 
-
-
-
 public:
     const std::vector<AudioComponent*>& GetAudioComponents() const { return audioComponents; }
+
+	std::wstring mainSoundBankPath;
 };

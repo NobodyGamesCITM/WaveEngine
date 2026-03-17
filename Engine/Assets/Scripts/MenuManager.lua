@@ -1,6 +1,8 @@
 local NEXT_XAML     = "HUD.xaml"
 local FADE_DURATION = 0.4
 
+local assetsPath = Engine.GetAssetsPath()
+
 public = {
     updateWhenPaused = true
 }
@@ -11,6 +13,8 @@ local fadeTimer = 0.0
 local phase     = "idle"
 local history   = {}
 local current   = nil
+local audioPlayed = false  
+
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -45,6 +49,8 @@ end
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
+	
+
     if not canvas then
         Engine.Log("[Transition] ERROR: No tiene ComponentCanvas")
         return
@@ -60,11 +66,26 @@ function Start(self)
     Engine.Log("[Transition] XAML inicial: " .. current)
 
     if current ~= "HUD.xaml" then
-        Game.Pause()
+        --Game.Pause()
     end
 
     canvas:SetOpacity(1.0)
     SetPhase("idle")
+
+
+    
+    local menuAudio = self.gameObject:GetComponent("Audio Source")
+    if not menuAudio then
+        Engine.Log("[Menu Audio] WARN: Menu sin Audio Source, no habrá música de fondo")
+    else
+        
+        menuAudio:PlayAudioEvent()
+        Audio.SetMusicState("MainMenu")
+    end
+
+
+
+
     Engine.Log("[Transition] Listo")
 end
 
@@ -102,6 +123,7 @@ function Update(self, dt)
         -- Main Menu
         if UI.WasClicked("StartButton") then
             NavigateTo("HUD.xaml")
+            --Audio.SetMusicState("Level1")
         end
         if UI.WasClicked("SettingsButton") then
             NavigateTo("SettingsMenu.xaml")
@@ -116,6 +138,7 @@ function Update(self, dt)
         end
         if UI.WasClicked("BackToMenuButton") then
             NavigateTo("MainMenu.xaml")
+            --Audio.SetMusicState("MainMenu")
         end
 
         -- Settings Menu
@@ -156,11 +179,20 @@ function Update(self, dt)
 
         if current == "HUD.xaml" then
             Game.Resume()
+            Audio.SetMusicState("Level1")
+			Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
         else
             Game.Pause()
+            Audio.SetMusicState("MainMenu")
         end
 
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
+        
     end
+
+
+
 end
+
+

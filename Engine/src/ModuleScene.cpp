@@ -9,6 +9,7 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 #include "ComponentNavigation.h"
+
 #include <fstream>
 
 ModuleScene::ModuleScene() : Module()
@@ -181,7 +182,9 @@ bool ModuleScene::LoadScene(const nlohmann::json& sceneHierarchy)
         autoBakeNav(root);
     }
 
+
     LOG_CONSOLE("Scene loaded successfully from JSON");
+
     return true;
 }
 
@@ -215,11 +218,19 @@ void ModuleScene::ClearScene()
 
 
     // Selection
+    if (Application::GetInstance().navMesh) {
+        Application::GetInstance().navMesh->CleanUp();
+    }
+
     Application::GetInstance().selectionManager->ClearSelection();
 
     // Childrens
     std::vector<GameObject*> children = root->GetChildren();
     for (GameObject* child : children) {
+        if (child->IsPersistent())
+        {
+            continue;
+        }
         root->RemoveChild(child);
         delete child;
     }
@@ -293,7 +304,9 @@ bool ModuleScene::DeserializeSceneFromString(const std::string& jsonString)
         const nlohmann::json& gameObjectsArray = document["gameObjects"];
 
         for (size_t i = 0; i < gameObjectsArray.size(); ++i) {
+            
             GameObject* obj = GameObject::Deserialize(gameObjectsArray[i], root);
+            
             if (!obj) {
                 LOG_CONSOLE("[ModuleScene] WARNING: Failed to deserialize GameObject at index %zu", i);
             }

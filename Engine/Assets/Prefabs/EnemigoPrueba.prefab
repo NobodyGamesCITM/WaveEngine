@@ -1,0 +1,138 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -42.65199661254883,
+                    -13.232121467590332,
+                    120.41524505615234
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    3.0667998790740967,
+                    3.0667998790740967,
+                    3.0667998790740967
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Cube",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 0,
+                "type": 3
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 4.0,
+                "Type": 1,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 16
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": true,
+                "active": true,
+                "type": 10
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "patrolRadius",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "idleWaitTime",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "stopSmoothing",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "dirSmoothing",
+                        "type": 0,
+                        "value": 12.0
+                    },
+                    {
+                        "name": "maxHp",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
+                        "name": "moveSpeed",
+                        "type": 0,
+                        "value": 10.0
+                    }
+                ],
+                "scriptUID": 8078106257694236375,
+                "type": 6
+            }
+        ],
+        "name": "EnemigoPrueba",
+        "tag": "Enemy",
+        "uid": 5124411982798263634
+    }
+]

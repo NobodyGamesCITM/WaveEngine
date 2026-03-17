@@ -246,7 +246,7 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
     bool nodeOpen = ImGui::TreeNodeEx(gameObject, nodeFlags, "%s", gameObject->GetName().c_str());
 
     // Selection on click
-    if (ImGui::IsItemClicked())
+  /*  if (ImGui::IsItemClicked())
     {
         const bool* keys = SDL_GetKeyboardState(NULL);
         bool shiftPressed = keys[SDL_SCANCODE_LSHIFT] || keys[SDL_SCANCODE_RSHIFT];
@@ -267,8 +267,38 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
                 selectionManager->SetSelectedObject(gameObject);
             }
         }
-    }
+    }*/
 
+    if (ImGui::IsItemHovered())
+    {
+        // Detect click release
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+        {
+            // If it was NOT a drag
+            if (!ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+            {
+                const bool* keys = SDL_GetKeyboardState(NULL);
+                bool shiftPressed = keys[SDL_SCANCODE_LSHIFT] || keys[SDL_SCANCODE_RSHIFT];
+
+                if (shiftPressed)
+                {
+                    selectionManager->ToggleSelection(gameObject);
+                }
+                else
+                {
+                    if (hasChildren)
+                    {
+                        selectionManager->ClearSelection();
+                        SelectGameObjectAndChildren(gameObject);
+                    }
+                    else
+                    {
+                        selectionManager->SetSelectedObject(gameObject);
+                    }
+                }
+            }
+        }
+    }
     // Right-click → select before opening menu
     if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
         selectionManager->SetSelectedObject(gameObject);

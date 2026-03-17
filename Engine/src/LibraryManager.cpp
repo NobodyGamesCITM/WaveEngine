@@ -101,6 +101,10 @@ std::string LibraryManager::GetAssetsRoot() {
     return (s_projectRoot / "Assets").string();
 }
 
+std::string LibraryManager::GetProjectRoot() {
+    return (s_projectRoot).string();
+}
+
 
 bool LibraryManager::FileExists(const fs::path& path) {
     return fs::exists(path);

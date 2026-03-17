@@ -15,8 +15,14 @@ namespace AK
     {
         static const AkUniqueID MUS_BGM = 638756417U;
         static const AkUniqueID SFX_AMBIENCE = 3583497273U;
+        static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
+        static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
+        static const AkUniqueID SFX_PLAYERATTACK = 3758894654U;
+        static const AkUniqueID SFX_PLAYERDEATH = 1000127844U;
         static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;
+        static const AkUniqueID SFX_PLAYERHIT = 515751749U;
         static const AkUniqueID SFX_SKELETONDIE = 1939684258U;
+        static const AkUniqueID SFX_SKELETONHIT = 1803491951U;
         static const AkUniqueID SFX_SKELETONSTEPS = 2660566025U;
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
@@ -31,6 +37,7 @@ namespace AK
             namespace STATE
             {
                 static const AkUniqueID LEVEL1 = 2678230382U;
+                static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
                 static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
@@ -68,6 +75,7 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID ATTENUATION_RADIUS = 420183192U;
         static const AkUniqueID AUDIOSOURCE_VOLUME = 4155247583U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
         static const AkUniqueID MUSIC_VOLUME = 1006694123U;

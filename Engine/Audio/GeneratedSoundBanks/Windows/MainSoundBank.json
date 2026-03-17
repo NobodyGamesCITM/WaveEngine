@@ -10,11 +10,19 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{A40386A9-D5E8-463C-97C4-A0AA62CB6C83}",
+    "Hash": "{E9BEFA57-7F3A-9231-ADCF-4ED8069EEF6A}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
     "Media": [
+     {
+      "Id": "58585186",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_death.wav",
+      "CachePath": "4F/{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem"
+     },
      {
       "Id": "71226100",
       "Language": "SFX",
@@ -30,6 +38,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_walk_02.wav",
       "CachePath": "4B/{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem"
+     },
+     {
+      "Id": "96160614",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_hit.wav",
+      "CachePath": "2F/{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem"
      },
      {
       "Id": "117517246",
@@ -72,6 +88,14 @@
       "CachePath": "4F/{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem"
      },
      {
+      "Id": "175711509",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skeleton_hit.wav",
+      "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
+     },
+     {
       "Id": "208970398",
       "Language": "SFX",
       "Streaming": "false",
@@ -102,6 +126,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_run_01.wav",
       "CachePath": "44/{44A3DFA2-4ED9-48C9-BB11-1095A26AB9BC}.wem"
+     },
+     {
+      "Id": "255095212",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skeleton_attack.wav",
+      "CachePath": "36/{36CAF579-42F5-2055-8E90-21EA990D926D}.wem"
      },
      {
       "Id": "260713655",
@@ -149,7 +181,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skeleton_death.wav",
-      "CachePath": "B9/{B9759144-7A27-C937-CF29-15D61BD3E085}.wem"
+      "CachePath": "8A/{8AFB042F-4E5E-CF03-0416-DE888B7ED984}.wem"
      },
      {
       "Id": "425570416",
@@ -176,20 +208,20 @@
       "CachePath": "86/{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem"
      },
      {
+      "Id": "520645407",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "mask_pickup.wav",
+      "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
+     },
+     {
       "Id": "558767652",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_03.wav",
       "CachePath": "FB/{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem"
-     },
-     {
-      "Id": "590521573",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Pickup_WeaponType_Sword_01.wav",
-      "CachePath": "35/{35217225-7F43-07CC-5B33-841A1CF0FA16}.wem"
      },
      {
       "Id": "599602142",
@@ -206,6 +238,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_01.wav",
       "CachePath": "32/{326D9B66-5780-432B-7402-570F2DCA37FC}.wem"
+     },
+     {
+      "Id": "629385577",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "sword_slice_soft.wav",
+      "CachePath": "50/{500A7620-3D3B-0D66-4878-7359F88B5448}.wem"
      },
      {
       "Id": "642231808",
@@ -248,6 +288,14 @@
       "CachePath": "45/{45192596-95B5-42EA-7167-ECF418BF08A5}.wem"
      },
      {
+      "Id": "699991876",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "sword_slice_hard.wav",
+      "CachePath": "5C/{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem"
+     },
+     {
       "Id": "726491942",
       "Language": "SFX",
       "Streaming": "false",
@@ -270,6 +318,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_03.wav",
       "CachePath": "E2/{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem"
+     },
+     {
+      "Id": "794836068",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "mask_change.wav",
+      "CachePath": "D0/{D08E576C-107D-5583-50CF-0F7F7379C941}.wem"
      },
      {
       "Id": "835964148",
@@ -310,6 +366,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_03.wav",
       "CachePath": "DD/{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem"
+     },
+     {
+      "Id": "966202110",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "i-added-yoshi-drums-to-dark-sanctuary-deltarune-chapter-4.wav",
+      "CachePath": "66/{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem"
      },
      {
       "Id": "970219648",
@@ -370,14 +434,6 @@
     ],
     "Plugins": {
      "Custom": [
-      {
-       "Id": "51119534",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Skeleton\\skeleton_Slashes\\skeleton_longSlash\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{2F244BA0-5E52-4290-8FE7-2B80DF9E7A80}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
       {
        "Id": "765864838",
        "Name": "Time Stretch (Custom)",
@@ -513,6 +569,19 @@
           "Id": "117517246"
          }
         ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "1499148877",
+         "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "966202110"
+         }
+        ]
        }
       ]
      },
@@ -526,6 +595,69 @@
       "MediaRefs": [
        {
         "Id": "994023216"
+       }
+      ]
+     },
+     {
+      "Id": "115335488",
+      "Name": "SFX_Mask_PickUp",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_Mask_PickUp",
+      "GUID": "{E0980B18-F280-4D87-B820-788C5140CDAE}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.9919313",
+      "DurationMax": "0.9919313",
+      "MediaRefs": [
+       {
+        "Id": "520645407"
+       }
+      ]
+     },
+     {
+      "Id": "4011307621",
+      "Name": "SFX_MaskChange",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_MaskChange",
+      "GUID": "{6F7924D3-404C-4878-8045-8C6184257404}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.37730473",
+      "DurationMax": "0.37730473",
+      "MediaRefs": [
+       {
+        "Id": "794836068"
+       }
+      ]
+     },
+     {
+      "Id": "3758894654",
+      "Name": "SFX_PlayerAttack",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerAttack",
+      "GUID": "{1DC59726-223E-49EA-890E-78DBB7650DEB}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.21037447",
+      "DurationMax": "0.5607365",
+      "MediaRefs": [
+       {
+        "Id": "629385577"
+       },
+       {
+        "Id": "699991876"
+       }
+      ]
+     },
+     {
+      "Id": "1000127844",
+      "Name": "SFX_PlayerDeath",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerDeath",
+      "GUID": "{56BB4187-8021-42D9-8DEF-1666D2D720E3}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.65079504",
+      "DurationMax": "0.74111795",
+      "MediaRefs": [
+       {
+        "Id": "58585186"
        }
       ]
      },
@@ -744,14 +876,29 @@
       ]
      },
      {
+      "Id": "515751749",
+      "Name": "SFX_PlayerHit",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerHit",
+      "GUID": "{AFE45752-2A63-4E96-95C4-6D38F3FA801F}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.52316314",
+      "DurationMax": "0.6687317",
+      "MediaRefs": [
+       {
+        "Id": "96160614"
+       }
+      ]
+     },
+     {
       "Id": "1939684258",
       "Name": "SFX_SkeletonDie",
       "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonDie",
       "GUID": "{4EBB27EA-7D02-4A1F-86B5-A61D1695B5C1}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.41890422",
-      "DurationMax": "0.52778625",
+      "DurationMin": "0.38539186",
+      "DurationMax": "0.4855633",
       "MediaRefs": [
        {
         "Id": "424474249"
@@ -769,6 +916,21 @@
         }
        ]
       }
+     },
+     {
+      "Id": "1803491951",
+      "Name": "SFX_SkeletonHit",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonHit",
+      "GUID": "{A037AFEA-4E4D-4D0C-B300-90505F93E833}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.6542143",
+      "DurationMax": "0.8859734",
+      "MediaRefs": [
+       {
+        "Id": "175711509"
+       }
+      ]
      },
      {
       "Id": "2660566025",
@@ -792,20 +954,13 @@
       "GUID": "{C82EF090-9042-46C0-BD2A-E42CC9C63497}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.7080322",
-      "DurationMax": "0.94510955",
+      "DurationMin": "0.27292943",
+      "DurationMax": "0.34386954",
       "MediaRefs": [
        {
-        "Id": "590521573"
+        "Id": "255095212"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "51119534"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "3020549885",
@@ -949,6 +1104,12 @@
     ],
     "GameParameters": [
      {
+      "Id": "420183192",
+      "Name": "Attenuation_Radius",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Attenuation_Radius",
+      "GUID": "{D2C6E1D1-6830-4CFB-8194-01ED47E01077}"
+     },
+     {
       "Id": "1006694123",
       "Name": "Music_Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Music_Volume",
@@ -991,6 +1152,12 @@
         "Name": "None",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\None",
         "GUID": "{FF3A9A9C-03B3-4931-9DCD-C964AAFDB20D}"
+       },
+       {
+        "Id": "1499148877",
+        "Name": "Level1_Combat",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
+        "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
        },
        {
         "Id": "2678230381",
@@ -1063,6 +1230,6 @@
     ]
    }
   ],
-  "FileHash": "{EFEF7FDB-2C8E-CE81-8BA3-38078B461771}"
+  "FileHash": "{37D60FBA-F237-BC58-EDF1-69B23F7EE78C}"
  }
 }

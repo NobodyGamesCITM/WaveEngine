@@ -1609,7 +1609,7 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         *udata = rb;
 
         luaL_getmetatable(L, "Rigidbody");
-
+        lua_setmetatable(L, -2);
         return 1;
     }
 
@@ -1840,6 +1840,10 @@ void ScriptManager::RegisterGameObjectAPI() {
 
     lua_pushcfunction(L, Lua_GameObject_Find);
     lua_setfield(L, -2, "Find");
+
+
+
+    lua_setglobal(L, "GameObject");
 
    
 

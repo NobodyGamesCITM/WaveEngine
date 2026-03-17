@@ -80,7 +80,7 @@ function Start(self)
     else
         
         menuAudio:PlayAudioEvent()
-        Audio.SetMusicState("MainMenu")
+        --Audio.SetMusicState("MainMenu")
     end
 
 
@@ -194,5 +194,6 @@ function Update(self, dt)
 
 
 end
+
 
 

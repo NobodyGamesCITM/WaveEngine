@@ -19,4 +19,5 @@ public:
 public:
     AkGameObjectID goID;
     std::shared_ptr<GameObject> GO;
+    bool enabled = true;
 };

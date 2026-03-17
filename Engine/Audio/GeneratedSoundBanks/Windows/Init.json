@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{C44A4C1E-32A6-15C1-8AC0-6CC961563F07}",
+    "Hash": "{74796078-0AAD-097B-4029-93338589CBA3}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -228,6 +228,12 @@
     ],
     "GameParameters": [
      {
+      "Id": "420183192",
+      "Name": "Attenuation_Radius",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Attenuation_Radius",
+      "GUID": "{D2C6E1D1-6830-4CFB-8194-01ED47E01077}"
+     },
+     {
       "Id": "822163944",
       "Name": "SS_Air_RPM",
       "ObjectPath": "\\Game Parameters\\Factory Soundseed Air Game Syncs\\SS_Air_RPM",
@@ -330,6 +336,12 @@
         "Name": "None",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\None",
         "GUID": "{FF3A9A9C-03B3-4931-9DCD-C964AAFDB20D}"
+       },
+       {
+        "Id": "1499148877",
+        "Name": "Level1_Combat",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
+        "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
        },
        {
         "Id": "2678230381",
@@ -879,6 +891,6 @@
     ]
    }
   ],
-  "FileHash": "{743A108D-A5BB-D966-E7DB-6F84249EBE89}"
+  "FileHash": "{49290AA8-B7CC-95FE-4385-A2D530C5420D}"
  }
 }

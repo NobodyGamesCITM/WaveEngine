@@ -23,17 +23,10 @@ public:
 
     void OnEditor() override;
 
-    ////Play sound by its name
-    //void PlayEvent(const char* eventName);
-
-    ////Play sound by its id
-    //void PlayEvent(AkUniqueID eventID);
-
-    //void StopEvent(const char* eventName);
-
 public:
     std::string eventName = "";
     bool playOnAwake = false;
     bool hasAwoken = false;
     float volume = 100.0f;
+    float radius = 100.0f;
 };

@@ -208,9 +208,6 @@ function Start(self)
     Enemy.chaseTimer      = 0
     Enemy.playerGO        = nil
 
-    local anim = self.gameObject:GetComponent("Animation")
-    if anim then anim:Play("Ilde", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
-    
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then
         attackCol:Disable()

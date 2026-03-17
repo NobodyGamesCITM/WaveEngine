@@ -155,9 +155,6 @@ function Start(self)
     
     Enemy.currentState = State.IDLE
     Enemy.nextWanderTimer = self.public.idleWaitTime
-
-    local anim = self.gameObject:GetComponent("Animation")
-    if anim then anim:Play("Ilde", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 end
 
 function Update(self, dt)

@@ -44,11 +44,13 @@
 
         <Grid x:Name="LayoutRoot" Width="1280" Height="720">
 
+            <!-- Contenedor principal anclado abajo y centrado -->
             <Grid x:Name="DialogBox"
                   VerticalAlignment="Bottom"
-                  HorizontalAlignment="Stretch"
-                  Margin="60,0,60,28"
-                  Height="180"
+                  HorizontalAlignment="Center"
+                  Width="900"
+                  Height="280"
+                  Margin="0,0,0,10"
                   Visibility="Collapsed">
 
                 <Grid.RenderTransform>
@@ -60,135 +62,113 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
 
-                <Border BorderThickness="2" CornerRadius="4">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="#FF8B6914"/>
-                    </Border.BorderBrush>
-                    <Border.Background>
-                        <SolidColorBrush Color="#CC0A0A14"/>
-                    </Border.Background>
+                <!-- Layout: portrait a la izquierda, pergamino+texto a la derecha -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- Portrait -->
+                        <ColumnDefinition Width="160"/>
+                        <!-- Pergamino con texto -->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Border BorderThickness="1" CornerRadius="3" Margin="3">
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="#FF4A3A0A"/>
-                        </Border.BorderBrush>
+                    <!-- ===== PORTRAIT: sobresale por arriba, anclado abajo ===== -->
+                    <Grid Grid.Column="0"
+                          Width="150" Height="260"
+                          VerticalAlignment="Bottom"
+                          HorizontalAlignment="Center">
+                        <Border x:Name="Portrait_Telemaco" Visibility="Collapsed">
+                            <Image Stretch="Uniform"
+                                   Source="Textures/Portrait_Placeholder3.png"
+                                   VerticalAlignment="Bottom"/>
+                        </Border>
+                        <Border x:Name="Portrait_Atenea" Visibility="Collapsed">
+                            <Image Stretch="Uniform"
+                                   Source="Textures/Portrait_Placeholder.png"
+                                   VerticalAlignment="Bottom"/>
+                        </Border>
+                        <Border x:Name="Portrait_JohnCartel" Visibility="Collapsed">
+                            <Image Stretch="Uniform"
+                                   Source="Textures/Portrait_Placeholder2.png"
+                                   VerticalAlignment="Bottom"/>
+                        </Border>
+                    </Grid>
 
-                        <Grid Margin="8,8,12,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"/>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    <!-- ===== PERGAMINO + TEXTO ===== -->
+                    <Grid Grid.Column="1" VerticalAlignment="Bottom" Height="160">
 
-                            <!-- ===== COLUMNA IZQUIERDA: PORTRAIT ===== -->
-                            <Grid Grid.Column="0" VerticalAlignment="Stretch">
+                        <!-- Pergamino de fondo -->
+                        <Image Source="Textures/CuadroDialogo.PNG"
+                               Stretch="Fill"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"/>
 
-                                <!-- Marco decorativo -->
-                                <Border BorderThickness="2" CornerRadius="3">
-                                    <Border.BorderBrush>
-                                        <SolidColorBrush Color="#FF8B6914"/>
-                                    </Border.BorderBrush>
-                                    <Border.Background>
-                                        <SolidColorBrush Color="#22FFD97D"/>
-                                    </Border.Background>
-                                </Border>
+                        <!-- Texto encima del pergamino -->
+                        <Grid Margin="75,30,15,20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                <!-- Portraits apilados, controlados desde Lua -->
-                                <Grid Margin="2">
-                                    <Border x:Name="Portrait_Telemaco" Visibility="Collapsed">
-                                        <Image Stretch="UniformToFill"
-                                               Source="Textures/Portrait_Placeholder3.png"/>
-                                    </Border>
-                                    <Border x:Name="Portrait_Atenea" Visibility="Collapsed">
-                                        <Image Stretch="UniformToFill"
-                                               Source="Textures/Portrait_Placeholder.png"/>
-                                    </Border>
-                                    <Border x:Name="Portrait_JohnCartel" Visibility="Collapsed">
-                                        <Image Stretch="UniformToFill"
-                                               Source="Textures/Portrait_Placeholder2.png"/>
-                                    </Border>
-                                </Grid>
+                            <!-- Nombre del personaje -->
+                            <TextBlock x:Name="CharacterName"
+                                       Grid.Row="0"
+                                       Text=""
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       FontFamily="Times New Roman"
+                                       Margin="0,0,0,5">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF5C3300"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
 
-                            </Grid>
+                            <!-- Texto del diálogo -->
+                            <TextBlock x:Name="DialogText"
+                                       Grid.Row="1"
+                                       Text=""
+                                       FontSize="13"
+                                       FontFamily="Times New Roman"
+                                       FontStyle="Italic"
+                                       TextWrapping="Wrap"
+                                       LineHeight="20"
+                                       VerticalAlignment="Top">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF3D2200"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
 
-                            <!-- ===== COLUMNA DERECHA: TEXTO ===== -->
-                            <Grid Grid.Column="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                            <!-- Icono continuar -->
+                            <TextBlock x:Name="ContinueIcon"
+                                       Grid.Row="2"
+                                       Text="▼"
+                                       FontSize="11"
+                                       FontFamily="Times New Roman"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,4,0"
+                                       Visibility="Collapsed">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF7A4A00"/>
+                                </TextBlock.Foreground>
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                                <TextBlock.Triggers>
+                                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                        <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
+                                    </EventTrigger>
+                                </TextBlock.Triggers>
+                            </TextBlock>
 
-                                <!-- Nombre del personaje -->
-                                <Border Grid.Row="0"
-                                        HorizontalAlignment="Left"
-                                        CornerRadius="2,2,0,0"
-                                        Padding="10,4,10,4"
-                                        Margin="0,0,0,6">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="#DD1A120A"/>
-                                    </Border.Background>
-                                    <Border.BorderBrush>
-                                        <SolidColorBrush Color="#FF8B6914"/>
-                                    </Border.BorderBrush>
-                                    <Border.BorderThickness>0,0,0,1</Border.BorderThickness>
-                                    <TextBlock x:Name="CharacterName"
-                                               Text=""
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               FontFamily="Arial">
-                                        <TextBlock.Foreground>
-                                            <SolidColorBrush Color="#FFFFD97D"/>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
-                                </Border>
-
-                                <!-- Texto del diálogo -->
-                                <TextBlock x:Name="DialogText"
-                                           Grid.Row="1"
-                                           Text=""
-                                           FontSize="13"
-                                           FontFamily="Arial"
-                                           TextWrapping="Wrap"
-                                           LineHeight="20"
-                                           VerticalAlignment="Top"
-                                           Margin="2,0,0,4">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="#FFE8DCC8"/>
-                                    </TextBlock.Foreground>
-                                </TextBlock>
-
-                                <!-- Icono continuar -->
-                                <TextBlock x:Name="ContinueIcon"
-                                           Grid.Row="2"
-                                           Text="▼"
-                                           FontSize="11"
-                                           FontFamily="Arial"
-                                           HorizontalAlignment="Right"
-                                           Margin="0,0,4,2"
-                                           Visibility="Collapsed">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="#FFFFD97D"/>
-                                    </TextBlock.Foreground>
-                                    <TextBlock.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </TextBlock.RenderTransform>
-                                    <TextBlock.Triggers>
-                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                            <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
-                                        </EventTrigger>
-                                    </TextBlock.Triggers>
-                                </TextBlock>
-
-                            </Grid>
                         </Grid>
-                    </Border>
-                </Border>
+                    </Grid>
+
+                </Grid>
 
             </Grid>
 

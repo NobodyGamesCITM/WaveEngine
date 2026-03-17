@@ -29,6 +29,9 @@ local shakeTimer   = 0.0
 local shakeOffsetX = 0.0
 local shakeOffsetZ = 0.0
 
+-- Audio
+local musicSource
+
 local function clamp(v, min, max)
     if v < min then return min end
     if v > max then return max end
@@ -42,8 +45,10 @@ end
 local function Init(self)
     local playerObj = GameObject.Find(self.public.playerName)
     if not playerObj then return end
-
+	
     playerTransform = playerObj.transform
+
+	Audio.SetMusicState("Level1")
 
     -- Compute initial world offset
     local camPos    = self.transform.worldPosition
@@ -150,3 +155,6 @@ function Update(self, dt)
     UpdateShake(self, dt)
     UpdateFollow(self, dt)
 end
+
+
+

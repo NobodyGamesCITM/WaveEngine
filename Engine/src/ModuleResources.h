@@ -148,6 +148,8 @@ public:
 
     bool IsShuttingDown() const { return shuttingDown; }
 
+    void CheckForAssetsModifications();
+
 private:
     // Create new resource by type
     Resource* CreateNewResource(const char* assetsFile, Resource::Type type);

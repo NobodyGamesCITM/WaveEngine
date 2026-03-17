@@ -101,8 +101,8 @@ local Player = {
     sprintHeld      = false,
 
     -- Audio
-    stepSFX = nil,
-	currentSurface = "",
+    --stepSFX = nil,
+	--currentSurface = "",
     
 
     -- Potion state
@@ -412,7 +412,7 @@ States[State.WALK] = {
             if stepTimer >= (0.5/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                --Engine.Log("Playing Walk FootSteps SFX")
+                Engine.Log("Playing Walk FootSteps SFX")
                 Player.stepSFX:PlayAudioEvent()
             end
         end
@@ -469,11 +469,11 @@ States[State.RUNNING] = {
         Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         if Player.stepSFX then
-            stepTimer = stepTimer + dt
+           stepTimer = stepTimer + dt
             if stepTimer >= (0.25/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                --Engine.Log("Playing Run FootSteps SFX")
+                Engine.Log("Playing Run FootSteps SFX")
                 Player.stepSFX:PlayAudioEvent()
             end
         end
@@ -795,6 +795,8 @@ function OnCollisionExit(self, other)
         Engine.Log("[Player] Player out of water")
     end
 end
+
+
 
 
 

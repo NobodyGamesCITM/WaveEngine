@@ -5,7 +5,7 @@
 #include "Material.h"
 
 #include "AssetsWindow.h"
-#include "FileUtils.h"
+#include "FileSystem.h"
 
 ComponentMaterial::ComponentMaterial(GameObject* owner) : Component(owner, ComponentType::MATERIAL) {}
 
@@ -53,7 +53,7 @@ void ComponentMaterial::OnEditor()
     }
     else {
         const Resource* res = Application::GetInstance().resources->PeekResource(materialUID);
-        buttonText = (res) ? GetFileNameNoExtension(res->GetAssetFile()) : "Unknown Material";
+        buttonText = (res) ? FileSystem::GetFileNameNoExtension(res->GetAssetFile()) : "Unknown Material";
     }
         
     ImGui::Button(buttonText.c_str(), ImVec2(availableWidth, 20));

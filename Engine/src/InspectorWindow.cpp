@@ -976,10 +976,12 @@ void  InspectorWindow::DrawSphereColliderComponent(Component* component)
 
     if (Collider != nullptr)
     {
-        if (ImGui::CollapsingHeader("Sphere Collider", ImGuiTreeNodeFlags_DefaultOpen)) {
-            DrawComponentContextMenu(Collider, true);
-            Collider->OnEditor();
-        }
+        std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+        ImGui::PushID(popupID.c_str());
+        bool open = ImGui::CollapsingHeader(Collider->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+        DrawComponentContextMenu(Collider, true);
+        if (open) Collider->OnEditor();
+        ImGui::PopID();
     }
 }
 

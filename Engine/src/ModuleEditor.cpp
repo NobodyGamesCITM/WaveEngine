@@ -10,7 +10,6 @@
 #include <commdlg.h>
 #include <shobjidl.h>
 #include <nlohmann/json.hpp>
-#include "FileUtils.h"
 
 #include "Application.h"
 #include "Log.h"
@@ -22,7 +21,7 @@
 #include "ComponentMesh.h"
 #include "Transform.h"           
 #include "ComponentCamera.h"  
-#include "CameraLens.h"   
+#include "CameraLens.h"    
 
 #include "EditorCamera.h"   
 #include "ComponentMaterial.h"
@@ -45,6 +44,7 @@
 #include "DeleteCommand.h"
 #include "CreateCommand.h"
 #include "CompositeCommand.h"
+#include "FileSystem.h"
 
 ModuleEditor::ModuleEditor() : Module()
 {
@@ -245,7 +245,7 @@ void ModuleEditor::ShowMenuBar()
             if (ImGui::MenuItem("Save Scene"))
             {
                 std::string searchPath = "";
-                if (DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
+                if (FileSystem::DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
                 else searchPath = "../Assets/scene.scene";
                     
                 std::string filepath = OpenSaveFile(searchPath);
@@ -261,7 +261,7 @@ void ModuleEditor::ShowMenuBar()
             if (ImGui::MenuItem("Load Scene"))
             {
                 std::string searchPath = "";
-                if (DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
+                if (FileSystem::DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
                 else searchPath = "../Assets/scene.scene";
                 std::string filepath = OpenLoadFile(searchPath);
                 if (!filepath.empty())
@@ -1157,7 +1157,7 @@ void ModuleEditor::BuildGame()
         LOG_CONSOLE("[Build] Copied %d DLL(s)", dllCount);
 
         // Copy Assets/ folder
-        fs::path assetsSrc(LibraryManager::GetAssetsRoot());
+        fs::path assetsSrc(FileSystem::GetAssetsRoot());
         if (fs::exists(assetsSrc))
         {
             fs::copy(assetsSrc, dest / "Assets", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
@@ -1170,7 +1170,7 @@ void ModuleEditor::BuildGame()
         }
 
         // Copy Audio folder
-        fs::path audioFolder(LibraryManager::GetProjectRoot() + "\\Audio");
+        fs::path audioFolder(FileSystem::GetProjectRoot() + "\\Audio");
         if (fs::exists(audioFolder)) {
             fs::copy(audioFolder, dest / "Audio", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
             LOG_CONSOLE("[Build] Copied Audio/ folder");
@@ -1181,7 +1181,7 @@ void ModuleEditor::BuildGame()
         }
 
         // Copy Library/ folder
-        fs::path libRoot(LibraryManager::GetLibraryRoot());
+        fs::path libRoot(FileSystem::GetLibraryRoot());
         if (fs::exists(libRoot))
         {
             fs::copy(libRoot, dest / "Library", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
@@ -1194,8 +1194,8 @@ void ModuleEditor::BuildGame()
 
         // Ask the user to pick the startup scene from the copied Scene/ folder
         UID startupSceneUID = 0;
-        std::string sceneSrc = OpenLoadFile(LibraryManager::GetAssetsRoot());
-        if (!sceneSrc.empty() && DoesFileExist(GetMetaPath(sceneSrc)))
+        std::string sceneSrc = OpenLoadFile(FileSystem::GetAssetsRoot());
+        if (!sceneSrc.empty() && FileSystem::DoesFileExist(MetaFileManager::GetMetaPath(sceneSrc)))
         {
             startupSceneUID = MetaFileManager::GetUIDFromAsset(sceneSrc);
             LOG_CONSOLE("[Build] Startup scene set to '%s'", sceneSrc.c_str());

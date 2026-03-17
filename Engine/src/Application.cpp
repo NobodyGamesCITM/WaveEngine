@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include "LibraryManager.h"
+#include "FileSystem.h"
 #ifdef WAVE_GAME
 #include <nlohmann/json.hpp>
 #include <windows.h>
@@ -86,6 +87,8 @@ bool Application::Start()
     LOG_CONSOLE("Starting engine modules...");
     LOG_CONSOLE("========================================");
 
+    FileSystem::Initialize();
+
     auto totalStart = std::chrono::high_resolution_clock::now();
 
     bool result = true;
@@ -124,7 +127,7 @@ bool Application::Start()
     // Load scene and start in play mode
     if (result)
     {
-        std::filesystem::path projectRoot = std::filesystem::path(LibraryManager::GetLibraryRoot()).parent_path(); // Example: /WaveEngine/Engine/Build then --> /WaveEngine/Engine
+        std::filesystem::path projectRoot = std::filesystem::path(FileSystem::GetLibraryRoot()).parent_path(); // Example: /WaveEngine/Engine/Build then --> /WaveEngine/Engine
 
         char exeBuffer[MAX_PATH];
         GetModuleFileNameA(NULL, exeBuffer, MAX_PATH);

@@ -11,7 +11,7 @@
 #include "ComponentMesh.h"
 #include "ComponentSkinnedMesh.h"
 #include "ComponentMaterial.h"
-#include "FileUtils.h"
+#include "FileSystem.h"
 #include "MaterialStandard.h"
 
 #include "ResourceModel.h"
@@ -73,7 +73,7 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
             aiString matName;
             assimpMat->Get(AI_MATKEY_NAME, matName);
             std::string nameStr = matName.C_Str();
-            std::string directory = GetDirectoryFromPath(file_path);
+            std::string directory = FileSystem::GetDirectoryFromPath(file_path);
             if (nameStr.empty()) nameStr = "Material_" + std::to_string(i);
 
             std::string materialAssetPath = directory + "/" + nameStr + ".mat";
@@ -109,7 +109,7 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
     std::string directory = file_path.substr(0, file_path.find_last_of("/\\"));
     rootObj = ProcessNode(scene->mRootNode, scene, directory, referedMeshes, materialMap);
 
-    rootObj->name = GetFileNameNoExtension(file_path);
+    rootObj->name = FileSystem::GetFileNameNoExtension(file_path);
     rootObj->objectUID = 0;
 
     if (hasAnimations)
@@ -331,7 +331,7 @@ UID ModelImporter::ProcessMesh(aiMesh* aiMesh, const aiScene* scene, const UID u
     }
 
     // Register mesh in ModuleResources
-    std::string libraryPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+    std::string libraryPath = LibraryManager::GetLibraryPath(meshUID);
 
     Resource* newResource = resources->CreateNewResourceWithUID(
         libraryPath.c_str(),
@@ -422,7 +422,7 @@ void ModelImporter::CalculateBoundingBox(GameObject* obj, glm::vec3& minBounds, 
 
 bool ModelImporter::SaveToCustomFormat(const Model& model, const UID& uid)
 {
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
     std::ofstream file(fullPath, std::ios::out | std::ios::binary);
 
     if (file.is_open())
@@ -452,7 +452,7 @@ bool ModelImporter::SaveToCustomFormat(const Model& model, const UID& uid)
 Model ModelImporter::LoadFromCustomFormat(const UID& uid)
 {
     Model model;
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     std::ifstream file(fullPath, std::ios::in | std::ios::binary | std::ios::ate);
 
@@ -507,7 +507,7 @@ void ModelImporter::FillMaterialTextures(const aiScene* scene, aiMaterial* aiMat
             if (aiMat->GetTexture(aiType, 0, &texPath) == AI_SUCCESS)
             {
                 std::string finalPath = "";
-                std::string fileName = GetFileName(texPath.C_Str());
+                std::string fileName = FileSystem::GetFileName(texPath.C_Str());
 
                 const aiTexture* embeddedTex = scene->GetEmbeddedTexture(texPath.C_Str());
                 if (embeddedTex != nullptr)
@@ -528,13 +528,13 @@ void ModelImporter::FillMaterialTextures(const aiScene* scene, aiMaterial* aiMat
                 }
                 else
                 {
-                    finalPath = FindFileInDirectory(modelDirectory, fileName);
+                    finalPath = FileSystem::FindFileInDirectory(modelDirectory, fileName);
                     if (finalPath.empty()) {
-                        finalPath = FindFileInDirectory("Assets", fileName);
+                        finalPath = FileSystem::FindFileInDirectory("Assets", fileName);
                     }
                 }
 
-                if (!finalPath.empty() && DoesFileExist(finalPath))
+                if (!finalPath.empty() && FileSystem::DoesFileExist(finalPath))
                 {
                     UID texUID = Application::GetInstance().resources->ImportFile(finalPath.c_str());
                     if (texUID != 0)

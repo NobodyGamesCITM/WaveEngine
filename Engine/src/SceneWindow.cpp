@@ -29,6 +29,7 @@
 #include "TransformCommand.h"
 #include "ModuleEditor.h"
 #include "CreateCommand.h"
+#include "FileSystem.h"
 
 namespace fs = std::filesystem;
 
@@ -527,7 +528,7 @@ void SceneWindow::DrawGizmo()
 
 unsigned long long SceneWindow::FindTextureForDroppedMesh(unsigned long long meshUID)
 {
-    std::string assetsPath = LibraryManager::GetAssetsRoot();
+    std::string assetsPath = FileSystem::GetAssetsRoot();
     // 1. Search for the FBX that contains this mesh
     for (const auto& entry : fs::recursive_directory_iterator(assetsPath)) {
         if (!entry.is_regular_file()) continue;
@@ -602,7 +603,7 @@ unsigned long long SceneWindow::FindTextureForDroppedMesh(unsigned long long mes
 
 void SceneWindow::ApplyMeshTransformFromFBX(GameObject* meshObject, unsigned long long meshUID)
 {
-    std::string assetsPath = LibraryManager::GetAssetsRoot();
+    std::string assetsPath = FileSystem::GetAssetsRoot();
     // 1. Search for the FBX that contains this mesh
     for (const auto& entry : fs::recursive_directory_iterator(assetsPath)) {
         if (!entry.is_regular_file()) continue;

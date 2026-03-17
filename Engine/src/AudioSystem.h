@@ -124,6 +124,9 @@ private:
 	// processing reverb zones each frame
 	void ProcessReverbZones();
 	void DrawReverbZones();
+
+	//drawing sources attenuation radius each frame
+	void DrawSourceAttenuationRadius();
 	
 
 	// set aux send helper

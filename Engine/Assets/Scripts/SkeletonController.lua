@@ -1,4 +1,4 @@
-﻿local atan2 = math.atan
+local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
 local min   = math.min
@@ -467,5 +467,8 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then
         alreadyHit = false
+		
     end
 end
+
+

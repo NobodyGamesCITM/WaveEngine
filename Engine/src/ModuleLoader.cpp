@@ -7,7 +7,7 @@
 #include "ResourcePrefab.h"
 #include "ResourceScene.h"
 #include "MetaFile.h"
-#include "FileUtils.h"
+#include "FileSystem.h"
 #include "ComponentMaterial.h"
 #include "MaterialStandard.h"
 #include "ComponentCamera.h"
@@ -41,7 +41,7 @@ bool ModuleLoader::Start()
         }
     }
 
-    fs::path assetsPath = LibraryManager::GetAssetsRoot();
+    fs::path assetsPath = FileSystem::GetAssetsRoot();
 
     if (!fs::exists(assetsPath) || !fs::is_directory(assetsPath)) {
         LOG_CONSOLE("[FileSystem] WARNING: Assets folder not accessible");
@@ -246,8 +246,8 @@ bool ModuleLoader::LoadTextureToGameObject(GameObject* obj, UID textureUID)
             const Resource* resource = Application::GetInstance().resources.get()->PeekResource(textureUID);
             if (resource)
             {
-                std::string folder = GetDirectoryFromPath(resource->GetAssetFile());
-                std::string matName = GetFileNameNoExtension(resource->GetAssetFile()) + "_mat.mat";
+                std::string folder = FileSystem::GetDirectoryFromPath(resource->GetAssetFile());
+                std::string matName = FileSystem::GetFileNameNoExtension(resource->GetAssetFile()) + "_mat.mat";
                 std::string matPath = folder + "/" + matName;
 
                 UID matUID = 0;

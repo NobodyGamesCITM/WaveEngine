@@ -22,6 +22,7 @@
 #include "EditorPreferences.h"
 #include "MaterialImporter.h"
 #include "ResourcePrefab.h"
+#include "FileSystem.h"
 #include "PrefabManager.h"
 #include "Globals.h"
 
@@ -38,7 +39,7 @@ AssetsWindow::AssetsWindow()
         LibraryManager::Initialize();
     }
 
-    assetsRootPath = LibraryManager::GetAssetsRoot();
+    assetsRootPath = FileSystem::GetAssetsRoot();
     currentPath = assetsRootPath;
 
     importSettingsWindow = new ImportSettingsWindow();
@@ -269,7 +270,7 @@ void AssetsWindow::Draw()
 
     if (firstDraw) {
 
-        std::string libRoot = LibraryManager::GetLibraryRoot();
+        std::string libRoot = FileSystem::GetLibraryRoot();
 
         RefreshAssets();
         firstDraw = false;
@@ -1290,7 +1291,7 @@ void AssetsWindow::LoadFBXSubresources(AssetEntry& fbxAsset)
     // --- 1. PROCESAR MINTAS (MESHES) ---
     for (const auto& [meshName, meshUID] : meta.meshes)
     {
-        std::string libPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+        std::string libPath = LibraryManager::GetLibraryPath(meshUID);
 
         if (!LibraryManager::FileExists(libPath))
             continue;
@@ -1314,7 +1315,7 @@ void AssetsWindow::LoadFBXSubresources(AssetEntry& fbxAsset)
 
     for (const auto& [animName, animUID] : meta.animations)
     {
-        std::string libPath = LibraryManager::GetLibraryPathFromUID(animUID);
+        std::string libPath = LibraryManager::GetLibraryPath(animUID);
 
         if (!LibraryManager::FileExists(libPath))
             continue;
@@ -1360,7 +1361,7 @@ bool AssetsWindow::DeleteAsset(const AssetEntry& asset)
                     // Delete all mesh files with UIDs: base_uid, base_uid+1, base_uid+2, etc.
                     for (int i = 0; i < 100; i++) {
                         unsigned long long meshUID = uid + i;
-                        std::string libPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                        std::string libPath = LibraryManager::GetLibraryPath(meshUID);
 
                         if (fs::exists(libPath)) {
                             fs::remove(libPath);
@@ -1378,7 +1379,7 @@ bool AssetsWindow::DeleteAsset(const AssetEntry& asset)
                         meta.type == AssetType::TEXTURE_JPG ||
                         meta.type == AssetType::TEXTURE_DDS ||
                         meta.type == AssetType::TEXTURE_TGA) {
-                        libPath = LibraryManager::GetLibraryPathFromUID(uid);
+                        libPath = LibraryManager::GetLibraryPath(uid);
                     }
 
                     if (!libPath.empty() && fs::exists(libPath)) {
@@ -1427,7 +1428,7 @@ bool AssetsWindow::DeleteDirectory(const fs::path& dirPath)
                     if (meta.type == AssetType::MODEL_FBX) {
                         for (int i = 0; i < 100; i++) {
                             unsigned long long meshUID = meta.uid + i;
-                            std::string libPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                            std::string libPath = LibraryManager::GetLibraryPath(meshUID);
 
                             if (fs::exists(libPath)) {
                                 fs::remove(libPath);
@@ -1445,7 +1446,7 @@ bool AssetsWindow::DeleteDirectory(const fs::path& dirPath)
                             meta.type == AssetType::TEXTURE_JPG ||
                             meta.type == AssetType::TEXTURE_DDS ||
                             meta.type == AssetType::TEXTURE_TGA) {
-                            libPath = LibraryManager::GetLibraryPathFromUID(meta.uid);
+                            libPath = LibraryManager::GetLibraryPath(meta.uid);
                         }
 
                         if (!libPath.empty() && fs::exists(libPath)) {
@@ -1566,7 +1567,7 @@ void AssetsWindow::ScanDirectory(const fs::path& directory, std::vector<AssetEnt
 
                                         for (int i = 0; i < 100; i++) {
                                             unsigned long long meshUID = subMeta.uid + i;
-                                            std::string meshLibPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                                            std::string meshLibPath = LibraryManager::GetLibraryPath(meshUID);
 
                                             if (!fs::exists(meshLibPath)) {
                                                 break;
@@ -1638,7 +1639,7 @@ void AssetsWindow::ScanDirectory(const fs::path& directory, std::vector<AssetEnt
                         // Verify all meshes in the FBX (sequential UIDs)
                         for (int i = 0; i < 100; i++) {
                             unsigned long long meshUID = meta.uid + i;
-                            std::string meshLibPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                            std::string meshLibPath = LibraryManager::GetLibraryPath(meshUID);
 
                             if (!fs::exists(meshLibPath)) {
                                 break;
@@ -1853,7 +1854,7 @@ void AssetsWindow::LoadPreviewForAsset(AssetEntry& asset)
                 for (int i = 0; i < 100; i++)
                 {
                     unsigned long long meshUID = asset.uid + i;
-                    std::string meshLibPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                    std::string meshLibPath = LibraryManager::GetLibraryPath(meshUID);
 
                     if (!LibraryManager::FileExists(meshLibPath))
                     {
@@ -2438,7 +2439,7 @@ void AssetsWindow::ShowPrefabNamingModal()
 
         fs::path destinationPath = fs::path(currentPath) / (std::string(prefabName) + ".prefab");
         std::string relativePath = destinationPath.string();
-        std::string assetsRoot = LibraryManager::GetAssetsRoot();
+        std::string assetsRoot = FileSystem::GetAssetsRoot();
 
         if (relativePath.find(assetsRoot) == 0)
         {
@@ -2546,7 +2547,6 @@ void AssetsWindow::CreateNewScript(const std::string& scriptName)
     meta.uid = GenerateUID();
     meta.type = AssetType::SCRIPT_LUA;
     meta.originalPath = scriptPath.string();
-    meta.fileHash = MetaFileManager::GetFileHash(scriptPath.string());
 
     std::string metaPath = scriptPath.string() + ".meta";
     meta.Save(metaPath);

@@ -74,7 +74,6 @@ struct MetaFile {
     UID uid = 0;
     AssetType type = AssetType::UNKNOWN;
     std::string originalPath;
-    uint32_t fileHash = 0;
     ImportSettings importSettings;
     mutable std::map<std::string, UID> meshes;
     mutable std::map<std::string, UID> animations;
@@ -83,11 +82,6 @@ struct MetaFile {
 
     bool Save(const std::string& metaFilePath) const;
     static MetaFile Load(const std::string& metaFilePath);
-
-    bool NeedsReimport(const std::string& assetPath) const;
-
-    static std::string MakeRelativeToProject(const std::string& absolutePath);
-    static std::string MakeAbsoluteFromProject(const std::string& relativePath);
 };
 
 class MetaFileManager {
@@ -97,16 +91,16 @@ public:
     static void CleanOrphanedMetaFiles();
     static void CheckForChanges();
     static MetaFile GetOrCreateMeta(const std::string& assetPath);
-    static bool NeedsReimport(const std::string& assetPath);
     static void RegenerateLibrary();
-    static bool UpdateMetaIfModified(const std::string& assetPath);
 
     static MetaFile LoadMeta(const std::string& assetPath);
     static UID GetUIDFromAsset(const std::string& assetPath);
     static std::string GetAssetFromUID(UID uid);
-    static long long GetFileTimestamp(const std::string& filePath);
-    static uint32_t GetFileHash(const std::string& path);
 
-private:
+
+    
     static std::string GetMetaPath(const std::string& assetPath);
+    static bool DoesFileHasMeta(const std::string& assetPath);
+    static uint32_t GetCombinedHash(const std::string& assetPath);
+
 };

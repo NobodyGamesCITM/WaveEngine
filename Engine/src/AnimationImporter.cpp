@@ -69,7 +69,7 @@ Animation AnimationImporter::ImportFromAssimp(const aiAnimation* assimpAnim) {
 // SAVE: Our AnimationData -> Custom Binary Format
 bool AnimationImporter::SaveToCustomFormat(const Animation& animData, const UID& uid) {
 
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     std::ofstream file(fullPath, std::ios::out | std::ios::binary);
     if (!file.is_open()) {
@@ -115,7 +115,7 @@ bool AnimationImporter::SaveToCustomFormat(const Animation& animData, const UID&
 Animation AnimationImporter::LoadFromCustomFormat(const UID& uid) {
 
     Animation animData;
-    std::string fullPath = LibraryManager::GetLibraryPathFromUID(uid);
+    std::string fullPath = LibraryManager::GetLibraryPath(uid);
 
     std::ifstream file(fullPath, std::ios::in | std::ios::binary);
     if (!file.is_open()) {

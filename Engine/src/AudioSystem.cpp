@@ -17,6 +17,7 @@
 #include "Application.h"
 #include "AudioListener.h"
 #include "LibraryManager.h"
+#include "FileSystem.h"
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h>
@@ -113,7 +114,7 @@ bool AudioSystem::InitStreamingManager() {
     // Initializing the Deferred hook
     if (g_lowLevelIO.Init(deviceSettings) != AK_Success) return false;
 
-    std::string projectRoot = LibraryManager::GetProjectRoot();
+    std::string projectRoot = FileSystem::GetProjectRoot();
     std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
     mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
     g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());
@@ -208,19 +209,25 @@ bool AudioSystem::Awake() {
 
 bool AudioSystem::Update() { 
     if (!AK::SoundEngine::IsInitialized()) return true;
-    //components push their current position to Wwise
-    for (auto* component : audioComponents) {
-        component->SetTransform();
-    }
+
 
     // Process reverb zones (set aux sends on listener)
     ProcessReverbZones();
     DrawReverbZones();
+    DrawSourceAttenuationRadius();
+
+    //components push their current position to Wwise
+    for (auto* component : audioComponents) {
+        //if (!component->enabled) return true;
+        component->SetTransform();
+        
+        AK::SoundEngine::RenderAudio();
+    }
     
 
     //ProcessAudio() in the Sound Integration Walkthrough
     //processes bank requests, events, positions, RTPC, etc.
-    AK::SoundEngine::RenderAudio();
+    
     return true;
 }
 
@@ -253,7 +260,8 @@ bool AudioSystem::CleanUp() {
 }
 
 void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
-{
+{   
+    
     for (size_t i = 0; i < MAX_AUDIO_EVENTS; i++)
     {
         //grab the first available slot (0L) to play an event in the max events pool 
@@ -566,6 +574,37 @@ void AudioSystem::SetGameObjectAuxSend(AkGameObjectID id, AkUniqueID busId, floa
     }
 }
 
+void AudioSystem::DrawSourceAttenuationRadius() {
+    for (AudioComponent* comp : audioComponents) {
+        if (comp->GetType() != ComponentType::AUDIOSOURCE) return;
+
+        AudioSource* source = static_cast<AudioSource*>(comp);
+
+        if (!source->enabled) return;
+
+        Transform* t = source->owner->transform;
+        if (!t) return;
+
+        glm::vec4 debugColor(0.0f, 6.0f, 4.0f, 0.5f);
+        
+        //transform to worldSpace
+        glm::vec3 worldPos = t->GetGlobalPosition();
+
+        glm::mat4 modelMatrix = t->GetGlobalMatrix();
+        // Transform offset from local to world space 
+        glm::mat4 rotOnly = glm::mat4(glm::mat3(
+            glm::normalize(glm::vec3(modelMatrix[0])),
+            glm::normalize(glm::vec3(modelMatrix[1])),
+            glm::normalize(glm::vec3(modelMatrix[2]))
+        ));
+        
+        glm::vec3 sphereCenter = worldPos;
+        
+        if (source->owner->IsSelected())
+            Application::GetInstance().renderer->DrawSphere(sphereCenter, source->radius, debugColor);
+    }
+}
+
 void AudioSystem::DrawReverbZones() {
     //Draw Reverb Zone on Editor
 
@@ -638,6 +677,8 @@ void AudioSystem::DrawReverbZones() {
 
 
 }
+
+
 
 void AudioSystem::DiscoverAuxBuses()
 {

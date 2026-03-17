@@ -30,6 +30,8 @@ AudioSource::~AudioSource()
 
 void AudioSource::SetTransform() {
 
+    /*float dist = 0*/
+    //if (!enabled) return;
     if (owner) {
         Transform* trans = static_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
         if (trans) {
@@ -52,9 +54,25 @@ void AudioSource::SetTransform() {
             );
 
             //K::SoundEngine::SetRTPCValue("ObjectVolume", (AkRtpcValue)volume, goID);
-            AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
+            if (!enabled) {
+                AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(0), goID);
+            }
+            else {
+                AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
+            }
+            
             AK::SoundEngine::SetPosition(this->goID, soundPos);
         }
+        //set attenuation radius
+
+       
+        //if (dist != nullptr) {
+        //    float normalized = dist / radius;
+
+        //    //AK::SoundEngine::SetRTPCValue("NormalizedDistance", normalized);
+        //    AK::SoundEngine::SetRTPCValue(L"Attenuation_Radius", normalized, goID);
+        //}
+       
     }
     
     
@@ -137,10 +155,14 @@ void AudioSource::OnEditor() {
     }
 
     if (ImGui::SliderFloat("Volume", &volume, 0.0f, 100.0f)){
-        //Application::GetInstance().audio.get()->audioSystem->SetMusicVolume(volume);
+        
         AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
-
     }
+
+    //if (ImGui::SliderFloat("Attenuation Radius", &radius, 0.0f, 1000.0f)) {
+    //    //Application::GetInstance().audio.get()->audioSystem->SetMusicVolume(volume);
+    //    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
+    //}
 
     ImGui::Checkbox("Play On Awake", &playOnAwake);
 
@@ -170,6 +192,10 @@ void AudioSource::OnEditor() {
             Application::GetInstance().audio->StopAudio(this, eventID);
         }
     }
+
+    ImGui::Checkbox("Enabled", &enabled);
+
+    
 
     #endif 
 }

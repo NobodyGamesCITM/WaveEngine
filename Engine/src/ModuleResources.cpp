@@ -5,6 +5,7 @@
 #include "ResourceShader.h"
 #include "LibraryManager.h"
 #include "MetaFile.h"
+#include "FileSystem.h"
 #include "TextureImporter.h"
 #include "ModelImporter.h"
 #include "MeshImporter.h"
@@ -41,6 +42,7 @@ bool ModuleResources::Awake() {
 }
 
 bool ModuleResources::Start() {
+    
     LOG_CONSOLE("[ModuleResources] Initializing...");
 
     LibraryManager::Initialize();
@@ -53,7 +55,7 @@ bool ModuleResources::Start() {
 
 #ifndef WAVE_GAME
     LOG_CONSOLE("[ModuleResources] Importing assets to Library...");
-    LibraryManager::RegenerateFromAssets();
+    CheckForAssetsModifications();
 #endif
 
     LOG_CONSOLE("[ModuleResources] Initialized successfully");
@@ -90,7 +92,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
     
     LOG_CONSOLE("[ModuleResources] Registering resources from meta files...");
 
-    std::string assetsPath = LibraryManager::GetAssetsRoot();
+    std::string assetsPath = FileSystem::GetAssetsRoot();
 
     if (!std::filesystem::exists(assetsPath)) {
         LOG_CONSOLE("ERROR: Assets folder not found");
@@ -144,7 +146,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
             resource = new ResourceTexture(meta.uid);
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -156,14 +158,14 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
             resource = new ResourceModel(meta.uid);
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
             
             for (const auto& [meshName, meshUID] : meta.meshes) {
 
-                std::string meshPath = LibraryManager::GetLibraryPathFromUID(meshUID);
+                std::string meshPath = LibraryManager::GetLibraryPath(meshUID);
 
                 if (std::filesystem::exists(meshPath)) {
                     ResourceMesh* meshResource = new ResourceMesh(meshUID);
@@ -178,7 +180,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
             }
             for (const auto& [animationName, animationUID] : meta.animations) {
 
-                std::string animationPath = LibraryManager::GetLibraryPathFromUID(animationUID);
+                std::string animationPath = LibraryManager::GetLibraryPath(animationUID);
 
                 if (std::filesystem::exists(animationPath)) {
                     ResourceAnimation* animationResource = new ResourceAnimation(animationUID);
@@ -198,7 +200,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
             resource = new ResourceShader(meta.uid);
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -209,7 +211,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
             resource = new ResourceScript(meta.uid);
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -222,7 +224,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
 
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -234,7 +236,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
 
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -246,7 +248,7 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
 
             if (resource) {
                 resource->SetAssetFile(assetPath);
-                resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(meta.uid));
+                resource->SetLibraryFile(LibraryManager::GetLibraryPath(meta.uid));
                 resources[meta.uid] = resource;
                 registered++;
             }
@@ -294,7 +296,7 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
     auto it = resources.find(meta.uid);
 
     if (it != resources.end()) {
-        if (!forceReimport && std::filesystem::exists(LibraryManager::GetLibraryPathFromUID(meta.uid))) {
+        if (!forceReimport && std::filesystem::exists(LibraryManager::GetLibraryPath(meta.uid))) {
             return meta.uid;
         }
         resource = it->second;
@@ -363,12 +365,8 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
         resource->LoadInMemory();
     }
 
-    uint32_t fileHash = MetaFileManager::GetFileHash(newFileInAssets);
-    if (meta.fileHash != fileHash) {
-        meta.fileHash = fileHash;
-        std::string metaPath = std::string(newFileInAssets) + ".meta";
-        meta.Save(metaPath);
-    }
+    uint32_t finalFileHash = MetaFileManager::GetCombinedHash(newFileInAssets);
+    LibraryManager::UpdateLocalHash(meta.uid, finalFileHash);
 
     return meta.uid;
 }
@@ -414,10 +412,10 @@ Resource* ModuleResources::CreateNewResourceWithUID(const char* assetsFile, Reso
             resource->SetLibraryFile(assetsFile);
         }
         else if (type == Resource::TEXTURE) {
-            resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(uid));
+            resource->SetLibraryFile(LibraryManager::GetLibraryPath(uid));
         }
         else if (type == Resource::MESH) {
-            resource->SetLibraryFile(LibraryManager::GetLibraryPathFromUID(uid));
+            resource->SetLibraryFile(LibraryManager::GetLibraryPath(uid));
         }
 
         resources[uid] = resource;
@@ -541,7 +539,7 @@ Resource* ModuleResources::CreateNewResource(const char* assetsFile, Resource::T
 std::string ModuleResources::GenerateLibraryPath(Resource* resource) {
     
     if (!resource) return "";
-    return LibraryManager::GetLibraryPathFromUID(resource->GetUID());
+    return LibraryManager::GetLibraryPath(resource->GetUID());
 }
 
 Resource* ModuleResources::LoadResourceFromLibrary(UID uid) {
@@ -656,7 +654,7 @@ bool ModuleResources::ImportScript(Resource* resource, const std::string& assetP
 
 bool ModuleResources::ImportPrefab(Resource* resource, const std::string& assetPath) {
 
-    std::string libraryPath = LibraryManager::GetLibraryPathFromUID(resource->GetUID());
+    std::string libraryPath = LibraryManager::GetLibraryPath(resource->GetUID());
 
     std::string metaPath = assetPath + ".meta";
     MetaFile meta;
@@ -723,3 +721,73 @@ const Resource* ModuleResources::GetResource(UID uid) const {
     return it->second;
 }
 
+void ModuleResources::CheckForAssetsModifications()
+{
+    LOG_CONSOLE("[ResourceManager] Scanning Assets and checking for changes...");
+
+    fs::path assetsPath = fs::path(FileSystem::GetAssetsRoot());
+    int processed = 0;
+    int skipped = 0;
+    int errors = 0;
+
+    try {
+        for (const auto& entry : fs::recursive_directory_iterator(assetsPath)) {
+            if (!entry.is_regular_file()) continue;
+
+            fs::path assetPath = entry.path();
+            std::string extension = assetPath.extension().string();
+
+            if (extension == ".meta") continue;
+
+            AssetType type = MetaFile::GetAssetType(extension);
+            if (type == AssetType::UNKNOWN) continue;
+
+            std::string assetPathStr = assetPath.string();
+            std::string metaPathStr = assetPathStr + ".meta";
+
+            if (!fs::exists(metaPathStr)) continue;
+
+            MetaFile meta = MetaFileManager::LoadMeta(assetPathStr);
+
+            if (meta.uid == 0) {
+                LOG_CONSOLE("[LibraryManager] ERROR: No UID in meta for: %s",
+                    assetPath.filename().string().c_str());
+                errors++;
+                continue;
+            }
+
+            bool needsImport = false;
+            std::string libraryPath = LibraryManager::GetLibraryPath(meta.uid);
+
+            if (libraryPath == "") continue;
+
+            if (!FileSystem::DoesFileExist(libraryPath)) {
+                needsImport = true;
+            }
+            else
+            {
+                uint32_t currentCombinedHash = MetaFileManager::GetCombinedHash(assetPathStr);
+                uint32_t localLibraryHash = LibraryManager::GetLocalHash(meta.uid);
+
+                if (localLibraryHash != currentCombinedHash)
+                {
+                    needsImport = true;
+                }
+            }
+
+            if (!needsImport) {
+                skipped++;
+                continue;
+            }
+
+            processed++;
+            ImportFile(assetPath.generic_string().c_str(), true);
+        }
+    }
+    catch (const fs::filesystem_error& e) {
+        LOG_CONSOLE("[LibraryManager] ERROR during scan: %s", e.what());
+    }
+
+    LOG_CONSOLE("[LibraryManager] Scan complete: %d re-imported/new, %d synchronized, %d errors",
+        processed, skipped, errors);
+}

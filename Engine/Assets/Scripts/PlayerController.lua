@@ -122,9 +122,9 @@ local Player = {
 
 public = {
     speed               = 15.0,
-    rollDuration        = 0.4,
+    rollDuration        = 1.0,
     sprintMultiplier    = 1.5,
-    rollSpeed           = 37.5,
+    rollSpeed           = 15.0,
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
@@ -136,7 +136,7 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost          = 0.2,
     hpRecover           = 0.2,
-    attackDuration      = 0.5,
+    attackDuration      = 1.0,
     attackCooldown      = 0.5,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
@@ -365,7 +365,7 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        
+        if anim then anim:Play("Running", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 
         self.public.usingStamina = false
 
@@ -425,13 +425,10 @@ States[State.WALK] = {
 States[State.RUNNING] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then 
-            anim:Play("Walking", 0.5) 
-            anim:SetSpeed("Walking", 2.0)
-        end
+        if anim then anim:Play("Running", 0.5) end
+
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
-
     end,
     Exit = function(self)
         self.public.speed = self.public.speed - self.public.speedIncrease
@@ -480,7 +477,6 @@ States[State.RUNNING] = {
                 Player.stepSFX:PlayAudioEvent()
             end
         end
-        
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
     end
 }
@@ -489,6 +485,9 @@ States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
         -- Anim roll, fix direction, stamina...
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Roll", 1.0) end
+
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
@@ -526,6 +525,9 @@ States[State.ATTACK_HEAVY] = {
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         -- Anim attacklight
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("NormalAttack", 1.0) end
         _PlayerController_lastAttack = "light"
         attackTimer = 0
         if attackCol then attackCol:Enable() end

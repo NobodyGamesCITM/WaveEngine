@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 0.7640692591667175,
+                    "aspectRatio": 1.076923131942749,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -46,34 +46,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "zoomMax",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "shakeFrequency",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
                             "name": "shakeDuration",
                             "type": 0,
                             "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "shakeMagnitude",
-                            "type": 0,
-                            "value": 0.30000001192092896
                         },
                         {
                             "name": "playerName",
@@ -81,9 +56,34 @@
                             "value": "Player"
                         },
                         {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
                             "name": "zoomMin",
                             "type": 0,
                             "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "shakeMagnitude",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "zoomMax",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -1549,7 +1549,7 @@
                                                     ],
                                                     "rotation": [
                                                         0.0,
-                                                        15.027966499328613,
+                                                        15.027965545654297,
                                                         0.0
                                                     ],
                                                     "scale": [
@@ -11250,9 +11250,9 @@
                                         -6.615219593048096
                                     ],
                                     "rotation": [
-                                        -85.25135040283203,
-                                        -22.125368118286133,
-                                        88.20793151855469
+                                        -85.2513656616211,
+                                        -22.1253719329834,
+                                        88.20796203613281
                                     ],
                                     "scale": [
                                         1.6846184730529785,
@@ -14378,13 +14378,13 @@
                                         {
                                             "active": true,
                                             "position": [
-                                                4.819198131561279,
-                                                12.36563491821289,
-                                                -0.817643404006958
+                                                4.819190979003906,
+                                                12.365638732910156,
+                                                -0.817657470703125
                                             ],
                                             "rotation": [
-                                                0.0,
-                                                0.0,
+                                                3.3900033930174545e-14,
+                                                -0.0,
                                                 0.0
                                             ],
                                             "scale": [
@@ -16925,12 +16925,12 @@
                                         {
                                             "active": true,
                                             "position": [
-                                                107.73281860351563,
-                                                144.6754913330078,
-                                                26.951101303100586
+                                                107.73267364501953,
+                                                144.67552185058594,
+                                                26.951173782348633
                                             ],
                                             "rotation": [
-                                                -90.0000228881836,
+                                                -90.00003051757813,
                                                 0.0,
                                                 0.0
                                             ],
@@ -33616,7 +33616,7 @@
                             "speedMax": 0.25,
                             "speedMin": 0.0,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
                             "textureRows": 1,
                             "textureUID": 14600480670017023417,
                             "type": 7
@@ -37020,9 +37020,9 @@
                         -92.08877563476563
                     ],
                     "rotation": [
-                        -90.00022888183594,
-                        88.27626037597656,
-                        -0.00022706517484039068
+                        -89.99993896484375,
+                        88.27603149414063,
+                        5.6766126363072544e-05
                     ],
                     "scale": [
                         2.9055566787719727,
@@ -41805,14 +41805,14 @@
                         {
                             "active": true,
                             "position": [
-                                -85.44087219238281,
-                                86.81153869628906,
-                                26.951101303100586
+                                -85.44068145751953,
+                                86.81153106689453,
+                                26.951295852661133
                             ],
                             "rotation": [
-                                -90.0000228881836,
-                                0.0,
-                                0.0
+                                -90.00003051757813,
+                                4.371321210783208e-06,
+                                -2.185660605391604e-06
                             ],
                             "scale": [
                                 100.0,
@@ -44070,14 +44070,14 @@
                                                                         {
                                                                             "active": true,
                                                                             "position": [
-                                                                                0.0,
+                                                                                -6.103515625e-05,
                                                                                 0.0,
                                                                                 0.0
                                                                             ],
                                                                             "rotation": [
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0
+                                                                                3.4150941701227566e-06,
+                                                                                7.54421364490554e-07,
+                                                                                5.748529474658426e-08
                                                                             ],
                                                                             "scale": [
                                                                                 1.0,
@@ -44093,7 +44093,7 @@
                                                                         },
                                                                         {
                                                                             "active": true,
-                                                                            "materialUID": 12553816852927190231,
+                                                                            "materialUID": 18078903582597236840,
                                                                             "type": 3
                                                                         }
                                                                     ],
@@ -46560,6 +46560,21 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "dodgeChance",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "dashForce",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
                             "name": "stopSmoothing",
                             "type": 0,
                             "value": 10.0
@@ -46570,56 +46585,6 @@
                             "value": 10.0
                         },
                         {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "dirSmoothing",
-                            "type": 0,
-                            "value": 12.0
-                        },
-                        {
-                            "name": "dodgeChance",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "attackDamage",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "idleWaitTime",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
                             "name": "chaseUpdateRate",
                             "type": 0,
                             "value": 0.5
@@ -46628,6 +46593,41 @@
                             "name": "rotationSpeed",
                             "type": 0,
                             "value": 15.0
+                        },
+                        {
+                            "name": "dirSmoothing",
+                            "type": 0,
+                            "value": 12.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "chaseRange",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -49418,9 +49418,9 @@
                         {
                             "active": true,
                             "position": [
-                                0.0,
+                                -6.103515625e-05,
                                 71.02110290527344,
-                                -7.110245704650879
+                                -7.1102294921875
                             ],
                             "rotation": [
                                 0.0,
@@ -49455,7 +49455,7 @@
                             "StaticFriction": 0.5,
                             "Trigger": false,
                             "active": true,
-                            "type": 15
+                            "type": 16
                         }
                     ],
                     "name": "pCube1",
@@ -49510,7 +49510,7 @@
                                                                         },
                                                                         {
                                                                             "active": true,
-                                                                            "materialUID": 15683934978003577166,
+                                                                            "materialUID": 13596484694967644980,
                                                                             "type": 3
                                                                         }
                                                                     ],
@@ -49786,7 +49786,7 @@
                             "speedMax": 0.30000001192092896,
                             "speedMin": 0.05000000074505806,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                             "textureRows": 1,
                             "textureUID": 17065513980760032408,
                             "type": 7
@@ -49802,8 +49802,8 @@
                     "active": true,
                     "position": [
                         36.0,
-                        6.5,
-                        -37.0
+                        7.5,
+                        -31.0
                     ],
                     "rotation": [
                         0.0,
@@ -49831,7 +49831,7 @@
                         20.0
                     ],
                     "StaticFriction": 0.5,
-                    "Trigger": true,
+                    "Trigger": false,
                     "active": true,
                     "type": 10
                 },
@@ -49848,15 +49848,15 @@
                         false
                     ],
                     "FreezeRot": [
-                        false,
-                        false,
-                        false
+                        true,
+                        true,
+                        true
                     ],
                     "LinearDamping": 0.0,
                     "Mass": 1.0,
                     "Type": 1,
                     "UseCCD": false,
-                    "UseGravity": false,
+                    "UseGravity": true,
                     "active": true,
                     "type": 8
                 },
@@ -49864,54 +49864,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "hermesWaterMax",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 2.0
+                            "value": 1.5
                         },
                         {
-                            "name": "flySpeed",
+                            "name": "knockbackForce",
                             "type": 0,
-                            "value": 20.0
+                            "value": 14.0
                         },
                         {
-                            "name": "stamina",
+                            "name": "tiredMultiplier",
                             "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "hpLossCost",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
+                            "value": 0.699999988079071
                         },
                         {
                             "name": "rollDuration",
@@ -49924,54 +49889,9 @@
                             "value": 0.10000000149011612
                         },
                         {
-                            "name": "attackCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "hitShakeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
                             "name": "speed",
                             "type": 0,
                             "value": 15.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
                         },
                         {
                             "name": "staminaRecover",
@@ -49979,9 +49899,89 @@
                             "value": 0.10000000149011612
                         },
                         {
-                            "name": "sprintMultiplier",
+                            "name": "rollStaminaCost",
                             "type": 0,
-                            "value": 1.5
+                            "value": 25.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "speedHermesBonus",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -49989,6 +49989,12 @@
                 },
                 {
                     "Animations": [
+                        {
+                            "UID": 16149177110653669407,
+                            "loop": true,
+                            "name": "Charge",
+                            "speed": 1.0
+                        },
                         {
                             "UID": 6306895655090560396,
                             "loop": true,
@@ -50012,10 +50018,26 @@
                             "loop": true,
                             "name": "Running",
                             "speed": 1.0
+                        },
+                        {
+                            "UID": 10896066334709553572,
+                            "loop": true,
+                            "name": "Walk",
+                            "speed": 1.0
                         }
                     ],
                     "active": true,
                     "type": 28
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "LinkedSurfaceUID": 2094532537754925389,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 1,
+                    "active": true,
+                    "type": 24
                 }
             ],
             "name": "Player",
@@ -50109,7 +50131,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50203,7 +50225,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50297,7 +50319,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50391,7 +50413,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50485,7 +50507,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50579,7 +50601,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50673,7 +50695,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7
@@ -50767,7 +50789,7 @@
                             "speedMax": 0.07999999821186066,
                             "speedMin": 0.009999999776482582,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+                            "texturePath": "C:\\Users\\joelv\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
                             "textureRows": 1,
                             "textureUID": 11107368379844993512,
                             "type": 7

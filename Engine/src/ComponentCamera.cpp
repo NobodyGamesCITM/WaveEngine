@@ -39,6 +39,7 @@ void ComponentCamera::SyncTransformToLens()
         glm::mat4 viewMatrix = glm::inverse(modelMatrix);
 
         lens->SetViewMatrix(viewMatrix);
+        lens->position = glm::vec3(modelMatrix[3]);
     }
 }
 

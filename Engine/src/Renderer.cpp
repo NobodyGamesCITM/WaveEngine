@@ -9,6 +9,7 @@
 #include "ModuleEditor.h"
 #include "ResourceShader.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentCamera.h"
 #include "CameraLens.h"
 #include "ComponentPostProcessing.h"
 #include "Texture.h"
@@ -701,13 +702,18 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
     glPushMatrix();
     glLoadMatrixf(glm::value_ptr(camera->GetViewMatrix()));
 
+    ComponentCamera* mainCam = Application::GetInstance().camera->GetMainCamera();
+    glm::vec3 billboardPos = (mainCam && mainCam->GetLens())
+        ? mainCam->GetLens()->position
+        : camera->position;
+
     for (const auto& pair : particlesList)
     {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
 
-        pair.second.system->GetEmitter()->Draw(camera->position);
+        pair.second.system->GetEmitter()->Draw(billboardPos);
 
         glPopMatrix();
     }

@@ -100,6 +100,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 
+	smokePS         = nil,
     -- Audio
     --stepSFX = nil,
 	--currentSurface = "",
@@ -434,10 +435,14 @@ States[State.RUNNING] = {
 
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
+		
+		if Player.smokePS then Player.smokePS:Play() end 
     end,
     Exit = function(self)
         self.public.speed = self.public.speed - self.public.speedIncrease
         self.public.usingStamina = false
+		
+		if Player.smokePS then Player.smokePS:Stop() end
     end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput()
@@ -659,7 +664,18 @@ function Start(self)
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
     _PlayerController_currentMask = "None"
-
+	
+    --smoke trail particle
+    local smokeObj = GameObject.Find("SmokeTrail")
+    if smokeObj then
+        Player.smokePS = smokeObj:GetComponent("ParticleSystem")
+        if Player.smokePS then
+            Player.smokePS:Stop()
+        end
+    else
+        Engine.Log("[Player] No SmokeTrail child found")
+    end
+	
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)

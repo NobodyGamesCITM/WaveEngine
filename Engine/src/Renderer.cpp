@@ -638,6 +638,15 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
 
 void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera)
 {
+    // Upload all scene lights 
+    if (lightManager)
+        if (standardShader) {
+            standardShader->Use();
+            lightManager->UploadToShader(standardShader.get());
+        }
+
+	Shader* lastShader = nullptr; // Para evitar cambiar de shader innecesariamente (cache de estado)
+
     for (auto pair = map.rbegin(); pair != map.rend(); ++pair)
     {
         RenderObject renderObject = pair->second;
@@ -660,26 +669,30 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
 
         if (materialComp && materialComp->GetMaterial()) {
             Material* data = materialComp->GetMaterial();
-
             switch (data->GetType()) {
-            case MaterialType::STANDARD: currentShader = standardShader.get(); 
+            case MaterialType::STANDARD:
+                currentShader = standardShader.get();
                 break;
+                //(SKINNING, WATER, etc.)
             }
         }
 
-        currentShader->Use();
+        if (currentShader != lastShader) {
+            currentShader->Use();
+            lastShader = currentShader;
+
+            // Si cambias de shader, datos globales se envíen al nuevo shader activo
+            currentShader->SetVec3("viewPos", camera->position);
+            currentShader->SetVec3("lightDir", lightDir);
+        }
+
         currentShader->SetMat4("model", renderObject.globalModelMatrix);
-        currentShader->SetVec3("viewPos", camera->position);
-        currentShader->SetVec3("lightDir", lightDir);
-        // Upload all scene lights 
-        if (lightManager)
-            lightManager->UploadToShader(currentShader);
 
         if (materialComp && materialComp->GetMaterial()) {
             materialComp->GetMaterial()->Bind(currentShader);
         }
-        else 
-        {
+        else {
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
         }
 

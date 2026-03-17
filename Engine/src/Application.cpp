@@ -150,6 +150,9 @@ bool Application::Start()
         if (loader->LoadScene(startupScene))
         {
             LOG_CONSOLE("[Game] Loaded scene: %llu", startupScene);
+            int w = 0, h = 0;
+            window->GetWindowSize(w, h);
+            events->PublishImmediate(Event(Event::Type::WindowResize, w, h));
         }
         else
         {

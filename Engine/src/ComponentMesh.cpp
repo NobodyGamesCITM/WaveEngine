@@ -13,7 +13,7 @@
 ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
     : Component(owner, type),
     meshUID(0),
-    hasDirectMesh(false)
+    hasDirectMesh(false), aabbDirty(true)
 {
     attachedMaterial = (ComponentMaterial*)owner->GetComponent(ComponentType::MATERIAL);
     name = "Mesh";
@@ -233,8 +233,12 @@ void ComponentMesh::Draw()
 
 const AABB& ComponentMesh::GetGlobalAABB()
 {
-    cachedGlobalAABB = staticAABB.GetGlobalAABB(owner->transform->GetGlobalMatrix());
-    return cachedGlobalAABB; 
+    if (aabbDirty) 
+    {
+        cachedGlobalAABB = staticAABB.GetGlobalAABB(owner->transform->GetGlobalMatrix());
+		aabbDirty = false;
+    }
+	return cachedGlobalAABB;
 }
 
 const AABB& ComponentMesh::GetAABB() const
@@ -311,6 +315,10 @@ void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* componen
     case GameObjectEvent::COMPONENT_REMOVED:
         if (component->IsType(ComponentType::MATERIAL))
             attachedMaterial = nullptr;
+        break;
+    case GameObjectEvent::MESH_CHANGED:
+        UpdateStaticAABB();
+		aabbDirty = true;
         break;
     }
 }

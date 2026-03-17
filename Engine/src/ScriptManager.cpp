@@ -1608,7 +1608,7 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         *udata = rb;
 
         luaL_getmetatable(L, "Rigidbody");
-
+        lua_setmetatable(L, -2);
         return 1;
     }
 

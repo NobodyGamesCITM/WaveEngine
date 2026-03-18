@@ -12,7 +12,7 @@
           <ResourceDictionary Source="Resources.xaml"/>
         </ResourceDictionary.MergedDictionaries>
         <Storyboard x:Key="Intro">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="StartButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="TryAgainButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
@@ -21,7 +21,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StartButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="TryAgainButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
@@ -30,7 +30,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SettingsButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackToMenuButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
@@ -39,7 +39,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsButton">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackToMenuButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
@@ -102,7 +102,7 @@
                         <RowDefinition Height="150"/>
                         <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="StartButton" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="TRY AGAIN" Command="{Binding Path=Commands[TryAgainButton]}">   
+                    <Button x:Name="TryAgainButton" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="TRY AGAIN" Command="{Binding Path=Commands[TryAgainButton]}">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                             </i:EventTrigger>
@@ -119,7 +119,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SettingsButton" RenderTransformOrigin="0.5,0.5" Content="BACK TO MENU" Grid.RowSpan="2" Margin="0,15,0,100" Command="{Binding Path=Commands[BackToMenuButton]}">
+                    <Button x:Name="BackToMenuButton" RenderTransformOrigin="0.5,0.5" Content="BACK TO MENU" Grid.RowSpan="2" Margin="0,15,0,100" Command="{Binding Path=Commands[BackToMenuButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

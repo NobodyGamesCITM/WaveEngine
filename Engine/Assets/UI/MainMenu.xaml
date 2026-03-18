@@ -79,7 +79,7 @@
 
     <!-- Fondo que cubre TODA la pantalla real, fuera del Viewbox -->
     <Grid.Background>
-        <ImageBrush ImageSource="{StaticResource NoesisLogoBg}" Stretch="UniformToFill"/>
+        <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
     </Grid.Background>
 
     <!-- Viewbox Uniform: mantiene proporciones 16:9, sin deformación -->
@@ -104,34 +104,15 @@
                        FontSize="52"
                        FontFamily="Arial"
                        FontWeight="Bold"
-                       Text="MAIN MENU"
-                       Foreground="Black"/>
+                       Foreground="Black" Text="MainMenu"/>
 
             <!-- Columna derecha: panel cyan con borde diagonal -->
             <Grid Grid.Column="1">
 
-                <Path Fill="#FF4DD9D9"
-                      Stretch="Fill"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch">
-                    <Path.Data>
-                        <PathGeometry>
-                            <PathFigure StartPoint="0.35,0" IsClosed="True">
-                                <LineSegment Point="1,0"/>
-                                <LineSegment Point="1,1"/>
-                                <LineSegment Point="0,1"/>
-                            </PathFigure>
-                        </PathGeometry>
-                    </Path.Data>
-                </Path>
-
                 <StackPanel VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Margin="80,0,0,0">
-
+                            HorizontalAlignment="Center" Width="359" Height="497" Margin="121,209,0,0">
                     <Button x:Name="StartButton"
                             Content="START"
-                            Margin="0,0,0,40"
                             FontSize="36"
                             FontWeight="Bold"
                             FontFamily="Arial"
@@ -140,7 +121,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0"
                             RenderTransformOrigin="0.5,0.5"
-                            Command="{Binding Path=Commands[StartButton]}">
+                            Command="{Binding Path=Commands[StartButton]}" Margin="0,0,0,90">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                 <noesis:SetFocusAction/>
@@ -158,10 +139,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-
                     <Button x:Name="SettingsButton"
                             Content="SETTINGS"
-                            Margin="0,0,0,40"
                             FontSize="36"
                             FontWeight="Bold"
                             FontFamily="Arial"
@@ -170,7 +149,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0"
                             RenderTransformOrigin="0.5,0.5"
-                            Command="{Binding Commands[SettingsButton]}">
+                            Command="{Binding Commands[SettingsButton]}" Margin="0,0,0,90">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -185,7 +164,6 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-
                     <Button x:Name="ExitButton"
                             Content="EXIT"
                             Margin="0,0,0,0"

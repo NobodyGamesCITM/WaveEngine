@@ -49,7 +49,6 @@ end
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
-	
 
     if not canvas then
         Engine.Log("[Transition] ERROR: No tiene ComponentCanvas")
@@ -72,19 +71,12 @@ function Start(self)
     canvas:SetOpacity(1.0)
     SetPhase("idle")
 
-
-    
     local menuAudio = self.gameObject:GetComponent("Audio Source")
     if not menuAudio then
         Engine.Log("[Menu Audio] WARN: Menu sin Audio Source, no habrá música de fondo")
     else
-        
         menuAudio:PlayAudioEvent()
-        --Audio.SetMusicState("MainMenu")
     end
-
-
-
 
     Engine.Log("[Transition] Listo")
 end
@@ -109,6 +101,24 @@ function Update(self, dt)
     end
 
     if phase == "idle" then
+        -- Buscar el player y comprobar si está muerto
+        local isDead = false
+        if _G.PlayerInstance then
+            isDead = (_G.PlayerInstance.public.health <= 0)
+        else
+            local playerObj = GameObject.Find("Player")
+            if playerObj then
+                _G.PlayerInstance = playerObj
+                isDead = (_G.PlayerInstance.public.health <= 0)
+            end
+        end
+
+        -- Solo mostrar LoseMenu si estamos en el HUD, no desde el MainMenu
+        if isDead and current ~= "LoseMenu.xaml" and current ~= "MainMenu.xaml" then
+            history = {}
+            NavigateTo("LoseMenu.xaml")
+        end
+
         -- Pause toggle
         if current == "HUD.xaml" or current == "PauseMenu.xaml" then
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
@@ -123,7 +133,6 @@ function Update(self, dt)
         -- Main Menu
         if UI.WasClicked("StartButton") then
             NavigateTo("HUD.xaml")
-            --Audio.SetMusicState("Level1")
         end
         if UI.WasClicked("SettingsButton") then
             NavigateTo("SettingsMenu.xaml")
@@ -136,9 +145,21 @@ function Update(self, dt)
         if UI.WasClicked("ResumeButton") then
             NavigateTo("HUD.xaml")
         end
+
+        if UI.WasClicked("TryAgainButton") then
+            _G._PlayerController_isDead = false
+            NavigateTo("HUD.xaml")
+        end
+
+        -- BackToMenuButton: funciona tanto desde PauseMenu como desde LoseMenu
         if UI.WasClicked("BackToMenuButton") then
+            _G._PlayerController_isDead = false
+            -- Resetear la salud del player para que no vuelva al LoseMenu
+            if _G.PlayerInstance then
+                _G.PlayerInstance.public.health = 100
+                _G.PlayerInstance.public.stamina = 100
+            end
             NavigateTo("MainMenu.xaml")
-            --Audio.SetMusicState("MainMenu")
         end
 
         -- Settings Menu
@@ -151,7 +172,7 @@ function Update(self, dt)
 
         -- Back (universal)
         local isEscapeHandled = (current == "HUD.xaml" or current == "PauseMenu.xaml")
-        local canGoBack = #history > 0 and current ~= "MainMenu.xaml"
+        local canGoBack = #history > 0 and current ~= "MainMenu.xaml" and current ~= "LoseMenu.xaml"
         if canGoBack and (UI.WasClicked("BackButton") or Input.GetGamepadButtonDown("East") or
            (Input.GetKeyDown("Escape") and not isEscapeHandled)) then
             NavigateBack()
@@ -178,9 +199,17 @@ function Update(self, dt)
         current = NEXT_XAML
 
         if current == "HUD.xaml" then
+            if _G.ResetPlayer and _G.PlayerInstance then
+                _G.ResetPlayer(_G.PlayerInstance)
+                Engine.Log("[Transition] ResetPlayer global ejecutado")
+            else
+                _G._PlayerController_isDead = false
+                Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
+            end
+
             Game.Resume()
             Audio.SetMusicState("Level1")
-			Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
+            Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
         else
             Game.Pause()
             Audio.SetMusicState("MainMenu")
@@ -188,12 +217,5 @@ function Update(self, dt)
 
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
-        
     end
-
-
-
 end
-
-
-

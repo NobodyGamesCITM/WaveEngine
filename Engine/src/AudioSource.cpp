@@ -63,16 +63,10 @@ void AudioSource::SetTransform() {
             
             AK::SoundEngine::SetPosition(this->goID, soundPos);
         }
-        //set attenuation radius
 
-       
-        //if (dist != nullptr) {
-        //    float normalized = dist / radius;
 
-        //    //AK::SoundEngine::SetRTPCValue("NormalizedDistance", normalized);
-        //    AK::SoundEngine::SetRTPCValue(L"Attenuation_Radius", normalized, goID);
-        //}
-       
+        AK::SoundEngine::SetRTPCValue(L"Attenuation_Radius", radius, goID);
+    
     }
     
     

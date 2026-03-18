@@ -11,6 +11,15 @@ local attackTimer = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 
+--audiosources (ewwwww bruda-)
+local attackSource 
+local voiceSource
+local hitSource
+local itemSource
+local equipSource
+local changeSource
+
+
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_shakeDuration      = 0.4
@@ -101,9 +110,17 @@ local Player = {
     sprintHeld      = false,
 
 	smokePS         = nil,
+
+
     -- Audio
-    --stepSFX = nil,
-	--currentSurface = "",
+    stepSFX 		= nil,
+    voiceSFX 		= nil,
+    swordSFX 		= nil,
+    pickMaskSFX     = nil,
+    changeMaskSFX   = nil,
+    itemPickSFX     = nil,
+    hitSFX          = nil,
+	currentSurface = "",
     
 
     -- Potion state
@@ -275,6 +292,8 @@ end
 local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
+    
+
     --HERMES
         if Player.currentMask == Mask.HERMES and Player.isDrowning then
         Engine.Log("[Player] Hermes while on water!!")
@@ -318,6 +337,7 @@ States[State.DEAD] = {
     Enter  = function(self)
         Engine.Log("[Player] Player is DEAD")
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        if Player.voiceSFX then Player.voiceSFX:PlayAudioEvent() end
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -370,13 +390,13 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
+        --if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 
         self.public.usingStamina = false
 
         if anim then 
-            anim:Play("Walking", 0.5) 
-            anim:SetSpeed("Walking", 1.0)
+            anim:Play("Running", 0.5) 
+            anim:SetSpeed("Running", 1)
         end
     end,
     
@@ -415,7 +435,7 @@ States[State.WALK] = {
         
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.5/self.public.sprintMultiplier) then
+            if stepTimer >= (0.5 / self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
                 --Engine.Log("Playing Walk FootSteps SFX")
@@ -431,7 +451,11 @@ States[State.WALK] = {
 States[State.RUNNING] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Running", 0.5) end
+        if anim then 
+            anim:Play("Running", 0.5) 
+            anim:SetSpeed("Running", 2.0)
+
+        end
 
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
@@ -570,7 +594,11 @@ States[State.ATTACK_LIGHT] = {
         -- wait anim end and return idle
         attackTimer = attackTimer + dt
         if attackTimer >= self.public.attackDuration then
+            if Player.swordSFX then 
+                Player.swordSFX:PlayAudioEvent() 
+            end
             attackCooldown = self.public.attackCooldown
+
             ChangeState(self, State.IDLE)
         end
     end,
@@ -610,6 +638,7 @@ local function TakeDamage(self, amount, attackerPos)
     _PlayerController_shakeMagnitude     = self.public.hitShakeMagnitude
 
     if self.public.health > 0 and Player.rb and attackerPos then
+        if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
         local playerPos = self.transform.worldPosition
         local dx = playerPos.x - attackerPos.x
         local dz = playerPos.z - attackerPos.z
@@ -644,7 +673,50 @@ function Start(self)
 
 	--steps
     self.stepTimer = 0
+
+    voiceSource = GameObject.Find("VoiceSource")
+    attackSource = GameObject.Find("AttackSource")
+    hitSource = GameObject.Find("HitSource")
+    equipSource = GameObject.Find("EquipSource")
+    changeSource = GameObject.Find("ChangeSource")
+    itemSource = GameObject.Find("ItemSource")
+
     Player.stepSFX = self.gameObject:GetComponent("Audio Source")
+    Player.voiceSFX = voiceSource:GetComponent("Audio Source")
+    Player.swordSFX = attackSource:GetComponent("Audio Source")
+    Player.hitSFX = hitSource:GetComponent("Audio Source")
+    Player.pickMaskSFX = equipSource:GetComponent("Audio Source")
+    Player.changeMaskSFX = changeSource:GetComponent("Audio Source")
+    Player.itemPickSFX = itemSource:GetComponent("Audio Source")
+
+    if not Player.stepSFX then
+ 		Engine.Log("[PLAYER AUDIO] Unable to retrieve the player's AudioSource") 
+	end
+
+    if not Player.voiceSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve VoiceSource") 
+	end
+
+    if not Player.swordSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve SwordSource") 
+	end
+
+    if not Player.hitSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve hitSource") 
+	end
+
+    if not Player.pickMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve equipSource") 
+	end
+    
+    if not Player.changeMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+	end
+
+    if not Player.itemPickSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+	end
+
     Player.currentSurface = "Dirt" --default surface
 
     --attack
@@ -680,6 +752,7 @@ function Start(self)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)
 end
+
 
 function Update(self, dt)
     if attackCooldown > 0 then
@@ -734,6 +807,7 @@ function Update(self, dt)
     -- Tecla 1: perder vida (debug)
     if Input.GetKey("1") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
+        if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
@@ -764,8 +838,14 @@ function Update(self, dt)
     UpdateHealthBar(self.public.health)
 
     --hermes
-    if Input.GetKeyDown("8") then EquipMask(self, Mask.HERMES) end --debug
-    if Input.GetKeyDown("9") then EquipMask(self, Mask.NONE) end --debug
+    if Input.GetKeyDown("8") then 
+        EquipMask(self, Mask.HERMES) 
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+    if Input.GetKeyDown("9") then 
+        EquipMask(self, Mask.NONE) 
+        if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
+    end --debug
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
         if Player.currentState == State.RUNNING then
@@ -839,8 +919,8 @@ function OnCollisionExit(self, other)
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
     end
-end
 
+end
 
 
 

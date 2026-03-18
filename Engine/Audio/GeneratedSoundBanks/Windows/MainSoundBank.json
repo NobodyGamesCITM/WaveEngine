@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{E9BEFA57-7F3A-9231-ADCF-4ED8069EEF6A}",
+    "Hash": "{14E39C75-1BAF-8AD5-2B45-0871CF94FB6B}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -595,6 +595,21 @@
       "MediaRefs": [
        {
         "Id": "994023216"
+       }
+      ]
+     },
+     {
+      "Id": "1263671132",
+      "Name": "SFX_ItemPickup",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_ItemPickup",
+      "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.52316314",
+      "DurationMax": "0.6687317",
+      "MediaRefs": [
+       {
+        "Id": "96160614"
        }
       ]
      },
@@ -1230,6 +1245,6 @@
     ]
    }
   ],
-  "FileHash": "{37D60FBA-F237-BC58-EDF1-69B23F7EE78C}"
+  "FileHash": "{36F0FEAE-F89E-4664-9A3B-2445CBD03C29}"
  }
 }

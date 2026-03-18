@@ -11,6 +11,15 @@ local attackTimer = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 
+--audiosources (ewwwww bruda-)
+local attackSource 
+local voiceSource
+local hitSource
+local itemSource
+local equipSource
+local changeSource
+
+
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_shakeDuration      = 0.4
@@ -19,7 +28,7 @@ _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
 _PlayerController_currentMask        = "None"
 _PlayerController_isDrowning         = false
-_G._PlayerController_isDead          = false  -- NUEVO: flag para detectar muerte desde UI
+_G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
 
 local INPUT_SCALE = 10
@@ -85,9 +94,17 @@ local Player = {
     sprintHeld      = false,
 
 	smokePS         = nil,
+
+
     -- Audio
-    --stepSFX = nil,
-	--currentSurface = "",
+    stepSFX 		= nil,
+    voiceSFX 		= nil,
+    swordSFX 		= nil,
+    pickMaskSFX     = nil,
+    changeMaskSFX   = nil,
+    itemPickSFX     = nil,
+    hitSFX          = nil,
+	currentSurface = "",
     
 
     -- Potion state
@@ -256,6 +273,8 @@ end
 local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
+    
+
     --HERMES
     if Player.currentMask == Mask.HERMES and Player.isDrowning then
         Engine.Log("[Player] Hermes while on water!!")
@@ -299,7 +318,8 @@ States[State.DEAD] = {
     Enter  = function(self)
         Engine.Log("[Player] Player is DEAD")
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-        _G._PlayerController_isDead = true  -- NUEVO: avisar al sistema de UI
+        _G._PlayerController_isDead = true 
+        if Player.voiceSFX then Player.voiceSFX:PlayAudioEvent() end
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -358,13 +378,13 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Walk", 0.5) end
+        --if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 
         self.public.usingStamina = false
 
         if anim then 
-            anim:Play("Walking", 0.5) 
-            anim:SetSpeed("Walking", 1.0)
+            anim:Play("Running", 0.5) 
+            anim:SetSpeed("Running", 1)
         end
     end,
     
@@ -401,7 +421,7 @@ States[State.WALK] = {
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.5/self.public.sprintMultiplier) then
+            if stepTimer >= (0.5 / self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
                 Player.stepSFX:PlayAudioEvent()
@@ -420,7 +440,11 @@ States[State.WALK] = {
 States[State.RUNNING] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Running", 0.5) end
+        if anim then 
+            anim:Play("Running", 0.5) 
+            anim:SetSpeed("Running", 2.0)
+
+        end
 
         self.public.usingStamina = true
         self.public.speed = self.public.speed + self.public.speedIncrease
@@ -549,7 +573,11 @@ States[State.ATTACK_LIGHT] = {
     Update = function(self, dt)
         attackTimer = attackTimer + dt
         if attackTimer >= self.public.attackDuration then
+            if Player.swordSFX then 
+                Player.swordSFX:PlayAudioEvent() 
+            end
             attackCooldown = self.public.attackCooldown
+
             ChangeState(self, State.IDLE)
         end
     end,
@@ -588,6 +616,7 @@ local function TakeDamage(self, amount, attackerPos)
     _PlayerController_shakeMagnitude     = self.public.hitShakeMagnitude
 
     if self.public.health > 0 and Player.rb and attackerPos then
+        if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
         local playerPos = self.transform.worldPosition
         local dx = playerPos.x - attackerPos.x
         local dz = playerPos.z - attackerPos.z
@@ -622,9 +651,53 @@ function Start(self)
     self.public.health  = 100
     Player.potionCount  = 2
 
-    self.stepTimer        = 0
-    Player.stepSFX        = self.gameObject:GetComponent("Audio Source")
-    Player.currentSurface = "Dirt"
+	--steps
+    self.stepTimer = 0
+
+    voiceSource = GameObject.Find("VoiceSource")
+    attackSource = GameObject.Find("AttackSource")
+    hitSource = GameObject.Find("HitSource")
+    equipSource = GameObject.Find("EquipSource")
+    changeSource = GameObject.Find("ChangeSource")
+    itemSource = GameObject.Find("ItemSource")
+
+    Player.stepSFX = self.gameObject:GetComponent("Audio Source")
+    Player.voiceSFX = voiceSource:GetComponent("Audio Source")
+    Player.swordSFX = attackSource:GetComponent("Audio Source")
+    Player.hitSFX = hitSource:GetComponent("Audio Source")
+    Player.pickMaskSFX = equipSource:GetComponent("Audio Source")
+    Player.changeMaskSFX = changeSource:GetComponent("Audio Source")
+    Player.itemPickSFX = itemSource:GetComponent("Audio Source")
+
+    if not Player.stepSFX then
+ 		Engine.Log("[PLAYER AUDIO] Unable to retrieve the player's AudioSource") 
+	end
+
+    if not Player.voiceSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve VoiceSource") 
+	end
+
+    if not Player.swordSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve SwordSource") 
+	end
+
+    if not Player.hitSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve hitSource") 
+	end
+
+    if not Player.pickMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve equipSource") 
+	end
+    
+    if not Player.changeMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+	end
+
+    if not Player.itemPickSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+	end
+
+    Player.currentSurface = "Dirt" --default surface
 
     attackCooldown = 0
     attackCol = self.gameObject:GetComponent("Box Collider")
@@ -651,13 +724,13 @@ function Start(self)
         Engine.Log("[Player] No SmokeTrail child found")
     end
 
-    -- NUEVO: asegurarse de que la flag empieza limpia
     _G._PlayerController_isDead = false
 
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
     UpdatePotionUI(Player.potionCount)
 end
+
 
 function Update(self, dt)
     Engine.Log("[dt] " .. tostring(dt))
@@ -708,6 +781,7 @@ function Update(self, dt)
 
     if Input.GetKey("1") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
+        if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
@@ -735,8 +809,15 @@ function Update(self, dt)
     UpdateStaminaBar(self.public.stamina)
     UpdateHealthBar(self.public.health)
 
-    if Input.GetKeyDown("8") then EquipMask(self, Mask.HERMES) end
-    if Input.GetKeyDown("9") then EquipMask(self, Mask.NONE) end
+    --hermes
+    if Input.GetKeyDown("8") then 
+        EquipMask(self, Mask.HERMES) 
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+    if Input.GetKeyDown("9") then 
+        EquipMask(self, Mask.NONE) 
+        if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
+    end --debug
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
         if Player.currentState == State.RUNNING then
@@ -768,10 +849,6 @@ function Update(self, dt)
     end
 end
 
-
--- ============================================================
--- NUEVO: llamado desde el script de UI al pulsar TryAgain
--- ============================================================
 function ResetPlayer(self)
     Engine.Log("[Player] ResetPlayer llamado")
 

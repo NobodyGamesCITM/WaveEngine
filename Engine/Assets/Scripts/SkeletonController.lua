@@ -4,6 +4,11 @@ local sqrt  = math.sqrt
 local min   = math.min
 local abs   = math.abs
 
+local attackSource
+local dieSource
+local stepTimer = 0.5
+
+
 -- ── States ────────────────────────────────────────────────────────────────
 local State = {
     IDLE   = "Idle",
@@ -26,6 +31,9 @@ local Enemy = {
     smoothDx        = 0,
     smoothDz        = 0,
     playerGO        = nil,
+	attackSFX		= nil,
+	dieSFX			= nil,
+	stepSFX			= nil
 }
 
 -- ── Attack variables (de EnemyController) ────────────────────────────────
@@ -57,7 +65,7 @@ local ATTACK_COOLDOWN  = 5.0   -- segundos de espera entre ataques
 
 _EnemyDamage_skeleton = 20
 
-local hp
+local hp = 30
 
 public = {
     moveSpeed       = 10.0,
@@ -92,7 +100,7 @@ end
 -- ── TakeDamage (de EnemyController) ──────────────────────────────────────
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
-
+    if not hp then return end
     hp = hp - amount
     Engine.Log("[Enemy] HP left: " .. hp .. "/" .. self.public.maxHp)
 
@@ -186,7 +194,19 @@ local function Movement(self, dt)
         local vZ    = (Enemy.smoothDz / sMag) * speed
         local pos   = self.transform.position
         self.transform:SetPosition(pos.x + vX * dt, pos.y, pos.z + vZ * dt)
+
+       --steps
+        stepTimer = stepTimer + dt
+        if stepTimer >= 0.25 then
+            stepTimer = 0
+            if Enemy.stepSFX then
+                Enemy.stepSFX:PlayAudioEvent()
+            end
+        end
+    else
+        stepTimer = 0
     end
+    
 
     return isMoving, sMag
 end
@@ -199,6 +219,13 @@ function Start(self)
 
     Enemy.nav = self.gameObject:GetComponent("Navigation")
     Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
+    Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
+
+    dieSource = GameObject.Find("SK_DieSource")
+    Enemy.dieSFX = dieSource:GetComponent("Audio Source")
+
+    attackSource = GameObject.Find("SK_KopisSource")
+    Enemy.attackSFX = attackSource:GetComponent("Audio Source")
 
     local pos = self.transform.position
     Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
@@ -223,17 +250,25 @@ function Update(self, dt)
 
     -- Muerte diferida: espera a que acabe la acción en curso
     if pendingDeath then
+        if Enemy.dieSFX then 
+                Engine.Log("[Enemy] Playing die SFX, dieSFX = " .. tostring(Enemy.dieSFX))
+                Enemy.dieSFX:PlayAudioEvent() 
+        end
         local busy = isAttacking
                   or Enemy.currentState == State.EVADE
                   or predictTimer >= 0
         if not busy then
             isDead = true
+            if Enemy.dieSFX then 
+                Engine.Log("[Enemy] Playing die SFX, dieSFX = " .. tostring(Enemy.dieSFX))
+                Enemy.dieSFX:PlayAudioEvent() 
+            end
             Enemy.currentState = State.DEAD
             Engine.Log("[Enemy] DEAD")
             Game.SetTimeScale(0.2)
             _impactFrameTimer = 0.07
             self:Destroy()
-            return
+           -- return
         end
     end
 
@@ -288,6 +323,10 @@ function Update(self, dt)
     if not Enemy.nav or not Enemy.rb then
         Enemy.nav = self.gameObject:GetComponent("Navigation")
         Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
+        Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
+        Enemy.dieSFX = dieSource:GetComponent("Audio Source")
+        Enemy.attackSFX = attackSource:GetComponent("Audio Source")
+
         return
     end
 
@@ -330,6 +369,7 @@ function Update(self, dt)
                     Enemy.nextWanderTimer = self.public.idleWaitTime
                     Engine.Log("[Enemy] Perdí al player. Descansando.")
                 end
+
             end
         end
     end
@@ -347,6 +387,7 @@ function Update(self, dt)
         -- Si está esquivando o a punto de esquivar, no atacar
         if Enemy.currentState == State.EVADE or predictTimer >= 0 then
             if isAttacking then
+                --if Enemy.attackSFX then Enemy.attackSFX:PlayAudioEvent() end
                 isAttacking = false
                 if attackCol then attackCol:Disable() end
                 attackTimer = 0
@@ -358,11 +399,15 @@ function Update(self, dt)
             isAttacking = true
             attackTimer = 0
             Engine.Log("[Enemy] ATTACKING")
+            if Enemy.attackSFX then 
+                Enemy.attackSFX:PlayAudioEvent()
+            end
         end
 
         attackTimer = attackTimer + dt
 
         if attackTimer >= ATTACK_COL_DELAY and attackCol then
+
             attackCol:Enable()
         end
 
@@ -470,5 +515,6 @@ function OnTriggerExit(self, other)
 		
     end
 end
+
 
 

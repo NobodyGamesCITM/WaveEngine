@@ -28,5 +28,5 @@ public:
     bool playOnAwake = false;
     bool hasAwoken = false;
     float volume = 100.0f;
-    float radius = 100.0f;
+    float radius = 5.0f;
 };

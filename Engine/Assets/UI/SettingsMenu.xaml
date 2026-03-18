@@ -108,8 +108,8 @@
                         </TextBlock.Foreground>
                         <TextBlock.Stroke>
                             <RadialGradientBrush>
-                                <GradientStop Offset="1" Color="#FF50B1FF"/>
-                                <GradientStop Color="#FFC0F9FF"/>
+                                <GradientStop Offset="1" Color="#FF000000"/>
+                                <GradientStop Color="#FF505050"/>
                             </RadialGradientBrush>
                         </TextBlock.Stroke>
                     </TextBlock>

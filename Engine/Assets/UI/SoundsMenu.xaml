@@ -136,7 +136,7 @@
                         <RowDefinition Height="30*"/>
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="GRAPHICS" Command="{Binding Path=Commands[GraphicsButton]}">   
+                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[GraphicsButton]}" Content="SOUND EFFECTS">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                   <noesis:SetFocusAction/>
@@ -154,7 +154,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="SOUNDS" Command="{Binding Path=Commands[SoundsButton]}">
+                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Command="{Binding Path=Commands[SoundsButton]}" Content="MUSIC">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

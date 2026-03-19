@@ -173,7 +173,7 @@ function Update(self, dt)
         -- Back (universal)
         local isEscapeHandled = (current == "HUD.xaml" or current == "PauseMenu.xaml")
         local canGoBack = #history > 0 and current ~= "MainMenu.xaml" and current ~= "LoseMenu.xaml"
-        if canGoBack and (UI.WasClicked("BackButton") or Input.GetGamepadButtonDown("East") or
+        if canGoBack and (UI.WasClicked("BackButton") or (Input.GetGamepadButtonDown("East") and current ~= "HUD.xaml") or
            (Input.GetKeyDown("Escape") and not isEscapeHandled)) then
             NavigateBack()
         end
@@ -195,21 +195,28 @@ function Update(self, dt)
         end
 
     elseif phase == "swap" then
+        local previous = current
         canvas:LoadXAML(NEXT_XAML)
         current = NEXT_XAML
 
         if current == "HUD.xaml" then
-            if _G.ResetPlayer and _G.PlayerInstance then
-                _G.ResetPlayer(_G.PlayerInstance)
-                Engine.Log("[Transition] ResetPlayer global ejecutado")
+            if previous == "PauseMenu.xaml" then
+                -- Solo reanudar, sin recargar escena
+                Game.Resume()
+                Audio.SetMusicState("Level1")
             else
-                _G._PlayerController_isDead = false
-                Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
+                if _G.ResetPlayer and _G.PlayerInstance then
+                    _G.ResetPlayer(_G.PlayerInstance)
+                    Engine.Log("[Transition] ResetPlayer global ejecutado")
+                else
+                    _G._PlayerController_isDead = false
+                    Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
+                end
+    
+                Game.Resume()
+                Audio.SetMusicState("Level1")
+                Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
             end
-
-            Game.Resume()
-            Audio.SetMusicState("Level1")
-            Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
         else
             Game.Pause()
             Audio.SetMusicState("MainMenu")

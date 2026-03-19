@@ -357,6 +357,7 @@ void AssetsWindow::Draw()
         ImGui::PopStyleVar();
         ImGui::Separator();
 
+
         if (ImGui::BeginPopup("CreateFolder"))
         {
             static char folderName[256] = "NewFolder";

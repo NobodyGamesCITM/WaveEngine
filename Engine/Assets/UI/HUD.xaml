@@ -89,6 +89,16 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <TextBlock x:Name="PotionsNumber" TextWrapping="Wrap" Text="0" Foreground="#FFFFFFFF"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                Margin="29,0,0,34" FontFamily="Arial"/>
+                    <Image x:Name="UsedPotion_Image" Margin="4,14,8,10" RenderTransformOrigin="0.5,0.5" Source="Textures/HealthPotion_Used.png">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                     <Image x:Name="Potion_Image" Margin="4,14,8,10" RenderTransformOrigin="0.5,0.5"
                            Source="Textures/HealthPotion.png">
                         <Image.RenderTransform>

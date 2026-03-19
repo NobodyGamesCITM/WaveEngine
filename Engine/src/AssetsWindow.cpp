@@ -351,8 +351,8 @@ void AssetsWindow::Draw()
         }
 
         ImGui::SameLine();
-        /*ImGui::SetNextItemWidth(100.0f);
-        ImGui::SliderFloat("Icon Size", &iconSize, 32.0f, 128.0f, "%.0f");*/
+        ImGui::SetNextItemWidth(100.0f);
+        ImGui::SliderFloat("Icon Size", &iconSize, 32.0f, 128.0f, "%.0f");
 
         ImGui::PopStyleVar();
         ImGui::Separator();
@@ -480,7 +480,12 @@ void AssetsWindow::Draw()
         activeRoot = assetsRootPath;
         rootName = "Assets";
 
-        fs::path relativePath = fs::relative(currentPath, activeRoot);
+        if (relativePathDirty)
+        {
+            cachedRelativePath = fs::relative(currentPath, activeRoot);
+            relativePathDirty = false;
+        }
+        const fs::path& relativePath = cachedRelativePath;
 
         if (relativePath == ".")
         {
@@ -491,6 +496,7 @@ void AssetsWindow::Draw()
             if (ImGui::SmallButton((rootName + "##BreadcrumbRoot").c_str()))
             {
                 currentPath = activeRoot.string();
+                relativePathDirty = true;
                 RefreshAssets();
             }
 
@@ -512,6 +518,7 @@ void AssetsWindow::Draw()
                 if (ImGui::SmallButton(token.c_str()))
                 {
                     currentPath = accumulatedPath.string();
+                    relativePathDirty = true;
                     RefreshAssets();
                 }
                 ImGui::PopID();
@@ -587,6 +594,7 @@ void AssetsWindow::DrawFolderTree(const fs::path& path, const std::string& label
     if (ImGui::IsItemClicked())
     {
         currentPath = path.string();
+        relativePathDirty = true;
         RefreshAssets();
     }
 
@@ -735,11 +743,7 @@ void AssetsWindow::DrawExpandableAssetItem(AssetEntry& asset, std::string& pathP
         selectedAsset = &asset;
     }
 
-    std::string displayName = asset.name;
-    if (!isButtonHovered)
-    {
-        displayName = TruncateFileName(asset.name, iconSize);
-    }
+    const std::string& displayName = isButtonHovered ? asset.name : asset.cachedDisplayName;
 
     ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + iconSize);
     ImGui::TextWrapped("%s", displayName.c_str());
@@ -906,11 +910,7 @@ void AssetsWindow::DrawExpandableAssetItem(AssetEntry& asset, std::string& pathP
                 selectedAsset = &subMesh;
             }
 
-            std::string meshDisplayName = subMesh.name;
-            if (!isMeshHovered)
-            {
-                meshDisplayName = TruncateFileName(subMesh.name, smallIconSize);
-            }
+            const std::string& meshDisplayName = isMeshHovered ? subMesh.name : subMesh.cachedDisplayName;
 
             ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + smallIconSize);
             ImGui::TextWrapped("%s", meshDisplayName.c_str());
@@ -1073,11 +1073,7 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
         }
     }
 
-    std::string displayName = asset.name;
-    if (!isButtonHovered)
-    {
-        displayName = TruncateFileName(asset.name, iconSize);
-    }
+    const std::string& displayName = isButtonHovered ? asset.name : asset.cachedDisplayName;
 
     ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + iconSize);
     ImGui::TextWrapped("%s", displayName.c_str());
@@ -1310,6 +1306,7 @@ void AssetsWindow::LoadFBXSubresources(AssetEntry& fbxAsset)
             meshEntry.references = it->second->GetReferenceCount();
         }
 
+        meshEntry.cachedDisplayName = TruncateFileName(meshEntry.name, iconSize * 0.7f);
         fbxAsset.subResources.push_back(meshEntry);
     }
 
@@ -1334,7 +1331,9 @@ void AssetsWindow::LoadFBXSubresources(AssetEntry& fbxAsset)
             animEntry.references = it->second->GetReferenceCount();
         }
 
+        animEntry.cachedDisplayName = TruncateFileName(animEntry.name, iconSize * 0.7f);
         fbxAsset.subResources.push_back(animEntry);
+
     }
 
     LOG_DEBUG("[AssetsWindow] FBX Subresources loaded: %d items", (int)fbxAsset.subResources.size());
@@ -1678,6 +1677,8 @@ void AssetsWindow::ScanDirectory(const fs::path& directory, std::vector<AssetEnt
                 }
             }
         }
+
+        asset.cachedDisplayName = TruncateFileName(asset.name, iconSize);
 
         outAssets.push_back(asset);
     }

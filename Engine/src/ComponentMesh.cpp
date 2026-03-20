@@ -318,7 +318,10 @@ void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* componen
         break;
     case GameObjectEvent::MESH_CHANGED:
         UpdateStaticAABB();
-		aabbDirty = true;
+        aabbDirty = true;
+        break;
+    case GameObjectEvent::TRANSFORM_CHANGED:  
+        aabbDirty = true;
         break;
     }
 }

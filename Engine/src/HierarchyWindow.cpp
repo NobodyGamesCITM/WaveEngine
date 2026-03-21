@@ -15,6 +15,8 @@
 #include "ComponentCamera.h"
 #include "ComponentCanvas.h"
 #include "ComponentPostProcessing.h"
+#include "AssetsWindow.h"
+#include "ModuleLoader.h"
 
 HierarchyWindow::HierarchyWindow()
     : EditorWindow("Hierarchy")
@@ -191,6 +193,21 @@ void HierarchyWindow::Draw()
                 ImGui::EndDragDropTarget();
             }
         }
+    }
+
+    // Drop de prefab desde Assets
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_ITEM"))
+        {
+            DragDropPayload* data = (DragDropPayload*)payload->Data;
+            if (data->assetType == DragDropAssetType::PREFAB)
+            {
+                Application::GetInstance().loader->LoadPrefab(data->assetUID);
+                LOG_CONSOLE("[Hierarchy] Prefab instantiated: %llu", data->assetUID);
+            }
+        }
+        ImGui::EndDragDropTarget();
     }
 
     DrawBackgroundContextMenu();

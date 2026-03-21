@@ -6,7 +6,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include "ModuleResources.h"  
-
+#include "PrefabInstance.h"
 class GameObject;
 struct aiNode;
 struct aiScene;
@@ -47,4 +47,15 @@ public:
     GameObject* LoadPrefab(const std::string& modelPath);
     GameObject* LoadPrefab(UID modelUID);
     bool SavePrefab(GameObject* obj, const std::string& savePath);
+
+    void UpdatePrefabInstances(UID prefabUID);
+    void RevertInstance(GameObject* instance);
+    void RecordOverride(GameObject* instance, const std::string& componentType, const nlohmann::json& overrideData);
+
+
+private:
+    void CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out);
+    void ApplyOverridesToJson(nlohmann::json& base, const nlohmann::json& overrides);
+    void ApplyJsonToGameObject(GameObject* go, const nlohmann::json& jsonData);
+    void RegenerateUIDs(GameObject* go);
 };

@@ -167,21 +167,23 @@ GameObject* ModuleLoader::LoadPrefab(UID prefabUID)
             GameObject* root = Application::GetInstance().scene->GetRoot();
 
             for (const auto& jsonNode : prefabHierarchy) {
-
                 GameObject* node = GameObject::Deserialize(jsonNode, root);
-                if (node && !firstLoaded) firstLoaded = node;
-            }
+                if (node) {
+                    RegenerateUIDs(node);
 
+                    PrefabInstance pi;
+                    pi.prefabUID = prefabUID;
+                    node->prefabInstance = pi;
+                    if (!firstLoaded) firstLoaded = node;
+                }
+            }
             prefabLoaded = true;
         }
-
         Application::GetInstance().resources.get()->ReleaseResource(prefabUID);
     }
 
     if (!prefabLoaded)
-    {
         LOG_CONSOLE("[FileSystem] Failed to load prefab.");
-    }
 
     return firstLoaded;
 }
@@ -367,4 +369,128 @@ bool ModuleLoader::SaveScene(const std::string& scenePath)
     file.close();
 
     return true;
+}
+
+void ModuleLoader::UpdatePrefabInstances(UID prefabUID)
+{
+    ResourcePrefab* resource = (ResourcePrefab*)Application::GetInstance().resources->RequestResource(prefabUID);
+    if (!resource) {
+        LOG_CONSOLE("[ModuleLoader] ERROR: Prefab not found: %llu", prefabUID);
+        return;
+    }
+
+    nlohmann::json prefabJson = resource->GetPrefabHierarchy();
+    Application::GetInstance().resources->ReleaseResource(prefabUID);
+
+    if (prefabJson.empty() || !prefabJson.is_array()) return;
+    nlohmann::json prefabRoot = prefabJson[0];
+
+    std::vector<GameObject*> allObjects;
+    CollectAllGameObjects(Application::GetInstance().scene->GetRoot(), allObjects);
+
+    for (GameObject* go : allObjects)
+    {
+        if (!go->prefabInstance.has_value()) continue;
+        if (go->prefabInstance->prefabUID != prefabUID) continue;
+
+        nlohmann::json savedOverrides = go->prefabInstance->overrides;
+
+        nlohmann::json merged = prefabRoot;
+        ApplyOverridesToJson(merged, savedOverrides);
+        ApplyJsonToGameObject(go, merged);
+
+        PrefabInstance pi;
+        pi.prefabUID = prefabUID;
+        pi.overrides = savedOverrides;
+        go->prefabInstance = pi;
+
+        LOG_CONSOLE("[ModuleLoader] Updated instance: %s", go->GetName().c_str());
+    }
+}
+
+void ModuleLoader::RevertInstance(GameObject* instance)
+{
+    if (!instance || !instance->prefabInstance.has_value()) return;
+
+    UID prefabUID = instance->prefabInstance->prefabUID;
+
+    ResourcePrefab* resource = (ResourcePrefab*)Application::GetInstance().resources->RequestResource(prefabUID);
+    if (!resource) return;
+
+    nlohmann::json prefabJson = resource->GetPrefabHierarchy();
+    Application::GetInstance().resources->ReleaseResource(prefabUID);
+
+    if (prefabJson.empty() || !prefabJson.is_array()) return;
+
+    ApplyJsonToGameObject(instance, prefabJson[0]);
+
+    PrefabInstance pi;
+    pi.prefabUID = prefabUID;
+    instance->prefabInstance = pi;
+
+    LOG_CONSOLE("[ModuleLoader] Reverted: %s", instance->GetName().c_str());
+}
+
+void ModuleLoader::RecordOverride(GameObject* instance, const std::string& componentType, const nlohmann::json& overrideData)
+{
+    if (!instance || !instance->prefabInstance.has_value()) return;
+    instance->prefabInstance->overrides[componentType] = overrideData;
+}
+
+void ModuleLoader::CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out)
+{
+    if (!root) return;
+    for (GameObject* child : root->GetChildren())
+    {
+        out.push_back(child);
+        CollectAllGameObjects(child, out);
+    }
+}
+
+void ModuleLoader::ApplyOverridesToJson(nlohmann::json& base, const nlohmann::json& overrides)
+{
+    if (overrides.is_null() || overrides.empty()) return;
+    for (auto& [key, value] : overrides.items())
+        base[key] = value;
+}
+
+void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& jsonData)
+{
+    if (jsonData.contains("name"))
+        go->SetName(jsonData["name"].get<std::string>());
+
+    if (jsonData.contains("active"))
+        go->SetActive(jsonData["active"].get<bool>());
+
+    if (jsonData.contains("tag"))
+        go->SetTag(jsonData["tag"].get<std::string>());
+
+    if (jsonData.contains("components") && jsonData["components"].is_array())
+    {
+        for (const auto& compJson : jsonData["components"])
+        {
+            if (!compJson.contains("type")) continue;
+
+            ComponentType type = static_cast<ComponentType>(compJson["type"].get<int>());
+            Component* comp = go->GetComponent(type);
+
+            if (!comp && type != ComponentType::TRANSFORM)
+                comp = go->CreateComponent(type);
+
+            if (comp)
+            {
+                if (compJson.contains("active"))
+                    comp->SetActive(compJson["active"].get<bool>());
+                comp->Deserialize(compJson);
+            }
+        }
+    }
+}
+
+void ModuleLoader::RegenerateUIDs(GameObject* go)
+{
+    if (!go) return;
+    go->objectUID = GenerateUID();
+    for (GameObject* child : go->GetChildren())
+        RegenerateUIDs(child);
 }

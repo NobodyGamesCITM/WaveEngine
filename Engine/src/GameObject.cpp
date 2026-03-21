@@ -437,6 +437,10 @@ void GameObject::Serialize(nlohmann::json& gameObjectArray) const {
     gameObjectObj["uid"] = objectUID;
     gameObjectObj["active"] = active;
     gameObjectObj["tag"] = tag;
+    if (prefabInstance.has_value()) {
+        gameObjectObj["prefabInstance"]["uid"] = prefabInstance->prefabUID;
+        gameObjectObj["prefabInstance"]["overrides"] = prefabInstance->overrides;
+    }
 
     // Components
     nlohmann::json componentsArray = nlohmann::json::array();
@@ -485,6 +489,12 @@ GameObject* GameObject::Deserialize(const nlohmann::json& gameObjectObj, GameObj
         newObject->tag = gameObjectObj["tag"].get<std::string>();
     }
 
+    if (gameObjectObj.contains("prefabInstance")) {
+        PrefabInstance pi;
+        pi.prefabUID = gameObjectObj["prefabInstance"]["uid"].get<UID>();
+        pi.overrides = gameObjectObj["prefabInstance"]["overrides"];
+        newObject->prefabInstance = pi;
+    }
     // Components
     if (gameObjectObj.contains("components") && gameObjectObj["components"].is_array()) {
         const nlohmann::json& componentsArray = gameObjectObj["components"];

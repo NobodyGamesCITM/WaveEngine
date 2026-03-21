@@ -2457,3 +2457,43 @@ void InspectorWindow::DrawLightComponent(Component* component)
     DrawComponentContextMenu(lightComp, true);
     if (open) lightComp->OnEditor();
 }
+
+void InspectorWindow::DrawPrefabInstanceSection(GameObject* selectedObject)
+{
+    if (!selectedObject->prefabInstance.has_value()) return;
+
+    ImGui::Spacing();
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.2f, 0.4f, 0.7f, 1.0f));
+    bool open = ImGui::CollapsingHeader("Prefab Instance", ImGuiTreeNodeFlags_DefaultOpen);
+    ImGui::PopStyleColor();
+
+    if (!open) return;
+
+    UID prefabUID = selectedObject->prefabInstance->prefabUID;
+
+    ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "Prefab UID: %llu", prefabUID);
+
+    int overrideCount = (int)selectedObject->prefabInstance->overrides.size();
+    if (overrideCount > 0)
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f), "Overrides: %d", overrideCount);
+    else
+        ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "No overrides");
+
+    ImGui::Spacing();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.3f, 0.1f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.7f, 0.4f, 0.2f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.2f, 0.0f, 1.0f));
+    if (ImGui::Button("Revert to Prefab", ImVec2(-1, 0)))
+    {
+        Application::GetInstance().loader->RevertInstance(selectedObject);
+        LOG_CONSOLE("[Inspector] Reverted instance to prefab: %llu", prefabUID);
+    }
+    ImGui::PopStyleColor(3);
+
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Reset this instance to the prefab base,\nclearing all local overrides");
+
+    ImGui::Spacing();
+    ImGui::Separator();
+}

@@ -73,6 +73,8 @@ private:
 
     void DrawPrefabInstanceSection(GameObject* selectedObject);
 
+    void UpdatePrefabInstancesExcept(UID prefabUID, GameObject* exclude);
+
     AudioSystem* audioSystem;
 
     bool m_WasAnyItemActive = false;

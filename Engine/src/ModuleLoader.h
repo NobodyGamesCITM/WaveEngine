@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "Module.h"
 #include <iostream>
 #include <vector>
@@ -7,6 +6,8 @@
 #include <glm/glm.hpp>
 #include "ModuleResources.h"  
 #include "PrefabInstance.h"
+#include <nlohmann/json.hpp>
+
 class GameObject;
 struct aiNode;
 struct aiScene;
@@ -45,17 +46,15 @@ public:
 
     //PREFABS
     GameObject* LoadPrefab(const std::string& modelPath);
-    GameObject* LoadPrefab(UID modelUID);
+    GameObject* LoadPrefab(UID prefabUID);
     bool SavePrefab(GameObject* obj, const std::string& savePath);
-
     void UpdatePrefabInstances(UID prefabUID);
     void RevertInstance(GameObject* instance);
-    void RecordOverride(GameObject* instance, const std::string& componentType, const nlohmann::json& overrideData);
-
+    bool ApplyInstanceToPrefab(GameObject* instance);
 
 private:
     void CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out);
-    void ApplyOverridesToJson(nlohmann::json& base, const nlohmann::json& overrides);
     void ApplyJsonToGameObject(GameObject* go, const nlohmann::json& jsonData);
     void RegenerateUIDs(GameObject* go);
+    void UpdatePrefabInstancesExcept(UID prefabUID, GameObject* exclude, const nlohmann::json& freshPrefabJson);
 };

@@ -164,6 +164,12 @@ GameObject* ModuleLoader::LoadPrefab(UID prefabUID)
         if (resource)
         {
             nlohmann::json prefabHierarchy = resource->GetPrefabHierarchy();
+            // LOG TEMPORAL
+            /*LOG_CONSOLE("[LoadPrefab] prefabHierarchy is_array: %d, size: %d",
+                prefabHierarchy.is_array(), (int)prefabHierarchy.size());
+            LOG_CONSOLE("[LoadPrefab] prefabHierarchy content: %s",
+                prefabHierarchy.dump(2).c_str());*/
+
             GameObject* root = Application::GetInstance().scene->GetRoot();
 
             for (const auto& jsonNode : prefabHierarchy) {
@@ -383,8 +389,8 @@ void ModuleLoader::UpdatePrefabInstances(UID prefabUID)
     Application::GetInstance().resources->ReleaseResource(prefabUID);
 
     if (prefabJson.empty() || !prefabJson.is_array()) return;
-    nlohmann::json prefabRoot = prefabJson[0];
 
+    std::vector<GameObject*> instances;
     std::vector<GameObject*> allObjects;
     CollectAllGameObjects(Application::GetInstance().scene->GetRoot(), allObjects);
 
@@ -392,19 +398,51 @@ void ModuleLoader::UpdatePrefabInstances(UID prefabUID)
     {
         if (!go->prefabInstance.has_value()) continue;
         if (go->prefabInstance->prefabUID != prefabUID) continue;
+        bool parentIsInstance = false;
+        GameObject* parent = go->GetParent();
+        if (parent && parent->prefabInstance.has_value() && parent->prefabInstance->prefabUID == prefabUID)
+            parentIsInstance = true;
+        if (!parentIsInstance)
+            instances.push_back(go);
+    }
 
-        nlohmann::json savedOverrides = go->prefabInstance->overrides;
+    nlohmann::json prefabRoot = prefabJson[0];
 
-        nlohmann::json merged = prefabRoot;
-        ApplyOverridesToJson(merged, savedOverrides);
-        ApplyJsonToGameObject(go, merged);
+    for (GameObject* go : instances)
+    {
+        glm::vec3 savedPos = go->transform->GetPosition();
+        glm::vec3 savedRot = go->transform->GetRotation();
+        glm::vec3 savedScale = go->transform->GetScale();
+        PrefabInstance savedPI = go->prefabInstance.value();
 
-        PrefabInstance pi;
-        pi.prefabUID = prefabUID;
-        pi.overrides = savedOverrides;
-        go->prefabInstance = pi;
+        Application::GetInstance().selectionManager->ClearSelection();
 
-        LOG_CONSOLE("[ModuleLoader] Updated instance: %s", go->GetName().c_str());
+        std::vector<GameObject*> childrenCopy = go->GetChildren();
+        for (GameObject* child : childrenCopy)
+        {
+            go->RemoveChild(child);
+            delete child;
+        }
+
+        // Reaplicar componentes del prefab al raiz
+        ApplyJsonToGameObject(go, prefabRoot);
+
+        if (prefabRoot.contains("children") && prefabRoot["children"].is_array())
+        {
+            for (const auto& childJson : prefabRoot["children"])
+            {
+                GameObject* newChild = GameObject::Deserialize(childJson, go);
+                if (newChild) RegenerateUIDs(newChild);
+            }
+        }
+
+        // Restaurar transform y prefabInstance
+        go->transform->SetPosition(savedPos);
+        go->transform->SetRotation(savedRot);
+        go->transform->SetScale(savedScale);
+        go->prefabInstance = savedPI;
+
+        LOG_CONSOLE("[UpdatePrefab] Updated: %s", go->GetName().c_str());
     }
 }
 
@@ -431,12 +469,6 @@ void ModuleLoader::RevertInstance(GameObject* instance)
     LOG_CONSOLE("[ModuleLoader] Reverted: %s", instance->GetName().c_str());
 }
 
-void ModuleLoader::RecordOverride(GameObject* instance, const std::string& componentType, const nlohmann::json& overrideData)
-{
-    if (!instance || !instance->prefabInstance.has_value()) return;
-    instance->prefabInstance->overrides[componentType] = overrideData;
-}
-
 void ModuleLoader::CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out)
 {
     if (!root) return;
@@ -445,13 +477,6 @@ void ModuleLoader::CollectAllGameObjects(GameObject* root, std::vector<GameObjec
         out.push_back(child);
         CollectAllGameObjects(child, out);
     }
-}
-
-void ModuleLoader::ApplyOverridesToJson(nlohmann::json& base, const nlohmann::json& overrides)
-{
-    if (overrides.is_null() || overrides.empty()) return;
-    for (auto& [key, value] : overrides.items())
-        base[key] = value;
 }
 
 void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& jsonData)
@@ -467,10 +492,34 @@ void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& j
 
     if (jsonData.contains("components") && jsonData["components"].is_array())
     {
+        // Recopilar tipos de componentes que tiene el prefab
+        std::vector<ComponentType> prefabTypes;
         for (const auto& compJson : jsonData["components"])
         {
             if (!compJson.contains("type")) continue;
+            prefabTypes.push_back(static_cast<ComponentType>(compJson["type"].get<int>()));
+        }
 
+        // Eliminar componentes que la instancia tiene pero el prefab no
+        std::vector<Component*> toRemove;
+        for (Component* comp : go->GetComponents())
+        {
+            if (comp->GetType() == ComponentType::TRANSFORM) continue;
+            bool inPrefab = false;
+            for (ComponentType t : prefabTypes)
+            {
+                if (t == comp->GetType()) { inPrefab = true; break; }
+            }
+            if (!inPrefab)
+                toRemove.push_back(comp);
+        }
+        for (Component* comp : toRemove)
+            go->RemoveComponent(comp);
+
+        // Añadir o actualizar componentes del prefab
+        for (const auto& compJson : jsonData["components"])
+        {
+            if (!compJson.contains("type")) continue;
             ComponentType type = static_cast<ComponentType>(compJson["type"].get<int>());
             Component* comp = go->GetComponent(type);
 
@@ -493,4 +542,119 @@ void ModuleLoader::RegenerateUIDs(GameObject* go)
     go->objectUID = GenerateUID();
     for (GameObject* child : go->GetChildren())
         RegenerateUIDs(child);
+}
+
+bool ModuleLoader::ApplyInstanceToPrefab(GameObject* instance)
+{
+    if (!instance || !instance->prefabInstance.has_value())
+    {
+        LOG_CONSOLE("[ModuleLoader] ERROR: GameObject is not a prefab instance");
+        return false;
+    }
+
+    UID prefabUID = instance->prefabInstance->prefabUID;
+
+    const Resource* resource = Application::GetInstance().resources->PeekResource(prefabUID);
+    if (!resource)
+    {
+        LOG_CONSOLE("[ModuleLoader] ERROR: Prefab resource not found: %llu", prefabUID);
+        return false;
+    }
+
+    std::string assetPath = resource->GetAssetFile();
+    if (assetPath.empty())
+    {
+        LOG_CONSOLE("[ModuleLoader] ERROR: Prefab has no asset path");
+        return false;
+    }
+
+    nlohmann::json prefabArray = nlohmann::json::array();
+    instance->Serialize(prefabArray);
+
+    // Limpiar prefabInstance de todos los nodos recursivamente
+    std::function<void(nlohmann::json&)> stripPrefabInstance = [&](nlohmann::json& node)
+        {
+            if (node.contains("prefabInstance"))
+                node.erase("prefabInstance");
+            if (node.contains("children") && node["children"].is_array())
+                for (auto& child : node["children"])
+                    stripPrefabInstance(child);
+        };
+    for (auto& node : prefabArray)
+        stripPrefabInstance(node);
+
+    // Guardar el JSON en el .prefab (assets)
+    std::ofstream file(assetPath);
+    if (!file.is_open())
+    {
+        LOG_CONSOLE("[ModuleLoader] ERROR: Cannot open prefab file for writing: %s", assetPath.c_str());
+        return false;
+    }
+    file << prefabArray.dump(4);
+    file.close();
+
+    Application::GetInstance().resources->ImportFile(assetPath.c_str(), true); 
+
+    UpdatePrefabInstancesExcept(prefabUID, instance, prefabArray);
+
+    LOG_CONSOLE("[ModuleLoader] Applied instance to prefab and updated all instances");
+    return true;
+}
+void ModuleLoader::UpdatePrefabInstancesExcept(UID prefabUID, GameObject* exclude, const nlohmann::json& freshPrefabJson)
+{
+    if (freshPrefabJson.empty() || !freshPrefabJson.is_array()) return;
+
+    std::vector<GameObject*> instances;
+    std::vector<GameObject*> allObjects;
+    CollectAllGameObjects(Application::GetInstance().scene->GetRoot(), allObjects);
+
+    for (GameObject* go : allObjects)
+    {
+        if (!go->prefabInstance.has_value()) continue;
+        if (go->prefabInstance->prefabUID != prefabUID) continue;
+        if (go == exclude) continue;
+        bool parentIsInstance = false;
+        GameObject* parent = go->GetParent();
+        if (parent && parent->prefabInstance.has_value() && parent->prefabInstance->prefabUID == prefabUID)
+            parentIsInstance = true;
+        if (!parentIsInstance)
+            instances.push_back(go);
+    }
+
+    nlohmann::json prefabRoot = freshPrefabJson[0];
+
+    for (GameObject* go : instances)
+    {
+        glm::vec3 savedPos = go->transform->GetPosition();
+        glm::vec3 savedRot = go->transform->GetRotation();
+        glm::vec3 savedScale = go->transform->GetScale();
+        PrefabInstance savedPI = go->prefabInstance.value();
+
+        Application::GetInstance().selectionManager->ClearSelection();
+
+        std::vector<GameObject*> childrenCopy = go->GetChildren();
+        for (GameObject* child : childrenCopy)
+        {
+            go->RemoveChild(child);
+            delete child;
+        }
+
+        ApplyJsonToGameObject(go, prefabRoot);
+
+        if (prefabRoot.contains("children") && prefabRoot["children"].is_array())
+        {
+            for (const auto& childJson : prefabRoot["children"])
+            {
+                GameObject* newChild = GameObject::Deserialize(childJson, go);
+                if (newChild) RegenerateUIDs(newChild);
+            }
+        }
+
+        go->transform->SetPosition(savedPos);
+        go->transform->SetRotation(savedRot);
+        go->transform->SetScale(savedScale);
+        go->prefabInstance = savedPI;
+
+        LOG_CONSOLE("[UpdatePrefab] Updated: %s", go->GetName().c_str());
+    }
 }

@@ -5,18 +5,15 @@ local wasHermes     = false
 
 function Start(self)
     waterCollider = self.gameObject:GetComponent("Box Collider")
-    if not waterCollider then
-        return
-    end
-
-    waterCollider:Enable()
-    wasHermes = false
+    if waterCollider then waterCollider:Enable() end
 end
 
 function Update(self, dt)
     if not waterCollider then return end
 
-    local isHermes = (_PlayerController_currentMask == "Hermes")
+    local playerObj = GameObject.Find("Player")
+    local pScript = playerObj and playerObj:GetComponent("Script")
+    local isHermes = pScript and (pScript.currentMask == "Hermes") or false
 
     if isHermes and not wasHermes then
         waterCollider:Disable()

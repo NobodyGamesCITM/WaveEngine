@@ -6,7 +6,7 @@
 
 
 public = {
-    playerName     = "MC",
+    playerName     = "Player",
     followSpeed    = 5.0,
     zoomSpeed      = 3.0,
     zoomMin        = 0.3,
@@ -19,6 +19,7 @@ public = {
 -- Internal state
 local initialized      = false
 local playerTransform  = nil
+local playerScript     = nil
 
 -- Initial world offset (camera - player)
 local offsetX, offsetY, offsetZ = 0.0, 0.0, 0.0
@@ -28,9 +29,6 @@ local offsetScale = 1.0  -- 1.0 = original distance
 local shakeTimer   = 0.0
 local shakeOffsetX = 0.0
 local shakeOffsetZ = 0.0
-
--- Audio
-local musicSource
 
 local function clamp(v, min, max)
     if v < min then return min end
@@ -47,7 +45,9 @@ local function Init(self)
     if not playerObj then return end
 	
     playerTransform = playerObj.transform
+    playerScript = playerObj:GetComponent("Script")
 
+    -- Audio
 	Audio.SetMusicState("Level1")
 
     -- Compute initial world offset
@@ -65,7 +65,6 @@ end
 -- Smooth follow towards player + scaled offset
 local function UpdateFollow(self, dt)
     local playerPos = playerTransform.worldPosition
-
     local targetX = playerPos.x + offsetX * offsetScale
     local targetY = playerPos.y + offsetY * offsetScale
     local targetZ = playerPos.z + offsetZ * offsetScale
@@ -76,7 +75,6 @@ local function UpdateFollow(self, dt)
     local cleanZ = camPos.z - shakeOffsetZ
 
     local t = clamp(self.public.followSpeed * dt, 0.0, 1.0)
-
     local baseX = lerp(cleanX, targetX, t)
     local baseY = lerp(camPos.y, targetY, t)
     local baseZ = lerp(cleanZ, targetZ, t)
@@ -92,11 +90,7 @@ local function UpdateZoom(self, dt)
     if zoomDir == 0 then return end
 
     local cfg = self.public
-    offsetScale = clamp(
-        offsetScale + zoomDir * cfg.zoomSpeed * dt,
-        cfg.zoomMin,
-        cfg.zoomMax
-    )
+    offsetScale = clamp(offsetScale + zoomDir * cfg.zoomSpeed * dt, cfg.zoomMin, cfg.zoomMax)
 end
 
 local function TriggerShake(self)
@@ -105,15 +99,12 @@ end
 
 local function UpdateShake(self, dt)
     local cfg = self.public
-
     if shakeTimer <= 0.0 then
-        shakeOffsetX = 0.0
-        shakeOffsetZ = 0.0
+        shakeOffsetX, shakeOffsetZ = 0.0, 0.0
         return
     end
 
     shakeTimer = shakeTimer - dt
-
     -- Linearly decreasing amplitude
     local progress  = shakeTimer / cfg.shakeDuration
     local amplitude = cfg.shakeMagnitude * progress
@@ -124,8 +115,7 @@ local function UpdateShake(self, dt)
     shakeOffsetZ = amplitude * math.sin(t * cfg.shakeFrequency * 2.0 * math.pi * 1.3)
 
     if shakeTimer <= 0.0 then
-        shakeOffsetX = 0.0
-        shakeOffsetZ = 0.0
+        shakeOffsetX, shakeOffsetZ = 0.0, 0.0
     end
 end
 
@@ -145,16 +135,14 @@ function Update(self, dt)
         TriggerShake(self)
     end
 
-    if _PlayerController_triggerCameraShake then
-        if _PlayerController_shakeDuration  then self.public.shakeDuration  = _PlayerController_shakeDuration  end
-        if _PlayerController_shakeMagnitude then self.public.shakeMagnitude = _PlayerController_shakeMagnitude end
+    -- Shake from the player script
+    if playerScript and playerScript.triggerCameraShake then
+        self.public.shakeDuration  = playerScript.shakeDuration
+        self.public.shakeMagnitude = playerScript.shakeMagnitude
         TriggerShake(self)
-        _PlayerController_triggerCameraShake = false
+        playerScript.triggerCameraShake = false
     end
 
     UpdateShake(self, dt)
     UpdateFollow(self, dt)
 end
-
-
-

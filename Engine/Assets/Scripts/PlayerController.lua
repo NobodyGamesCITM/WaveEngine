@@ -6,6 +6,7 @@ local atan2 = math.atan
 local pi    = math.pi
 
 local attackCol
+local chargeCol
 local attackTimer = 0
 local rollCooldown = 0
 local stepTimer = 0.5
@@ -61,6 +62,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
+    attackDelay     = 0.4,
     -- Audio
     stepSFX 		= nil,
     voiceSFX 		= nil,
@@ -74,7 +76,7 @@ local Player = {
     -- Hermes mask
     respawnPos       = nil,
     isDrowning       = false,
-    hermesGraceTimer = 0.0,
+    hermesGraceTimer = 0.2,
     hermesDeathRespawn = false,
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
@@ -94,6 +96,7 @@ public = {
     staminaCost      = 80.0,
     staminaRecover   = 50.0,   
     rollStaminaCost     = 25,
+    heavyStaminaCost    = 25,
     usingStamina        = false,
     tiredMultiplier     = 0.7,
     hpLossCost       = 30.0,  
@@ -140,8 +143,8 @@ end
 
 local function GetAttackInput(self)
     if attackCooldown > 0 then return 0 end
-    if Input.GetKeyDown("E") then return 1 end
-    if Input.GetKeyDown("Q") then return 2 end
+    if Input.GetKeyDown("E") or Input.GetGamepadButton("X") then return 1 end
+    if Input.GetKeyDown("Q") or Input.GetGamepadButton("Y") then return 2 end
     return 0
 end
 
@@ -327,8 +330,9 @@ States[State.IDLE] = {
         if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
         end
-        if GetAttackInput(self) == 2 then
-            ChangeState(self, State.CHARGING)
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then ChangeState(self, State.CHARGING) end
+            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then ChangeState(self, State.ATTACK_HEAVY) end
         end
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
@@ -494,8 +498,11 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Charge", 1.0) end
+        if anim then anim:Play("Idle", 1.0) end --aquí poner anim de dash (no va)
         _PlayerController_lastAttack = "charge"
         attackTimer = 0
         if attackCol then attackCol:Enable() end
@@ -509,7 +516,7 @@ States[State.CHARGING] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * 10, velocity.y, Player.lastDirZ * 10)
+            Player.rb:SetLinearVelocity(Player.lastDirX * 15, velocity.y, Player.lastDirZ * 15)
         end
     end,
     Exit = function(self)
@@ -528,24 +535,33 @@ States[State.ATTACK_LIGHT] = {
         if anim then anim:Play("NormalAttack", 1.0) end
         _PlayerController_lastAttack = "light"
         attackTimer = 0
-        if attackCol then attackCol:Enable() end
+        if attackCol then attackCol:Disable() end
     end,
     Update = function(self, dt)
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
+
         attackTimer = attackTimer + dt
+
+        if attackTimer >= Player.attackDelay and attackCol then
+            attackCol:Enable()
+        end
+
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then 
                 Player.swordSFX:PlayAudioEvent() 
             end
             attackCooldown = self.public.attackCooldown
-
             ChangeState(self, State.IDLE)
         end
     end,
     Exit = function(self)
         if attackCol then attackCol:Disable() end
+        _PlayerController_lastAttack = ""
     end
 }
-
 
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
@@ -838,7 +854,7 @@ function OnCollisionEnter(self, other)
 		end
 	end
 
-    if other:CompareTag("Dirt") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
         Player.isGrounded = true
     end
 end
@@ -850,7 +866,7 @@ function OnCollisionExit(self, other)
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
     end
-    if other:CompareTag("Dirt") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false
     end

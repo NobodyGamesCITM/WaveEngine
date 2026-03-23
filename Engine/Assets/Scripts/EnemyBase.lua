@@ -29,6 +29,7 @@ local Enemy = {
 
 -- ── Attack variables (de EnemyController) ────────────────────────────────
 local isDead      = false
+local pendingDestroy = false
 local alreadyHit  = false
 local attackCol   = nil
 local attackTimer    = 0
@@ -95,11 +96,17 @@ local function TakeDamage(self, amount, attackerPos)
 
     if hp <= 0 then
         isDead = true
+        pendingDestroy = true -- Marcamos para eliminar al final del Update
         Enemy.currentState = State.DEAD
-        Engine.Log("[Enemy] DEAD")
+        
+        Engine.Log("[Enemy] DEAD - Pending destruction at frame end")
+        
+        -- Ralentización visual de impacto
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
-        self:Destroy()
+
+        -- Opcional: Desactivamos el collider de ataque para evitar tradeos de daño póstumos
+        if attackCol then attackCol:Disable() end
     end
 end
 
@@ -184,7 +191,23 @@ end
 
 -- ── Update ────────────────────────────────────────────────────────────────
 function Update(self, dt)
-    if isDead then return end
+    -- Si ya fue destruido en el frame anterior, salimos
+    if not self.gameObject then return end
+
+    -- Cheat/Debug para suicidio
+    if Input.GetKey("0") then
+        TakeDamage(self, hp, self.transform.worldPosition)
+        return
+    end
+
+    -- Si está muerto, solo procesamos la destrucción pendiente al final
+    if isDead then
+        if pendingDestroy then
+            self:Destroy()
+            pendingDestroy = false
+        end
+        return 
+    end
 
     -- Reintentar conseguir componentes si faltan
     if not Enemy.nav or not Enemy.rb then
@@ -193,16 +216,15 @@ function Update(self, dt)
         return
     end
 
-    -- Buscar player si aún no se tiene referencia
+    -- Buscar player
     if not Enemy.playerGO then
         Enemy.playerGO = GameObject.Find("Player")
-        if Enemy.playerGO then Engine.Log("[Enemy] Player encontrado") end
     end
 
     local myPos   = self.transform.position
-    local inRange = false   -- dentro del attackRange (bloquear y atacar)
+    local inRange = false
 
-    -- ── Detección y persecución del player ───────────────────────────────
+    -- Detección y persecución
     if Enemy.playerGO then
         local pp = Enemy.playerGO.transform.position
         if pp then
@@ -212,13 +234,10 @@ function Update(self, dt)
 
             if dist < self.public.chaseRange then
                 Enemy.currentState = State.CHASE
-
                 if dist <= self.public.attackRange then
-                    -- En rango de ataque: parar
                     inRange = true
                     Enemy.nav:StopMovement()
                 else
-                    -- Seguir persiguiendo
                     Enemy.chaseTimer = Enemy.chaseTimer - dt
                     if Enemy.chaseTimer <= 0 then
                         Enemy.chaseTimer = self.public.chaseUpdateRate
@@ -226,98 +245,82 @@ function Update(self, dt)
                     end
                 end
             else
-                -- Perdió al player: volver a patrulla
                 if Enemy.currentState == State.CHASE then
-                    Enemy.currentState    = State.IDLE
+                    Enemy.currentState = State.IDLE
                     Enemy.nextWanderTimer = self.public.idleWaitTime
-                    Engine.Log("[Enemy] Perdí al player. Descansando.")
                 end
             end
         end
     end
 
-    -- ── Modo ataque: quieto golpeando al player ───────────────────────────
+    -- Lógica de Ataque
     if inRange then
-        Enemy.smoothDx = 0
-        Enemy.smoothDz = 0
+        Enemy.smoothDx, Enemy.smoothDz = 0, 0
         local vel = Enemy.rb:GetLinearVelocity()
         Enemy.rb:SetLinearVelocity(0, vel.y, 0)
 
-        -- Cooldown entre ataques: se gestiona fuera del bloque inRange
-        if isOnCooldown then return end
+        if not isOnCooldown then
+            if not isAttacking then
+                isAttacking = true
+                attackTimer = 0
+            end
 
-        if not isAttacking then
-            isAttacking = true
-            attackTimer = 0
-            Engine.Log("[Enemy] ATTACKING")
+            attackTimer = attackTimer + dt
+            if attackTimer >= ATTACK_COL_DELAY and attackCol then
+                attackCol:Enable()
+            end
+
+            if attackTimer >= ATTACK_DURATION then
+                isAttacking   = false
+                isOnCooldown  = true
+                cooldownTimer = ATTACK_COOLDOWN
+                if attackCol then attackCol:Disable() end
+                attackTimer = 0
+            end
+            return 
         end
-
-        attackTimer = attackTimer + dt
-
-        if attackTimer >= ATTACK_COL_DELAY and attackCol then
-            attackCol:Enable()
-        end
-
-        if attackTimer >= ATTACK_DURATION then
-            isAttacking   = false
-            isOnCooldown  = true
-            cooldownTimer = ATTACK_COOLDOWN
-            if attackCol then attackCol:Disable() end
-            attackTimer = 0
-        end
-
-        return  -- No hacer movimiento ni patrulla mientras ataca
     end
 
-    -- Cancelar ataque si salió del rango
     if isAttacking then
         isAttacking = false
         if attackCol then attackCol:Disable() end
         attackTimer = 0
     end
 
-    -- Cooldown activo: quieto aunque el player se aleje del attackRange
+    -- Cooldown
     if isOnCooldown then
         cooldownTimer = cooldownTimer - dt
-        Enemy.smoothDx = 0
-        Enemy.smoothDz = 0
-        local vel = Enemy.rb:GetLinearVelocity()
-        Enemy.rb:SetLinearVelocity(0, vel.y, 0)
-        if cooldownTimer <= 0 then
-            isOnCooldown = false
-            Engine.Log("[Enemy] Cooldown terminado, listo para atacar")
-        end
+        Enemy.smoothDx, Enemy.smoothDz = 0, 0
+        if cooldownTimer <= 0 then isOnCooldown = false end
         return
     end
 
-    -- ── Movimiento (siempre activo fuera del modo ataque) ─────────────────
+    -- Movimiento y Patrulla
     local isMoving, speed = Movement(self, dt)
 
-    -- ── State machine de patrulla (IDLE / WANDER) ─────────────────────────
     if Enemy.currentState == State.IDLE then
         Enemy.nextWanderTimer = Enemy.nextWanderTimer - dt
-
         if Enemy.nextWanderTimer <= 0 then
             local angle = math.random() * pi * 2
             local dist  = math.random() * self.public.patrolRadius
-
             Enemy.targetPos.x = Enemy.startPos.x + math.cos(angle) * dist
             Enemy.targetPos.z = Enemy.startPos.z + math.sin(angle) * dist
-
             if Enemy.nav then
                 Enemy.nav:SetDestination(Enemy.targetPos.x, Enemy.startPos.y, Enemy.targetPos.z)
                 Enemy.currentState = State.WANDER
-                Engine.Log("[Enemy] Buscando nuevo punto...")
             end
         end
-
     elseif Enemy.currentState == State.WANDER then
-        -- Llegó al destino: nav parada e inercia asentada
         if not isMoving and speed < 0.05 then
             Enemy.nextWanderTimer = self.public.idleWaitTime
             Enemy.currentState    = State.IDLE
-            Engine.Log("[Enemy] He llegado. Descansando.")
         end
+    end
+
+    -- SEGURIDAD: Si por alguna razón la vida bajó a 0 durante el Update, borramos aquí
+    if pendingDestroy then
+        self:Destroy()
+        pendingDestroy = false
     end
 end
 

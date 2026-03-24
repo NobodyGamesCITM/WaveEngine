@@ -1,6 +1,6 @@
--- dialogTrigger.lua
+
 public = {
-    sequenceId = "intro"  -- cambia esto para cada trigger en el inspector
+    sequenceId = "intro" 
 }
 
 local triggered = false

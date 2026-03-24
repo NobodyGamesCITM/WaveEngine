@@ -102,6 +102,7 @@ public = {
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
     attackDuration      = 1.0,
+    chargeDuration      = 0.5,
     attackCooldown      = 0.5,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
@@ -329,10 +330,17 @@ States[State.IDLE] = {
 
         if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
+            return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then ChangeState(self, State.CHARGING) end
-            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then ChangeState(self, State.ATTACK_HEAVY) end
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
         end
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
@@ -375,11 +383,16 @@ States[State.WALK] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-        if GetAttackInput(self) == 2 then
-            ChangeState(self, State.CHARGING)
-            return
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
         end
-
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
@@ -439,6 +452,20 @@ States[State.RUNNING] = {
             Player.lastDirZ = moveZ / inputLen
         end
 
+        if GetAttackInput(self) == 1 then
+            ChangeState(self, State.ATTACK_LIGHT)
+            return
+        end
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
+        end
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
@@ -498,35 +525,42 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
+        _PlayerController_lastAttack = "heavy"
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Idle", 1.0) end --aquí poner anim de dash (no va)
-        _PlayerController_lastAttack = "charge"
         attackTimer = 0
-        if attackCol then attackCol:Enable() end
+        if chargeCol then chargeCol:Enable() end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
-        if attackTimer >= self.public.attackDuration then
+        if attackTimer >= self.public.chargeDuration then
             attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)
         end
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * 15, velocity.y, Player.lastDirZ * 15)
+            Player.rb:SetLinearVelocity(Player.lastDirX * 20, velocity.y, Player.lastDirZ * 20)
         end
     end,
     Exit = function(self)
-        if attackCol then attackCol:Disable() end
+        if chargeCol then chargeCol:Disable() end
+        _PlayerController_lastAttack = ""
     end
 }
 
 States[State.ATTACK_HEAVY] = {
-    Enter = function(self) end,
-    Update = function(self, dt) end
+    Enter = function(self)
+        _PlayerController_lastAttack = "heavy"
+    end,
+    Update = function(self, dt) end,
+    Exit = function(self)
+        if attackCol then attackCol:Disable() end
+        _PlayerController_lastAttack = ""
+    end
 }
 
 States[State.ATTACK_LIGHT] = {
@@ -660,6 +694,10 @@ function Start(self)
     attackCooldown = 0
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end 
+
+    chargeCol = self.gameObject:GetComponent("Sphere Collider")
+    if chargeCol then chargeCol:Disable() end 
+
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
 

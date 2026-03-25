@@ -165,9 +165,21 @@ end
 
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
+    Game.SetTimeScale(1.0) 
+   
     hp         = self.public.maxHp
     isDead     = false
     alreadyHit = false
+    pendingDestroy = false
+
+    Enemy.smoothDx = 0
+    Enemy.smoothDz = 0
+    Enemy.currentY = 0
+
+    isAttacking   = false
+    isOnCooldown  = false
+    attackTimer   = 0
+    cooldownTimer = 0
 
     Enemy.nav = self.gameObject:GetComponent("Navigation")
     Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
@@ -197,6 +209,7 @@ function Update(self, dt)
     -- Cheat/Debug para suicidio
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
+        Enemy.currentState = State.Dead
         return
     end
 

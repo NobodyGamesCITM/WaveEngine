@@ -669,14 +669,44 @@ ModuleNavMesh::NavMeshData* ModuleNavMesh::GetNavMeshData(GameObject* owner)
 // ---------------------------------------------------------------------------
 bool ModuleNavMesh::CleanUp()
 {
-    for (auto& mesh : navMeshes)
+   /* for (auto& mesh : navMeshes)
     {
         if (mesh.heightfield) rcFreeHeightField(mesh.heightfield);
         if (mesh.navMesh)     dtFreeNavMesh(mesh.navMesh);
         if (mesh.navQuery)    dtFreeNavMeshQuery(mesh.navQuery);
         if (mesh.chf)         rcFreeCompactHeightfield(mesh.chf);
     }
+    navMeshes.clear();*/
+
+    for (auto& mesh : navMeshes)
+    {
+        if (mesh.heightfield)
+        {
+            rcFreeHeightField(mesh.heightfield);
+            mesh.heightfield = nullptr;
+        }
+
+        if (mesh.navMesh)
+        {
+            dtFreeNavMesh(mesh.navMesh);
+            mesh.navMesh = nullptr;
+        }
+
+        if (mesh.navQuery)
+        {
+            dtFreeNavMeshQuery(mesh.navQuery);
+            mesh.navQuery = nullptr;
+        }
+
+        if (mesh.chf)
+        {
+            rcFreeCompactHeightfield(mesh.chf);
+            mesh.chf = nullptr;
+        }
+    }
     navMeshes.clear();
+    navObstacles.clear();
+
     return true;
 }
 

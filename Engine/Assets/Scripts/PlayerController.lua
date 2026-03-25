@@ -49,6 +49,7 @@ local State = {
     CHARGING     = "Charging",
     ATTACK_LIGHT = "AttackLight",
     ATTACK_HEAVY = "AttackHeavy",
+    SHOOTING     = "Shooting",
     DEAD         = "Dead"
 }
 
@@ -89,6 +90,7 @@ public = {
     rollDuration        = 1.0,
     sprintMultiplier    = 1.5,
     rollSpeed           = 15.0,
+    chargeSpeed         = 30.0,
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
@@ -102,7 +104,8 @@ public = {
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
     attackDuration      = 1.0,
-    chargeDuration      = 0.5,
+    chargeDuration      = 0.3,
+    shootDuration       = 0.2,
     attackCooldown      = 0.5,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
@@ -337,7 +340,11 @@ States[State.IDLE] = {
                 ChangeState(self, State.CHARGING)
                 return
             end
-            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -388,7 +395,11 @@ States[State.WALK] = {
                 ChangeState(self, State.CHARGING)
                 return
             end
-            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -461,7 +472,11 @@ States[State.RUNNING] = {
                 ChangeState(self, State.CHARGING)
                 return
             end
-            if Player.currentMask == Mask.APOLLO or Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -530,7 +545,7 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 1.0) end --aquí poner anim de dash (no va)
+        if anim then anim:Play("Charge", 1.0) end
         attackTimer = 0
         if chargeCol then chargeCol:Enable() end
     end,
@@ -543,11 +558,33 @@ States[State.CHARGING] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * 20, velocity.y, Player.lastDirZ * 20)
+            Player.rb:SetLinearVelocity(Player.lastDirX * self.public.chargeSpeed, velocity.y, Player.lastDirZ * self.public.chargeSpeed)
         end
     end,
     Exit = function(self)
         if chargeCol then chargeCol:Disable() end
+        _PlayerController_lastAttack = ""
+    end
+}
+
+States[State.SHOOTING] = {
+    Enter = function(self)
+        _PlayerController_lastAttack = ""
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Idle", 1.0) end --aquí shoot
+        attackTimer = 0
+    end,
+    Update = function(self, dt)
+        attackTimer = attackTimer + dt
+        if attackTimer >= self.public.shootDuration then
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
+    end,
+    Exit = function(self)
         _PlayerController_lastAttack = ""
     end
 }

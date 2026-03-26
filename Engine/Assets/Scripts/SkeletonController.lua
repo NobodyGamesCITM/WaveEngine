@@ -213,6 +213,8 @@ end
 
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
+    Game.SetTimeScale(1.0) 
+
     hp         = self.public.maxHp
     isDead     = false
     alreadyHit = false
@@ -248,16 +250,25 @@ end
 function Update(self, dt)
     if isDead then return end
 
+      -- Cheat/Debug para suicidio
+    if Input.GetKey("0") then
+        TakeDamage(self, hp, self.transform.worldPosition)
+        pendingDeath=true;
+    end
+
     -- Muerte diferida: espera a que acabe la acción en curso
     if pendingDeath then
+      
+        if Enemy.nav then Enemy.nav:StopMovement() end
+
         if Enemy.dieSFX then 
                 Engine.Log("[Enemy] Playing die SFX, dieSFX = " .. tostring(Enemy.dieSFX))
                 Enemy.dieSFX:PlayAudioEvent() 
         end
-        local busy = isAttacking
-                  or Enemy.currentState == State.EVADE
+        local busy = isAttacking or Enemy.currentState == State.EVADE
                   or predictTimer >= 0
         if not busy then
+            Enemy.currentState = State.DEAD
             isDead = true
             if Enemy.dieSFX then 
                 Engine.Log("[Enemy] Playing die SFX, dieSFX = " .. tostring(Enemy.dieSFX))
@@ -268,8 +279,10 @@ function Update(self, dt)
             Game.SetTimeScale(0.2)
             _impactFrameTimer = 0.07
             self:Destroy()
-           -- return
+            return
         end
+
+        return
     end
 
     -- ── Predict: lee el wind-up del player y programa el esquive ─────────

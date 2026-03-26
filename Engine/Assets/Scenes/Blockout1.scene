@@ -7,9 +7,9 @@
                 {
                     "active": true,
                     "position": [
-                        26.20931053161621,
-                        16.00127410888672,
-                        34.632293701171875
+                        22.20931053161621,
+                        27.00127410888672,
+                        -71.36770629882813
                     ],
                     "rotation": [
                         -45.0,
@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.6903408765792847,
+                    "aspectRatio": 1.8039772510528564,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -37,17 +37,7 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player"
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "shakeMagnitude",
+                            "name": "zoomMin",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
@@ -57,9 +47,14 @@
                             "value": 25.0
                         },
                         {
-                            "name": "followSpeed",
+                            "name": "shakeMagnitude",
                             "type": 0,
-                            "value": 5.0
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
                         },
                         {
                             "name": "zoomMax",
@@ -67,9 +62,14 @@
                             "value": 3.0
                         },
                         {
-                            "name": "zoomMin",
+                            "name": "followSpeed",
                             "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 5.0
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player"
                         },
                         {
                             "name": "shakeDuration",
@@ -3422,7 +3422,7 @@
                             "speedMax": 0.30000001192092896,
                             "speedMin": 0.05000000074505806,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\User\\Desktop\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                            "texturePath": "C:\\Users\\alons\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                             "textureRows": 1,
                             "textureUID": 17065513980760032408,
                             "type": 7
@@ -3470,9 +3470,9 @@
                 {
                     "active": true,
                     "position": [
-                        26.20931053161621,
-                        3.067202568054199,
-                        22.259822845458984
+                        22.20931053161621,
+                        14.067203521728516,
+                        -83.74017333984375
                     ],
                     "rotation": [
                         0.0,
@@ -3528,14 +3528,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "speedIncrease",
+                            "name": "hitShakeMagnitude",
                             "type": 0,
-                            "value": 5.0
+                            "value": 6.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "flySpeed",
                             "type": 0,
-                            "value": 14.0
+                            "value": 20.0
                         },
                         {
                             "name": "attackCooldown",
@@ -3543,24 +3548,34 @@
                             "value": 0.5
                         },
                         {
-                            "name": "sprintMultiplier",
+                            "name": "attackDuration",
                             "type": 0,
-                            "value": 1.5
+                            "value": 1.0
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 0.10000000149011612
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
                         },
                         {
                             "name": "rollCooldownMax",
                             "type": 0,
                             "value": 0.5
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 0.20000000298023224
                         },
                         {
                             "name": "hpLossCost",
@@ -3578,19 +3593,14 @@
                             "value": 2.0
                         },
                         {
-                            "name": "flySpeed",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 20.0
+                            "value": 1.5
                         },
                         {
-                            "name": "ROTATION_SPEED",
+                            "name": "rollDuration",
                             "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
+                            "value": 1.0
                         },
                         {
                             "name": "hitShakeDuration",
@@ -3598,24 +3608,29 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "speedHermesBonus",
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "rollSpeed",
                             "type": 0,
                             "value": 15.0
                         },
                         {
-                            "name": "rollStaminaCost",
+                            "name": "stamina",
                             "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 0.10000000149011612
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 1.0
+                            "value": 100.0
                         },
                         {
                             "name": "staminaRecover",
@@ -3628,24 +3643,9 @@
                             "value": 100.0
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "speedHermesBonus",
                             "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -3813,158 +3813,6 @@
         {
             "active": true,
             "children": [
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                54.51602554321289,
-                                14.0,
-                                -1.6715607643127441
-                            ],
-                            "rotation": [
-                                0.0,
-                                45.02799606323242,
-                                0.0
-                            ],
-                            "scale": [
-                                21.4315185546875,
-                                1.5140178203582764,
-                                43.180049896240234
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "primitiveType": "Cube",
-                            "type": 1
-                        },
-                        {
-                            "Center": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "DynamicFriction": 0.5,
-                            "Restitution": 0.6000000238418579,
-                            "Size": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "StaticFriction": 0.5,
-                            "Trigger": false,
-                            "active": true,
-                            "type": 10
-                        },
-                        {
-                            "AngularDamping": 0.0,
-                            "FreezePos": [
-                                false,
-                                false,
-                                false
-                            ],
-                            "FreezeRot": [
-                                false,
-                                false,
-                                false
-                            ],
-                            "LinearDamping": 0.0,
-                            "Mass": 1.0,
-                            "Type": 0,
-                            "UseCCD": false,
-                            "UseGravity": true,
-                            "active": true,
-                            "type": 8
-                        },
-                        {
-                            "active": true,
-                            "materialUID": 5774806756921454133,
-                            "type": 3
-                        }
-                    ],
-                    "name": "Floor_copy_copy_copy_copy_copy_copy",
-                    "tag": "",
-                    "uid": 14405099271824708010
-                },
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                -3.723522424697876,
-                                14.0,
-                                -8.020940780639648
-                            ],
-                            "rotation": [
-                                -0.0024667587131261826,
-                                45.018550872802734,
-                                -0.028026031330227852
-                            ],
-                            "scale": [
-                                26.789400100708008,
-                                1.8925222158432007,
-                                26.789400100708008
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "primitiveType": "Cube",
-                            "type": 1
-                        },
-                        {
-                            "active": true,
-                            "materialUID": 5774806756921454133,
-                            "type": 3
-                        },
-                        {
-                            "Center": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "DynamicFriction": 0.5,
-                            "Restitution": 0.6000000238418579,
-                            "Size": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "StaticFriction": 0.5,
-                            "Trigger": false,
-                            "active": true,
-                            "type": 10
-                        },
-                        {
-                            "AngularDamping": 0.0,
-                            "FreezePos": [
-                                false,
-                                false,
-                                false
-                            ],
-                            "FreezeRot": [
-                                false,
-                                false,
-                                false
-                            ],
-                            "LinearDamping": 0.0,
-                            "Mass": 1.0,
-                            "Type": 0,
-                            "UseCCD": false,
-                            "UseGravity": true,
-                            "active": true,
-                            "type": 8
-                        }
-                    ],
-                    "name": "Floor_copy_copy_copy_copy",
-                    "tag": "",
-                    "uid": 619008384973680307
-                },
                 {
                     "active": true,
                     "children": [],
@@ -4490,9 +4338,9 @@
                         {
                             "active": true,
                             "position": [
-                                32.0,
+                                77.0,
                                 9.0,
-                                -122.0
+                                -150.0
                             ],
                             "rotation": [
                                 0.0,
@@ -4680,17 +4528,17 @@
                         {
                             "active": true,
                             "position": [
-                                27.744674682617188,
-                                6.822517395019531,
-                                -98.14196014404297
+                                29.006017684936523,
+                                6.284913063049316,
+                                -99.5342025756836
                             ],
                             "rotation": [
-                                14.511716842651367,
+                                14.511720657348633,
                                 -43.05323028564453,
                                 159.2557373046875
                             ],
                             "scale": [
-                                17.301380157470703,
+                                20.657976150512695,
                                 0.20926861464977264,
                                 10.53839111328125
                             ],
@@ -4756,9 +4604,9 @@
                         {
                             "active": true,
                             "position": [
-                                48.37480163574219,
+                                49.6132926940918,
                                 7.872533798217773,
-                                -68.07684326171875
+                                -69.65251922607422
                             ],
                             "rotation": [
                                 -179.9720458984375,
@@ -4768,7 +4616,7 @@
                             "scale": [
                                 35.446651458740234,
                                 0.7847571969032288,
-                                25.396533966064453
+                                27.506757736206055
                             ],
                             "type": 0
                         },
@@ -4804,9 +4652,9 @@
                                 0.0
                             ],
                             "scale": [
-                                24.333507537841797,
+                                29.200210571289063,
                                 0.7193607091903687,
-                                21.72361183166504
+                                28.240697860717773
                             ],
                             "type": 0
                         },
@@ -4832,9 +4680,9 @@
                         {
                             "active": true,
                             "position": [
-                                0.15140390396118164,
+                                -4.604733467102051,
                                 10.455674171447754,
-                                -48.571136474609375
+                                -53.93259811401367
                             ],
                             "rotation": [
                                 0.017512237653136253,
@@ -4844,7 +4692,7 @@
                             "scale": [
                                 26.789400100708008,
                                 2.539807081222534,
-                                46.407806396484375
+                                60.33015060424805
                             ],
                             "type": 0
                         },
@@ -4852,6 +4700,11 @@
                             "active": true,
                             "primitiveType": "Cube",
                             "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 5774806756921454133,
+                            "type": 3
                         }
                     ],
                     "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy",
@@ -4865,19 +4718,19 @@
                         {
                             "active": true,
                             "position": [
-                                27.744674682617188,
+                                28.231056213378906,
                                 8.822515487670898,
-                                -56.14196014404297
+                                -56.259315490722656
                             ],
                             "rotation": [
-                                1.6899153706617653e-05,
+                                1.6899148249649443e-05,
                                 45.020111083984375,
-                                1.0942935793623043e-11
+                                1.0366992854449197e-11
                             ],
                             "scale": [
                                 22.837827682495117,
                                 0.5231715440750122,
-                                22.810367584228516
+                                25.187559127807617
                             ],
                             "type": 0
                         },
@@ -4941,14 +4794,14 @@
                         {
                             "active": true,
                             "position": [
-                                57.37643814086914,
-                                10.483625411987305,
-                                -51.51495361328125
+                                57.17066955566406,
+                                10.483624458312988,
+                                -49.0618896484375
                             ],
                             "rotation": [
                                 -179.9824981689453,
                                 45.000003814697266,
-                                180.0
+                                -180.0
                             ],
                             "scale": [
                                 26.789400100708008,
@@ -4961,11 +4814,54 @@
                             "active": true,
                             "primitiveType": "Cube",
                             "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 5774806756921454133,
+                            "type": 3
                         }
                     ],
                     "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
                     "tag": "",
                     "uid": 11160418999688749600
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -5.848596572875977,
+                                7.257272720336914,
+                                -83.57113647460938
+                            ],
+                            "rotation": [
+                                0.017512235790491104,
+                                45.000003814697266,
+                                4.6575223677791655e-08
+                            ],
+                            "scale": [
+                                13.394700050354004,
+                                8.542373657226563,
+                                46.407806396484375
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "primitiveType": "Cube",
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 5774806756921454133,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+                    "tag": "",
+                    "uid": 17689161203577185757
                 }
             ],
             "components": [
@@ -5000,9 +4896,9 @@
                 {
                     "active": true,
                     "position": [
-                        32.0,
+                        54.35161590576172,
                         5.0,
-                        -122.0
+                        -125.71215057373047
                     ],
                     "rotation": [
                         0.0,
@@ -5030,6 +4926,457 @@
             "name": "Cylinder_copy_copy",
             "tag": "",
             "uid": 9332336331544810009
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        35.37643814086914,
+                        5.483625411987305,
+                        -89.51495361328125
+                    ],
+                    "rotation": [
+                        0.0,
+                        45.000003814697266,
+                        180.0
+                    ],
+                    "scale": [
+                        13.394700050354004,
+                        10.87879753112793,
+                        18.09904670715332
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 2771887526970971241
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        19.37643814086914,
+                        5.483625411987305,
+                        -106.51495361328125
+                    ],
+                    "rotation": [
+                        0.0,
+                        45.000003814697266,
+                        -180.0
+                    ],
+                    "scale": [
+                        13.394700050354004,
+                        35.398712158203125,
+                        18.09904670715332
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 4849881839992385150
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        11.77543830871582,
+                        10.455674171447754,
+                        -24.891624450683594
+                    ],
+                    "rotation": [
+                        0.017512241378426552,
+                        1.1218179679417517e-05,
+                        3.355897604251368e-08
+                    ],
+                    "scale": [
+                        26.789400100708008,
+                        2.539807081222534,
+                        36.198097229003906
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 16112304345603118004
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        45.628170013427734,
+                        10.455674171447754,
+                        -24.891624450683594
+                    ],
+                    "rotation": [
+                        0.01751224510371685,
+                        1.1218180588912219e-05,
+                        3.3558979595227356e-08
+                    ],
+                    "scale": [
+                        26.789400100708008,
+                        2.539806842803955,
+                        36.198097229003906
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 10979579510691638218
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        17.649208068847656,
+                        10.455676078796387,
+                        -6.625180721282959
+                    ],
+                    "rotation": [
+                        0.0,
+                        -45.000003814697266,
+                        9.074405227238458e-09
+                    ],
+                    "scale": [
+                        12.06702709197998,
+                        2.539806842803955,
+                        11.13253116607666
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 13176828749019387573
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        56.192787170410156,
+                        10.455676078796387,
+                        -4.4095001220703125
+                    ],
+                    "rotation": [
+                        5.622479766514326e-16,
+                        -45.000003814697266,
+                        9.074404339060038e-09
+                    ],
+                    "scale": [
+                        40.02568435668945,
+                        2.539806842803955,
+                        28.647998809814453
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 12215805901890378907
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        2.7955262660980225,
+                        10.455677032470703,
+                        -5.0240983963012695
+                    ],
+                    "rotation": [
+                        0.0,
+                        -45.000003814697266,
+                        9.074405227238458e-09
+                    ],
+                    "scale": [
+                        12.06702709197998,
+                        2.539806842803955,
+                        11.13253116607666
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 7901383715556583668
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        83.73274993896484,
+                        5.4567766189575195,
+                        -110.80984497070313
+                    ],
+                    "rotation": [
+                        -179.9824981689453,
+                        45.000003814697266,
+                        180.0
+                    ],
+                    "scale": [
+                        26.789400100708008,
+                        2.8062143325805664,
+                        46.407806396484375
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 12321769098205020341
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        62.86928939819336,
+                        5.483593940734863,
+                        -86.63512420654297
+                    ],
+                    "rotation": [
+                        0.0,
+                        45.000003814697266,
+                        180.0
+                    ],
+                    "scale": [
+                        31.472431182861328,
+                        9.832975387573242,
+                        18.09904670715332
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 8214219859243236436
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        1.3451659679412842,
+                        5.483621120452881,
+                        -99.26658630371094
+                    ],
+                    "rotation": [
+                        0.0,
+                        45.000003814697266,
+                        180.0
+                    ],
+                    "scale": [
+                        12.530095100402832,
+                        26.255630493164063,
+                        18.849651336669922
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 11762239819349046279
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -10.11436939239502,
+                        7.257273197174072,
+                        -108.55528259277344
+                    ],
+                    "rotation": [
+                        0.017512235790491104,
+                        45.000003814697266,
+                        3.9500505977230205e-08
+                    ],
+                    "scale": [
+                        16.957584381103516,
+                        8.54237174987793,
+                        18.752761840820313
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 5774806756921454133,
+                    "type": 3
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 15957843445112633005
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        19.161785125732422,
+                        3.8225152492523193,
+                        -197.32261657714844
+                    ],
+                    "rotation": [
+                        1.5225575225485954e-05,
+                        45.020111083984375,
+                        -5.012466317566577e-06
+                    ],
+                    "scale": [
+                        206.115966796875,
+                        1.0986602306365967,
+                        46.10546112060547
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                }
+            ],
+            "name": "Floor_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
+            "tag": "",
+            "uid": 6329139915801306095
         }
     ],
     "version": 1

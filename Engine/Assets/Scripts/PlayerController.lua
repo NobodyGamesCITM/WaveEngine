@@ -322,11 +322,6 @@ States[State.IDLE] = {
             ChangeState(self, State.ROLL)
             return
         end
-
-        -- Recuperar stamina
-        if self.public.stamina < 100 then
-            self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
-        end
     end
 }
 
@@ -384,11 +379,6 @@ States[State.WALK] = {
         end
         
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
-
-        -- Recuperar stamina
-        if self.public.stamina < 100 then
-            self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
-        end
     end
 }
 
@@ -691,11 +681,10 @@ function Update(self, dt)
     elseif Player.currentState and States[Player.currentState] then
         States[Player.currentState].Update(self, dt)
 
-        if not self.public.usingStamina and self.public.stamina < 100 then
-            self.public.stamina = self.public.stamina + (self.public.staminaRecover * dt)
+        if (Player.currentState == State.IDLE or Player.currentState == State.WALK) and self.public.stamina < 100 then
+            self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
         end
     end
-
 
     if Input.GetKey("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)

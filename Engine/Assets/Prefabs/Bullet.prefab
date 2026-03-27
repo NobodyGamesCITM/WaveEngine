@@ -1,0 +1,52 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Sphere",
+                "type": 1
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "lifetime",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "speed",
+                        "type": 0,
+                        "value": 5.0
+                    }
+                ],
+                "scriptUID": 12957541813524735499,
+                "type": 6
+            }
+        ],
+        "name": "Bullet",
+        "tag": "",
+        "uid": 17508019346393877544
+    }
+]

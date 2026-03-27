@@ -21,7 +21,7 @@ function Update(self, deltaTime)
                 Engine.Log("Checkpoint taken")
                 lastCheckpoint = pos 
                 Engine.Log("Checkpoint" .. tostring(lastCheckpoint))
-                giveApoloMask = true
+                giveHermesMask = true
                 Restore(self)
             end
         end

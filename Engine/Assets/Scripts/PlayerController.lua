@@ -36,9 +36,9 @@ local HERMES_GRACE_TIME      = 0.2
 -- MASKS
 local Mask = {
     NONE   = "None",
-    APOLLO = "Apollo",
-    HERMES = "Hermes",
-    ARES   = "Ares"
+    APOLLO = "None",
+    HERMES = "None",
+    ARES   = "None"
 }
 
 -- STATES
@@ -775,7 +775,6 @@ end
 
 
 function Update(self, dt)
-    Engine.Log("[dt] " .. tostring(dt))
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
@@ -820,7 +819,7 @@ function Update(self, dt)
         end
     end
 
-    if Input.GetKey("8") then
+    if Input.GetKey("P") then
         self.public.health = math.min(100, self.public.health + self.public.hpRecover)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
@@ -829,19 +828,25 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    --hermes
-    --DOING
+    --ChangeMask
     if Input.GetKeyDown("8") then 
         --EquipMask(self, Mask.HERMES) 
         MaskScroll(self)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
-    end --debug
+    end
 
     if Input.GetKeyDown("9") then 
         EquipMask(self, Mask.NONE) 
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
 
+    --Respawn debug
+    if Input.GetKeyDown("M") then
+        local p = lastCheckpoint
+        self.transform:SetPosition(p.x, p.y, p.z)
+    end
+
+    --Check for new mask
     ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
@@ -876,15 +881,20 @@ function Update(self, dt)
     end
 end
 function MaskScroll(self)
-    if player.currentMask == Mask.NONE then EquipMask(Mask.APOLLO)
-    elseif player.currentMask == Mask.APOLLO then EquipMask(Mask.HERMES)
-    elseif player.currentMask == Mask.HERMES then EquipMask(Mask.ARES)
-    elseif player.currentMask == Mask.ARES then EquipMask(Mask.APOLLO)
+    if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
+    elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
+    elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
+    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HREMES) end  
+
 end
 function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then Mask.APOLLO = "Apolo"end
-    if giveHermesMask and Mask.HERMES == "None" then Mask.HERMES = "Hermes"end
-    if giveAresMask and Mask.ARES == "None" then Mask.ARES = "Ares"end
+    if giveHermesMask and Mask.HERMES == "None" then 
+        Mask.HERMES = "Hermes"
+        Engine.Log("Mask obtain")
+    end
+    if giveAresMask and Mask.ARES == "None" then Mask.ARES = "Ares" end
+
 end
 function ResetPlayer(self)
     Engine.Log("[Player] ResetPlayer llamado")

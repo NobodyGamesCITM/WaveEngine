@@ -7,14 +7,14 @@
                 {
                     "active": true,
                     "position": [
-                        46.0,
+                        48.418548583984375,
                         -1.0,
-                        27.0
+                        -150.5059051513672
                     ],
                     "rotation": [
-                        -109.44170379638672,
-                        43.22216033935547,
-                        -41.63478469848633
+                        -148.86305236816406,
+                        53.0160026550293,
+                        -90.745361328125
                     ],
                     "scale": [
                         1.0,
@@ -27,24 +27,24 @@
                     "active": true,
                     "dir": {
                         "ambient": [
-                            0.7647058963775635,
-                            0.6798120737075806,
-                            0.5585352182388306
+                            1.0,
+                            1.0,
+                            1.0
                         ],
                         "diffuse": [
-                            0.800000011920929,
-                            0.800000011920929,
-                            0.800000011920929
+                            1.0,
+                            1.0,
+                            1.0
                         ],
                         "direction": [
-                            -0.4561336040496826,
-                            -0.8562201261520386,
-                            0.24254727363586426
+                            -0.5259358286857605,
+                            -0.6769385933876038,
+                            0.5149228572845459
                         ],
                         "specular": [
-                            0.5,
-                            0.5,
-                            0.5
+                            1.0,
+                            1.0,
+                            1.0
                         ]
                     },
                     "lightType": 0,
@@ -62,9 +62,9 @@
                         ],
                         "linear": 0.09000000357627869,
                         "position": [
-                            0.0,
-                            0.0,
-                            0.0
+                            46.0,
+                            -1.0,
+                            27.0
                         ],
                         "quadratic": 0.03200000151991844,
                         "specular": [
@@ -87,16 +87,16 @@
                             1.0
                         ],
                         "direction": [
-                            0.0,
-                            -1.0,
-                            0.0
+                            -0.5259577035903931,
+                            -0.6397665739059448,
+                            -0.5604169964790344
                         ],
                         "linear": 0.09000000357627869,
                         "outerCutOff": 17.5,
                         "position": [
-                            0.0,
-                            0.0,
-                            0.0
+                            46.0,
+                            -1.0,
+                            27.0
                         ],
                         "quadratic": 0.03200000151991844,
                         "specular": [
@@ -137,7 +137,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.75,
+                    "aspectRatio": 1.8039772510528564,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -149,9 +149,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "followSpeed",
+                            "name": "zoomMax",
                             "type": 0,
-                            "value": 5.0
+                            "value": 3.0
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeMagnitude",
+                            "type": 0,
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "shakeFrequency",
@@ -164,14 +174,9 @@
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "shakeMagnitude",
+                            "name": "followSpeed",
                             "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 5.0
                         },
                         {
                             "name": "playerName",
@@ -179,14 +184,9 @@
                             "value": "Player"
                         },
                         {
-                            "name": "zoomMax",
+                            "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -3640,14 +3640,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "sprintMultiplier",
+                            "name": "hermesWaterMax",
                             "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
+                            "value": 2.0
                         },
                         {
                             "name": "ROTATION_SPEED",
@@ -3660,44 +3655,14 @@
                             "value": 0.699999988079071
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "attackDuration",
+                            "name": "rollDuration",
                             "type": 0,
                             "value": 1.0
                         },
                         {
-                            "name": "speed",
+                            "name": "rollSpeed",
                             "type": 0,
-                            "value": 9.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 0.10000000149011612
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 0.10000000149011612
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
+                            "value": 15.0
                         },
                         {
                             "name": "health",
@@ -3705,9 +3670,9 @@
                             "value": 100.0
                         },
                         {
-                            "name": "attackCooldown",
+                            "name": "staminaCost",
                             "type": 0,
-                            "value": 0.5
+                            "value": 0.10000000149011612
                         },
                         {
                             "name": "speedHermesBonus",
@@ -3720,24 +3685,9 @@
                             "value": 5.0
                         },
                         {
-                            "name": "hitShakeDuration",
+                            "name": "speed",
                             "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 0.20000000298023224
+                            "value": 9.0
                         },
                         {
                             "name": "rollCooldownMax",
@@ -3745,9 +3695,29 @@
                             "value": 0.5
                         },
                         {
-                            "name": "rollDuration",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 1.0
+                            "value": 1.5
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "hpLossCost",
@@ -3758,6 +3728,36 @@
                             "name": "knockbackForce",
                             "type": 0,
                             "value": 14.0
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 0.10000000149011612
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -7896,6 +7896,368 @@
             "name": "Blockout",
             "tag": "",
             "uid": 6690305441323575329
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                -89.99998474121094,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                99.43778991699219,
+                                99.43778991699219,
+                                99.43778991699219
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 5356533674025106289,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 7078491605896209870,
+                            "type": 3
+                        }
+                    ],
+                    "name": "BaseCalderosLP",
+                    "tag": "",
+                    "uid": 10912042401422709371
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                222.15232849121094,
+                                38.86160659790039,
+                                -386.1015930175781
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 14224865861407644068,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 7078491605896209870,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.002",
+                    "tag": "",
+                    "uid": 2999234341917792225
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -445.1336364746094,
+                                38.86160659790039,
+                                0.3655766248703003
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 18118394118856351831,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 7078491605896209870,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.003",
+                    "tag": "",
+                    "uid": 9132614311065695696
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                226.31915283203125,
+                                38.86160659790039,
+                                384.9490051269531
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 4390006950290518467,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 7078491605896209870,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.004",
+                    "tag": "",
+                    "uid": 9581787844463243086
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        84.0,
+                        9.353017807006836,
+                        -173.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.015577487647533417,
+                        0.015577487647533417,
+                        0.015577487647533417
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "Portal",
+            "tag": "",
+            "uid": 10387519275571692540
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                -89.99998474121094,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                99.43778991699219,
+                                99.43778991699219,
+                                99.43778991699219
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 5356533674025106289,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 12017363910947960468,
+                            "type": 3
+                        }
+                    ],
+                    "name": "BaseCalderosLP",
+                    "tag": "",
+                    "uid": 3488353485538293220
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                222.15232849121094,
+                                38.86160659790039,
+                                -386.1015930175781
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 14224865861407644068,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 12017363910947960468,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.002",
+                    "tag": "",
+                    "uid": 8068911303019113148
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -445.1336364746094,
+                                38.86160659790039,
+                                0.3655766248703003
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 18118394118856351831,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 12017363910947960468,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.003",
+                    "tag": "",
+                    "uid": 17567219102162497772
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                226.31915283203125,
+                                38.86160659790039,
+                                384.9490051269531
+                            ],
+                            "rotation": [
+                                -90.0000228881836,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                56.774879455566406,
+                                56.774879455566406,
+                                35.462154388427734
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 4390006950290518467,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 12017363910947960468,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Cylinder.004",
+                    "tag": "",
+                    "uid": 3351476465911694478
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        87.18917083740234,
+                        9.426433563232422,
+                        -165.24505615234375
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.016244644299149513,
+                        0.016244644299149513,
+                        0.016244644299149513
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "Portal",
+            "tag": "",
+            "uid": 7235511057378961160
         }
     ],
     "version": 1

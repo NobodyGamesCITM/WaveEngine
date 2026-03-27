@@ -7,6 +7,7 @@ local pi    = math.pi
 
 local attackCol
 local attackTimer = 0
+local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 

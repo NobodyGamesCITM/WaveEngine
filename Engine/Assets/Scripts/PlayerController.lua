@@ -682,7 +682,7 @@ function Start(self)
 
     local spawnPos  = self.transform.worldPosition
     Player.spawnPos = spawnPos
-    Player.respawnPos = spawnPos
+    lastCheckpoint = spawnPos
     Player.baseSpeed = self.public.speed
     
     _impactFrameTimer = 0

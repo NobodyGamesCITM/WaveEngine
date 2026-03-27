@@ -103,7 +103,7 @@ local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
     if not hp then return end
     hp = hp - amount
-    Engine.Log("[Enemy] HP left: " .. hp .. "/" .. self.public.maxHp)
+    --Engine.Log("[Enemy] HP left: " .. hp .. "/" .. self.public.maxHp)
 
     _PlayerController_triggerCameraShake = true
 
@@ -119,7 +119,7 @@ local function TakeDamage(self, amount, attackerPos)
 
     if hp <= 0 then
         pendingDeath = true
-        Engine.Log("[Enemy] HP agotado, esperando fin de acción para morir")
+        --Engine.Log("[Enemy] HP agotado, esperando fin de acción para morir")
     end
 end
 
@@ -143,7 +143,7 @@ local function TryEvasion(self, attackerPos)
     Enemy.currentState = State.EVADE
     dashTimer          = 0
 
-    Engine.Log("[Enemy] ESQUIVE! Fuerza: " .. self.public.dashForce)
+   -- Engine.Log("[Enemy] ESQUIVE! Fuerza: " .. self.public.dashForce)
     return true
 end
 
@@ -332,7 +332,7 @@ function Update(self, dt)
                     -- 0.0s = reacción perfecta (raro), 0.3s = reacción lenta (más común)
                     predictTimer = math.random() * 0.3
                     predictPos   = { x = pp2.x, y = pp2.y, z = pp2.z }
-                    Engine.Log("[Enemy] Predict programado en " .. string.format("%.2f", predictTimer) .. "s")
+                    --Engine.Log("[Enemy] Predict programado en " .. string.format("%.2f", predictTimer) .. "s")
                 end
             end
         end
@@ -345,7 +345,7 @@ function Update(self, dt)
         if predictTimer <= 0 then
             predictTimer = -1
             if TryEvasion(self, predictPos) then
-                Engine.Log("[Enemy] ¡Esquive por predicción!")
+                --Engine.Log("[Enemy] ¡Esquive por predicción!")
             end
             predictPos = nil
         end
@@ -376,7 +376,7 @@ function Update(self, dt)
     -- Buscar player si aún no se tiene referencia
     if not Enemy.playerGO then
         Enemy.playerGO = GameObject.Find("Player")
-        if Enemy.playerGO then Engine.Log("[Enemy] Player encontrado") end
+        --if Enemy.playerGO then Engine.Log("[Enemy] Player encontrado") end
     end
 
     local myPos   = self.transform.position
@@ -410,7 +410,7 @@ function Update(self, dt)
                 if Enemy.currentState == State.CHASE then
                     Enemy.currentState    = State.IDLE
                     Enemy.nextWanderTimer = self.public.idleWaitTime
-                    Engine.Log("[Enemy] Perdí al player. Descansando.")
+                    --Engine.Log("[Enemy] Perdí al player. Descansando.")
                 end
 
             end
@@ -441,7 +441,7 @@ function Update(self, dt)
         if not isAttacking then
             isAttacking = true
             attackTimer = 0
-            Engine.Log("[Enemy] ATTACKING")
+            --Engine.Log("[Enemy] ATTACKING")
             if Enemy.attackSFX then 
                 Enemy.attackSFX:PlayAudioEvent()
             end
@@ -481,7 +481,7 @@ function Update(self, dt)
         Enemy.rb:SetLinearVelocity(0, vel.y, 0)
         if cooldownTimer <= 0 then
             isOnCooldown = false
-            Engine.Log("[Enemy] Cooldown terminado, listo para atacar")
+            --Engine.Log("[Enemy] Cooldown terminado, listo para atacar")
         end
         return
     end
@@ -503,7 +503,7 @@ function Update(self, dt)
             if Enemy.nav then
                 Enemy.nav:SetDestination(Enemy.targetPos.x, Enemy.startPos.y, Enemy.targetPos.z)
                 Enemy.currentState = State.WANDER
-                Engine.Log("[Enemy] Buscando nuevo punto...")
+                --Engine.Log("[Enemy] Buscando nuevo punto...")
             end
         end
 
@@ -512,7 +512,7 @@ function Update(self, dt)
         if not isMoving and speed < 0.05 then
             Enemy.nextWanderTimer = self.public.idleWaitTime
             Enemy.currentState    = State.IDLE
-            Engine.Log("[Enemy] He llegado. Descansando.")
+            --Engine.Log("[Enemy] He llegado. Descansando.")
         end
     end
 end
@@ -531,7 +531,7 @@ function OnTriggerEnter(self, other)
 
                 -- Si ya está esquivando (predicción activa) o en EVADE, el golpe no conecta
                 if Enemy.currentState == State.EVADE or predictTimer >= 0 then
-                    Engine.Log("[Enemy] Golpe evitado por predicción")
+                    --Engine.Log("[Enemy] Golpe evitado por predicción")
                 else
                     if attack == "light" then
                         TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -546,7 +546,7 @@ function OnTriggerEnter(self, other)
         if isAttacking and _PlayerController_pendingDamage == 0 then
             _PlayerController_pendingDamage    = _EnemyDamage_skeleton
             _PlayerController_pendingDamagePos = self.transform.worldPosition
-            Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
+            --Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
         end
     end
 end
@@ -558,6 +558,7 @@ function OnTriggerExit(self, other)
 		
     end
 end
+
 
 
 

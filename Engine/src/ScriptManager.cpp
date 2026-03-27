@@ -1119,7 +1119,7 @@ static int Lua_GameObject_SetPersistency(lua_State* L)
     }
 
     GameObject* obj = *udata;
-    obj->SetPersistency(isPersistent);
+    //obj->SetPersistency(isPersistent);
 
     return 0;
 }

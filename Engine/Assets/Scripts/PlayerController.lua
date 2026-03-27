@@ -904,9 +904,9 @@ function ResetPlayer(self)
     self.public.stamina = 100
 
     -- Pociones
-    if _G.PotionSystem then
-        _G.PotionSystem:ResetPotions()
-    end
+    --if _G.PotionSystem then
+    --    _G.PotionSystem:ResetPotions()
+    --end
 
     -- Cooldowns
     attackCooldown = 0

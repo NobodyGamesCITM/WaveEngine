@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.539893627166748,
+                    "aspectRatio": 0.46666666865348816,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -37,73 +37,6 @@
             "name": "Camera",
             "tag": "",
             "uid": 6583247149643755782
-        },
-        {
-            "active": true,
-            "children": [],
-            "components": [
-                {
-                    "active": true,
-                    "position": [
-                        13.0,
-                        0.0,
-                        0.0
-                    ],
-                    "rotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "type": 0
-                },
-                {
-                    "active": true,
-                    "primitiveType": "Cube",
-                    "type": 1
-                },
-                {
-                    "active": true,
-                    "publicVariables": [
-                        {
-                            "name": "temp2",
-                            "type": 5,
-                            "value": "Temp2.scene"
-                        },
-                        {
-                            "name": "temp1",
-                            "type": 5,
-                            "value": "Temp1.scene"
-                        }
-                    ],
-                    "scriptUID": 1677025167670271402,
-                    "type": 6
-                },
-                {
-                    "active": true,
-                    "materialUID": 10365454792224019955,
-                    "type": 3
-                },
-                {
-                    "active": true,
-                    "isDefault": true,
-                    "type": 25
-                },
-                {
-                    "active": true,
-                    "eventName": "MUS_BGM",
-                    "playOnAwake": false,
-                    "type": 26,
-                    "volume": 100.0
-                }
-            ],
-            "name": "PersistentCube",
-            "tag": "",
-            "uid": 639769431511057513
         },
         {
             "active": true,

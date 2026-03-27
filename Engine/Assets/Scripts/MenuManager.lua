@@ -13,7 +13,7 @@ local fadeTimer = 0.0
 local phase     = "idle"
 local history   = {}
 local current   = nil
-local audioPlayed = false  
+
 
 
 local function EaseInOutQuad(t)
@@ -56,10 +56,11 @@ function Start(self)
     end
 
     current = canvas:GetCurrentXAML()
+	
     Engine.Log("[Transition] current detectado: '" .. tostring(current) .. "'")
 
     if not current or current == "" then
-        current = "HUD.xaml"
+        current = "MainMenu.xaml"
         Engine.Log("[Transition] WARN: Canvas sin XAML, usando fallback HUD")
     end
     Engine.Log("[Transition] XAML inicial: " .. current)
@@ -71,14 +72,11 @@ function Start(self)
     canvas:SetOpacity(1.0)
     SetPhase("idle")
 
-    local menuAudio = self.gameObject:GetComponent("Audio Source")
-    if not menuAudio then
-        Engine.Log("[Menu Audio] WARN: Menu sin Audio Source, no habrá música de fondo")
-    else
-        menuAudio:PlayAudioEvent()
-    end
-
+	NavigateTo("MainMenu.xaml")
+	Game:Resume()
     Engine.Log("[Transition] Listo")
+
+
 end
 
 function Update(self, dt)
@@ -132,6 +130,7 @@ function Update(self, dt)
 
         -- Main Menu
         if UI.WasClicked("StartButton") then
+			
             NavigateTo("HUD.xaml")
         end
         if UI.WasClicked("SettingsButton") then
@@ -215,14 +214,16 @@ function Update(self, dt)
     
                 Game.Resume()
                 Audio.SetMusicState("Level1")
-                Engine.LoadScene(assetsPath, "../Scenes/Level1-audio.scene")
+                
             end
-        else
-            Game.Pause()
-            Audio.SetMusicState("MainMenu")
+        elseif
+            current == "MainMenu.xaml" then
+			Audio.SetMusicState("MainMenu")
+			
         end
 
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
     end
 end
+

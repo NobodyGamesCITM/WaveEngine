@@ -2190,51 +2190,82 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                 if (res->GetType() == Resource::PREFAB) {
                     std::string assetPath = res->GetAssetFile();
 
-                    // Extract filename from path
-                    size_t lastSlash = assetPath.find_last_of("/\\");
-                    std::string filename = (lastSlash != std::string::npos)
-                        ? assetPath.substr(lastSlash + 1)
-                        : assetPath;
+                    // Normalise slashes
+                    std::string normalizedAsset = assetPath;
+                    std::replace(normalizedAsset.begin(), normalizedAsset.end(), '\\', '/');
+                    std::string normalizedName = name;
+                    std::replace(normalizedName.begin(), normalizedName.end(), '\\', '/');
 
-                    // Match either by filename or by exact path
-                    if (filename == name || assetPath == name) {
+                    // Retrieve the filename of the asset 
+                    size_t lastSlash = normalizedAsset.find_last_of("/");
+                    std::string filename = (lastSlash != std::string::npos)
+                        ? normalizedAsset.substr(lastSlash + 1)
+                        : normalizedAsset;
+
+                    // Extract the filename from the search term
+                    size_t nameLastSlash = normalizedName.find_last_of("/");
+                    std::string nameFilename = (nameLastSlash != std::string::npos)
+                        ? normalizedName.substr(nameLastSlash + 1)
+                        : normalizedName;
+
+
+                    bool matchExact = normalizedAsset == normalizedName;
+                    bool matchSuffix = normalizedAsset.size() >= normalizedName.size() &&
+                        normalizedAsset.substr(normalizedAsset.size() - normalizedName.size()) == normalizedName;
+                    bool matchFilename = filename == nameFilename;
+
+                    if (matchExact || matchSuffix || matchFilename) {
                         prefabUID = uid;
                         break;
                     }
                 }
             }
 
-            //if (prefabUID != 0) {
-            //    // Request the prefab resource
-            //    Resource* res = resources->RequestResource(prefabUID);
-            //    if (res && res->GetType() == Resource::PREFAB) {
-            //        ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
-            //        instance = prefabRes->Instantiate();
+            if (prefabUID != 0) {
+                Resource* res = resources->RequestResource(prefabUID);
+                if (res && res->GetType() == Resource::PREFAB) {
+                    ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
 
-            //        if (instance) {
-            //            // Enable all scripts in the instantiated object and its children
-            //            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
-            //                // Get all script components and call their Start()
-            //                auto components = obj->GetComponents();
-            //                for (auto* comp : components) {
-            //                    if (comp->GetType() == ComponentType::SCRIPT) {
-            //                        ComponentScript* script = static_cast<ComponentScript*>(comp);
-            //                        if (script->IsActive()) {
-            //                            script->CallStart();
-            //                        }
-            //                    }
-            //                }
+                    if (!prefabRes->IsLoadedToMemory()) {
+                        prefabRes->LoadInMemory();
+                    }
 
-            //                // Recursively enable scripts in children
-            //                for (GameObject* child : obj->GetChildren()) {
-            //                    enableScripts(child);
-            //                }
-            //                };
+                    nlohmann::json hierarchy = prefabRes->GetPrefabHierarchy();
 
-            //            enableScripts(instance);
-            //        }
-            //    }
-            //}
+                    if (!hierarchy.is_null() && !hierarchy.empty()) {
+                        ModuleScene* scene = Application::GetInstance().scene.get();
+
+                        if (hierarchy.is_array()) {
+                            instance = GameObject::Deserialize(hierarchy[0], scene->GetRoot());
+                        }
+                        else {
+                            instance = GameObject::Deserialize(hierarchy, scene->GetRoot());
+                        }
+
+                        if (instance) {
+                            instance->SolveReferences();
+
+                            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
+                                for (auto* comp : obj->GetComponents()) {
+                                    if (comp->GetType() == ComponentType::SCRIPT) {
+                                        ComponentScript* script = static_cast<ComponentScript*>(comp);
+                                        if (script->IsActive()) {
+                                            script->CallStart();
+                                        }
+                                    }
+                                }
+                                for (GameObject* child : obj->GetChildren()) {
+                                    enableScripts(child);
+                                }
+                                };
+                            enableScripts(instance);
+                        }
+                    }
+                }
+            }
+            else {
+                LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);
+            }
         }
 
         if (instance) {
@@ -2247,7 +2278,6 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
 
     return 1;
 }
-
 
 void ScriptManager::RegisterPrefabAPI() {
     lua_newtable(L);

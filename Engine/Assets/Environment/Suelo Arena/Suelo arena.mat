@@ -7,8 +7,8 @@
         1.0
     ],
     "HeightMapUID": 9752492661564211252,
-    "HeightScale": 0.05000000074505806,
-    "Metallic": 0.0,
+    "HeightScale": 1.0,
+    "Metallic": 1.0,
     "MetallicMapUID": 2323603191129469397,
     "NormalMapUID": 16877107965075438352,
     "OcclusionMapUID": 0,
@@ -17,7 +17,7 @@
         0.0
     ],
     "Opacity": 1.0,
-    "Roughness": 0.5,
+    "Roughness": 1.0,
     "Tiling": [
         1.0,
         1.0

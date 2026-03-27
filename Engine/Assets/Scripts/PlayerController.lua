@@ -102,7 +102,11 @@ public = {
     hitShakeMagnitude   = 6.0,
     ROTATION_SPEED      = 780,
     hermesWaterMax      = 2.0,
-    flySpeed            = 20.0
+    flySpeed            = 20.0,
+    interact            = false,
+    giveApoloMask       = false,
+    giveHermesMask      = false,
+    giveAresMask        = false
 }
 
 
@@ -127,6 +131,12 @@ local function GetMovementInput()
     if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
     if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
     if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
+
+    if interact == true then interact = false end
+    if Input.GetKeyDown("R") then
+        Engine.Log("interact try")
+        interact = true
+    end
 
     moveX, moveZ = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
@@ -229,8 +239,6 @@ end
 local function EquipMask(self, newMask)
     if Player.currentMask == newMask then return end
 
-    
-
     --HERMES
     if Player.currentMask == Mask.HERMES and Player.isDrowning then
         Engine.Log("[Player] Hermes while on water!!")
@@ -283,7 +291,7 @@ States[State.DEAD] = {
         if Input.GetKeyDown("1") then
             self.public.health  = 100
             self.public.stamina = 100
-            local p = Player.spawnPos
+            local p = lastCheckpoint
             self.transform:SetPosition(p.x, p.y, p.z)
             _G._PlayerController_isDead = false  -- NUEVO
             ChangeState(self, State.IDLE)
@@ -434,7 +442,6 @@ States[State.RUNNING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
-        Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
@@ -571,7 +578,7 @@ function Start(self)
 
     local spawnPos  = self.transform.worldPosition
     Player.spawnPos = spawnPos
-    
+    lastCheckpoint = spawnPos
     _impactFrameTimer = 0
 
     self.public.stamina = 100
@@ -687,6 +694,12 @@ function Update(self, dt)
         end
     end
 
+    if Input.GetKeyDown("M") then
+        Engine.Log("Checkpoint" .. tostring(lastCheckpoint))
+        local p = lastCheckpoint
+        self.transform:SetPosition(p.x, p.y, p.z)
+    end
+
     if Input.GetKey("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
@@ -714,14 +727,19 @@ function Update(self, dt)
     end
 
     --hermes
+    --DOING
     if Input.GetKeyDown("8") then 
-        EquipMask(self, Mask.HERMES) 
+        --EquipMask(self, Mask.HERMES) 
+        MaskScroll(self)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
     end --debug
+
     if Input.GetKeyDown("9") then 
         EquipMask(self, Mask.NONE) 
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
+
+    ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
         if Player.currentState == State.RUNNING then
@@ -752,7 +770,17 @@ function Update(self, dt)
         Audio.SetSwitch("Surface_Type", Player.currentSurface, Player.stepSFX)
     end
 end
-
+function MaskScroll(self)
+    if player.currentMask == Mask.NONE then EquipMask(Mask.APOLLO)
+    elseif player.currentMask == Mask.APOLLO then EquipMask(Mask.HERMES)
+    elseif player.currentMask == Mask.HERMES then EquipMask(Mask.ARES)
+    elseif player.currentMask == Mask.ARES then EquipMask(Mask.APOLLO)
+end
+function ObtainMask(self)
+    if giveApoloMask and Mask.APOLLO == "None" then Mask.APOLLO = "Apolo"end
+    if giveHermesMask and Mask.HERMES == "None" then Mask.HERMES = "Hermes"end
+    if giveAresMask and Mask.ARES == "None" then Mask.ARES = "Ares"end
+end
 function ResetPlayer(self)
     Engine.Log("[Player] ResetPlayer llamado")
 

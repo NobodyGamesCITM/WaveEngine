@@ -3,6 +3,7 @@ local pi    = math.pi
 local sqrt  = math.sqrt
 local min   = math.min
 local abs   = math.abs
+local playerAttackHandled = false
 
 local attackSource
 local dieSource
@@ -284,7 +285,36 @@ function Update(self, dt)
 
         return
     end
+    
+    -- ── Detectar golpe del player por proximidad ──────────────────────────────
+    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
+        if not playerAttackHandled and Enemy.playerGO and not isDead then
+            local myPos = self.transform.position
+            local pp    = Enemy.playerGO.transform.position
+            if pp then
+                local dx   = pp.x - myPos.x
+                local dz   = pp.z - myPos.z
+                local dist = sqrt(dx * dx + dz * dz)
 
+                if dist <= (public.attackRange + 1.5) then   -- rango del player con algo de tolerancia
+                    playerAttackHandled = true
+                    local attack = _PlayerController_lastAttack
+
+                    if Enemy.currentState ~= State.EVADE and predictTimer < 0 then
+                        if attack == "light" then
+                            TakeDamage(self, DAMAGE_LIGHT, pp)
+                        elseif attack == "charge" then
+                            TakeDamage(self, DAMAGE_HEAVY, pp)
+                        end
+                    else
+                        Engine.Log("[Enemy] Golpe evitado por predicción/esquive")
+                    end
+                end
+            end
+        end
+    else
+        playerAttackHandled = false   -- resetea cuando el player termina el ataque
+    end
     -- ── Predict: lee el wind-up del player y programa el esquive ─────────
     -- Detecta el flanco de subida: el player acaba de empezar a atacar
     local playerIsAttacking = (_PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "")

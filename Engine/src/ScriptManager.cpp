@@ -1637,11 +1637,13 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
     if (strcmp(componentType, "Box Collider") == 0 ||
         strcmp(componentType, "Sphere Collider") == 0 ||
-        strcmp(componentType, "Capsule Collider") == 0)
+        strcmp(componentType, "Capsule Collider") == 0 ||
+        strcmp(componentType, "Convex Collider") == 0)
     {
         ComponentType ctype = ComponentType::BOX_COLLIDER;
         if (strcmp(componentType, "Sphere Collider") == 0)   ctype = ComponentType::SPHERE_COLLIDER;
         if (strcmp(componentType, "Capsule Collider") == 0)  ctype = ComponentType::CAPSULE_COLLIDER;
+        if (strcmp(componentType, "Convex Collider") == 0)   ctype = ComponentType::CONVEX_COLLIDER;
 
         Component* comp = obj->GetComponent(ctype);
         if (!comp)

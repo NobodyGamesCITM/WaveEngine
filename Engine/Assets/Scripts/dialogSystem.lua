@@ -75,7 +75,8 @@ end
 
 local function loadDialogs()
     if allDialogs then return true end
-    local ok, result = pcall(dofile, "../../Assets/Scripts/dialogs.lua")
+    local path = Engine.GetAssetsPath() .. "/Scripts/dialogs.lua"
+    local ok, result = pcall(dofile, path)
     if not ok or not result then
         Engine.Log("[DialogSystem] ERROR loading dialogs.lua: " .. tostring(result))
         return false
@@ -221,3 +222,4 @@ function Update(self, dt)
         end
     end
 end
+

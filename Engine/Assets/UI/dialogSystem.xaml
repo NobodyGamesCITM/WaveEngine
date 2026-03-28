@@ -3,7 +3,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   d:DesignWidth="1280" d:DesignHeight="720">
 
@@ -44,127 +43,114 @@
 
         <Grid x:Name="LayoutRoot" Width="1280" Height="720">
 
-            <!-- ===== PORTRAIT: fuera de la caja, anclado abajo-izquierda ===== -->
-            <!-- Controlado por Lua via SetElementVisibility en los Border -->
+            <!-- DialogBox alto para que el portrait sobresalga sin cortarse -->
             <Grid x:Name="DialogBox"
                   VerticalAlignment="Bottom"
-                  HorizontalAlignment="Left"
-                  Width="1280"
-                  Height="420"
-                  Margin="0,0,0,0"
+                  HorizontalAlignment="Stretch"
+                  Height="380"
                   Visibility="Collapsed">
 
-                <Grid.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform Y="0"/>
-                    </TransformGroup>
-                </Grid.RenderTransform>
+                <!-- CAPA 1: Pergamino + texto, anclado abajo, dejando hueco a la izquierda -->
+                <Grid VerticalAlignment="Bottom"
+                      HorizontalAlignment="Stretch"
+                      Height="160"
+                      Margin="180,0,20,10">
 
-                <!-- Portrait grande, cuerpo entero, anclado abajo-izquierda -->
-                <Grid Width="300" Height="400"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      Margin="200,0,0,0">
-                    <Border x:Name="Portrait_Telemaco" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Telemaco.png"/>
-                    </Border>
-                    <Border x:Name="Portrait_Atenea" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Atenea.png"/>
-                    </Border>
-                    <Border x:Name="Portrait_JohnCartel" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Portrait_Placeholder2.png"/>
-                    </Border>
-                </Grid>
-
-                <!-- Caja de texto: pergamino + texto, a la derecha del portrait -->
-                <Grid Width="820" Height="160"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      Margin="360,0,0,30">
-
-                    <!-- Pergamino de fondo -->
                     <Image Source="Textures/CuadroDialogo.PNG"
-                           Stretch="Fill"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"/>
+                           Stretch="Fill"/>
 
-                    <!-- Texto encima del pergamino -->
-                    <Grid Margin="75,25,50,20">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Nombre del personaje -->
+                    <!-- Nombre: pestaña pegada al borde superior del pergamino -->
+                    <Border HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="40,-30,0,0"
+                            Padding="14,5,14,5"
+                            CornerRadius="3">
+                        <Border.Background>
+                            <SolidColorBrush Color="#CC5C3300"/>
+                        </Border.Background>
                         <TextBlock x:Name="CharacterName"
-                                   Grid.Row="0"
                                    Text=""
-                                   FontSize="15"
+                                   FontSize="17"
                                    FontWeight="Bold"
-                                   FontFamily="Times New Roman"
-                                   Margin="0,0,0,5">
+                                   FontFamily="Times New Roman">
                             <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF5C3300"/>
+                                <SolidColorBrush Color="#FFFDF0D0"/>
                             </TextBlock.Foreground>
                         </TextBlock>
+                    </Border>
 
-                        <!-- Texto del diálogo -->
-                        <TextBlock x:Name="DialogText"
-                                   Grid.Row="1"
-                                   Text=""
-                                   FontSize="13"
-                                   FontFamily="Times New Roman"
-                                   FontStyle="Italic"
-                                   TextWrapping="Wrap"
-                                   LineHeight="20"
-                                   VerticalAlignment="Top">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF3D2200"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
+                    <!-- Texto diálogo -->
+                    <TextBlock x:Name="DialogText"
+                               Text=""
+                               FontSize="14"
+                               FontFamily="Georgia"
+                               FontStyle="Italic"
+                               TextWrapping="Wrap"
+                               LineHeight="22"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Stretch"
+                               Margin="50,25,50,20">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="#FF3D2200"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
 
-                        <!-- Icono continuar -->
-                        <TextBlock x:Name="ContinueIcon"
-                                   Grid.Row="2"
-                                   Text="▼"
-                                   FontSize="11"
-                                   FontFamily="Times New Roman"
-                                   HorizontalAlignment="Right"
-                                   Margin="0,0,4,0"
-                                   Visibility="Collapsed">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF7A4A00"/>
-                            </TextBlock.Foreground>
-                            <TextBlock.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </TextBlock.RenderTransform>
-                            <TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                    <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
-                                </EventTrigger>
-                            </TextBlock.Triggers>
-                        </TextBlock>
+                    <!-- Continuar: esquina inferior derecha -->
+                    <TextBlock x:Name="ContinueIcon"
+                               Text="▼"
+                               FontSize="16"
+                               FontFamily="Times New Roman"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,30,12"
+                               Visibility="Collapsed">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="#FF7A4A00"/>
+                        </TextBlock.Foreground>
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
 
-                    </Grid>
                 </Grid>
+
+                <!-- CAPA 2: Portrait sin Border, libre de crecer, anclado abajo-izquierda -->
+                <Image x:Name="Portrait_Telemaco"
+                       Source="Textures/Telemaco.png"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Width="220"
+                       Margin="20,0,0,10"
+                       Visibility="Collapsed"/>
+
+                <Image x:Name="Portrait_Atenea"
+                       Source="Textures/Atenea.png"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Width="220"
+                       Margin="20,0,0,10"
+                       Visibility="Collapsed"/>
+
+                <Image x:Name="Portrait_JohnCartel"
+                       Source="Textures/Portrait_Placeholder2.png"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Width="220"
+                       Margin="20,0,0,10"
+                       Visibility="Collapsed"/>
 
             </Grid>
 

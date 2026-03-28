@@ -1,6 +1,7 @@
 #pragma once
 #include "EditorWindow.h"
 #include "EventListener.h"
+#include "ModuleLoader.h"
 
 #include <imgui.h>  
 #include <ImGuizmo.h>
@@ -69,6 +70,10 @@ private:
     bool IsDescendantOf(GameObject* potentialDescendant, GameObject* potentialAncestor);
 
     bool IsPendingRemoval(Component* comp) const;
+
+    void DrawPrefabInstanceSection(GameObject* selectedObject);
+
+    void UpdatePrefabInstancesExcept(UID prefabUID, GameObject* exclude);
 
     AudioSystem* audioSystem;
 

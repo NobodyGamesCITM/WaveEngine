@@ -4,6 +4,7 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 #include "Globals.h"
+#include "PrefabInstance.h"
 
 class Component;
 class Transform;
@@ -26,6 +27,8 @@ public:
     ~GameObject();
 
     const UID GetUID() { return objectUID; };
+
+    std::optional<PrefabInstance> prefabInstance;
 
     Component* CreateComponent(ComponentType type);
     void RemoveComponent(Component* comp);

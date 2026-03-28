@@ -10,7 +10,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1939684258	SFX_SkeletonDie			\Default Work Unit\SFX_SkeletonDie	
 	2660566025	SFX_SkeletonSteps			\Default Work Unit\SFX_SkeletonSteps	
 	3020549885	SFX_TorchFire			\Default Work Unit\SFX_TorchFire	
-	3583497273	SFX_Ambience			\Default Work Unit\SFX_Ambience	
+	3212792312	SFX_MansionAmbience			\Default Work Unit\SFX_MansionAmbience	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\SFX_PlayerAttack	
 	4011307621	SFX_MaskChange			\Default Work Unit\SFX_MaskChange	
 
@@ -36,7 +36,6 @@ State	ID	Name	State Group			Notes
 	3604647259	MainMenu	BGM_State			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	420183192	Attenuation_Radius			\Default Work Unit\Attenuation_Radius	
 	1006694123	Music_Volume			\Default Work Unit\Music_Volume	
 	1564184899	SFX_Volume			\Default Work Unit\SFX_Volume	
 	4143275766	Reverb_Volume			\Default Work Unit\Reverb_Volume	
@@ -74,12 +73,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
 	96160614	player_hit	.cache\2F\{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem		\Containers\Default Work Unit\Objects\Player\player_hit		28016
-	117517246	In The Blood Hades	.cache\77\{77DC3B2C-C429-11E2-762E-359D20698C41}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu\In The Blood Hades		1355624
+	117517246	In The Blood Hades	.cache\77\{77DC3B2C-C429-11E2-762E-359D20698C41}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu_Playlist\MainMenu\In The Blood Hades		1355624
 	124812761	water_run_06	.cache\4E\{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_06		7352
 	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
-	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
+	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
+	186892897	Item_PickUp	.cache\E8\{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem		\Containers\Default Work Unit\Objects\Player\Item_PickUp		17432
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
@@ -110,11 +110,11 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
 	794836068	Mask_Change	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Change		18800
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
-	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2\The Underworld_EPIC The Musical		1431512
+	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
 	908137877	water_run_05	.cache\0E\{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_05		6632
 	915946584	grass_walk_03	.cache\DD\{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_03		13580
-	966202110	i-added-yoshi-drums-to-dark-sanctuary-deltarune-chapter-4	.cache\66\{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Combat\i-added-yoshi-drums-to-dark-sanctuary-deltarune-chapter-4		5270480
+	966202110	i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4	.cache\66\{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Combat_Playlist\Level1_Combat\i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4		5270480
 	970219648	grass_walk_05	.cache\E3\{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_05		13400
 	981963331	dirt_run_05	.cache\52\{5287170D-9AC5-9A3B-8AC3-3CA4B46F2E45}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_05		6632
 	986604710	water_walk_05	.cache\B9\{B98C69CB-B7F6-3901-EA36-46D287CD99B5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_05		13400

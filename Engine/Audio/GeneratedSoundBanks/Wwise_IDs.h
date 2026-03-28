@@ -14,8 +14,8 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_AMBIENCE = 3583497273U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
+        static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
         static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
         static const AkUniqueID SFX_PLAYERATTACK = 3758894654U;

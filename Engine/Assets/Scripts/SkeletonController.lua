@@ -134,7 +134,7 @@ local function TryEvasion(self, attackerPos)
     local rb = self.gameObject:GetComponent("Rigidbody")
     if not rb then return false end
 
-    local targetAngle = atan2(attackerPos.x - enemyPos.x, attackerPos.z - enemyPos.z) * (180 / pi)
+    local targetAngle = math.atan(attackerPos.x - enemyPos.x, attackerPos.z - enemyPos.z) * (180 / pi)
     self.transform:SetRotation(0, targetAngle, 0)
     Enemy.currentY = targetAngle
 
@@ -181,7 +181,7 @@ local function Movement(self, dt)
 
     -- Rotación
     if Enemy.smoothDx ~= 0 or Enemy.smoothDz ~= 0 then
-        local targetAngle = atan2(Enemy.smoothDx, Enemy.smoothDz) * (180.0 / pi)
+        local targetAngle = math.atan(Enemy.smoothDx, Enemy.smoothDz) * (180.0 / pi)
         local diff = shortAngleDiff(Enemy.currentY, targetAngle)
         Enemy.currentY = Enemy.currentY + diff * self.public.rotationSpeed * dt
         self.transform:SetRotation(0, Enemy.currentY, 0)

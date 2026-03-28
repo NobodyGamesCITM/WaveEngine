@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{14E39C75-1BAF-8AD5-2B45-0871CF94FB6B}",
+    "Hash": "{A27BDD11-E117-BC19-CE0C-6D6E8A0E59E8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -94,6 +94,14 @@
       "Location": "Memory",
       "ShortName": "skeleton_hit.wav",
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
+     },
+     {
+      "Id": "186892897",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "item_pickup.wav",
+      "CachePath": "E8/{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem"
      },
      {
       "Id": "208970398",
@@ -522,12 +530,12 @@
         "SwitchValue": {
          "GroupType": "State",
          "GroupId": "3086301423",
-         "Id": "0",
-         "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}"
+         "Id": "2678230382",
+         "GUID": "{495B01E3-93BA-4138-9316-9B6959D77A51}"
         },
         "MediaRefs": [
          {
-          "Id": "117517246"
+          "Id": "146545938"
          }
         ]
        },
@@ -535,12 +543,12 @@
         "SwitchValue": {
          "GroupType": "State",
          "GroupId": "3086301423",
-         "Id": "2678230382",
-         "GUID": "{495B01E3-93BA-4138-9316-9B6959D77A51}"
+         "Id": "1499148877",
+         "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
         },
         "MediaRefs": [
          {
-          "Id": "146545938"
+          "Id": "966202110"
          }
         ]
        },
@@ -569,32 +577,6 @@
           "Id": "117517246"
          }
         ]
-       },
-       {
-        "SwitchValue": {
-         "GroupType": "State",
-         "GroupId": "3086301423",
-         "Id": "1499148877",
-         "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
-        },
-        "MediaRefs": [
-         {
-          "Id": "966202110"
-         }
-        ]
-       }
-      ]
-     },
-     {
-      "Id": "3583497273",
-      "Name": "SFX_Ambience",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_Ambience",
-      "GUID": "{D8092CF2-62B7-4F0B-B962-689E720F0947}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
-      "MediaRefs": [
-       {
-        "Id": "994023216"
        }
       ]
      },
@@ -605,11 +587,24 @@
       "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.52316314",
-      "DurationMax": "0.6687317",
+      "DurationMin": "0.3484488",
+      "DurationMax": "0.3484488",
       "MediaRefs": [
        {
-        "Id": "96160614"
+        "Id": "186892897"
+       }
+      ]
+     },
+     {
+      "Id": "3212792312",
+      "Name": "SFX_MansionAmbience",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_MansionAmbience",
+      "GUID": "{D8092CF2-62B7-4F0B-B962-689E720F0947}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "994023216"
        }
       ]
      },
@@ -1119,12 +1114,6 @@
     ],
     "GameParameters": [
      {
-      "Id": "420183192",
-      "Name": "Attenuation_Radius",
-      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Attenuation_Radius",
-      "GUID": "{D2C6E1D1-6830-4CFB-8194-01ED47E01077}"
-     },
-     {
       "Id": "1006694123",
       "Name": "Music_Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Music_Volume",
@@ -1245,6 +1234,6 @@
     ]
    }
   ],
-  "FileHash": "{36F0FEAE-F89E-4664-9A3B-2445CBD03C29}"
+  "FileHash": "{77385741-5F81-C973-582B-26B2DAEC1664}"
  }
 }

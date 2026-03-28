@@ -789,7 +789,7 @@ function Update(self, dt)
     end
 
     if not Player.currentState then
-        Engine.Log("[Player] Update")
+        --Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
     end
 

@@ -876,6 +876,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_Navigation_GetRandomPoint);
     lua_setfield(L, -2, "GetRandomPoint");
 
+
+
     lua_pop(L, 1);
 
     //UI
@@ -1106,6 +1108,25 @@ static int Lua_GameObject_Destroy(lua_State* L) {
         });
 
     return 0;
+}
+
+static int Lua_GameObject_GetScript(lua_State* L) {
+    GameObject* go = *static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+    if (go) {
+        // Buscamos el componente script en el objeto
+        ComponentScript* scriptComp = (ComponentScript*)go->GetComponent(ComponentType::SCRIPT);
+        if (scriptComp) {
+            // Como usas tablas con nombres únicos en el global scope:
+            std::string tableName = scriptComp->GetLuaTableName(); // Necesitas este getter en ComponentScript
+            lua_getglobal(L, tableName.c_str());
+            if (lua_istable(L, -1)) {
+                return 1; // Devolvemos la tabla del script
+            }
+            lua_pop(L, 1);
+        }
+    }
+    lua_pushnil(L);
+    return 1;
 }
 
 static int Lua_GameObject_SetPersistency(lua_State* L)
@@ -1839,6 +1860,9 @@ void ScriptManager::RegisterGameObjectAPI() {
 
     lua_pushcfunction(L, Lua_GameObject_Destroy);
     lua_setfield(L, -2, "Destroy");
+
+    lua_pushcfunction(L, Lua_GameObject_GetScript);
+    lua_setfield(L, -2, "GetScript");
 
     lua_pushcfunction(L, Lua_GameObject_SetPersistency);
     lua_setfield(L, -2, "SetPersistency");

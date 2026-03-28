@@ -71,6 +71,7 @@ public = {
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
 }
 
+local Finalrute = "C:/Users/Usuari/Documents/GitHub/WaveEngine/Engine/Assets/Sirena_Bullet.prefab"
 -- ── Helpers ───────────────────────────────────────────────────────────────
 local function shortAngleDiff(a, b)
     local d = b - a
@@ -155,23 +156,30 @@ local function FireShell(self, tx, ty, tz)
     -- El proyectil apunta ligeramente por encima del suelo del player
     local vx, vy, vz = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz, T)
 
+    local bulletAsset = Prefab.Load("Sirena_Bullet", Finalrute)
+    if bulletAsset then
     -- Instanciamos el prefab del proyectil (se completa en PostUpdate)
-    local shell = Prefab.Instantiate(self.public.projectilePrefab)
+        local shell = Prefab.Instantiate("Sirena_Bullet")
 
-    table.insert(activeShells, {
-        go         = shell,
-        age        = 0,
-        flightTime = T,
-        sx = sx, sy = sy, sz = sz,
-        vx = vx, vy = vy, vz = vz,
-        targetX    = tx,
-        targetZ    = tz,
-        hasHit     = false,
-    })
+        table.insert(activeShells, {
+            go         = shell,
+            age        = 0,
+            flightTime = T,
+            sx = sx, sy = sy, sz = sz,
+            vx = vx, vy = vy, vz = vz,
+            targetX    = tx,
+            targetZ    = tz,
+            hasHit     = false,
+        })
+        
+        Engine.Log("[Mortar] FIRE! vx=" .. string.format("%.2f", vx)
+                .. " vy=" .. string.format("%.2f", vy)
+                .. " vz=" .. string.format("%.2f", vz))
+    
+    else
+        Engine.Log("[Mortar] No se pudo cargar el proyectil. Revisa el UID.")
+    end
 
-    Engine.Log("[Mortar] FIRE! vx=" .. string.format("%.2f", vx)
-             .. " vy=" .. string.format("%.2f", vy)
-             .. " vz=" .. string.format("%.2f", vz))
 end
 
 -- ── SafeMoveShell: mueve el GO del proyectil con protección ante userdata inválido ──
@@ -282,10 +290,7 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-    -- Pre-cargamos el prefab del proyectil para que la primera instanciación sea rápida
-    local prefabPath = "Assets/Prefabs/" .. self.public.projectilePrefab .. ".prefab"
-    Prefab.Load(self.public.projectilePrefab, prefabPath)
-
+    Prefab.Load("Sirena_Bullet", Finalrute)
     -- Bloqueamos el Rigidbody para que el mortero no se mueva
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)

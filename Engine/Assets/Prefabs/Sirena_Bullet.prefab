@@ -34,13 +34,6 @@
             },
             {
                 "active": true,
-                "publicVariables": [
-                    {
-                        "name": "maxLifetime",
-                        "type": 0,
-                        "value": 8.0
-                    }
-                ],
                 "scriptUID": 6797048061387793298,
                 "type": 6
             },
@@ -80,7 +73,7 @@
             }
         ],
         "name": "Sirena_Bullet",
-        "tag": "",
+        "tag": "Sirena_Bullet",
         "uid": 8490306449372164924
     }
 ]

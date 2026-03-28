@@ -70,8 +70,7 @@ public = {
 
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
 }
-
-local Finalrute = "C:/Users/Usuari/Documents/GitHub/WaveEngine/Engine/Assets/Prefabs/Sirena_Bullet.prefab"
+local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 -- ── Helpers ───────────────────────────────────────────────────────────────
 local function shortAngleDiff(a, b)
     local d = b - a
@@ -156,7 +155,7 @@ local function FireShell(self, tx, ty, tz)
     -- El proyectil apunta ligeramente por encima del suelo del player
     local vx, vy, vz = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz, T)
 
-    local bulletAsset = Prefab.Load("Sirena_Bullet", Finalrute)
+    local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
     if bulletAsset then
     -- Instanciamos el prefab del proyectil (se completa en PostUpdate)
         local shell = Prefab.Instantiate("Sirena_Bullet")
@@ -290,7 +289,7 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-    Prefab.Load("Sirena_Bullet", Finalrute)
+    Prefab.Load("Sirena_Bullet", finalPath)
     -- Bloqueamos el Rigidbody para que el mortero no se mueva
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)

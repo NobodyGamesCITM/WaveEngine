@@ -1,11 +1,12 @@
 ﻿#pragma once
-
 #include "Module.h"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
 #include "ModuleResources.h"  
+#include "PrefabInstance.h"
+#include <nlohmann/json.hpp>
 
 class GameObject;
 struct aiNode;
@@ -45,6 +46,15 @@ public:
 
     //PREFABS
     GameObject* LoadPrefab(const std::string& modelPath);
-    GameObject* LoadPrefab(UID modelUID);
+    GameObject* LoadPrefab(UID prefabUID);
     bool SavePrefab(GameObject* obj, const std::string& savePath);
+    void UpdatePrefabInstances(UID prefabUID);
+    void RevertInstance(GameObject* instance);
+    bool ApplyInstanceToPrefab(GameObject* instance);
+
+private:
+    void CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out);
+    void ApplyJsonToGameObject(GameObject* go, const nlohmann::json& jsonData);
+    void RegenerateUIDs(GameObject* go);
+    void UpdatePrefabInstancesExcept(UID prefabUID, GameObject* exclude, const nlohmann::json& freshPrefabJson);
 };

@@ -353,6 +353,7 @@ source_group("Source\\Lighting" FILES ${LIGHTING_SRC})
 set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LIGHTING_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
 add_executable(Engine ${SRCS})
+target_precompile_headers(Engine PRIVATE src/pch.h)
 
 target_link_libraries(Engine PRIVATE SDL3::SDL3)
 target_link_libraries(Engine PRIVATE glad::glad)
@@ -430,6 +431,7 @@ set(WWISE_IO_SOURCES
 
 set_source_files_properties(${WWISE_IO_SOURCES} PROPERTIES 
     COMPILE_DEFINITIONS "UNICODE;_UNICODE"
+    SKIP_PRECOMPILE_HEADERS ON
 )
 
 target_sources(Engine PRIVATE ${WWISE_IO_SOURCES})
@@ -499,6 +501,14 @@ file(GLOB NOESIS_MEDIAELEMENT_SOURCES
     "${NOESIS_SDK_DIR}/Src/Packages/App/MediaElement/Src/*.cpp"
 )
 
+set_source_files_properties(
+    ${NOESIS_APP_PROVIDERS_SOURCES}
+    ${NOESIS_RENDER_SOURCES}
+    ${NOESIS_INTERACTIVITY_SOURCES}
+    ${NOESIS_MEDIAELEMENT_SOURCES}
+    PROPERTIES SKIP_PRECOMPILE_HEADERS ON
+)
+
 target_sources(Engine PRIVATE
     ${NOESIS_APP_PROVIDERS_SOURCES}
     ${NOESIS_RENDER_SOURCES}
@@ -526,9 +536,12 @@ target_compile_definitions(Engine PRIVATE
     NS_APP_MEDIAELEMENT_API=
 )
 
+
 if(MSVC)
-    target_compile_options(Engine PRIVATE /FS)
+    target_compile_options(Engine PRIVATE /FS /MP)
 endif()
+
+
 if(WIN32)
     set(NOESIS_LIB "${NOESIS_SDK_DIR}/Lib/windows_x86_64/Noesis.lib")
     set(NOESIS_DLL "${NOESIS_SDK_DIR}/Bin/windows_x86_64/Noesis.dll")
@@ -547,6 +560,7 @@ endif()
 set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${GAMEOBJECTS_SRC} ${LIGHTING_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
 add_executable(Game ${SRCS})
+target_precompile_headers(Game PRIVATE src/pch.h)
 
 target_compile_definitions(Game PRIVATE WAVE_GAME)
 
@@ -621,8 +635,9 @@ target_compile_definitions(Game PRIVATE
 ) 
 
 if(MSVC)
-    target_compile_options(Game PRIVATE /FS)
+    target_compile_options(Game PRIVATE /FS /MP)
 endif()
+
 if(WIN32)
     set(NOESIS_LIB "${NOESIS_SDK_DIR}/Lib/windows_x86_64/Noesis.lib")
     set(NOESIS_DLL "${NOESIS_SDK_DIR}/Bin/windows_x86_64/Noesis.dll")

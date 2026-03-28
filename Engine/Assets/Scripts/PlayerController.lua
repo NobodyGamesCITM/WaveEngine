@@ -840,6 +840,20 @@ function Update(self, dt)
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
 
+    if Input.GetKeyDown("F1") then 
+        giveApoloMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F2") then 
+        giveHermesMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F3") then 
+        giveAresMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
     --Respawn debug
     if Input.GetKeyDown("M") then
         local p = lastCheckpoint
@@ -884,16 +898,21 @@ function MaskScroll(self)
     if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
     elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
     elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
-    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HREMES) end  
-
+    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HERMES) end  
 end
 function ObtainMask(self)
-    if giveApoloMask and Mask.APOLLO == "None" then Mask.APOLLO = "Apolo"end
+    if giveApoloMask and Mask.APOLLO == "None" then 
+        Mask.APOLLO = "Apolo"
+        Engine.Log("Apolo Mask obtain")
+    end
     if giveHermesMask and Mask.HERMES == "None" then 
         Mask.HERMES = "Hermes"
-        Engine.Log("Mask obtain")
+        Engine.Log("Hermes Mask obtain")
     end
-    if giveAresMask and Mask.ARES == "None" then Mask.ARES = "Ares" end
+    if giveAresMask and Mask.ARES == "None" then
+        Mask.ARES = "Ares" 
+        Engine.Log("Ares Mask obtain")
+    end
 
 end
 function ResetPlayer(self)

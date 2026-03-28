@@ -73,6 +73,7 @@ public:
 	/*void SetDialogVolume(int volume);*/
 	void SetSFXVolume(int volume);
 	void SetMusicVolume(int volume);
+	void SetAudioSourceVolume(float vol, AkGameObjectID id);
 
 	// Register/unregister AudioComponent
 	void RegisterAudioComponent(AudioComponent* component) {

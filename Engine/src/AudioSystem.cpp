@@ -379,6 +379,10 @@ void AudioSystem::SetSFXVolume(int vol) {
 //void AudioSystem::SetDialogVolume(int vol) {
 //    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::DIALOG_VOLUME, (AkRtpcValue)vol);
 //}
+void AudioSystem::SetAudioSourceVolume(float vol, AkGameObjectID goID) {
+    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)vol, goID);
+}
+
 
 // Reverb zone registration
 void AudioSystem::RegisterReverbZone(ReverbZone* zone)

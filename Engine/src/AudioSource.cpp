@@ -111,6 +111,7 @@ void AudioSource::OnEditor() {
     auto& events = Application::GetInstance().audio->audioSystem->eventNames;
     auto& wwiseEvents = Application::GetInstance().audio->audioSystem->GetAudioEvents();
 
+
     if (ImGui::BeginCombo("##Wwise Event", eventName.c_str())) {
         for (int i = 0; i < events.size(); ++i) {
             const string name = events[i];
@@ -149,8 +150,9 @@ void AudioSource::OnEditor() {
     }
 
     if (ImGui::SliderFloat("Volume", &volume, 0.0f, 100.0f)){
-        
-        AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
+
+        Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, this->goID);
+ 
     }
 
     //if (ImGui::SliderFloat("Attenuation Radius", &radius, 0.0f, 1000.0f)) {

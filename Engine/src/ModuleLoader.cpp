@@ -460,13 +460,44 @@ void ModuleLoader::RevertInstance(GameObject* instance)
 
     if (prefabJson.empty() || !prefabJson.is_array()) return;
 
+    glm::vec3 savedPos = instance->transform->GetPosition();
+    glm::vec3 savedRot = instance->transform->GetRotation();
+    glm::vec3 savedScale = instance->transform->GetScale();
+    PrefabInstance savedPI = instance->prefabInstance.value();
+
     ApplyJsonToGameObject(instance, prefabJson[0]);
 
-    PrefabInstance pi;
-    pi.prefabUID = prefabUID;
-    instance->prefabInstance = pi;
+    // Update children, overwrite existing ones if they match, 
+    // add any missing ones
+    if (prefabJson[0].contains("children") && prefabJson[0]["children"].is_array())
+    {
+        const auto& prefabChildren = prefabJson[0]["children"];
+        const auto& currentChildren = instance->GetChildren();
 
-    LOG_CONSOLE("[ModuleLoader] Reverted: %s", instance->GetName().c_str());
+        for (int i = 0; i < (int)prefabChildren.size(); i++)
+        {
+            if (i < (int)currentChildren.size())
+            {
+                //That child already exists; apply on top
+                ApplyJsonToGameObject(currentChildren[i], prefabChildren[i]);
+            }
+            else
+            {
+                // That child is missing,create it
+                GameObject* newChild = GameObject::Deserialize(prefabChildren[i], instance);
+                if (newChild) RegenerateUIDs(newChild);
+            }
+        }
+    }
+
+    // Restore transform and prefabInstance
+    instance->transform->SetPosition(savedPos);
+    instance->transform->SetRotation(savedRot);
+    instance->transform->SetScale(savedScale);
+    instance->prefabInstance = savedPI;
+
+    // log de debug
+    //LOG_CONSOLE("[ModuleLoader] Reverted: %s", instance->GetName().c_str());
 }
 
 void ModuleLoader::CollectAllGameObjects(GameObject* root, std::vector<GameObject*>& out)

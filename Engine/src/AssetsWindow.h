@@ -36,6 +36,9 @@ struct AssetEntry
     // Preview/thumbnail
     unsigned int previewTextureID = 0;
     bool previewLoaded = false;
+
+    std::string cachedDisplayName;
+
 };
 
 // Tipos de assets para drag & drop
@@ -130,4 +133,7 @@ private:
     
     bool materialNamingOpened = false;
     bool prefabNamingOpened = false;
+
+    fs::path cachedRelativePath;
+    bool relativePathDirty = true;
 };

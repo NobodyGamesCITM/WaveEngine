@@ -232,7 +232,11 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"1", SDL_SCANCODE_1}, {"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3},
     {"4", SDL_SCANCODE_4}, {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6},
     {"7", SDL_SCANCODE_7}, {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9},
-    {"0", SDL_SCANCODE_0}, {"P", SDL_SCANCODE_P},
+	{"0", SDL_SCANCODE_0}, {"P", SDL_SCANCODE_P}, {"F1", SDL_SCANCODE_F1},
+	{"F2", SDL_SCANCODE_F2}, {"F3", SDL_SCANCODE_F3}, {"F4", SDL_SCANCODE_F4},
+	{"F5", SDL_SCANCODE_F5}, {"F6", SDL_SCANCODE_F6}, {"F7", SDL_SCANCODE_F7},
+	{"F8", SDL_SCANCODE_F8}, {"F9", SDL_SCANCODE_F9}, {"F10", SDL_SCANCODE_F10},
+	{"F11", SDL_SCANCODE_F11}, {"F12", SDL_SCANCODE_F12}
 };
 
 static int Lua_Input_GetKey(lua_State* L) {
@@ -1637,11 +1641,13 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
     if (strcmp(componentType, "Box Collider") == 0 ||
         strcmp(componentType, "Sphere Collider") == 0 ||
-        strcmp(componentType, "Capsule Collider") == 0)
+        strcmp(componentType, "Capsule Collider") == 0 ||
+        strcmp(componentType, "Convex Collider") == 0)
     {
         ComponentType ctype = ComponentType::BOX_COLLIDER;
         if (strcmp(componentType, "Sphere Collider") == 0)   ctype = ComponentType::SPHERE_COLLIDER;
         if (strcmp(componentType, "Capsule Collider") == 0)  ctype = ComponentType::CAPSULE_COLLIDER;
+        if (strcmp(componentType, "Convex Collider") == 0)   ctype = ComponentType::CONVEX_COLLIDER;
 
         Component* comp = obj->GetComponent(ctype);
         if (!comp)
@@ -2188,51 +2194,82 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                 if (res->GetType() == Resource::PREFAB) {
                     std::string assetPath = res->GetAssetFile();
 
-                    // Extract filename from path
-                    size_t lastSlash = assetPath.find_last_of("/\\");
-                    std::string filename = (lastSlash != std::string::npos)
-                        ? assetPath.substr(lastSlash + 1)
-                        : assetPath;
+                    // Normalise slashes
+                    std::string normalizedAsset = assetPath;
+                    std::replace(normalizedAsset.begin(), normalizedAsset.end(), '\\', '/');
+                    std::string normalizedName = name;
+                    std::replace(normalizedName.begin(), normalizedName.end(), '\\', '/');
 
-                    // Match either by filename or by exact path
-                    if (filename == name || assetPath == name) {
+                    // Retrieve the filename of the asset 
+                    size_t lastSlash = normalizedAsset.find_last_of("/");
+                    std::string filename = (lastSlash != std::string::npos)
+                        ? normalizedAsset.substr(lastSlash + 1)
+                        : normalizedAsset;
+
+                    // Extract the filename from the search term
+                    size_t nameLastSlash = normalizedName.find_last_of("/");
+                    std::string nameFilename = (nameLastSlash != std::string::npos)
+                        ? normalizedName.substr(nameLastSlash + 1)
+                        : normalizedName;
+
+
+                    bool matchExact = normalizedAsset == normalizedName;
+                    bool matchSuffix = normalizedAsset.size() >= normalizedName.size() &&
+                        normalizedAsset.substr(normalizedAsset.size() - normalizedName.size()) == normalizedName;
+                    bool matchFilename = filename == nameFilename;
+
+                    if (matchExact || matchSuffix || matchFilename) {
                         prefabUID = uid;
                         break;
                     }
                 }
             }
 
-            //if (prefabUID != 0) {
-            //    // Request the prefab resource
-            //    Resource* res = resources->RequestResource(prefabUID);
-            //    if (res && res->GetType() == Resource::PREFAB) {
-            //        ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
-            //        instance = prefabRes->Instantiate();
+            if (prefabUID != 0) {
+                Resource* res = resources->RequestResource(prefabUID);
+                if (res && res->GetType() == Resource::PREFAB) {
+                    ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
 
-            //        if (instance) {
-            //            // Enable all scripts in the instantiated object and its children
-            //            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
-            //                // Get all script components and call their Start()
-            //                auto components = obj->GetComponents();
-            //                for (auto* comp : components) {
-            //                    if (comp->GetType() == ComponentType::SCRIPT) {
-            //                        ComponentScript* script = static_cast<ComponentScript*>(comp);
-            //                        if (script->IsActive()) {
-            //                            script->CallStart();
-            //                        }
-            //                    }
-            //                }
+                    if (!prefabRes->IsLoadedToMemory()) {
+                        prefabRes->LoadInMemory();
+                    }
 
-            //                // Recursively enable scripts in children
-            //                for (GameObject* child : obj->GetChildren()) {
-            //                    enableScripts(child);
-            //                }
-            //                };
+                    nlohmann::json hierarchy = prefabRes->GetPrefabHierarchy();
 
-            //            enableScripts(instance);
-            //        }
-            //    }
-            //}
+                    if (!hierarchy.is_null() && !hierarchy.empty()) {
+                        ModuleScene* scene = Application::GetInstance().scene.get();
+
+                        if (hierarchy.is_array()) {
+                            instance = GameObject::Deserialize(hierarchy[0], scene->GetRoot());
+                        }
+                        else {
+                            instance = GameObject::Deserialize(hierarchy, scene->GetRoot());
+                        }
+
+                        if (instance) {
+                            instance->SolveReferences();
+
+                            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
+                                for (auto* comp : obj->GetComponents()) {
+                                    if (comp->GetType() == ComponentType::SCRIPT) {
+                                        ComponentScript* script = static_cast<ComponentScript*>(comp);
+                                        if (script->IsActive()) {
+                                            script->CallStart();
+                                        }
+                                    }
+                                }
+                                for (GameObject* child : obj->GetChildren()) {
+                                    enableScripts(child);
+                                }
+                                };
+                            enableScripts(instance);
+                        }
+                    }
+                }
+            }
+            else {
+                LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);
+            }
         }
 
         if (instance) {
@@ -2245,7 +2282,6 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
 
     return 1;
 }
-
 
 void ScriptManager::RegisterPrefabAPI() {
     lua_newtable(L);

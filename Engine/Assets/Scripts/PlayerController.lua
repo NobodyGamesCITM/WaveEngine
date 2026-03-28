@@ -6,7 +6,9 @@ local atan2 = math.atan
 local pi    = math.pi
 
 local attackCol
+local chargeCol
 local attackTimer = 0
+local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 
@@ -34,9 +36,9 @@ local HERMES_GRACE_TIME      = 0.2
 -- MASKS
 local Mask = {
     NONE   = "None",
-    APOLLO = "Apollo",
-    HERMES = "Hermes",
-    ARES   = "Ares"
+    APOLLO = "None",
+    HERMES = "None",
+    ARES   = "None"
 }
 
 -- STATES
@@ -48,6 +50,7 @@ local State = {
     CHARGING     = "Charging",
     ATTACK_LIGHT = "AttackLight",
     ATTACK_HEAVY = "AttackHeavy",
+    SHOOTING     = "Shooting",
     DEAD         = "Dead"
 }
 
@@ -61,6 +64,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
+    attackDelay     = 0.4,
     -- Audio
     stepSFX 		= nil,
     voiceSFX 		= nil,
@@ -72,9 +76,14 @@ local Player = {
 	currentSurface = "",
     
     -- Hermes mask
-
+    respawnPos       = nil,
     isDrowning       = false,
-    hermesGraceTimer = 0.0,
+    hermesGraceTimer = 0.2,
+    hermesDeathRespawn = false,
+    hermesDeathTimer   = 0.0,
+    hermesPendingUnequip = false,
+    baseSpeed = 15.0,
+    isGrounded = false
 }
 
 public = {
@@ -82,6 +91,7 @@ public = {
     rollDuration        = 1.0,
     sprintMultiplier    = 1.5,
     rollSpeed           = 15.0,
+    chargeSpeed         = 30.0,
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
@@ -89,11 +99,14 @@ public = {
     staminaCost      = 80.0,
     staminaRecover   = 50.0,   
     rollStaminaCost     = 25,
+    heavyStaminaCost    = 25,
     usingStamina        = false,
     tiredMultiplier     = 0.7,
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
     attackDuration      = 1.0,
+    chargeDuration      = 0.3,
+    shootDuration       = 0.2,
     attackCooldown      = 0.5,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
@@ -101,7 +114,11 @@ public = {
     hitShakeMagnitude   = 6.0,
     ROTATION_SPEED      = 780,
     hermesWaterMax      = 2.0,
-    flySpeed            = 20.0
+    flySpeed            = 20.0,
+    interact            = false,
+    giveApoloMask       = false,
+    giveHermesMask      = false,
+    giveAresMask        = false
 }
 
 
@@ -127,6 +144,12 @@ local function GetMovementInput()
     if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
     if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
 
+    if interact == true then interact = false end
+    if Input.GetKeyDown("R") then
+        Engine.Log("interact try")
+        interact = true
+    end
+
     moveX, moveZ = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
     
@@ -135,8 +158,8 @@ end
 
 local function GetAttackInput(self)
     if attackCooldown > 0 then return 0 end
-    if Input.GetKeyDown("E") then return 1 end
-    if Input.GetKeyDown("Q") then return 2 end
+    if Input.GetKeyDown("E") or Input.GetGamepadButton("X") then return 1 end
+    if Input.GetKeyDown("Q") or Input.GetGamepadButton("Y") then return 2 end
     return 0
 end
 
@@ -226,39 +249,25 @@ local function ChangeState(self, newState)
 end
 
 local function EquipMask(self, newMask)
-    if Player.currentMask == newMask then return end
-
-    
+    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
 
     --HERMES
+    if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
     if Player.currentMask == Mask.HERMES and Player.isDrowning then
-        Engine.Log("[Player] Hermes while on water!!")
+        Engine.Log("[Player] Hermes quitado sobre el agua")
+        Player.currentMask = newMask
+        Player.hermesPendingUnequip = true
+        Player.hermesDeathRespawn = true
+        Player.hermesDeathTimer   = 2.0
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        ChangeState(self, State.DEAD)
         return
     end
     if Player.currentMask == Mask.HERMES then
-        self.public.speedIncrease = self.public.speedIncrease - self.public.speedHermesBonus
         Player.hermesGraceTimer   = 0
-        if Player.currentState == State.RUNNING then
-            self.public.speed = self.public.speed - self.public.speedHermesBonus
-        end
-        if Player.isDrowning then
-            Player.isDrowning            = false
-            _PlayerController_isDrowning = false
-            self.public.health           = 0
-            ChangeState(self, State.DEAD)
-            Player.currentMask            = newMask
-            _PlayerController_currentMask = newMask
-            return
-        end
-        Player.isDrowning = false
-    end
-    if newMask == Mask.HERMES then
-        self.public.speedIncrease = self.public.speedIncrease + self.public.speedHermesBonus
-        if Player.currentState == State.RUNNING then
-            self.public.speed = self.public.speed + self.public.speedHermesBonus
-        end
     end
 
+    --NONE
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
     else
@@ -275,6 +284,8 @@ States[State.DEAD] = {
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         _G._PlayerController_isDead = true 
         if Player.voiceSFX then Player.voiceSFX:PlayAudioEvent() end
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Idle", 0.5) end
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -282,10 +293,29 @@ States[State.DEAD] = {
         if Input.GetKeyDown("1") then
             self.public.health  = 100
             self.public.stamina = 100
-            local p = Player.spawnPos
+            local p = lastCheckpoint
             self.transform:SetPosition(p.x, p.y, p.z)
             _G._PlayerController_isDead = false  -- NUEVO
             ChangeState(self, State.IDLE)
+        end
+
+        --respawn Hermes (aquí molaría hacer un fade out y algun sonidillo y tal)
+        if Player.hermesDeathRespawn then
+            Player.hermesDeathTimer = Player.hermesDeathTimer - dt
+            if Player.hermesDeathTimer <= 0 then
+                Player.hermesDeathRespawn = false    
+                Player.hermesGraceTimer = 0
+                self.public.stamina = 0
+                local rp = Player.respawnPos
+                self.transform:SetPosition(rp.x, rp.y, rp.z)
+                if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+                _G._PlayerController_isDead = false
+                ChangeState(self, State.IDLE)
+                if Player.hermesPendingUnequip then
+                    _PlayerController_currentMask = "None" 
+                    Player.hermesPendingUnequip = false    
+                end
+            end
         end
     end
 }
@@ -314,9 +344,21 @@ States[State.IDLE] = {
 
         if GetAttackInput(self) == 1 then
             ChangeState(self, State.ATTACK_LIGHT)
+            return
         end
-        if GetAttackInput(self) == 2 then
-            ChangeState(self, State.CHARGING)
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
         end
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
@@ -359,11 +401,20 @@ States[State.WALK] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-        if GetAttackInput(self) == 2 then
-            ChangeState(self, State.CHARGING)
-            return
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
         end
-
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
@@ -392,12 +443,15 @@ States[State.RUNNING] = {
         end
 
         self.public.usingStamina = true
-        self.public.speed = self.public.speed + self.public.speedIncrease
-		
+        self.public.speed = Player.baseSpeed + self.public.speedIncrease
+        if Player.currentMask == Mask.HERMES then
+            self.public.speed = self.public.speed + self.public.speedHermesBonus
+        end		
+
 		if Player.smokePS then Player.smokePS:Play() end 
     end,
     Exit = function(self)
-        self.public.speed = self.public.speed - self.public.speedIncrease
+        self.public.speed = Player.baseSpeed
         self.public.usingStamina = false
 		
 		if Player.smokePS then Player.smokePS:Stop() end
@@ -420,6 +474,24 @@ States[State.RUNNING] = {
             Player.lastDirZ = moveZ / inputLen
         end
 
+        if GetAttackInput(self) == 1 then
+            ChangeState(self, State.ATTACK_LIGHT)
+            return
+        end
+        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
+            if Player.currentMask == Mask.HERMES then
+                ChangeState(self, State.CHARGING)
+                return
+            end
+            if Player.currentMask == Mask.APOLLO then
+                ChangeState(self, State.SHOOTING)
+                return
+            end
+            if Player.currentMask == Mask.ARES then
+                ChangeState(self, State.ATTACK_HEAVY)
+                return
+            end
+        end
         if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
@@ -433,7 +505,6 @@ States[State.RUNNING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
-        Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
@@ -479,32 +550,64 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
+        _PlayerController_lastAttack = "heavy"
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Charge", 1.0) end
-        _PlayerController_lastAttack = "charge"
         attackTimer = 0
-        if attackCol then attackCol:Enable() end
+        if chargeCol then chargeCol:Enable() end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
-        if attackTimer >= self.public.attackDuration then
+        if attackTimer >= self.public.chargeDuration then
             attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)
         end
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * 10, velocity.y, Player.lastDirZ * 10)
+            Player.rb:SetLinearVelocity(Player.lastDirX * self.public.chargeSpeed, velocity.y, Player.lastDirZ * self.public.chargeSpeed)
         end
     end,
     Exit = function(self)
-        if attackCol then attackCol:Disable() end
+        if chargeCol then chargeCol:Disable() end
+        _PlayerController_lastAttack = ""
+    end
+}
+
+States[State.SHOOTING] = {
+    Enter = function(self)
+        _PlayerController_lastAttack = ""
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("Idle", 1.0) end --aquí shoot
+        attackTimer = 0
+    end,
+    Update = function(self, dt)
+        attackTimer = attackTimer + dt
+        if attackTimer >= self.public.shootDuration then
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
+    end,
+    Exit = function(self)
+        _PlayerController_lastAttack = ""
     end
 }
 
 States[State.ATTACK_HEAVY] = {
-    Enter = function(self) end,
-    Update = function(self, dt) end
+    Enter = function(self)
+        _PlayerController_lastAttack = "heavy"
+    end,
+    Update = function(self, dt) end,
+    Exit = function(self)
+        if attackCol then attackCol:Disable() end
+        _PlayerController_lastAttack = ""
+    end
 }
 
 States[State.ATTACK_LIGHT] = {
@@ -513,24 +616,33 @@ States[State.ATTACK_LIGHT] = {
         if anim then anim:Play("NormalAttack", 1.0) end
         _PlayerController_lastAttack = "light"
         attackTimer = 0
-        if attackCol then attackCol:Enable() end
+        if attackCol then attackCol:Disable() end
     end,
     Update = function(self, dt)
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
+
         attackTimer = attackTimer + dt
+
+        if attackTimer >= Player.attackDelay and attackCol then
+            attackCol:Enable()
+        end
+
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then 
                 Player.swordSFX:PlayAudioEvent() 
             end
             attackCooldown = self.public.attackCooldown
-
             ChangeState(self, State.IDLE)
         end
     end,
     Exit = function(self)
         if attackCol then attackCol:Disable() end
+        _PlayerController_lastAttack = ""
     end
 }
-
 
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
@@ -570,6 +682,8 @@ function Start(self)
 
     local spawnPos  = self.transform.worldPosition
     Player.spawnPos = spawnPos
+    lastCheckpoint = spawnPos
+    Player.baseSpeed = self.public.speed
     
     _impactFrameTimer = 0
 
@@ -627,6 +741,10 @@ function Start(self)
     attackCooldown = 0
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end 
+
+    chargeCol = self.gameObject:GetComponent("Sphere Collider")
+    if chargeCol then chargeCol:Disable() end 
+
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
 
@@ -657,7 +775,6 @@ end
 
 
 function Update(self, dt)
-    Engine.Log("[dt] " .. tostring(dt))
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
@@ -685,7 +802,6 @@ function Update(self, dt)
             self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
         end
     end
-
     if Input.GetKey("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
@@ -703,7 +819,7 @@ function Update(self, dt)
         end
     end
 
-    if Input.GetKey("8") then
+    if Input.GetKey("P") then
         self.public.health = math.min(100, self.public.health + self.public.hpRecover)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
@@ -712,15 +828,40 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    --hermes
+    --ChangeMask
     if Input.GetKeyDown("8") then 
-        EquipMask(self, Mask.HERMES) 
+        --EquipMask(self, Mask.HERMES) 
+        MaskScroll(self)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
-    end --debug
+    end
+
     if Input.GetKeyDown("9") then 
         EquipMask(self, Mask.NONE) 
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
+
+    if Input.GetKeyDown("F1") then 
+        giveApoloMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F2") then 
+        giveHermesMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F3") then 
+        giveAresMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+    --Respawn debug
+    if Input.GetKeyDown("M") then
+        local p = lastCheckpoint
+        self.transform:SetPosition(p.x, p.y, p.z)
+    end
+
+    --Check for new mask
+    ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
         if Player.currentState == State.RUNNING then
@@ -732,8 +873,10 @@ function Update(self, dt)
             if Player.hermesGraceTimer > 0 then
                 Player.hermesGraceTimer = Player.hermesGraceTimer - dt
             else
-                self.public.health = 0
                 Engine.Log("[Player] Out of hermes :( )")
+                Player.hermesDeathRespawn = true
+                Player.hermesDeathTimer   = 2.0
+                if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 ChangeState(self, State.DEAD)
             end
         end
@@ -751,7 +894,27 @@ function Update(self, dt)
         Audio.SetSwitch("Surface_Type", Player.currentSurface, Player.stepSFX)
     end
 end
+function MaskScroll(self)
+    if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
+    elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
+    elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
+    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HERMES) end  
+end
+function ObtainMask(self)
+    if giveApoloMask and Mask.APOLLO == "None" then 
+        Mask.APOLLO = "Apolo"
+        Engine.Log("Apolo Mask obtain")
+    end
+    if giveHermesMask and Mask.HERMES == "None" then 
+        Mask.HERMES = "Hermes"
+        Engine.Log("Hermes Mask obtain")
+    end
+    if giveAresMask and Mask.ARES == "None" then
+        Mask.ARES = "Ares" 
+        Engine.Log("Ares Mask obtain")
+    end
 
+end
 function ResetPlayer(self)
     Engine.Log("[Player] ResetPlayer llamado")
 
@@ -810,7 +973,6 @@ function OnTriggerExit(self, other) end
 function OnCollisionEnter(self, other)
     if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
         Player.isDrowning            = true
-        _PlayerController_isDrowning = true
         Player.hermesGraceTimer      = HERMES_GRACE_TIME
         Engine.Log("[Player] Hermes on water")
     end
@@ -820,6 +982,10 @@ function OnCollisionEnter(self, other)
 			Player.currentSurface = surface
 		end
 	end
+
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
+        Player.isGrounded = true
+    end
 end
 
 function OnCollisionExit(self, other)
@@ -828,5 +994,9 @@ function OnCollisionExit(self, other)
         _PlayerController_isDrowning = false
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
+    end
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
+        Player.respawnPos = self.transform.worldPosition
+        Player.isGrounded = false
     end
 end

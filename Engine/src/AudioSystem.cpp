@@ -268,6 +268,8 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
         if (audioEvents[i]->playingID == 0L)
         {
             AK::SoundEngine::PostEvent(event, goID, AkCallbackType::AK_EndOfEvent, audioEvents[i]->eventCallback, (void*)audioEvents[i]);
+            //LOG_CONSOLE("PostEvent goID: %llu", (unsigned long long)goID);
+
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
             audioEvents[i]->playingID = 1L; //1L = event slot is now taken
 
@@ -275,6 +277,7 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
         }
     }
     if (enableDebugLogs) LOG_DEBUG("Maximum amount of audio events at the same time reached: %d", MAX_AUDIO_EVENTS);
+
 }
 
 
@@ -379,6 +382,10 @@ void AudioSystem::SetSFXVolume(int vol) {
 //void AudioSystem::SetDialogVolume(int vol) {
 //    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::DIALOG_VOLUME, (AkRtpcValue)vol);
 //}
+void AudioSystem::SetAudioSourceVolume(float vol, AkGameObjectID goID) {
+    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)vol, goID);
+}
+
 
 // Reverb zone registration
 void AudioSystem::RegisterReverbZone(ReverbZone* zone)

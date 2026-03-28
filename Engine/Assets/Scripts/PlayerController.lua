@@ -793,7 +793,7 @@ function Update(self, dt)
     end
 
     if not Player.currentState then
-        Engine.Log("[Player] Update")
+        --Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
     end
 
@@ -943,9 +943,9 @@ function ResetPlayer(self)
     self.public.stamina = 100
 
     -- Pociones
-    if _G.PotionSystem then
-        _G.PotionSystem:ResetPotions()
-    end
+    --if _G.PotionSystem then
+    --    _G.PotionSystem:ResetPotions()
+    --end
 
     -- Cooldowns
     attackCooldown = 0

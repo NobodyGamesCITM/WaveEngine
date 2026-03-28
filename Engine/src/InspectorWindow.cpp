@@ -2266,6 +2266,8 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
                     std::make_unique<AddComponentCommand>(selectedObject, newComp)
                 );
             LOG_CONSOLE("[Inspector] Audio Listener component added to: %s", selectedObject->GetName().c_str());
+            
+            
             ImGui::CloseCurrentPopup();
         }
 

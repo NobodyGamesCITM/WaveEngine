@@ -71,7 +71,7 @@ public = {
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
 }
 
-local Finalrute = "C:/Users/Usuari/Documents/GitHub/WaveEngine/Engine/Assets/Sirena_Bullet.prefab"
+local Finalrute = "C:/Users/Usuari/Documents/GitHub/WaveEngine/Engine/Assets/Prefabs/Sirena_Bullet.prefab"
 -- ── Helpers ───────────────────────────────────────────────────────────────
 local function shortAngleDiff(a, b)
     local d = b - a

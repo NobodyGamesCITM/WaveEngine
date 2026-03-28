@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{A27BDD11-E117-BC19-CE0C-6D6E8A0E59E8}",
+    "Hash": "{84151C22-2D00-5F8A-7A11-32DED007CB81}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -222,6 +222,14 @@
       "Location": "Memory",
       "ShortName": "mask_pickup.wav",
       "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
+     },
+     {
+      "Id": "533026546",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "forest_ambient.wav",
+      "CachePath": "D4/{D4E93A81-F944-4B21-5B4F-14741401597B}.wem"
      },
      {
       "Id": "558767652",
@@ -984,6 +992,21 @@
         "Id": "647640996"
        }
       ]
+     },
+     {
+      "Id": "3983796901",
+      "Name": "SFX_TreeAmbience",
+      "ObjectPath": "\\Events\\Default Work Unit\\SFX_TreeAmbience",
+      "GUID": "{F5975989-9429-4748-8BED-740280664212}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "8.04",
+      "DurationMax": "8.04",
+      "MediaRefs": [
+       {
+        "Id": "533026546"
+       }
+      ]
      }
     ],
     "Busses": [
@@ -1234,6 +1257,6 @@
     ]
    }
   ],
-  "FileHash": "{77385741-5F81-C973-582B-26B2DAEC1664}"
+  "FileHash": "{CAA07588-79AF-1A30-3311-F82E68D522BA}"
  }
 }

@@ -78,8 +78,10 @@ public:
 	// Register/unregister AudioComponent
 	void RegisterAudioComponent(AudioComponent* component) {
 		if (!component) return;
-		AK::SoundEngine::RegisterGameObj(component->goID);
+		AK::SoundEngine::RegisterGameObj(component->goID, component->GetGameObject()->GetName().c_str());
 		audioComponents.push_back(component);
+
+		//LOG_CONSOLE("[AudioSource] Registering goID %llu for object %s", (unsigned long long)component->goID, component->GetGameObject()->GetName());
 	}
 	void UnregisterAudioComponent(AudioComponent* component) {
 		if (!component) return;

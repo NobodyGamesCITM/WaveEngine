@@ -6,17 +6,13 @@
 #include "Log.h"
 #include <glm/gtc/matrix_access.hpp> // Required for column 
 
-AudioSource::AudioSource(GameObject* containerGO)
-    : Component(containerGO, ComponentType::AUDIOSOURCE) // This sets the base owner
+AudioSource::AudioSource(GameObject* containerGO) : Component(containerGO, ComponentType::AUDIOSOURCE) // This sets the base owner
 {
-    //this->goID = (AkGameObjectID)this;
-    this->goID = (AkGameObjectID)containerGO;
+    this->goID = (AkGameObjectID)GenerateUID();
     this->GO = std::shared_ptr<GameObject>(containerGO, [](GameObject*) {});
 
     // Check if the base owner is valid before using it
-    if (owner != nullptr) {
-        AK::SoundEngine::RegisterGameObj(this->goID, owner->name.c_str());
-        
+    if (owner != nullptr) {  
         Application::GetInstance().audio->audioSystem->RegisterAudioComponent(this);
     }
 }
@@ -81,6 +77,8 @@ void AudioSource::Serialize(nlohmann::json& componentObj) const {
 
     //save volume
     componentObj["volume"] = volume;
+
+    //save goID
 }
 
 void AudioSource::Deserialize(const nlohmann::json& componentObj) {
@@ -110,6 +108,18 @@ void AudioSource::OnEditor() {
     //get all Wwise events 
     auto& events = Application::GetInstance().audio->audioSystem->eventNames;
     auto& wwiseEvents = Application::GetInstance().audio->audioSystem->GetAudioEvents();
+
+    /* ImGui::Spacing();
+     ImGui::Separator();
+     ImGui::Spacing();
+
+     ImGui::Text("AkGameObjectID: %d", this->goID);
+     ImGui::Text("AkGameObjectID: %llu", (unsigned long long)this->goID);
+
+     ImGui::Spacing();
+     ImGui::Separator();
+     ImGui::Spacing();*/
+
 
 
     if (ImGui::BeginCombo("##Wwise Event", eventName.c_str())) {
@@ -150,21 +160,14 @@ void AudioSource::OnEditor() {
     }
 
     if (ImGui::SliderFloat("Volume", &volume, 0.0f, 100.0f)){
-
+        
+        //LOG_CONSOLE("Slider goID: %llu", (unsigned long long)this->goID);
         Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, this->goID);
  
     }
 
-    //if (ImGui::SliderFloat("Attenuation Radius", &radius, 0.0f, 1000.0f)) {
-    //    //Application::GetInstance().audio.get()->audioSystem->SetMusicVolume(volume);
-    //    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)(volume), goID);
-    //}
-
     ImGui::Checkbox("Play On Awake", &playOnAwake);
 
-    ImGui::Spacing();
-    ImGui::Separator();
-    ImGui::Spacing();
 
     if (ImGui::Button("Play")) {
         std::wstring wideName(eventName.begin(), eventName.end());

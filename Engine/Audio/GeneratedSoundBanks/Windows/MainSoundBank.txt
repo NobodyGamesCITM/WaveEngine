@@ -12,6 +12,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3020549885	SFX_TorchFire			\Default Work Unit\SFX_TorchFire	
 	3212792312	SFX_MansionAmbience			\Default Work Unit\SFX_MansionAmbience	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\SFX_PlayerAttack	
+	3983796901	SFX_TreeAmbience			\Default Work Unit\SFX_TreeAmbience	
 	4011307621	SFX_MaskChange			\Default Work Unit\SFX_MaskChange	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
@@ -95,6 +96,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
 	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
 	520645407	Mask_PickUp	.cache\4C\{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem		\Containers\Default Work Unit\Objects\Player\Mask_PickUp		49328
+	533026546	treeAmbience	.cache\D4\{D4E93A81-F944-4B21-5B4F-14741401597B}.wem		\Containers\Default Work Unit\Objects\treeAmbience		434240
 	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
 	599602142	dirt_run_06	.cache\3F\{3F3B2D8E-433F-4FBB-63F3-6F54BCE29836}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_06		7352
 	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604

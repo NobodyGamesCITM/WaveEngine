@@ -249,10 +249,10 @@ local function ChangeState(self, newState)
 end
 
 local function EquipMask(self, newMask)
-    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
 
+    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     --HERMES
-    if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
+    --if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
     if Player.currentMask == Mask.HERMES and Player.isDrowning then
         Engine.Log("[Player] Hermes quitado sobre el agua")
         Player.currentMask = newMask
@@ -273,7 +273,7 @@ local function EquipMask(self, newMask)
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
     end
-    
+    Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
     _PlayerController_currentMask = newMask
 end
@@ -769,6 +769,10 @@ function Start(self)
 
     _G._PlayerController_isDead = false
 
+    giveApoloMask       = false
+    giveHermesMask      = false
+    giveAresMask        = false
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
 end
@@ -842,16 +846,19 @@ function Update(self, dt)
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
+        --EquipMask(self,Mask.APOLLO)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
     end --debug
 
     if Input.GetKeyDown("F2") then 
         giveHermesMask = true
+        --EquipMask(self,Mask.HERMES)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
     end --debug
 
     if Input.GetKeyDown("F3") then 
         giveAresMask = true
+        --EquipMask(self,Mask.ARES)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
     end --debug
     --Respawn debug
@@ -895,10 +902,23 @@ function Update(self, dt)
     end
 end
 function MaskScroll(self)
-    if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
-    elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
-    elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
-    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HERMES) end  
+    if Player.currentMask == Mask.NONE then 
+        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
+    elseif Player.currentMask == Mask.HERMES then 
+        if Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
+        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)end
+    elseif Player.currentMask == Mask.APOLLO then 
+        if Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
+        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)end
+    elseif Player.currentMask == Mask.ARES then 
+        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
+    end  
 end
 function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then 

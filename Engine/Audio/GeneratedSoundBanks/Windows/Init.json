@@ -392,6 +392,12 @@
       "GUID": "{DBA9047E-FC14-4AF3-A510-8FCFF1786D4E}",
       "Switches": [
        {
+        "Id": "1216965916",
+        "Name": "Stone",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Stone",
+        "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
+       },
+       {
         "Id": "2195636714",
         "Name": "Dirt",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Dirt",
@@ -891,6 +897,6 @@
     ]
    }
   ],
-  "FileHash": "{2D6A24A9-253E-49D6-99AC-1916ED8D2220}"
+  "FileHash": "{5CF9AB87-B313-3464-2A87-0F5076C61E6D}"
  }
 }

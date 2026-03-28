@@ -28,6 +28,8 @@ namespace AK
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
+        static const AkUniqueID UI_BUTTONPRESS = 416781375U;
+        static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
     } // namespace EVENTS
 
     namespace STATES
@@ -69,6 +71,7 @@ namespace AK
             {
                 static const AkUniqueID DIRT = 2195636714U;
                 static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID STONE = 1216965916U;
                 static const AkUniqueID WATER = 2654748154U;
             } // namespace SWITCH
         } // namespace SURFACE_TYPE

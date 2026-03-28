@@ -69,8 +69,10 @@ public = {
     rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
 
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
+    maxLifetime = MAX_LIFETIME,
 }
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
+
 -- ── Helpers ───────────────────────────────────────────────────────────────
 local function shortAngleDiff(a, b)
     local d = b - a

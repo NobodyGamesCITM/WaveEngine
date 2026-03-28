@@ -27,3 +27,26 @@ function Update(self, dt)
         self:Destroy()
     end
 end
+
+function OnTriggerEnter(self, other)
+    if not self.gameObject then return end
+
+    -- Si la bala toca al Player mientras vuela
+    if other:CompareTag("Player") then
+        local pScript = other:GetScript("PlayerController.lua")
+        local damageAmount = _EnemyDamage_mortar or 30
+
+        if pScript and pScript.hp then
+            -- QUITAMOS VIDA REAL
+            pScript.hp = pScript.hp - damageAmount
+            
+            -- ACTIVAMOS SANGRE/SACUDIDA (Sistema Skeleton)
+            _PlayerController_pendingDamage = damageAmount
+            _PlayerController_pendingDamagePos = self.transform.worldPosition
+            _PlayerController_triggerCameraShake = true
+        end
+
+        -- La bala desaparece al impactar
+        self:Destroy()
+    end
+end

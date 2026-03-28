@@ -8,6 +8,7 @@ local pi    = math.pi
 local attackCol
 local chargeCol
 local attackTimer = 0
+local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 
@@ -35,9 +36,9 @@ local HERMES_GRACE_TIME      = 0.2
 -- MASKS
 local Mask = {
     NONE   = "None",
-    APOLLO = "Apollo",
-    HERMES = "Hermes",
-    ARES   = "Ares"
+    APOLLO = "None",
+    HERMES = "None",
+    ARES   = "None"
 }
 
 -- STATES
@@ -118,6 +119,10 @@ public = {
     bulletBarrel   = 1.5,
     bulletSpawnY   = 1.0,
     bulletScale    = 1.0,
+    interact            = false,
+    giveApoloMask       = false,
+    giveHermesMask      = false,
+    giveAresMask        = false
 }
 
 
@@ -142,6 +147,12 @@ local function GetMovementInput()
     if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
     if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
     if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
+
+    if interact == true then interact = false end
+    if Input.GetKeyDown("R") then
+        Engine.Log("interact try")
+        interact = true
+    end
 
     moveX, moveZ = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
@@ -286,7 +297,7 @@ States[State.DEAD] = {
         if Input.GetKeyDown("1") then
             self.public.health  = 100
             self.public.stamina = 100
-            local p = Player.spawnPos
+            local p = lastCheckpoint
             self.transform:SetPosition(p.x, p.y, p.z)
             _G._PlayerController_isDead = false  -- NUEVO
             ChangeState(self, State.IDLE)
@@ -498,7 +509,6 @@ States[State.RUNNING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
-        Engine.Log("[Player] STAMINA: " .. tostring(self.public.stamina))
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
@@ -692,7 +702,7 @@ function Start(self)
 
     local spawnPos  = self.transform.worldPosition
     Player.spawnPos = spawnPos
-    Player.respawnPos = spawnPos
+    lastCheckpoint = spawnPos
     Player.baseSpeed = self.public.speed
     
     _impactFrameTimer = 0
@@ -785,7 +795,6 @@ end
 
 
 function Update(self, dt)
-    Engine.Log("[dt] " .. tostring(dt))
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
@@ -830,7 +839,7 @@ function Update(self, dt)
         end
     end
 
-    if Input.GetKey("8") then
+    if Input.GetKey("P") then
         self.public.health = math.min(100, self.public.health + self.public.hpRecover)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
@@ -839,15 +848,40 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    --hermes
+    --ChangeMask
     if Input.GetKeyDown("8") then 
-        EquipMask(self, Mask.APOLLO) 
+        --EquipMask(self, Mask.HERMES) 
+        MaskScroll(self)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
-    end --debug
+    end
+
     if Input.GetKeyDown("9") then 
         EquipMask(self, Mask.NONE) 
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
+
+    if Input.GetKeyDown("F1") then 
+        giveApoloMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F2") then 
+        giveHermesMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F3") then 
+        giveAresMask = true
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+    --Respawn debug
+    if Input.GetKeyDown("M") then
+        local p = lastCheckpoint
+        self.transform:SetPosition(p.x, p.y, p.z)
+    end
+
+    --Check for new mask
+    ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
         if Player.currentState == State.RUNNING then
@@ -880,7 +914,27 @@ function Update(self, dt)
         Audio.SetSwitch("Surface_Type", Player.currentSurface, Player.stepSFX)
     end
 end
+function MaskScroll(self)
+    if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
+    elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
+    elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
+    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HERMES) end  
+end
+function ObtainMask(self)
+    if giveApoloMask and Mask.APOLLO == "None" then 
+        Mask.APOLLO = "Apolo"
+        Engine.Log("Apolo Mask obtain")
+    end
+    if giveHermesMask and Mask.HERMES == "None" then 
+        Mask.HERMES = "Hermes"
+        Engine.Log("Hermes Mask obtain")
+    end
+    if giveAresMask and Mask.ARES == "None" then
+        Mask.ARES = "Ares" 
+        Engine.Log("Ares Mask obtain")
+    end
 
+end
 function ResetPlayer(self)
     Engine.Log("[Player] ResetPlayer llamado")
 

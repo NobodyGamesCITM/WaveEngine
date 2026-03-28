@@ -95,7 +95,7 @@ public:
 private:
     void OnGameObjectEvent(GameObjectEvent event, Component* component);
 
-
+    bool aabbDirty = false;
 protected:
 
     UID meshUID = 0;

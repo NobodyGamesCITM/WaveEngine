@@ -2243,6 +2243,7 @@
                     }
                 ],
                 "name": "Sirena_Bullet",
+                "prefabInstance": 5243272883007556057,
                 "tag": "",
                 "uid": 8123245081805668649
             },
@@ -2445,7 +2446,7 @@
                             0.0
                         ],
                         "DynamicFriction": 0.5,
-                        "Radius": 40.0,
+                        "Radius": 50.0,
                         "Restitution": 0.6000000238418579,
                         "StaticFriction": 0.5,
                         "Trigger": true,
@@ -2506,11 +2507,11 @@
             {
                 "Center": [
                     0.0,
-                    9.0,
+                    0.0,
                     0.0
                 ],
                 "DynamicFriction": 0.5,
-                "Radius": 4.0,
+                "Radius": 10.0,
                 "Restitution": 0.6000000238418579,
                 "StaticFriction": 0.5,
                 "Trigger": true,
@@ -2635,6 +2636,7 @@
             }
         ],
         "name": "Siren",
+        "prefabInstance": 11458465369248312079,
         "tag": "",
         "uid": 339651166243875110
     }

@@ -65,6 +65,8 @@ local hasDeathPlayed = false
 local hasHurtPlayed = false
 local isSinging = false
 
+
+
 -- ── Public (modificable desde el inspector) ───────────────────────────────
 public = {
     maxHp            = 50,
@@ -310,6 +312,8 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
+
+
     singSource = GameObject.Find("SingSource")
     dieSource = GameObject.Find("SirenDieSource")
     hurtSource = GameObject.Find("SirenHurtSource")
@@ -329,24 +333,8 @@ function Start(self)
 		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
 	end
 
-    if not Player.dipSFX then 
+    if not dipSFX then 
 		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
-	end
-
-    if not Player.hurtSFX then 
-		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenHurtSource") 
-	end
-
-    if not Player.pickMaskSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve equipSource") 
-	end
-    
-    if not Player.changeMaskSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
-	end
-
-    if not Player.itemPickSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve itemSource") 
 	end
 
     Prefab.Load("Sirena_Bullet", finalPath)
@@ -398,7 +386,10 @@ function Update(self, dt)
         Mortar.playerGO = GameObject.Find("Player")
         if Mortar.playerGO then
             Engine.Log("[Mortar] Player encontrado")
+            
         end
+
+        
     end
 
     if not Mortar.playerGO then return end
@@ -414,6 +405,10 @@ function Update(self, dt)
     -- ── Máquina de estados ────────────────────────────────────────────────
 
     if Mortar.currentState == State.IDLE then
+
+        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
+            Mortar.anim:Play("Look")
+        end
         -- Espera a que el player entre en rango
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             Mortar.currentState = State.WINDUP

@@ -116,6 +116,10 @@ public = {
     ROTATION_SPEED      = 780,
     hermesWaterMax      = 2.0,
     flySpeed            = 20.0,
+    bulletPrefab = "Prefabs/Bullet.prefab",
+    bulletBarrel   = 1.5,
+    bulletSpawnY   = 1.0,
+    bulletScale    = 1.0,
     interact            = false,
     giveApoloMask       = false,
     giveHermesMask      = false,
@@ -585,8 +589,24 @@ States[State.SHOOTING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 1.0) end --aquí shoot
+        if anim then anim:Play("Idle", 1.0) end -- aquí shoot
         attackTimer = 0
+
+        local worldPos = self.transform.worldPosition
+        local radians  = math.rad(Player.lastAngle)
+        local fwdX     = math.sin(radians)
+        local fwdZ     = math.cos(radians)
+
+        _G.nextBulletData = {
+            x     = worldPos.x + fwdX * self.public.bulletBarrel,
+            y     = worldPos.y + self.public.bulletSpawnY,
+            z     = worldPos.z + fwdZ * self.public.bulletBarrel,
+            dirX  = fwdX,
+            dirZ  = fwdZ,
+            angle = Player.lastAngle,
+            scale = self.public.bulletScale,
+        }
+        Prefab.Instantiate("Prefabs/Bullet.prefab")
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt

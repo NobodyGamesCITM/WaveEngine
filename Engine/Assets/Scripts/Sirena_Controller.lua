@@ -243,7 +243,7 @@ local function UpdateShells(self, dt)
         SafeMoveShell(s, x, y, z, t)
 
         -- ── Detección de impacto ──────────────────────────────────────────
-        local impacted = (s.age >= s.flightTime) or (y < -1.0)
+        local impacted = (s.age >= s.flightTime) or (y < -50.0)
 
         if impacted and not s.hasHit then
             s.hasHit = true

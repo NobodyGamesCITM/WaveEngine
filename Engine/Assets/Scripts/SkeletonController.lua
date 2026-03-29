@@ -424,7 +424,6 @@ function Update(self, dt)
         isOnCooldown  = false
         predictTimer  = -1
         windupTimer   = 0
-        if attackCol then attackCol:Disable() end
         if Enemy.nav  then Enemy.nav:StopMovement() end
         if Enemy.rb   then
             local vel = Enemy.rb:GetLinearVelocity()

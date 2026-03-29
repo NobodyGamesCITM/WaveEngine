@@ -76,7 +76,7 @@ public = {
     minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
 
     windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
-    flightTime       = 2.0,    -- duración del arco en el aire
+    flightTime       = 4.0,    -- duración del arco en el aire
     cooldownTime     = 4.5,    -- espera entre disparos
 
     blastRadius      = 3.5,    -- radio de daño en el impacto
@@ -319,10 +319,10 @@ function Start(self)
     hurtSource = GameObject.Find("SirenHurtSource")
     dipSource = GameObject.Find("DipSource")
 
-    singSFX = self.gameObject:GetComponent("Audio Source")
-    deathSFX = voiceSource:GetComponent("Audio Source")
-    hurtSFX = attackSource:GetComponent("Audio Source")
-    dipSFX = hitSource:GetComponent("Audio Source")
+    singSFX  = singSource:GetComponent("Audio Source")
+    deathSFX = dieSource:GetComponent("Audio Source")
+    hurtSFX  = hurtSource:GetComponent("Audio Source")
+    dipSFX   = dipSource:GetComponent("Audio Source")
     
 
     if not singSFX then
@@ -412,6 +412,10 @@ function Update(self, dt)
         -- Espera a que el player entre en rango
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             Mortar.currentState = State.WINDUP
+            if not isSinging then
+                if singSFX then singSFX:PlayAudioEvent() end
+                isSinging = true
+            end
             windUpTimer         = 0
             Engine.Log("[Mortar] Player detectado a dist=" ..
                        string.format("%.1f", dist) .. ". Wind-up...")
@@ -421,6 +425,10 @@ function Update(self, dt)
         -- Gira hacia el player mientras se telegrafía el disparo
         FacePlayer(self, pp, dt)
         windUpTimer = windUpTimer + dt
+
+        --if not isSinging then 
+
+       -- end
 
         -- Si el player sale de rango durante el wind-up, abortamos
         if dist > self.public.detectRange or dist < self.public.minRange then
@@ -441,10 +449,7 @@ function Update(self, dt)
 
             if Mortar.anim then Mortar.anim:Play("Fire") end
 
-            if not isSinging then 
-			    if singSFX then singSFX:PlayAudioEvent() end
-                isSinging = true
-            end
+           
 
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime

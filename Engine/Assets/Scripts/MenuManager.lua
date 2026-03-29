@@ -14,6 +14,11 @@ local phase     = "idle"
 local history   = {}
 local current   = nil
 
+local selectSource
+local pressSource
+local selectSFX
+local pressSFX
+
 
 
 local function EaseInOutQuad(t)
@@ -49,6 +54,23 @@ end
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
+
+	selectSource = GameObject.Find("UISelectSound")
+
+	if selectSource then
+		selectSFX = selectSource:GetComponent("Audio Source")
+	else 
+		Engine.Log("[UI AUDIO] Could not retrieve select button SFX AudioSource")
+	end
+
+	
+	pressSource = GameObject.Find("UIPressSound")
+
+	if pressSource then
+		pressSFX = pressSource:GetComponent("Audio Source")
+	else 
+		Engine.Log("[UI AUDIO] Could not retrieve press button SFX AudioSource")
+	end
 
     if not canvas then
         Engine.Log("[Transition] ERROR: No tiene ComponentCanvas")
@@ -130,28 +152,34 @@ function Update(self, dt)
 
         -- Main Menu
         if UI.WasClicked("StartButton") then
+			pressSFX:PlayAudioEvent()
 			
             NavigateTo("HUD.xaml")
         end
         if UI.WasClicked("SettingsButton") then
+			pressSFX:PlayAudioEvent()
             NavigateTo("SettingsMenu.xaml")
         end
         if UI.WasClicked("ExitButton") then
+			pressSFX:PlayAudioEvent()
             Game.Exit()
         end
 
         -- Pause Menu
         if UI.WasClicked("ResumeButton") then
+			pressSFX:PlayAudioEvent()
             NavigateTo("HUD.xaml")
         end
 
         if UI.WasClicked("TryAgainButton") then
             _G._PlayerController_isDead = false
+			pressSFX:PlayAudioEvent()
             NavigateTo("HUD.xaml")
         end
 
         -- BackToMenuButton: funciona tanto desde PauseMenu como desde LoseMenu
         if UI.WasClicked("BackToMenuButton") then
+			pressSFX:PlayAudioEvent()
             _G._PlayerController_isDead = false
             -- Resetear la salud del player para que no vuelva al LoseMenu
             if _G.PlayerInstance then
@@ -163,9 +191,11 @@ function Update(self, dt)
 
         -- Settings Menu
         if UI.WasClicked("SoundsButton") then
+			pressSFX:PlayAudioEvent()
             NavigateTo("SoundsMenu.xaml")
         end
         if UI.WasClicked("GraphicsButton") then
+			pressSFX:PlayAudioEvent()
             NavigateTo("GraphicsMenu.xaml")
         end
 
@@ -192,6 +222,7 @@ function Update(self, dt)
             canvas:SetOpacity(0.0)
             SetPhase("swap")
         end
+
 
     elseif phase == "swap" then
         local previous = current
@@ -226,4 +257,6 @@ function Update(self, dt)
         SetPhase("fadeIn")
     end
 end
+
+
 

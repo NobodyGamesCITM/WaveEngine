@@ -199,7 +199,7 @@ local function TakeDamage(self, amount, attackerPos)
 	
 
     if hp <= 0 and not pendingDeath then
-        if dieSFX then dieSFX:PlayAudioEvent() end
+        --if dieSFX then dieSFX:PlayAudioEvent() end
         pendingDeath = true
         Engine.Log("[Enemy] HP agotado")
     else
@@ -241,7 +241,7 @@ local function TryEvasion(self, attackerPos)
     Enemy.currentState = State.EVADE
     dashTimer          = 0
 
-	if dodgeSFX then dodgeSFX:PlayAudioEvent() end
+	-- if dodgeSFX then dodgeSFX:PlayAudioEvent() end
 
     Engine.Log("[Enemy] ESQUIVE!")
     return true
@@ -296,7 +296,7 @@ local function Movement(self, dt)
         if stepTimer >= 0.25 then
             stepTimer = 0
             if Enemy.stepSFX then
-                Enemy.stepSFX:PlayAudioEvent()
+                --Enemy.stepSFX:PlayAudioEvent()
             end
         end
     else
@@ -357,7 +357,7 @@ local function CombatOrbit(self, playerPos, dt, speedScale)
         local stepInterval = lerp(0.45, 0.28, orbitSpeedSmooth / self.public.orbitSpeed)
         if stepTimer >= stepInterval then
             stepTimer = 0
-            if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
+            --if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
         end
     else
         stepTimer = 0
@@ -638,7 +638,7 @@ function Update(self, dt)
 
             Engine.Log("[Enemy] LUNGE + SWING!")
             if Enemy.attackSFX then
-                Enemy.attackSFX:PlayAudioEvent()
+                --Enemy.attackSFX:PlayAudioEvent()
             end
         end
         return
@@ -993,7 +993,7 @@ function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
-            if hurtSFX then hurtSFX:PlayAudioEvent() end
+            --if hurtSFX then hurtSFX:PlayAudioEvent() end
             if attack ~= "" then
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition

@@ -35,7 +35,7 @@ local HERMES_GRACE_TIME      = 0.2
 
 -- MASKS
 local Mask = {
-    NONE   = "None",
+    NONE   = "NoMask",
     APOLLO = "None",
     HERMES = "None",
     ARES   = "None"
@@ -622,9 +622,11 @@ States[State.SHOOTING] = {
 
 States[State.ATTACK_HEAVY] = {
     Enter = function(self)
+        ChangeState(self, State.IDLE) -- temporal
         _PlayerController_lastAttack = "heavy"
     end,
-    Update = function(self, dt) end,
+    Update = function(self, dt)
+    end,
     Exit = function(self)
         if attackCol then attackCol:Disable() end
         _PlayerController_lastAttack = ""
@@ -794,8 +796,13 @@ function Start(self)
     giveHermesMask      = false
     giveAresMask        = false
 
+    Mask.APOLLO = "None"
+    Mask.HERMES = "None"
+    Mask.ARES   = "None"
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
+    Player.currentMask = Mask.NONE
 end
 
 

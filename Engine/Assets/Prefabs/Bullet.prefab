@@ -16,9 +16,9 @@
                     0.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.550000011920929,
+                    0.550000011920929,
+                    0.550000011920929
                 ],
                 "type": 0
             },
@@ -31,22 +31,56 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "lifetime",
+                        "name": "speed",
                         "type": 0,
-                        "value": 5.0
+                        "value": 20.0
                     },
                     {
-                        "name": "speed",
+                        "name": "lifetime",
                         "type": 0,
                         "value": 5.0
                     }
                 ],
                 "scriptUID": 12957541813524735499,
                 "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Radius": 0.5,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": true,
+                "active": true,
+                "type": 11
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
             }
         ],
         "name": "Bullet",
-        "tag": "",
-        "uid": 17508019346393877544
+        "tag": "Bullet",
+        "uid": 18374299773237408600
     }
 ]

@@ -137,7 +137,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.543882966041565,
+                    "aspectRatio": 2.44834303855896,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -149,9 +149,34 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
                             "name": "followSpeed",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "shakeMagnitude",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "playerName",
@@ -160,31 +185,6 @@
                         },
                         {
                             "name": "zoomMax",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "shakeFrequency",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "shakeMagnitude",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "shakeDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
                         }
@@ -3541,7 +3541,7 @@
                             "speedMax": 0.30000001192092896,
                             "speedMin": 0.05000000074505806,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\javig\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                            "texturePath": "C:\\Users\\alons\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                             "textureRows": 1,
                             "textureUID": 17065513980760032408,
                             "type": 7
@@ -3647,102 +3647,12 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "hitShakeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hpLossCost",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
                             "name": "heavyStaminaCost",
                             "type": 0,
                             "value": 25.0
                         },
                         {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
                             "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "giveHermesMask",
                             "type": 2,
                             "value": false
                         },
@@ -3752,24 +3662,19 @@
                             "value": 15.0
                         },
                         {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 1.0
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
                         },
                         {
-                            "name": "bulletSpawnY",
+                            "name": "sprintMultiplier",
                             "type": 0,
-                            "value": 1.0
+                            "value": 1.5
                         },
                         {
-                            "name": "staminaRecover",
+                            "name": "hpLossCost",
                             "type": 0,
-                            "value": 0.10000000149011612
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
+                            "value": 0.20000000298023224
                         },
                         {
                             "name": "speed",
@@ -3777,9 +3682,14 @@
                             "value": 9.0
                         },
                         {
-                            "name": "bulletBarrel",
+                            "name": "speedIncrease",
                             "type": 0,
-                            "value": 1.5
+                            "value": 5.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
                         },
                         {
                             "name": "attackCooldown",
@@ -3787,9 +3697,79 @@
                             "value": 0.5
                         },
                         {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 0.10000000149011612
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
                             "name": "giveAresMask",
                             "type": 2,
                             "value": false
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "bulletSpawnY",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
                         },
                         {
                             "name": "chargeSpeed",
@@ -3802,9 +3782,9 @@
                             "value": false
                         },
                         {
-                            "name": "ROTATION_SPEED",
+                            "name": "hitShakeDuration",
                             "type": 0,
-                            "value": 780.0
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "knockbackForce",
@@ -3812,17 +3792,37 @@
                             "value": 14.0
                         },
                         {
-                            "name": "hermesWaterMax",
+                            "name": "chargeDuration",
                             "type": 0,
-                            "value": 2.0
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "rollCooldownMax",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 0.5
                         },
                         {
-                            "name": "staminaCost",
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "staminaRecover",
                             "type": 0,
                             "value": 0.10000000149011612
                         }
@@ -3892,17 +3892,17 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "offsetZ",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
                             "name": "offsetX",
                             "type": 0,
                             "value": 0.0
                         },
                         {
                             "name": "offsetY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "offsetZ",
                             "type": 0,
                             "value": 0.0
                         }
@@ -17752,44 +17752,6 @@
                                 {
                                     "active": true,
                                     "position": [
-                                        -49.45146179199219,
-                                        1.0882856845855713,
-                                        -341.569580078125
-                                    ],
-                                    "rotation": [
-                                        -0.311936616897583,
-                                        89.96043395996094,
-                                        0.13766612112522125
-                                    ],
-                                    "scale": [
-                                        4.359245777130127,
-                                        5.774600505828857,
-                                        2.848552703857422
-                                    ],
-                                    "type": 0
-                                },
-                                {
-                                    "active": true,
-                                    "primitiveType": "Cube",
-                                    "type": 1
-                                },
-                                {
-                                    "active": true,
-                                    "materialUID": 8730570732763284852,
-                                    "type": 3
-                                }
-                            ],
-                            "name": "Cube_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
-                            "tag": "",
-                            "uid": 6857692393489112711
-                        },
-                        {
-                            "active": true,
-                            "children": [],
-                            "components": [
-                                {
-                                    "active": true,
-                                    "position": [
                                         -53.51234817504883,
                                         -14.564066886901855,
                                         -263.10894775390625
@@ -19819,14 +19781,54 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "idleWaitTime",
+                                    "name": "dodgeChance",
                                     "type": 0,
-                                    "value": 3.0
+                                    "value": 0.5
+                                },
+                                {
+                                    "name": "patrolRadius",
+                                    "type": 0,
+                                    "value": 5.0
                                 },
                                 {
                                     "name": "combatApproachTime",
                                     "type": 0,
                                     "value": 1.2000000476837158
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "orbitRadius",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "knockbackForce",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "attackRange",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
                                 },
                                 {
                                     "name": "dirSmoothing",
@@ -19839,14 +19841,9 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "facePlayerSpeed",
                                     "type": 0,
-                                    "value": 4.5
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -19854,39 +19851,9 @@
                                     "value": 18.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
-                                },
-                                {
-                                    "name": "patrolRadius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
                                     "name": "maxHp",
                                     "type": 0,
                                     "value": 30.0
-                                },
-                                {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 15.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "attackDamage",
@@ -19894,24 +19861,19 @@
                                     "value": 10.0
                                 },
                                 {
-                                    "name": "knockbackForce",
+                                    "name": "dashForce",
                                     "type": 0,
-                                    "value": 2.0
+                                    "value": 10.0
                                 },
                                 {
-                                    "name": "dodgeChance",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 0.5
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "attackRange",
-                                    "type": 0,
-                                    "value": 2.0
+                                    "value": 15.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -28937,14 +28899,54 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "idleWaitTime",
+                            "name": "dodgeChance",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.5
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "combatApproachTime",
                             "type": 0,
                             "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "dirSmoothing",
@@ -28957,14 +28959,9 @@
                             "value": 0.5
                         },
                         {
-                            "name": "orbitSpeed",
+                            "name": "facePlayerSpeed",
                             "type": 0,
-                            "value": 4.5
-                        },
-                        {
-                            "name": "orbitRadius",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 8.0
                         },
                         {
                             "name": "lungeForce",
@@ -28972,39 +28969,9 @@
                             "value": 18.0
                         },
                         {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "facePlayerSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "maxHp",
                             "type": 0,
                             "value": 30.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackDamage",
@@ -29012,24 +28979,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dashForce",
                             "type": 0,
-                            "value": 2.0
+                            "value": 10.0
                         },
                         {
-                            "name": "dodgeChance",
+                            "name": "orbitSpeed",
                             "type": 0,
-                            "value": 0.5
+                            "value": 4.5
                         },
                         {
-                            "name": "moveSpeed",
+                            "name": "chaseRange",
                             "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -29369,14 +29331,54 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "idleWaitTime",
+                            "name": "dodgeChance",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.5
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "combatApproachTime",
                             "type": 0,
                             "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "dirSmoothing",
@@ -29389,14 +29391,9 @@
                             "value": 0.5
                         },
                         {
-                            "name": "orbitSpeed",
+                            "name": "facePlayerSpeed",
                             "type": 0,
-                            "value": 4.5
-                        },
-                        {
-                            "name": "orbitRadius",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 8.0
                         },
                         {
                             "name": "lungeForce",
@@ -29404,39 +29401,9 @@
                             "value": 18.0
                         },
                         {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "facePlayerSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "maxHp",
                             "type": 0,
                             "value": 30.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackDamage",
@@ -29444,24 +29411,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dashForce",
                             "type": 0,
-                            "value": 2.0
+                            "value": 10.0
                         },
                         {
-                            "name": "dodgeChance",
+                            "name": "orbitSpeed",
                             "type": 0,
-                            "value": 0.5
+                            "value": 4.5
                         },
                         {
-                            "name": "moveSpeed",
+                            "name": "chaseRange",
                             "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -31275,49 +31237,24 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "minRange",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
                             "name": "flightTime",
                             "type": 0,
                             "value": 2.0
                         },
                         {
-                            "name": "attackDamage",
+                            "name": "minRange",
                             "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "blastRadius",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "detectRange",
-                            "type": 0,
-                            "value": 22.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "projectilePrefab",
-                            "type": 1,
-                            "value": "Sirena_Bullet"
+                            "value": 5.0
                         },
                         {
                             "name": "windUpTime",
                             "type": 0,
                             "value": 1.600000023841858
+                        },
+                        {
+                            "name": "detectRange",
+                            "type": 0,
+                            "value": 22.0
                         },
                         {
                             "name": "rotationSpeed",
@@ -31330,9 +31267,34 @@
                             "value": 1.7999999523162842
                         },
                         {
+                            "name": "projectilePrefab",
+                            "type": 1,
+                            "value": "Sirena_Bullet"
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "blastRadius",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "cooldownTime",
                             "type": 0,
                             "value": 4.5
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 2835141273378409201,
@@ -33108,49 +33070,24 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "minRange",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
                             "name": "flightTime",
                             "type": 0,
                             "value": 2.0
                         },
                         {
-                            "name": "attackDamage",
+                            "name": "minRange",
                             "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "blastRadius",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "detectRange",
-                            "type": 0,
-                            "value": 22.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "projectilePrefab",
-                            "type": 1,
-                            "value": "Sirena_Bullet"
+                            "value": 5.0
                         },
                         {
                             "name": "windUpTime",
                             "type": 0,
                             "value": 1.600000023841858
+                        },
+                        {
+                            "name": "detectRange",
+                            "type": 0,
+                            "value": 22.0
                         },
                         {
                             "name": "rotationSpeed",
@@ -33163,9 +33100,34 @@
                             "value": 1.7999999523162842
                         },
                         {
+                            "name": "projectilePrefab",
+                            "type": 1,
+                            "value": "Sirena_Bullet"
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "blastRadius",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "cooldownTime",
                             "type": 0,
                             "value": 4.5
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 2835141273378409201,
@@ -34941,49 +34903,24 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "minRange",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
                             "name": "flightTime",
                             "type": 0,
                             "value": 2.0
                         },
                         {
-                            "name": "attackDamage",
+                            "name": "minRange",
                             "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "blastRadius",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "detectRange",
-                            "type": 0,
-                            "value": 22.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "projectilePrefab",
-                            "type": 1,
-                            "value": "Sirena_Bullet"
+                            "value": 5.0
                         },
                         {
                             "name": "windUpTime",
                             "type": 0,
                             "value": 1.600000023841858
+                        },
+                        {
+                            "name": "detectRange",
+                            "type": 0,
+                            "value": 22.0
                         },
                         {
                             "name": "rotationSpeed",
@@ -34996,9 +34933,34 @@
                             "value": 1.7999999523162842
                         },
                         {
+                            "name": "projectilePrefab",
+                            "type": 1,
+                            "value": "Sirena_Bullet"
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "blastRadius",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "cooldownTime",
                             "type": 0,
                             "value": 4.5
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 2835141273378409201,
@@ -35300,14 +35262,54 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "idleWaitTime",
+                            "name": "dodgeChance",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.5
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "combatApproachTime",
                             "type": 0,
                             "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "dirSmoothing",
@@ -35320,14 +35322,9 @@
                             "value": 0.5
                         },
                         {
-                            "name": "orbitSpeed",
+                            "name": "facePlayerSpeed",
                             "type": 0,
-                            "value": 4.5
-                        },
-                        {
-                            "name": "orbitRadius",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 8.0
                         },
                         {
                             "name": "lungeForce",
@@ -35335,39 +35332,9 @@
                             "value": 18.0
                         },
                         {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "facePlayerSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "maxHp",
                             "type": 0,
                             "value": 30.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackDamage",
@@ -35375,24 +35342,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dashForce",
                             "type": 0,
-                            "value": 2.0
+                            "value": 10.0
                         },
                         {
-                            "name": "dodgeChance",
+                            "name": "orbitSpeed",
                             "type": 0,
-                            "value": 0.5
+                            "value": 4.5
                         },
                         {
-                            "name": "moveSpeed",
+                            "name": "chaseRange",
                             "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -35732,14 +35694,54 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "idleWaitTime",
+                            "name": "dodgeChance",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.5
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "combatApproachTime",
                             "type": 0,
                             "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "dirSmoothing",
@@ -35752,14 +35754,9 @@
                             "value": 0.5
                         },
                         {
-                            "name": "orbitSpeed",
+                            "name": "facePlayerSpeed",
                             "type": 0,
-                            "value": 4.5
-                        },
-                        {
-                            "name": "orbitRadius",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 8.0
                         },
                         {
                             "name": "lungeForce",
@@ -35767,39 +35764,9 @@
                             "value": 18.0
                         },
                         {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "facePlayerSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "maxHp",
                             "type": 0,
                             "value": 30.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackDamage",
@@ -35807,24 +35774,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dashForce",
                             "type": 0,
-                            "value": 2.0
+                            "value": 10.0
                         },
                         {
-                            "name": "dodgeChance",
+                            "name": "orbitSpeed",
                             "type": 0,
-                            "value": 0.5
+                            "value": 4.5
                         },
                         {
-                            "name": "moveSpeed",
+                            "name": "chaseRange",
                             "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -36164,14 +36126,54 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "idleWaitTime",
+                            "name": "dodgeChance",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.5
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "combatApproachTime",
                             "type": 0,
                             "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
                             "name": "dirSmoothing",
@@ -36184,14 +36186,9 @@
                             "value": 0.5
                         },
                         {
-                            "name": "orbitSpeed",
+                            "name": "facePlayerSpeed",
                             "type": 0,
-                            "value": 4.5
-                        },
-                        {
-                            "name": "orbitRadius",
-                            "type": 0,
-                            "value": 3.0
+                            "value": 8.0
                         },
                         {
                             "name": "lungeForce",
@@ -36199,39 +36196,9 @@
                             "value": 18.0
                         },
                         {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "facePlayerSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dashForce",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
                             "name": "maxHp",
                             "type": 0,
                             "value": 30.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 15.0
                         },
                         {
                             "name": "attackDamage",
@@ -36239,24 +36206,19 @@
                             "value": 10.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dashForce",
                             "type": 0,
-                            "value": 2.0
+                            "value": 10.0
                         },
                         {
-                            "name": "dodgeChance",
+                            "name": "orbitSpeed",
                             "type": 0,
-                            "value": 0.5
+                            "value": 4.5
                         },
                         {
-                            "name": "moveSpeed",
+                            "name": "chaseRange",
                             "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "attackRange",
-                            "type": 0,
-                            "value": 2.0
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 2354537265489101487,
@@ -36347,6 +36309,314 @@
                                             "children": [
                                                 {
                                                     "active": true,
+                                                    "children": [
+                                                        {
+                                                            "active": true,
+                                                            "children": [
+                                                                {
+                                                                    "active": true,
+                                                                    "children": [
+                                                                        {
+                                                                            "active": true,
+                                                                            "children": [],
+                                                                            "components": [
+                                                                                {
+                                                                                    "active": true,
+                                                                                    "position": [
+                                                                                        0.0,
+                                                                                        0.0,
+                                                                                        0.0
+                                                                                    ],
+                                                                                    "rotation": [
+                                                                                        0.0,
+                                                                                        0.0,
+                                                                                        0.0
+                                                                                    ],
+                                                                                    "scale": [
+                                                                                        1.0,
+                                                                                        1.0,
+                                                                                        1.0
+                                                                                    ],
+                                                                                    "type": 0
+                                                                                },
+                                                                                {
+                                                                                    "active": true,
+                                                                                    "meshUID": 9275377481379928329,
+                                                                                    "type": 1
+                                                                                },
+                                                                                {
+                                                                                    "active": true,
+                                                                                    "materialUID": 6683077492768641108,
+                                                                                    "type": 3
+                                                                                }
+                                                                            ],
+                                                                            "name": "Hermes",
+                                                                            "tag": "",
+                                                                            "uid": 460265886135905902
+                                                                        }
+                                                                    ],
+                                                                    "components": [
+                                                                        {
+                                                                            "active": true,
+                                                                            "position": [
+                                                                                -12.155351638793945,
+                                                                                -7.874912261962891,
+                                                                                -0.7996742725372314
+                                                                            ],
+                                                                            "rotation": [
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0
+                                                                            ],
+                                                                            "scale": [
+                                                                                1.0,
+                                                                                1.0,
+                                                                                1.0
+                                                                            ],
+                                                                            "type": 0
+                                                                        }
+                                                                    ],
+                                                                    "name": "Hermes_$AssimpFbx$_ScalingPivotInverse",
+                                                                    "tag": "",
+                                                                    "uid": 4642892590289489156
+                                                                }
+                                                            ],
+                                                            "components": [
+                                                                {
+                                                                    "active": true,
+                                                                    "position": [
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0
+                                                                    ],
+                                                                    "rotation": [
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0
+                                                                    ],
+                                                                    "scale": [
+                                                                        0.6362356543540955,
+                                                                        0.6362356543540955,
+                                                                        0.6362356543540955
+                                                                    ],
+                                                                    "type": 0
+                                                                }
+                                                            ],
+                                                            "name": "Hermes_$AssimpFbx$_Scaling",
+                                                            "tag": "",
+                                                            "uid": 14093845642280698655
+                                                        }
+                                                    ],
+                                                    "components": [
+                                                        {
+                                                            "active": true,
+                                                            "position": [
+                                                                12.155351638793945,
+                                                                7.874912261962891,
+                                                                0.7996742725372314
+                                                            ],
+                                                            "rotation": [
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            ],
+                                                            "scale": [
+                                                                1.0,
+                                                                1.0,
+                                                                1.0
+                                                            ],
+                                                            "type": 0
+                                                        }
+                                                    ],
+                                                    "name": "Hermes_$AssimpFbx$_ScalingPivot",
+                                                    "tag": "",
+                                                    "uid": 649218326623893273
+                                                }
+                                            ],
+                                            "components": [
+                                                {
+                                                    "active": true,
+                                                    "position": [
+                                                        -12.155351638793945,
+                                                        -7.874912261962891,
+                                                        -0.7996742725372314
+                                                    ],
+                                                    "rotation": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ],
+                                                    "scale": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "type": 0
+                                                }
+                                            ],
+                                            "name": "Hermes_$AssimpFbx$_RotationPivotInverse",
+                                            "tag": "",
+                                            "uid": 16583065587490119129
+                                        }
+                                    ],
+                                    "components": [
+                                        {
+                                            "active": true,
+                                            "position": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "rotation": [
+                                                180.0,
+                                                5.008956122765085e-06,
+                                                180.0
+                                            ],
+                                            "scale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "type": 0
+                                        }
+                                    ],
+                                    "name": "Hermes_$AssimpFbx$_Rotation",
+                                    "tag": "",
+                                    "uid": 4313501005445682554
+                                }
+                            ],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        12.155351638793945,
+                                        7.874912261962891,
+                                        0.7996742725372314
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                }
+                            ],
+                            "name": "Hermes_$AssimpFbx$_RotationPivot",
+                            "tag": "",
+                            "uid": 615979088934270470
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -10.690193176269531,
+                                4.599926471710205,
+                                1.635910153388977
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "Hermes_$AssimpFbx$_Translation",
+                    "tag": "",
+                    "uid": 2233116095484398047
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                0.7429893612861633,
+                                1.007163405418396,
+                                0.7429893612861633
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 3768515277205658308,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 6683077492768641108,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Base_high",
+                    "tag": "",
+                    "uid": 18420226272780014103
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -52.01891326904297,
+                        -1.621908187866211,
+                        -343.2542419433594
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.39999210834503174,
+                        0.39999210834503174,
+                        0.39999210834503174
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "Estatua_Hermes UVs",
+            "tag": "",
+            "uid": 10822457108080857378
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [
+                                {
+                                    "active": true,
+                                    "children": [
+                                        {
+                                            "active": true,
+                                            "children": [
+                                                {
+                                                    "active": true,
                                                     "children": [],
                                                     "components": [
                                                         {
@@ -36354,7 +36624,7 @@
                                                             "position": [
                                                                 0.0,
                                                                 0.0,
-                                                                0.0
+                                                                -0.0001220703125
                                                             ],
                                                             "rotation": [
                                                                 0.0,
@@ -36370,18 +36640,18 @@
                                                         },
                                                         {
                                                             "active": true,
-                                                            "meshUID": 7626191030006950908,
+                                                            "meshUID": 4779887813102112744,
                                                             "type": 1
                                                         },
                                                         {
                                                             "active": true,
-                                                            "materialUID": 13826263070434852156,
+                                                            "materialUID": 9252118491625162541,
                                                             "type": 3
                                                         }
                                                     ],
                                                     "name": "Buho",
                                                     "tag": "",
-                                                    "uid": 18362194743969784502
+                                                    "uid": 2716771650698823885
                                                 }
                                             ],
                                             "components": [
@@ -36407,7 +36677,7 @@
                                             ],
                                             "name": "Buho_$AssimpFbx$_ScalingPivotInverse",
                                             "tag": "",
-                                            "uid": 2214536458128347122
+                                            "uid": 291922119473969783
                                         }
                                     ],
                                     "components": [
@@ -36433,7 +36703,7 @@
                                     ],
                                     "name": "Buho_$AssimpFbx$_ScalingPivot",
                                     "tag": "",
-                                    "uid": 11963944287223282620
+                                    "uid": 10779028222673768005
                                 }
                             ],
                             "components": [
@@ -36459,7 +36729,7 @@
                             ],
                             "name": "Buho_$AssimpFbx$_RotationPivotInverse",
                             "tag": "",
-                            "uid": 7034933047768828063
+                            "uid": 13942789695742268353
                         }
                     ],
                     "components": [
@@ -36481,16 +36751,11 @@
                                 1.0
                             ],
                             "type": 0
-                        },
-                        {
-                            "active": true,
-                            "materialUID": 13826263070434852156,
-                            "type": 3
                         }
                     ],
                     "name": "Buho_$AssimpFbx$_RotationPivot",
                     "tag": "",
-                    "uid": 8195042692029029446
+                    "uid": 593854170611973879
                 },
                 {
                     "active": true,
@@ -36529,18 +36794,18 @@
                                                         },
                                                         {
                                                             "active": true,
-                                                            "meshUID": 15495726044659211453,
+                                                            "meshUID": 14524675934620834147,
                                                             "type": 1
                                                         },
                                                         {
                                                             "active": true,
-                                                            "materialUID": 13826263070434852156,
+                                                            "materialUID": 9252118491625162541,
                                                             "type": 3
                                                         }
                                                     ],
                                                     "name": "Base",
                                                     "tag": "",
-                                                    "uid": 3057182349005699588
+                                                    "uid": 10248374345208611242
                                                 }
                                             ],
                                             "components": [
@@ -36566,7 +36831,7 @@
                                             ],
                                             "name": "Base_$AssimpFbx$_ScalingPivotInverse",
                                             "tag": "",
-                                            "uid": 2066163382189725525
+                                            "uid": 11213196250574230390
                                         }
                                     ],
                                     "components": [
@@ -36592,7 +36857,7 @@
                                     ],
                                     "name": "Base_$AssimpFbx$_ScalingPivot",
                                     "tag": "",
-                                    "uid": 7686615310427854858
+                                    "uid": 10898737975766655473
                                 }
                             ],
                             "components": [
@@ -36618,7 +36883,7 @@
                             ],
                             "name": "Base_$AssimpFbx$_RotationPivotInverse",
                             "tag": "",
-                            "uid": 12007728934687198796
+                            "uid": 18171328979522720773
                         }
                     ],
                     "components": [
@@ -36640,25 +36905,20 @@
                                 1.0
                             ],
                             "type": 0
-                        },
-                        {
-                            "active": true,
-                            "materialUID": 9252118491625162541,
-                            "type": 3
                         }
                     ],
                     "name": "Base_$AssimpFbx$_RotationPivot",
                     "tag": "",
-                    "uid": 2841118660204457901
+                    "uid": 3113776003841683501
                 }
             ],
             "components": [
                 {
                     "active": true,
                     "position": [
-                        146.28182983398438,
-                        27.773252487182617,
-                        -221.2187042236328
+                        145.64913940429688,
+                        27.88474464416504,
+                        -221.43385314941406
                     ],
                     "rotation": [
                         0.0,
@@ -36671,16 +36931,11 @@
                         0.26866844296455383
                     ],
                     "type": 0
-                },
-                {
-                    "active": true,
-                    "materialUID": 9252118491625162541,
-                    "type": 3
                 }
             ],
-            "name": "Estatua_Athenea UVs",
+            "name": "Estatua_Athenea",
             "tag": "CheckPoint",
-            "uid": 16496010674082904463
+            "uid": 4804182222051275843
         }
     ],
     "version": 1

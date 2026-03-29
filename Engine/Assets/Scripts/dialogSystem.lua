@@ -14,7 +14,7 @@ local PORTRAIT_MAP = {
     ["John cartel"] = "Portrait_JohnCartel",
 }
 
-local currentPortrait  = nil
+local currentPortrait    = nil
 local lastDisplayedChars = -1
 
 -- ===== UTF-8 helpers =====
@@ -110,6 +110,10 @@ local function loadDialogEntry(entry)
 end
 
 local function startSequence(sequenceId)
+    if _G.CurrentXAML and _G.CurrentXAML ~= "HUD.xaml" then
+        Engine.Log("[DialogSystem] Ignorado, XAML actual: " .. tostring(_G.CurrentXAML))
+        return
+    end
     if not loadDialogs() then return end
     local seq = allDialogs[sequenceId]
     if not seq then
@@ -139,7 +143,30 @@ function ForceCloseDialog()
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
+    Game.Resume()
     Engine.Log("[DialogSystem] Force closed")
+end
+
+function SuspendDialog()
+    if not state.active then return end
+    UI.SetElementVisibility("DialogBox", false)
+    UI.SetElementVisibility("ContinueIcon", false)
+    if currentPortrait then
+        UI.SetElementVisibility(currentPortrait, false)
+    end
+    Engine.Log("[DialogSystem] Suspended")
+end
+
+function ResumeDialog()
+    if not state.active then return end
+    UI.SetElementVisibility("DialogBox", true)
+    if currentPortrait then
+        UI.SetElementVisibility(currentPortrait, true)
+    end
+    if state.isComplete then
+        UI.SetElementVisibility("ContinueIcon", true)
+    end
+    Engine.Log("[DialogSystem] Resumed")
 end
 
 local function closeDialog()
@@ -195,6 +222,9 @@ function Start(self)
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
+    _G.ForceCloseDialog = ForceCloseDialog
+    _G.SuspendDialog    = SuspendDialog
+    _G.ResumeDialog     = ResumeDialog
     Engine.Log("[DialogSystem] Ready")
 end
 
@@ -222,4 +252,3 @@ function Update(self, dt)
         end
     end
 end
-

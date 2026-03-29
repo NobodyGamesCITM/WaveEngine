@@ -5,24 +5,25 @@ public = {
 }
 
 function Start(self)
-    pos = self.transform.position
-    pos.x = pos.x + offsetX
-    pos.y = pos.y + offsetY
-    pos.z = pos.z + offsetZ
+    checkpoints = GameObject.FindByTag("CheckPoint")
 end
 
 function Update(self, deltaTime)
+    
     local obj = GameObject.Find("Player")
     local playerPos = obj.transform.position
 
     if interact == true then 
-        if (math.abs(pos.x - playerPos.x) < 10) then
-            if (math.abs(pos.z - playerPos.z) < 10) then
-                Engine.Log("Checkpoint taken")
-                lastCheckpoint = pos 
-                Engine.Log("Checkpoint" .. tostring(lastCheckpoint))
-                giveHermesMask = true
-                Restore(self)
+        for i, checkpoint in ipairs(checkpoints) do
+            local pos = checkpoint.transform.position
+            if (math.abs(pos.x - playerPos.x) < 1) then
+                if (math.abs(pos.z - playerPos.z) < 1) then
+                    Engine.Log("Checkpoint taken")
+                    lastCheckpoint = pos 
+                    Engine.Log("Checkpoint: pos x=" .. tostring(pos.x) " pos z ="  .. tostring(pos.z))
+                    giveHermesMask = true
+                    Restore(self)
+                end
             end
         end
     end

@@ -50,6 +50,23 @@ local cooldownTimer = 0
 --   hasHit     : ya se procesó el impacto
 local activeShells = {}
 
+-- gameobjects containing audiosources
+local singSource 
+local dieSource 
+local hurtSource 
+local dipSource 
+-- audio source components
+local singSFX = nil
+local deathSFX = nil
+local hurtSFX = nil
+local dipSFX = nil
+
+local hasDeathPlayed = false
+local hasHurtPlayed = false
+local isSinging = false
+
+
+
 -- ── Public (modificable desde el inspector) ───────────────────────────────
 public = {
     maxHp            = 50,
@@ -69,9 +86,7 @@ public = {
     rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
 
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
-    maxLifetime = MAX_LIFETIME,
 }
-local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 
 -- ── Helpers ───────────────────────────────────────────────────────────────
 local function shortAngleDiff(a, b)
@@ -120,6 +135,13 @@ local function TakeDamage(self, amount, attackerPos)
         pendingDestroy      = true
         Mortar.currentState = State.DEAD
 
+
+		--play deathSFX
+		if not hasDeathPlayed then
+			if deathSFX then deathSFX:PlayAudioEvent() end
+			hasDeathPlayed = true
+		end
+
         -- Ralentización de impacto
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
@@ -157,30 +179,23 @@ local function FireShell(self, tx, ty, tz)
     -- El proyectil apunta ligeramente por encima del suelo del player
     local vx, vy, vz = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz, T)
 
-    local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
-    if bulletAsset then
     -- Instanciamos el prefab del proyectil (se completa en PostUpdate)
-        local shell = Prefab.Instantiate("Sirena_Bullet")
+    local shell = Prefab.Instantiate(self.public.projectilePrefab)
 
-        table.insert(activeShells, {
-            go         = shell,
-            age        = 0,
-            flightTime = T,
-            sx = sx, sy = sy, sz = sz,
-            vx = vx, vy = vy, vz = vz,
-            targetX    = tx,
-            targetZ    = tz,
-            hasHit     = false,
-        })
-        
-        Engine.Log("[Mortar] FIRE! vx=" .. string.format("%.2f", vx)
-                .. " vy=" .. string.format("%.2f", vy)
-                .. " vz=" .. string.format("%.2f", vz))
-    
-    else
-        Engine.Log("[Mortar] No se pudo cargar el proyectil. Revisa el UID.")
-    end
+    table.insert(activeShells, {
+        go         = shell,
+        age        = 0,
+        flightTime = T,
+        sx = sx, sy = sy, sz = sz,
+        vx = vx, vy = vy, vz = vz,
+        targetX    = tx,
+        targetZ    = tz,
+        hasHit     = false,
+    })
 
+    Engine.Log("[Mortar] FIRE! vx=" .. string.format("%.2f", vx)
+             .. " vy=" .. string.format("%.2f", vy)
+             .. " vz=" .. string.format("%.2f", vz))
 end
 
 -- ── SafeMoveShell: mueve el GO del proyectil con protección ante userdata inválido ──
@@ -291,7 +306,51 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-    Prefab.Load("Sirena_Bullet", finalPath)
+
+	singSource = GameObject.Find("SingSource")
+    dieSource = GameObject.Find("SirenDieSource")
+    hurtSource = GameObject.Find("SirenHurtSource")
+    dipSource = GameObject.Find("DipSource")
+
+    singSFX = self.gameObject:GetComponent("Audio Source")
+    deathSFX = voiceSource:GetComponent("Audio Source")
+    hurtSFX = attackSource:GetComponent("Audio Source")
+    dipSFX = hitSource:GetComponent("Audio Source")
+    
+
+    if not singSFX then
+ 		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
+	end
+
+    if not deathSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
+	end
+
+    if not Player.dipSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
+	end
+
+    if not Player.hurtSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenHurtSource") 
+	end
+
+    if not Player.pickMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve equipSource") 
+	end
+    
+    if not Player.changeMaskSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+	end
+
+    if not Player.itemPickSFX then 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve itemSource") 
+	end
+
+
+    -- Pre-cargamos el prefab del proyectil para que la primera instanciación sea rápida
+    local prefabPath = "Assets/Prefabs/" .. self.public.projectilePrefab .. ".prefab"
+    Prefab.Load(self.public.projectilePrefab, prefabPath)
+
     -- Bloqueamos el Rigidbody para que el mortero no se mueva
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)
@@ -368,12 +427,15 @@ function Update(self, dt)
         -- Gira hacia el player mientras se telegrafía el disparo
         FacePlayer(self, pp, dt)
         windUpTimer = windUpTimer + dt
+		
 
         -- Si el player sale de rango durante el wind-up, abortamos
         if dist > self.public.detectRange or dist < self.public.minRange then
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime * 0.4
             Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
+
+			
             return
         end
 
@@ -387,6 +449,11 @@ function Update(self, dt)
             FireShell(self, pp.x, pp.y, pp.z)
 
             if Mortar.anim then Mortar.anim:Play("Fire") end
+			-- start singing
+            if not isSinging then 
+			    if singSFX then singSFX:PlayAudioEvent() end
+                isSinging = true
+            end
 
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime
@@ -404,6 +471,11 @@ function Update(self, dt)
                 Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
             else
                 Mortar.currentState = State.IDLE
+				--stop singing
+                if isSinging then
+				    if singSFX then singSFX:StopAudioEvent() end
+                    isSinging = false
+                end
                 Engine.Log("[Mortar] Cooldown listo. Volviendo a IDLE.")
             end
         end
@@ -423,6 +495,7 @@ function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
+            if hurtSFX then hurtSFX:PlayAudioEvent() end
             if attack and attack ~= "" then
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition
@@ -442,3 +515,7 @@ function OnTriggerExit(self, other)
         alreadyHit = false
     end
 end
+
+
+
+

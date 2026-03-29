@@ -14,19 +14,27 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_AMBIENCE = 3583497273U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
+        static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
         static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
         static const AkUniqueID SFX_PLAYERATTACK = 3758894654U;
         static const AkUniqueID SFX_PLAYERDEATH = 1000127844U;
         static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;
         static const AkUniqueID SFX_PLAYERHIT = 515751749U;
+        static const AkUniqueID SFX_SIRENDIE = 4188719418U;
+        static const AkUniqueID SFX_SIRENDIP = 4188719407U;
+        static const AkUniqueID SFX_SIRENHURT = 3651743467U;
+        static const AkUniqueID SFX_SIRENSING = 2050401325U;
         static const AkUniqueID SFX_SKELETONDIE = 1939684258U;
+        static const AkUniqueID SFX_SKELETONDODGE = 2400499341U;
         static const AkUniqueID SFX_SKELETONHIT = 1803491951U;
         static const AkUniqueID SFX_SKELETONSTEPS = 2660566025U;
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
+        static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
+        static const AkUniqueID UI_BUTTONPRESS = 416781375U;
+        static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
     } // namespace EVENTS
 
     namespace STATES
@@ -68,6 +76,7 @@ namespace AK
             {
                 static const AkUniqueID DIRT = 2195636714U;
                 static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID STONE = 1216965916U;
                 static const AkUniqueID WATER = 2654748154U;
             } // namespace SWITCH
         } // namespace SURFACE_TYPE

@@ -74,6 +74,7 @@ local Player = {
     itemPickSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
+    foundSurface    = false,
     
     -- Hermes mask
     respawnPos       = nil,
@@ -115,6 +116,10 @@ public = {
     ROTATION_SPEED      = 780,
     hermesWaterMax      = 2.0,
     flySpeed            = 20.0,
+    bulletPrefab = "Prefabs/Bullet.prefab",
+    bulletBarrel   = 1.5,
+    bulletSpawnY   = 1.0,
+    bulletScale    = 1.0,
     interact            = false,
     giveApoloMask       = false,
     giveHermesMask      = false,
@@ -249,10 +254,10 @@ local function ChangeState(self, newState)
 end
 
 local function EquipMask(self, newMask)
-    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
 
+    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     --HERMES
-    if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
+    --if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
     if Player.currentMask == Mask.HERMES and Player.isDrowning then
         Engine.Log("[Player] Hermes quitado sobre el agua")
         Player.currentMask = newMask
@@ -273,7 +278,7 @@ local function EquipMask(self, newMask)
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
     end
-    
+    Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
     _PlayerController_currentMask = newMask
 end
@@ -584,8 +589,24 @@ States[State.SHOOTING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 1.0) end --aquí shoot
+        if anim then anim:Play("Idle", 1.0) end -- aquí shoot
         attackTimer = 0
+
+        local worldPos = self.transform.worldPosition
+        local radians  = math.rad(Player.lastAngle)
+        local fwdX     = math.sin(radians)
+        local fwdZ     = math.cos(radians)
+
+        _G.nextBulletData = {
+            x     = worldPos.x + fwdX * self.public.bulletBarrel,
+            y     = worldPos.y + self.public.bulletSpawnY,
+            z     = worldPos.z + fwdZ * self.public.bulletBarrel,
+            dirX  = fwdX,
+            dirZ  = fwdZ,
+            angle = Player.lastAngle,
+            scale = self.public.bulletScale,
+        }
+        Prefab.Instantiate("Prefabs/Bullet.prefab")
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -733,7 +754,7 @@ function Start(self)
 	end
 
     if not Player.itemPickSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve itemSource") 
 	end
 
     Player.currentSurface = "Dirt" --default surface
@@ -769,6 +790,10 @@ function Start(self)
 
     _G._PlayerController_isDead = false
 
+    giveApoloMask       = false
+    giveHermesMask      = false
+    giveAresMask        = false
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
 end
@@ -789,7 +814,7 @@ function Update(self, dt)
     end
 
     if not Player.currentState then
-        Engine.Log("[Player] Update")
+        --Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
     end
 
@@ -840,6 +865,23 @@ function Update(self, dt)
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug
 
+    if Input.GetKeyDown("F1") then 
+        giveApoloMask = true
+        --EquipMask(self,Mask.APOLLO)
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F2") then 
+        giveHermesMask = true
+        --EquipMask(self,Mask.HERMES)
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
+
+    if Input.GetKeyDown("F3") then 
+        giveAresMask = true
+        --EquipMask(self,Mask.ARES)
+        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+    end --debug
     --Respawn debug
     if Input.GetKeyDown("M") then
         local p = lastCheckpoint
@@ -881,19 +923,37 @@ function Update(self, dt)
     end
 end
 function MaskScroll(self)
-    if Player.currentMask == Mask.NONE then EquipMask(self,Mask.HERMES)
-    elseif Player.currentMask == Mask.HERMES then EquipMask(self,Mask.APOLLO)
-    elseif Player.currentMask == Mask.APOLLO then EquipMask(self,Mask.ARES)
-    elseif Player.currentMask == Mask.ARES then EquipMask(self,Mask.HREMES) end  
-
+    if Player.currentMask == Mask.NONE then 
+        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
+    elseif Player.currentMask == Mask.HERMES then 
+        if Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
+        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)end
+    elseif Player.currentMask == Mask.APOLLO then 
+        if Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
+        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)end
+    elseif Player.currentMask == Mask.ARES then 
+        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
+        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
+        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
+    end  
 end
 function ObtainMask(self)
-    if giveApoloMask and Mask.APOLLO == "None" then Mask.APOLLO = "Apolo"end
+    if giveApoloMask and Mask.APOLLO == "None" then 
+        Mask.APOLLO = "Apolo"
+        Engine.Log("Apolo Mask obtain")
+    end
     if giveHermesMask and Mask.HERMES == "None" then 
         Mask.HERMES = "Hermes"
-        Engine.Log("Mask obtain")
+        Engine.Log("Hermes Mask obtain")
     end
-    if giveAresMask and Mask.ARES == "None" then Mask.ARES = "Ares" end
+    if giveAresMask and Mask.ARES == "None" then
+        Mask.ARES = "Ares" 
+        Engine.Log("Ares Mask obtain")
+    end
 
 end
 function ResetPlayer(self)
@@ -904,9 +964,9 @@ function ResetPlayer(self)
     self.public.stamina = 100
 
     -- Pociones
-    if _G.PotionSystem then
-        _G.PotionSystem:ResetPotions()
-    end
+    --if _G.PotionSystem then
+    --    _G.PotionSystem:ResetPotions()
+    --end
 
     -- Cooldowns
     attackCooldown = 0
@@ -939,14 +999,20 @@ function ResetPlayer(self)
 end
 
 
-local surfaces = {"Grass", "Water", "Dirt"}
+local surfaces = {"Grass", "Water", "Dirt", "Stone"}
 
 function OnTriggerEnter(self, other)
-	for i, surface in ipairs(surfaces) do
-		if other:CompareTag(surface) then 
-			Player.currentSurface = surface
-		end
-	end
+    local matched = false
+    for i, surface in ipairs(surfaces) do
+        if other:CompareTag(surface) then 
+            Player.currentSurface = surface
+            Player.foundSurface = true
+        end
+    end
+    if not foundSurface then
+        Player.currentSurface = "Dirt"  -- default if no surface tag found
+        foundSurface = true
+    end
 end
 
 function OnTriggerExit(self, other) end
@@ -981,3 +1047,4 @@ function OnCollisionExit(self, other)
         Player.isGrounded = false
     end
 end
+

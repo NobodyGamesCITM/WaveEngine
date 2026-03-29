@@ -5,8 +5,12 @@ local min   = math.min
 local abs   = math.abs
 local playerAttackHandled = false
 
+-- audio source gameobjects
 local attackSource
 local dieSource
+local hurtSource
+local dodgeSource
+
 local stepTimer = 0.5
 
 -- ── States ────────────────────────────────────────────────────────────────
@@ -35,6 +39,8 @@ local Enemy = {
     playerGO        = nil,
     attackSFX       = nil,
     dieSFX          = nil,
+	dodgeSFX 		= nil,
+	hurtSFX			= nil,
     stepSFX         = nil
 }
 
@@ -190,7 +196,10 @@ local function TakeDamage(self, amount, attackerPos)
         rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
     end
 
-    if hp <= 0 then
+	
+
+    if hp <= 0 and not pendingDeath then
+        if dieSFX then dieSFX:PlayAudioEvent() end
         pendingDeath = true
         Engine.Log("[Enemy] HP agotado")
     else
@@ -231,6 +240,8 @@ local function TryEvasion(self, attackerPos)
 
     Enemy.currentState = State.EVADE
     dashTimer          = 0
+
+	if dodgeSFX then dodgeSFX:PlayAudioEvent() end
 
     Engine.Log("[Enemy] ESQUIVE!")
     return true
@@ -373,6 +384,12 @@ function Start(self)
 
     attackSource = GameObject.Find("SK_KopisSource")
     Enemy.attackSFX = attackSource:GetComponent("Audio Source")
+	
+	dodgeSource = GameObject.Find("SK_DodgeSource")
+	Enemy.dodgeSFX = dodgeSource:GetComponent("Audio Source")
+	
+	hurtSource = GameObject.Find("SK_HurtSource")
+	Enemy.hurtSFX = hurtSource:GetComponent("Audio Source")
 
     local pos = self.transform.position
     Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
@@ -417,7 +434,7 @@ function Update(self, dt)
         Enemy.currentState = State.DEAD
         isDead = true
 
-        if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
+        --if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
 
         Engine.Log("[Enemy] DEAD")
         Game.SetTimeScale(0.2)
@@ -526,6 +543,8 @@ function Update(self, dt)
         Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
         Enemy.dieSFX  = dieSource:GetComponent("Audio Source")
         Enemy.attackSFX = attackSource:GetComponent("Audio Source")
+		Enemy.dodgeSFX = dodgeSource:GetComponent("Audio Source")
+		Enemy.hurtSFX = hurtSource:GetComponent("Audio Source")
         return
     end
 
@@ -975,6 +994,7 @@ function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
+            if hurtSFX then hurtSFX:PlayAudioEvent() end
             if attack ~= "" then
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition
@@ -1004,3 +1024,4 @@ end
 -- así un sweep que entra/sale del trigger varias veces solo hace daño una vez.
 function OnTriggerExit(self, other)
 end
+

@@ -37,9 +37,9 @@ public:
 
 
 	void PlayEvent(AkUniqueID event, AkGameObjectID goID);
-
 	void PlayEvent(const wchar_t* eventName, AkGameObjectID goID);
 	void StopEvent(AkUniqueID event, AkGameObjectID goID);
+	void StopEvent(const wchar_t* eventName, AkGameObjectID goID);
 	void PauseEvent(AkUniqueID event, AkGameObjectID goID);
 	void ResumeEvent(AkUniqueID event, AkGameObjectID goID);
 
@@ -73,12 +73,15 @@ public:
 	/*void SetDialogVolume(int volume);*/
 	void SetSFXVolume(int volume);
 	void SetMusicVolume(int volume);
+	void SetAudioSourceVolume(float vol, AkGameObjectID id);
 
 	// Register/unregister AudioComponent
 	void RegisterAudioComponent(AudioComponent* component) {
 		if (!component) return;
-		AK::SoundEngine::RegisterGameObj(component->goID);
+		AK::SoundEngine::RegisterGameObj(component->goID, component->GetGameObject()->GetName().c_str());
 		audioComponents.push_back(component);
+
+		//LOG_CONSOLE("[AudioSource] Registering goID %llu for object %s", (unsigned long long)component->goID, component->GetGameObject()->GetName());
 	}
 	void UnregisterAudioComponent(AudioComponent* component) {
 		if (!component) return;

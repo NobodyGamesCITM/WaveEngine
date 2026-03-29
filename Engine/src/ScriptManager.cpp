@@ -232,7 +232,11 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"1", SDL_SCANCODE_1}, {"2", SDL_SCANCODE_2}, {"3", SDL_SCANCODE_3},
     {"4", SDL_SCANCODE_4}, {"5", SDL_SCANCODE_5}, {"6", SDL_SCANCODE_6},
     {"7", SDL_SCANCODE_7}, {"8", SDL_SCANCODE_8}, {"9", SDL_SCANCODE_9},
-    {"0", SDL_SCANCODE_0}, {"P", SDL_SCANCODE_P},
+	{"0", SDL_SCANCODE_0}, {"P", SDL_SCANCODE_P}, {"F1", SDL_SCANCODE_F1},
+	{"F2", SDL_SCANCODE_F2}, {"F3", SDL_SCANCODE_F3}, {"F4", SDL_SCANCODE_F4},
+	{"F5", SDL_SCANCODE_F5}, {"F6", SDL_SCANCODE_F6}, {"F7", SDL_SCANCODE_F7},
+	{"F8", SDL_SCANCODE_F8}, {"F9", SDL_SCANCODE_F9}, {"F10", SDL_SCANCODE_F10},
+	{"F11", SDL_SCANCODE_F11}, {"F12", SDL_SCANCODE_F12}
 };
 
 static int Lua_Input_GetKey(lua_State* L) {
@@ -712,6 +716,23 @@ static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     AK::SoundEngine::RenderAudio();
     return 0;
 }
+
+static int  Lua_Audio_StopAudioEvent(lua_State* L) {
+    lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
+    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    std::wstring wEventName(source->eventName.begin(), source->eventName.end());
+    Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
+    return 0;
+}
+
+static int Lua_Audio_SetSourceVolume(lua_State* L) {
+    float volume = luaL_checknumber(L, 1);
+    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, source->goID);
+
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
 // UI
 // UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
@@ -848,8 +869,12 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetMusicState");
     lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
     lua_setfield(L, -2, "PlayAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
+    lua_setfield(L, -2, "StopAudioEvent");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
+    lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
+    lua_setfield(L, -2, "SetSourceVolume");
     lua_setglobal(L, "Audio");
 
     
@@ -1140,7 +1165,7 @@ static int Lua_GameObject_SetPersistency(lua_State* L)
     }
 
     GameObject* obj = *udata;
-    obj->SetPersistency(isPersistent);
+    //obj->SetPersistency(isPersistent);
 
     return 0;
 }
@@ -1180,6 +1205,50 @@ static int Lua_GameObject_Find(lua_State* L) {
 
     luaL_getmetatable(L, "GameObject");
     lua_setmetatable(L, -2);
+
+    return 1;
+}
+
+static int Lua_GameObject_FindByTag(lua_State* L) {
+    const char* tag = luaL_checkstring(L, 1);
+
+    GameObject* root = Application::GetInstance().scene->GetRoot();
+    if (!root) {
+        lua_pushnil(L);
+        return 1;
+    }
+    std::vector<GameObject*> results;
+
+    std::function<void (GameObject*, const std::string&)> findByTag;
+    findByTag = [&](GameObject* node, const std::string& targetTag) {
+        if (node->GetTag() == targetTag) {
+            results.push_back(node);
+        }
+        for (GameObject* child : node->GetChildren()) {
+            findByTag(child, targetTag);
+        }
+     };
+
+    findByTag(root, tag);
+
+    if (results.empty()) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    // Crear tabla Lua
+    lua_newtable(L);
+
+    int index = 1;
+    for (GameObject* obj : results) {
+        GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+        *udata = obj;
+
+        luaL_getmetatable(L, "GameObject");
+        lua_setmetatable(L, -2);
+
+        lua_rawseti(L, -2, index++);
+    }
 
     return 1;
 }
@@ -1870,11 +1939,10 @@ void ScriptManager::RegisterGameObjectAPI() {
     lua_pushcfunction(L, Lua_GameObject_Find);
     lua_setfield(L, -2, "Find");
 
-
+    lua_pushcfunction(L, Lua_GameObject_FindByTag);
+    lua_setfield(L, -2, "FindByTag");
 
     lua_setglobal(L, "GameObject");
-
-   
 
     LOG_CONSOLE("[ScriptManager] GameObject API registered");
 }

@@ -1,18 +1,26 @@
-
 public = {
-    sequenceId = "intro" 
+    radius     = 3.0,
+    sequenceId = "intro",
 }
 
 local triggered = false
-function Start(self)
-    Engine.Log("[DialogTrigger] Script cargado, sequenceId: " .. tostring(self.public.sequenceId))
-end 
 
-function OnTriggerEnter(self, other)
+function Update(self, dt)
     if triggered then return end
-    if other:CompareTag("Player") then
+
+    local player = GameObject.Find("Player")
+    if not player then return end
+
+    local myPos     = self.transform.worldPosition
+    local playerPos = player.transform.worldPosition
+
+    local dx = myPos.x - playerPos.x
+    local dz = myPos.z - playerPos.z
+    local dist = math.sqrt(dx*dx + dz*dz)
+
+    if dist < self.public.radius then
         triggered = true
-        _DialogSystem_pendingSequence = self.public.sequenceId
-        Engine.Log("[DialogTrigger] Trigger activado: " .. self.public.sequenceId)
+        TriggerSequence(self.public.sequenceId)
+        Engine.Log("[DialogTrigger] Activado: " .. self.public.sequenceId)
     end
 end

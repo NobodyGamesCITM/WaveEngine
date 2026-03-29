@@ -28,6 +28,7 @@
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include <Common/AkGeneratedSoundBanksResolver.h>
 #include <AK/Plugin/AkRoomVerbFXFactory.h>
+#include <AK/Plugin/AkTimeStretchFXFactory.h>
 #include <windows.h>
 
 AudioEvent::AudioEvent() {
@@ -268,6 +269,8 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
         if (audioEvents[i]->playingID == 0L)
         {
             AK::SoundEngine::PostEvent(event, goID, AkCallbackType::AK_EndOfEvent, audioEvents[i]->eventCallback, (void*)audioEvents[i]);
+            //LOG_CONSOLE("PostEvent goID: %llu", (unsigned long long)goID);
+
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
             audioEvents[i]->playingID = 1L; //1L = event slot is now taken
 
@@ -275,6 +278,7 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
         }
     }
     if (enableDebugLogs) LOG_DEBUG("Maximum amount of audio events at the same time reached: %d", MAX_AUDIO_EVENTS);
+
 }
 
 
@@ -295,6 +299,18 @@ void AudioSystem::PlayEvent(const wchar_t* eventName, AkGameObjectID goID)
 void AudioSystem::StopEvent(AkUniqueID event, AkGameObjectID goID) {
     AK::SoundEngine::ExecuteActionOnEvent(event, AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop, goID);
     if (enableDebugLogs) LOG_DEBUG("Stopping event from %d audiogameobject", goID);
+}
+
+// wrapper for string version of StopEvent
+void AudioSystem::StopEvent(const wchar_t* eventName, AkGameObjectID goID)
+{
+    AkUniqueID eventID = AK::SoundEngine::GetIDFromString(eventName);
+    if (eventID == AK_INVALID_UNIQUE_ID)
+    {
+        LOG_CONSOLE("Wwise Error: Event name '%ls' not found!", eventName);
+        return;
+    }
+    StopEvent(eventID, goID);
 }
 
 void AudioSystem::PauseEvent(AkUniqueID event, AkGameObjectID goID) {
@@ -379,6 +395,10 @@ void AudioSystem::SetSFXVolume(int vol) {
 //void AudioSystem::SetDialogVolume(int vol) {
 //    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::DIALOG_VOLUME, (AkRtpcValue)vol);
 //}
+void AudioSystem::SetAudioSourceVolume(float vol, AkGameObjectID goID) {
+    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)vol, goID);
+}
+
 
 // Reverb zone registration
 void AudioSystem::RegisterReverbZone(ReverbZone* zone)

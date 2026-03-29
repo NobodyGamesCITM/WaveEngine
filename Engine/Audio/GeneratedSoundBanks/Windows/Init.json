@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{EAD033B3-DC5A-3A8B-7F51-EE267EF38170}",
+    "Hash": "{B16F2250-760B-C6B4-356C-9F87FD8700DA}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -391,6 +391,12 @@
       "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type",
       "GUID": "{DBA9047E-FC14-4AF3-A510-8FCFF1786D4E}",
       "Switches": [
+       {
+        "Id": "1216965916",
+        "Name": "Stone",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Stone",
+        "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
+       },
        {
         "Id": "2195636714",
         "Name": "Dirt",
@@ -891,6 +897,6 @@
     ]
    }
   ],
-  "FileHash": "{52A8F1F2-8393-DFE0-DBDE-F662E05F94E9}"
+  "FileHash": "{1FE4091A-96F0-423F-C80C-013AC8EC437A}"
  }
 }

@@ -3887,6 +3887,28 @@
                     ],
                     "scriptUID": 17781908272799701194,
                     "type": 6
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "offsetX",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "offsetY",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "offsetZ",
+                            "type": 0,
+                            "value": 0.0
+                        }
+                    ],
+                    "scriptUID": 5857344251750767850,
+                    "type": 6
                 }
             ],
             "name": "Player",
@@ -12798,7 +12820,7 @@
                                 }
                             ],
                             "name": "Estatua_Athenea",
-                            "tag": "",
+                            "tag": "CheckPoint",
                             "uid": 16350754621935082964
                         },
                         {
@@ -16101,7 +16123,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 4211985462679034116,
+                                    "materialUID": 15591573683686920639,
                                     "type": 3
                                 },
                                 {
@@ -18054,10 +18076,15 @@
                                     "active": true,
                                     "meshUID": 4779887813102112744,
                                     "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "materialUID": 9252118491625162541,
+                                    "type": 3
                                 }
                             ],
                             "name": "Buho_copy_copy",
-                            "tag": "",
+                            "tag": "CheckPoint",
                             "uid": 16761481745986902625
                         },
                         {
@@ -18251,7 +18278,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 4211985462679034116,
+                                    "materialUID": 15591573683686920639,
                                     "type": 3
                                 },
                                 {
@@ -25380,6 +25407,15 @@
                     "Trigger": false,
                     "active": true,
                     "type": 10
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 0,
+                    "active": true,
+                    "type": 24
                 }
             ],
             "name": "Cube_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
@@ -25456,6 +25492,15 @@
                     "UseGravity": true,
                     "active": true,
                     "type": 8
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 0,
+                    "active": true,
+                    "type": 24
                 }
             ],
             "name": "Cube_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
@@ -27851,6 +27896,15 @@
                     "Trigger": false,
                     "active": true,
                     "type": 10
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 0,
+                    "active": true,
+                    "type": 24
                 }
             ],
             "name": "Cube_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy_copy",
@@ -35411,6 +35465,1222 @@
             "prefabInstance": 15556239472820199089,
             "tag": "",
             "uid": 7251578695807719722
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 15715851177751115676,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 10566465044347031744,
+                            "type": 3
+                        },
+                        {
+                            "Animations": [
+                                {
+                                    "UID": 6427742153822048973,
+                                    "loop": true,
+                                    "name": "TestAnim",
+                                    "speed": 1.0
+                                }
+                            ],
+                            "active": true,
+                            "type": 28
+                        },
+                        {
+                            "Center": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "DynamicFriction": 0.5,
+                            "Radius": 300.0,
+                            "Restitution": 0.6000000238418579,
+                            "StaticFriction": 0.5,
+                            "Trigger": true,
+                            "active": true,
+                            "type": 11
+                        },
+                        {
+                            "active": true,
+                            "scriptUID": 12749869038866807971,
+                            "type": 6
+                        }
+                    ],
+                    "name": "Mesh_noTags",
+                    "tag": "",
+                    "uid": 5615070729971936646
+                },
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonSwordSlash",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_KopisSource",
+                            "tag": "",
+                            "uid": 3530833089126068770
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.0,
+                                        9.05145263671875,
+                                        -79.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        0.023659182712435722,
+                                        0.023659182712435722,
+                                        0.023659182712435722
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonHit",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_HurtSource",
+                            "tag": "",
+                            "uid": 16770670031494727987
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.496843338012695,
+                                        9.265603065490723,
+                                        -80.86907196044922
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        0.0005597569397650659,
+                                        0.0005597569397650659,
+                                        0.0005597569397650659
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonDie",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_DieSource",
+                            "tag": "",
+                            "uid": 12281624253570641684
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.50859832763672,
+                                        9.270668983459473,
+                                        -80.91329956054688
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.3243391549622174e-05,
+                                        1.3243391549622174e-05,
+                                        1.3243391549622174e-05
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonDodge",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_DodgeSource",
+                            "tag": "",
+                            "uid": 9864639113898748572
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "AudioSources",
+                    "tag": "",
+                    "uid": 3989489819458081878
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        177.08738708496094,
+                        10.142256736755371,
+                        -105.51502227783203
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.023659182712435722,
+                        0.023659182712435722,
+                        0.023659182712435722
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "combatApproachTime",
+                            "type": 0,
+                            "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "dirSmoothing",
+                            "type": 0,
+                            "value": 12.0
+                        },
+                        {
+                            "name": "chaseUpdateRate",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "orbitSpeed",
+                            "type": 0,
+                            "value": 4.5
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "lungeForce",
+                            "type": 0,
+                            "value": 18.0
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "facePlayerSpeed",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "dashForce",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "chaseRange",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "dodgeChance",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        }
+                    ],
+                    "scriptUID": 2354537265489101487,
+                    "type": 6
+                },
+                {
+                    "Center": [
+                        0.0,
+                        50.0,
+                        30.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        40.0,
+                        90.0,
+                        40.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": true,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "Center": [
+                        0.0,
+                        40.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Radius": 40.0,
+                    "Restitution": 0.6000000238418579,
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 11
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        true,
+                        true,
+                        true
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 1,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "LinkedSurfaceUID": 2708762273834769323,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 1,
+                    "active": true,
+                    "type": 24
+                }
+            ],
+            "name": "Skeleton",
+            "prefabInstance": 15556239472820199089,
+            "tag": "",
+            "uid": 16380496535417350003
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 15715851177751115676,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 10566465044347031744,
+                            "type": 3
+                        },
+                        {
+                            "Animations": [
+                                {
+                                    "UID": 6427742153822048973,
+                                    "loop": true,
+                                    "name": "TestAnim",
+                                    "speed": 1.0
+                                }
+                            ],
+                            "active": true,
+                            "type": 28
+                        },
+                        {
+                            "Center": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "DynamicFriction": 0.5,
+                            "Radius": 300.0,
+                            "Restitution": 0.6000000238418579,
+                            "StaticFriction": 0.5,
+                            "Trigger": true,
+                            "active": true,
+                            "type": 11
+                        },
+                        {
+                            "active": true,
+                            "scriptUID": 12749869038866807971,
+                            "type": 6
+                        }
+                    ],
+                    "name": "Mesh_noTags",
+                    "tag": "",
+                    "uid": 16911728573026641147
+                },
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonSwordSlash",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_KopisSource",
+                            "tag": "",
+                            "uid": 13605575452926863113
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.0,
+                                        9.05145263671875,
+                                        -79.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        0.023659182712435722,
+                                        0.023659182712435722,
+                                        0.023659182712435722
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonHit",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_HurtSource",
+                            "tag": "",
+                            "uid": 10693310574416425731
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.496843338012695,
+                                        9.265603065490723,
+                                        -80.86907196044922
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        0.0005597569397650659,
+                                        0.0005597569397650659,
+                                        0.0005597569397650659
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonDie",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_DieSource",
+                            "tag": "",
+                            "uid": 5970272958692774368
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        21.50859832763672,
+                                        9.270668983459473,
+                                        -80.91329956054688
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.3243391549622174e-05,
+                                        1.3243391549622174e-05,
+                                        1.3243391549622174e-05
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SkeletonDodge",
+                                    "playOnAwake": false,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "SK_DodgeSource",
+                            "tag": "",
+                            "uid": 4104781694217321965
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "AudioSources",
+                    "tag": "",
+                    "uid": 14750279361195077181
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        120.89006805419922,
+                        18.669593811035156,
+                        -138.53109741210938
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.023659182712435722,
+                        0.023659182712435722,
+                        0.023659182712435722
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "idleWaitTime",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "combatApproachTime",
+                            "type": 0,
+                            "value": 1.2000000476837158
+                        },
+                        {
+                            "name": "dirSmoothing",
+                            "type": 0,
+                            "value": 12.0
+                        },
+                        {
+                            "name": "chaseUpdateRate",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "orbitSpeed",
+                            "type": 0,
+                            "value": 4.5
+                        },
+                        {
+                            "name": "orbitRadius",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "lungeForce",
+                            "type": 0,
+                            "value": 18.0
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "facePlayerSpeed",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "patrolRadius",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "dashForce",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "chaseRange",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "dodgeChance",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "attackRange",
+                            "type": 0,
+                            "value": 2.0
+                        }
+                    ],
+                    "scriptUID": 2354537265489101487,
+                    "type": 6
+                },
+                {
+                    "Center": [
+                        0.0,
+                        50.0,
+                        30.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        40.0,
+                        90.0,
+                        40.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": true,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "Center": [
+                        0.0,
+                        40.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Radius": 40.0,
+                    "Restitution": 0.6000000238418579,
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 11
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        true,
+                        true,
+                        true
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 1,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "ArrivalThreshold": 0.25,
+                    "IsStatic": true,
+                    "LinkedSurfaceUID": 15608753017578426401,
+                    "MaxSlope": 35.0,
+                    "MoveSpeed": 5.0,
+                    "NavType": 1,
+                    "active": true,
+                    "type": 24
+                }
+            ],
+            "name": "Skeleton",
+            "prefabInstance": 15556239472820199089,
+            "tag": "",
+            "uid": 612038759409321300
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [
+                                {
+                                    "active": true,
+                                    "children": [
+                                        {
+                                            "active": true,
+                                            "children": [
+                                                {
+                                                    "active": true,
+                                                    "children": [],
+                                                    "components": [
+                                                        {
+                                                            "active": true,
+                                                            "position": [
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            ],
+                                                            "rotation": [
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            ],
+                                                            "scale": [
+                                                                1.0,
+                                                                1.0,
+                                                                1.0
+                                                            ],
+                                                            "type": 0
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "meshUID": 7626191030006950908,
+                                                            "type": 1
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "materialUID": 13826263070434852156,
+                                                            "type": 3
+                                                        }
+                                                    ],
+                                                    "name": "Buho",
+                                                    "tag": "",
+                                                    "uid": 18362194743969784502
+                                                }
+                                            ],
+                                            "components": [
+                                                {
+                                                    "active": true,
+                                                    "position": [
+                                                        -5.0,
+                                                        7.549789415861596e-08,
+                                                        -1.0
+                                                    ],
+                                                    "rotation": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ],
+                                                    "scale": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "type": 0
+                                                }
+                                            ],
+                                            "name": "Buho_$AssimpFbx$_ScalingPivotInverse",
+                                            "tag": "",
+                                            "uid": 2214536458128347122
+                                        }
+                                    ],
+                                    "components": [
+                                        {
+                                            "active": true,
+                                            "position": [
+                                                5.0,
+                                                -7.549789415861596e-08,
+                                                1.0
+                                            ],
+                                            "rotation": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "scale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "type": 0
+                                        }
+                                    ],
+                                    "name": "Buho_$AssimpFbx$_ScalingPivot",
+                                    "tag": "",
+                                    "uid": 11963944287223282620
+                                }
+                            ],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        -5.0,
+                                        7.549789415861596e-08,
+                                        -1.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                }
+                            ],
+                            "name": "Buho_$AssimpFbx$_RotationPivotInverse",
+                            "tag": "",
+                            "uid": 7034933047768828063
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                5.0,
+                                -7.549789415861596e-08,
+                                1.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 13826263070434852156,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Buho_$AssimpFbx$_RotationPivot",
+                    "tag": "",
+                    "uid": 8195042692029029446
+                },
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [
+                                {
+                                    "active": true,
+                                    "children": [
+                                        {
+                                            "active": true,
+                                            "children": [
+                                                {
+                                                    "active": true,
+                                                    "children": [],
+                                                    "components": [
+                                                        {
+                                                            "active": true,
+                                                            "position": [
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            ],
+                                                            "rotation": [
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            ],
+                                                            "scale": [
+                                                                1.0,
+                                                                1.0,
+                                                                1.0
+                                                            ],
+                                                            "type": 0
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "meshUID": 15495726044659211453,
+                                                            "type": 1
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "materialUID": 13826263070434852156,
+                                                            "type": 3
+                                                        }
+                                                    ],
+                                                    "name": "Base",
+                                                    "tag": "",
+                                                    "uid": 3057182349005699588
+                                                }
+                                            ],
+                                            "components": [
+                                                {
+                                                    "active": true,
+                                                    "position": [
+                                                        -5.0,
+                                                        7.549789415861596e-08,
+                                                        -1.0
+                                                    ],
+                                                    "rotation": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ],
+                                                    "scale": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "type": 0
+                                                }
+                                            ],
+                                            "name": "Base_$AssimpFbx$_ScalingPivotInverse",
+                                            "tag": "",
+                                            "uid": 2066163382189725525
+                                        }
+                                    ],
+                                    "components": [
+                                        {
+                                            "active": true,
+                                            "position": [
+                                                5.0,
+                                                -7.549789415861596e-08,
+                                                1.0
+                                            ],
+                                            "rotation": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "scale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "type": 0
+                                        }
+                                    ],
+                                    "name": "Base_$AssimpFbx$_ScalingPivot",
+                                    "tag": "",
+                                    "uid": 7686615310427854858
+                                }
+                            ],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        -5.0,
+                                        7.549789415861596e-08,
+                                        -1.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                }
+                            ],
+                            "name": "Base_$AssimpFbx$_RotationPivotInverse",
+                            "tag": "",
+                            "uid": 12007728934687198796
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                5.0,
+                                -7.549789415861596e-08,
+                                1.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 9252118491625162541,
+                            "type": 3
+                        }
+                    ],
+                    "name": "Base_$AssimpFbx$_RotationPivot",
+                    "tag": "",
+                    "uid": 2841118660204457901
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        146.28182983398438,
+                        27.773252487182617,
+                        -221.2187042236328
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.26866844296455383,
+                        0.26866844296455383,
+                        0.26866844296455383
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "materialUID": 9252118491625162541,
+                    "type": 3
+                }
+            ],
+            "name": "Estatua_Athenea UVs",
+            "tag": "CheckPoint",
+            "uid": 16496010674082904463
         }
     ],
     "version": 1

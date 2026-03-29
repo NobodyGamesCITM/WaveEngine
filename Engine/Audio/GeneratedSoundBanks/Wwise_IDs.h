@@ -22,7 +22,12 @@ namespace AK
         static const AkUniqueID SFX_PLAYERDEATH = 1000127844U;
         static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;
         static const AkUniqueID SFX_PLAYERHIT = 515751749U;
+        static const AkUniqueID SFX_SIRENDIE = 4188719418U;
+        static const AkUniqueID SFX_SIRENDIP = 4188719407U;
+        static const AkUniqueID SFX_SIRENHURT = 3651743467U;
+        static const AkUniqueID SFX_SIRENSING = 2050401325U;
         static const AkUniqueID SFX_SKELETONDIE = 1939684258U;
+        static const AkUniqueID SFX_SKELETONDODGE = 2400499341U;
         static const AkUniqueID SFX_SKELETONHIT = 1803491951U;
         static const AkUniqueID SFX_SKELETONSTEPS = 2660566025U;
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;

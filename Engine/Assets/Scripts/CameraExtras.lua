@@ -49,6 +49,11 @@ local function Init(self)
     playerTransform = playerObj.transform
 
 	--Audio.SetMusicState("Level1")
+	local musicSource = self.gameObject:GetComponent("Audio Source")
+	if musicSource then 
+		musicSource:PlayAudioEvent()
+	end
+
 
     -- Compute initial world offset
     local camPos    = self.transform.worldPosition
@@ -155,6 +160,9 @@ function Update(self, dt)
     UpdateShake(self, dt)
     UpdateFollow(self, dt)
 end
+
+
+
 
 
 

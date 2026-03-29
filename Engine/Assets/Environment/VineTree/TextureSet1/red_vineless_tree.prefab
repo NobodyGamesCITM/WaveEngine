@@ -1,0 +1,40 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -4.0,
+                    0.0,
+                    -5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -74.99998474121094,
+                    0.0
+                ],
+                "scale": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "meshUID": 13698950775776956286,
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 12183654795958153561,
+                "type": 3
+            }
+        ],
+        "name": "red_vineless_tree",
+        "tag": "",
+        "uid": 513014778011028580
+    }
+]

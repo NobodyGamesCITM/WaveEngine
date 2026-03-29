@@ -28,6 +28,7 @@
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include <Common/AkGeneratedSoundBanksResolver.h>
 #include <AK/Plugin/AkRoomVerbFXFactory.h>
+#include <AK/Plugin/AkTimeStretchFXFactory.h>
 #include <windows.h>
 
 AudioEvent::AudioEvent() {
@@ -298,6 +299,18 @@ void AudioSystem::PlayEvent(const wchar_t* eventName, AkGameObjectID goID)
 void AudioSystem::StopEvent(AkUniqueID event, AkGameObjectID goID) {
     AK::SoundEngine::ExecuteActionOnEvent(event, AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop, goID);
     if (enableDebugLogs) LOG_DEBUG("Stopping event from %d audiogameobject", goID);
+}
+
+// wrapper for string version of StopEvent
+void AudioSystem::StopEvent(const wchar_t* eventName, AkGameObjectID goID)
+{
+    AkUniqueID eventID = AK::SoundEngine::GetIDFromString(eventName);
+    if (eventID == AK_INVALID_UNIQUE_ID)
+    {
+        LOG_CONSOLE("Wwise Error: Event name '%ls' not found!", eventName);
+        return;
+    }
+    StopEvent(eventID, goID);
 }
 
 void AudioSystem::PauseEvent(AkUniqueID event, AkGameObjectID goID) {

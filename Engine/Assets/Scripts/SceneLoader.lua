@@ -10,18 +10,11 @@ local scenesPath = Engine.GetScenesPath()
 --local isPlaying = false
 
 function Start(self)
-	--self.gameObject:SetPersistency(1)
-	--musicSource = self.gameObject:GetComponent("Audio Source")
-	--Audio.SetMusicState("MainMenu")
 
-	
-	
 end
 
 
 function Update(self, dt)
-
-	
     
     if Input.GetKeyDown("1") then
 		--Audio.SetMusicState("MainMenu")
@@ -32,14 +25,6 @@ function Update(self, dt)
 		--Audio.SetMusicState("Level1")
         Engine.LoadScene(scenesPath, self.public.temp2)
 
-
     end
 end
-
-
-
-
-
-
-
 

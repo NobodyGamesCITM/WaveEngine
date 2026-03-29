@@ -10,11 +10,19 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{7B353D89-D16F-F815-7734-0F548F3471B5}",
+    "Hash": "{569C2D27-9D41-F320-19E3-A2DAF2C3FBE0}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
     "Media": [
+     {
+      "Id": "44994569",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "water_out.wav",
+      "CachePath": "50/{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem"
+     },
      {
       "Id": "58585186",
       "Language": "SFX",
@@ -85,7 +93,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "floraphonic-minimal-pop-click-ui-4-198304.wav",
-      "CachePath": "45/{45D72D5D-5D5C-57D8-77BA-DB761C569F9F}.wem"
+      "CachePath": "14/{145A255B-AD7B-ECC4-3142-80DA7105D668}.wem"
      },
      {
       "Id": "156508010",
@@ -190,6 +198,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_walk_06.wav",
       "CachePath": "CC/{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem"
+     },
+     {
+      "Id": "353618428",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "dodge_swoosh.wav",
+      "CachePath": "C8/{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem"
      },
      {
       "Id": "362843339",
@@ -400,6 +416,14 @@
       "CachePath": "47/{47B28077-6411-38F4-8407-242380E9024D}.wem"
      },
      {
+      "Id": "786202757",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "siren_sing.wav",
+      "CachePath": "CA/{CA2FD2A4-9365-887A-C847-414A5878E629}.wem"
+     },
+     {
       "Id": "786254834",
       "Language": "SFX",
       "Streaming": "false",
@@ -422,6 +446,14 @@
       "Location": "Memory",
       "ShortName": "mask_change.wav",
       "CachePath": "D0/{D08E576C-107D-5583-50CF-0F7F7379C941}.wem"
+     },
+     {
+      "Id": "823794324",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "siren_death.wav",
+      "CachePath": "52/{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem"
      },
      {
       "Id": "835964148",
@@ -541,7 +573,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "universfield-interface-124464.wav",
-      "CachePath": "79/{79AC3E9D-36A4-A1F5-AB81-EBF230F45EB5}.wem"
+      "CachePath": "6A/{6A65E023-E68E-3BFF-47C8-39D500E2C5D4}.wem"
      },
      {
       "Id": "1045497793",
@@ -558,15 +590,55 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_04.wav",
       "CachePath": "52/{528ACFC3-714E-8661-0F67-11DFD83C846C}.wem"
+     },
+     {
+      "Id": "1068516576",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "siren_hurt.wav",
+      "CachePath": "0E/{0E099494-E65B-B322-26E1-9C07531BA8FD}.wem"
      }
     ],
     "Plugins": {
      "Custom": [
       {
+       "Id": "1710998",
+       "Name": "Matrix Reverb (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_die\\[Effect Slot [0]: (Matrix Reverb)]\\Matrix Reverb (Custom)",
+       "GUID": "{51AF08FB-4626-41F4-B6BF-9791386BA3F5}",
+       "LibName": "Wwise Matrix Reverb",
+       "LibId": "7536643"
+      },
+      {
+       "Id": "215501508",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_water\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{C8E01705-A7B4-4146-8E37-1EDA5EB9A392}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
+       "Id": "457788401",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_sing\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{388303F6-6925-43C2-BB5A-874A187EF7EA}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
        "Id": "765864838",
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Skeleton\\skeleton_Die\\[Effect Slot [1]: (Time Stretch)]\\Time Stretch (Custom)",
        "GUID": "{3E106FDF-014E-4E3A-9BC9-6AE678D9DB8B}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
+       "Id": "1043131862",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_hurt\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{D974B4CE-964F-4D5F-9896-23DFAC73A0E1}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
       }
@@ -587,6 +659,14 @@
        "GUID": "{62CB7384-421D-4F9A-9CF1-E90F7336A07B}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
+      },
+      {
+       "Id": "2394809124",
+       "Name": "Very_Slow_Modulation",
+       "ObjectPath": "\\Effects\\Factory Effects\\Tremolo\\Very_Slow_Modulation",
+       "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
+       "LibName": "Wwise Tremolo",
+       "LibId": "8585219"
       },
       {
        "Id": "2891462749",
@@ -642,7 +722,7 @@
      {
       "Id": "638756417",
       "Name": "MUS_BGM",
-      "ObjectPath": "\\Events\\Default Work Unit\\MUS_BGM",
+      "ObjectPath": "\\Events\\Default Work Unit\\Music\\MUS_BGM",
       "GUID": "{6921382D-4CAF-4D5A-B5F9-AF66E9C46744}",
       "DurationType": "Infinite",
       "SwitchContainers": [
@@ -697,13 +777,26 @@
           "Id": "117517246"
          }
         ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "0",
+         "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "146545938"
+         }
+        ]
        }
       ]
      },
      {
       "Id": "1263671132",
       "Name": "SFX_ItemPickup",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_ItemPickup",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ItemPickup",
       "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -718,7 +811,7 @@
      {
       "Id": "3212792312",
       "Name": "SFX_MansionAmbience",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_MansionAmbience",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_MansionAmbience",
       "GUID": "{D8092CF2-62B7-4F0B-B962-689E720F0947}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -731,7 +824,7 @@
      {
       "Id": "115335488",
       "Name": "SFX_Mask_PickUp",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_Mask_PickUp",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_Mask_PickUp",
       "GUID": "{E0980B18-F280-4D87-B820-788C5140CDAE}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -746,7 +839,7 @@
      {
       "Id": "4011307621",
       "Name": "SFX_MaskChange",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_MaskChange",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_MaskChange",
       "GUID": "{6F7924D3-404C-4878-8045-8C6184257404}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -761,7 +854,7 @@
      {
       "Id": "3758894654",
       "Name": "SFX_PlayerAttack",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerAttack",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerAttack",
       "GUID": "{1DC59726-223E-49EA-890E-78DBB7650DEB}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -779,7 +872,7 @@
      {
       "Id": "1000127844",
       "Name": "SFX_PlayerDeath",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerDeath",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerDeath",
       "GUID": "{56BB4187-8021-42D9-8DEF-1666D2D720E3}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -794,7 +887,7 @@
      {
       "Id": "724467519",
       "Name": "SFX_PlayerFootSteps",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerFootSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerFootSteps",
       "GUID": "{124A9E6E-4896-44A7-A67E-FECF644D2CE8}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1074,7 +1167,7 @@
      {
       "Id": "515751749",
       "Name": "SFX_PlayerHit",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_PlayerHit",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerHit",
       "GUID": "{AFE45752-2A63-4E96-95C4-6D38F3FA801F}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1087,9 +1180,100 @@
       ]
      },
      {
+      "Id": "4188719418",
+      "Name": "SFX_SirenDie",
+      "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenDie",
+      "GUID": "{E791CBC6-D4D4-4D83-8063-AF76692411BA}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.9540625",
+      "DurationMax": "0.9540625",
+      "MediaRefs": [
+       {
+        "Id": "823794324"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "1710998"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "4188719407",
+      "Name": "SFX_SirenDip",
+      "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenDip",
+      "GUID": "{2EBF8624-7D76-470C-8C76-DB8780E16211}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.9324036",
+      "DurationMax": "0.9324036",
+      "MediaRefs": [
+       {
+        "Id": "44994569"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "215501508"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "3651743467",
+      "Name": "SFX_SirenHurt",
+      "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenHurt",
+      "GUID": "{97204195-8C58-4830-AF5D-F1BD949098CC}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.3443986",
+      "DurationMax": "0.3443986",
+      "MediaRefs": [
+       {
+        "Id": "1068516576"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "1043131862"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "2394809124"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2050401325",
+      "Name": "SFX_SirenSing",
+      "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenSing",
+      "GUID": "{5340AF50-44EE-44EA-AB52-116A544241FB}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "786202757"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "457788401"
+        }
+       ]
+      }
+     },
+     {
       "Id": "1939684258",
       "Name": "SFX_SkeletonDie",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonDie",
+      "ObjectPath": "\\Events\\Default Work Unit\\Skeleton\\SFX_SkeletonDie",
       "GUID": "{4EBB27EA-7D02-4A1F-86B5-A61D1695B5C1}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1114,9 +1298,24 @@
       }
      },
      {
+      "Id": "2400499341",
+      "Name": "SFX_SkeletonDodge",
+      "ObjectPath": "\\Events\\Default Work Unit\\Skeleton\\SFX_SkeletonDodge",
+      "GUID": "{DA76B251-C881-42D8-83F3-5DBFC2F4E27A}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.36760736",
+      "DurationMax": "0.5835403",
+      "MediaRefs": [
+       {
+        "Id": "353618428"
+       }
+      ]
+     },
+     {
       "Id": "1803491951",
       "Name": "SFX_SkeletonHit",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonHit",
+      "ObjectPath": "\\Events\\Default Work Unit\\Skeleton\\SFX_SkeletonHit",
       "GUID": "{A037AFEA-4E4D-4D0C-B300-90505F93E833}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1131,12 +1330,12 @@
      {
       "Id": "2660566025",
       "Name": "SFX_SkeletonSteps",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\Skeleton\\SFX_SkeletonSteps",
       "GUID": "{24A18DDB-708D-4647-93D0-41A7F1628ED1}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.3945009",
-      "DurationMax": "0.44281235",
+      "DurationMin": "0.4377262",
+      "DurationMax": "0.491331",
       "MediaRefs": [
        {
         "Id": "663484052"
@@ -1146,7 +1345,7 @@
      {
       "Id": "1619547218",
       "Name": "SFX_SkeletonSwordSlash",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_SkeletonSwordSlash",
+      "ObjectPath": "\\Events\\Default Work Unit\\Skeleton\\SFX_SkeletonSwordSlash",
       "GUID": "{C82EF090-9042-46C0-BD2A-E42CC9C63497}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1161,7 +1360,7 @@
      {
       "Id": "3020549885",
       "Name": "SFX_TorchFire",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_TorchFire",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_TorchFire",
       "GUID": "{D448BFDB-F7C2-4599-97EF-D05104A452FB}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -1174,7 +1373,7 @@
      {
       "Id": "3983796901",
       "Name": "SFX_TreeAmbience",
-      "ObjectPath": "\\Events\\Default Work Unit\\SFX_TreeAmbience",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_TreeAmbience",
       "GUID": "{F5975989-9429-4748-8BED-740280664212}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -1189,7 +1388,7 @@
      {
       "Id": "416781375",
       "Name": "UI_ButtonPress",
-      "ObjectPath": "\\Events\\Default Work Unit\\UI_ButtonPress",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
       "DurationType": "OneShot",
       "DurationMin": "0.92673016",
@@ -1203,7 +1402,7 @@
      {
       "Id": "2295055714",
       "Name": "UI_ButtonSelect",
-      "ObjectPath": "\\Events\\Default Work Unit\\UI_ButtonSelect",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
       "DurationType": "OneShot",
       "DurationMin": "0.09173328",
@@ -1469,6 +1668,6 @@
     ]
    }
   ],
-  "FileHash": "{C3F8A2B8-1E64-454A-74BE-E72F829B6AC5}"
+  "FileHash": "{5D8B15D9-A0E2-429B-00B2-8A66B68F7EEC}"
  }
 }

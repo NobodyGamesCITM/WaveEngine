@@ -74,6 +74,7 @@ local Player = {
     itemPickSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
+    foundSurface    = false,
     
     -- Hermes mask
     respawnPos       = nil,
@@ -733,7 +734,7 @@ function Start(self)
 	end
 
     if not Player.itemPickSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
+		Engine.Log("[PLAYER AUDIO] Unable to retrieve itemSource") 
 	end
 
     Player.currentSurface = "Dirt" --default surface
@@ -978,14 +979,20 @@ function ResetPlayer(self)
 end
 
 
-local surfaces = {"Grass", "Water", "Dirt"}
+local surfaces = {"Grass", "Water", "Dirt", "Stone"}
 
 function OnTriggerEnter(self, other)
-	for i, surface in ipairs(surfaces) do
-		if other:CompareTag(surface) then 
-			Player.currentSurface = surface
-		end
-	end
+    local matched = false
+    for i, surface in ipairs(surfaces) do
+        if other:CompareTag(surface) then 
+            Player.currentSurface = surface
+            Player.foundSurface = true
+        end
+    end
+    if not foundSurface then
+        Player.currentSurface = "Dirt"  -- default if no surface tag found
+        foundSurface = true
+    end
 end
 
 function OnTriggerExit(self, other) end
@@ -1020,3 +1027,4 @@ function OnCollisionExit(self, other)
         Player.isGrounded = false
     end
 end
+

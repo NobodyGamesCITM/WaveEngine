@@ -1,21 +1,26 @@
 Event	ID	Name			Wwise Object Path	Notes
-	115335488	SFX_Mask_PickUp			\Default Work Unit\SFX_Mask_PickUp	
-	416781375	UI_ButtonPress			\Default Work Unit\UI_ButtonPress	
-	515751749	SFX_PlayerHit			\Default Work Unit\SFX_PlayerHit	
-	638756417	MUS_BGM			\Default Work Unit\MUS_BGM	
-	724467519	SFX_PlayerFootSteps			\Default Work Unit\SFX_PlayerFootSteps	
-	1000127844	SFX_PlayerDeath			\Default Work Unit\SFX_PlayerDeath	
-	1263671132	SFX_ItemPickup			\Default Work Unit\SFX_ItemPickup	
-	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\SFX_SkeletonSwordSlash	
-	1803491951	SFX_SkeletonHit			\Default Work Unit\SFX_SkeletonHit	
-	1939684258	SFX_SkeletonDie			\Default Work Unit\SFX_SkeletonDie	
-	2295055714	UI_ButtonSelect			\Default Work Unit\UI_ButtonSelect	
-	2660566025	SFX_SkeletonSteps			\Default Work Unit\SFX_SkeletonSteps	
-	3020549885	SFX_TorchFire			\Default Work Unit\SFX_TorchFire	
-	3212792312	SFX_MansionAmbience			\Default Work Unit\SFX_MansionAmbience	
-	3758894654	SFX_PlayerAttack			\Default Work Unit\SFX_PlayerAttack	
-	3983796901	SFX_TreeAmbience			\Default Work Unit\SFX_TreeAmbience	
-	4011307621	SFX_MaskChange			\Default Work Unit\SFX_MaskChange	
+	115335488	SFX_Mask_PickUp			\Default Work Unit\Player\SFX_Mask_PickUp	
+	416781375	UI_ButtonPress			\Default Work Unit\Other\UI_ButtonPress	
+	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
+	638756417	MUS_BGM			\Default Work Unit\Music\MUS_BGM	
+	724467519	SFX_PlayerFootSteps			\Default Work Unit\Player\SFX_PlayerFootSteps	
+	1000127844	SFX_PlayerDeath			\Default Work Unit\Player\SFX_PlayerDeath	
+	1263671132	SFX_ItemPickup			\Default Work Unit\Player\SFX_ItemPickup	
+	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
+	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
+	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
+	2050401325	SFX_SirenSing			\Default Work Unit\Siren\SFX_SirenSing	
+	2295055714	UI_ButtonSelect			\Default Work Unit\Other\UI_ButtonSelect	
+	2400499341	SFX_SkeletonDodge			\Default Work Unit\Skeleton\SFX_SkeletonDodge	
+	2660566025	SFX_SkeletonSteps			\Default Work Unit\Skeleton\SFX_SkeletonSteps	
+	3020549885	SFX_TorchFire			\Default Work Unit\Other\SFX_TorchFire	
+	3212792312	SFX_MansionAmbience			\Default Work Unit\Other\SFX_MansionAmbience	
+	3651743467	SFX_SirenHurt			\Default Work Unit\Siren\SFX_SirenHurt	
+	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
+	3983796901	SFX_TreeAmbience			\Default Work Unit\Other\SFX_TreeAmbience	
+	4011307621	SFX_MaskChange			\Default Work Unit\Player\SFX_MaskChange	
+	4188719407	SFX_SirenDip			\Default Work Unit\Siren\SFX_SirenDip	
+	4188719418	SFX_SirenDie			\Default Work Unit\Siren\SFX_SirenDie	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
 	1062779386	Player_Speed			\Default Work Unit\Player_Speed	
@@ -62,9 +67,14 @@ Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	4165278950	Reverb_AluminumTank			\Default Work Unit\Main Audio Bus\Reverb_AluminumTank	
 
 Effect plug-ins	ID	Name	Type				Notes
+	1710998	Matrix Reverb (Custom)	Wwise Matrix Reverb			
 	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
+	215501508	Time Stretch (Custom)	Wwise Time Stretch			
+	457788401	Time Stretch (Custom)	Wwise Time Stretch			
 	765864838	Time Stretch (Custom)	Wwise Time Stretch			
+	1043131862	Time Stretch (Custom)	Wwise Time Stretch			
 	1144018367	Plate_Large	Wwise RoomVerb			
+	2394809124	Very_Slow_Modulation	Wwise Tremolo			
 	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
 	2900412812	Robotic_Trash	Wwise RoomVerb			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
@@ -73,6 +83,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	3442768367	Hall_Large_Dark	Wwise RoomVerb			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	44994569	siren_water	.cache\50\{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		46376
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
@@ -81,7 +92,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	124812761	water_run_06	.cache\4E\{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_06		7352
 	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
 	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
-	151597588	UI_ButtonSelected	.cache\45\{45D72D5D-5D5C-57D8-77BA-DB761C569F9F}.wem		\Containers\Default Work Unit\UI_ButtonSelected		4688
+	151597588	UI_ButtonSelected	.cache\14\{145A255B-AD7B-ECC4-3142-80DA7105D668}.wem		\Containers\Default Work Unit\UI_ButtonSelected		4688
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
@@ -95,6 +106,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
 	328752554	water_walk_04	.cache\52\{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_04		12824
 	333608203	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
+	353618428	skeleton_Dodge	.cache\C8\{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Dodge		11600
 	362843339	stone_run_01	.cache\13\{137B0283-6182-0727-3344-3A629EB6416C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_01		7604
 	406806222	stone_run_04	.cache\48\{48A8D97C-15AD-8CC1-C142-56AB8B4CFCC2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_04		7424
 	412634728	dirt_walk_02	.cache\B8\{B8205D44-66B6-C1F3-62B8-3F82E9E26058}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_02		14408
@@ -121,9 +133,11 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	680497514	stone_walk_05	.cache\29\{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_05		13400
 	699991876	sword_slice_hard	.cache\5C\{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_hard		25640
 	726491942	dirt_walk_05	.cache\47\{47B28077-6411-38F4-8407-242380E9024D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_05		13400
+	786202757	siren_sing	.cache\CA\{CA2FD2A4-9365-887A-C847-414A5878E629}.wem		\Containers\Default Work Unit\Objects\Siren\siren_sing		268712
 	786254834	grass_run_03	.cache\8A\{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_03		7532
 	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
 	794836068	Mask_Change	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Change		18800
+	823794324	siren_die	.cache\52\{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem		\Containers\Default Work Unit\Objects\Siren\siren_die		47456
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
@@ -138,7 +152,8 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	994023216	mansionAmbience	.cache\68\{6897335D-343C-DA09-0C5A-B425F621D239}.wem		\Containers\Default Work Unit\Objects\mansionAmbience		2415248
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
-	1040823208	UI_ButtonPressed	.cache\79\{79AC3E9D-36A4-A1F5-AB81-EBF230F45EB5}.wem		\Containers\Default Work Unit\UI_ButtonPressed		46168
+	1040823208	UI_ButtonPressed	.cache\6A\{6A65E023-E68E-3BFF-47C8-39D500E2C5D4}.wem		\Containers\Default Work Unit\UI_ButtonPressed		46168
 	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244
 	1065543167	stone_walk_04	.cache\52\{528ACFC3-714E-8661-0F67-11DFD83C846C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_04		12824
+	1068516576	siren_hurt	.cache\0E\{0E099494-E65B-B322-26E1-9C07531BA8FD}.wem		\Containers\Default Work Unit\Objects\Siren\siren_hurt		17216
 

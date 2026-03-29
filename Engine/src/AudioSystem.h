@@ -37,9 +37,9 @@ public:
 
 
 	void PlayEvent(AkUniqueID event, AkGameObjectID goID);
-
 	void PlayEvent(const wchar_t* eventName, AkGameObjectID goID);
 	void StopEvent(AkUniqueID event, AkGameObjectID goID);
+	void StopEvent(const wchar_t* eventName, AkGameObjectID goID);
 	void PauseEvent(AkUniqueID event, AkGameObjectID goID);
 	void ResumeEvent(AkUniqueID event, AkGameObjectID goID);
 

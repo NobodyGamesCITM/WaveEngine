@@ -137,7 +137,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.0947368144989014,
+                    "aspectRatio": 1.1087719202041626,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -154,14 +154,24 @@
                             "value": "Player"
                         },
                         {
-                            "name": "zoomSpeed",
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "zoomMax",
                             "type": 0,
                             "value": 3.0
                         },
                         {
-                            "name": "shakeFrequency",
+                            "name": "followSpeed",
                             "type": 0,
-                            "value": 25.0
+                            "value": 5.0
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
                         },
                         {
                             "name": "shakeDuration",
@@ -174,17 +184,7 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "zoomMax",
+                            "name": "zoomSpeed",
                             "type": 0,
                             "value": 3.0
                         }
@@ -7143,64 +7143,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "speed",
+                            "name": "rollDuration",
                             "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hpLossCost",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
+                            "value": 1.0
                         },
                         {
                             "name": "hermesWaterMax",
@@ -7208,59 +7153,9 @@
                             "value": 2.0
                         },
                         {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "tiredMultiplier",
                             "type": 0,
                             "value": 0.699999988079071
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "heavyStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
                         },
                         {
                             "name": "staminaRecover",
@@ -7268,14 +7163,29 @@
                             "value": 50.0
                         },
                         {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
                             "name": "hpRecover",
                             "type": 0,
                             "value": 30.0
                         },
                         {
-                            "name": "attackDuration",
+                            "name": "rollCooldownMax",
                             "type": 0,
-                            "value": 1.0
+                            "value": 0.5
                         },
                         {
                             "name": "rollStaminaCost",
@@ -7283,12 +7193,37 @@
                             "value": 25.0
                         },
                         {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
                             "name": "hitShakeDuration",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "usingStamina",
+                            "name": "speedHermesBonus",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "giveHermesMask",
                             "type": 2,
                             "value": false
                         },
@@ -7298,9 +7233,74 @@
                             "value": 0.5
                         },
                         {
-                            "name": "interact",
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "usingStamina",
                             "type": 2,
                             "value": false
+                        },
+                        {
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 30.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -12596,19 +12596,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "attackDamage",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "moveSpeed",
-                                    "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -12621,9 +12611,19 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "patrolRadius",
                                     "type": 0,
-                                    "value": 30.0
+                                    "value": 5.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "attackRange",
+                                    "type": 0,
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "idleWaitTime",
@@ -12631,14 +12631,54 @@
                                     "value": 3.0
                                 },
                                 {
+                                    "name": "orbitSpeed",
+                                    "type": 0,
+                                    "value": 4.5
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "attackRange",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 2.0
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
+                                },
+                                {
+                                    "name": "combatApproachTime",
+                                    "type": 0,
+                                    "value": 1.2000000476837158
+                                },
+                                {
+                                    "name": "attackDamage",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lungeForce",
+                                    "type": 0,
+                                    "value": 18.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "orbitRadius",
+                                    "type": 0,
+                                    "value": 3.0
                                 },
                                 {
                                     "name": "dashForce",
@@ -12649,21 +12689,6 @@
                                     "name": "knockbackForce",
                                     "type": 0,
                                     "value": 2.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
-                                },
-                                {
-                                    "name": "patrolRadius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 15.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -13056,7 +13081,7 @@
                             "type": 3
                         }
                     ],
-                    "name": "vineless_tree",
+                    "name": "red_vineless_tree",
                     "tag": "",
                     "uid": 513014778011028580
                 }
@@ -13101,9 +13126,9 @@
                                 0.0
                             ],
                             "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
+                                -0.03426395729184151,
+                                1.1672698363440759e-08,
+                                1.18310399557231e-05
                             ],
                             "scale": [
                                 0.4999995231628418,
@@ -13119,7 +13144,7 @@
                         },
                         {
                             "active": true,
-                            "materialUID": 12137249720297090298,
+                            "materialUID": 17583056351811808803,
                             "type": 3
                         }
                     ],
@@ -13133,23 +13158,23 @@
                     "active": true,
                     "position": [
                         0.0,
-                        11.0,
+                        12.0,
                         -44.0
                     ],
                     "rotation": [
                         0.0,
-                        89.98021697998047,
+                        90.0,
                         0.0
                     ],
                     "scale": [
-                        1.2000000476837158,
-                        1.2000000476837158,
-                        1.2000000476837158
+                        1.0800000429153442,
+                        1.0800000429153442,
+                        1.0800000429153442
                     ],
                     "type": 0
                 }
             ],
-            "name": "vinetree_combined",
+            "name": "fall_vinetree_combined",
             "tag": "",
             "uid": 13624546765376137014
         },
@@ -13165,11 +13190,11 @@
                             "position": [
                                 3.6487674713134766,
                                 11.15588665008545,
-                                -0.3102836608886719
+                                -0.3102855682373047
                             ],
                             "rotation": [
                                 0.0,
-                                -1.7075491314244573e-06,
+                                -1.7075489040507819e-06,
                                 0.0
                             ],
                             "scale": [
@@ -13186,7 +13211,7 @@
                         },
                         {
                             "active": true,
-                            "materialUID": 12137249720297090298,
+                            "materialUID": 13912546626109042135,
                             "type": 3
                         }
                     ],
@@ -13262,7 +13287,7 @@
                         },
                         {
                             "active": true,
-                            "materialUID": 12137249720297090298,
+                            "materialUID": 17583056351811808803,
                             "type": 3
                         }
                     ],
@@ -13315,13 +13340,13 @@
                         {
                             "active": true,
                             "position": [
-                                1.9073486328125e-06,
+                                3.814697265625e-06,
                                 -9.5367431640625e-07,
                                 0.0
                             ],
                             "rotation": [
                                 0.0,
-                                -1.7075491314244573e-06,
+                                -1.7075489040507819e-06,
                                 0.0
                             ],
                             "scale": [
@@ -13414,7 +13439,7 @@
                         },
                         {
                             "active": true,
-                            "materialUID": 12183654795958153561,
+                            "materialUID": 13912546626109042135,
                             "type": 3
                         }
                     ],
@@ -13452,7 +13477,7 @@
                         },
                         {
                             "active": true,
-                            "materialUID": 12137249720297090298,
+                            "materialUID": 17583056351811808803,
                             "type": 3
                         }
                     ],
@@ -13470,19 +13495,19 @@
                         -32.0
                     ],
                     "rotation": [
-                        0.0,
-                        -74.97207641601563,
-                        0.0
+                        180.0,
+                        74.97200775146484,
+                        180.0
                     ],
                     "scale": [
-                        0.9100000262260437,
-                        0.9100000262260437,
-                        0.9100000262260437
+                        1.092000126838684,
+                        1.092000126838684,
+                        1.092000126838684
                     ],
                     "type": 0
                 }
             ],
-            "name": "vinetree_separate",
+            "name": "rainbowVinetree_sep",
             "tag": "",
             "uid": 3576058344992194916
         },
@@ -13516,7 +13541,7 @@
                 },
                 {
                     "active": true,
-                    "materialUID": 12137249720297090298,
+                    "materialUID": 13912546626109042135,
                     "type": 3
                 }
             ],
@@ -14407,6 +14432,406 @@
             "name": "Estatua_Hermes UVs",
             "tag": "",
             "uid": 8893221209926253568
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                3.6487674713134766,
+                                11.15588665008545,
+                                -0.3102836608886719
+                            ],
+                            "rotation": [
+                                0.0,
+                                -1.7075491314244573e-06,
+                                0.0
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 13085119794758909078,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "crown1_copy",
+                    "tag": "",
+                    "uid": 17715259034893000184
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -3.2759246826171875,
+                                9.712447166442871,
+                                0.3660421371459961
+                            ],
+                            "rotation": [
+                                0.0,
+                                -1.7075489040507819e-06,
+                                0.0
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 6032039164938393613,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "crown2_copy",
+                    "tag": "",
+                    "uid": 13103957339479257189
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -6.180202960968018,
+                                9.49351978302002,
+                                -1.608315110206604
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                0.7499992847442627,
+                                0.5249995589256287,
+                                0.7499992847442627
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 7656811808532522216,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "crown3_copy",
+                    "tag": "",
+                    "uid": 16120438264100210995
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.23777008056640625,
+                                7.6408491134643555,
+                                -3.8459577560424805
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 4260817559872436486,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "crown4_copy",
+                    "tag": "",
+                    "uid": 169895555208398881
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                -9.5367431640625e-07,
+                                -9.5367431640625e-07
+                            ],
+                            "rotation": [
+                                0.0,
+                                -1.7075489040507819e-06,
+                                0.0
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 4179358782194935477,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "trunk_copy",
+                    "tag": "",
+                    "uid": 2330248799311060088
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -5.3369140625,
+                                8.927695274353027,
+                                -1.1499404907226563
+                            ],
+                            "rotation": [
+                                179.96881103515625,
+                                30.000102996826172,
+                                179.9916534423828
+                            ],
+                            "scale": [
+                                0.34999966621398926,
+                                0.34999966621398926,
+                                0.34999966621398926
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 13251402807677316318,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "vine1_copy",
+                    "tag": "",
+                    "uid": 4648086572280846386
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                5.146381378173828,
+                                10.812857627868652,
+                                -0.14046727120876312
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 12780397193881788927,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "vine2_copy",
+                    "tag": "",
+                    "uid": 13979478212222201639
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -6.546167850494385,
+                                9.063526153564453,
+                                -2.212021589279175
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                0.39999961853027344,
+                                0.39999961853027344,
+                                0.39999961853027344
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 15096706399389267323,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 17583056351811808803,
+                            "type": 3
+                        }
+                    ],
+                    "name": "vine3_copy",
+                    "tag": "",
+                    "uid": 16390073415898355462
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -7.0,
+                        12.0,
+                        -59.0
+                    ],
+                    "rotation": [
+                        180.0,
+                        59.97205352783203,
+                        180.0
+                    ],
+                    "scale": [
+                        0.9100000262260437,
+                        0.9100000262260437,
+                        0.9100000262260437
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "fallVineTree",
+            "tag": "",
+            "uid": 11242053464108649375
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                9.536744300930877e-07,
+                                0.0
+                            ],
+                            "rotation": [
+                                -0.03426395729184151,
+                                1.1672697475262339e-08,
+                                1.183105541713303e-05
+                            ],
+                            "scale": [
+                                0.4999995231628418,
+                                0.4999995231628418,
+                                0.4999995231628418
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "meshUID": 5461909125894258049,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 13912546626109042135,
+                            "type": 3
+                        }
+                    ],
+                    "name": "vinetree_copy",
+                    "tag": "",
+                    "uid": 13737765050283234115
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        12.0,
+                        -64.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        89.98021697998047,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0800000429153442,
+                        1.0800000429153442,
+                        1.0800000429153442
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "greenVineTree_comb",
+            "tag": "",
+            "uid": 798308510753569413
         }
     ],
     "version": 1

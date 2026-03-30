@@ -108,6 +108,7 @@ local lastWanderAngle    = 0      -- dirección del último tramo (sesgo direcci
 -- ── Damage / timing constants ─────────────────────────────────────────────
 local DAMAGE_LIGHT     = 10
 local DAMAGE_HEAVY     = 25
+local DAMAGE_BULLET    = 15
 local ATTACK_DURATION  = 0.5
 local ATTACK_COL_DELAY = 0.25
 
@@ -417,6 +418,11 @@ function Update(self, dt)
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
         pendingDeath = true
+    end
+
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
     -- Muerte: cancelar todo y destruir inmediatamente

@@ -33,7 +33,12 @@
                     {
                         "name": "speed",
                         "type": 0,
-                        "value": 20.0
+                        "value": 60.0
+                    },
+                    {
+                        "name": "damage",
+                        "type": 0,
+                        "value": 15.0
                     },
                     {
                         "name": "lifetime",
@@ -72,15 +77,15 @@
                 ],
                 "LinearDamping": 0.0,
                 "Mass": 1.0,
-                "Type": 0,
+                "Type": 2,
                 "UseCCD": false,
-                "UseGravity": true,
+                "UseGravity": false,
                 "active": true,
                 "type": 8
             }
         ],
         "name": "Bullet",
         "tag": "Bullet",
-        "uid": 18374299773237408600
+        "uid": 17778463868028788885
     }
 ]

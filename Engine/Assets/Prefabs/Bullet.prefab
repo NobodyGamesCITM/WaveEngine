@@ -33,7 +33,12 @@
                     {
                         "name": "lifetime",
                         "type": 0,
-                        "value": 5.0
+                        "value": 60.0
+                    },
+                    {
+                        "name": "damage",
+                        "type": 0,
+                        "value": 15.0
                     },
                     {
                         "name": "speed",
@@ -43,10 +48,44 @@
                 ],
                 "scriptUID": 12957541813524735499,
                 "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Radius": 0.5,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": true,
+                "active": true,
+                "type": 11
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 2,
+                "UseCCD": false,
+                "UseGravity": false,
+                "active": true,
+                "type": 8
             }
         ],
         "name": "Bullet",
-        "tag": "",
-        "uid": 17508019346393877544
+        "tag": "Bullet",
+        "uid": 17778463868028788885
     }
 ]

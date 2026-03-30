@@ -45,14 +45,15 @@ local Enemy = {
 }
 
 -- ── Attack variables ──────────────────────────────────────────────────────
-local isDead        = false
-local pendingDeath  = false
-local alreadyHit    = false
-local attackCol     = nil
-local attackTimer   = 0
-local isAttacking   = false
-local cooldownTimer = 0
-local isOnCooldown  = false
+local isDead              = false
+local pendingDeath        = false
+local alreadyHit          = false
+local attackCol           = nil
+local attackTimer         = 0
+local isAttacking         = false
+local cooldownTimer       = 0
+local isOnCooldown        = false
+local playerHitThisAttack = false   -- evita doble daño por ataque
 
 -- ── Dash / Evasion ────────────────────────────────────────────────────────
 local dashTimer     = 0
@@ -207,6 +208,7 @@ local function TakeDamage(self, amount, attackerPos)
         isStunned         = true
         stunTimer         = STUN_DURATION
         isAttacking       = false
+        playerHitThisAttack = false   -- el ataque se cancela, reset del flag
         windupTimer       = 0
         isFeinting        = false
         isHesitating      = false
@@ -659,10 +661,33 @@ function Update(self, dt)
             attackCol:Enable()
         end
 
+        -- ── Fallback: check de proximidad por frame ───────────────────────
+        -- Garantiza el daño aunque OnTriggerEnter no se dispare (p.ej. el player
+        -- ya estaba dentro del collider cuando se activó el ataque).
+        if attackTimer >= ATTACK_COL_DELAY and not playerHitThisAttack and Enemy.playerGO then
+            local pp  = Enemy.playerGO.transform.position
+            local mp  = self.transform.worldPosition
+            if pp then
+                local hdx  = pp.x - mp.x
+                local hdz  = pp.z - mp.z
+                local dist = sqrt(hdx * hdx + hdz * hdz)
+                if dist <= self.public.attackRange then
+                    local pending = _PlayerController_pendingDamage or 0
+                    if pending == 0 then
+                        playerHitThisAttack            = true
+                        _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                        _PlayerController_pendingDamagePos = self.transform.worldPosition
+                        Engine.Log("[Enemy] HIT PLAYER (proximity) for " .. tostring(_EnemyDamage_skeleton))
+                    end
+                end
+            end
+        end
+
         if attackTimer >= ATTACK_DURATION then
-            isAttacking   = false
-            isOnCooldown  = true
-            cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8  -- [NEW] variación aleatoria
+            isAttacking          = false
+            isOnCooldown         = true
+            playerHitThisAttack  = false   -- reset para el siguiente ataque
+            cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8  -- [NEW] variacion aleatoria
             if attackCol then attackCol:Disable() end
             attackTimer = 0
             -- Volver a COMBAT para seguir circulando
@@ -1010,10 +1035,14 @@ function OnTriggerEnter(self, other)
             end
         end
 
-        if isAttacking and _PlayerController_pendingDamage == 0 then
-            _PlayerController_pendingDamage    = _EnemyDamage_skeleton
-            _PlayerController_pendingDamagePos = self.transform.worldPosition
-            Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
+        if isAttacking and not playerHitThisAttack then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack            = true
+                _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+                Engine.Log("[Enemy] HIT PLAYER (trigger) for " .. tostring(_EnemyDamage_skeleton))
+            end
         end
     end
 end
@@ -1023,4 +1052,3 @@ end
 -- así un sweep que entra/sale del trigger varias veces solo hace daño una vez.
 function OnTriggerExit(self, other)
 end
-

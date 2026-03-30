@@ -1,6 +1,12 @@
 #pragma once
 #include "LightData.h"
+#include "ShaderShadowDepth.h"
 #include <vector>
+#include <memory>
+#include "ComponentMesh.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 class Shader;
 class ComponentLight;
@@ -26,8 +32,14 @@ public:
     // Also sets numDirLights / numPointLights / numSpotLights uniforms.
     void UploadToShader(Shader* shader);
 
+    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes);
+
+    unsigned int GetShadowMapID()      const { return shadowMapTexture; }
+    glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
+
 private:
     void InitSSBOs();
+    void InitShadowMap();
     void UploadBuffer(unsigned int ssbo, const void* data, size_t bytes);
 
     std::vector<ComponentLight*> lights;
@@ -36,4 +48,14 @@ private:
     unsigned int ssboDir = 0;
     unsigned int ssboPoint = 0;
     unsigned int ssboSpot = 0;
+
+    // Shadow map
+    unsigned int shadowMapFBO = 0;
+    unsigned int shadowMapTexture = 0;
+    glm::mat4    lightSpaceMatrix = glm::mat4(1.0f);
+
+    std::unique_ptr<ShaderShadowDepth> shadowDepthShader;
+
+    static constexpr int SHADOW_WIDTH = 2048;
+    static constexpr int SHADOW_HEIGHT = 2048;
 };

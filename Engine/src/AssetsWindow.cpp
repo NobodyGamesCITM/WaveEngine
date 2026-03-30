@@ -1023,7 +1023,7 @@ void AssetsWindow::DrawAssetItem(const AssetEntry& asset, std::string& pathPendi
             payload.assetType = DragDropAssetType::SCENE;
             ImGui::Text("Scene: %s", asset.name.c_str());
         }
-        if (!asset.isDirectory && asset.extension == ".prefab")
+        else if (asset.extension == ".prefab")
         {
             if (ImGui::MenuItem("Update All Instances"))
             {

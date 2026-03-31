@@ -19,8 +19,6 @@ local pressSource
 local selectSFX
 local pressSFX
 
-
-
 local function EaseInOutQuad(t)
     if t < 0.5 then
         return 2 * t * t
@@ -55,22 +53,19 @@ end
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
 
-	selectSource = GameObject.Find("UISelectSound")
+    selectSource = GameObject.Find("UISelectSound")
+    if selectSource then
+        selectSFX = selectSource:GetComponent("Audio Source")
+    else
+        Engine.Log("[UI AUDIO] Could not retrieve select button SFX AudioSource")
+    end
 
-	if selectSource then
-		selectSFX = selectSource:GetComponent("Audio Source")
-	else 
-		Engine.Log("[UI AUDIO] Could not retrieve select button SFX AudioSource")
-	end
-
-	
-	pressSource = GameObject.Find("UIPressSound")
-
-	if pressSource then
-		pressSFX = pressSource:GetComponent("Audio Source")
-	else 
-		Engine.Log("[UI AUDIO] Could not retrieve press button SFX AudioSource")
-	end
+    pressSource = GameObject.Find("UIPressSound")
+    if pressSource then
+        pressSFX = pressSource:GetComponent("Audio Source")
+    else
+        Engine.Log("[UI AUDIO] Could not retrieve press button SFX AudioSource")
+    end
 
     if not canvas then
         Engine.Log("[Transition] ERROR: No tiene ComponentCanvas")
@@ -78,7 +73,6 @@ function Start(self)
     end
 
     current = canvas:GetCurrentXAML()
-	
     Engine.Log("[Transition] current detectado: '" .. tostring(current) .. "'")
 
     if not current or current == "" then
@@ -94,11 +88,11 @@ function Start(self)
     canvas:SetOpacity(1.0)
     SetPhase("idle")
 
-	NavigateTo("MainMenu.xaml")
-	Game:Resume()
+    NavigateTo("MainMenu.xaml")
+    Game:Resume()
+
+    _G.CurrentXAML = current
     Engine.Log("[Transition] Listo")
-
-
 end
 
 function Update(self, dt)
@@ -121,7 +115,6 @@ function Update(self, dt)
     end
 
     if phase == "idle" then
-        -- Buscar el player y comprobar si está muerto
         local isDead = false
         if _G.PlayerInstance then
             isDead = (_G.PlayerInstance.public.health <= 0)
@@ -133,16 +126,16 @@ function Update(self, dt)
             end
         end
 
-        -- Solo mostrar LoseMenu si estamos en el HUD, no desde el MainMenu
         if isDead and current ~= "LoseMenu.xaml" and current ~= "MainMenu.xaml" then
             history = {}
             NavigateTo("LoseMenu.xaml")
         end
 
-        -- Pause toggle
         if current == "HUD.xaml" or current == "PauseMenu.xaml" then
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
                 if current == "HUD.xaml" then
+                    if _G.SuspendDialog then _G.SuspendDialog() end
+                    Game.Resume()
                     NavigateTo("PauseMenu.xaml")
                 else
                     NavigateTo("HUD.xaml")
@@ -150,38 +143,33 @@ function Update(self, dt)
             end
         end
 
-        -- Main Menu
         if UI.WasClicked("StartButton") then
-			pressSFX:PlayAudioEvent()
-			
+            pressSFX:PlayAudioEvent()
             NavigateTo("HUD.xaml")
         end
         if UI.WasClicked("SettingsButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             NavigateTo("SettingsMenu.xaml")
         end
         if UI.WasClicked("ExitButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             Game.Exit()
         end
 
-        -- Pause Menu
         if UI.WasClicked("ResumeButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             NavigateTo("HUD.xaml")
         end
 
         if UI.WasClicked("TryAgainButton") then
             _G._PlayerController_isDead = false
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             NavigateTo("HUD.xaml")
         end
 
-        -- BackToMenuButton: funciona tanto desde PauseMenu como desde LoseMenu
         if UI.WasClicked("BackToMenuButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             _G._PlayerController_isDead = false
-            -- Resetear la salud del player para que no vuelva al LoseMenu
             if _G.PlayerInstance then
                 _G.PlayerInstance.public.health = 100
                 _G.PlayerInstance.public.stamina = 100
@@ -189,17 +177,15 @@ function Update(self, dt)
             NavigateTo("MainMenu.xaml")
         end
 
-        -- Settings Menu
         if UI.WasClicked("SoundsButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             NavigateTo("SoundsMenu.xaml")
         end
         if UI.WasClicked("GraphicsButton") then
-			pressSFX:PlayAudioEvent()
+            pressSFX:PlayAudioEvent()
             NavigateTo("GraphicsMenu.xaml")
         end
 
-        -- Back (universal)
         local isEscapeHandled = (current == "HUD.xaml" or current == "PauseMenu.xaml")
         local canGoBack = #history > 0 and current ~= "MainMenu.xaml" and current ~= "LoseMenu.xaml"
         if canGoBack and (UI.WasClicked("BackButton") or (Input.GetGamepadButtonDown("East") and current ~= "HUD.xaml") or
@@ -223,15 +209,22 @@ function Update(self, dt)
             SetPhase("swap")
         end
 
-
     elseif phase == "swap" then
+        if NEXT_XAML == "PauseMenu.xaml" then
+            if _G.SuspendDialog then _G.SuspendDialog() end
+        elseif NEXT_XAML == "HUD.xaml" and current == "PauseMenu.xaml" then
+            if _G.ResumeDialog then _G.ResumeDialog() end
+        else
+            if _G.ForceCloseDialog then _G.ForceCloseDialog() end
+        end
+
         local previous = current
         canvas:LoadXAML(NEXT_XAML)
         current = NEXT_XAML
+        _G.CurrentXAML = current
 
         if current == "HUD.xaml" then
             if previous == "PauseMenu.xaml" then
-                -- Solo reanudar, sin recargar escena
                 Game.Resume()
                 Audio.SetMusicState("Level1")
             else
@@ -242,21 +235,14 @@ function Update(self, dt)
                     _G._PlayerController_isDead = false
                     Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
                 end
-    
                 Game.Resume()
                 Audio.SetMusicState("Level1")
-                
             end
-        elseif
-            current == "MainMenu.xaml" then
-			Audio.SetMusicState("MainMenu")
-			
+        elseif current == "MainMenu.xaml" then
+            Audio.SetMusicState("MainMenu")
         end
 
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
     end
 end
-
-
-

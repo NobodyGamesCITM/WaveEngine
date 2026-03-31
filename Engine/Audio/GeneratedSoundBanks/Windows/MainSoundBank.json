@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{569C2D27-9D41-F320-19E3-A2DAF2C3FBE0}",
+    "Hash": "{1C627CFA-2DC4-66D4-E550-014CAE4DC5E0}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1255,7 +1255,7 @@
       "Name": "SFX_SirenSing",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenSing",
       "GUID": "{5340AF50-44EE-44EA-AB52-116A544241FB}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -1668,6 +1668,6 @@
     ]
    }
   ],
-  "FileHash": "{5D8B15D9-A0E2-429B-00B2-8A66B68F7EEC}"
+  "FileHash": "{2EE3E278-33A6-B883-7FAF-BD252A50D0F2}"
  }
 }

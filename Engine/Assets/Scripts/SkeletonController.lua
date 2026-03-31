@@ -45,14 +45,15 @@ local Enemy = {
 }
 
 -- ── Attack variables ──────────────────────────────────────────────────────
-local isDead        = false
-local pendingDeath  = false
-local alreadyHit    = false
-local attackCol     = nil
-local attackTimer   = 0
-local isAttacking   = false
-local cooldownTimer = 0
-local isOnCooldown  = false
+local isDead              = false
+local pendingDeath        = false
+local alreadyHit          = false
+local attackCol           = nil
+local attackTimer         = 0
+local isAttacking         = false
+local cooldownTimer       = 0
+local isOnCooldown        = false
+local playerHitThisAttack = false   -- evita doble daño por ataque
 
 -- ── Dash / Evasion ────────────────────────────────────────────────────────
 local dashTimer     = 0
@@ -107,6 +108,7 @@ local lastWanderAngle    = 0      -- dirección del último tramo (sesgo direcci
 -- ── Damage / timing constants ─────────────────────────────────────────────
 local DAMAGE_LIGHT     = 10
 local DAMAGE_HEAVY     = 25
+local DAMAGE_BULLET    = 15
 local ATTACK_DURATION  = 0.5
 local ATTACK_COL_DELAY = 0.25
 
@@ -199,7 +201,7 @@ local function TakeDamage(self, amount, attackerPos)
 	
 
     if hp <= 0 and not pendingDeath then
-        if dieSFX then dieSFX:PlayAudioEvent() end
+        --if dieSFX then dieSFX:PlayAudioEvent() end
         pendingDeath = true
         Engine.Log("[Enemy] HP agotado")
     else
@@ -207,6 +209,7 @@ local function TakeDamage(self, amount, attackerPos)
         isStunned         = true
         stunTimer         = STUN_DURATION
         isAttacking       = false
+        playerHitThisAttack = false   -- el ataque se cancela, reset del flag
         windupTimer       = 0
         isFeinting        = false
         isHesitating      = false
@@ -241,7 +244,7 @@ local function TryEvasion(self, attackerPos)
     Enemy.currentState = State.EVADE
     dashTimer          = 0
 
-	if dodgeSFX then dodgeSFX:PlayAudioEvent() end
+	-- if dodgeSFX then dodgeSFX:PlayAudioEvent() end
 
     Engine.Log("[Enemy] ESQUIVE!")
     return true
@@ -296,7 +299,7 @@ local function Movement(self, dt)
         if stepTimer >= 0.25 then
             stepTimer = 0
             if Enemy.stepSFX then
-                Enemy.stepSFX:PlayAudioEvent()
+                --Enemy.stepSFX:PlayAudioEvent()
             end
         end
     else
@@ -357,7 +360,7 @@ local function CombatOrbit(self, playerPos, dt, speedScale)
         local stepInterval = lerp(0.45, 0.28, orbitSpeedSmooth / self.public.orbitSpeed)
         if stepTimer >= stepInterval then
             stepTimer = 0
-            if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
+            --if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
         end
     else
         stepTimer = 0
@@ -427,6 +430,11 @@ function Update(self, dt)
         pendingDeath = true
     end
 
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
+    end
+
     -- Muerte: cancelar todo y destruir inmediatamente
     if pendingDeath then
         -- Cancelar cualquier acción activa
@@ -434,7 +442,6 @@ function Update(self, dt)
         isOnCooldown  = false
         predictTimer  = -1
         windupTimer   = 0
-        if attackCol then attackCol:Disable() end
         if Enemy.nav  then Enemy.nav:StopMovement() end
         if Enemy.rb   then
             local vel = Enemy.rb:GetLinearVelocity()
@@ -653,7 +660,7 @@ function Update(self, dt)
 
             Engine.Log("[Enemy] LUNGE + SWING!")
             if Enemy.attackSFX then
-                Enemy.attackSFX:PlayAudioEvent()
+                --Enemy.attackSFX:PlayAudioEvent()
             end
         end
         return
@@ -674,10 +681,33 @@ function Update(self, dt)
             attackCol:Enable()
         end
 
+        -- ── Fallback: check de proximidad por frame ───────────────────────
+        -- Garantiza el daño aunque OnTriggerEnter no se dispare (p.ej. el player
+        -- ya estaba dentro del collider cuando se activó el ataque).
+        if attackTimer >= ATTACK_COL_DELAY and not playerHitThisAttack and Enemy.playerGO then
+            local pp  = Enemy.playerGO.transform.position
+            local mp  = self.transform.worldPosition
+            if pp then
+                local hdx  = pp.x - mp.x
+                local hdz  = pp.z - mp.z
+                local dist = sqrt(hdx * hdx + hdz * hdz)
+                if dist <= self.public.attackRange then
+                    local pending = _PlayerController_pendingDamage or 0
+                    if pending == 0 then
+                        playerHitThisAttack            = true
+                        _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                        _PlayerController_pendingDamagePos = self.transform.worldPosition
+                        Engine.Log("[Enemy] HIT PLAYER (proximity) for " .. tostring(_EnemyDamage_skeleton))
+                    end
+                end
+            end
+        end
+
         if attackTimer >= ATTACK_DURATION then
-            isAttacking   = false
-            isOnCooldown  = true
-            cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8  -- [NEW] variación aleatoria
+            isAttacking          = false
+            isOnCooldown         = true
+            playerHitThisAttack  = false   -- reset para el siguiente ataque
+            cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8  -- [NEW] variacion aleatoria
             if attackCol then attackCol:Disable() end
             attackTimer = 0
             -- Volver a COMBAT para seguir circulando
@@ -1027,7 +1057,7 @@ function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
-            if hurtSFX then hurtSFX:PlayAudioEvent() end
+            --if hurtSFX then hurtSFX:PlayAudioEvent() end
             if attack ~= "" then
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition
@@ -1044,10 +1074,14 @@ function OnTriggerEnter(self, other)
             end
         end
 
-        if isAttacking and _PlayerController_pendingDamage == 0 then
-            _PlayerController_pendingDamage    = _EnemyDamage_skeleton
-            _PlayerController_pendingDamagePos = self.transform.worldPosition
-            Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
+        if isAttacking and not playerHitThisAttack then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack            = true
+                _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+                Engine.Log("[Enemy] HIT PLAYER (trigger) for " .. tostring(_EnemyDamage_skeleton))
+            end
         end
     end
 end
@@ -1057,4 +1091,3 @@ end
 -- así un sweep que entra/sale del trigger varias veces solo hace daño una vez.
 function OnTriggerExit(self, other)
 end
-

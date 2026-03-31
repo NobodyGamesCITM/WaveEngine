@@ -16,8 +16,8 @@ function Update(self, deltaTime)
     if interact == true then 
         for i, checkpoint in ipairs(checkpoints) do
             local pos = checkpoint.transform.position
-            if (math.abs(pos.x - playerPos.x) < 1) then
-                if (math.abs(pos.z - playerPos.z) < 1) then
+            if (math.abs(pos.x - playerPos.x) < 3) then
+                if (math.abs(pos.z - playerPos.z) < 3) then
                     Engine.Log("Checkpoint taken")
                     lastCheckpoint = pos 
                     Engine.Log("Checkpoint: pos x=" .. tostring(pos.x) " pos z ="  .. tostring(pos.z))

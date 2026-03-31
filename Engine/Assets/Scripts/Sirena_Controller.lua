@@ -50,6 +50,23 @@ local cooldownTimer = 0
 --   hasHit     : ya se procesó el impacto
 local activeShells = {}
 
+-- gameobjects containing audiosources
+local singSource 
+local dieSource 
+local hurtSource 
+local dipSource 
+-- audio source components
+local singSFX = nil
+local deathSFX = nil
+local hurtSFX = nil
+local dipSFX = nil
+
+local hasDeathPlayed = false
+local hasHurtPlayed = false
+local isSinging = false
+
+
+
 -- ── Public (modificable desde el inspector) ───────────────────────────────
 public = {
     maxHp            = 50,
@@ -59,7 +76,7 @@ public = {
     minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
 
     windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
-    flightTime       = 2.0,    -- duración del arco en el aire
+    flightTime       = 4.0,    -- duración del arco en el aire
     cooldownTime     = 4.5,    -- espera entre disparos
 
     blastRadius      = 3.5,    -- radio de daño en el impacto
@@ -136,6 +153,10 @@ local function TakeDamage(self, amount, attackerPos)
         pendingDestroy      = true
         Mortar.currentState = State.DEAD
 
+        if not hasDeathPlayed then
+			if deathSFX then deathSFX:PlayAudioEvent() end
+			hasDeathPlayed = true
+		end
         -- Ralentización de impacto
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
@@ -300,6 +321,31 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
+
+
+    singSource = GameObject.Find("SingSource")
+    dieSource = GameObject.Find("SirenDieSource")
+    hurtSource = GameObject.Find("SirenHurtSource")
+    dipSource = GameObject.Find("DipSource")
+
+    singSFX  = singSource:GetComponent("Audio Source")
+    deathSFX = dieSource:GetComponent("Audio Source")
+    hurtSFX  = hurtSource:GetComponent("Audio Source")
+    dipSFX   = dipSource:GetComponent("Audio Source")
+    
+
+    if not singSFX then
+ 		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
+	end
+
+    if not deathSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
+	end
+
+    if not dipSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
+	end
+
     Prefab.Load("Sirena_Bullet", finalPath)
     -- Bloqueamos el Rigidbody para que el mortero no se mueva
     if Mortar.rb then
@@ -349,7 +395,10 @@ function Update(self, dt)
         Mortar.playerGO = GameObject.Find("Player")
         if Mortar.playerGO then
             Engine.Log("[Mortar] Player encontrado")
+            
         end
+
+        
     end
 
     if not Mortar.playerGO then return end
@@ -365,9 +414,17 @@ function Update(self, dt)
     -- ── Máquina de estados ────────────────────────────────────────────────
 
     if Mortar.currentState == State.IDLE then
+
+        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
+            Mortar.anim:Play("Look")
+        end
         -- Espera a que el player entre en rango
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             Mortar.currentState = State.WINDUP
+            if not isSinging then
+                if singSFX then singSFX:PlayAudioEvent() end
+                isSinging = true
+            end
             windUpTimer         = 0
             Engine.Log("[Mortar] Player detectado a dist=" ..
                        string.format("%.1f", dist) .. ". Wind-up...")
@@ -377,6 +434,10 @@ function Update(self, dt)
         -- Gira hacia el player mientras se telegrafía el disparo
         FacePlayer(self, pp, dt)
         windUpTimer = windUpTimer + dt
+
+        --if not isSinging then 
+
+       -- end
 
         -- Si el player sale de rango durante el wind-up, abortamos
         if dist > self.public.detectRange or dist < self.public.minRange then
@@ -397,6 +458,8 @@ function Update(self, dt)
 
             if Mortar.anim then Mortar.anim:Play("Fire") end
 
+           
+
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime
             Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
@@ -413,6 +476,10 @@ function Update(self, dt)
                 Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
             else
                 Mortar.currentState = State.IDLE
+                if isSinging then
+				    if singSFX then singSFX:StopAudioEvent() end
+                    isSinging = false
+                end
                 Engine.Log("[Mortar] Cooldown listo. Volviendo a IDLE.")
             end
         end

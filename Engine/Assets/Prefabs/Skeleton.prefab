@@ -1,0 +1,433 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 15715851177751115676,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 10566465044347031744,
+                        "type": 3
+                    },
+                    {
+                        "Animations": [
+                            {
+                                "UID": 6427742153822048973,
+                                "loop": true,
+                                "name": "TestAnim",
+                                "speed": 1.0
+                            }
+                        ],
+                        "active": true,
+                        "type": 28
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Radius": 300.0,
+                        "Restitution": 0.6000000238418579,
+                        "StaticFriction": 0.5,
+                        "Trigger": true,
+                        "active": true,
+                        "type": 11
+                    },
+                    {
+                        "active": true,
+                        "scriptUID": 12749869038866807971,
+                        "type": 6
+                    }
+                ],
+                "name": "Mesh_noTags",
+                "tag": "",
+                "uid": 4152421853308118759
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_SkeletonSwordSlash",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "SK_KopisSource",
+                        "tag": "",
+                        "uid": 12392161711018110880
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    21.0,
+                                    9.05145263671875,
+                                    -79.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    0.023659182712435722,
+                                    0.023659182712435722,
+                                    0.023659182712435722
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_SkeletonHit",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "SK_HurtSource",
+                        "tag": "",
+                        "uid": 6391841801757874680
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    21.496843338012695,
+                                    9.265603065490723,
+                                    -80.86907196044922
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    0.0005597569397650659,
+                                    0.0005597569397650659,
+                                    0.0005597569397650659
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_SkeletonDie",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "SK_DieSource",
+                        "tag": "",
+                        "uid": 13570209277839519384
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    21.50859832763672,
+                                    9.270668983459473,
+                                    -80.91329956054688
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.3243391549622174e-05,
+                                    1.3243391549622174e-05,
+                                    1.3243391549622174e-05
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_SkeletonDodge",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "SK_DodgeSource",
+                        "tag": "",
+                        "uid": 15717842909992438629
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "AudioSources",
+                "tag": "",
+                "uid": 2730645504701375854
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    28.0,
+                    9.05145263671875,
+                    -72.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.023659182712435722,
+                    0.023659182712435722,
+                    0.023659182712435722
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "chaseRange",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
+                        "name": "patrolRadius",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "dirSmoothing",
+                        "type": 0,
+                        "value": 12.0
+                    },
+                    {
+                        "name": "lungeForce",
+                        "type": 0,
+                        "value": 18.0
+                    },
+                    {
+                        "name": "dashForce",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
+                        "name": "chaseUpdateRate",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "moveSpeed",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "dodgeChance",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "attackDamage",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "orbitRadius",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "facePlayerSpeed",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "stopSmoothing",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "combatApproachTime",
+                        "type": 0,
+                        "value": 1.2000000476837158
+                    },
+                    {
+                        "name": "orbitSpeed",
+                        "type": 0,
+                        "value": 4.5
+                    },
+                    {
+                        "name": "maxHp",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "idleWaitTime",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "attackRange",
+                        "type": 0,
+                        "value": 2.0
+                    }
+                ],
+                "scriptUID": 2354537265489101487,
+                "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    50.0,
+                    30.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    40.0,
+                    90.0,
+                    40.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": true,
+                "active": true,
+                "type": 10
+            },
+            {
+                "Center": [
+                    0.0,
+                    40.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Radius": 40.0,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 11
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    true,
+                    true,
+                    true
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 1,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "ArrivalThreshold": 0.25,
+                "IsStatic": true,
+                "LinkedSurfaceUID": 13842108108991697631,
+                "MaxSlope": 35.0,
+                "MoveSpeed": 5.0,
+                "NavType": 1,
+                "active": true,
+                "type": 24
+            }
+        ],
+        "name": "Skeleton",
+        "tag": "",
+        "uid": 5690789858933294429
+    }
+]

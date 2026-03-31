@@ -35,7 +35,7 @@ local HERMES_GRACE_TIME      = 0.2
 
 -- MASKS
 local Mask = {
-    NONE   = "None",
+    NONE   = "NoMask",
     APOLLO = "None",
     HERMES = "None",
     ARES   = "None"
@@ -64,7 +64,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
-    attackDelay     = 0.4,
+    attackDelay     = 0.6,
     -- Audio
     stepSFX 		= nil,
     voiceSFX 		= nil,
@@ -105,7 +105,7 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
-    attackDuration      = 1.0,
+    attackDuration      = 0.8,
     chargeDuration      = 0.3,
     shootDuration       = 0.2,
     attackCooldown      = 0.5,
@@ -555,7 +555,7 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
-        _PlayerController_lastAttack = "heavy"
+        _PlayerController_lastAttack = "charge"
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
@@ -622,9 +622,11 @@ States[State.SHOOTING] = {
 
 States[State.ATTACK_HEAVY] = {
     Enter = function(self)
+        ChangeState(self, State.IDLE) -- temporal
         _PlayerController_lastAttack = "heavy"
     end,
-    Update = function(self, dt) end,
+    Update = function(self, dt)
+    end,
     Exit = function(self)
         if attackCol then attackCol:Disable() end
         _PlayerController_lastAttack = ""
@@ -794,8 +796,13 @@ function Start(self)
     giveHermesMask      = false
     giveAresMask        = false
 
+    Mask.APOLLO = "None"
+    Mask.HERMES = "None"
+    Mask.ARES   = "None"
+
     ChangeState(self, State.IDLE)
     EquipMask(self, Mask.NONE)
+    Player.currentMask = Mask.NONE
 end
 
 

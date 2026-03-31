@@ -382,25 +382,35 @@ function Start(self)
     Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
     Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
 
-    dieSource = GameObject.Find("SK_DieSource")
-    Enemy.dieSFX = dieSource:GetComponent("Audio Source")
-
+    dieSource    = GameObject.Find("SK_DieSource")
     attackSource = GameObject.Find("SK_KopisSource")
-    Enemy.attackSFX = attackSource:GetComponent("Audio Source")
-	
-	dodgeSource = GameObject.Find("SK_DodgeSource")
-	Enemy.dodgeSFX = dodgeSource:GetComponent("Audio Source")
-	
-	hurtSource = GameObject.Find("SK_HurtSource")
-	Enemy.hurtSFX = hurtSource:GetComponent("Audio Source")
+    dodgeSource  = GameObject.Find("SK_DodgeSource")
+    hurtSource   = GameObject.Find("SK_HurtSource")
+    Enemy.dieSFX    = dieSource    and dieSource:GetComponent("Audio Source")    or nil
+    Enemy.attackSFX = attackSource and attackSource:GetComponent("Audio Source") or nil
+    Enemy.dodgeSFX  = dodgeSource  and dodgeSource:GetComponent("Audio Source")  or nil
+    Enemy.hurtSFX   = hurtSource   and hurtSource:GetComponent("Audio Source")   or nil
 
     local pos = self.transform.position
     Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
 
     Enemy.currentState    = State.IDLE
-    Enemy.nextWanderTimer = self.public.idleWaitTime
+    Enemy.nextWanderTimer = 0
     Enemy.chaseTimer      = 0
     Enemy.playerGO        = nil
+
+    isAttacking       = false
+    isOnCooldown      = false
+    isStunned         = false
+    pendingDeath      = false
+    isHesitating      = false
+    isFeinting        = false
+    isLookingAround   = false
+    isFidgeting       = false
+    isMicrostopping   = false
+    approachSpeedMult = 0
+    windupTimer       = 0
+    predictTimer      = -1
 
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then
@@ -545,13 +555,17 @@ function Update(self, dt)
 
     -- Reintentar componentes si faltan
     if not Enemy.nav or not Enemy.rb then
-        Enemy.nav = self.gameObject:GetComponent("Navigation")
-        Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
+        Enemy.nav     = self.gameObject:GetComponent("Navigation")
+        Enemy.rb      = self.gameObject:GetComponent("Rigidbody")
         Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
-        Enemy.dieSFX  = dieSource:GetComponent("Audio Source")
-        Enemy.attackSFX = attackSource:GetComponent("Audio Source")
-		Enemy.dodgeSFX = dodgeSource:GetComponent("Audio Source")
-		Enemy.hurtSFX = hurtSource:GetComponent("Audio Source")
+        dieSource    = dieSource    or GameObject.Find("SK_DieSource")
+        attackSource = attackSource or GameObject.Find("SK_KopisSource")
+        dodgeSource  = dodgeSource  or GameObject.Find("SK_DodgeSource")
+        hurtSource   = hurtSource   or GameObject.Find("SK_HurtSource")
+        Enemy.dieSFX    = dieSource    and dieSource:GetComponent("Audio Source")    or nil
+        Enemy.attackSFX = attackSource and attackSource:GetComponent("Audio Source") or nil
+        Enemy.dodgeSFX  = dodgeSource  and dodgeSource:GetComponent("Audio Source")  or nil
+        Enemy.hurtSFX   = hurtSource   and hurtSource:GetComponent("Audio Source")   or nil
         return
     end
 
@@ -859,11 +873,20 @@ function Update(self, dt)
         end
 
     else
-        -- Perdió al player: volver a patrulla
-        if Enemy.currentState == State.CHASE or Enemy.currentState == State.COMBAT then
+        if Enemy.currentState ~= State.IDLE and Enemy.currentState ~= State.WANDER then
+            if Enemy.nav then Enemy.nav:StopMovement() end
             Enemy.currentState    = State.IDLE
             Enemy.nextWanderTimer = self.public.idleWaitTime
-            Engine.Log("[Enemy] Perdí al player. Descansando.")
+            isAttacking       = false
+            isHesitating      = false
+            isFeinting        = false
+            isLookingAround   = false
+            isFidgeting       = false
+            isMicrostopping   = false
+            approachSpeedMult = 0
+            windupTimer       = 0
+            if attackCol then attackCol:Disable() end
+            Engine.Log("[Enemy] Sin player. Volviendo a patrulla.")
         end
 
         -- ── Movimiento de patrulla humanizado (IDLE / WANDER) ───────────
@@ -873,18 +896,19 @@ function Update(self, dt)
         if Enemy.currentState == State.IDLE then
             Enemy.nextWanderTimer = Enemy.nextWanderTimer - dt
 
-            -- Fidgeting: pequeños giros mientras espera (no queda como un poste)
-            if not isFidgeting and math.random() < dt * 0.4 then
+            -- Fidgeting de esqueleto: sacudidas bruscas, más frecuentes y pronunciadas
+            if not isFidgeting and math.random() < dt * 0.7 then
                 isFidgeting  = true
-                fidgetTimer  = math.random() * 0.6 + 0.3
-                -- Giro de ±15-45 grados
+                fidgetTimer  = math.random() * 0.35 + 0.15   -- más corto y frecuente
                 local sign   = (math.random() < 0.5) and 1 or -1
-                fidgetAngle  = Enemy.currentY + sign * (15 + math.random() * 30)
+                -- Giros más pronunciados: ±20-55 grados, más brusco
+                fidgetAngle  = Enemy.currentY + sign * (20 + math.random() * 35)
             end
             if isFidgeting then
                 fidgetTimer = fidgetTimer - dt
                 local diff  = shortAngleDiff(Enemy.currentY, fidgetAngle)
-                Enemy.currentY = Enemy.currentY + diff * 3.5 * dt
+                -- Más rápido y seco: snap brusco en vez de giro fluido
+                Enemy.currentY = Enemy.currentY + diff * 8.0 * dt
                 self.transform:SetRotation(0, Enemy.currentY, 0)
                 if fidgetTimer <= 0 then isFidgeting = false end
             end
@@ -892,19 +916,24 @@ function Update(self, dt)
             -- Cuando el timer de espera llega a 0: look-around antes de moverse
             if Enemy.nextWanderTimer <= 0 then
                 if not isLookingAround then
-                    -- Iniciar look-around: girar hacia una dirección aleatoria
+                    -- Iniciar look-around de esqueleto: giro lento y torpe
                     isLookingAround  = true
-                    lookAroundTimer  = math.random() * 0.7 + 0.3
+                    -- Más lento que un humano, como si los huesos crujieran al girar
+                    lookAroundTimer  = math.random() * 0.9 + 0.6
                     local sign       = (math.random() < 0.5) and 1 or -1
-                    lookAroundAngle  = Enemy.currentY + sign * (40 + math.random() * 60)
-                    lookAroundSpeed  = 60 + math.random() * 40   -- grados/seg
+                    -- Giro más pequeño e irregular: no mira tan lejos, se detiene antes
+                    lookAroundAngle  = Enemy.currentY + sign * (25 + math.random() * 35)
+                    -- Velocidad más baja y variable: movimiento entrecortado
+                    lookAroundSpeed  = 25 + math.random() * 20
                     isFidgeting      = false
                     Engine.Log("[Enemy] Look-around antes de moverme")
                 else
-                    -- Ejecutar el giro de look-around
+                    -- Giro entrecortado: acelera y frena como si los huesos agarrotaran
                     lookAroundTimer = lookAroundTimer - dt
                     local diff      = shortAngleDiff(Enemy.currentY, lookAroundAngle)
-                    Enemy.currentY  = Enemy.currentY + diff * (lookAroundSpeed / 90.0) * dt
+                    -- Velocidad irregular: onda seno rápida para simular traqueteo
+                    local jitter    = 1.0 + 0.5 * math.sin(lookAroundTimer * 18.0)
+                    Enemy.currentY  = Enemy.currentY + diff * (lookAroundSpeed / 90.0) * jitter * dt
                     self.transform:SetRotation(0, Enemy.currentY, 0)
 
                     if lookAroundTimer <= 0 then
@@ -964,9 +993,11 @@ function Update(self, dt)
                     local vel = Enemy.rb:GetLinearVelocity()
                     Enemy.rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
                 end
-                -- Pequeño giro durante el microstop (curiosidad)
-                local sign = (math.random() < 0.5) and 1 or -1
-                Enemy.currentY = Enemy.currentY + sign * 25 * dt
+                -- Giro brusco de esqueleto: sacude la cabeza/torso irregularmente
+                -- Cambia de dirección aleatoriamente cada poco (traqueteo óseo)
+                local jitterSign = (math.sin(microstopTimer * 23.0) > 0) and 1 or -1
+                local jitterAmt  = 18 + math.random() * 15   -- amplitud variable
+                Enemy.currentY = Enemy.currentY + jitterSign * jitterAmt * dt
                 self.transform:SetRotation(0, Enemy.currentY, 0)
 
                 if microstopTimer <= 0 then
@@ -977,9 +1008,11 @@ function Update(self, dt)
                     end
                 end
             else
-                -- Variación orgánica de velocidad con onda seno mientras camina
-                wanderPhase = wanderPhase + dt * 1.1
-                local sine  = 0.75 + 0.25 * math.sin(wanderPhase)   -- rango [0.5, 1.0]
+                -- Variación de velocidad de esqueleto: paso irregular, no fluido
+                -- Frecuencia más alta = zancadas más cortas y entrecortadas
+                wanderPhase = wanderPhase + dt * 2.2
+                -- Rango más extremo: pasos más irregulares [0.4, 1.0]
+                local sine  = 0.70 + 0.30 * math.abs(math.sin(wanderPhase))
 
                 -- Aplicar velocidad modulada
                 local savedSpeed = self.public.moveSpeed
@@ -996,8 +1029,8 @@ function Update(self, dt)
                 end
             end
 
-            -- Llegó al destino
-            if not isMoving and speed < 0.05 and not isMicrostopping then
+            -- Llegó al destino (umbral más alto: le cuesta parar, inercia ósea)
+            if not isMoving and speed < 0.12 and not isMicrostopping then
                 -- Tiempo de espera variable: corto (0.5s), normal (2s), largo (4s)
                 local roll = math.random()
                 local wait

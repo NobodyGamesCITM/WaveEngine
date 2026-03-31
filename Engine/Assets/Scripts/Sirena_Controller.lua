@@ -103,13 +103,29 @@ end
 --   x(t) = sx + vx·t          →  vx = dx / T
 --   z(t) = sz + vz·t          →  vz = dz / T
 --   y(t) = sy + vy·t - ½g·t²  →  vy = (dy + ½g·T²) / T
-local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz, T)
+local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     local dx = tx - sx
-    local dy = ty - sy
     local dz = tz - sz
-    return dx / T,
-           (dy + 0.5 * GRAVITY * T * T) / T,
-           dz / T
+    local dy = ty - sy
+    local distXZ = sqrt(dx*dx + dz*dz)
+
+    -- SEGURIDAD: Distancia mínima para evitar errores matemáticos
+    if distXZ < 0.5 then distXZ = 0.5 end
+
+    local h = distXZ * 0.5
+    if h < 2.0 then h = 2.0 end
+    if dy >= h then h = dy + 1.0 end 
+
+    local vY = sqrt(2 * GRAVITY * h)
+
+    local termBazada = 2 * (h - dy) / GRAVITY
+    if termBazada < 0 then termBazada = 0 end
+    local T = (vY / GRAVITY) + sqrt(termBazada)
+
+    local vX = dx / T
+    local vZ = dz / T
+
+    return vX, vY, vZ, T
 end
 
 -- ── TakeDamage ────────────────────────────────────────────────────────────
@@ -173,14 +189,11 @@ local function FireShell(self, tx, ty, tz)
     local sx    = myPos.x
     local sy    = myPos.y + self.public.barrelOffsetY
     local sz    = myPos.z
-    local T     = self.public.flightTime
 
-    -- El proyectil apunta ligeramente por encima del suelo del player
-    local vx, vy, vz = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz, T)
+    local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
 
     local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
     if bulletAsset then
-    -- Instanciamos el prefab del proyectil (se completa en PostUpdate)
         local shell = Prefab.Instantiate("Sirena_Bullet")
 
         table.insert(activeShells, {
@@ -194,14 +207,10 @@ local function FireShell(self, tx, ty, tz)
             hasHit     = false,
         })
         
-        Engine.Log("[Mortar] FIRE! vx=" .. string.format("%.2f", vx)
-                .. " vy=" .. string.format("%.2f", vy)
-                .. " vz=" .. string.format("%.2f", vz))
-    
+        Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
     else
-        Engine.Log("[Mortar] No se pudo cargar el proyectil. Revisa el UID.")
+        Engine.Log("[Mortar] Error al cargar el proyectil.")
     end
-
 end
 
 -- ── SafeMoveShell: mueve el GO del proyectil con protección ante userdata inválido ──
@@ -255,7 +264,7 @@ local function UpdateShells(self, dt)
         SafeMoveShell(s, x, y, z, t)
 
         -- ── Detección de impacto ──────────────────────────────────────────
-        local impacted = (s.age >= s.flightTime) or (y < -1.0)
+        local impacted = (s.age >= s.flightTime) or (y < -50.0)
 
         if impacted and not s.hasHit then
             s.hasHit = true

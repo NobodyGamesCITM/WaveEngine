@@ -87,8 +87,6 @@ private:
     bool DeleteAsset(const AssetEntry& asset);
     bool DeleteDirectory(const fs::path& dirPath);
 
-
-
     // Modals
     void ShowPrefabNamingModal();
     void ShowMaterialNamingModal();

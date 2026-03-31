@@ -1,373 +1,898 @@
+-- ============================================================
+--  EnemyBase.lua  –  Tunic-style enemy
+--
+--  State machine:
+--    IDLE ──► PATROL ──► CHASE ──► ORBIT ──► ANTICIPATE ──► ATTACK
+--               ▲           ▲        │                         │
+--               │           └────────┘  (player escapes)       │
+--               └──────────────────────────────────────────────┘
+--                              (cooldown → ORBIT if still close, else CHASE)
+--
+--  ORBIT sub-phases (no navmesh, pure physics):
+--    NEUTRAL  – standard strafe + radial sine pulse
+--    PRESSURE – player idle/slow → close in, tighter radius
+--    RETREAT  – player just swung → backpedal fast, then punish if swing ends
+--    FEINT    – fake wind-up to bait a roll, then resume orbit
+--
+--  The enemy reads _PlayerController_lastAttack and estimates player speed
+--  from frame-to-frame position to decide which sub-phase to use.
+-- ============================================================
+
+-- ── stdlib aliases ────────────────────────────────────────────────────────
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
-local min   = math.min
 local abs   = math.abs
 
--- ── States ────────────────────────────────────────────────────────────────
+-- ── Audio source GameObjects (filled in Start) ────────────────────────────
+local attackSource = nil
+local dieSource    = nil
+local hurtSource   = nil
+
+-- ── States ───────────────────────────────────────────────────────────────
 local State = {
-    IDLE   = "Idle",
-    WANDER = "Wander",
-    CHASE  = "Chase",
-    DEAD   = "Dead"
+    IDLE       = "Idle",
+    PATROL     = "Patrol",
+    CHASE      = "Chase",
+    ORBIT      = "Orbit",
+    ANTICIPATE = "Anticipate",
+    ATTACK     = "Attack",
+    DEAD       = "Dead",
 }
 
--- ── Enemy table (estructura de SkeletonController) ────────────────────────
-local Enemy = {
-    currentState    = nil,
-    rb              = nil,
-    nav             = nil,
-    startPos        = nil,
-    targetPos       = { x = 0, y = 0, z = 0 },
-    nextWanderTimer = 0,
-    chaseTimer      = 0,
-    currentY        = 0,
-    smoothDx        = 0,
-    smoothDz        = 0,
-    playerGO        = nil,
+-- ── Orbit sub-phases ─────────────────────────────────────────────────────
+local OrbitPhase = {
+    NEUTRAL  = "Neutral",   -- standard circling + sine pulse
+    PRESSURE = "Pressure",  -- player slow/idle → close in
+    RETREAT  = "Retreat",   -- player attacked  → backpedal
+    FEINT    = "Feint",     -- fake wind-up     → bait roll
 }
 
--- ── Attack variables (de EnemyController) ────────────────────────────────
-local isDead      = false
-local pendingDestroy = false
-local alreadyHit  = false
-local attackCol   = nil
-local attackTimer    = 0
-local isAttacking    = false
-local cooldownTimer  = 0
-local isOnCooldown   = false
-
-local DAMAGE_LIGHT     = 10
-local DAMAGE_HEAVY     = 25
-local ATTACK_DURATION  = 0.5
-local ATTACK_COL_DELAY = 0.25
-local ATTACK_COOLDOWN  = 5.0   -- segundos de espera entre ataques
-
+-- ── Global interop ────────────────────────────────────────────────────────
 _EnemyDamage_skeleton = 20
 
-local hp
-
+-- ── Public parameters ─────────────────────────────────────────────────────
 public = {
-    moveSpeed       = 10.0,
-    rotationSpeed   = 15.0,
-    dirSmoothing    = 12.0,
-    stopSmoothing   = 10.0,
-    chaseRange      = 15.0,
-    chaseUpdateRate = 0.5,
-    attackRange     = 2.0,
-    patrolRadius    = 5.0,
-    idleWaitTime    = 3.0,
     maxHp           = 30,
+
+    -- Movement
+    patrolSpeed     = 2.5,
+    chaseSpeed      = 4.8,
+    lungeForce      = 18.0,
+    moveAccel       = 18.0,
+    brakeDecel      = 14.0,
+    rotationSpeed   = 9.0,
+
+    -- NavMesh
+    navRefreshRate  = 0.18,
+
+    -- Detection
+    aggroRadius     = 8.0,
+    deaggroRadius   = 14.0,
+    attackRange     = 2.0,
+
+    -- ── Orbit base ────────────────────────────────────────────────────────
+    orbitTriggerDist  = 4.5,   -- chase → orbit threshold
+    orbitRadius       = 2.8,   -- preferred ring radius
+    orbitSpeed        = 3.2,   -- tangential strafe speed
+    orbitCorrSpeed    = 5.0,   -- radial spring strength
+    orbitCorrMaxFrac  = 0.6,   -- radial correction cap (fraction of orbitSpeed)
+    orbitDurMin       = 0.6,   -- min seconds before committing to attack
+    orbitDurMax       = 1.4,
+    orbitDirFlipMin   = 0.6,
+    orbitDirFlipMax   = 1.8,
+    orbitDirFlipChance= 0.4,
+
+    -- ── PRESSURE sub-phase (player idle / slow) ───────────────────────────
+    -- When the player is barely moving, the enemy closes in and speeds up its
+    -- strafe to force the player to react.
+    pressureSpeedThresh = 2.5,   -- player speed (m/s) below which PRESSURE triggers
+    pressureRadius      = 2.0,   -- tighter radius during pressure
+    pressureSpeed       = 4.5,   -- faster strafe during pressure
+    pressureEnterTime   = 0.4,   -- how long player must be slow before PRESSURE starts
+    pressureExitSpeed   = 4.0,   -- player speed above which PRESSURE cancels
+
+    -- ── RETREAT sub-phase (player just attacked) ──────────────────────────
+    -- When _PlayerController_lastAttack goes from "" to non-"", the enemy
+    -- instantly backpedals.  If the player's attack ends before retreatDur
+    -- is over, the enemy gets a short PUNISH window and commits to ANTICIPATE.
+    retreatSpeed     = 5.5,    -- how fast to back away
+    retreatDur       = 0.55,   -- max retreat duration (cancelled early by punish)
+    punishWindow     = 0.25,   -- after attack ends, enemy has this long to punish
+
+    -- ── FEINT sub-phase (fake wind-up) ───────────────────────────────────
+    -- The enemy plays the Anticipate animation briefly, then aborts and resets
+    -- its orbit timer.  Forces the player to read the full commit, not just react.
+    feintDur         = 0.22,   -- how long the fake wind-up lasts
+    feintCoolMin     = 3.5,    -- min seconds between feints
+    feintCoolMax     = 6.0,
+    feintChance      = 0.45,   -- probability of feinting when timer expires
+
+    -- ── Attack timing ─────────────────────────────────────────────────────
+    anticipateDur   = 0.45,
+    attackDur       = 0.45,
+    attackColDelay  = 0.22,
+    lungeStopDelay  = 0.25,
+    cooldownBase    = 2.0,
+    cooldownRage    = 1.2,
+
+    -- Damage
+    attackDamage    = 20,
     knockbackForce  = 5.0,
-    attackDamage    = 10,
+    stunDuration    = 0.35,
+
+    -- Patrol
+    patrolWaitMin   = 1.0,
+    patrolWaitMax   = 2.8,
+
+    -- Anims
+    animIdle        = "Idle",
+    animWalk        = "Walk",
+    animAnticipate  = "Anticipate",
+    animAttack      = "Attack",
+    animHit         = "Hit",
+    animDeath       = "Death",
 }
 
--- ── Helpers (de SkeletonController) ──────────────────────────────────────
-local function lerp(a, b, t)
-    t = min(1.0, t)
-    return a + (b - a) * t
+-- ── Runtime state ─────────────────────────────────────────────────────────
+local currentState = State.IDLE
+local hp           = 0
+
+local isDead       = false
+local pendingDeath = false
+
+local isStunned = false
+local stunTimer = 0
+
+local patrolWait = 0
+
+local isAttacking         = false
+local attackTimer         = 0
+local isOnCooldown        = false
+local cooldownTimer       = 0
+local playerHitThisAttack = false
+
+local anticipateTimer = 0
+local lungeStopTimer  = 0
+
+-- ── ORBIT runtime ─────────────────────────────────────────────────────────
+local orbitDir      = 1
+local orbitTimer    = 0
+local orbitDur      = 0
+local orbitDirTimer = 0
+
+-- Sub-phase
+local orbitSubPhase    = OrbitPhase.NEUTRAL
+local retreatTimer     = 0       -- countdown for RETREAT duration
+local punishTimer      = 0       -- countdown for punish window
+local feintTimer       = 0       -- countdown for FEINT duration
+local feintCooldown    = 0       -- countdown until next feint check
+
+-- Pressure accumulator (player must be slow for pressureEnterTime before entering)
+local pressureAccum  = 0
+
+-- ── Player reading ────────────────────────────────────────────────────────
+local playerSpeedEst    = 0      -- smoothed estimate of player speed (m/s)
+local playerPrevX       = 0
+local playerPrevZ       = 0
+local playerWasAttacking = false -- state of _PlayerController_lastAttack last frame
+
+-- ── NavMesh throttle ──────────────────────────────────────────────────────
+local navRefreshTimer = 0
+
+-- ── Hit detection ─────────────────────────────────────────────────────────
+local playerAttackHandled = false
+local alreadyHit          = false
+
+-- ── Components ────────────────────────────────────────────────────────────
+local nav       = nil
+local rb        = nil
+local anim      = nil
+local attackCol = nil
+local playerGO  = nil
+
+local targetVelX = 0
+local targetVelZ = 0
+local currentYaw = 0
+
+local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, stepSFX=nil }
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- HELPERS
+-- ─────────────────────────────────────────────────────────────────────────
+
+local function DistFlat(a, b)
+    local dx, dz = a.x - b.x, a.z - b.z
+    return sqrt(dx*dx + dz*dz)
 end
 
-local function shortAngleDiff(a, b)
-    local d = b - a
-    if d >  180 then d = d - 360 end
-    if d < -180 then d = d + 360 end
-    return d
+local function NormFlat(dx, dz)
+    local len = sqrt(dx*dx + dz*dz)
+    if len < 0.001 then return 0, 0 end
+    return dx/len, dz/len
 end
 
--- ── TakeDamage (de EnemyController) ──────────────────────────────────────
+local function Lerp(a, b, t)  return a + (b-a)*t  end
+
+local function Clamp(v, lo, hi)
+    if v < lo then return lo end
+    if v > hi then return hi end
+    return v
+end
+
+local function GetAttackCooldown(self)
+    return hp/self.public.maxHp < 0.5 and self.public.cooldownRage or self.public.cooldownBase
+end
+
+-- Physics helpers
+local function SetTargetVelocity(dx, dz, speed)
+    targetVelX = dx * speed
+    targetVelZ = dz * speed
+end
+
+local function ApplyMoveVelocity(dt, accelRate)
+    local vel  = rb:GetLinearVelocity()
+    rb:SetLinearVelocity(Lerp(vel.x, targetVelX, dt*accelRate),
+                         vel.y,
+                         Lerp(vel.z, targetVelZ, dt*accelRate))
+end
+
+local function RequestBrakeXZ(self)
+    targetVelX = 0;  targetVelZ = 0;  _ = self
+end
+
+local function HardBrakeXZ()
+    local vel = rb:GetLinearVelocity()
+    rb:SetLinearVelocity(0, vel.y or 0, 0)
+    targetVelX = 0;  targetVelZ = 0
+end
+
+-- Smooth rotation
+local function FaceTargetSmooth(self, target, dt)
+    local p  = self.transform.worldPosition
+    local dx = target.x - p.x
+    local dz = target.z - p.z
+    if abs(dx) < 0.001 and abs(dz) < 0.001 then return end
+
+    local desiredYaw = atan2(dx, dz) * (180/pi)
+    local delta      = desiredYaw - currentYaw
+    delta = delta - math.floor((delta+180)/360)*360
+
+    local turn = Clamp(delta, -self.public.rotationSpeed*dt*60, self.public.rotationSpeed*dt*60)
+    currentYaw = currentYaw + turn
+    rb:SetRotation(0, currentYaw, 0)
+end
+
+local function PlayAnim(name, blend)
+    if anim then anim:Play(name, blend or 0.15) end
+end
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- TAKEDAMAGE
+-- ─────────────────────────────────────────────────────────────────────────
+
 local function TakeDamage(self, amount, attackerPos)
-    if isDead then return end
+    if isDead or not hp then return end
 
     hp = hp - amount
-    Engine.Log("[Enemy] HP left: " .. hp .. "/" .. self.public.maxHp)
-
+    Engine.Log("[Enemy] HP: " .. hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
 
-    local rb = self.gameObject:GetComponent("Rigidbody")
     if rb and attackerPos then
-        local enemyPos = self.transform.worldPosition
-        local dx = enemyPos.x - attackerPos.x
-        local dz = enemyPos.z - attackerPos.z
-        local len = math.sqrt(dx * dx + dz * dz)
-        if len > 0.001 then dx = dx / len; dz = dz / len end
-        rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
+        local ep      = self.transform.worldPosition
+        local dx, dz  = NormFlat(ep.x-attackerPos.x, ep.z-attackerPos.z)
+        rb:AddForce(dx*self.public.knockbackForce, 0, dz*self.public.knockbackForce, 2)
     end
 
-    if hp <= 0 then
-        isDead = true
-        pendingDestroy = true -- Marcamos para eliminar al final del Update
-        Enemy.currentState = State.DEAD
-        
-        Engine.Log("[Enemy] DEAD - Pending destruction at frame end")
-        
-        -- Ralentización visual de impacto
+    if hp <= 0 and not pendingDeath then
+        pendingDeath = true
+    else
+        isStunned           = true
+        stunTimer           = self.public.stunDuration
+        isAttacking         = false
+        playerHitThisAttack = false
+        anticipateTimer     = 0
+        lungeStopTimer      = 0
+        orbitTimer          = 0
+        orbitSubPhase       = OrbitPhase.NEUTRAL
+
+        if attackCol then attackCol:Disable() end
+        if nav       then nav:StopMovement()  end
+        HardBrakeXZ()
+        PlayAnim(self.public.animHit, 0.05)
+        Engine.Log("[Enemy] STUNNED " .. self.public.stunDuration .. "s")
+    end
+end
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- STATE UPDATES
+-- ─────────────────────────────────────────────────────────────────────────
+
+local function UpdateIdle(self, dt)
+    RequestBrakeXZ(self)
+    ApplyMoveVelocity(dt, self.public.brakeDecel)
+
+    patrolWait = patrolWait - dt
+    if patrolWait > 0 then return end
+
+    local px, py, pz = nav:GetRandomPoint()
+    if px then
+        nav:SetDestination(px, py, pz)
+        PlayAnim(self.public.animWalk, 0.2)
+        currentState = State.PATROL
+    else
+        patrolWait = self.public.patrolWaitMin
+    end
+end
+
+local function UpdatePatrol(self, dt)
+    if not nav:IsMoving() then
+        RequestBrakeXZ(self)
+        ApplyMoveVelocity(dt, self.public.brakeDecel)
+        PlayAnim(self.public.animIdle, 0.2)
+        patrolWait   = self.public.patrolWaitMin
+            + math.random()*(self.public.patrolWaitMax - self.public.patrolWaitMin)
+        currentState = State.IDLE
+        return
+    end
+
+    local dx, dz = nav:GetMoveDirection(0.3)
+    SetTargetVelocity(dx, dz, self.public.patrolSpeed)
+    ApplyMoveVelocity(dt, self.public.moveAccel)
+    if abs(dx)>0.001 or abs(dz)>0.001 then
+        local p = self.transform.worldPosition
+        FaceTargetSmooth(self, {x=p.x+dx, y=p.y, z=p.z+dz}, dt)
+    end
+end
+
+local function UpdateChase(self, dt)
+    if not playerGO then currentState = State.IDLE; return end
+
+    local myPos = self.transform.worldPosition
+    local plPos = playerGO.transform.worldPosition
+    local dist  = DistFlat(myPos, plPos)
+
+    if dist > self.public.deaggroRadius then
+        nav:StopMovement(); RequestBrakeXZ(self)
+        PlayAnim(self.public.animIdle, 0.3)
+        currentState = State.IDLE
+        return
+    end
+
+    if dist <= self.public.orbitTriggerDist and not isOnCooldown then
+        nav:StopMovement()
+        orbitDir      = (math.random() < 0.5) and 1 or -1
+        orbitTimer    = 0
+        orbitDur      = self.public.orbitDurMin
+            + math.random()*(self.public.orbitDurMax - self.public.orbitDurMin)
+        orbitDirTimer = self.public.orbitDirFlipMin
+            + math.random()*(self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
+        orbitSubPhase = OrbitPhase.NEUTRAL
+        pressureAccum = 0
+        feintCooldown = self.public.feintCoolMin
+            + math.random()*(self.public.feintCoolMax - self.public.feintCoolMin)
+        PlayAnim(self.public.animWalk, 0.2)
+        currentState = State.ORBIT
+        Engine.Log("[Enemy] CHASE → ORBIT")
+        return
+    end
+
+    navRefreshTimer = navRefreshTimer - dt
+    if navRefreshTimer <= 0 then
+        nav:SetDestination(plPos.x, plPos.y, plPos.z)
+        navRefreshTimer = self.public.navRefreshRate
+    end
+
+    local dx, dz = nav:GetMoveDirection(0.3)
+    SetTargetVelocity(dx, dz, self.public.chaseSpeed)
+    ApplyMoveVelocity(dt, self.public.moveAccel)
+    FaceTargetSmooth(self, plPos, dt)
+end
+
+-- ── ORBIT ─────────────────────────────────────────────────────────────────
+--
+-- Four sub-phases, each driven by reading the player:
+--
+--  NEUTRAL  : Standard strafe + radial sine pulse (organic breathing motion)
+--  PRESSURE : Player speed < pressureSpeedThresh for > pressureEnterTime
+--             → Tighten radius and speed up strafe to force reaction
+--  RETREAT  : _PlayerController_lastAttack just went non-empty (player swung)
+--             → Back away fast; if attack ends during retreat → PUNISH commit
+--  FEINT    : Random fake anticipate animation; aborts after feintDur
+--             → Forces player to read the FULL wind-up, not just react to anim
+--
+-- All movement is pure physics. NavMesh agent stays stopped.
+-- Rigidbody colliders handle wall collisions naturally.
+--
+local function UpdateOrbit(self, dt)
+    if not playerGO then currentState = State.IDLE; return end
+
+    local myPos      = self.transform.worldPosition
+    local plPos      = playerGO.transform.worldPosition
+    local dist       = DistFlat(myPos, plPos)
+    local isAttacking_player = (_PlayerController_lastAttack ~= nil
+                                 and _PlayerController_lastAttack ~= "")
+
+    -- ── Always face the player ─────────────────────────────────────────────
+    FaceTargetSmooth(self, plPos, dt)
+
+    -- ── Global exit conditions ─────────────────────────────────────────────
+    if dist > self.public.deaggroRadius then
+        RequestBrakeXZ(self)
+        PlayAnim(self.public.animIdle, 0.3)
+        currentState = State.IDLE
+        Engine.Log("[Enemy] ORBIT → IDLE (deaggro)")
+        return
+    end
+
+    if dist > self.public.orbitTriggerDist * 1.6 then
+        navRefreshTimer = 0
+        PlayAnim(self.public.animWalk, 0.2)
+        currentState = State.CHASE
+        Engine.Log("[Enemy] ORBIT → CHASE (player escaped)")
+        return
+    end
+
+    -- ── Feint cooldown tick ────────────────────────────────────────────────
+    if orbitSubPhase ~= OrbitPhase.FEINT then
+        feintCooldown = feintCooldown - dt
+    end
+
+    -- ── Sub-phase: RETREAT ─────────────────────────────────────────────────
+    -- Triggered when player starts attacking.  Enemy instantly backs away.
+    -- If the player's swing ends while we're still retreating, we get a short
+    -- PUNISH window (commit to ANTICIPATE immediately).
+    if orbitSubPhase == OrbitPhase.RETREAT then
+        retreatTimer = retreatTimer - dt
+
+        -- Detect: player attack just ended → punish window
+        if playerWasAttacking and not isAttacking_player then
+            punishTimer = self.public.punishWindow
+        end
+        if punishTimer > 0 then
+            punishTimer = punishTimer - dt
+            if punishTimer > 0 then
+                -- Commit! Player left themselves open.
+                RequestBrakeXZ(self)
+                ApplyMoveVelocity(dt, self.public.brakeDecel)
+                anticipateTimer = 0
+                PlayAnim(self.public.animAnticipate, 0.05)
+                currentState = State.ANTICIPATE
+                Engine.Log("[Enemy] ORBIT PUNISH → ANTICIPATE (player attack ended)")
+                return
+            end
+        end
+
+        if retreatTimer <= 0 or not isAttacking_player then
+            -- Retreat over: reset orbit timer slightly so enemy circles a bit more
+            orbitTimer    = math.max(0, orbitDur - 0.4)
+            orbitSubPhase = OrbitPhase.NEUTRAL
+            Engine.Log("[Enemy] RETREAT → NEUTRAL")
+        else
+            -- Back away from the player
+            local rdx, rdz = NormFlat(myPos.x - plPos.x, myPos.z - plPos.z)
+            targetVelX = rdx * self.public.retreatSpeed
+            targetVelZ = rdz * self.public.retreatSpeed
+            ApplyMoveVelocity(dt, self.public.moveAccel)
+        end
+
+        playerWasAttacking = isAttacking_player
+        return
+    end
+
+    -- ── Sub-phase: FEINT ──────────────────────────────────────────────────
+    -- Freeze and play anticipate anim briefly, then abort.
+    if orbitSubPhase == OrbitPhase.FEINT then
+        feintTimer = feintTimer - dt
+        RequestBrakeXZ(self)
+        ApplyMoveVelocity(dt, self.public.brakeDecel)
+
+        if feintTimer <= 0 then
+            -- Feint over: reset orbit so player gets a bit more circling
+            orbitTimer    = 0
+            orbitDur      = self.public.orbitDurMin
+                + math.random()*(self.public.orbitDurMax - self.public.orbitDurMin)
+            feintCooldown = self.public.feintCoolMin
+                + math.random()*(self.public.feintCoolMax - self.public.feintCoolMin)
+            orbitSubPhase = OrbitPhase.NEUTRAL
+            PlayAnim(self.public.animWalk, 0.2)
+            Engine.Log("[Enemy] FEINT aborted → NEUTRAL")
+        end
+
+        playerWasAttacking = isAttacking_player
+        return
+    end
+
+    -- ── Detect player attack start → RETREAT ─────────────────────────────
+    if isAttacking_player and not playerWasAttacking then
+        orbitSubPhase = OrbitPhase.RETREAT
+        retreatTimer  = self.public.retreatDur
+        punishTimer   = 0
+        Engine.Log("[Enemy] Player attacked → RETREAT")
+        playerWasAttacking = isAttacking_player
+        return
+    end
+
+    -- ── Sub-phase: PRESSURE / NEUTRAL decision ────────────────────────────
+    if playerSpeedEst < self.public.pressureSpeedThresh then
+        pressureAccum = pressureAccum + dt
+    else
+        pressureAccum = math.max(0, pressureAccum - dt * 2)
+    end
+
+    local inPressure = (pressureAccum >= self.public.pressureEnterTime)
+
+    if playerSpeedEst > self.public.pressureExitSpeed then
+        -- Player moving fast toward/away → cancel pressure, normal orbit
+        pressureAccum = 0
+        inPressure    = false
+    end
+
+    if inPressure then
+        orbitSubPhase = OrbitPhase.PRESSURE
+    elseif orbitSubPhase == OrbitPhase.PRESSURE then
+        orbitSubPhase = OrbitPhase.NEUTRAL
+    end
+
+    -- ── Commit to attack when timer expires ───────────────────────────────
+    if orbitTimer >= orbitDur then
+        RequestBrakeXZ(self)
+        ApplyMoveVelocity(dt, self.public.brakeDecel)
+        anticipateTimer = 0
+        PlayAnim(self.public.animAnticipate, 0.05)
+        currentState = State.ANTICIPATE
+        Engine.Log("[Enemy] ORBIT → ANTICIPATE (timer)")
+        return
+    end
+
+    -- ── Feint check ───────────────────────────────────────────────────────
+    if feintCooldown <= 0 then
+        if math.random() < self.public.feintChance then
+            orbitSubPhase = OrbitPhase.FEINT
+            feintTimer    = self.public.feintDur
+            PlayAnim(self.public.animAnticipate, 0.05)
+            Engine.Log("[Enemy] FEINT started")
+            playerWasAttacking = isAttacking_player
+            return
+        end
+        -- Chance failed: reset cooldown and try again later
+        feintCooldown = self.public.feintCoolMin
+            + math.random()*(self.public.feintCoolMax - self.public.feintCoolMin)
+    end
+
+    -- ── Occasional direction flip ─────────────────────────────────────────
+    orbitDirTimer = orbitDirTimer - dt
+    if orbitDirTimer <= 0 then
+        if math.random() < self.public.orbitDirFlipChance then
+            orbitDir = -orbitDir
+        end
+        orbitDirTimer = self.public.orbitDirFlipMin
+            + math.random()*(self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
+    end
+
+    -- ── Velocity composition ──────────────────────────────────────────────
+    -- Choose radius and speed based on sub-phase
+    local activeRadius = self.public.orbitRadius
+    local activeSpeed  = self.public.orbitSpeed
+    if orbitSubPhase == OrbitPhase.PRESSURE then
+        activeRadius = self.public.pressureRadius
+        activeSpeed  = self.public.pressureSpeed
+    end
+
+    -- Radial unit vector (enemy away from player)
+    local rdx, rdz = NormFlat(myPos.x - plPos.x, myPos.z - plPos.z)
+
+    -- Tangential unit vector
+    local tdx, tdz
+    if orbitDir > 0 then tdx, tdz = -rdz,  rdx
+    else                  tdx, tdz =  rdz, -rdx  end
+
+    -- Radial spring toward activeRadius
+    local error   = dist - activeRadius
+    local corrMax = activeSpeed * self.public.orbitCorrMaxFrac
+    local corrVel = Clamp(-error * self.public.orbitCorrSpeed, -corrMax, corrMax)
+
+    -- Sine pulse: organic in/out breathing (only in NEUTRAL; PRESSURE is more focused)
+    local pulse = 0
+    if orbitSubPhase == OrbitPhase.NEUTRAL then
+        pulse = math.sin(orbitTimer * 5.0) * activeSpeed * 0.4
+    end
+
+    local radialTotal = corrVel + pulse
+    local blendX      = tdx * activeSpeed + rdx * radialTotal
+    local blendZ      = tdz * activeSpeed + rdz * radialTotal
+
+    -- Renormalise to activeSpeed
+    local bLen = sqrt(blendX*blendX + blendZ*blendZ)
+    if bLen > 0.001 then
+        blendX = (blendX/bLen) * activeSpeed
+        blendZ = (blendZ/bLen) * activeSpeed
+    end
+
+    targetVelX = blendX
+    targetVelZ = blendZ
+    ApplyMoveVelocity(dt, self.public.moveAccel)
+
+    orbitTimer         = orbitTimer + dt
+    playerWasAttacking = isAttacking_player
+end
+
+-- ── ANTICIPATE ────────────────────────────────────────────────────────────
+local function UpdateAnticipate(self, dt)
+    anticipateTimer = anticipateTimer + dt
+    RequestBrakeXZ(self)
+    ApplyMoveVelocity(dt, self.public.brakeDecel)
+    if nav      then nav:StopMovement() end
+    if playerGO then FaceTargetSmooth(self, playerGO.transform.worldPosition, dt) end
+
+    if anticipateTimer < self.public.anticipateDur then return end
+
+    local myPos    = self.transform.worldPosition
+    local plPos    = playerGO and playerGO.transform.worldPosition or myPos
+    local ndx, ndz = NormFlat(plPos.x-myPos.x, plPos.z-myPos.z)
+
+    rb:AddForce(ndx*self.public.lungeForce, 0, ndz*self.public.lungeForce, 2)
+    targetVelX = ndx * self.public.lungeForce * 0.5
+    targetVelZ = ndz * self.public.lungeForce * 0.5
+
+    if attackCol then attackCol:Disable() end
+    playerHitThisAttack = false
+    isAttacking         = true
+    attackTimer         = 0
+    lungeStopTimer      = self.public.lungeStopDelay
+
+    PlayAnim(self.public.animAttack, 0.05)
+    currentState = State.ATTACK
+    Engine.Log("[Enemy] ANTICIPATE → ATTACK (lunge!)")
+end
+
+-- ── ATTACK ────────────────────────────────────────────────────────────────
+local function UpdateAttack(self, dt)
+    attackTimer    = attackTimer    + dt
+    lungeStopTimer = lungeStopTimer - dt
+
+    if lungeStopTimer <= 0 then
+        RequestBrakeXZ(self)
+        ApplyMoveVelocity(dt, self.public.brakeDecel)
+    end
+
+    if attackTimer >= self.public.attackColDelay and attackCol then
+        attackCol:Enable()
+    end
+
+    if attackTimer >= self.public.attackColDelay and not playerHitThisAttack and playerGO then
+        local pp = playerGO.transform.position
+        local mp = self.transform.worldPosition
+        if pp and DistFlat(pp, mp) <= self.public.attackRange then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack                = true
+                _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+            end
+        end
+    end
+
+    if attackTimer >= self.public.attackDur then
+        isAttacking         = false
+        playerHitThisAttack = false
+        if attackCol then attackCol:Disable() end
+        attackTimer   = 0
+        isOnCooldown  = true
+        cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8
+
+        -- If still close enough, go straight back to orbit instead of full chase
+        local dist = playerGO and DistFlat(self.transform.worldPosition,
+                                           playerGO.transform.worldPosition) or 999
+        if dist <= self.public.orbitTriggerDist * 1.3 then
+            orbitDir      = -orbitDir     -- flip side so it doesn't just repeat
+            orbitTimer    = 0
+            orbitDur      = self.public.orbitDurMin
+                + math.random()*(self.public.orbitDurMax - self.public.orbitDurMin)
+            orbitDirTimer = self.public.orbitDirFlipMin
+                + math.random()*(self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
+            orbitSubPhase = OrbitPhase.NEUTRAL
+            pressureAccum = 0
+            PlayAnim(self.public.animWalk, 0.25)
+            currentState = State.ORBIT
+            Engine.Log("[Enemy] ATTACK → ORBIT (still close)")
+        else
+            navRefreshTimer = 0
+            PlayAnim(self.public.animWalk, 0.25)
+            currentState = State.CHASE
+            Engine.Log("[Enemy] ATTACK → CHASE (cooldown "
+                       .. string.format("%.2f", cooldownTimer) .. "s)")
+        end
+    end
+end
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- START
+-- ─────────────────────────────────────────────────────────────────────────
+function Start(self)
+    Game.SetTimeScale(1.0)
+
+    hp                  = self.public.maxHp
+    isDead              = false
+    pendingDeath        = false
+    alreadyHit          = false
+    playerAttackHandled = false
+    isStunned           = false
+    isAttacking         = false
+    isOnCooldown        = false
+    targetVelX          = 0
+    targetVelZ          = 0
+    navRefreshTimer     = 0
+    orbitDir            = 1
+    orbitTimer          = 0
+    orbitDur            = 0
+    orbitDirTimer       = 0
+    orbitSubPhase       = OrbitPhase.NEUTRAL
+    retreatTimer        = 0
+    punishTimer         = 0
+    feintTimer          = 0
+    feintCooldown       = self.public.feintCoolMin
+    pressureAccum       = 0
+    playerSpeedEst      = 0
+    playerPrevX         = 0
+    playerPrevZ         = 0
+    playerWasAttacking  = false
+    currentYaw          = (self.transform.worldRotation and self.transform.worldRotation.y) or 0
+    currentState        = State.IDLE
+    patrolWait          = self.public.patrolWaitMin
+        + math.random()*(self.public.patrolWaitMax - self.public.patrolWaitMin)
+
+    nav       = self.gameObject:GetComponent("Navigation")
+    rb        = self.gameObject:GetComponent("Rigidbody")
+    anim      = self.gameObject:GetComponent("Animation")
+    attackCol = self.gameObject:GetComponent("Box Collider")
+    Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
+
+    attackSource = GameObject.Find("Enemy_AttackSource")
+    dieSource    = GameObject.Find("Enemy_DieSource")
+    hurtSource   = GameObject.Find("Enemy_HurtSource")
+    if attackSource then Enemy.attackSFX = attackSource:GetComponent("Audio Source") end
+    if dieSource    then Enemy.dieSFX    = dieSource:GetComponent("Audio Source")    end
+    if hurtSource   then Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source")   end
+
+    PlayAnim(self.public.animIdle, 0.0)
+    Engine.Log("[Enemy] Start OK  HP=" .. hp)
+end
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- UPDATE
+-- ─────────────────────────────────────────────────────────────────────────
+function Update(self, dt)
+    if isDead then return end
+
+    if pendingDeath then
+        isAttacking = false; isOnCooldown = false
+        if nav then nav:StopMovement() end
+        if rb  then HardBrakeXZ() end
+        currentState = State.DEAD
+        isDead       = true
+        PlayAnim(self.public.animDeath, 0.05)
+        Engine.Log("[Enemy] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
-
-        -- Opcional: Desactivamos el collider de ataque para evitar tradeos de daño póstumos
-        if attackCol then attackCol:Disable() end
-    end
-end
-
--- ── Movement (de SkeletonController) ─────────────────────────────────────
-local function Movement(self, dt)
-    if not Enemy.nav or not Enemy.rb then return false, 0 end
-
-    local vel = Enemy.rb:GetLinearVelocity()
-    local vy  = (vel and vel.y) or 0
-
-    local isMoving    = Enemy.nav:IsMoving()
-    local dx, dz      = Enemy.nav:GetMoveDirection(0.3)
-    local hasFreshDir = (dx ~= 0 or dz ~= 0)
-
-    -- Normalización
-    if hasFreshDir then
-        local mag = sqrt(dx * dx + dz * dz)
-        dx, dz = dx / mag, dz / mag
-    end
-
-    -- Suavizado de dirección
-    if not isMoving then
-        Enemy.smoothDx = lerp(Enemy.smoothDx, 0, dt * self.public.stopSmoothing)
-        Enemy.smoothDz = lerp(Enemy.smoothDz, 0, dt * self.public.stopSmoothing)
-
-        if abs(Enemy.smoothDx) < 0.01 and abs(Enemy.smoothDz) < 0.01 then
-            Enemy.smoothDx, Enemy.smoothDz = 0, 0
-            Enemy.rb:SetLinearVelocity(0, vy, 0)
-        end
-    elseif hasFreshDir then
-        local t = min(1.0, dt * self.public.dirSmoothing)
-        Enemy.smoothDx = Enemy.smoothDx + (dx - Enemy.smoothDx) * t
-        Enemy.smoothDz = Enemy.smoothDz + (dz - Enemy.smoothDz) * t
-    end
-
-    -- Rotación
-    if Enemy.smoothDx ~= 0 or Enemy.smoothDz ~= 0 then
-        local targetAngle = atan2(Enemy.smoothDx, Enemy.smoothDz) * (180.0 / pi)
-        local diff = shortAngleDiff(Enemy.currentY, targetAngle)
-        Enemy.currentY = Enemy.currentY + diff * self.public.rotationSpeed * dt
-        self.transform:SetRotation(0, Enemy.currentY, 0)
-    end
-
-    -- Aplicar posición
-    local sMag = sqrt(Enemy.smoothDx * Enemy.smoothDx + Enemy.smoothDz * Enemy.smoothDz)
-    if sMag > 0.01 then
-        local speed = self.public.moveSpeed
-        local vX    = (Enemy.smoothDx / sMag) * speed
-        local vZ    = (Enemy.smoothDz / sMag) * speed
-        local pos   = self.transform.position
-        self.transform:SetPosition(pos.x + vX * dt, pos.y, pos.z + vZ * dt)
-    end
-
-    return isMoving, sMag
-end
-
--- ── Start ─────────────────────────────────────────────────────────────────
-function Start(self)
-    Game.SetTimeScale(1.0) 
-   
-    hp         = self.public.maxHp
-    isDead     = false
-    alreadyHit = false
-    pendingDestroy = false
-
-    Enemy.smoothDx = 0
-    Enemy.smoothDz = 0
-    Enemy.currentY = 0
-
-    isAttacking   = false
-    isOnCooldown  = false
-    attackTimer   = 0
-    cooldownTimer = 0
-
-    Enemy.nav = self.gameObject:GetComponent("Navigation")
-    Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
-
-    local pos = self.transform.position
-    Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
-
-    Enemy.currentState    = State.IDLE
-    Enemy.nextWanderTimer = self.public.idleWaitTime
-    Enemy.chaseTimer      = 0
-    Enemy.playerGO        = nil
-
-    attackCol = self.gameObject:GetComponent("Box Collider")
-    if attackCol then
-        attackCol:Disable()
-        Engine.Log("[Enemy] Attack collider disabled")
-    else
-        Engine.Log("[Enemy] ERROR: No attack collider found")
-    end
-end
-
--- ── Update ────────────────────────────────────────────────────────────────
-function Update(self, dt)
-    -- Si ya fue destruido en el frame anterior, salimos
-    if not self.gameObject then return end
-
-    -- Cheat/Debug para suicidio
-    if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
-        Enemy.currentState = State.Dead
+        self:Destroy()
         return
     end
 
-    -- Si está muerto, solo procesamos la destrucción pendiente al final
-    if isDead then
-        if pendingDestroy then
-            self:Destroy()
-            pendingDestroy = false
-        end
-        return 
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
-    -- Reintentar conseguir componentes si faltan
-    if not Enemy.nav or not Enemy.rb then
-        Enemy.nav = self.gameObject:GetComponent("Navigation")
-        Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
+    if isStunned then
+        stunTimer = stunTimer - dt
+        HardBrakeXZ()
+        if stunTimer <= 0 then
+            isStunned = false
+            Engine.Log("[Enemy] Stun over")
+        end
         return
     end
 
-    -- Buscar player
-    if not Enemy.playerGO then
-        Enemy.playerGO = GameObject.Find("Player")
-    end
-
-    local myPos   = self.transform.position
-    local inRange = false
-
-    -- Detección y persecución
-    if Enemy.playerGO then
-        local pp = Enemy.playerGO.transform.position
-        if pp then
-            local distX = pp.x - myPos.x
-            local distZ = pp.z - myPos.z
-            local dist  = sqrt(distX * distX + distZ * distZ)
-
-            if dist < self.public.chaseRange then
-                Enemy.currentState = State.CHASE
-                if dist <= self.public.attackRange then
-                    inRange = true
-                    Enemy.nav:StopMovement()
-                else
-                    Enemy.chaseTimer = Enemy.chaseTimer - dt
-                    if Enemy.chaseTimer <= 0 then
-                        Enemy.chaseTimer = self.public.chaseUpdateRate
-                        Enemy.nav:SetDestination(pp.x, pp.y, pp.z)
-                    end
-                end
-            else
-                if Enemy.currentState == State.CHASE then
-                    Enemy.currentState = State.IDLE
-                    Enemy.nextWanderTimer = self.public.idleWaitTime
-                end
-            end
-        end
-    end
-
-    -- Lógica de Ataque
-    if inRange then
-        Enemy.smoothDx, Enemy.smoothDz = 0, 0
-        local vel = Enemy.rb:GetLinearVelocity()
-        Enemy.rb:SetLinearVelocity(0, vel.y, 0)
-
-        if not isOnCooldown then
-            if not isAttacking then
-                isAttacking = true
-                attackTimer = 0
-            end
-
-            attackTimer = attackTimer + dt
-            if attackTimer >= ATTACK_COL_DELAY and attackCol then
-                attackCol:Enable()
-            end
-
-            if attackTimer >= ATTACK_DURATION then
-                isAttacking   = false
-                isOnCooldown  = true
-                cooldownTimer = ATTACK_COOLDOWN
-                if attackCol then attackCol:Disable() end
-                attackTimer = 0
-            end
-            return 
-        end
-    end
-
-    if isAttacking then
-        isAttacking = false
-        if attackCol then attackCol:Disable() end
-        attackTimer = 0
-    end
-
-    -- Cooldown
     if isOnCooldown then
         cooldownTimer = cooldownTimer - dt
-        Enemy.smoothDx, Enemy.smoothDz = 0, 0
-        if cooldownTimer <= 0 then isOnCooldown = false end
+        if cooldownTimer <= 0 then
+            isOnCooldown = false
+            Engine.Log("[Enemy] Cooldown over")
+        end
+    end
+
+    if not nav or not rb then
+        nav = self.gameObject:GetComponent("Navigation")
+        rb  = self.gameObject:GetComponent("Rigidbody")
         return
     end
 
-    -- Movimiento y Patrulla
-    local isMoving, speed = Movement(self, dt)
+    if not playerGO then
+        playerGO = GameObject.Find("Player")
+    end
 
-    if Enemy.currentState == State.IDLE then
-        Enemy.nextWanderTimer = Enemy.nextWanderTimer - dt
-        if Enemy.nextWanderTimer <= 0 then
-            local angle = math.random() * pi * 2
-            local dist  = math.random() * self.public.patrolRadius
-            Enemy.targetPos.x = Enemy.startPos.x + math.cos(angle) * dist
-            Enemy.targetPos.z = Enemy.startPos.z + math.sin(angle) * dist
-            if Enemy.nav then
-                Enemy.nav:SetDestination(Enemy.targetPos.x, Enemy.startPos.y, Enemy.targetPos.z)
-                Enemy.currentState = State.WANDER
+    -- ── Estimate player speed from position delta ─────────────────────────
+    -- Used by ORBIT to detect idle (pressure) vs. moving fast (disengage pressure).
+    if playerGO then
+        local pp   = playerGO.transform.worldPosition
+        local rawV = sqrt((pp.x-playerPrevX)^2 + (pp.z-playerPrevZ)^2) / math.max(dt, 0.001)
+        playerSpeedEst = Lerp(playerSpeedEst, rawV, dt * 6.0)  -- smooth it
+        playerPrevX    = pp.x
+        playerPrevZ    = pp.z
+    end
+
+    -- ── Player attack polling (Mode A) ────────────────────────────────────
+    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
+        if not playerAttackHandled and playerGO and not isDead then
+            local myPos = self.transform.worldPosition
+            local pp    = playerGO.transform.position
+            if pp then
+                local dist = DistFlat(myPos, pp)
+                if dist <= self.public.attackRange + 1.5 then
+                    playerAttackHandled = true
+                    local atk = _PlayerController_lastAttack
+                    if     atk == "light"  then TakeDamage(self, 10, pp)
+                    elseif atk == "heavy" or atk == "charge" then TakeDamage(self, 25, pp)
+                    end
+                end
             end
         end
-    elseif Enemy.currentState == State.WANDER then
-        if not isMoving and speed < 0.05 then
-            Enemy.nextWanderTimer = self.public.idleWaitTime
-            Enemy.currentState    = State.IDLE
+    else
+        playerAttackHandled = false
+        alreadyHit          = false
+    end
+
+    -- ── Aggro ─────────────────────────────────────────────────────────────
+    if (currentState == State.IDLE or currentState == State.PATROL) and playerGO then
+        local dist = DistFlat(self.transform.worldPosition, playerGO.transform.worldPosition)
+        if dist <= self.public.aggroRadius then
+            nav:StopMovement(); RequestBrakeXZ(self); navRefreshTimer = 0
+            PlayAnim(self.public.animWalk, 0.2)
+            currentState = State.CHASE
         end
     end
 
-    -- SEGURIDAD: Si por alguna razón la vida bajó a 0 durante el Update, borramos aquí
-    if pendingDestroy then
-        self:Destroy()
-        pendingDestroy = false
+    -- ── State dispatch ────────────────────────────────────────────────────
+    if     currentState == State.IDLE       then UpdateIdle(self, dt)
+    elseif currentState == State.PATROL     then UpdatePatrol(self, dt)
+    elseif currentState == State.CHASE      then UpdateChase(self, dt)
+    elseif currentState == State.ORBIT      then UpdateOrbit(self, dt)
+    elseif currentState == State.ANTICIPATE then UpdateAnticipate(self, dt)
+    elseif currentState == State.ATTACK     then UpdateAttack(self, dt)
     end
 end
 
--- ── OnTriggerEnter ────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────────
+-- TRIGGER EVENTS
+-- ─────────────────────────────────────────────────────────────────────────
+
 function OnTriggerEnter(self, other)
     if isDead then return end
 
     if other:CompareTag("Player") then
-        -- El player golpea al enemigo
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
-            if attack ~= "" then
+            if attack ~= nil and attack ~= "" then
                 alreadyHit = true
-                local attackerPos = other.transform.worldPosition
+                local ap   = other.transform.worldPosition
                 if attack == "light" then
-                    TakeDamage(self, DAMAGE_LIGHT, attackerPos)
-                elseif attack == "heavy" then
-                    TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+                    TakeDamage(self, 10, ap)
+                elseif attack == "heavy" or attack == "charge" then
+                    TakeDamage(self, 25, ap)
                 end
             end
         end
 
-        -- El enemigo golpea al player
-        if isAttacking and _PlayerController_pendingDamage == 0 then
-            _PlayerController_pendingDamage    = _EnemyDamage_skeleton
-            _PlayerController_pendingDamagePos = self.transform.worldPosition
-            Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
+        if isAttacking and not playerHitThisAttack then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack                = true
+                _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+            end
         end
     end
 end
 
--- ── OnTriggerExit ─────────────────────────────────────────────────────────
-function OnTriggerExit(self, other)
-    if other:CompareTag("Player") then
-        alreadyHit = false
-    end
-end
+function OnTriggerExit(self, other) end

@@ -123,7 +123,9 @@ public = {
     interact            = false,
     giveApoloMask       = false,
     giveHermesMask      = false,
-    giveAresMask        = false
+    giveAresMask        = false,
+    attackImpulseForce  = 8.0,
+    attackImpulseWindow = 0.15,
 }
 
 
@@ -555,14 +557,16 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
-        _PlayerController_lastAttack = "charge"
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Charge", 1.0) end
         attackTimer = 0
-        if chargeCol then chargeCol:Enable() end
+        if chargeCol then 
+            chargeCol:Enable() 
+            _PlayerController_lastAttack = "charge"
+        end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -637,25 +641,28 @@ States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("NormalAttack", 1.0) end
-        _PlayerController_lastAttack = "light"
         attackTimer = 0
         if attackCol then attackCol:Disable() end
     end,
     Update = function(self, dt)
-        if Player.rb then
-            local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, velocity.y, 0)
-        end
-
         attackTimer = attackTimer + dt
 
         if attackTimer >= Player.attackDelay and attackCol then
+            _PlayerController_lastAttack = "light"
             attackCol:Enable()
+
+            if Player.rb then
+                local velocity = Player.rb:GetLinearVelocity()
+                local radians = math.rad(Player.lastAngle)
+                local fwdX = math.sin(radians)
+                local fwdZ = math.cos(radians)
+                Player.rb:SetLinearVelocity(fwdX * self.public.attackImpulseForce, velocity.y, fwdZ * self.public.attackImpulseForce)
+            end
         end
 
         if attackTimer >= self.public.attackDuration then
-            if Player.swordSFX then 
-                Player.swordSFX:PlayAudioEvent() 
+            if Player.swordSFX then
+                Player.swordSFX:PlayAudioEvent()
             end
             attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)

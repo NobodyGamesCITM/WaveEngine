@@ -1,373 +1,533 @@
+-- ============================================================
+--  EnemyController.lua  –  Tunic-style enemy
+--
+--  State machine:
+--    IDLE ──► PATROL ──► CHASE ──► ANTICIPATE ──► ATTACK ──► (cooldown)
+--               ▲                                              │
+--               └──────────────────────────────────────────────┘
+--
+--  Damage / stun / death: same pattern as SkeletonController
+--  Movement: NavMesh pathfinding + SetLinearVelocity (physics)
+--  Attack:   physics IMPULSE lunge + timed hitbox window
+-- ============================================================
+
+-- ── stdlib aliases ────────────────────────────────────────────────────────
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
 local min   = math.min
 local abs   = math.abs
 
--- ── States ────────────────────────────────────────────────────────────────
+-- ── Audio source GameObjects (filled in Start) ────────────────────────────
+local attackSource = nil
+local dieSource    = nil
+local hurtSource   = nil
+
+-- ── States ───────────────────────────────────────────────────────────────
 local State = {
-    IDLE   = "Idle",
-    WANDER = "Wander",
-    CHASE  = "Chase",
-    DEAD   = "Dead"
+    IDLE       = "Idle",
+    PATROL     = "Patrol",
+    CHASE      = "Chase",
+    ANTICIPATE = "Anticipate",  -- wind-up telegraph (frozen)
+    ATTACK     = "Attack",      -- hitbox active window
+    DEAD       = "Dead",
 }
 
--- ── Enemy table (estructura de SkeletonController) ────────────────────────
-local Enemy = {
-    currentState    = nil,
-    rb              = nil,
-    nav             = nil,
-    startPos        = nil,
-    targetPos       = { x = 0, y = 0, z = 0 },
-    nextWanderTimer = 0,
-    chaseTimer      = 0,
-    currentY        = 0,
-    smoothDx        = 0,
-    smoothDz        = 0,
-    playerGO        = nil,
-}
-
--- ── Attack variables (de EnemyController) ────────────────────────────────
-local isDead      = false
-local pendingDestroy = false
-local alreadyHit  = false
-local attackCol   = nil
-local attackTimer    = 0
-local isAttacking    = false
-local cooldownTimer  = 0
-local isOnCooldown   = false
-
-local DAMAGE_LIGHT     = 10
-local DAMAGE_HEAVY     = 25
-local ATTACK_DURATION  = 0.5
-local ATTACK_COL_DELAY = 0.25
-local ATTACK_COOLDOWN  = 5.0   -- segundos de espera entre ataques
-
+-- ── Global interop (read by PlayerController) ────────────────────────────
 _EnemyDamage_skeleton = 20
 
-local hp
-
+-- ── Public parameters ─────────────────────────────────────────────────────
 public = {
-    moveSpeed       = 10.0,
-    rotationSpeed   = 15.0,
-    dirSmoothing    = 12.0,
-    stopSmoothing   = 10.0,
-    chaseRange      = 15.0,
-    chaseUpdateRate = 0.5,
-    attackRange     = 2.0,
-    patrolRadius    = 5.0,
-    idleWaitTime    = 3.0,
-    maxHp           = 30,
-    knockbackForce  = 5.0,
-    attackDamage    = 10,
+    maxHp          = 30,
+
+    -- Speeds
+    patrolSpeed    = 2.5,
+    chaseSpeed     = 4.8,
+    lungeForce     = 18.0,       -- IMPULSE magnitude on the lunge
+
+    -- Detection
+    aggroRadius    = 8.0,
+    deaggroRadius  = 14.0,
+    attackRange    = 2.0,        -- distance to trigger ANTICIPATE
+
+    -- Attack timing (seconds)
+    anticipateDur  = 0.45,       -- telegraph freeze
+    attackDur      = 0.45,       -- hitbox-active window
+    attackColDelay = 0.22,       -- delay before enabling the hitbox collider
+    cooldownBase   = 2.0,        -- base cooldown after each attack
+    cooldownRage   = 1.2,        -- cooldown when HP < 50 %
+
+    -- Damage & reaction
+    attackDamage   = 20,
+    knockbackForce = 5.0,
+    stunDuration   = 0.35,       -- seconds paralysed after receiving a hit
+
+    -- Patrol
+    patrolWaitMin  = 1.0,
+    patrolWaitMax  = 2.8,
+
+    -- Rotation
+    rotationSpeed  = 8.0,
+
+    -- Animation names (change to match your rig's clip names)
+    animIdle       = "Idle",
+    animWalk       = "Walk",
+    animAnticipate = "Anticipate",
+    animAttack     = "Attack",
+    animHit        = "Hit",
+    animDeath      = "Death",
 }
 
--- ── Helpers (de SkeletonController) ──────────────────────────────────────
-local function lerp(a, b, t)
-    t = min(1.0, t)
-    return a + (b - a) * t
+-- ── Runtime variables ─────────────────────────────────────────────────────
+local currentState = State.IDLE
+local hp           = 0
+
+-- Death
+local isDead       = false
+local pendingDeath = false
+
+-- Hit stun
+local isStunned = false
+local stunTimer = 0
+
+-- Patrol
+local patrolWait = 0
+
+-- Attack / cooldown
+local isAttacking         = false
+local attackTimer         = 0
+local isOnCooldown        = false
+local cooldownTimer       = 0
+local playerHitThisAttack = false   -- prevents double-damage per swing
+
+-- ANTICIPATE (wind-up)
+local anticipateTimer = 0
+
+-- Player hit detection (dual system: trigger + polling, same as SkeletonController)
+local playerAttackHandled = false   -- reset when lastAttack returns to ""
+local alreadyHit          = false   -- guard inside OnTriggerEnter
+
+-- Cached components
+local nav       = nil
+local rb        = nil
+local anim      = nil
+local attackCol = nil
+local playerGO  = nil
+
+-- Audio component references
+local Enemy = {
+    attackSFX = nil,
+    dieSFX    = nil,
+    hurtSFX   = nil,
+    stepSFX   = nil,
+}
+
+-- ── Pure helpers ──────────────────────────────────────────────────────────
+
+local function DistFlat(a, b)
+    local dx, dz = a.x - b.x, a.z - b.z
+    return sqrt(dx * dx + dz * dz)
 end
 
-local function shortAngleDiff(a, b)
-    local d = b - a
-    if d >  180 then d = d - 360 end
-    if d < -180 then d = d + 360 end
-    return d
+local function NormFlat(dx, dz)
+    local len = sqrt(dx * dx + dz * dz)
+    if len < 0.001 then return 0, 0 end
+    return dx / len, dz / len
 end
 
--- ── TakeDamage (de EnemyController) ──────────────────────────────────────
+-- Returns the correct cooldown duration depending on rage phase.
+local function GetAttackCooldown(self)
+    local ratio = hp / self.public.maxHp
+    if ratio < 0.5 then return self.public.cooldownRage end
+    return self.public.cooldownBase
+end
+
+-- Drive horizontal velocity; preserve Y for gravity.
+local function SetMoveVelocity(dx, dz, speed)
+    local vel = rb:GetLinearVelocity()
+    rb:SetLinearVelocity(dx * speed, vel.y, dz * speed)
+end
+
+-- Kill XZ momentum, keep Y.
+local function BrakeXZ()
+    local vel = rb:GetLinearVelocity()
+    rb:SetLinearVelocity(0, vel.y, 0)
+end
+
+-- Smooth Y-axis rotation toward a world XZ point (uses rb so physics body stays in sync).
+local function FaceTarget(self, target)
+    local p  = self.transform.worldPosition
+    local dx = target.x - p.x
+    local dz = target.z - p.z
+    if abs(dx) < 0.001 and abs(dz) < 0.001 then return end
+    rb:SetRotation(0, atan2(dx, dz) * (180.0 / pi), 0)
+end
+
+-- Convenience animation wrapper.
+local function PlayAnim(name, blend)
+    if anim then anim:Play(name, blend or 0.15) end
+end
+
+-- ── TakeDamage ────────────────────────────────────────────────────────────
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
+    if not hp  then return end
 
     hp = hp - amount
     Engine.Log("[Enemy] HP left: " .. hp .. "/" .. self.public.maxHp)
 
     _PlayerController_triggerCameraShake = true
 
-    local rb = self.gameObject:GetComponent("Rigidbody")
+    -- Physics knockback impulse away from the attacker
     if rb and attackerPos then
         local enemyPos = self.transform.worldPosition
         local dx = enemyPos.x - attackerPos.x
         local dz = enemyPos.z - attackerPos.z
-        local len = math.sqrt(dx * dx + dz * dz)
+        local len = sqrt(dx * dx + dz * dz)
         if len > 0.001 then dx = dx / len; dz = dz / len end
         rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
     end
 
-    if hp <= 0 then
-        isDead = true
-        pendingDestroy = true -- Marcamos para eliminar al final del Update
-        Enemy.currentState = State.DEAD
-        
-        Engine.Log("[Enemy] DEAD - Pending destruction at frame end")
-        
-        -- Ralentización visual de impacto
-        Game.SetTimeScale(0.2)
-        _impactFrameTimer = 0.07
-
-        -- Opcional: Desactivamos el collider de ataque para evitar tradeos de daño póstumos
+    if hp <= 0 and not pendingDeath then
+        -- Death handled in Update next frame (same pattern as SkeletonController)
+        --if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
+        pendingDeath = true
+        Engine.Log("[Enemy] HP agotado")
+    else
+        -- Hit stun: cancel any active action
+        --if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
+        isStunned           = true
+        stunTimer           = self.public.stunDuration
+        isAttacking         = false
+        playerHitThisAttack = false   -- attack cancelled, reset flag
+        anticipateTimer     = 0
         if attackCol then attackCol:Disable() end
+        if nav       then nav:StopMovement()  end
+        PlayAnim(self.public.animHit, 0.05)
+        Engine.Log("[Enemy] STUN " .. self.public.stunDuration .. "s")
     end
 end
 
--- ── Movement (de SkeletonController) ─────────────────────────────────────
-local function Movement(self, dt)
-    if not Enemy.nav or not Enemy.rb then return false, 0 end
+-- ── State logic ───────────────────────────────────────────────────────────
 
-    local vel = Enemy.rb:GetLinearVelocity()
-    local vy  = (vel and vel.y) or 0
+local function UpdateIdle(self, dt)
+    patrolWait = patrolWait - dt
+    if patrolWait > 0 then return end
 
-    local isMoving    = Enemy.nav:IsMoving()
-    local dx, dz      = Enemy.nav:GetMoveDirection(0.3)
-    local hasFreshDir = (dx ~= 0 or dz ~= 0)
+    local px, py, pz = nav:GetRandomPoint()
+    if px then
+        nav:SetDestination(px, py, pz)
+        PlayAnim(self.public.animWalk, 0.2)
+        currentState = State.PATROL
+    else
+        patrolWait = self.public.patrolWaitMin
+    end
+end
 
-    -- Normalización
-    if hasFreshDir then
-        local mag = sqrt(dx * dx + dz * dz)
-        dx, dz = dx / mag, dz / mag
+local function UpdatePatrol(self, dt)
+    if not nav:IsMoving() then
+        BrakeXZ()
+        PlayAnim(self.public.animIdle, 0.2)
+        patrolWait   = self.public.patrolWaitMin
+            + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
+        currentState = State.IDLE
+        return
     end
 
-    -- Suavizado de dirección
-    if not isMoving then
-        Enemy.smoothDx = lerp(Enemy.smoothDx, 0, dt * self.public.stopSmoothing)
-        Enemy.smoothDz = lerp(Enemy.smoothDz, 0, dt * self.public.stopSmoothing)
+    local dx, dz = nav:GetMoveDirection(0.3)
+    SetMoveVelocity(dx, dz, self.public.patrolSpeed)
+    if dx ~= 0 or dz ~= 0 then
+        local p = self.transform.worldPosition
+        FaceTarget(self, { x = p.x + dx, y = p.y, z = p.z + dz })
+    end
+end
 
-        if abs(Enemy.smoothDx) < 0.01 and abs(Enemy.smoothDz) < 0.01 then
-            Enemy.smoothDx, Enemy.smoothDz = 0, 0
-            Enemy.rb:SetLinearVelocity(0, vy, 0)
+local function UpdateChase(self, dt)
+    if not playerGO then currentState = State.IDLE; return end
+
+    local myPos = self.transform.worldPosition
+    local plPos = playerGO.transform.worldPosition
+    local dist  = DistFlat(myPos, plPos)
+
+    -- Deaggro: player escaped
+    if dist > self.public.deaggroRadius then
+        nav:StopMovement()
+        BrakeXZ()
+        PlayAnim(self.public.animIdle, 0.3)
+        currentState = State.IDLE
+        return
+    end
+
+    -- In range and cooldown over → begin wind-up
+    if dist <= self.public.attackRange and not isOnCooldown then
+        nav:StopMovement()
+        BrakeXZ()
+        anticipateTimer = 0
+        PlayAnim(self.public.animAnticipate, 0.05)
+        currentState = State.ANTICIPATE
+        return
+    end
+
+    nav:SetDestination(plPos.x, plPos.y, plPos.z)
+    local dx, dz = nav:GetMoveDirection(0.3)
+    SetMoveVelocity(dx, dz, self.public.chaseSpeed)
+    FaceTarget(self, plPos)
+end
+
+local function UpdateAnticipate(self, dt)
+    anticipateTimer = anticipateTimer + dt
+
+    -- Freeze and lock eyes on the player (the Tunic telegraph moment)
+    BrakeXZ()
+    if nav then nav:StopMovement() end
+    if playerGO then FaceTarget(self, playerGO.transform.worldPosition) end
+
+    if anticipateTimer < self.public.anticipateDur then return end
+
+    -- Fire the lunge
+    local myPos = self.transform.worldPosition
+    local plPos = playerGO and playerGO.transform.worldPosition or myPos
+    local ndx, ndz = NormFlat(plPos.x - myPos.x, plPos.z - myPos.z)
+    rb:AddForce(ndx * self.public.lungeForce, 0, ndz * self.public.lungeForce, 2)
+
+    if attackCol then attackCol:Disable() end   -- re-enabled after attackColDelay
+    playerHitThisAttack = false
+    isAttacking         = true
+    attackTimer         = 0
+    PlayAnim(self.public.animAttack, 0.05)
+    --if Enemy.attackSFX then Enemy.attackSFX:PlayAudioEvent() end
+    currentState = State.ATTACK
+    Engine.Log("[Enemy] LUNGE + SWING!")
+end
+
+local function UpdateAttack(self, dt)
+    attackTimer = attackTimer + dt
+
+    -- Enable hitbox after the short delay (same two-stage pattern as SkeletonController)
+    if attackTimer >= self.public.attackColDelay and attackCol then
+        attackCol:Enable()
+    end
+
+    -- Proximity fallback: guarantee player damage even if OnTriggerEnter misfires
+    if attackTimer >= self.public.attackColDelay
+        and not playerHitThisAttack
+        and playerGO
+    then
+        local pp  = playerGO.transform.position
+        local mp  = self.transform.worldPosition
+        if pp then
+            local dist = sqrt((pp.x - mp.x)^2 + (pp.z - mp.z)^2)
+            if dist <= self.public.attackRange then
+                local pending = _PlayerController_pendingDamage or 0
+                if pending == 0 then
+                    playerHitThisAttack            = true
+                    _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                    _PlayerController_pendingDamagePos = self.transform.worldPosition
+                    Engine.Log("[Enemy] HIT PLAYER (proximity) for " .. tostring(_EnemyDamage_skeleton))
+                end
+            end
         end
-    elseif hasFreshDir then
-        local t = min(1.0, dt * self.public.dirSmoothing)
-        Enemy.smoothDx = Enemy.smoothDx + (dx - Enemy.smoothDx) * t
-        Enemy.smoothDz = Enemy.smoothDz + (dz - Enemy.smoothDz) * t
     end
 
-    -- Rotación
-    if Enemy.smoothDx ~= 0 or Enemy.smoothDz ~= 0 then
-        local targetAngle = atan2(Enemy.smoothDx, Enemy.smoothDz) * (180.0 / pi)
-        local diff = shortAngleDiff(Enemy.currentY, targetAngle)
-        Enemy.currentY = Enemy.currentY + diff * self.public.rotationSpeed * dt
-        self.transform:SetRotation(0, Enemy.currentY, 0)
-    end
+    if attackTimer >= self.public.attackDur then
+        isAttacking         = false
+        playerHitThisAttack = false
+        if attackCol then attackCol:Disable() end
+        attackTimer = 0
 
-    -- Aplicar posición
-    local sMag = sqrt(Enemy.smoothDx * Enemy.smoothDx + Enemy.smoothDz * Enemy.smoothDz)
-    if sMag > 0.01 then
-        local speed = self.public.moveSpeed
-        local vX    = (Enemy.smoothDx / sMag) * speed
-        local vZ    = (Enemy.smoothDz / sMag) * speed
-        local pos   = self.transform.position
-        self.transform:SetPosition(pos.x + vX * dt, pos.y, pos.z + vZ * dt)
+        -- Cooldown with random jitter + rage phase (same as SkeletonController)
+        isOnCooldown  = true
+        cooldownTimer = GetAttackCooldown(self) + math.random() * 0.8
+        currentState  = State.CHASE
+        PlayAnim(self.public.animWalk, 0.25)
+        Engine.Log("[Enemy] Cooldown " .. string.format("%.2f", cooldownTimer) .. "s")
     end
-
-    return isMoving, sMag
 end
 
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
-    Game.SetTimeScale(1.0) 
-   
-    hp         = self.public.maxHp
-    isDead     = false
-    alreadyHit = false
-    pendingDestroy = false
+    Game.SetTimeScale(1.0)
 
-    Enemy.smoothDx = 0
-    Enemy.smoothDz = 0
-    Enemy.currentY = 0
+    hp                  = self.public.maxHp
+    isDead              = false
+    pendingDeath        = false
+    alreadyHit          = false
+    playerAttackHandled = false
+    currentState        = State.IDLE
+    patrolWait          = self.public.patrolWaitMin
+        + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
 
-    isAttacking   = false
-    isOnCooldown  = false
-    attackTimer   = 0
-    cooldownTimer = 0
-
-    Enemy.nav = self.gameObject:GetComponent("Navigation")
-    Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
-
-    local pos = self.transform.position
-    Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
-
-    Enemy.currentState    = State.IDLE
-    Enemy.nextWanderTimer = self.public.idleWaitTime
-    Enemy.chaseTimer      = 0
-    Enemy.playerGO        = nil
-
+    -- Components
+    nav       = self.gameObject:GetComponent("Navigation")
+    rb        = self.gameObject:GetComponent("Rigidbody")
+    anim      = self.gameObject:GetComponent("Animation")
     attackCol = self.gameObject:GetComponent("Box Collider")
-    if attackCol then
-        attackCol:Disable()
-        Engine.Log("[Enemy] Attack collider disabled")
-    else
-        Engine.Log("[Enemy] ERROR: No attack collider found")
-    end
+    Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
+
+    -- Audio sources (child GameObjects with AudioSource components,
+    -- same convention as SkeletonController's SK_DieSource etc.)
+    attackSource = GameObject.Find("Enemy_AttackSource")
+    dieSource    = GameObject.Find("Enemy_DieSource")
+    hurtSource   = GameObject.Find("Enemy_HurtSource")
+    if attackSource then Enemy.attackSFX = attackSource:GetComponent("Audio Source") end
+    if dieSource    then Enemy.dieSFX    = dieSource:GetComponent("Audio Source")    end
+    if hurtSource   then Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source")   end
+
+    PlayAnim(self.public.animIdle, 0.0)
+    Engine.Log("[Enemy] Start OK")
 end
 
 -- ── Update ────────────────────────────────────────────────────────────────
 function Update(self, dt)
-    -- Si ya fue destruido en el frame anterior, salimos
-    if not self.gameObject then return end
+    if isDead then return end
 
-    -- Cheat/Debug para suicidio
-    if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
-        Enemy.currentState = State.Dead
-        return
-    end
-
-    -- Si está muerto, solo procesamos la destrucción pendiente al final
-    if isDead then
-        if pendingDestroy then
-            self:Destroy()
-            pendingDestroy = false
+    -- ── Handle pending death (deferred one frame, same as SkeletonController) ─
+    if pendingDeath then
+        isAttacking  = false
+        isOnCooldown = false
+        if nav then nav:StopMovement() end
+        if rb  then
+            local vel = rb:GetLinearVelocity()
+            rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
         end
-        return 
-    end
-
-    -- Reintentar conseguir componentes si faltan
-    if not Enemy.nav or not Enemy.rb then
-        Enemy.nav = self.gameObject:GetComponent("Navigation")
-        Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
-        return
-    end
-
-    -- Buscar player
-    if not Enemy.playerGO then
-        Enemy.playerGO = GameObject.Find("Player")
-    end
-
-    local myPos   = self.transform.position
-    local inRange = false
-
-    -- Detección y persecución
-    if Enemy.playerGO then
-        local pp = Enemy.playerGO.transform.position
-        if pp then
-            local distX = pp.x - myPos.x
-            local distZ = pp.z - myPos.z
-            local dist  = sqrt(distX * distX + distZ * distZ)
-
-            if dist < self.public.chaseRange then
-                Enemy.currentState = State.CHASE
-                if dist <= self.public.attackRange then
-                    inRange = true
-                    Enemy.nav:StopMovement()
-                else
-                    Enemy.chaseTimer = Enemy.chaseTimer - dt
-                    if Enemy.chaseTimer <= 0 then
-                        Enemy.chaseTimer = self.public.chaseUpdateRate
-                        Enemy.nav:SetDestination(pp.x, pp.y, pp.z)
-                    end
-                end
-            else
-                if Enemy.currentState == State.CHASE then
-                    Enemy.currentState = State.IDLE
-                    Enemy.nextWanderTimer = self.public.idleWaitTime
-                end
-            end
-        end
-    end
-
-    -- Lógica de Ataque
-    if inRange then
-        Enemy.smoothDx, Enemy.smoothDz = 0, 0
-        local vel = Enemy.rb:GetLinearVelocity()
-        Enemy.rb:SetLinearVelocity(0, vel.y, 0)
-
-        if not isOnCooldown then
-            if not isAttacking then
-                isAttacking = true
-                attackTimer = 0
-            end
-
-            attackTimer = attackTimer + dt
-            if attackTimer >= ATTACK_COL_DELAY and attackCol then
-                attackCol:Enable()
-            end
-
-            if attackTimer >= ATTACK_DURATION then
-                isAttacking   = false
-                isOnCooldown  = true
-                cooldownTimer = ATTACK_COOLDOWN
-                if attackCol then attackCol:Disable() end
-                attackTimer = 0
-            end
-            return 
-        end
-    end
-
-    if isAttacking then
-        isAttacking = false
         if attackCol then attackCol:Disable() end
-        attackTimer = 0
+
+        currentState = State.DEAD
+        isDead       = true
+
+        --if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
+
+        PlayAnim(self.public.animDeath, 0.05)
+        Engine.Log("[Enemy] DEAD")
+        Game.SetTimeScale(0.2)
+        _impactFrameTimer = 0.07
+        self:Destroy()
+        return
     end
 
-    -- Cooldown
+    -- ── External damage table (e.g. from projectiles or AoE) ─────────────
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
+    end
+
+    -- ── Hit stun: freeze the enemy while it lasts ─────────────────────────
+    if isStunned then
+        stunTimer = stunTimer - dt
+        if rb then
+            local vel = rb:GetLinearVelocity()
+            rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+        end
+        if stunTimer <= 0 then
+            isStunned = false
+            Engine.Log("[Enemy] Stun over")
+        end
+        return
+    end
+
+    -- ── Cooldown tick ─────────────────────────────────────────────────────
     if isOnCooldown then
         cooldownTimer = cooldownTimer - dt
-        Enemy.smoothDx, Enemy.smoothDz = 0, 0
-        if cooldownTimer <= 0 then isOnCooldown = false end
+        if cooldownTimer <= 0 then
+            isOnCooldown = false
+            Engine.Log("[Enemy] Cooldown over, ready to attack")
+        end
+    end
+
+    -- ── Recover lost component references ────────────────────────────────
+    if not nav or not rb then
+        nav = self.gameObject:GetComponent("Navigation")
+        rb  = self.gameObject:GetComponent("Rigidbody")
         return
     end
 
-    -- Movimiento y Patrulla
-    local isMoving, speed = Movement(self, dt)
+    if not playerGO then
+        playerGO = GameObject.Find("Player")
+        if playerGO then Engine.Log("[Enemy] Player found") end
+    end
 
-    if Enemy.currentState == State.IDLE then
-        Enemy.nextWanderTimer = Enemy.nextWanderTimer - dt
-        if Enemy.nextWanderTimer <= 0 then
-            local angle = math.random() * pi * 2
-            local dist  = math.random() * self.public.patrolRadius
-            Enemy.targetPos.x = Enemy.startPos.x + math.cos(angle) * dist
-            Enemy.targetPos.z = Enemy.startPos.z + math.sin(angle) * dist
-            if Enemy.nav then
-                Enemy.nav:SetDestination(Enemy.targetPos.x, Enemy.startPos.y, Enemy.targetPos.z)
-                Enemy.currentState = State.WANDER
+    -- ── Player attack polling (Mode A) ────────────────────────────────────
+    -- Checks _PlayerController_lastAttack every frame so hits register even
+    -- when the overlap happens between trigger events.
+    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
+        if not playerAttackHandled and playerGO and not isDead then
+            local myPos = self.transform.worldPosition
+            local pp    = playerGO.transform.position
+            if pp then
+                local dist = sqrt((pp.x - myPos.x)^2 + (pp.z - myPos.z)^2)
+                if dist <= (self.public.attackRange + 1.5) then
+                    playerAttackHandled = true
+                    local attack = _PlayerController_lastAttack
+                    if attack == "light" then
+                        TakeDamage(self, 10, pp)
+                    elseif attack == "heavy" or attack == "charge" then
+                        TakeDamage(self, 25, pp)
+                    end
+                end
             end
         end
-    elseif Enemy.currentState == State.WANDER then
-        if not isMoving and speed < 0.05 then
-            Enemy.nextWanderTimer = self.public.idleWaitTime
-            Enemy.currentState    = State.IDLE
+    else
+        -- Player attack ended: reset both guard flags
+        playerAttackHandled = false
+        alreadyHit          = false
+    end
+
+    -- ── Aggro detection while idle / patrolling ───────────────────────────
+    if (currentState == State.IDLE or currentState == State.PATROL) and playerGO then
+        local dist = DistFlat(self.transform.worldPosition, playerGO.transform.worldPosition)
+        if dist <= self.public.aggroRadius then
+            nav:StopMovement()
+            BrakeXZ()
+            PlayAnim(self.public.animWalk, 0.2)
+            currentState = State.CHASE
         end
     end
 
-    -- SEGURIDAD: Si por alguna razón la vida bajó a 0 durante el Update, borramos aquí
-    if pendingDestroy then
-        self:Destroy()
-        pendingDestroy = false
+    -- ── State machine dispatch ────────────────────────────────────────────
+    if     currentState == State.IDLE       then UpdateIdle(self, dt)
+    elseif currentState == State.PATROL     then UpdatePatrol(self, dt)
+    elseif currentState == State.CHASE      then UpdateChase(self, dt)
+    elseif currentState == State.ANTICIPATE then UpdateAnticipate(self, dt)
+    elseif currentState == State.ATTACK     then UpdateAttack(self, dt)
     end
 end
 
--- ── OnTriggerEnter ────────────────────────────────────────────────────────
+-- ── OnTriggerEnter (Mode B) ───────────────────────────────────────────────
+-- Trigger-based hit detection. Works together with the polling in Update.
 function OnTriggerEnter(self, other)
     if isDead then return end
 
     if other:CompareTag("Player") then
-        -- El player golpea al enemigo
+
+        -- Receive a player attack
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
+            --if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
             if attack ~= "" then
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
-                    TakeDamage(self, DAMAGE_LIGHT, attackerPos)
-                elseif attack == "heavy" then
-                    TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+                    TakeDamage(self, 10, attackerPos)
+                elseif attack == "heavy" or attack == "charge" then
+                    TakeDamage(self, 25, attackerPos)
                 end
             end
         end
 
-        -- El enemigo golpea al player
-        if isAttacking and _PlayerController_pendingDamage == 0 then
-            _PlayerController_pendingDamage    = _EnemyDamage_skeleton
-            _PlayerController_pendingDamagePos = self.transform.worldPosition
-            Engine.Log("[Enemy] HIT PLAYER for " .. tostring(self.public.attackDamage))
+        -- Deal damage to the player (once per swing)
+        if isAttacking and not playerHitThisAttack then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack            = true
+                _PlayerController_pendingDamage    = _EnemyDamage_skeleton
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+                Engine.Log("[Enemy] HIT PLAYER (trigger) for " .. tostring(_EnemyDamage_skeleton))
+            end
         end
     end
 end
 
 -- ── OnTriggerExit ─────────────────────────────────────────────────────────
+-- alreadyHit resets in Update when _PlayerController_lastAttack goes back to "".
 function OnTriggerExit(self, other)
-    if other:CompareTag("Player") then
-        alreadyHit = false
-    end
 end

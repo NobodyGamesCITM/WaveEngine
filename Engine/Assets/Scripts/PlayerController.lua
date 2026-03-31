@@ -658,7 +658,11 @@ States[State.ATTACK_LIGHT] = {
                 local fwdZ = math.cos(radians)
                 Player.rb:SetLinearVelocity(fwdX * self.public.attackImpulseForce, velocity.y, fwdZ * self.public.attackImpulseForce)
             end
-        end
+
+        elseif Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end 
 
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then

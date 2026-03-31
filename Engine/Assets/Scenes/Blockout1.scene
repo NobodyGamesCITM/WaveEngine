@@ -3542,29 +3542,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "hpLossCost",
+                            "name": "flySpeed",
                             "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 20.0
                         },
                         {
                             "name": "heavyStaminaCost",
@@ -3572,9 +3552,34 @@
                             "value": 25.0
                         },
                         {
-                            "name": "stamina",
+                            "name": "hitShakeDuration",
                             "type": 0,
-                            "value": 100.0
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
                         },
                         {
                             "name": "staminaRecover",
@@ -3582,32 +3587,7 @@
                             "value": 50.0
                         },
                         {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
                             "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "bulletSpawnY",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "rollSpeed",
                             "type": 0,
                             "value": 15.0
                         },
@@ -3617,7 +3597,77 @@
                             "value": 10.0
                         },
                         {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.800000011920929
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
                             "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "bulletSpawnY",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "bulletBarrel",
                             "type": 0,
                             "value": 1.5
                         },
@@ -3627,77 +3677,12 @@
                             "value": 2.0
                         },
                         {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "hitShakeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
                             "name": "knockbackForce",
                             "type": 0,
                             "value": 14.0
                         },
                         {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "attackCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "chargeSpeed",
+                            "name": "hpLossCost",
                             "type": 0,
                             "value": 30.0
                         },
@@ -3707,19 +3692,34 @@
                             "value": false
                         },
                         {
-                            "name": "attackDuration",
+                            "name": "rollCooldownMax",
                             "type": 0,
-                            "value": 0.800000011920929
+                            "value": 0.5
                         },
                         {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 1.0
                         },
                         {
                             "name": "shootDuration",
                             "type": 0,
                             "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -3883,29 +3883,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
                             "name": "followSpeed",
                             "type": 0,
                             "value": 5.0
                         },
                         {
-                            "name": "shakeFrequency",
+                            "name": "zoomSpeed",
                             "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "zoomMin",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player"
+                            "value": 3.0
                         },
                         {
                             "name": "shakeMagnitude",
@@ -3913,14 +3898,29 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "shakeDuration",
+                            "name": "shakeFrequency",
                             "type": 0,
-                            "value": 0.4000000059604645
+                            "value": 25.0
                         },
                         {
                             "name": "zoomMax",
                             "type": 0,
                             "value": 3.0
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player"
+                        },
+                        {
+                            "name": "zoomMin",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -4087,14 +4087,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "radius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
                                     "name": "sequenceId",
                                     "type": 1,
                                     "value": "intro"
+                                },
+                                {
+                                    "name": "radius",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 15343636359601001083,
@@ -4132,14 +4132,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "radius",
-                                    "type": 0,
-                                    "value": 6.900000095367432
-                                },
-                                {
                                     "name": "sequenceId",
                                     "type": 1,
                                     "value": "checkpointInfo"
+                                },
+                                {
+                                    "name": "radius",
+                                    "type": 0,
+                                    "value": 6.900000095367432
                                 }
                             ],
                             "scriptUID": 15343636359601001083,
@@ -21682,7 +21682,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 6659126754487979906,
                                     "type": 3
                                 }
                             ],
@@ -21758,7 +21758,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 10897569050443057978,
                                     "type": 3
                                 }
                             ],
@@ -21796,7 +21796,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 10897569050443057978,
                                     "type": 3
                                 }
                             ],
@@ -21872,7 +21872,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 9781657852614060224,
+                                    "materialUID": 10897569050443057978,
                                     "type": 3
                                 }
                             ],
@@ -21892,9 +21892,9 @@
                                         -141.8001708984375
                                     ],
                                     "rotation": [
-                                        89.9999771118164,
-                                        -63.74320602416992,
-                                        -179.99996948242188
+                                        90.0,
+                                        -63.74319076538086,
+                                        180.0
                                     ],
                                     "scale": [
                                         1.5848493576049805,
@@ -21910,7 +21910,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 9781657852614060224,
+                                    "materialUID": 15566094281207250617,
                                     "type": 3
                                 }
                             ],
@@ -21948,7 +21948,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 15566094281207250617,
                                     "type": 3
                                 }
                             ],
@@ -22062,7 +22062,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 13616894979194848536,
                                     "type": 3
                                 }
                             ],
@@ -22100,7 +22100,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 9781657852614060224,
+                                    "materialUID": 13616894979194848536,
                                     "type": 3
                                 }
                             ],
@@ -22138,7 +22138,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 15024574303227065416,
+                                    "materialUID": 15566094281207250617,
                                     "type": 3
                                 }
                             ],
@@ -22272,9 +22272,9 @@
                                         -152.3373260498047
                                     ],
                                     "rotation": [
-                                        -90.00011444091797,
-                                        59.976356506347656,
-                                        -6.825311720604077e-05
+                                        -90.00009155273438,
+                                        59.97637176513672,
+                                        -4.0951872506411746e-05
                                     ],
                                     "scale": [
                                         1.5848491191864014,
@@ -22290,7 +22290,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 1043376276828861982,
+                                    "materialUID": 6659126754487979906,
                                     "type": 3
                                 }
                             ],
@@ -22366,7 +22366,7 @@
                                 },
                                 {
                                     "active": true,
-                                    "materialUID": 15024574303227065416,
+                                    "materialUID": 10897569050443057978,
                                     "type": 3
                                 }
                             ],
@@ -31865,14 +31865,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -31885,19 +31890,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -31910,19 +31915,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -31930,29 +31925,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -32296,14 +32296,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -32316,19 +32321,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -32341,19 +32346,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -32361,29 +32356,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -32728,14 +32728,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -32748,19 +32753,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -32773,19 +32778,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -32793,29 +32788,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -33160,14 +33160,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -33180,19 +33185,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -33205,19 +33210,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -33225,29 +33220,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -33592,14 +33592,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -33612,19 +33617,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -33637,19 +33642,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -33657,29 +33652,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -34024,14 +34024,19 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "orbitSpeed",
+                                    "name": "maxHp",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 30.0
                                 },
                                 {
-                                    "name": "moveSpeed",
+                                    "name": "chaseRange",
                                     "type": 0,
-                                    "value": 5.0
+                                    "value": 15.0
+                                },
+                                {
+                                    "name": "facePlayerSpeed",
+                                    "type": 0,
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "dodgeChance",
@@ -34044,19 +34049,19 @@
                                     "value": 5.0
                                 },
                                 {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
                                     "name": "dirSmoothing",
                                     "type": 0,
                                     "value": 12.0
                                 },
                                 {
-                                    "name": "stopSmoothing",
+                                    "name": "attackDamage",
                                     "type": 0,
                                     "value": 10.0
-                                },
-                                {
-                                    "name": "facePlayerSpeed",
-                                    "type": 0,
-                                    "value": 8.0
                                 },
                                 {
                                     "name": "lungeForce",
@@ -34069,19 +34074,9 @@
                                     "value": 1.2000000476837158
                                 },
                                 {
-                                    "name": "maxHp",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 30.0
-                                },
-                                {
-                                    "name": "orbitRadius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "dashForce",
-                                    "type": 0,
-                                    "value": 10.0
+                                    "value": 2.0
                                 },
                                 {
                                     "name": "chaseUpdateRate",
@@ -34089,29 +34084,34 @@
                                     "value": 0.5
                                 },
                                 {
-                                    "name": "attackDamage",
+                                    "name": "orbitSpeed",
                                     "type": 0,
-                                    "value": 10.0
+                                    "value": 4.5
                                 },
                                 {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "idleWaitTime",
+                                    "name": "orbitRadius",
                                     "type": 0,
                                     "value": 3.0
-                                },
-                                {
-                                    "name": "chaseRange",
-                                    "type": 0,
-                                    "value": 15.0
                                 },
                                 {
                                     "name": "rotationSpeed",
                                     "type": 0,
                                     "value": 15.0
+                                },
+                                {
+                                    "name": "stopSmoothing",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "dashForce",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "idleWaitTime",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 2354537265489101487,
@@ -36689,34 +36689,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "detectRange",
-                                    "type": 0,
-                                    "value": 22.0
-                                },
-                                {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "projectilePrefab",
-                                    "type": 1,
-                                    "value": "Sirena_Bullet"
-                                },
-                                {
                                     "name": "maxHp",
                                     "type": 0,
                                     "value": 50.0
                                 },
                                 {
-                                    "name": "rotationSpeed",
+                                    "name": "cooldownTime",
                                     "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "barrelOffsetY",
-                                    "type": 0,
-                                    "value": 1.7999999523162842
+                                    "value": 4.5
                                 },
                                 {
                                     "name": "attackDamage",
@@ -36724,14 +36704,9 @@
                                     "value": 30.0
                                 },
                                 {
-                                    "name": "blastRadius",
+                                    "name": "detectRange",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "minRange",
-                                    "type": 0,
-                                    "value": 5.0
+                                    "value": 22.0
                                 },
                                 {
                                     "name": "windUpTime",
@@ -36744,9 +36719,34 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "cooldownTime",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "barrelOffsetY",
+                                    "type": 0,
+                                    "value": 1.7999999523162842
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "projectilePrefab",
+                                    "type": 1,
+                                    "value": "Sirena_Bullet"
+                                },
+                                {
+                                    "name": "blastRadius",
+                                    "type": 0,
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "minRange",
+                                    "type": 0,
+                                    "value": 5.0
                                 }
                             ],
                             "scriptUID": 2835141273378409201,
@@ -39291,34 +39291,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "detectRange",
-                                    "type": 0,
-                                    "value": 22.0
-                                },
-                                {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "projectilePrefab",
-                                    "type": 1,
-                                    "value": "Sirena_Bullet"
-                                },
-                                {
                                     "name": "maxHp",
                                     "type": 0,
                                     "value": 50.0
                                 },
                                 {
-                                    "name": "rotationSpeed",
+                                    "name": "cooldownTime",
                                     "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "barrelOffsetY",
-                                    "type": 0,
-                                    "value": 1.7999999523162842
+                                    "value": 4.5
                                 },
                                 {
                                     "name": "attackDamage",
@@ -39326,14 +39306,9 @@
                                     "value": 30.0
                                 },
                                 {
-                                    "name": "blastRadius",
+                                    "name": "detectRange",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "minRange",
-                                    "type": 0,
-                                    "value": 5.0
+                                    "value": 22.0
                                 },
                                 {
                                     "name": "windUpTime",
@@ -39346,9 +39321,34 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "cooldownTime",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "barrelOffsetY",
+                                    "type": 0,
+                                    "value": 1.7999999523162842
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "projectilePrefab",
+                                    "type": 1,
+                                    "value": "Sirena_Bullet"
+                                },
+                                {
+                                    "name": "blastRadius",
+                                    "type": 0,
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "minRange",
+                                    "type": 0,
+                                    "value": 5.0
                                 }
                             ],
                             "scriptUID": 2835141273378409201,
@@ -41931,34 +41931,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "detectRange",
-                                    "type": 0,
-                                    "value": 22.0
-                                },
-                                {
-                                    "name": "knockbackForce",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "projectilePrefab",
-                                    "type": 1,
-                                    "value": "Sirena_Bullet"
-                                },
-                                {
                                     "name": "maxHp",
                                     "type": 0,
                                     "value": 50.0
                                 },
                                 {
-                                    "name": "rotationSpeed",
+                                    "name": "cooldownTime",
                                     "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "barrelOffsetY",
-                                    "type": 0,
-                                    "value": 1.7999999523162842
+                                    "value": 4.5
                                 },
                                 {
                                     "name": "attackDamage",
@@ -41966,14 +41946,9 @@
                                     "value": 30.0
                                 },
                                 {
-                                    "name": "blastRadius",
+                                    "name": "detectRange",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "minRange",
-                                    "type": 0,
-                                    "value": 5.0
+                                    "value": 22.0
                                 },
                                 {
                                     "name": "windUpTime",
@@ -41986,9 +41961,34 @@
                                     "value": 2.0
                                 },
                                 {
-                                    "name": "cooldownTime",
+                                    "name": "knockbackForce",
                                     "type": 0,
-                                    "value": 4.5
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "barrelOffsetY",
+                                    "type": 0,
+                                    "value": 1.7999999523162842
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "projectilePrefab",
+                                    "type": 1,
+                                    "value": "Sirena_Bullet"
+                                },
+                                {
+                                    "name": "blastRadius",
+                                    "type": 0,
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "minRange",
+                                    "type": 0,
+                                    "value": 5.0
                                 }
                             ],
                             "scriptUID": 2835141273378409201,

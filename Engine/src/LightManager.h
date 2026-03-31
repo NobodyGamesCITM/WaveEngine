@@ -56,6 +56,6 @@ private:
 
     std::unique_ptr<ShaderShadowDepth> shadowDepthShader;
 
-    static constexpr int SHADOW_WIDTH = 2048;
-    static constexpr int SHADOW_HEIGHT = 2048;
+    static constexpr int SHADOW_WIDTH = 8192;
+    static constexpr int SHADOW_HEIGHT = 8192;
 };

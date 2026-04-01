@@ -100,7 +100,7 @@ end
 
 function OnTriggerEnter(self, other)
     if hasHit then return end
-    if other:CompareTag("Water") or other:CompareTag("Player") or other:CompareTag("Bullet") then return end
+    if other:CompareTag("Water") or other:CompareTag("Player") or other:CompareTag("Bullet") or other:CompareTag("Statue") then return end
 
     if other:CompareTag("Enemy") then
         if _EnemyPendingDamage == nil then _EnemyPendingDamage = {} end

@@ -36,10 +36,10 @@ local function ProcessHit(self, attackType, playerObj)
     -- Statue LightAttack Rotation
     -- HAOSHENG LI PERDOOOOOOOOOOOOOOOOOOOOOOON
     if self.public.entityType == "Statue" and isLight then
-        targetYaw = currentYaw + 90.0
-        isRotating = true
-        _G._PlayerController_lastAttack = ""
-        Engine.Log("[PuzzleEntity] Statue Rotating.")
+        --targetYaw = currentYaw + 90.0
+        --isRotating = true
+        --_G._PlayerController_lastAttack = ""
+        --Engine.Log("[PuzzleEntity] Statue Rotating.")
         return
     end
 

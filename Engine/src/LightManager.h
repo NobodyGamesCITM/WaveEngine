@@ -37,6 +37,8 @@ public:
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
 
+    bool shadowsEnabled = true;
+
 private:
     void InitSSBOs();
     void InitShadowMap();

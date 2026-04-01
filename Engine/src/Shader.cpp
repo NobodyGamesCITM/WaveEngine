@@ -189,9 +189,5 @@ void Shader::SetVec2(const std::string& name, const glm::vec2& value)
 
 void Shader::SetBool(const std::string& name, bool value)
 {
-    auto& cached = m_UniformCacheInt[name]; 
-    int v = (int)value;
-    if (cached == v) return;
-    cached = v;
-    glUniform1i(GetUniformLocation(name), v);
+    glUniform1i(GetUniformLocation(name), (int)value);
 }

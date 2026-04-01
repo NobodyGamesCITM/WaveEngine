@@ -152,6 +152,7 @@ void LightManager::UploadToShader(Shader* shader)
     shader->SetInt("numDirLights", (int)dirPacked.size());
     shader->SetInt("numPointLights", (int)pointPacked.size());
     shader->SetInt("numSpotLights", (int)spotPacked.size());
+    shader->SetBool("uShadowsEnabled", shadowsEnabled);
 }
 
 void LightManager::InitShadowMap()
@@ -191,6 +192,8 @@ void LightManager::InitShadowMap()
 
 void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
 {
+
+    if (!shadowsEnabled) return;
     // Buscar la primera luz direccional activa
     ComponentLight* dirLight = nullptr;
     for (ComponentLight* l : lights)

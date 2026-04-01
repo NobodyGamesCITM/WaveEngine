@@ -5,6 +5,7 @@
 
 #include <imgui.h>  
 #include <ImGuizmo.h>
+#include "LightManager.h"
 #include <vector>
 #include "AudioSystem.h"
 #include <unordered_map>
@@ -28,6 +29,8 @@ public:
     bool ShouldShowVertexNormals() const { return showVertexNormals; }
     bool ShouldShowFaceNormals() const { return showFaceNormals; }
     void OnEvent(const Event& event);
+
+    LightManager* lightManager;
 
 private:
     void DrawComponentContextMenu(Component* component, bool canRemove);

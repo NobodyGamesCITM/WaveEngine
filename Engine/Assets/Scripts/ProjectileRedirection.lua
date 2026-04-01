@@ -4,9 +4,13 @@ public = {
     dirX           = 0.0,
     dirY           = 0.0,
     dirZ           = 1.0,
-    onlyRedirected = false  -- false: any bullet / true: only already redirected bullets
+    onlyRedirected = false,  -- false: any bullet / true: only already redirected bullets
+
+    doorName = "Puerta_Sala_1",
 }
 
+openDoor = false --Debug
+local cnt = 0.0
 local dirX, dirY, dirZ = 0.0, 0.0, 1.0
 local onlyRedirected = false
 
@@ -15,6 +19,23 @@ function Start(self)
     dirY           = self.public.dirY
     dirZ           = self.public.dirZ
     onlyRedirected = self.public.onlyRedirected
+end
+
+function Update (self, deltaTime) 
+
+    if Input.GetKeyDown("F4") then 
+        openDoor = true
+    end
+    if openDoor then
+        local door = GameObject.Find(self.public.doorName)
+        local doorScript = GameObject.GetScript(door)
+        if not doorScript then
+            Engine.Log("[Redirection] ERROR: no script found on door")
+            return
+        end
+        Engine.Log("[Redirection] Trying open")
+        doorScript.OpenDoor(door)
+    end
 end
 
 function OnTriggerEnter(self, other)
@@ -44,4 +65,5 @@ function OnTriggerEnter(self, other)
     end
 
     bulletScript.pendingRedirect = { x = worldX, y = worldY, z = worldZ }
+
 end

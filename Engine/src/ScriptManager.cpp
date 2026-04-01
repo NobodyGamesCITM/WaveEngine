@@ -36,9 +36,55 @@
 #include "ComponentParticleSystem.h"
 #include "UIManager.h"
 #include "LibraryManager.h"
+#include "ResourceScript.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <cmath>
+
+static int LuaCustomRequire(lua_State* L) {
+    const char* moduleName = luaL_checkstring(L, 1);
+    std::string fileName = std::string(moduleName) + ".lua";
+
+    // replace the dots for / because in lua is inverse
+    std::replace(fileName.begin(), fileName.end(), '.', '/');
+
+    auto& resources = Application::GetInstance().resources->GetAllResources();
+    UID foundUID = 0;
+
+    for (const auto& pair : resources) {
+        if (pair.second->GetType() == Resource::SCRIPT) {
+            std::string path = pair.second->GetAssetFile();
+            // Check path of the resource ends with the filename
+            if (path.length() >= fileName.length() &&
+                path.compare(path.length() - fileName.length(), fileName.length(), fileName) == 0)
+            {
+                foundUID = pair.first;
+                break;
+            }
+        }
+    }
+
+    if (foundUID != 0) {
+        // RequestResource loads and unlocks the script with the ScriptImporter
+        ResourceScript* scriptRes = (ResourceScript*)Application::GetInstance().resources->RequestResource(foundUID);
+        if (scriptRes) {
+            const std::string& content = scriptRes->GetScriptContent();
+
+            // Compile the text of the script
+            if (luaL_loadbuffer(L, content.c_str(), content.size(), moduleName) != LUA_OK) {
+                LOG_CONSOLE("[Lua] ERROR compiling module '%s': %s", moduleName, lua_tostring(L, -1));
+                return 1;
+            }
+            return 1; // Sucess then return the chunk compiled
+        }
+    }
+
+    // Not found
+    std::string err = "\n\tcouldn't find the script in Assets: '" + fileName + "'";
+    lua_pushstring(L, err.c_str());
+    return 1;
+}
 
 ScriptManager::ScriptManager() : Module(), L(nullptr) {
     name = "ScriptManager";
@@ -61,6 +107,20 @@ bool ScriptManager::Start() {
     }
 
     luaL_openlibs(L);
+
+    // Custom require Lua
+    lua_getglobal(L, "package");
+    lua_getfield(L, -1, "searchers");
+    if (!lua_istable(L, -1)) {
+        lua_pop(L, 1);
+        lua_getfield(L, -1, "loaders");
+    }
+    if (lua_istable(L, -1)) {
+        lua_pushcfunction(L, LuaCustomRequire);
+        lua_rawseti(L, -2, 2);
+    }
+    lua_pop(L, 2);
+
     LOG_CONSOLE("[ScriptManager] Lua initialized");
 
     RegisterEngineFunctions();
@@ -1804,6 +1864,29 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         AudioListener** list = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
         *list = listener;
         return 1;
+    }
+
+    if (strcmp(componentType, "Script") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::SCRIPT);
+        ComponentScript* scriptComp = static_cast<ComponentScript*>(comp);
+
+        if (!scriptComp || !scriptComp->HasScript()) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        const std::string& tableName = scriptComp->GetLuaTableName();
+
+        lua_getglobal(L, tableName.c_str());
+
+        if (lua_istable(L, -1)) {
+            return 1;
+        }
+        else {
+            lua_pop(L, 1);
+            lua_pushnil(L);
+            return 1;
+        }
     }
 
     lua_pushnil(L);

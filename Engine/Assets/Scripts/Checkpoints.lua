@@ -1,7 +1,7 @@
 public = {
-    offsetX = 0,
-    offsetY = 0,    
-    offsetZ = 0
+    offsetX = 0.0,
+    offsetY = 0.0,    
+    offsetZ = 0.0
 }
 
 function Start(self)
@@ -19,8 +19,12 @@ function Update(self, deltaTime)
             if (math.abs(pos.x - playerPos.x) < 3) then
                 if (math.abs(pos.z - playerPos.z) < 3) then
                     Engine.Log("Checkpoint taken")
+                    
+                    pos.x = pos.x + self.public.offsetX
+                    pos.y = pos.y + self.public.offsetY
+                    pos.z = pos.z + self.public.offsetZ
+
                     lastCheckpoint = pos 
-                    Engine.Log("Checkpoint: pos x=" .. tostring(pos.x) " pos z ="  .. tostring(pos.z))
                     giveHermesMask = true
                     Restore(self)
                 end

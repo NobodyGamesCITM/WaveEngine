@@ -132,10 +132,10 @@ function Update(self, dt)
         end
 
         if current == "HUD.xaml" or current == "PauseMenu.xaml" then
+            -- Detectamos ESC en teclado o Start/Options en mando
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
                 if current == "HUD.xaml" then
                     if _G.SuspendDialog then _G.SuspendDialog() end
-                    Game.Resume()
                     NavigateTo("PauseMenu.xaml")
                 else
                     NavigateTo("HUD.xaml")
@@ -212,6 +212,8 @@ function Update(self, dt)
     elseif phase == "swap" then
         if NEXT_XAML == "PauseMenu.xaml" then
             if _G.SuspendDialog then _G.SuspendDialog() end
+            Game.Pause()
+            Audio.SetMusicState("PauseMenu")
         elseif NEXT_XAML == "HUD.xaml" and current == "PauseMenu.xaml" then
             if _G.ResumeDialog then _G.ResumeDialog() end
         else
@@ -224,10 +226,13 @@ function Update(self, dt)
         _G.CurrentXAML = current
 
         if current == "HUD.xaml" then
-            if previous == "PauseMenu.xaml" then
+            -- Solo reanudamos el tiempo si NO hay un diálogo en curso
+            if not _G._IsDialogActive then
                 Game.Resume()
-                Audio.SetMusicState("Level1")
-            else
+            end
+            Audio.SetMusicState("Level1")
+
+            if previous ~= "PauseMenu.xaml" then
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
                     Engine.Log("[Transition] ResetPlayer global ejecutado")
@@ -235,8 +240,6 @@ function Update(self, dt)
                     _G._PlayerController_isDead = false
                     Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
                 end
-                Game.Resume()
-                Audio.SetMusicState("Level1")
             end
         elseif current == "MainMenu.xaml" then
             Audio.SetMusicState("MainMenu")

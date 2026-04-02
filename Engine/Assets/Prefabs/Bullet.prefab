@@ -33,17 +33,17 @@
                     {
                         "name": "speed",
                         "type": 0,
-                        "value": 60.0
-                    },
-                    {
-                        "name": "damage",
-                        "type": 0,
-                        "value": 15.0
+                        "value": 30.0
                     },
                     {
                         "name": "lifetime",
                         "type": 0,
                         "value": 5.0
+                    },
+                    {
+                        "name": "damage",
+                        "type": 0,
+                        "value": 15.0
                     }
                 ],
                 "scriptUID": 12957541813524735499,
@@ -71,21 +71,21 @@
                     false
                 ],
                 "FreezeRot": [
-                    false,
-                    false,
-                    false
+                    true,
+                    true,
+                    true
                 ],
                 "LinearDamping": 0.0,
                 "Mass": 1.0,
-                "Type": 2,
+                "Type": 1,
                 "UseCCD": false,
-                "UseGravity": false,
+                "UseGravity": true,
                 "active": true,
                 "type": 8
             }
         ],
         "name": "Bullet",
         "tag": "Bullet",
-        "uid": 17778463868028788885
+        "uid": 6939499206794467282
     }
 ]

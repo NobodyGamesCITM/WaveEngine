@@ -6,10 +6,6 @@ public = {
     damage = 15.0
 }
 
-if _Bullet_PendingDamage == nil then
-    _Bullet_PendingDamage = 0
-end
-
 local timeAlive = 0
 local direction = nil
 local initialized = nil

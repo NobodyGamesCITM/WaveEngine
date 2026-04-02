@@ -7,6 +7,7 @@ local pi    = math.pi
 
 local attackCol
 local chargeCol
+local heavyCol
 local attackTimer = 0
 local attackCooldown = 0
 local rollCooldown = 0
@@ -21,8 +22,6 @@ local equipSource
 local changeSource
 
 _PlayerController_triggerCameraShake = false
-_PlayerController_shakeDuration      = 0.4
-_PlayerController_shakeMagnitude     = 4.0
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
 _PlayerController_currentMask        = "None"
@@ -84,7 +83,7 @@ local Player = {
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
     baseSpeed = 15.0,
-    isGrounded = false
+    isGrounded = false,
 }
 
 public = {
@@ -126,6 +125,10 @@ public = {
     giveAresMask        = false,
     attackImpulseForce  = 8.0,
     attackImpulseWindow = 0.15,
+    heavyDuration       = 0.7,
+    heavyAttackDelay    = 0.35,
+    heavyUpImpulse      = 2.0,
+    triggerCameraShake  = false
 }
 
 
@@ -354,7 +357,7 @@ States[State.IDLE] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -362,7 +365,7 @@ States[State.IDLE] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -409,7 +412,7 @@ States[State.WALK] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -417,7 +420,7 @@ States[State.WALK] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -486,7 +489,7 @@ States[State.RUNNING] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -494,7 +497,7 @@ States[State.RUNNING] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -625,14 +628,49 @@ States[State.SHOOTING] = {
 }
 
 States[State.ATTACK_HEAVY] = {
+    colliderActive = false,
     Enter = function(self)
-        ChangeState(self, State.IDLE) -- temporal
-        _PlayerController_lastAttack = "heavy"
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("NormalAttack", 1.0) end --aquí anim de ataque giratorio
+        attackTimer = 0
+        States[State.ATTACK_HEAVY].colliderActive = false
+        if heavyCol then heavyCol:Disable() end
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
+        end
     end,
     Update = function(self, dt)
+        attackTimer = attackTimer + dt
+
+        if not States[State.ATTACK_HEAVY].colliderActive then
+            if attackTimer >= self.public.heavyAttackDelay then
+                States[State.ATTACK_HEAVY].colliderActive = true
+                _PlayerController_lastAttack = "heavy"
+                if heavyCol then heavyCol:Enable() end
+                if Player.rb then
+                    Player.rb:SetLinearVelocity(0, self.public.heavyUpImpulse, 0)
+                end
+            end
+        end
+
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
+
+        if attackTimer >= self.public.heavyDuration then
+            if Player.swordSFX then Player.swordSFX:PlayAudioEvent() end
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
     end,
     Exit = function(self)
-        if attackCol then attackCol:Disable() end
+        if heavyCol then heavyCol:Disable() end
+        States[State.ATTACK_HEAVY].colliderActive = false
         _PlayerController_lastAttack = ""
     end
 }
@@ -686,8 +724,6 @@ local function TakeDamage(self, amount, attackerPos)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
-    _PlayerController_shakeDuration      = self.public.hitShakeDuration
-    _PlayerController_shakeMagnitude     = self.public.hitShakeMagnitude
 
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
@@ -779,6 +815,9 @@ function Start(self)
     chargeCol = self.gameObject:GetComponent("Sphere Collider")
     if chargeCol then chargeCol:Disable() end 
 
+    heavyCol = self.gameObject:GetComponent("Capsule Collider")
+    if heavyCol then heavyCol:Disable() end
+
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
 
@@ -834,6 +873,11 @@ function Update(self, dt)
     if not Player.currentState then
         --Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
+    end
+
+    if _PlayerController_triggerCameraShake == true then
+        self.public.triggerCameraShake = true
+        _PlayerController_triggerCameraShake = false
     end
 
     if Player.godMode then

@@ -1,0 +1,183 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -3.292388916015625,
+                            2.9345765113830566,
+                            -0.9001693725585938
+                        ],
+                        "rotation": [
+                            -0.024220742285251617,
+                            -0.00011099058610852808,
+                            -179.9757537841797
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 9550816369307115638,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 6880913689144830587,
+                        "type": 3
+                    }
+                ],
+                "name": "Columna_Muro_Modular_Estructura",
+                "tag": "",
+                "uid": 17401347518734588862
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -5.968109130859375,
+                            9.5367431640625e-07,
+                            -0.9400100708007813
+                        ],
+                        "rotation": [
+                            0.0197822954505682,
+                            -3.4150962164858356e-06,
+                            0.019782498478889465
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 5887843760468486437,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 9092282208591170058,
+                        "type": 3
+                    }
+                ],
+                "name": "MuroModularEstructura",
+                "tag": "",
+                "uid": 7556519838636213033
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -7.4869384765625,
+                            3.2499938011169434,
+                            -0.8644561767578125
+                        ],
+                        "rotation": [
+                            -1.0901012315045477e-09,
+                            0.017636895179748535,
+                            2.3964039086443734e-10
+                        ],
+                        "scale": [
+                            1.4256001710891724,
+                            1.4256001710891724,
+                            1.4256001710891724
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 12545348145362697751,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 5618696925829826992,
+                        "type": 3
+                    }
+                ],
+                "name": "Tapa_Muro_Modular",
+                "tag": "",
+                "uid": 9920825528968561351
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.855377197265625,
+                            -1.9073486328125e-06,
+                            -0.8777847290039063
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            -6.147376357956702e-11
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 6063088674000625184,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 6880913689144830587,
+                        "type": 3
+                    }
+                ],
+                "name": "Base_Columna_Muro_Modular_Estructura",
+                "tag": "",
+                "uid": 5454550620954522544
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    111.45182800292969,
+                    4.308650016784668,
+                    -149.79071044921875
+                ],
+                "rotation": [
+                    5.008959305996541e-06,
+                    44.99997329711914,
+                    5.008962489227997e-06
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "MuroModular1",
+        "tag": "",
+        "uid": 15917707894198369984
+    }
+]

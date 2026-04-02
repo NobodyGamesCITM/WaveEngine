@@ -91,6 +91,8 @@ set(SHADERS_SRC
     src/ShaderStandard.cpp
     src/ShaderPostPorcessing.h
     src/ShaderPostPorcessing.cpp 
+    src/ShaderShadowDepth.cpp 
+    src/ShaderShadowDepth.h 
 )  
 
 set(VFX_SRC

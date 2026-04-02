@@ -403,6 +403,11 @@ function Update(self, dt)
 
     if not Mortar.playerGO then return end
 
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
+    end
+
     local myPos = self.transform.position
     local pp    = Mortar.playerGO.transform.position
     if not pp then return end
@@ -507,6 +512,15 @@ function OnTriggerEnter(self, other)
                 elseif attack == "heavy" then
                     TakeDamage(self, DAMAGE_HEAVY, attackerPos)
                 end
+            end
+        end
+
+        if isAttacking and not playerHitThisAttack then
+            local pending = _PlayerController_pendingDamage or 0
+            if pending == 0 then
+                playerHitThisAttack                = true
+                _PlayerController_pendingDamage    = _EnemyDamage_mortar
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
             end
         end
     end

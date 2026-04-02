@@ -7,6 +7,7 @@ local pi    = math.pi
 
 local attackCol
 local chargeCol
+local heavyCol
 local attackTimer = 0
 local attackCooldown = 0
 local rollCooldown = 0
@@ -126,6 +127,9 @@ public = {
     giveAresMask        = false,
     attackImpulseForce  = 8.0,
     attackImpulseWindow = 0.15,
+    heavyDuration       = 0.7,
+    heavyAttackDelay    = 0.35,
+    heavyUpImpulse      = 2.0
 }
 
 
@@ -625,14 +629,49 @@ States[State.SHOOTING] = {
 }
 
 States[State.ATTACK_HEAVY] = {
+    colliderActive = false,
     Enter = function(self)
-        ChangeState(self, State.IDLE) -- temporal
-        _PlayerController_lastAttack = "heavy"
+        if not Player.godMode then
+            self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
+        end
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then anim:Play("NormalAttack", 1.0) end --aquí anim de ataque giratorio
+        attackTimer = 0
+        States[State.ATTACK_HEAVY].colliderActive = false
+        if heavyCol then heavyCol:Disable() end
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
+        end
     end,
     Update = function(self, dt)
+        attackTimer = attackTimer + dt
+
+        if not States[State.ATTACK_HEAVY].colliderActive then
+            if attackTimer >= self.public.heavyAttackDelay then
+                States[State.ATTACK_HEAVY].colliderActive = true
+                _PlayerController_lastAttack = "heavy"
+                if heavyCol then heavyCol:Enable() end
+                if Player.rb then
+                    Player.rb:SetLinearVelocity(0, self.public.heavyUpImpulse, 0)
+                end
+            end
+        end
+
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
+
+        if attackTimer >= self.public.heavyDuration then
+            if Player.swordSFX then Player.swordSFX:PlayAudioEvent() end
+            attackCooldown = self.public.attackCooldown
+            ChangeState(self, State.IDLE)
+        end
     end,
     Exit = function(self)
-        if attackCol then attackCol:Disable() end
+        if heavyCol then heavyCol:Disable() end
+        States[State.ATTACK_HEAVY].colliderActive = false
         _PlayerController_lastAttack = ""
     end
 }
@@ -778,6 +817,9 @@ function Start(self)
 
     chargeCol = self.gameObject:GetComponent("Sphere Collider")
     if chargeCol then chargeCol:Disable() end 
+
+    heavyCol = self.gameObject:GetComponent("Capsule Collider")
+    if heavyCol then heavyCol:Disable() end
 
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil

@@ -1,9 +1,14 @@
 -- Door.lua
 public = {
-    isOpen = false,
+   -- isOpen = false,
     distance = 10.0,
     speed = 1
 }
+local openDoor2 = false
+local rb = nil
+local finalY = 0.0
+local isOpen
+
 function Start(self)
     isOpen = self.public.isOpen 
     distance = self.public.distance
@@ -14,16 +19,26 @@ function Start(self)
 
     local p = self.transform.worldPosition
     finalY = p.y - distance
-    openDoor2 = false
 
     self.OpenDoor = function(self)
-        openDoor2 = true
+        if not isOpen then openDoor2 = true end
+        return isOpen
     end
 end
     
 function Update (self, deltaTime) 
 
     if Input.GetKeyDown("F5") then openDoor2 = true end
+
+    if Input.GetKeyDown("F4") then
+        local obj = GameObject.Find("Player")
+        local playerPos = obj.transform.position
+        local p = self.transform.worldPosition
+
+        if (math.abs(p.x - playerPos.x) < 3) then
+            if (math.abs(p.z - playerPos.z) < 3) then openDoor2 = true end
+        end 
+    end     
 
     if openDoor2 then 
         local p = self.transform.worldPosition

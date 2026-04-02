@@ -440,6 +440,10 @@ bool Renderer::RenderScene(CameraLens* camera)
     UpdateProjectionMatrix(camera->GetProjectionMatrix());
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboMatrices);
 
+    // Shadow pass
+    if (lightManager)
+        lightManager->BuildShadowMap(meshes);
+
     //Build Render List
     opaqueList.clear();
     transparentList.clear();
@@ -645,16 +649,17 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
 
 void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const CameraLens* camera)
 {
-    // Upload all scene lights 
-    if (lightManager)
-        if (standardShader) {
-            standardShader->Use();
-            lightManager->UploadToShader(standardShader.get());
-        }
+    // Upload luces al standardShader
+    if (lightManager && standardShader)
+    {
+        standardShader->Use();
+        lightManager->UploadToShader(standardShader.get());
+        standardShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+        standardShader->SetInt("uShadowMap", 5);
+    }
 
-    Shader* lastShader = nullptr; // Para evitar cambiar de shader innecesariamente (cache de estado)
+    Shader* lastShader = nullptr;
     Material* lastMaterial = nullptr;
-
 
     for (const RenderObject& renderObject : list)
     {
@@ -678,9 +683,8 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
 
         if (materialComp) {
             currentMaterial = materialComp->GetMaterial();
-            if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD) {
+            if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD)
                 currentShader = standardShader.get();
-            }
         }
 
         if (currentShader != lastShader) {
@@ -690,40 +694,42 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
             currentShader->SetVec3("viewPos", camera->position);
             currentShader->SetVec3("lightDir", lightDir);
 
-            //lastMaterial = nullptr;
+            if (currentShader == standardShader.get()) {
+                glActiveTexture(GL_TEXTURE5);
+                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+                currentShader->SetInt("uShadowMap", 5);
+                currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+            }
         }
 
         currentShader->SetMat4("model", renderObject.globalModelMatrix);
 
-        UID currentUID = currentMaterial
-            ? static_cast<MaterialStandard*>(currentMaterial)->GetAlbedoMapUID()
-            : 0;
-
         if (currentMaterial != lastMaterial) {
-            if (currentMaterial) {
+            if (currentMaterial)
                 currentMaterial->Bind(currentShader);
-            }
             else {
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
             }
             lastMaterial = currentMaterial;
         }
+
         DrawMesh(meshComp);
     }
 }
 
-
 void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera)
 {
-    // Upload all scene lights 
-    if (lightManager)
-        if (standardShader) {
-            standardShader->Use();
-            lightManager->UploadToShader(standardShader.get());
-        }
+    // Upload luces al standardShader
+    if (lightManager && standardShader)
+    {
+        standardShader->Use();
+        lightManager->UploadToShader(standardShader.get());
+        standardShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+        standardShader->SetInt("uShadowMap", 5);
+    }
 
-	Shader* lastShader = nullptr; // Para evitar cambiar de shader innecesariamente (cache de estado)
+    Shader* lastShader = nullptr;
     Material* lastMaterial = nullptr;
     UID lastMaterialUID = 0;
 
@@ -750,20 +756,24 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
 
         if (materialComp) {
             currentMaterial = materialComp->GetMaterial();
-            if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD) {
+            if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD)
                 currentShader = standardShader.get();
-            }
         }
 
         if (currentShader != lastShader) {
             currentShader->Use();
             lastShader = currentShader;
 
-            // Si cambias de shader, datos globales se envíen al nuevo shader activo
             currentShader->SetVec3("viewPos", camera->position);
             currentShader->SetVec3("lightDir", lightDir);
 
-            //lastMaterial = nullptr;
+            // Re-bindear shadow map cada vez que se activa standardShader
+            if (currentShader == standardShader.get()) {
+                glActiveTexture(GL_TEXTURE5);
+                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+                currentShader->SetInt("uShadowMap", 5);
+                currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+            }
         }
 
         currentShader->SetMat4("model", renderObject.globalModelMatrix);
@@ -773,9 +783,8 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             : 0;
 
         if (currentUID != lastMaterialUID || currentUID == 0) {
-            if (currentMaterial) {
+            if (currentMaterial)
                 currentMaterial->Bind(currentShader);
-            }
             else {
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
@@ -783,10 +792,10 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             lastMaterial = currentMaterial;
             lastMaterialUID = currentUID;
         }
+
         DrawMesh(meshComp);
     }
 }
-
 void Renderer::DrawParticlesList(const CameraLens* camera)
 {
     if (particlesList.empty()) return;

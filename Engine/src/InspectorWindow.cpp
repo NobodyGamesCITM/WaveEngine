@@ -43,6 +43,8 @@
 #include "CreateCommand.h"
 #include "DeleteCommand.h"
 #include "ComponentLight.h"
+#include "LightManager.h"
+#include "Renderer.h"
 
 #include "Log.h"
 #include "ComponentScript.h"
@@ -2459,7 +2461,22 @@ void InspectorWindow::DrawLightComponent(Component* component)
 
     bool open = ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(lightComp, true);
-    if (open) lightComp->OnEditor();
+
+    if (open)
+    {
+        lightComp->OnEditor();
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "SHADOWS");
+
+        if (Application::GetInstance().renderer && Application::GetInstance().renderer->GetLightManager())
+        {
+            ImGui::Checkbox("IsShadowActive", &Application::GetInstance().renderer->GetLightManager()->shadowsEnabled);
+        }
+    }
 }
 
 void InspectorWindow::DrawPrefabInstanceSection(GameObject* selectedObject)

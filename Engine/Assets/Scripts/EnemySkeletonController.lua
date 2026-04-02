@@ -739,6 +739,7 @@ function Update(self, dt)
         PlayAnim(self.public.animDeath, 0.05)
         Engine.Log("[Skeleton] MUERTO")
         Game.SetTimeScale(0.2)
+        _impactFrameTimer = 0.07
         self:Destroy()
         return
     end

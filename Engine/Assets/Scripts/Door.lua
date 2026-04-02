@@ -17,18 +17,7 @@ function Start(self)
     openDoor2 = false
 
     self.OpenDoor = function(self)
-        local p = self.transform.worldPosition
-        if not isOpen then
-            if p.y >= finalY then rb:SetLinearVelocity(0, -speed, 0) 
-            else 
-                Engine.Log("---------------------------------------------------------------------")
-                Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
-                Engine.Log("---------------------------------------------------------------------")
-                rb:SetLinearVelocity(0, 0, 0) 
-                isOpen = true   
-                openDoor = false
-            end
-        end
+        openDoor2 = true
     end
 end
     

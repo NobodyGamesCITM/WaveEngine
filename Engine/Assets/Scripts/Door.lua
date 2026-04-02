@@ -2,21 +2,20 @@
 public = {
    -- isOpen = false,
     distance = 10.0,
-    speed = 1
+    speed = 1,
+    myColision = "Puerta_Sala_1_Colision"
 }
 local openDoor2 = false
 local rb = nil
 local finalY = 0.0
 local isOpen
+local ColisionDisabled = false
 
 function Start(self)
-    isOpen = self.public.isOpen 
+    --isOpen = self.public.isOpen 
     distance = self.public.distance
     speed = self.public.speed
-    Engine.Log("Start Door")
-
     rb =  self.gameObject:GetComponent("Rigidbody")
-
     local p = self.transform.worldPosition
     finalY = p.y - distance
 
@@ -25,7 +24,24 @@ function Start(self)
         return isOpen
     end
 end
-    
+
+local function DisableColision (self) 
+    local colision = GameObject.Find(self.public.myColision)
+    if colision then
+        Engine.Log("Door colision found")
+        local Box = colision:GetComponent("Box Collider")
+        if Box then 
+            Box:Disable() 
+            ColisionDisabled = true
+            Engine.Log("Box disable")
+        else
+            Engine.Log("Box not found")
+        end
+    else 
+        Engine.Log("Door colision not found : " ..tostring(self.public.myColision))
+    end
+end
+
 function Update (self, deltaTime) 
 
     if Input.GetKeyDown("F5") then openDoor2 = true end
@@ -41,6 +57,7 @@ function Update (self, deltaTime)
     end     
 
     if openDoor2 then 
+        if not ColisionDisabled then  DisableColision(self) end
         local p = self.transform.worldPosition
         if not isOpen then  
             if p.y >= finalY then rb:SetLinearVelocity(0, -1, 0)

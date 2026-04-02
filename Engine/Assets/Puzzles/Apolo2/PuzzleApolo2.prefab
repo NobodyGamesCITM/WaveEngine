@@ -1,0 +1,3606 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 1306699127074775423
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 3991990197324672655
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 1466191116990694484
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 16627115776963569139
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 4617231023511090111
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 7608281869504611282
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 2165323423645618626
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 12985019642865759869
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 11929451101703170796
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 15271994922019645503
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            135.9302978515625,
+                            42.135623931884766,
+                            -287.5652770996094
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": false
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "I",
+                "tag": "Statue",
+                "uid": 5350904784348381388
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 4911881646858442280
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 4028813468052078181
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 13765036514643486371
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 3648334655300565697
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 13751740020385175859
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 4206605220037499
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 15134257210794703659
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 15979756342354752670
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 4214849677050970516
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 14539701117388066638
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            135.9302978515625,
+                            42.135623931884766,
+                            -278.5652770996094
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "1",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 1833424640414765434
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 7724897792555253339
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 14346116249226037457
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 614252399632606860
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 14729362364225930164
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 15051562316949825248
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    -0.0001220703125,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    3.2568875981547896e-12,
+                                                                    1.3340211602042018e-08,
+                                                                    -2.1552232654792336e-12
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 7023181264441156778
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 15194449388293031261
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 10731380530393229639
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 12768668141383582361
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 13285898120845629495
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            142.9302978515625,
+                            42.135623931884766,
+                            -278.5652770996094
+                        ],
+                        "rotation": [
+                            180.0,
+                            -0.01977415941655636,
+                            180.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "2",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 2517026040426192882
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 6910326781017353782
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 5428153777452087895
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 12064051821488499565
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 10837518343216366599
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 13916961278918182162
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 2229668337913719513
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 1891252279718475985
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 17851976291329633158
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 1220773952044406540
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 9497017237502859838
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            152.9302978515625,
+                            42.135623931884766,
+                            -278.5652770996094
+                        ],
+                        "rotation": [
+                            180.0,
+                            -0.0,
+                            180.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "6",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 12911902387881112729
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    3.051758176297881e-05,
+                                                                    -0.00024414065410383046
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 5769639785247067861
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 3344134870262813865
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 17750782653704883202
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 3304475954466437913
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 14940065992317270557
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 10945009881210526923
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 5848741319075908203
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 9503548290399349508
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 1792098553869450326
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 16097688355167623845
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            142.9302978515625,
+                            42.135623931884766,
+                            -287.5652770996094
+                        ],
+                        "rotation": [
+                            180.0,
+                            3.7830907331226626e-06,
+                            180.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "3",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 15216833472692877492
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    -6.103515625e-05,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 16659682083539262276
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 8102597354416032337
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 1548946845577291665
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 13177150632010964502
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 15059110257645438594
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 1882070170450357904
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 11187989990039771636
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 13541625136826092278
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 1399090339236891007
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 17544906178390425609
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            142.9302978515625,
+                            42.135623931884766,
+                            -293.5652770996094
+                        ],
+                        "rotation": [
+                            0.0,
+                            -89.98021697998047,
+                            0.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "4",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 3566597950562609839
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    -0.000244140625,
+                                                                    1.52587890625e-05,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    -1.7075473124350538e-06,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 4974890338877217579
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 3020983998657897384
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 12556208299535568760
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 1189382567201337139
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 14773107367661936017
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 10252469868281673035
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 4598849584533541872
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 7529409566487284621
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 9078394222278538334
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 4670564480227541347
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            152.9302978515625,
+                            42.135623931884766,
+                            -287.5652770996094
+                        ],
+                        "rotation": [
+                            0.0,
+                            -45.000003814697266,
+                            0.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": "Puerta_Sala_1"
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "F",
+                "prefabInstance": 13474202685942608418,
+                "tag": "",
+                "uid": 3934120557435588307
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -0.0001220703125
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 4779887813102112744,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Buho_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 6304170338996078410
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 12981729511221409385
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 14856590027037636739
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 17285655241181326801
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    3.0517578125e-05,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.9720230102539,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 1369192592232511536
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 14524675934620834147,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 9252118491625162541,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Base_copy_copy",
+                                                        "tag": "",
+                                                        "uid": 8119431770584968179
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -5.0,
+                                                            7.549789415861596e-08,
+                                                            -1.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
+                                                "tag": "",
+                                                "uid": 14093530759478940423
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    5.0,
+                                                    -7.549789415861596e-08,
+                                                    1.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
+                                        "tag": "",
+                                        "uid": 1704351301579523222
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -5.0,
+                                            7.549789415861596e-08,
+                                            -1.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
+                                "tag": "",
+                                "uid": 18034392957501587193
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
+                        "tag": "",
+                        "uid": 3957828337182057509
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            135.9302978515625,
+                            42.135623931884766,
+                            -293.5652770996094
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            0.1692611277103424,
+                            0.1692611277103424,
+                            0.1692611277103424
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            10.0,
+                            50.0,
+                            10.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "onlyRedirected",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "doorName",
+                                "type": 1,
+                                "value": ""
+                            },
+                            {
+                                "name": "dirY",
+                                "type": 0,
+                                "value": 0.0
+                            },
+                            {
+                                "name": "dirZ",
+                                "type": 0,
+                                "value": 1.0
+                            },
+                            {
+                                "name": "dirX",
+                                "type": 0,
+                                "value": 0.0
+                            }
+                        ],
+                        "scriptUID": 3213472682470300881,
+                        "type": 6
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "targetDegrees",
+                                "type": 0,
+                                "value": 90.0
+                            },
+                            {
+                                "name": "rotationSpeed",
+                                "type": 0,
+                                "value": 180.0
+                            }
+                        ],
+                        "scriptUID": 1724783290381993592,
+                        "type": 6
+                    }
+                ],
+                "name": "5",
+                "prefabInstance": 13474202685942608418,
+                "tag": "Statue",
+                "uid": 6713522534811859733
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    113.0,
+                                    45.0,
+                                    -275.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "Center": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "DynamicFriction": 0.5,
+                                "Restitution": 0.6000000238418579,
+                                "Size": [
+                                    3.0,
+                                    5.0,
+                                    1.0
+                                ],
+                                "StaticFriction": 0.5,
+                                "Trigger": false,
+                                "active": true,
+                                "type": 10
+                            },
+                            {
+                                "AngularDamping": 0.0,
+                                "FreezePos": [
+                                    false,
+                                    false,
+                                    false
+                                ],
+                                "FreezeRot": [
+                                    false,
+                                    false,
+                                    false
+                                ],
+                                "LinearDamping": 0.0,
+                                "Mass": 1.0,
+                                "Type": 0,
+                                "UseCCD": false,
+                                "UseGravity": true,
+                                "active": true,
+                                "type": 8
+                            }
+                        ],
+                        "name": "Puerta_Sala_1_Colision",
+                        "tag": "",
+                        "uid": 1167451827298487731
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    113.0,
+                                    45.0,
+                                    -275.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    -89.98021697998047,
+                                    0.0
+                                ],
+                                "scale": [
+                                    0.36890003085136414,
+                                    6.05880069732666,
+                                    3.4000000953674316
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "primitiveType": "Cube",
+                                "type": 1
+                            },
+                            {
+                                "active": true,
+                                "materialUID": 188956973789413017,
+                                "type": 3
+                            },
+                            {
+                                "AngularDamping": 0.0,
+                                "FreezePos": [
+                                    true,
+                                    false,
+                                    true
+                                ],
+                                "FreezeRot": [
+                                    true,
+                                    true,
+                                    true
+                                ],
+                                "LinearDamping": 0.0,
+                                "Mass": 1.0,
+                                "Type": 1,
+                                "UseCCD": false,
+                                "UseGravity": false,
+                                "active": true,
+                                "type": 8
+                            },
+                            {
+                                "active": true,
+                                "publicVariables": [
+                                    {
+                                        "name": "speed",
+                                        "type": 0,
+                                        "value": 1.0
+                                    },
+                                    {
+                                        "name": "distance",
+                                        "type": 0,
+                                        "value": 10.0
+                                    },
+                                    {
+                                        "name": "myColision",
+                                        "type": 1,
+                                        "value": "Puerta_Sala_1_Colision"
+                                    }
+                                ],
+                                "scriptUID": 2217885483722212414,
+                                "type": 6
+                            }
+                        ],
+                        "name": "Puerta_Sala_1",
+                        "prefabInstance": 17223262710583862224,
+                        "tag": "Statue",
+                        "uid": 2933943633064077531
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Door",
+                "tag": "",
+                "uid": 3499246041315280309
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "PuzzleBueno",
+        "tag": "",
+        "uid": 7984332017306812078
+    }
+]

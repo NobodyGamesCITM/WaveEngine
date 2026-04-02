@@ -358,7 +358,7 @@ States[State.IDLE] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -366,7 +366,7 @@ States[State.IDLE] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -413,7 +413,7 @@ States[State.WALK] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -421,7 +421,7 @@ States[State.WALK] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end
@@ -490,7 +490,7 @@ States[State.RUNNING] = {
             return
         end
         if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.HERMES then
+            if Player.currentMask == Mask.ARES then
                 ChangeState(self, State.CHARGING)
                 return
             end
@@ -498,7 +498,7 @@ States[State.RUNNING] = {
                 ChangeState(self, State.SHOOTING)
                 return
             end
-            if Player.currentMask == Mask.ARES then
+            if Player.currentMask == Mask.HERMES then
                 ChangeState(self, State.ATTACK_HEAVY)
                 return
             end

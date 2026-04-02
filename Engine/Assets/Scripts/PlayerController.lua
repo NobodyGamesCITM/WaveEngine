@@ -22,8 +22,6 @@ local equipSource
 local changeSource
 
 _PlayerController_triggerCameraShake = false
-_PlayerController_shakeDuration      = 0.4
-_PlayerController_shakeMagnitude     = 4.0
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
 _PlayerController_currentMask        = "None"
@@ -85,7 +83,7 @@ local Player = {
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
     baseSpeed = 15.0,
-    isGrounded = false
+    isGrounded = false,
 }
 
 public = {
@@ -129,7 +127,8 @@ public = {
     attackImpulseWindow = 0.15,
     heavyDuration       = 0.7,
     heavyAttackDelay    = 0.35,
-    heavyUpImpulse      = 2.0
+    heavyUpImpulse      = 2.0,
+    triggerCameraShake  = false
 }
 
 
@@ -725,8 +724,6 @@ local function TakeDamage(self, amount, attackerPos)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
-    _PlayerController_shakeDuration      = self.public.hitShakeDuration
-    _PlayerController_shakeMagnitude     = self.public.hitShakeMagnitude
 
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
@@ -876,6 +873,11 @@ function Update(self, dt)
     if not Player.currentState then
         --Engine.Log("[Player] Update")
         ChangeState(self, State.IDLE)
+    end
+
+    if _PlayerController_triggerCameraShake == true then
+        self.public.triggerCameraShake = true
+        _PlayerController_triggerCameraShake = false
     end
 
     if Player.godMode then

@@ -6,10 +6,6 @@ public = {
     damage = 15.0
 }
 
-if _Bullet_PendingDamage == nil then
-    _Bullet_PendingDamage = 0
-end
-
 local timeAlive = 0
 local direction = {x = 0, y = 0, z = 1}
 local initialized = false
@@ -19,10 +15,6 @@ local pendingDamage = false
 
 function Start(self)
     rb = self.gameObject:GetComponent("Rigidbody")
-
-    if _BulletRegistry == nil then _BulletRegistry = {} end
-    bulletId = tostring(self.gameObject) .. tostring(os.clock())
-    _BulletRegistry[tostring(self.gameObject)] = bulletId
 end
 
 function Update(self, dt)

@@ -5,7 +5,8 @@ public = {
     dirY           = 0.0,
     dirZ           = 1.0,
     onlyRedirected = false,  -- false: any bullet / true: only already redirected bullets
-    doorName = "",
+    doorName       = "",
+    fordwardOffset     = 1.0
 }
 
 local dirX, dirY, dirZ = 0.0, 0.0, 1.0
@@ -65,5 +66,13 @@ function OnTriggerEnter(self, other)
     end
 
     bulletScript.pendingRedirect = { x = worldX, y = worldY, z = worldZ }
+
+    local center  = self.transform.worldPosition
+    local offset  = self.public.fordwardOffset
+    bulletScript.pendingPosition = {
+        x = center.x + worldX * offset,
+        y = center.y + worldY * offset,
+        z = center.z + worldZ * offset
+    }
 
 end

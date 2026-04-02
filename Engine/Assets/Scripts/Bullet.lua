@@ -72,6 +72,11 @@ function Update(self, dt)
         self.direction.z = r.z
         self.pendingRedirect = nil
         self.wasRedirected = true
+        if self.pendingPosition then
+            local pp = self.pendingPosition
+            self.transform:SetPosition(pp.x, pos.y, pp.z)
+            self.pendingPosition = nil
+        end
         Engine.Log("[Bullet] wasRedirected set to true")
         local p = self.transform.position
         Engine.Log("[Bullet] Redirected at pos: " .. p.x .. ", " .. p.y .. ", " .. p.z)

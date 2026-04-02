@@ -77,13 +77,16 @@ function Update(self, dt)
         Engine.Log("[Bullet] Redirected at pos: " .. p.x .. ", " .. p.y .. ", " .. p.z)
     end
 
-    local newX = pos.x + self.direction.x * speed * dt
-    local newY = pos.y + self.direction.y * speed * dt
-    local newZ = pos.z + self.direction.z * speed * dt
-
     if rb then
-        rb:MovePosition(newX, newY, newZ)
+        rb:SetLinearVelocity(
+            self.direction.x * speed,
+            self.direction.y * speed,
+            self.direction.z * speed
+        )
     else
+        local newX = pos.x + self.direction.x * speed * dt
+        local newY = pos.y + self.direction.y * speed * dt
+        local newZ = pos.z + self.direction.z * speed * dt
         self.transform:SetPosition(newX, newY, newZ)
     end
 

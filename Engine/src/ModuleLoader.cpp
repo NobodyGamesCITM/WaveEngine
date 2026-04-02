@@ -11,6 +11,7 @@
 #include "ComponentMaterial.h"
 #include "MaterialStandard.h"
 #include "ComponentCamera.h"
+#include "ComponentScript.h"
 
 ModuleLoader::ModuleLoader() : Module() {}
 ModuleLoader::~ModuleLoader() {}
@@ -450,6 +451,8 @@ void ModuleLoader::RevertInstance(GameObject* instance)
 {
     if (!instance || !instance->prefabInstance.has_value()) return;
 
+    Application::GetInstance().selectionManager->ClearSelection();
+
     UID prefabUID = instance->prefabInstance->prefabUID;
 
     ResourcePrefab* resource = (ResourcePrefab*)Application::GetInstance().resources->RequestResource(prefabUID);
@@ -472,19 +475,50 @@ void ModuleLoader::RevertInstance(GameObject* instance)
     if (prefabJson[0].contains("children") && prefabJson[0]["children"].is_array())
     {
         const auto& prefabChildren = prefabJson[0]["children"];
-        const auto& currentChildren = instance->GetChildren();
 
-        for (int i = 0; i < (int)prefabChildren.size(); i++)
+        std::vector<GameObject*> currentChildren = instance->GetChildren();
+
+        std::vector<GameObject*> toDelete;
+        for (GameObject* c : currentChildren)
         {
-            if (i < (int)currentChildren.size())
+            bool stillInPrefab = false;
+            for (const auto& childJson : prefabChildren)
             {
-                //That child already exists; apply on top
-                ApplyJsonToGameObject(currentChildren[i], prefabChildren[i]);
+                UID childUID = childJson.contains("uid") ? childJson["uid"].get<UID>() : 0;
+                if (c->objectUID == childUID) { stillInPrefab = true; break; }
+            }
+            if (!stillInPrefab)
+                toDelete.push_back(c);
+        }
+        for (GameObject* c : toDelete)
+        {
+            instance->RemoveChild(c);
+            delete c;
+        }
+
+        currentChildren = instance->GetChildren();
+
+        // Emparejar hijos por UID
+        for (const auto& childJson : prefabChildren)
+        {
+            UID childUID = childJson.contains("uid") ? childJson["uid"].get<UID>() : 0;
+
+            GameObject* match = nullptr;
+            if (childUID != 0)
+            {
+                for (GameObject* c : currentChildren)
+                {
+                    if (c->objectUID == childUID) { match = c; break; }
+                }
+            }
+
+            if (match)
+            {
+                ApplyJsonToGameObject(match, childJson);
             }
             else
             {
-                // That child is missing,create it
-                GameObject* newChild = GameObject::Deserialize(prefabChildren[i], instance);
+                GameObject* newChild = GameObject::Deserialize(childJson, instance);
                 if (newChild) RegenerateUIDs(newChild);
             }
         }
@@ -523,12 +557,19 @@ void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& j
 
     if (jsonData.contains("components") && jsonData["components"].is_array())
     {
-        // Recopilar tipos de componentes que tiene el prefab
-        std::vector<ComponentType> prefabTypes;
+        struct PrefabCompInfo {
+            ComponentType type;
+            UID scriptUID = 0; // solo relevante si type == SCRIPT
+        };
+        std::vector<PrefabCompInfo> prefabComps;
         for (const auto& compJson : jsonData["components"])
         {
             if (!compJson.contains("type")) continue;
-            prefabTypes.push_back(static_cast<ComponentType>(compJson["type"].get<int>()));
+            PrefabCompInfo info;
+            info.type = static_cast<ComponentType>(compJson["type"].get<int>());
+            if (info.type == ComponentType::SCRIPT && compJson.contains("scriptUID"))
+                info.scriptUID = compJson["scriptUID"].get<UID>();
+            prefabComps.push_back(info);
         }
 
         // Eliminar componentes que la instancia tiene pero el prefab no
@@ -537,9 +578,24 @@ void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& j
         {
             if (comp->GetType() == ComponentType::TRANSFORM) continue;
             bool inPrefab = false;
-            for (ComponentType t : prefabTypes)
+            for (const PrefabCompInfo& info : prefabComps)
             {
-                if (t == comp->GetType()) { inPrefab = true; break; }
+                if (info.type != comp->GetType()) continue;
+
+                if (info.type == ComponentType::SCRIPT)
+                {
+                    ComponentScript* scriptComp = static_cast<ComponentScript*>(comp);
+                    if (scriptComp->GetScriptUID() == info.scriptUID)
+                    {
+                        inPrefab = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    inPrefab = true;
+                    break;
+                }
             }
             if (!inPrefab)
                 toRemove.push_back(comp);
@@ -552,10 +608,27 @@ void ModuleLoader::ApplyJsonToGameObject(GameObject* go, const nlohmann::json& j
         {
             if (!compJson.contains("type")) continue;
             ComponentType type = static_cast<ComponentType>(compJson["type"].get<int>());
-            Component* comp = go->GetComponent(type);
 
-            if (!comp && type != ComponentType::TRANSFORM)
-                comp = go->CreateComponent(type);
+            Component* comp = nullptr;
+
+            if (type == ComponentType::SCRIPT)
+            {
+                UID jsonScriptUID = compJson.contains("scriptUID") ? compJson["scriptUID"].get<UID>() : 0;
+                for (Component* c : go->GetComponents())
+                {
+                    if (c->GetType() != ComponentType::SCRIPT) continue;
+                    ComponentScript* s = static_cast<ComponentScript*>(c);
+                    if (s->GetScriptUID() == jsonScriptUID) { comp = c; break; }
+                }
+                if (!comp)
+                    comp = go->CreateComponent(type);
+            }
+            else
+            {
+                comp = go->GetComponent(type);
+                if (!comp && type != ComponentType::TRANSFORM)
+                    comp = go->CreateComponent(type);
+            }
 
             if (comp)
             {

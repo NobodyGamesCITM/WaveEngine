@@ -454,6 +454,22 @@ bool ComponentScript::CompileAndExecuteScript(const std::string& scriptContent)
         lua_pushnil(L); // Limpiar public global
         lua_setglobal(L, "public");
 
+        // Mover callbacks de fisica del scope global a la tabla de la instancia
+        const char* physicsCallbacks[] = {
+            "OnTriggerEnter", "OnTriggerStay", "OnTriggerExit",
+            "OnCollisionEnter", "OnCollisionStay", "OnCollisionExit"
+        };
+        for (const char* cb : physicsCallbacks) {
+            lua_getglobal(L, cb);
+            if (lua_isfunction(L, -1)) {
+                lua_setfield(L, -2, cb);
+            } else {
+                lua_pop(L, 1);
+            }
+            lua_pushnil(L);
+            lua_setglobal(L, cb);
+        }
+
         SetupScriptEnvironment(L);
     }
 
@@ -542,6 +558,36 @@ void ComponentScript::CreateTransformUserdata(lua_State* L, Transform* transform
             lua_pushnumber(L, rot.x); lua_setfield(L, -2, "x");
             lua_pushnumber(L, rot.y); lua_setfield(L, -2, "y");
             lua_pushnumber(L, rot.z); lua_setfield(L, -2, "z");
+            return 1;
+        }
+
+        if (strcmp(key, "worldForward") == 0) {
+            const glm::mat4& m = t->GetGlobalMatrix();
+            glm::vec3 fwd = glm::normalize(glm::vec3(m[2][0], m[2][1], m[2][2]));
+            lua_newtable(L);
+            lua_pushnumber(L, fwd.x); lua_setfield(L, -2, "x");
+            lua_pushnumber(L, fwd.y); lua_setfield(L, -2, "y");
+            lua_pushnumber(L, fwd.z); lua_setfield(L, -2, "z");
+            return 1;
+        }
+
+        if (strcmp(key, "worldRight") == 0) {
+            const glm::mat4& m = t->GetGlobalMatrix();
+            glm::vec3 right = glm::normalize(glm::vec3(m[0][0], m[0][1], m[0][2]));
+            lua_newtable(L);
+            lua_pushnumber(L, right.x); lua_setfield(L, -2, "x");
+            lua_pushnumber(L, right.y); lua_setfield(L, -2, "y");
+            lua_pushnumber(L, right.z); lua_setfield(L, -2, "z");
+            return 1;
+        }
+
+        if (strcmp(key, "worldUp") == 0) {
+            const glm::mat4& m = t->GetGlobalMatrix();
+            glm::vec3 up = glm::normalize(glm::vec3(m[1][0], m[1][1], m[1][2]));
+            lua_newtable(L);
+            lua_pushnumber(L, up.x); lua_setfield(L, -2, "x");
+            lua_pushnumber(L, up.y); lua_setfield(L, -2, "y");
+            lua_pushnumber(L, up.z); lua_setfield(L, -2, "z");
             return 1;
         }
 

@@ -613,7 +613,7 @@ States[State.SHOOTING] = {
             angle = Player.lastAngle,
             scale = self.public.bulletScale,
         }
-        Prefab.Instantiate("Prefabs/Bullet.prefab")
+        Prefab.Instantiate(self.public.bulletPrefab)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt

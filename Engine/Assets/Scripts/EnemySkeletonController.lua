@@ -59,14 +59,12 @@ public = {
     -- Movement
     -- Player walks 15 m/s, sprints 25. Enemy chaseSpeed of 6.5 closes on an
     -- idle/walking player but cannot outrun a sprinting one → forces orbit.
-    patrolSpeed     = 2.5,
-    chaseSpeed      = 6.5,
-    lungeForce      = 20.0,   -- impulse larger than player knockbackForce (14) so the lunge feels heavy
+    patrolSpeed     = 1.5,
+    chaseSpeed      = 3.5,
+    lungeForce      = 11.0,
     moveAccel       = 18.0,
     brakeDecel      = 14.0,
-    -- Player ROTATION_SPEED = 780 deg/s.  Enemy at 7 → 420 deg/s, so the
-    -- player can outflank the enemy by strafing, but the enemy still tracks.
-    rotationSpeed   = 7.0,
+    rotationSpeed   = 4.0,
 
     -- NavMesh
     navRefreshRate  = 0.18,
@@ -82,12 +80,11 @@ public = {
     -- (attackRange + 1.5 = 3.5) so the player has to close in to hit.
     orbitTriggerDist  = 5.0,
     orbitRadius       = 3.2,
-    orbitSpeed        = 4.0,   -- fast enough to feel threatening
+    orbitSpeed        = 2.2,
     orbitCorrSpeed    = 5.0,
     orbitCorrMaxFrac  = 0.6,
-    -- Tight window so enemy commits quickly and doesn't feel passive.
-    orbitDurMin       = 0.5,
-    orbitDurMax       = 1.2,
+    orbitDurMin       = 1.2,
+    orbitDurMax       = 2.5,
     orbitDirFlipMin   = 0.5,
     orbitDirFlipMax   = 1.5,
     orbitDirFlipChance= 0.40,
@@ -99,20 +96,13 @@ public = {
     -- a few steps (walk = 15 >> 8).
     pressureSpeedThresh = 5.0,
     pressureRadius      = 1.8,
-    pressureSpeed       = 5.0,
+    pressureSpeed       = 2.5,
     pressureEnterTime   = 0.4,
     pressureExitSpeed   = 8.0,
 
-    -- ── RETREAT (player just attacked) ───────────────────────────────────
-    -- Player attackDuration = 0.8s; enemy must retreat for at least that long
-    -- so it's never inside the hitbox arc when it ends.
-    -- During player attack the player is frozen (velocity = 0), so any
-    -- retreatSpeed safely escapes the arc.
-    -- punishWindow (0.3s) sits inside player attackCooldown (0.5s), giving
-    -- the enemy a genuine opening without being unreactable.
-    retreatSpeed     = 7.0,
-    retreatDur       = 0.9,    -- > attackDuration (0.8)
-    punishWindow     = 0.3,    -- < attackCooldown (0.5), player can still dodge
+    retreatSpeed     = 3.5,
+    retreatDur       = 0.9,
+    punishWindow     = 0.3,
 
     -- ── FEINT ─────────────────────────────────────────────────────────────
     -- feintDur (0.18) is ~40 % of real anticipateDur (0.45) — a consistent,
@@ -120,7 +110,7 @@ public = {
     feintDur         = 0.18,
     feintCoolMin     = 4.0,
     feintCoolMax     = 7.0,
-    feintChance      = 0.40,
+    feintChance      = 0.15,
 
     -- ── Dodge (predictive) ────────────────────────────────────────────────
     -- Player walk = 15 m/s, sprint = 25. Approach threshold of 10 triggers
@@ -129,14 +119,14 @@ public = {
     -- dodgeDur (0.28) is about ¼ of player rollDuration (1.0), feeling snappy
     -- rather than a full evasion.
     -- dodgeCooldown (2.5) lets the player land 3-4 attacks between dodges.
-    dodgeChance         = 0.40,
-    dodgeApproachThresh = 10.0,  -- triggers on walk (15) or sprint (25) direct approach
-    dodgeThreatDist     = 4.5,   -- matches orbitTriggerDist
-    dodgeImpulse        = 12.0,  -- clearly clears the player attack arc
+    dodgeChance         = 0.15,
+    dodgeApproachThresh = 10.0,
+    dodgeThreatDist     = 4.5,
+    dodgeImpulse        = 12.0,
     dodgeSideRatio      = 0.75,
     dodgeDur            = 0.28,
     dodgeCooldown       = 2.5,
-    dodgeInvincible     = true,
+    dodgeInvincible     = false,
     animDodge           = "Roll",
 
     -- ── Attack timing ─────────────────────────────────────────────────────
@@ -146,19 +136,17 @@ public = {
     -- stays stunned long enough for the player to land exactly one follow-up
     -- hit before the enemy recovers.
     -- cooldownBase (1.8) gives the player ~3 full attack cycles to punish.
-    anticipateDur   = 0.40,
+    anticipateDur   = 0.75,
     attackDur       = 0.45,
-    attackColDelay  = 0.18,   -- hitbox opens early so the lunge feels crisp
-    lungeStopDelay  = 0.30,   -- momentum coasts slightly longer than before
-    cooldownBase    = 1.8,
-    cooldownRage    = 1.0,    -- rage (<50% HP) is noticeably more aggressive
+    attackColDelay  = 0.18,
+    lungeStopDelay  = 0.30,
+    cooldownBase    = 3.0,
+    cooldownRage    = 2.0,
 
-    -- Damage & reaction
     attackDamage    = 20,
     knockbackForce  = 6.0,
-    -- stunDuration matches roughly half player attackDuration so the player
-    -- always gets exactly one clean hit per successful strike.
-    stunDuration    = 0.45,
+    stunDuration    = 0.80,
+    hitReactDelay   = 0.15,   -- seconds between detecting player attack and applying damage
 
     -- Patrol
     patrolWaitMin   = 1.0,
@@ -228,8 +216,15 @@ local playerApproachSpd = 0      -- smoothed player approach speed toward enemy
 local navRefreshTimer = 0
 
 -- ── Hit detection ─────────────────────────────────────────────────────────
-local playerAttackHandled = false
-local alreadyHit          = false
+local playerAttackHandled = false  -- true once the current player attack has been registered
+local alreadyHit          = false  -- true once the trigger path registered this attack
+
+-- ── Delayed player-hit queue ──────────────────────────────────────────────
+-- Instead of calling TakeDamage immediately on detection, we wait hitReactDelay
+-- seconds so the damage lands in sync with the player's attack animation.
+local pendingPlayerDmg    = 0     -- damage amount queued (0 = nothing pending)
+local pendingPlayerDmgPos = nil   -- attacker position for knockback
+local hitReactTimer       = 0     -- counts down to zero, then damage fires
 
 -- ── Components ────────────────────────────────────────────────────────────
 local nav       = nil
@@ -257,6 +252,19 @@ local function NormFlat(dx, dz)
     local len = sqrt(dx*dx + dz*dz)
     if len < 0.001 then return 0, 0 end
     return dx/len, dz/len
+end
+
+-- Returns true if the player (at playerPos, facing playerYawDeg) is looking
+-- toward enemyPos within the given dot-product threshold.
+--   dotThresh = 0.0  → 90° half-cone (180° total frontal arc)  ← used here
+--   dotThresh = 0.5  → 60° half-cone (stricter)
+-- Convention: yaw 0 = +Z forward, same as FaceTargetSmooth / rb:SetRotation.
+local function PlayerFacingEnemy(playerPos, playerYawDeg, enemyPos, dotThresh)
+    local yawRad = playerYawDeg * (pi / 180)
+    local fwdX   = math.sin(yawRad)
+    local fwdZ   = math.cos(yawRad)
+    local dx, dz = NormFlat(enemyPos.x - playerPos.x, enemyPos.z - playerPos.z)
+    return (fwdX * dx + fwdZ * dz) >= dotThresh
 end
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
@@ -317,6 +325,16 @@ end
 -- ─────────────────────────────────────────────────────────────────────────
 -- TAKEDAMAGE
 -- ─────────────────────────────────────────────────────────────────────────
+
+-- Queues player-inflicted damage to fire after hitReactDelay seconds.
+-- Only one hit can be queued at a time; the alreadyHit / playerAttackHandled
+-- flags guarantee this is called at most once per player attack.
+local function QueuePlayerDamage(self, amount, attackerPos)
+    pendingPlayerDmg    = amount
+    pendingPlayerDmgPos = attackerPos
+    hitReactTimer       = self.public.hitReactDelay
+    Engine.Log("[Enemy] Damage queued: " .. amount .. " (fires in " .. self.public.hitReactDelay .. "s)")
+end
 
 local function TakeDamage(self, amount, attackerPos)
     if isDead or not hp then return end
@@ -898,6 +916,9 @@ function Start(self)
     pendingDeath        = false
     alreadyHit          = false
     playerAttackHandled = false
+    pendingPlayerDmg    = 0
+    pendingPlayerDmgPos = nil
+    hitReactTimer       = 0
     isStunned           = false
     isAttacking         = false
     isOnCooldown        = false
@@ -971,6 +992,18 @@ function Update(self, dt)
         _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
+    -- ── Delayed player-hit flush ──────────────────────────────────────────
+    if pendingPlayerDmg > 0 then
+        hitReactTimer = hitReactTimer - dt
+        if hitReactTimer <= 0 then
+            local dmg = pendingPlayerDmg
+            local pos = pendingPlayerDmgPos
+            pendingPlayerDmg    = 0
+            pendingPlayerDmgPos = nil
+            TakeDamage(self, dmg, pos)
+        end
+    end
+
     if isStunned then
         stunTimer = stunTimer - dt
         HardBrakeXZ()
@@ -1012,10 +1045,16 @@ function Update(self, dt)
             if pp then
                 local dist = DistFlat(myPos, pp)
                 if dist <= self.public.attackRange + 1.5 then
-                    playerAttackHandled = true
-                    local atk = _PlayerController_lastAttack
-                    if     atk == "light"  then TakeDamage(self, 10, pp)
-                    elseif atk == "heavy" or atk == "charge" then TakeDamage(self, 25, pp)
+                    local plYaw = playerGO.transform.worldRotation
+                                  and playerGO.transform.worldRotation.y or 0
+                    if PlayerFacingEnemy(pp, plYaw, myPos, 0.0) then
+                        playerAttackHandled = true
+                        local atk = _PlayerController_lastAttack
+                        local dmg = 0
+                        if     atk == "light"  then dmg = 10
+                        elseif atk == "heavy" or atk == "charge" then dmg = 25
+                        end
+                        if dmg > 0 then QueuePlayerDamage(self, dmg, pp) end
                     end
                 end
             end
@@ -1080,16 +1119,22 @@ function OnTriggerEnter(self, other)
         if not alreadyHit then
             local attack = _PlayerController_lastAttack
             if attack ~= nil and attack ~= "" then
-                alreadyHit = true
-                local ap   = other.transform.worldPosition
-                if attack == "light" then
-                    TakeDamage(self, 10, ap)
-                elseif attack == "heavy" or attack == "charge" then
-                    TakeDamage(self, 25, ap)
+                local ap     = other.transform.worldPosition
+                local plYaw  = other.transform.worldRotation
+                               and other.transform.worldRotation.y or 0
+                local myPos  = self.transform.worldPosition
+                if PlayerFacingEnemy(ap, plYaw, myPos, 0.0) then
+                    alreadyHit = true
+                    local dmg  = 0
+                    if     attack == "light"  then dmg = 10
+                    elseif attack == "heavy" or attack == "charge" then dmg = 25
+                    end
+                    if dmg > 0 then QueuePlayerDamage(self, dmg, ap) end
                 end
             end
         end
 
+        -- ── El Enemy golpea al Player con su propio collider ──────────────
         if isAttacking and not playerHitThisAttack then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then

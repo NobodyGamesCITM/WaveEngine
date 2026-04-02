@@ -168,23 +168,7 @@ local function TakeDamage(self, amount, attackerPos)
         activeShells = {}
 
         Engine.Log("[Mortar] DEAD")
-    else
-        sStunned           = true
-        stunTimer           = self.public.stunDuration
-        isAttacking         = false
-        playerHitThisAttack = false
-        anticipateTimer     = 0
-        lungeStopTimer      = 0
-        orbitTimer          = 0
-        orbitSubPhase       = OrbitPhase.NEUTRAL
-
-        if attackCol then attackCol:Disable() end
-        if nav       then nav:StopMovement()  end
-        HardBrakeXZ()
-        PlayAnim(self.public.animHit, 0.05)
-        Engine.Log("[Enemy] STUNNED " .. self.public.stunDuration .. "s")
     end
-    
 end
 
 -- ── FacePlayer: gira suavemente hacia la posición del player ─────────────
@@ -390,11 +374,6 @@ function Update(self, dt)
         return
     end
 
-    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
-        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
-        _EnemyPendingDamage[self.gameObject.name] = nil
-    end
-
     -- Simular proyectiles en vuelo independientemente del estado del mortero
     UpdateShells(self, dt)
 
@@ -528,16 +507,6 @@ function OnTriggerEnter(self, other)
                 elseif attack == "heavy" then
                     TakeDamage(self, DAMAGE_HEAVY, attackerPos)
                 end
-            end
-        end
-    end
-
-     if isAttacking and not playerHitThisAttack then
-            local pending = _PlayerController_pendingDamage or 0
-            if pending == 0 then
-                playerHitThisAttack                = true
-                _PlayerController_pendingDamage    = _EnemyDamage_mortar
-                _PlayerController_pendingDamagePos = self.transform.worldPosition
             end
         end
     end

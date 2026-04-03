@@ -380,13 +380,13 @@ States[State.IDLE] = {
 States[State.WALK] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        ---if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
+        --if anim then anim:Play("Walk", 0.5) end --TEMPORAL CAMBIAR POR CAMINAR
 
         self.public.usingStamina = false
 
         if anim then 
-            anim:Play("Walk", 0.5) 
-            anim:SetSpeed("Walk", 1)
+            anim:Play("Running", 0.5) 
+            anim:SetSpeed("Running", 1)
         end
     end,
     

@@ -6,24 +6,16 @@ local wasHermes     = false
 
 function Start(self)
     waterCollider = self.gameObject:GetComponent("Box Collider")
-    if not waterCollider then
-        return
-    end
-    waterCollider:Enable()
+    if waterCollider ~= nil then waterCollider:Enable() end
 
     waterGroundCollider = self.gameObject:GetComponent("Convex Collider")
-    if not waterGroundCollider then
-        return
-    end
-    waterGroundCollider:Enable()
+    if waterGroundCollider ~= nil then waterGroundCollider:Enable() end
 
     wasHermes = false
 end
 
 function Update(self, dt)
-    if not waterCollider then return end
-    if not waterGroundCollider then return end
-
+    --Engine.Log("[Player] MASK: " .. tostring(_PlayerController_currentMask))
     local isHermes = (_PlayerController_currentMask == "Hermes")
     local isDead = _G._PlayerController_isDead
 
@@ -35,10 +27,10 @@ function Update(self, dt)
         wasHermes = false
     end
 
-    if isDead and not wasDrowned then
+    if isDead then
         waterGroundCollider:Disable()
         wasDrowned = true
-    elseif not isDead and wasDrowned then
+    elseif not isDead then
         waterGroundCollider:Enable()
         wasDrowned = false
     end

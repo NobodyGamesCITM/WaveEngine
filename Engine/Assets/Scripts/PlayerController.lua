@@ -263,7 +263,7 @@ local function EquipMask(self, newMask)
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     --HERMES
     --if Player.currentMask == Mask.HERMES and Player.isDrowning == false and Player.isGrounded == false then return end --por discutir
-    if Player.currentMask == Mask.HERMES and Player.isDrowning then
+    if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
         Engine.Log("[Player] Hermes quitado sobre el agua")
         Player.currentMask = newMask
         Player.hermesPendingUnequip = true
@@ -751,7 +751,9 @@ function Start(self)
     self.public.staminaRecover = 15.0 
 
     local spawnPos  = self.transform.worldPosition
+    
     Player.spawnPos = spawnPos
+    Player.respawnPos = spawnPos
     lastCheckpoint = spawnPos
     Player.baseSpeed = self.public.speed
     
@@ -1092,7 +1094,7 @@ function OnCollisionEnter(self, other)
 		end
 	end
 
-    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.isGrounded = true
     end
 end
@@ -1104,7 +1106,7 @@ function OnCollisionExit(self, other)
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
     end
-    if other:CompareTag("Dirt") or other:CompareTag("Grass") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false
     end

@@ -113,6 +113,65 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Grid>
             </Viewbox>
 
+            <!-- Prompt de interacción: abajo al centro, ocupa las 3 columnas -->
+            <Grid x:Name="InteractPrompt"
+                  Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Visibility="Collapsed">
+
+                <Border CornerRadius="6"
+                        Padding="20,8,20,8">
+                    <Border.Background>
+                        <SolidColorBrush Color="#CC000000"/>
+                    </Border.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Icono de tecla/botón -->
+                        <Border x:Name="InputKeyBorder"
+        CornerRadius="4"
+        Padding="8,4,8,4"
+        Margin="0,0,10,0">
+    <Border.Background>
+        <SolidColorBrush Color="#FFFFFFFF"/>
+    </Border.Background>
+    <Grid>
+        <TextBlock x:Name="InputKeyText"
+                   Text="F"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   FontFamily="Arial"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="#FF000000"/>
+            </TextBlock.Foreground>
+        </TextBlock>
+        <Image x:Name="InputGamepadIcon"
+               Source="Textures/inputA.png"
+               Width="28"
+               Height="28"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Visibility="Collapsed"/>
+    </Grid>
+</Border>
+                        <!-- Texto de acción -->
+                        <TextBlock x:Name="InteractText"
+                                   Text="Interactuar"
+                                   FontSize="22"
+                                   FontFamily="Arial"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
         </Grid>
     </Viewbox>
 

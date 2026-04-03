@@ -61,44 +61,17 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
 
-                <!-- Portrait grande, cuerpo entero, anclado abajo-izquierda -->
-                <Grid Width="300" Height="400"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      Margin="200,0,0,0">
-                    <Border x:Name="Portrait_Telemaco" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Telemaco.png"/>
-                    </Border>
-                    <Border x:Name="Portrait_Atenea" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Atenea.png"/>
-                    </Border>
-                    <Border x:Name="Portrait_JohnCartel" Visibility="Collapsed">
-                        <Image Stretch="Uniform"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Center"
-                               Source="Textures/Portrait_Placeholder2.png"/>
-                    </Border>
-                </Grid>
-
-                <!-- Caja de texto: pergamino + texto, a la derecha del portrait -->
+                <!-- CAPA 1: Pergamino + texto (detrás) -->
                 <Grid Width="820" Height="160"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Bottom"
                       Margin="360,0,0,30">
 
-                    <!-- Pergamino de fondo -->
                     <Image Source="Textures/CuadroDialogo.PNG"
                            Stretch="Fill"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"/>
 
-                    <!-- Texto encima del pergamino -->
                     <Grid Margin="85,45,50,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -106,7 +79,6 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Nombre del personaje -->
                         <TextBlock x:Name="CharacterName"
                                    Grid.Row="0"
                                    Text=""
@@ -119,7 +91,6 @@
                             </TextBlock.Foreground>
                         </TextBlock>
 
-                        <!-- Texto del diálogo -->
                         <TextBlock x:Name="DialogText"
                                    Grid.Row="1"
                                    Text=""
@@ -134,7 +105,6 @@
                             </TextBlock.Foreground>
                         </TextBlock>
 
-                        <!-- Icono continuar -->
                         <TextBlock x:Name="ContinueIcon"
                                    Grid.Row="2"
                                    Text="▼"
@@ -162,6 +132,31 @@
                         </TextBlock>
 
                     </Grid>
+                </Grid>
+
+                <!-- CAPA 2: Portraits (delante, declarados después) -->
+                <Grid Width="300" Height="400"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Bottom"
+                      Margin="200,0,0,0">
+                    <Border x:Name="Portrait_Telemaco" Visibility="Collapsed">
+                        <Image Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Center"
+                               Source="Textures/Telemaco.png"/>
+                    </Border>
+                    <Border x:Name="Portrait_Atenea" Visibility="Collapsed">
+                        <Image Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Center"
+                               Source="Textures/Atenea.png"/>
+                    </Border>
+                    <Border x:Name="Portrait_JohnCartel" Visibility="Collapsed">
+                        <Image Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Center"
+                               Source="Textures/Portrait_Placeholder2.png"/>
+                    </Border>
                 </Grid>
 
             </Grid>

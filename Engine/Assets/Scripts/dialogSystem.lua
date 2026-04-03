@@ -111,7 +111,6 @@ end
 
 local function startSequence(sequenceId)
     if _G.CurrentXAML and _G.CurrentXAML ~= "HUD.xaml" then
-        Engine.Log("[DialogSystem] Ignorado, XAML actual: " .. tostring(_G.CurrentXAML))
         return
     end
     if not loadDialogs() then return end
@@ -123,6 +122,7 @@ local function startSequence(sequenceId)
     state.active          = true
     state.currentSequence = seq.dialogs
     state.currentIndex    = 1
+    _G.DialogActive       = true
     Game.Pause()
     UI.SetElementVisibility("DialogBox", true)
     loadDialogEntry(state.currentSequence[1])
@@ -143,6 +143,7 @@ function ForceCloseDialog()
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
+    _G.DialogActive = false
     Game.Resume()
     Engine.Log("[DialogSystem] Force closed")
 end
@@ -154,7 +155,6 @@ function SuspendDialog()
     if currentPortrait then
         UI.SetElementVisibility(currentPortrait, false)
     end
-    Engine.Log("[DialogSystem] Suspended")
 end
 
 function ResumeDialog()
@@ -166,7 +166,6 @@ function ResumeDialog()
     if state.isComplete then
         UI.SetElementVisibility("ContinueIcon", true)
     end
-    Engine.Log("[DialogSystem] Resumed")
 end
 
 local function closeDialog()
@@ -180,15 +179,13 @@ local function closeDialog()
     lastDisplayedChars    = -1
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
+    _G.DialogActive = false
     Game.Resume()
     Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
-    if not state.active then
-        startSequence(DEFAULT_SEQUENCE)
-        return
-    end
+    if not state.active then return end
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
@@ -225,6 +222,9 @@ function Start(self)
     _G.ForceCloseDialog = ForceCloseDialog
     _G.SuspendDialog    = SuspendDialog
     _G.ResumeDialog     = ResumeDialog
+    _G.TriggerSequence  = TriggerSequence
+    _G.DialogActive     = false
+    _G.AdvanceDialog    = onAdvancePressed
     Engine.Log("[DialogSystem] Ready")
 end
 
@@ -233,10 +233,6 @@ function Update(self, dt)
         local seq = _DialogSystem_pendingSequence
         _DialogSystem_pendingSequence = ""
         startSequence(seq)
-    end
-
-    if Input.GetKeyDown("P") then
-        onAdvancePressed()
     end
 
     if not state.active or state.isComplete then return end

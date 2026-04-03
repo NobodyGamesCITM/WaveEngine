@@ -50,7 +50,7 @@
                                                 ],
                                                 "name": "Buho_copy_copy",
                                                 "tag": "",
-                                                "uid": 1306699127074775423
+                                                "uid": 12949693711564325843
                                             }
                                         ],
                                         "components": [
@@ -76,7 +76,7 @@
                                         ],
                                         "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
                                         "tag": "",
-                                        "uid": 3991990197324672655
+                                        "uid": 16360045576577298117
                                     }
                                 ],
                                 "components": [
@@ -102,7 +102,7 @@
                                 ],
                                 "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
                                 "tag": "",
-                                "uid": 1466191116990694484
+                                "uid": 3258252319255248346
                             }
                         ],
                         "components": [
@@ -128,7 +128,7 @@
                         ],
                         "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
                         "tag": "",
-                        "uid": 16627115776963569139
+                        "uid": 11239355948774792904
                     }
                 ],
                 "components": [
@@ -154,7 +154,7 @@
                 ],
                 "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
                 "tag": "",
-                "uid": 4617231023511090111
+                "uid": 11674398390812943279
             },
             {
                 "active": true,
@@ -204,7 +204,7 @@
                                                 ],
                                                 "name": "Base_copy_copy",
                                                 "tag": "",
-                                                "uid": 7608281869504611282
+                                                "uid": 12469988993086743413
                                             }
                                         ],
                                         "components": [
@@ -230,7 +230,7 @@
                                         ],
                                         "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
                                         "tag": "",
-                                        "uid": 2165323423645618626
+                                        "uid": 7404279696387712035
                                     }
                                 ],
                                 "components": [
@@ -256,7 +256,7 @@
                                 ],
                                 "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
                                 "tag": "",
-                                "uid": 12985019642865759869
+                                "uid": 8176403467193405859
                             }
                         ],
                         "components": [
@@ -282,7 +282,7 @@
                         ],
                         "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
                         "tag": "",
-                        "uid": 11929451101703170796
+                        "uid": 9795541514015503017
                     }
                 ],
                 "components": [
@@ -308,16 +308,16 @@
                 ],
                 "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
                 "tag": "",
-                "uid": 15271994922019645503
+                "uid": 10760828361253871101
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    142.9302978515625,
-                    42.135623931884766,
-                    -278.5652770996094
+                    -13.510540008544922,
+                    -7.575109481811523,
+                    -287.1278076171875
                 ],
                 "rotation": [
                     0.0,
@@ -378,9 +378,9 @@
                         "value": false
                     },
                     {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": 1.0
+                        "name": "doorName",
+                        "type": 1,
+                        "value": "Puerta_Sala_1"
                     },
                     {
                         "name": "dirX",
@@ -388,14 +388,19 @@
                         "value": 0.0
                     },
                     {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": "Puerta_Sala_1"
-                    },
-                    {
                         "name": "dirY",
                         "type": 0,
                         "value": 0.0
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "fordwardOffset",
+                        "type": 0,
+                        "value": 1.0
                     }
                 ],
                 "scriptUID": 3213472682470300881,
@@ -405,14 +410,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "targetDegrees",
-                        "type": 0,
-                        "value": 90.0
-                    },
-                    {
                         "name": "rotationSpeed",
                         "type": 0,
                         "value": 180.0
+                    },
+                    {
+                        "name": "targetDegrees",
+                        "type": 0,
+                        "value": 90.0
                     }
                 ],
                 "scriptUID": 1724783290381993592,
@@ -421,6 +426,6 @@
         ],
         "name": "Estatua_Athenea_copy_copy",
         "tag": "Statue",
-        "uid": 5350904784348381388
+        "uid": 9099757494048477512
     }
 ]

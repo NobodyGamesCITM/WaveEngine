@@ -27,7 +27,8 @@ enum class ScriptVarType {
     BOOLEAN,
     VEC3,
     GAMEOBJECT,
-    SCENE
+    SCENE,
+    PREFAB
 };
 
 struct ScriptVariable {

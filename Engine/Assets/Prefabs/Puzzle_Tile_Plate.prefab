@@ -1,0 +1,45 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Plane",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 697350968671070831,
+                "type": 3
+            },
+            {
+                "active": true,
+                "scriptUID": 11938354301765966686,
+                "type": 6
+            }
+        ],
+        "name": "Puzzle_Tile_Plate",
+        "tag": "",
+        "uid": 2140105252741924613
+    }
+]

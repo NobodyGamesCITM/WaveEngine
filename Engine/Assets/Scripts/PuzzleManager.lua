@@ -5,7 +5,15 @@ public = {
     originX = 0.0,
     originZ = 0.0,
     cellSize = 2.0,
-    totalPlates = 1
+    totalPlates = 1,
+    
+    -- Prefabs on the inspector
+    prefab1Way     = { type = "Prefab", value = "" },
+    prefab2WayL    = { type = "Prefab", value = "" },
+    prefab2WayLine = { type = "Prefab", value = "" },
+    prefab3Way     = { type = "Prefab", value = "" },
+    prefab4Way     = { type = "Prefab", value = "" },
+    prefabPlate    = { type = "Prefab", value = "" }
 }
 
 local gridLayout = {}
@@ -14,20 +22,84 @@ local platesActivated = 0
 local isCompleted = false
 local initialized = false
 
+local function IsPathOrPlate(r, c)
+    if not gridLayout[r] then return false end
+    local val = gridLayout[r][c]
+    if val == nil then return false end
+    return (val == 0 or val == 2)
+end
+
+local function EvaluateTileVisuals(self, r, c)
+    local n = IsPathOrPlate(r - 1, c)
+    local s = IsPathOrPlate(r + 1, c)
+    local e = IsPathOrPlate(r, c + 1)
+    local w = IsPathOrPlate(r, c - 1)
+
+    local count = 0
+    if n then count = count + 1 end
+    if s then count = count + 1 end
+    if e then count = count + 1 end
+    if w then count = count + 1 end
+
+    local prefabPath = ""
+    local rot = 0
+
+    -- Textures rotation
+    if count == 0 or count == 1 then
+        prefabPath = self.public.prefab1Way
+        if e then rot = 0 end
+        if n then rot = 90 end
+        if w then rot = 180 end
+        if s then rot = -90 end
+        
+    elseif count == 2 then
+        if n and s then 
+            prefabPath = self.public.prefab2WayLine
+            rot = 90
+        elseif e and w then
+            prefabPath = self.public.prefab2WayLine
+            rot = 0
+        elseif n and e then 
+            prefabPath = self.public.prefab2WayL
+            rot = 0
+        elseif n and w then 
+            prefabPath = self.public.prefab2WayL
+            rot = 90
+        elseif s and w then 
+            prefabPath = self.public.prefab2WayL
+            rot = 180
+        elseif s and e then 
+            prefabPath = self.public.prefab2WayL
+            rot = -90
+        end
+        
+    elseif count == 3 then
+        prefabPath = self.public.prefab3Way
+        if not s then rot = 0 end -- Lower N, E, W
+        if not e then rot = 90 end -- Right N, S, W
+        if not n then rot = 180 end -- Upper S, E, W
+        if not w then rot = -90 end -- Left N, S, E
+        
+    elseif count == 4 then
+        prefabPath = self.public.prefab4Way
+        rot = 0
+    end
+
+    if prefabPath == nil or prefabPath == "" then
+        prefabPath = self.public.prefab1Way
+    end
+
+    return prefabPath, rot
+end
+
+
 function Start(self)
     Engine.Log("[PuzzleManager] Inicializando Puzzle Manager...")
     
     self.IsReady = function(self) return initialized end
 
     self.RegisterEntity = function(self, r, c)
-        if r < 1 or r > #gridLayout or c < 1 or c > #gridLayout[1] then
-            Engine.Log("[PuzzleManager] ERROR: Entity está fuera de los limites ("..r..", "..c..")")
-            return false
-        end
-        if gridLayout[r][c] == 1 then
-            Engine.Log("[PuzzleManager] ERROR: Entity registrada dentro de una pared en ("..r..", "..c..")")
-        end
-        
+        if not gridLayout[r] or gridLayout[r][c] == nil then return false end
         gridEntities[r][c] = 1
         return true
     end
@@ -38,8 +110,8 @@ function Start(self)
         local targetR = startR + dR
         local targetC = startC + dC
 
-        if targetR < 1 or targetR > #gridLayout or targetC < 1 or targetC > #gridLayout[1] then
-            Engine.Log("[PuzzleManager] Movimiento bloqueado, fuera del mapa.")
+        if not gridLayout[targetR] or gridLayout[targetR][targetC] == nil then
+            Engine.Log("[PuzzleManager] Movimiento bloqueado, fuera del mapa (nil).")
             return false, 0, 0
         end
 
@@ -64,7 +136,6 @@ function Start(self)
         if gridLayout[targetR][targetC] == 2 then
             platesActivated = platesActivated + 1
             Engine.Log("[PuzzleManager] Entity ha entrado en la placa. Placas: " .. platesActivated .. "/" .. self.public.totalPlates)
-            
             if platesActivated >= self.public.totalPlates then
                 self:CompletePuzzle()
             end
@@ -79,7 +150,6 @@ function Start(self)
     self.CompletePuzzle = function(self)
         isCompleted = true
         Engine.Log("[PuzzleManager] Todas las placas presionadas.")
-        
         local door = GameObject.Find(self.public.doorName)
         if door then
             local doorScript = door:GetComponent("Script")
@@ -89,6 +159,7 @@ function Start(self)
         end
     end
 
+    -- Create the layout of the inspector
     local r = 1
     for char in string.gmatch(self.public.layout .. ",", "(.-),") do
         char = string.gsub(char, "%s+", "") 
@@ -102,6 +173,46 @@ function Start(self)
             end
             Engine.Log("[PuzzleManager] Fila " .. r .. " registrada: " .. char)
             r = r + 1
+        end
+    end
+    
+    -- Draw the layout with prefabs and rotations
+    if _G.TileSpawnQueue == nil then _G.TileSpawnQueue = {} end
+
+    local myY = self.transform.position.y
+
+    for row = 1, #gridLayout do
+        for col = 1, #gridLayout[row] do
+            local tileVal = gridLayout[row][col]
+            -- When we have png and materials of walls we can add them here with the logic
+            -- Ground (0), Plate (2)
+            if tileVal == 0 or tileVal == 2 then
+                local worldX = self.public.originX + ((col - 1) * self.public.cellSize)
+                local worldZ = self.public.originZ + ((row - 1) * self.public.cellSize)
+                
+                local prefabToLoad = ""
+                local rotationToApply = 0
+
+                if tileVal == 2 then
+                    -- Plate
+                    prefabToLoad = self.public.prefabPlate
+                else
+                    -- If is gorund, check rotation
+                    prefabToLoad, rotationToApply = EvaluateTileVisuals(self, row, col)
+                end
+
+                -- Set start of the prefab with specific data
+                if prefabToLoad and prefabToLoad ~= "" then
+                    table.insert(_G.TileSpawnQueue, {
+                        x = worldX,
+                        y = myY,
+                        z = worldZ,
+                        rot = rotationToApply,
+                        scale = self.public.cellSize
+                    })
+                    Prefab.Instantiate(prefabToLoad)
+                end
+            end
         end
     end
     

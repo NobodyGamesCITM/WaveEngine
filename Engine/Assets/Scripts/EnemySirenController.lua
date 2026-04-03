@@ -8,6 +8,7 @@ local GRAVITY = 14.0   -- unidades/s²
 
 -- ── States ────────────────────────────────────────────────────────────────
 local State = {
+    HIDE     = "Hide",
     IDLE     = "Idle",
     WINDUP   = "WindUp",   -- telegrafía el disparo antes de lanzar
     COOLDOWN = "Cooldown",
@@ -65,6 +66,11 @@ local hasDeathPlayed = false
 local hasHurtPlayed = false
 local isSinging = false
 
+local hideCooldownTimer = 0
+local hideDurationTimer = 0
+local HIDE_MAX_DURATION = 1.0
+local HIDE_COOLDOWN     = 2.5  
+local EVADE_CHANCE      = 0.6  
 
 
 -- ── Public (modificable desde el inspector) ───────────────────────────────
@@ -132,6 +138,12 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
 
+    if Mortar.currentState == State.HIDE then
+        if Mortar.currentState == State.HIDE then
+            Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
+        end
+        return 
+    end
     hp = hp - amount
     Engine.Log("[Mortar] HP: " .. hp .. "/" .. self.public.maxHp)
 
@@ -408,6 +420,9 @@ function Update(self, dt)
         _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
+    if hideCooldownTimer > 0 then hideCooldownTimer = hideCooldownTimer - dt end
+    local playerAttack = _PlayerController_lastAttack
+
     local myPos = self.transform.position
     local pp    = Mortar.playerGO.transform.position
     if not pp then return end
@@ -416,15 +431,50 @@ function Update(self, dt)
     local distZ = pp.z - myPos.z
     local dist  = sqrt(distX * distX + distZ * distZ)
 
+    if playerAttack ~= "" and hideCooldownTimer <= 0 and Mortar.currentState ~= State.HIDE then
+        local currentEvadeChance = EVADE_CHANCE
+        if dist < 5.0 then
+            currentEvadeChance = 0.9
+        end
+
+        if math.random() < currentEvadeChance then
+            Mortar.currentState = State.HIDE
+            hideDurationTimer = HIDE_MAX_DURATION
+            hideCooldownTimer = HIDE_COOLDOWN
+            if dipSFX then dipSFX:PlayAudioEvent() end
+            Engine.Log("[Siren] ¡Ataque detectado! Sumergiéndose...")
+        else
+            hideCooldownTimer = 0.5 
+        end
+    end
+
     -- ── Máquina de estados ────────────────────────────────────────────────
 
-    if Mortar.currentState == State.IDLE then
+    if Mortar.currentState == State.HIDE then
+        Mortar.anim:Play("Hide")
 
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
-            Mortar.anim:Play("Look")
+        hideDurationTimer = hideDurationTimer - dt
+
+       if _PlayerController_lastAttack ~= "" then
+            hideDurationTimer = 2 
+        end
+
+        if hideDurationTimer <= 0 then
+                Mortar.currentState = State.IDLE
+                Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
+        end
+
+    return
+
+    elseif Mortar.currentState == State.IDLE then
+
+       if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+            Mortar.anim:Play("Hide")
         end
         -- Espera a que el player entre en rango
         if dist <= self.public.detectRange and dist >= self.public.minRange then
+            Mortar.anim:Play("Look")
+
             Mortar.currentState = State.WINDUP
             if not isSinging then
                 if singSFX then singSFX:PlayAudioEvent() end
@@ -499,7 +549,7 @@ end
 
 -- ── OnTriggerEnter: el mortero puede recibir golpes del player ────────────
 function OnTriggerEnter(self, other)
-    if isDead then return end
+    if isDead or Mortar.currentState == State.HIDE then return end
 
     if other:CompareTag("Player") then
         if not alreadyHit then

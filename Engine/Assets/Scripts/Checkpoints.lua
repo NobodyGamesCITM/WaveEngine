@@ -1,7 +1,10 @@
 public = {
+    --Spawn Offset
     offsetX = 0.0,
     offsetY = 0.0,    
-    offsetZ = 0.0
+    offsetZ = 0.0,
+    --Distancia entre player y estatua
+    near = 8.0,         
 }
 
 function Start(self)
@@ -9,15 +12,14 @@ function Start(self)
 end
 
 function Update(self, deltaTime)
-    
-    local obj = GameObject.Find("Player")
-    local playerPos = obj.transform.position
 
     if interact == true then 
+        local obj = GameObject.Find("Player")
+        local playerPos = obj.transform.position
         for i, checkpoint in ipairs(checkpoints) do
-            local pos = checkpoint.transform.position
-            if (math.abs(pos.x - playerPos.x) < 3) then
-                if (math.abs(pos.z - playerPos.z) < 3) then
+            local pos = checkpoint.transform.worldPosition
+            if (math.abs(pos.x - playerPos.x) < self.public.near) then
+                if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("Checkpoint taken")
                     
                     pos.x = pos.x + self.public.offsetX
@@ -25,7 +27,6 @@ function Update(self, deltaTime)
                     pos.z = pos.z + self.public.offsetZ
 
                     lastCheckpoint = pos 
-                    giveHermesMask = true
                     Restore(self)
                 end
             end
@@ -36,21 +37,3 @@ end
 function Restore(self)
     --player lifes etc
 end
-
-function OnTriggerEnter(self, other)
-    if other:CompareTag("Player") then
-        if interact then
-            --activate UI
-            lastCheckpoint = pos   
-            Engine.Log("Checkpoint taken")
-            Restore()
-        end
-    end
-end
-
-function OnTriggerExit(self, other)
-    if other:CompareTag("Player") then  
-        --desactivate UI
-    end
-end
-

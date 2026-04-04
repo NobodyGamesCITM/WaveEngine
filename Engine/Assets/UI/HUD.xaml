@@ -13,151 +13,91 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="271*"/>
-                <RowDefinition Height="511*"/>
-                <RowDefinition Height="298*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="354*"/>
-                <ColumnDefinition Width="1327*"/>
-                <ColumnDefinition Width="239*"/>
-            </Grid.ColumnDefinitions>
+            
+<!-- HUD superior izquierda -->
+<Grid HorizontalAlignment="Left"
+      VerticalAlignment="Top"
+      Margin="20,20,0,0"
+      Width="500"
+      Height="168">
 
-            <!-- Imagen del jugador -->
-            <Viewbox x:Name="PlayerImage_Viewport" Stretch="Uniform" Grid.Row="0" Margin="0,15,30,0">
-                <Image x:Name="PlayerImage" Width="100" Height="100" Source="Textures/HUD_Player.png"/>
-            </Viewbox>
+    <!-- CAPA 1: MainHUD de fondo -->
+    <Image Source="Textures/MainHUD.PNG"
+           Width="500"
+           Height="168"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           Stretch="Fill"/>
 
-            <!-- HealthBar -->
-            <Viewbox x:Name="HealthBar_Viewport" Stretch="Uniform" Grid.Row="0" Margin="0,15,30,0">
-                <Grid Width="40" Height="74" Margin="0,0,60,26">
-                    <Image x:Name="HealthBar_Image" Opacity="0.49" Source="Textures/Health_Bar.png"
-                           Width="40" Height="74" VerticalAlignment="Bottom"/>
-                    <Grid Width="40" Height="74" VerticalAlignment="Bottom" ClipToBounds="True">
-                        <Grid x:Name="HealthGrid" Width="40" Height="74"
-                              VerticalAlignment="Bottom"
-                              RenderTransformOrigin="0.5,1.0">
-                            <Grid.RenderTransform>
-                                <ScaleTransform ScaleX="1" ScaleY="1"/>
-                            </Grid.RenderTransform>
-                            <Image x:Name="HealthBar_Interior"
-                                   Source="Textures/HealthBar_Interior.png"
-                                   Width="40" Height="74"
-                                   VerticalAlignment="Bottom"
-                                   Stretch="Fill"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Viewbox>
+    <!-- CAPA 2: Barras encima del MainHUD -->
+<Image Source="Textures/Barras.PNG"
+       Width="322"
+       Height="79"
+       HorizontalAlignment="Left"
+       VerticalAlignment="Top"
+       Margin="125,0,0,0"
+       Stretch="Fill"/>
 
-            <!-- StaminaBar -->
-            <Viewbox x:Name="StaminaBar_Viewport" Stretch="Uniform" Grid.Row="0" Margin="0,15,30,0">
-                <Grid Width="43" Height="56" Margin="2,13,55,31">
-                    <Image x:Name="StaminaBar_Image" Opacity="0.49" Source="Textures/Stamina_Bar.png"
-                           Width="43" Height="56" VerticalAlignment="Bottom"/>
-                    <Grid Width="43" Height="56" VerticalAlignment="Bottom" ClipToBounds="True">
-                        <Grid x:Name="StaminaGrid" Width="43" Height="56"
-                              VerticalAlignment="Bottom"
-                              RenderTransformOrigin="0.5,1.0">
-                            <Grid.RenderTransform>
-                                <ScaleTransform ScaleX="1" ScaleY="1"/>
-                            </Grid.RenderTransform>
-                            <Image x:Name="StaminaBar_Interior"
-                                   Source="Textures/StaminaBar_Interior.png"
-                                   Width="31" Height="56"
-                                   Margin="6,0"
-                                   VerticalAlignment="Bottom"
-                                   Stretch="Fill"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Viewbox>
+<!-- CAPA 3: Pociones debajo de las barras -->
+<StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="223,105,0,0">
+    <Image Source="Textures/HealthPotion.png"
+           Width="35" Height="35"
+           Margin="0,0,8,0"/>
+    <Image Source="Textures/HealthPotion.png"
+           Width="35" Height="35"
+           Margin="0,0,8,0"/>
+    <Image Source="Textures/HealthPotion.png"
+           Width="35" Height="35"
+           Margin="0,0,8,0"/>
+    <Image Source="Textures/HealthPotion.png"
+           Width="35" Height="35"
+           Margin="0,0,8,0"/>
+</StackPanel>
 
-            <!-- Pocion -->
-            <Viewbox x:Name="Potion" Stretch="Uniform" Grid.Column="2" Grid.Row="2" Margin="61,67,34,55">
-                <Grid RenderTransformOrigin="0.5,0.5" Width="54" Height="66">
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-                    <Image x:Name="PotionContainer" Source="Textures/PotionContainer.PNG"/>
-                    <TextBlock x:Name="PotionsNumber" TextWrapping="Wrap" Text="0" Foreground="#FFFFFFFF"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Margin="29,0,0,34" FontFamily="Arial"/>
-                    <Image x:Name="UsedPotion_Image" Margin="4,14,8,10" RenderTransformOrigin="0.5,0.5" Source="Textures/HealthPotion_Used.png">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                    <Image x:Name="Potion_Image" Margin="4,14,8,10" RenderTransformOrigin="0.5,0.5"
-                           Source="Textures/HealthPotion.png">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                </Grid>
-            </Viewbox>
+</Grid>
 
-            <!-- Prompt de interacción: abajo al centro, ocupa las 3 columnas -->
+            <!-- Prompt de interacción: abajo al centro -->
             <Grid x:Name="InteractPrompt"
-                  Grid.Row="2"
-                  Grid.Column="0"
-                  Grid.ColumnSpan="3"
+                  VerticalAlignment="Bottom"
                   HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
+                  Margin="0,0,0,40"
                   Visibility="Collapsed">
-
-                <Border CornerRadius="6"
-                        Padding="20,8,20,8">
+                <Border CornerRadius="6" Padding="20,8,20,8">
                     <Border.Background>
                         <SolidColorBrush Color="#CC000000"/>
                     </Border.Background>
                     <StackPanel Orientation="Horizontal">
-                        <!-- Icono de tecla/botón -->
                         <Border x:Name="InputKeyBorder"
-        CornerRadius="4"
-        Padding="8,4,8,4"
-        Margin="0,0,10,0">
-    <Border.Background>
-        <SolidColorBrush Color="#FFFFFFFF"/>
-    </Border.Background>
-    <Grid>
-        <TextBlock x:Name="InputKeyText"
-                   Text="F"
-                   FontSize="22"
-                   FontWeight="Bold"
-                   FontFamily="Arial"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">
-            <TextBlock.Foreground>
-                <SolidColorBrush Color="#FF000000"/>
-            </TextBlock.Foreground>
-        </TextBlock>
-        <Image x:Name="InputGamepadIcon"
-               Source="Textures/inputA.png"
-               Width="28"
-               Height="28"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Visibility="Collapsed"/>
-    </Grid>
-</Border>
-                        <!-- Texto de acción -->
+                                CornerRadius="4"
+                                Padding="8,4,8,4"
+                                Margin="0,0,10,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </Border.Background>
+                            <Grid>
+                                <TextBlock x:Name="InputKeyText"
+                                           Text="F"
+                                           FontSize="22"
+                                           FontWeight="Bold"
+                                           FontFamily="Arial"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="#FF000000"/>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <Image x:Name="InputGamepadIcon"
+                                       Source="Textures/inputA.png"
+                                       Width="28"
+                                       Height="28"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+                            </Grid>
+                        </Border>
                         <TextBlock x:Name="InteractText"
                                    Text="Interactuar"
                                    FontSize="22"
@@ -169,7 +109,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         </TextBlock>
                     </StackPanel>
                 </Border>
-
             </Grid>
 
         </Grid>

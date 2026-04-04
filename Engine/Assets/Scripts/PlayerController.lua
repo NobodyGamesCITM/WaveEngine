@@ -106,7 +106,7 @@ public = {
     hpRecover        = 30.0,  
     attackDuration      = 0.8,
     chargeDuration      = 0.3,
-    shootDuration       = 0.2,
+    shootDuration       = 0.5,
     attackCooldown      = 0.5,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
@@ -295,7 +295,8 @@ States[State.DEAD] = {
         _G._PlayerController_isDead = true 
         if Player.voiceSFX then Player.voiceSFX:PlayAudioEvent() end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 0.5) end
+        if anim and Player.isDrowning then anim:Play("Drown", 0.5)
+        else anim:Play("Die", 0.5) end
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -385,8 +386,8 @@ States[State.WALK] = {
         self.public.usingStamina = false
 
         if anim then 
-            anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 1)
+            anim:Play("Walk", 0.5) 
+            anim:SetSpeed("Walk", 1)
         end
     end,
     
@@ -564,7 +565,7 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Charge", 1.0) end
+        if anim then anim:Play("Ares", 1.0) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -596,7 +597,10 @@ States[State.SHOOTING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 1.0) end -- aquí shoot
+        if anim then 
+            anim:Play("Apolo", 1.0) 
+            --anim:SetSpeed("Apolo", 0.1)
+        end -- aquí shoot
         attackTimer = 0
 
         local worldPos = self.transform.worldPosition
@@ -634,7 +638,7 @@ States[State.ATTACK_HEAVY] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("NormalAttack", 1.0) end --aquí anim de ataque giratorio
+        if anim then anim:Play("Hermes", 1.0) end --aquí anim de ataque giratorio
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end
@@ -678,7 +682,7 @@ States[State.ATTACK_HEAVY] = {
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("NormalAttack", 1.0) end
+        if anim then anim:Play("Attack1", 1.0) end
         attackTimer = 0
         if attackCol then attackCol:Disable() end
     end,
@@ -987,6 +991,8 @@ function Update(self, dt)
     end
 end
 function MaskScroll(self)
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then anim:Play("Mask", 1.0) end
     if Player.currentMask == Mask.NONE then 
         if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
         elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)

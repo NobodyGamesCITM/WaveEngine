@@ -104,14 +104,14 @@
                 "active": true,
                 "publicVariables": [
                     {
+                        "name": "currentScene",
+                        "type": 5,
+                        "value": "Level1.scene"
+                    },
+                    {
                         "name": "updateWhenPaused",
                         "type": 2,
                         "value": true
-                    },
-                    {
-                        "name": "currentScene",
-                        "type": 5,
-                        "value": "Blockout2.scene"
                     }
                 ],
                 "scriptUID": 845068803312502122,

@@ -1,128 +1,106 @@
---- SceneLoader_lvl2.lua
---- Trigger de cambio de escena con Fade Out y condición.
+local FADE_DURATION = 0.5
 
 public = {
-    targetScene    = { type = "Scene", value = "" },
-    triggerKey     = "Space",
-	--debugTriggerKey = "Space",
-    conditionVar   = "",
+    targetScene = { type = "Scene", value = "" },
+    triggerKey  = "Space",
+    conditionVar = "keysCollected",
     conditionValue = 1.0,
-    fadeSpeed      = 2.0,
 }
 
--- Constantes
-local STATE_IDLE      =1 ; local STATE_WAIT_KEY  = 2
-local STATE_FADE_OUT  =3 ; local STATE_LOADING   = 4
-
--- Variables propias de la instancia
-local state        = STATE_IDLE
-local fadeAlpha    = 0.0   
-local playerInside = false
-local musicVolume  = 100.0
-local musicSource
-local musicComp
-local isMusicPlaying = false
-
--- Comprobar si se cumple la condición global de _G
-local function IsConditionMet(self)
-    local varName = self.public.conditionVar
-    if varName == nil or varName == "" then return true end
-
-    local required = self.public.conditionValue or 1.0
-    local current  = _G[varName]
-
-    if type(current) == "number" then return current >= required end
-    if type(current) == "boolean" then return current == true end
-    return false   
-end
-
--- Funciones locales de colisión
-local function MyOnTriggerEnter(self, other)
-    if other and (other.tag == "Player" or other:CompareTag("Player")) then
-        playerInside = true
-        if state == STATE_IDLE then 
-            state = STATE_WAIT_KEY 
-            Engine.Log("[SceneLoader] Jugador en portal. Tecla: " .. (self.public.triggerKey or "Space"))
-        end
-    end
-end
-
-local function MyOnTriggerExit(self, other)
-    if other and (other.tag == "Player" or other:CompareTag("Player")) then
-        playerInside = false
-        if state == STATE_WAIT_KEY then state = STATE_IDLE end
-    end
+local function EaseInOutQuad(t)
+    return t < 0.5 and 2*t*t or 1 - (-2*t + 2)^2 / 2
 end
 
 function Start(self)
-    state = STATE_IDLE ; fadeAlpha = 0.0 ; playerInside = false ; musicVolume = 100.0 ; musicPlaying = false
-
-    Audio.SetGlobalVolume(musicVolume)
-    --retrieve audio components
-    musicSource = GameObject.Find("MusicSource")
-	if not musicSource then 
-		Engine.Log("Music GameObject not found, unable to play BGM track")
-	else
-		musicComp = musicSource:GetComponent("Audio Source")
-		if not musicComp then
-			Engine.Log("Music Audio Source not found or missing")
-		end
-	end
+    self.state = 4 -- FADE_IN
+    self.fadeTimer = 0.0
+    self.playerInside = false
     
-    -- Inyectamos las funciones en la instancia para que el motor las encuentre
-    self.OnTriggerEnter = MyOnTriggerEnter
-    self.OnTriggerExit = MyOnTriggerExit
+    Game.Resume()
+    Game.SetTimeScale(1.0)
+    _G._PlayerController_isDead = false
+    _G.PlayerInstance = nil
     
-    -- Ajuste inicial del panel de fade (UI)
-    UI.SetElementHeight("FadePanel", 0)
-    UI.SetElementVisibility("FadePanel", false)
+    self.fadeCanvas = self.gameObject:GetComponent("Canvas") or (GameObject.Find("FadeCanvas") and GameObject.Find("FadeCanvas"):GetComponent("Canvas"))
 end
 
 function Update(self, dt)
-    if state == STATE_IDLE then 
-		--Debug scene change key
-		--local debugKey = "2"
-		if Input.GetKeyDown("2") then state = STATE_FADE_OUT end
-	end
+    -- TRUCO DE TECLADO: Tecla 'Z' suma una llave al contador global
+    if Input.GetKeyDown("Z") then
+        local varName = self.public.conditionVar or "keysCollected"
+        local current = _G[varName] or 0
+        _G[varName] = current + 1
+        Engine.Log("[TRUCO] Llave añadida por tecla Z. Total: " .. tostring(_G[varName]))
+    end
 
-    if state == STATE_WAIT_KEY then
-        if not playerInside then state = STATE_IDLE ; return end
-        
-        local key = self.public.triggerKey or "Space"
-        if Input.GetKeyDown(key) then
-            if IsConditionMet(self) then
-                state = STATE_FADE_OUT
-            else
-                Engine.Log("[SceneLoader] Condición no cumplida todavía.")
-            end
+    -- BUSCAR Y REPARAR TODO
+    local pObj = GameObject.Find("Player")
+    local mGo  = GameObject.Find("MusicSource")
+
+    if pObj then
+        local pScript = GameObject.GetScript(pObj)
+        if pScript and pScript.public then 
+            _G.PlayerInstance = pScript
+            pScript.public.canMove = true
+            pScript.public.health = 100
+        end
+    end
+
+    if mGo then
+        local src = mGo:GetComponent("Audio Source")
+        if src then src:PlayAudioEvent() ; Audio.SetGlobalVolume(100.0) end
+    end
+
+    -- FADE IN
+    if self.state == 4 then
+        self.fadeTimer = self.fadeTimer + dt
+        local t = math.min(self.fadeTimer / FADE_DURATION, 1.0)
+        local alpha = 1.0 - EaseInOutQuad(t)
+        if self.fadeCanvas then self.fadeCanvas:SetOpacity(alpha) end
+        if t >= 1.0 then
+            self.state = 1
+            local cv = GameObject.Find("FadeCanvas")
+            if cv then cv:SetActive(false) end
+            Audio.SetGlobalVolume(100.0)
         end
         return
     end
 
-	
-
-    if state == STATE_FADE_OUT then
-        
-		musicVolume = musicVolume - (100.0 / self.public.fadeSpeed) * dt
-		Audio.SetGlobalVolume(musicVolume)
-
-        fadeAlpha = fadeAlpha + dt * (self.public.fadeSpeed)
-        UI.SetElementHeight("FadePanel", fadeAlpha * 1080)
-        UI.SetElementVisibility("FadePanel", true)
-
-        if fadeAlpha >= 1.0 and musicVolume <= 0 then
-            state = STATE_LOADING
-            local sceneName = self.public.targetScene
-            if type(sceneName) == "table" then sceneName = sceneName.value end
-            Engine.LoadScene(Engine.GetScenesPath(), sceneName)
-			
+    -- IDLE (ESPERA DE PORTAL)
+    if self.state == 1 then
+        local key = self.public.triggerKey or "Space"
+        -- Activamos el portal si tenemos llaves o pulsamos '2'
+        if (self.playerInside and Input.GetKeyDown(key)) or Input.GetKeyDown("2") then
+            local current = _G[self.public.conditionVar or ""] or 0
+            if current >= (self.public.conditionValue or 1.0) or Input.GetKeyDown("2") then
+                self.state = 2
+                self.fadeTimer = 0.0
+                local cv = GameObject.Find("FadeCanvas")
+                if cv then cv:SetActive(true) end
+                if self.fadeCanvas then self.fadeCanvas:SetOpacity(0.0) end
+            else
+                Engine.Log("[SceneLoader] No puedes pasar. Te faltan llaves.")
+            end
         end
     end
 
+    -- FADE OUT (CARGAR ESCENA)
+    if self.state == 2 then
+        self.fadeTimer = self.fadeTimer + dt
+        local t = math.min(self.fadeTimer / FADE_DURATION, 1.0)
+        local alpha = EaseInOutQuad(t)
+        if self.fadeCanvas then self.fadeCanvas:SetOpacity(alpha) end
+        Audio.SetGlobalVolume((1.0 - alpha) * 100.0)
+        if t >= 1.0 then
+            self.state = 3
+            local sn = self.public.targetScene
+            if type(sn) == "table" then sn = sn.value end
+            Engine.LoadScene(Engine.GetScenesPath(), sn)
+        end
+    end
 end
 
-
-
-
+function OnTriggerEnter(self, other) if other and other:CompareTag("Player") then self.playerInside = true end end
+function OnTriggerExit(self, other) if other and other:CompareTag("Player") then self.playerInside = false end end
 
 

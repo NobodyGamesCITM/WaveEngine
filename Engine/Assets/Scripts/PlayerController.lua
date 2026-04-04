@@ -155,7 +155,7 @@ local function GetMovementInput()
     if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
 
     if interact == true then interact = false end
-    if Input.GetKeyDown("R") then
+    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
         Engine.Log("interact try")
         interact = true
     end
@@ -922,13 +922,13 @@ function Update(self, dt)
     end
 
     --ChangeMask
-    if Input.GetKeyDown("8") then 
+    if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
         --EquipMask(self, Mask.HERMES) 
         MaskScroll(self)
         if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
     end
 
-    if Input.GetKeyDown("9") then 
+    if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
         EquipMask(self, Mask.NONE) 
         if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
     end --debug

@@ -153,6 +153,7 @@ bool ScriptManager::PostUpdate() {
         pendingSceneLoad.clear();
        
         Application::GetInstance().loader->LoadScene(path);
+        
     }
 
     return true;
@@ -331,6 +332,13 @@ static int Lua_Engine_LoadScene(lua_State* L) {
 static int Lua_Engine_GetScenesPath(lua_State* L) {
     std::string path = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\" ).string();
     lua_pushstring(L, path.c_str());
+    return 1;
+}
+
+static int Lua_Engine_GetCurrentScene(lua_State* L) {
+
+    std::string sceneName = Application::GetInstance().scene.get()->name;
+    lua_pushstring(L, sceneName.c_str());
     return 1;
 }
 
@@ -779,7 +787,7 @@ static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     return 0;
 }
 
-static int Lua_Audio_PlaySpecificAudioEvent(lua_State* L) {
+static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
     std::string eventName(luaL_checkstring(L, 2));
@@ -799,13 +807,25 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
 }
 
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
-    float volume = luaL_checknumber(L, 1);
+    lua_getfield(L, 1, "ptr");  
+    float volume = luaL_checknumber(L, 2);
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
     Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, source->goID);
 
     AK::SoundEngine::RenderAudio();
     return 0;
 }
+
+static int Lua_Audio_SetGlobalVolume(lua_State* L) {
+    //lua_getfield(L, 1, "ptr");  
+    float volume = static_cast<float>(luaL_checknumber(L, 1));
+    //AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    Application::GetInstance().audio.get()->audioSystem->SetGlobalVolume(volume);
+
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
 // UI
 // UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
@@ -942,12 +962,16 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetMusicState");
     lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
     lua_setfield(L, -2, "PlayAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);
+    lua_setfield(L, -2, "SelectPlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
     lua_setfield(L, -2, "StopAudioEvent");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
     lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
     lua_setfield(L, -2, "SetSourceVolume");
+    lua_pushcfunction(L, Lua_Audio_SetGlobalVolume);
+    lua_setfield(L, -2, "SetGlobalVolume");
     lua_setglobal(L, "Audio");
 
     
@@ -1857,11 +1881,14 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         *ud = source;
         lua_setfield(L, -2, "ptr");  // store userdata in table as "ptr"
 
-        lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  // no upvalue, just a plain function
+        lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  
         lua_setfield(L, -2, "PlayAudioEvent");
 
-        lua_pushcfunction(L, Lua_Audio_StopAudioEvent);  // no upvalue, just a plain function
+        lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
         lua_setfield(L, -2, "StopAudioEvent");
+
+        lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
+        lua_setfield(L, -2, "SetSourceVolume");
 
         return 1;
     }

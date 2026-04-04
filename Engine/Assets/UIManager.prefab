@@ -1,7 +1,78 @@
 [
     {
         "active": true,
-        "children": [],
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "eventName": "UI_ButtonSelect",
+                        "playOnAwake": false,
+                        "type": 26,
+                        "volume": 100.0
+                    }
+                ],
+                "name": "UISelectSound",
+                "tag": "",
+                "uid": 15739305794729201788
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "eventName": "UI_ButtonPress",
+                        "playOnAwake": false,
+                        "type": 26,
+                        "volume": 100.0
+                    }
+                ],
+                "name": "UIPressSound",
+                "tag": "",
+                "uid": 14206801332379125682
+            }
+        ],
         "components": [
             {
                 "active": true,
@@ -36,6 +107,11 @@
                         "name": "updateWhenPaused",
                         "type": 2,
                         "value": true
+                    },
+                    {
+                        "name": "currentScene",
+                        "type": 5,
+                        "value": "Blockout2.scene"
                     }
                 ],
                 "scriptUID": 845068803312502122,
@@ -44,6 +120,6 @@
         ],
         "name": "UIManager",
         "tag": "",
-        "uid": 7164432609074589705
+        "uid": 17083460561499083457
     }
 ]

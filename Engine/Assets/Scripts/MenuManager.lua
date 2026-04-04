@@ -2,9 +2,11 @@ local NEXT_XAML     = "HUD.xaml"
 local FADE_DURATION = 0.4
 
 local assetsPath = Engine.GetAssetsPath()
+local scenesPath = Engine.GetScenesPath()
 
 public = {
-    updateWhenPaused = true
+    updateWhenPaused = true,
+	currentScene    = { type = "Scene", value = "" },
 }
 
 local canvas    = nil
@@ -14,10 +16,14 @@ local phase     = "idle"
 local history   = {}
 local current   = nil
 
+
 local selectSource
 local pressSource
 local selectSFX
 local pressSFX
+local musicSource
+local musicComp
+local isMusicPlaying
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -52,6 +58,17 @@ end
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
+	IsMusicPlaying = false
+	musicSource = GameObject.Find("MusicSource")
+
+	if not musicSource then 
+		Engine.Log("Music GameObject not found, unable to play BGM track")
+	else
+		musicComp = musicSource:GetComponent("Audio Source")
+		if not musicComp then
+			Engine.Log("Music Audio Source not found or missing")
+		end
+	end
 
     selectSource = GameObject.Find("UISelectSound")
     if selectSource then
@@ -88,8 +105,9 @@ function Start(self)
     canvas:SetOpacity(1.0)
     SetPhase("idle")
 
-    NavigateTo("MainMenu.xaml")
-    Game:Resume()
+    NavigateTo(current)
+    --musicComp:PlayAudioEvent()
+    Game.Resume()
 
     _G.CurrentXAML = current
     Engine.Log("[Transition] Listo")
@@ -226,7 +244,15 @@ function Update(self, dt)
         if current == "HUD.xaml" then
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
-                Audio.SetMusicState("Level1")
+				if not isMusicPlaying and musicComp then
+					musicComp:PlayAudioEvent()
+					isMusicPlaying = true
+				end
+				if self.public.currentScene == "Level1.scene" then
+                	Audio.SetMusicState("Level1")
+				elseif self.public.currentScene == "Blockout2.scene" then
+					Audio.SetMusicState("Level2")
+				end
             else
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
@@ -236,13 +262,30 @@ function Update(self, dt)
                     Engine.Log("[Transition] WARN: ResetPlayer o PlayerInstance no encontrados")
                 end
                 Game.Resume()
-                Audio.SetMusicState("Level1")
+				if not isMusicPlaying and musicComp then
+					musicComp:PlayAudioEvent()
+					isMusicPlaying = true
+				end
+				if self.public.currentScene == "Level1.scene" then
+                	Audio.SetMusicState("Level1")
+				elseif self.public.currentScene == "Blockout2.scene" then
+					Audio.SetMusicState("Level2")
+				end
             end
         elseif current == "MainMenu.xaml" then
-            Audio.SetMusicState("MainMenu")
+            if not isMusicPlaying and musicComp then
+			 	musicComp:PlayAudioEvent()
+				isMusicPlaying = true
+			end
+			Audio.SetMusicState("MainMenu")
         end
 
         Engine.Log("[Transition] Cargado: " .. NEXT_XAML)
         SetPhase("fadeIn")
     end
 end
+
+
+
+
+

@@ -4,6 +4,7 @@
 public = {
     targetScene    = { type = "Scene", value = "" },
     triggerKey     = "Space",
+	--debugTriggerKey = "Space",
     conditionVar   = "",
     conditionValue = 1.0,
     fadeSpeed      = 2.0,
@@ -17,6 +18,10 @@ local STATE_FADE_OUT  =3 ; local STATE_LOADING   = 4
 local state        = STATE_IDLE
 local fadeAlpha    = 0.0   
 local playerInside = false
+local musicVolume  = 100.0
+local musicSource
+local musicComp
+local isMusicPlaying = false
 
 -- Comprobar si se cumple la condición global de _G
 local function IsConditionMet(self)
@@ -37,7 +42,7 @@ local function MyOnTriggerEnter(self, other)
         playerInside = true
         if state == STATE_IDLE then 
             state = STATE_WAIT_KEY 
-            print("[SceneLoader] Jugador en portal. Tecla: " .. (self.public.triggerKey or "Space"))
+            Engine.Log("[SceneLoader] Jugador en portal. Tecla: " .. (self.public.triggerKey or "Space"))
         end
     end
 end
@@ -50,7 +55,19 @@ local function MyOnTriggerExit(self, other)
 end
 
 function Start(self)
-    state = STATE_IDLE ; fadeAlpha = 0.0 ; playerInside = false
+    state = STATE_IDLE ; fadeAlpha = 0.0 ; playerInside = false ; musicVolume = 100.0 ; musicPlaying = false
+
+    Audio.SetGlobalVolume(musicVolume)
+    --retrieve audio components
+    musicSource = GameObject.Find("MusicSource")
+	if not musicSource then 
+		Engine.Log("Music GameObject not found, unable to play BGM track")
+	else
+		musicComp = musicSource:GetComponent("Audio Source")
+		if not musicComp then
+			Engine.Log("Music Audio Source not found or missing")
+		end
+	end
     
     -- Inyectamos las funciones en la instancia para que el motor las encuentre
     self.OnTriggerEnter = MyOnTriggerEnter
@@ -62,7 +79,11 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if state == STATE_IDLE then return end
+    if state == STATE_IDLE then 
+		--Debug scene change key
+		--local debugKey = "2"
+		if Input.GetKeyDown("2") then state = STATE_FADE_OUT end
+	end
 
     if state == STATE_WAIT_KEY then
         if not playerInside then state = STATE_IDLE ; return end
@@ -72,22 +93,36 @@ function Update(self, dt)
             if IsConditionMet(self) then
                 state = STATE_FADE_OUT
             else
-                print("[SceneLoader] Condición no cumplida todavía.")
+                Engine.Log("[SceneLoader] Condición no cumplida todavía.")
             end
         end
         return
     end
 
+	
+
     if state == STATE_FADE_OUT then
-        fadeAlpha = fadeAlpha + dt * (self.public.fadeSpeed or 2.0)
+        
+		musicVolume = musicVolume - (100.0 / self.public.fadeSpeed) * dt
+		Audio.SetGlobalVolume(musicVolume)
+
+        fadeAlpha = fadeAlpha + dt * (self.public.fadeSpeed)
         UI.SetElementHeight("FadePanel", fadeAlpha * 1080)
         UI.SetElementVisibility("FadePanel", true)
 
-        if fadeAlpha >= 1.0 then
+        if fadeAlpha >= 1.0 and musicVolume <= 0 then
             state = STATE_LOADING
             local sceneName = self.public.targetScene
             if type(sceneName) == "table" then sceneName = sceneName.value end
             Engine.LoadScene(Engine.GetScenesPath(), sceneName)
+			
         end
     end
+
 end
+
+
+
+
+
+

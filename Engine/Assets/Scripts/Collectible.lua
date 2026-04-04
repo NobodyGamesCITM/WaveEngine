@@ -1,58 +1,29 @@
---- Collectible.lua
---- Añade este script a un objeto con Trigger. 
---- Se recoge pulsando la tecla 'X' cuando estás cerca.
-
 public = {
     varName      = "keysCollected",
     amount       = 1.0,
     collectKey   = "X",
 }
 
--- Variables de instancia
-local playerInside = false
-
-local function MyOnTriggerEnter(self, other)
-    if other and (other.tag == "Player" or other:CompareTag("Player")) then
-        playerInside = true
-        print("[Collectible] Jugador cerca. Pulsa '" .. (self.public.collectKey or "X") .. "' para recoger.")
-    end
-end
-
-local function MyOnTriggerExit(self, other)
-    if other and (other.tag == "Player" or other:CompareTag("Player")) then
-        playerInside = false
-    end
-end
-
 function Start(self)
-    playerInside = false
-    -- Inyectamos funciones en la instancia para evitar colisiones globales
-    self.OnTriggerEnter = MyOnTriggerEnter
-    self.OnTriggerExit = MyOnTriggerExit
+    self.playerInside = false
+    self.isCollected  = false
 end
 
 function Update(self, dt)
-    if playerInside then
-        local key = self.public.collectKey or "X"
-        
-        if Input.GetKeyDown(key) then
-            -- Acceso seguro a variables publicas
-            local pub = self.public or {}
-            local vName = pub.varName or "keysCollected"
-            local vAmt  = pub.amount or 1.0
-
-            -- Sumar a la variable GLOBAL del juego
-            local current = _G[vName] or 0
-            _G[vName] = current + vAmt
-            
-            print("[Collectible] ¡Recogido! Variable '" .. vName .. "' ahora es: " .. tostring(_G[vName]))
-            
-            -- Borrar el objeto usando el motor
-            if GameObject and GameObject.Destroy then
-                GameObject.Destroy(self.gameObject)
-            else
-                self:Destroy() -- Fallback
-            end
-        end
+    if self.isCollected then return end
+    if self.playerInside and Input.GetKeyDown(self.public.collectKey or "X") then
+        self.isCollected = true
+        local current = _G[self.public.varName or "keysCollected"] or 0
+        _G[self.public.varName or "keysCollected"] = current + (self.public.amount or 1.0)
+        Engine.Log("[Collectible] Recogido. Total: " .. tostring(_G[self.public.varName or "keysCollected"]))
+        if GameObject.Destroy then GameObject.Destroy(self.gameObject) end
     end
+end
+
+function OnTriggerEnter(self, other)
+    if other and other:CompareTag("Player") then self.playerInside = true end
+end
+
+function OnTriggerExit(self, other)
+    if other and other:CompareTag("Player") then self.playerInside = false end
 end

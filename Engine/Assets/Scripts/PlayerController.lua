@@ -1032,7 +1032,7 @@ function Update(self, dt)
             else
                 Engine.Log("[Player] Out of hermes :( )")
                 Player.hermesDeathRespawn = true
-                Player.hermesDeathTimer   = 2.0
+                Player.hermesDeathTimer   = 2.3
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 ChangeState(self, State.DEAD)
             end
@@ -1054,6 +1054,7 @@ end
 function MaskScroll(self)
     local anim = self.gameObject:GetComponent("Animation")
     if anim then anim:Play("Mask", 1.0) end
+    if Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.NONE then 
         if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
         elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)

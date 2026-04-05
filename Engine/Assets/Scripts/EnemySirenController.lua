@@ -72,6 +72,7 @@ local HIDE_MAX_DURATION = 1.0
 local HIDE_COOLDOWN     = 2.5  
 local EVADE_CHANCE      = 0.6  
 
+local deathTimer = 2.5
 
 -- ── Public (modificable desde el inspector) ───────────────────────────────
 public = {
@@ -142,11 +143,18 @@ local function TakeDamage(self, amount, attackerPos)
         if Mortar.currentState == State.HIDE then
             Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
         end
+        hasDeathPlayed = true
         return 
     end
     hp = hp - amount
     Engine.Log("[Mortar] HP: " .. hp .. "/" .. self.public.maxHp)
 
+    if hurtSFX then 
+        if singSFX then singSFX:StopAudioEvent() end
+        hurtSFX:PlayAudioEvent() 
+        isSinging = false    
+    end
+    
     _PlayerController_triggerCameraShake = true
 
     -- Knockback
@@ -162,13 +170,16 @@ local function TakeDamage(self, amount, attackerPos)
 
     if hp <= 0 then
         isDead              = true
-        pendingDestroy      = true
         Mortar.currentState = State.DEAD
+
+        if singSFX then singSFX:StopAudioEvent() end
+        if dipSFX then dipSFX:StopAudioEvent() end
 
         if not hasDeathPlayed then
 			if deathSFX then deathSFX:PlayAudioEvent() end
 			hasDeathPlayed = true
 		end
+
         -- Ralentización de impacto
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
@@ -379,9 +390,13 @@ function Update(self, dt)
     end
 
     if isDead then
-        if pendingDestroy then
+        deathTimer = deathTimer - dt
+
+        local pos = self.transform.position
+        self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
+
+        if deathTimer <= 0 then
             self:Destroy()
-            pendingDestroy = false
         end
         return
     end
@@ -451,7 +466,9 @@ function Update(self, dt)
     -- ── Máquina de estados ────────────────────────────────────────────────
 
     if Mortar.currentState == State.HIDE then
-        Mortar.anim:Play("Hide")
+        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+            Mortar.anim:Play("Hide")
+        end
 
         hideDurationTimer = hideDurationTimer - dt
 
@@ -464,13 +481,10 @@ function Update(self, dt)
                 Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
         end
 
-    return
+        return
 
     elseif Mortar.currentState == State.IDLE then
 
-       if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
-            Mortar.anim:Play("Hide")
-        end
         -- Espera a que el player entre en rango
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             Mortar.anim:Play("Look")
@@ -483,6 +497,11 @@ function Update(self, dt)
             windUpTimer         = 0
             Engine.Log("[Mortar] Player detectado a dist=" ..
                        string.format("%.1f", dist) .. ". Wind-up...")
+       
+        else
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+                Mortar.anim:Play("Hide")
+            end
         end
 
     elseif Mortar.currentState == State.WINDUP then
@@ -517,20 +536,32 @@ function Update(self, dt)
 
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime
+            if Mortar.anim then 
+                Mortar.anim:Play("Hide") 
+            end
             Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
         end
 
     elseif Mortar.currentState == State.COOLDOWN then
+        if cooldownTimer < (self.public.cooldownTime - 0.4) then
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+                Mortar.anim:Play("Hide")
+            end
+        end
+
         cooldownTimer = cooldownTimer - dt
 
         if cooldownTimer <= 0 then
+            Mortar.currentState = State.IDLE
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
+                Mortar.anim:Play("Look")
+            end
             -- Si el player sigue en rango, volvemos a wind-up directamente
             if dist <= self.public.detectRange and dist >= self.public.minRange then
                 Mortar.currentState = State.WINDUP
                 windUpTimer         = 0
                 Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
             else
-                Mortar.currentState = State.IDLE
                 if isSinging then
 				    if singSFX then singSFX:StopAudioEvent() end
                     isSinging = false

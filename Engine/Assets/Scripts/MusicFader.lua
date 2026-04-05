@@ -30,10 +30,12 @@ function Start(self)
 end
 
 function Update(self, dt)
-	if musicVolume <= 100.0 then
-		musicVolume = musicVolume + (100.0 / 0) * dt
-		Audio.SetGlobalVolume(musicVolume)
-	end
+    local fadeDuration = self.public.fadeTime or 2.0
+    if fadeDuration > 0 and musicVolume < 100.0 then
+        musicVolume = musicVolume + (100.0 / fadeDuration) * dt
+        if musicVolume > 100.0 then musicVolume = 100.0 end
+        Audio.SetGlobalVolume(musicVolume)
+    end
 end
 
 

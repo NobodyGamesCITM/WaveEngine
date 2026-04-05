@@ -39,7 +39,12 @@ end
 function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
         if interact and PortalActivado then
-            Engine.Log("Portal Enter")
+            Engine.Log("Portal Enter - Transitioning to Blockout2")
+            if _G.TransitionToScene then
+                _G.TransitionToScene("Blockout2")
+            else
+                Engine.LoadScene(Engine.GetScenesPath(), "Blockout2")
+            end
         end
     end
 end

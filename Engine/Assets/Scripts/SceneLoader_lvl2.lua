@@ -27,10 +27,9 @@ function Start(self)
 
     if mGo then
         local src = mGo:GetComponent("Audio Source")
-        --if src then 
-        --    src:PlayAudioEvent() 
-		--	Audio.SetGlobalVolume(100.0) 
-		--end
+        if src then 
+           src:PlayAudioEvent() 
+		end
     end
     
     Game.Resume()
@@ -75,6 +74,10 @@ function Update(self, dt)
         local t = math.min(self.fadeTimer / FADE_DURATION, 1.0)
         local alpha = 1.0 - EaseInOutQuad(t)
         if self.fadeCanvas then self.fadeCanvas:SetOpacity(alpha) end
+        
+        -- Restore audio volume smoothly
+        Audio.SetGlobalVolume(t * 100.0)
+        
         if t >= 1.0 then
             self.state = 1
             local cv = GameObject.Find("FadeCanvas")

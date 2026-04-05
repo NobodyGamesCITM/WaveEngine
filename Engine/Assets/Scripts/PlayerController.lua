@@ -990,6 +990,27 @@ function Update(self, dt)
             end)
         end
         
+        -- Forzado de Audio (Master Fallback)
+        Audio.SetGlobalVolume(100.0)
+        local mGo = GameObject.Find("MusicSource")
+        if mGo then
+            local musicComp = mGo:GetComponent("Audio Source")
+            if musicComp then
+                Engine.Log("[Player] Master Audio Fix: MusicSource found. Replaying 'Level2' music...")
+                Audio.SetMusicState("Level2")
+                musicComp:SetSourceVolume(100.0)
+                musicComp:PlayAudioEvent()
+                
+                -- Reposition to player to avoid 3D attenuation
+                local pPos = self.transform.position
+                mGo.transform:SetPosition(pPos.x, pPos.y + 2.0, pPos.z)
+            else
+                Engine.Log("[Player] ERROR: MusicSource found but NO 'Audio Source' component!")
+            end
+        else
+            Engine.Log("[Player] WARNING: No 'MusicSource' object found to restore audio.")
+        end
+        
         Player.firstFrameCheck = true
     end
 

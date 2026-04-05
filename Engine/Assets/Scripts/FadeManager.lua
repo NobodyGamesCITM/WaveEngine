@@ -25,8 +25,12 @@ function Update(self, dt)
                 self.canvasComp:SetOpacity(1.0) 
                 Engine.Log("[FadeManager] Opacity set to 1.0 for Fade IN")
             end
+            self.fadeTimer = 0
+            Audio.SetGlobalVolume(0.0) -- Start muted for fade in
         else
             if self.canvasComp then self.canvasComp:SetOpacity(0.0) end
+            Audio.SetGlobalVolume(100.0) -- Ensure volume is restored if no fade in
+            Engine.Log("[FadeManager] No autoFadeIn - Audio volume reset to 100")
         end
 
         _G.TransitionToScene = function(scene) self:StartFadeOut(scene) end
@@ -36,6 +40,29 @@ function Update(self, dt)
         Game.SetTimeScale(1.0)
         
         self.initialized = true
+        
+        -- MUSIC INITIALIZATION FALLBACK (since MusicFader seems missing/failing)
+        local mGo = GameObject.Find("MusicSource")
+        if mGo then
+            local musicComp = mGo:GetComponent("Audio Source")
+            if musicComp then
+                Engine.Log("[FadeManager] MusicSource found! Starting 'Level2' music...")
+                Audio.SetMusicState("Level2")
+                musicComp:PlayAudioEvent()
+                
+                -- Reposition to player to avoid 3D attenuation
+                local ply = GameObject.Find("Player")
+                if ply then
+                    local p = ply.transform.position
+                    mGo.transform:SetPosition(p.x, p.y + 2.0, p.z)
+                    Engine.Log("[FadeManager] Repositioned music to player's location.")
+                end
+            else
+                Engine.Log("[FadeManager] Found MusicSource but NO 'Audio Source' component!")
+            end
+        else
+            Engine.Log("[FadeManager] No 'MusicSource' object found in this scene.")
+        end
     end
 
     if not self.initialized then return end
@@ -55,9 +82,14 @@ function Update(self, dt)
             self.canvasComp:SetOpacity(alpha) 
         end
         
+        -- Restore audio volume during fade in
+        local vol = math.min(t * 100.0, 100.0)
+        Audio.SetGlobalVolume(vol)
+        
         if t >= 1.0 then
             self.currentST = 0
-            Engine.Log("[FadeManager] Fade IN Finished.")
+            Audio.SetGlobalVolume(100.0) -- Final safety catch
+            Engine.Log("[FadeManager] Fade IN Finished - Global Volume at 100")
         end
 
     elseif self.currentST == 2 then -- FADE OUT

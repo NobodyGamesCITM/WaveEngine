@@ -136,6 +136,7 @@ public = {
     heavyUpImpulse      = 2.0,
     triggerCameraShake  = false,
     attackBufferDuration = 0.5,
+    canMove             = true,
 }
 
 
@@ -148,8 +149,13 @@ local function normalizeInput(x, z)
     return x, z
 end
 
-local function GetMovementInput()
+local function GetMovementInput(self)
     local moveX, moveZ = 0, 0
+    
+    -- Check if movement is allowed
+    if self.public.canMove == false then
+        return 0, 0, 0
+    end
 
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
@@ -161,11 +167,18 @@ local function GetMovementInput()
     if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
     if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
 
-    if interact == true then interact = false end
+    if moveX ~= 0 or moveZ ~= 0 then
+        -- Log removed to reduce console clutter
+    end
+
+    if self.public.interact == true then self.public.interact = false end
     if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
         Engine.Log("interact try")
-        interact = true
+        self.public.interact = true
+        _G.interact = true -- sync with global for old scripts like Portal.lua
     end
+    
+    if _G.interact == true then _G.interact = false end -- auto-reset global after one use
 
     moveX, moveZ = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
@@ -202,13 +215,18 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
         if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
     end
 
+    -- Robust Rigidbody check (essential for persistent objects)
+    if not Player.rb then
+        Player.rb = self.gameObject:GetComponent("Rigidbody")
+    end
+
     if Player.rb then
         Player.rb:SetLinearVelocity(faceDirX * speed, velY, faceDirZ * speed)
     end
 end
 
 local function UpdateFlyingGodMode(self, dt)
-    local moveX, moveZ, _ = GetMovementInput()
+    local moveX, moveZ, _ = GetMovementInput(self)
     local velY = 0
 
     if Input.GetKey("E") then
@@ -249,8 +267,8 @@ end
 -- STATE MACHINE
 local States = {}
 
-local function ChangeState(self, newState)
-    if Player.currentState == newState then return end
+local function ChangeState(self, newState, force)
+    if not force and Player.currentState == newState then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -351,7 +369,9 @@ States[State.IDLE] = {
             return
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Idle", 0.5) end
+        if anim then 
+            pcall(function() anim:Play("Idle", 0.5) end)
+        end
     end,
     
     Update = function(self, dt)
@@ -360,7 +380,7 @@ States[State.IDLE] = {
             Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
         end
 
-        local moveX, moveZ, inputLen = GetMovementInput()
+        local moveX, moveZ, inputLen = GetMovementInput(self)
         if inputLen > 0.1 then
             if Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5 then
                 ChangeState(self, State.RUNNING)
@@ -401,9 +421,14 @@ States[State.WALK] = {
 
         self.public.usingStamina = false
 
+        local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Walk", 0.5) 
-            anim:SetSpeed("Walk", 1)
+            local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
+            if hasWalk then
+                pcall(function() anim:SetSpeed("Walk", 1) end)
+            else
+                pcall(function() anim:Play("Idle", 0.5) end) -- Fallback
+            end
         end
     end,
     
@@ -412,7 +437,7 @@ States[State.WALK] = {
         if sprintInput and not Player.sprintHeld and self.public.stamina > 10 then
             ChangeState(self, State.RUNNING)
         end
-        local moveX, moveZ, inputLen = GetMovementInput()
+        local moveX, moveZ, inputLen = GetMovementInput(self)
         
         if inputLen > 0.01 then
             Player.lastDirX = moveX / inputLen
@@ -484,7 +509,7 @@ States[State.RUNNING] = {
 		if Player.smokePS then Player.smokePS:Stop() end
     end,
     Update = function(self, dt)
-        local moveX, moveZ, inputLen = GetMovementInput()
+        local moveX, moveZ, inputLen = GetMovementInput(self)
 
         if inputLen <= 0.1 then
             ChangeState(self, State.IDLE)
@@ -797,8 +822,13 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 function Start(self)
-    Engine.Log("Player inicializado")
+    Engine.Log("[Player] Start() called - Initializing player")
     _G.PlayerInstance = self
+    
+    -- Force world movement
+    Game.Resume()
+    Game.SetTimeScale(1.0)
+    _G._PlayerController_isDead = false
 
     self.public.staminaCost    = 20.0   
     self.public.staminaRecover = 15.0 
@@ -909,9 +939,15 @@ function Start(self)
     Mask.HERMES = "None"
     Mask.ARES   = "None"
 
-    ChangeState(self, State.IDLE)
+    Player.currentState = nil -- Force reset state logic for new instance
+    ChangeState(self, State.IDLE, true)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
+    
+    -- Ensure Rigidbody is waking up and active
+    if Player.rb then
+        Player.rb:SetLinearVelocity(0, 0, 0)
+    end
 end
 
 
@@ -930,8 +966,31 @@ function Update(self, dt)
     end
 
     if not Player.currentState then
-        --Engine.Log("[Player] Update")
-        ChangeState(self, State.IDLE)
+        --Engine.Log("[Player] Initial State Setup")
+        Player.currentState = nil -- Ensure it's not dirty
+        ChangeState(self, State.IDLE, true)
+    end
+    
+    -- Safety: ensure game is not stuck in pause during first few frames of a scene
+    if _G._NewSceneLoaded == true or not Player.firstFrameCheck then
+        _G._NewSceneLoaded = false -- Reset flag
+        Engine.Log("[Player] New Scene Detected - Resetting persistent state")
+        
+        Game.Resume()
+        Game.SetTimeScale(1.0)
+        
+        -- Reset Rigidbody and search for a SpawnPoint in the new scene
+        Player.rb = self.gameObject:GetComponent("Rigidbody")
+        local spawn = GameObject.Find("SpawnPoint")
+        if spawn then
+            pcall(function()
+                local p = spawn.transform.position
+                self.transform:SetPosition(p.x, p.y, p.z)
+                Engine.Log("[Player] Teleported to SpawnPoint successfully")
+            end)
+        end
+        
+        Player.firstFrameCheck = true
     end
 
     if attackBuffer == true and Player.currentState ~= State.ATTACK_LIGHT then

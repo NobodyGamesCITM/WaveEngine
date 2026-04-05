@@ -48,15 +48,16 @@ function Update(self, dt)
 
 	-- BUSCAR Y REPARAR TODO
     local pObj = GameObject.Find("Player")
-
-
     if pObj then
         pScript = GameObject.GetScript(pObj)
         if pScript and pScript.public then 
-            _G.PlayerInstance = pScript
             pScript.public.canMove = true
             pScript.public.health = 100
+            _G.PlayerInstance = pScript
+            Engine.Log("[SceneLoader] Player found and initialized.")
         end
+    else
+        Engine.Log("[SceneLoader] WARNING: Player not found in scene.")
     end
 
     -- TRUCO DE TECLADO: Tecla 'Z' suma una llave al contador global

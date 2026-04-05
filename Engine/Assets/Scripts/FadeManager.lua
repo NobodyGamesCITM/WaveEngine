@@ -1,6 +1,5 @@
 -- FadeManager.lua
--- This script manages the fade in/out transition effect when switching scenes.
--- Usage: Attach this script to a GameObject with a Canvas component (e.g., "FadeCanvas").
+
 
 public = {
     fadeDuration = 0.8,         -- Seconds for the fade effect
@@ -31,6 +30,11 @@ function Update(self, dt)
         end
 
         _G.TransitionToScene = function(scene) self:StartFadeOut(scene) end
+        
+        -- Ensure world is moving
+        Game.Resume()
+        Game.SetTimeScale(1.0)
+        
         self.initialized = true
     end
 
@@ -39,10 +43,10 @@ function Update(self, dt)
     -- Cap delta time to prevent skipping frames (especially after loading)
     local delta = math.min(dt, 0.05)
 
-    if self.currentST == 1 then -- FADE IN (Black -> Transparent)
+    if self.currentST == 1 then -- FADE IN 
         self.fadeTimer = self.fadeTimer + delta
         local duration = self.public.fadeDuration or 0.8
-        if duration <= 0 then duration = 0.01 end -- Avoid div by 0
+        if duration <= 0 then duration = 0.01 end 
         
         local t = math.min(self.fadeTimer / duration, 1.0)
         local alpha = 1.0 - t
@@ -56,7 +60,7 @@ function Update(self, dt)
             Engine.Log("[FadeManager] Fade IN Finished.")
         end
 
-    elseif self.currentST == 2 then -- FADE OUT (Transparent -> Black)
+    elseif self.currentST == 2 then -- FADE OUT
         self.fadeTimer = self.fadeTimer + delta
         local duration = self.public.fadeDuration or 0.8
         if duration <= 0 then duration = 0.01 end
@@ -75,6 +79,7 @@ function Update(self, dt)
             self.currentST = 0 -- Stop state to avoid loops
             local target = self.public.targetScene or "MainMenu"
             Engine.Log("[FadeManager] Fade OUT Finished. Loading scene: " .. target)
+            _G._NewSceneLoaded = true
             Engine.LoadScene(Engine.GetScenesPath(), target)
         end
     end

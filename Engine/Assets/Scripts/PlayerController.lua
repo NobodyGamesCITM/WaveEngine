@@ -31,6 +31,7 @@ _G.PlayerInstance                    = nil
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
+local ATTACK_BUFFER = 0.5
 
 -- MASKS
 local Mask = {
@@ -63,7 +64,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
-    attackDelay     = 0.6,
+    attackDelay     = 0.3,
     -- Audio
     stepSFX 		= nil,
     voiceSFX 		= nil,
@@ -84,6 +85,10 @@ local Player = {
     hermesPendingUnequip = false,
     baseSpeed = 15.0,
     isGrounded = false,
+
+    attackBuffer = false,
+    attackBufferPending = false,
+    attackNum = 0,
 }
 
 public = {
@@ -104,10 +109,11 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
-    attackDuration      = 0.8,
+    attackDuration      = 0.6,
     chargeDuration      = 0.3,
     shootDuration       = 0.5,
     attackCooldown      = 0.5,
+    comboCooldown       = 1.0,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
     hitShakeDuration    = 0.3,
@@ -123,12 +129,13 @@ public = {
     giveApoloMask       = false,
     giveHermesMask      = false,
     giveAresMask        = false,
-    attackImpulseForce  = 8.0,
+    attackImpulseForce  = 6.0,
     attackImpulseWindow = 0.15,
     heavyDuration       = 0.7,
     heavyAttackDelay    = 0.35,
     heavyUpImpulse      = 2.0,
-    triggerCameraShake  = false
+    triggerCameraShake  = false,
+    attackBufferDuration = 0.5,
 }
 
 
@@ -167,7 +174,7 @@ local function GetMovementInput()
 end
 
 local function GetAttackInput(self)
-    if attackCooldown > 0 then return 0 end
+    if attackCooldown > 0 and attackBuffer == false then return 0 end
     if Input.GetKeyDown("E") or Input.GetGamepadButton("X") then return 1 end
     if Input.GetKeyDown("Q") or Input.GetGamepadButton("Y") then return 2 end
     return 0
@@ -252,7 +259,11 @@ local function ChangeState(self, newState)
     end
     
     Player.currentState = newState
-    
+    if newState ~= State.IDLE and newState ~= State.RUNNING 
+    and newState ~= State.WALK and newState ~= State.ATTACK_LIGHT then
+        attackBuffer = false
+    end   
+
     if States[newState].Enter then
         States[newState].Enter(self)
     end
@@ -334,6 +345,11 @@ States[State.DEAD] = {
 States[State.IDLE] = {
     Enter = function(self)
         _PlayerController_lastAttack = ""
+        if attackBufferPending then 
+            ChangeState(self, State.ATTACK_LIGHT)
+            attackBufferPending = false
+            return
+        end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Idle", 0.5) end
     end,
@@ -625,6 +641,10 @@ States[State.SHOOTING] = {
             attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)
         end
+        if Player.rb then
+            local velocity = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+        end
     end,
     Exit = function(self)
         _PlayerController_lastAttack = ""
@@ -681,10 +701,22 @@ States[State.ATTACK_HEAVY] = {
 
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Attack1", 1.0) end
         attackTimer = 0
         if attackCol then attackCol:Disable() end
+
+        if attackBuffer == true then
+            if attackNum ~= 3 then
+                attackNum = attackNum + 1
+            end
+            attackBuffer = false
+        else
+            attackNum = 1
+        end
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim and attackNum == 1 then anim:Play("Attack1", 0.3) end
+        if anim and attackNum == 2 then anim:Play("Attack2", 0.3) end
+        if anim and attackNum == 3 then anim:Play("Attack3", 0.3) end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -698,7 +730,12 @@ States[State.ATTACK_LIGHT] = {
                 local radians = math.rad(Player.lastAngle)
                 local fwdX = math.sin(radians)
                 local fwdZ = math.cos(radians)
-                Player.rb:SetLinearVelocity(fwdX * self.public.attackImpulseForce, velocity.y, fwdZ * self.public.attackImpulseForce)
+                
+                if attackNum == 3 then
+                    Player.rb:SetLinearVelocity(fwdX * self.public.attackImpulseForce, 0, fwdZ * self.public.attackImpulseForce)
+                else
+                    Player.rb:SetLinearVelocity(fwdX * self.public.attackImpulseForce * 0.3, 0, fwdZ * self.public.attackImpulseForce * 0.3)
+                end
             end
 
         elseif Player.rb then
@@ -706,11 +743,23 @@ States[State.ATTACK_LIGHT] = {
             Player.rb:SetLinearVelocity(0, velocity.y, 0)
         end 
 
+        if attackTimer >= (self.public.attackDuration * 0.5) and attackBuffer == false and attackNum ~= 3 then
+            attackBuffer = true
+        end
+
+        if GetAttackInput(self) == 1 and attackBuffer == true then
+            attackBufferPending = true
+        end
+
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then
                 Player.swordSFX:PlayAudioEvent()
             end
-            attackCooldown = self.public.attackCooldown
+            if attackNum == 3 then
+                attackCooldown = self.public.comboCooldown
+            else
+                attackCooldown = self.public.attackCooldown
+            end
             ChangeState(self, State.IDLE)
         end
     end,
@@ -762,6 +811,10 @@ function Start(self)
     Player.baseSpeed = self.public.speed
     
     _impactFrameTimer = 0
+    attackBuffer = false
+    ATTACK_BUFFER = self.public.attackBufferDuration
+    attackNum = 0
+    attackBufferPending = false
 
     self.public.stamina = 100
     self.public.health  = 100
@@ -881,6 +934,14 @@ function Update(self, dt)
         ChangeState(self, State.IDLE)
     end
 
+    if attackBuffer == true and Player.currentState ~= State.ATTACK_LIGHT then
+        self.public.attackBufferDuration = self.public.attackBufferDuration - dt
+        if self.public.attackBufferDuration < 0 then
+            self.public.attackBufferDuration = ATTACK_BUFFER
+            attackBuffer = false
+        end
+    end
+        
     if _PlayerController_triggerCameraShake == true then
         self.public.triggerCameraShake = true
         _PlayerController_triggerCameraShake = false
@@ -1042,6 +1103,9 @@ function ResetPlayer(self)
     attackCooldown = 0
     rollCooldown   = 0
 
+    attackBufferPending = false
+    attackNum = 0
+
     -- Limpiar flags globales
     _G._PlayerController_isDead           = false
     _PlayerController_pendingDamage    = 0
@@ -1117,4 +1181,3 @@ function OnCollisionExit(self, other)
         Player.isGrounded = false
     end
 end
-

@@ -534,10 +534,15 @@ static int Lua_Input_StopRumble(lua_State* L)
 
 static int Lua_Navigation_GetRandomPoint(lua_State* L)
 {
-    luaL_checkudata(L, 1, "Navigation");
+    ComponentNavigation** navPtr =
+        static_cast<ComponentNavigation**>(luaL_checkudata(L, 1, "Navigation"));
+    ComponentNavigation* nav = *navPtr;
 
     glm::vec3 point;
-    bool ok = Application::GetInstance().navMesh->GetRandomPoint(point);
+    bool ok = false;
+
+    if (nav && nav->linkedSurface)
+        ok = Application::GetInstance().navMesh->GetRandomPoint(nav->linkedSurface, point);
 
     if (ok)
     {

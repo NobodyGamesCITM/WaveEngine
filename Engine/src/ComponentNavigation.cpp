@@ -144,8 +144,6 @@ void ComponentNavigation::OnEditor()
     }
 }
 
-// 1. En SetDestination � inicializar currentPolyRef tras encontrar el camino
-
 
 bool ComponentNavigation::SetDestination(const glm::vec3& target)
 {
@@ -155,22 +153,50 @@ bool ComponentNavigation::SetDestination(const glm::vec3& target)
     glm::vec3 start = t->GetGlobalPosition();
 
     std::vector<glm::vec3> newPath;
-    bool found = Application::GetInstance().navMesh->FindPath(linkedSurface, start, target, newPath);
+    bool found = false;
 
-    if (!found) { LOG_CONSOLE("No se encontr� camino"); return false; }
+    if (linkedSurface &&
+        Application::GetInstance().navMesh->FindPath(linkedSurface, start, target, newPath))
+    {
+        found = true;
+    }
+    else
+    {
+        std::function<void(GameObject*)> collect = [&](GameObject* obj)
+            {
+                if (!obj || found) return;
 
-    // Inicializar el pol�gono actual para moveAlongSurface
+                ComponentNavigation* nav =
+                    (ComponentNavigation*)obj->GetComponent(ComponentType::NAVIGATION);
+
+                if (nav && nav->type == NavType::SURFACE && obj != linkedSurface)
+                {
+                    if (Application::GetInstance().navMesh->FindPath(obj, start, target, newPath))
+                    {
+                        linkedSurface = obj;
+                        found = true;
+                        return;
+                    }
+                }
+
+                for (GameObject* child : obj->GetChildren())
+                    collect(child);
+            };
+        collect(Application::GetInstance().scene->GetRoot());
+    }
+
+    if (!found) return false;
+
     auto* navData = Application::GetInstance().navMesh->GetNavMeshData(linkedSurface);
     if (navData && navData->navQuery)
     {
         dtQueryFilter filter;
         filter.setIncludeFlags(0xFFFF);
-        float extents[3] = { 2.f, 4.f, 2.f };
+        float extents[3] = { 5.f, 1.5f, 5.f }; // Y reducido para no coger polys de otro suelo
         float startF[3] = { start.x, start.y, start.z };
         float nearPt[3];
         navData->navQuery->findNearestPoly(startF, extents, &filter, &currentPolyRef, nearPt);
     }
-
 
     path = std::move(newPath);
     pathIndex = 0;
@@ -188,7 +214,7 @@ bool ComponentNavigation::SnapPositionToNavMesh(glm::vec3& position)
     dtQueryFilter filter;
     filter.setIncludeFlags(0xFFFF);
 
-    float extents[3] = { 2.f, 4.f, 2.f };
+    float extents[3] = { 2.f, 1.5f, 2.f };
     float posF[3] = { position.x, position.y, position.z };
 
     dtPolyRef nearestRef;
@@ -297,4 +323,31 @@ void ComponentNavigation::GetMoveDirection(float threshold, float& dx, float& dz
 
     dx = dirFlat.x;
     dz = dirFlat.z;
+}
+
+bool ComponentNavigation::GetRandomPoint(float& x, float& y, float& z)
+{
+    // Si no tenemos superficie vinculada, busca la más cercana primero
+    if (!linkedSurface) {
+        // Intenta vincular buscando en todas las superficies
+        glm::vec3 dummy;
+        Transform* t = (Transform*)owner->GetComponent(ComponentType::TRANSFORM);
+        glm::vec3 pos = t->GetGlobalPosition();
+        std::vector<glm::vec3> tmp;
+        std::function<void(GameObject*)> collect = [&](GameObject* obj) {
+            if (!obj) return;
+            ComponentNavigation* nav = (ComponentNavigation*)obj->GetComponent(ComponentType::NAVIGATION);
+            if (nav && nav->type == NavType::SURFACE)
+                if (Application::GetInstance().navMesh->FindPath(obj, pos, pos, tmp))
+                    linkedSurface = obj;
+            for (auto* c : obj->GetChildren()) collect(c);
+            };
+        collect(Application::GetInstance().scene->GetRoot());
+    }
+    if (!linkedSurface) return false;
+
+    glm::vec3 pt;
+    if (!Application::GetInstance().navMesh->GetRandomPoint(linkedSurface, pt)) return false;
+    x = pt.x; y = pt.y; z = pt.z;
+    return true;
 }

@@ -800,12 +800,16 @@ static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
 
     Application::GetInstance().audio.get()->audioSystem->PlayEvent(wEventName.c_str(), source->goID);
     AK::SoundEngine::RenderAudio();
+
+    source->eventName = eventName;
     return 0;
 }
+
 
 static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
     Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
     return 0;
@@ -1296,6 +1300,50 @@ static int Lua_GameObject_Find(lua_State* L) {
         };
 
     GameObject* found = findByName(root, name);
+
+    if (!found) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+    *udata = found;
+
+    luaL_getmetatable(L, "GameObject");
+    lua_setmetatable(L, -2);
+
+    return 1;
+}
+
+// go = GameObject.FindInChildren(go, name)
+static int Lua_GameObject_FindInChildren(lua_State* L) {
+    
+    GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+
+    if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
+        LOG_CONSOLE("[Lua] ERROR: Cannot FindInChildren on invalid/deleted GameObject");
+        return 0;
+    }
+
+    GameObject* obj = *objPtr;
+
+    const char* name = luaL_checkstring(L, 2);
+
+    std::function<GameObject* (GameObject*, const std::string&)> findByName;
+    findByName = [&](GameObject* node, const std::string& targetName) -> GameObject* {
+        if (node->GetName() == targetName) {
+            return node;
+        }
+
+        for (GameObject* child : node->GetChildren()) {
+            GameObject* result = findByName(child, targetName);
+            if (result) return result;
+        }
+
+        return nullptr;
+        };
+
+    GameObject* found = findByName(obj, name);
 
     if (!found) {
         lua_pushnil(L);
@@ -2072,6 +2120,9 @@ void ScriptManager::RegisterGameObjectAPI() {
 
     lua_pushcfunction(L, Lua_GameObject_Find);
     lua_setfield(L, -2, "Find");
+
+    lua_pushcfunction(L, Lua_GameObject_FindInChildren);
+    lua_setfield(L, -2, "FindInChildren");
 
     lua_pushcfunction(L, Lua_GameObject_FindByTag);
     lua_setfield(L, -2, "FindByTag");

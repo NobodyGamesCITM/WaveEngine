@@ -146,6 +146,15 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
 
+    if not Enemy.anim:IsPlayingAnimation("Hurt") then
+        if Enemy.voiceSFX then 
+            Enemy.voiceSFX:StopAudioEvent()
+            Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt")
+        end
+        PlayAnim("Hurt", 0.5)
+        
+    end
+
     hp = hp - amount
     Engine.Log("[Minocabro] HP: " .. hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
@@ -169,9 +178,12 @@ local function TakeDamage(self, amount, attackerPos)
         -- Así evitamos que la ejecución continúe tras Destroy() en OnTriggerEnter.
         pendingDeath = true
 
-        if not Enemy.anim:IsPlayingAnimation("Death")then
+        if not Enemy.anim:IsPlayingAnimation("Death") then
             PlayAnim("Death", 0.5)
-            if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") end
+            if Enemy.voiceSFX then 
+                Enemy.voiceSFX:StopAudioEvent()
+                Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") 
+            end
         end
         
         Engine.Log("[Minocabro] HP agotado, muerte pendiente")
@@ -313,8 +325,8 @@ function Start(self)
     hp         = self.public.maxHp
     isDead     = false
     alreadyHit = false
-    stepSource = GameObject.Find("MinoStepSource")
-    voiceSource = GameObject.Find("MinoVoiceSource")
+    stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
+    voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
 
     Enemy.nav = self.gameObject:GetComponent("Navigation")
     Enemy.rb  = self.gameObject:GetComponent("Rigidbody")
@@ -332,6 +344,10 @@ function Start(self)
     local pos = self.transform.position
     Enemy.startPos = { x = pos.x, y = pos.y, z = pos.z }
 
+    if not Enemy.startPos then 
+        Engine.Log("[Minocabro] WARNING: startPos not found")
+    end
+
     Enemy.currentState    = State.IDLE
     Enemy.nextWanderTimer = self.public.idleWaitTime
     Enemy.chaseTimer      = 0
@@ -339,11 +355,11 @@ function Start(self)
     Enemy.playerGO        = nil
     Enemy.stepTimer       = 0.5
 
-    attackCol = self.gameObject:GetComponent("Sphere Collider")
+    attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then
         attackCol:Disable()
     else
-        Engine.Log("[Minocabro] ERROR: no se encontró Sphere Collider")
+        Engine.Log("[Minocabro] ERROR: no se encontró Box Collider")
     end
 
     Engine.Log("[Minocabro] Start OK - HP: " .. hp)
@@ -355,7 +371,10 @@ function Update(self, dt)
 
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
+        
     end
+
+    Enemy.stepTimer = Enemy.stepTimer + dt
 
     -- Muerte diferida: destruir aquí, nunca desde TakeDamage ni OnTriggerEnter
     if pendingDeath then
@@ -470,11 +489,13 @@ function Update(self, dt)
     -- ── CHARGE: embestida con rampa de aceleración ────────────────────────
     if Enemy.currentState == State.CHARGE then
        Enemy.chargeTimer = Enemy.chargeTimer - dt
-       Enemy.stepTimer = Enemy.stepTimer + dt
        
-        if Enemy.stepTimer >= (chargeSpeedCurrent) then
+       
+        if Enemy.stepTimer >= 0.25 then
             Enemy.stepTimer = 0
-            if Enemy.stepSFX then Enemy.stepSFX:SelectPlayAudioEvent("SFX_MinoSteps") end
+            if Enemy.stepSFX then 
+                Enemy.stepSFX:PlayAudioEvent() 
+            end
         end
 
         if attackCol and not pendingDeath then attackCol:Enable() end
@@ -513,7 +534,10 @@ function Update(self, dt)
 
         if not Enemy.anim:IsPlayingAnimation("Charge") then
             PlayAnim("Charge", 0.5)
-            if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
+            if Enemy.voiceSFX then 
+                Enemy.voiceSFX:StopAudioEvent()
+                Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") 
+            end
         end
 
         return
@@ -543,7 +567,10 @@ function Update(self, dt)
 
         if not Enemy.anim:IsPlayingAnimation("Wall") then
             PlayAnim("Wall", 0.5)
-            if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoCrash") end
+            if Enemy.voiceSFX then 
+                Enemy.voiceSFX:StopAudioEvent()
+                Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoCrash") 
+            end
         end
 
 
@@ -582,7 +609,10 @@ function Update(self, dt)
         if inChargeRange and Enemy.cooldownTimer <= 0 then
             if not Enemy.anim:IsPlayingAnimation("PreCharge") then
                 PlayAnim("PreCharge", 0.5)
-                if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoPreCharge") end
+                if Enemy.voiceSFX then 
+                    Enemy.voiceSFX:StopAudioEvent()
+                    Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoPreCharge") 
+                end
             end
             BeginWindup(self)
             return
@@ -645,11 +675,19 @@ function Update(self, dt)
         wanderPhase = wanderPhase + dt * 0.9
         _wanderSine = 0.70 + 0.30 * math.sin(wanderPhase)
         self.public.moveSpeed = self.public.moveSpeed * wanderSpeedMult * _wanderSine
+
     end
     local isMoving, speed = Movement(self, dt)
     -- Restaurar moveSpeed
     if _wanderSine ~= 1.0 then
         self.public.moveSpeed = self.public.moveSpeed / (wanderSpeedMult * _wanderSine)
+
+
+        if Enemy.stepTimer >= 0.5 then
+            Enemy.stepTimer = 0
+            if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
+        end
+        PlayAnim("Walk", 0.5)
     end
 
     -- ── IDLE humanizado ───────────────────────────────────────────────────
@@ -657,7 +695,10 @@ function Update(self, dt)
 
         if not Enemy.anim:IsPlayingAnimation("Idle") then
             PlayAnim("Idle", 0.5)
-            if Enemy.voiceSFX then Enemy.voiceSource:SelectPlayAudioEvent("SFX_MinoIdle") end
+            if Enemy.voiceSFX then 
+                Enemy.voiceSFX:StopAudioEvent()
+                Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoIdle") 
+            end
         end
 
         Enemy.nextWanderTimer = Enemy.nextWanderTimer - dt
@@ -802,10 +843,10 @@ function OnTriggerEnter(self, other)
                 alreadyHit = true
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
-                    if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
+                    
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
                 elseif attack == "charge" then
-                    if Enemy.voiceSFX then Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
+
                     TakeDamage(self, DAMAGE_HEAVY, attackerPos)
                 end
             end
@@ -839,3 +880,7 @@ end
 -- alreadyHit y playerAttackHandled se resetean en Update cuando el ataque termina.
 function OnTriggerExit(self, other)
 end
+
+
+
+

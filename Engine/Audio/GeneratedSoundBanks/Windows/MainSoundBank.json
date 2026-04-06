@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{CC3A5ADB-11CD-ED46-1F7B-AF3F9A241B10}",
+    "Hash": "{F3EE29AE-3268-0B37-BA07-A911DDD8F1C7}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -790,14 +790,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_idlegrunt_02.wav",
       "CachePath": "3D/{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem"
-     },
-     {
-      "Id": "1040823208",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "universfield-interface-124464.wav",
-      "CachePath": "6A/{6A65E023-E68E-3BFF-47C8-39D500E2C5D4}.wem"
      },
      {
       "Id": "1045497793",
@@ -1794,13 +1786,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
       "DurationType": "OneShot",
-      "DurationMin": "0.92673016",
-      "DurationMax": "0.92673016",
-      "MediaRefs": [
-       {
-        "Id": "1040823208"
-       }
-      ]
+      "DurationMin": "0",
+      "DurationMax": "0"
      },
      {
       "Id": "2295055714",
@@ -1808,8 +1795,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
       "DurationType": "OneShot",
-      "DurationMin": "0.09173328",
-      "DurationMax": "0.09173328",
+      "DurationMin": "0.1456175",
+      "DurationMax": "0.1456175",
       "MediaRefs": [
        {
         "Id": "151597588"
@@ -2071,6 +2058,6 @@
     ]
    }
   ],
-  "FileHash": "{85D77F26-8054-7889-6D23-5720F5E3A71E}"
+  "FileHash": "{C223446F-4971-459B-D22B-E847E0AF12B5}"
  }
 }

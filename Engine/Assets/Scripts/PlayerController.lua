@@ -64,7 +64,7 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
-    attackDelay     = 0.3,
+    attackDelay     = 0.1,
     -- Audio
     stepSFX 		= nil,
     voiceSFX 		= nil,
@@ -109,11 +109,11 @@ public = {
     tiredMultiplier     = 0.7,
     hpLossCost       = 30.0,  
     hpRecover        = 30.0,  
-    attackDuration      = 0.6,
+    attackDuration      = 0.4,
     chargeDuration      = 0.3,
     shootDuration       = 0.5,
-    attackCooldown      = 0.5,
-    comboCooldown       = 1.0,
+    attackCooldown      = 0.4,
+    comboCooldown       = 0.9,
     rollCooldownMax     = 0.5,
     knockbackForce      = 14.0,
     hitShakeDuration    = 0.3,
@@ -135,7 +135,7 @@ public = {
     heavyAttackDelay    = 0.35,
     heavyUpImpulse      = 2.0,
     triggerCameraShake  = false,
-    attackBufferDuration = 0.5,
+    attackBufferDuration = 0.4,
     canMove             = true,
 }
 

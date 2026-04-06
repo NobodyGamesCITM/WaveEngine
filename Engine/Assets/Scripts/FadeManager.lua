@@ -5,6 +5,7 @@ public = {
     fadeDuration = 0.8,         -- Seconds for the fade effect
     targetScene  = "Blockout2", -- The scene to load after fading out
     autoFadeIn   = true,        -- Start the scene with a Fade In effect
+    sceneMusic   = "Level1",    -- The music track for this specific level
 }
 
 function Start(self)
@@ -41,13 +42,16 @@ function Update(self, dt)
         
         self.initialized = true
         
-        -- MUSIC INITIALIZATION FALLBACK (since MusicFader seems missing/failing)
+        -- MUSIC INITIALIZATION: Force the correct music state for this specific scene
         local mGo = GameObject.Find("MusicSource")
         if mGo then
             local musicComp = mGo:GetComponent("Audio Source")
             if musicComp then
-                Engine.Log("[FadeManager] MusicSource found! Starting 'Level2' music...")
-                Audio.SetMusicState("Level2")
+                local track = self.public.sceneMusic or "Level1"
+                -- Directly use the string since we simplified the public table format
+                
+                Engine.Log("[FadeManager] Setting music state to: " .. tostring(track))
+                Audio.SetMusicState(track)
                 musicComp:PlayAudioEvent()
                 
                 -- Reposition to player to avoid 3D attenuation
@@ -55,13 +59,8 @@ function Update(self, dt)
                 if ply then
                     local p = ply.transform.position
                     mGo.transform:SetPosition(p.x, p.y + 2.0, p.z)
-                    Engine.Log("[FadeManager] Repositioned music to player's location.")
                 end
-            else
-                Engine.Log("[FadeManager] Found MusicSource but NO 'Audio Source' component!")
             end
-        else
-            Engine.Log("[FadeManager] No 'MusicSource' object found in this scene.")
         end
     end
 
@@ -112,6 +111,7 @@ function Update(self, dt)
             local target = self.public.targetScene or "MainMenu"
             Engine.Log("[FadeManager] Fade OUT Finished. Loading scene: " .. target)
             _G._NewSceneLoaded = true
+            _G._MenuManager_NeedReinit = true -- Specific flag for MenuManager persistence
             Engine.LoadScene(Engine.GetScenesPath(), target)
         end
     end

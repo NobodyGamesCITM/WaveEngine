@@ -28,7 +28,7 @@ function Start(self)
     if mGo then
         local src = mGo:GetComponent("Audio Source")
         if src then 
-           src:PlayAudioEvent() 
+           -- src:PlayAudioEvent() -- We let FadeManager handle the first play, we'll only restart it on resume if needed.
 		end
     end
     
@@ -80,9 +80,11 @@ function Update(self, dt)
         
         if t >= 1.0 then
             self.state = 1
-            local cv = GameObject.Find("FadeCanvas")
-            if cv then cv:SetActive(false) end
+            -- Instead of deactivating the whole object, we just ensure it's transparent
+            -- This prevents killing other scripts (like MenuManager) attached to this GameObject
+            if self.fadeCanvas then self.fadeCanvas:SetOpacity(0.0) end
             Audio.SetGlobalVolume(100.0)
+            Engine.Log("[SceneLoader] Fade IN finished. Keep object alive for other scripts.")
         end
         return
     end

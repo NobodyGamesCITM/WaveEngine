@@ -28,6 +28,8 @@ local abs   = math.abs
 local attackSource = nil
 local dieSource    = nil
 local hurtSource   = nil
+local dodgeSource  = nil
+local stepsSource  = nil
 
 -- ── States ────────────────────────────────────────────────────────────────
 local State = {
@@ -179,8 +181,9 @@ local targetVelX = 0
 local targetVelZ = 0
 local currentYaw = 0
 
-local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, stepSFX=nil }
+local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil,  dodgeSFX=nil, stepSFX=nil }
 
+local stepTimer = 0
 -- ─────────────────────────────────────────────────────────────────────────
 -- HELPERS
 -- ─────────────────────────────────────────────────────────────────────────
@@ -281,6 +284,7 @@ local function TakeDamage(self, amount, attackerPos)
     end
 
     if hp <= 0 and not pendingDeath then
+        if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
         pendingDeath = true
     else
         isStunned           = true
@@ -294,6 +298,7 @@ local function TakeDamage(self, amount, attackerPos)
         if attackCol then attackCol:Disable() end
         if nav       then nav:StopMovement()  end
         HardBrakeXZ()
+        if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
         PlayAnim(self.public.animHit, 0.05)
         Engine.Log("[Skeleton] STUN " .. self.public.stunDuration .. "s")
     end
@@ -572,6 +577,7 @@ local function TryDodge(self, dt, playerPos, myPos)
                 bz * self.public.dodgeImpulse * 0.5, 2)
 
     if nav then nav:StopMovement() end
+    if Enemy.dodgeSFX then Enemy.dodgeSFX:PlayAudioEvent() end
     PlayAnim(self.public.animDodge, 0.05)
     currentState = State.DODGE
     Engine.Log("[Skeleton] DODGE (approachSpd=" .. string.format("%.1f", playerApproachSpd) .. ")")
@@ -603,6 +609,7 @@ local function UpdateAnticipate(self, dt)
     attackTimer         = 0
     lungeStopTimer      = self.public.lungeStopDelay
 
+    if Enemy.attackSFX then Enemy.attackSFX:PlayAudioEvent() end
     PlayAnim(self.public.animAttack, 0.05)
     currentState = State.ATTACK
     Engine.Log("[Skeleton] ANTICIPATE → ATTACK (lunge)")
@@ -710,14 +717,19 @@ function Start(self)
     rb        = self.gameObject:GetComponent("Rigidbody")
     anim      = self.gameObject:GetComponent("Animation")
     attackCol = self.gameObject:GetComponent("Box Collider")
-    Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
 
-    attackSource = GameObject.Find("Enemy_AttackSource")
-    dieSource    = GameObject.Find("Enemy_DieSource")
-    hurtSource   = GameObject.Find("Enemy_HurtSource")
+    attackSource = GameObject.Find("SK_KopisSource")
+    hurtSource   = GameObject.Find("SK_HurtSource")
+    dieSource    = GameObject.Find("SK_DieSource")
+    dodgeSource  = GameObject.Find("SK_DodgeSource")
+    stepsSource  = GameObject.Find("SK_StepsSource")
     if attackSource then Enemy.attackSFX = attackSource:GetComponent("Audio Source") end
     if dieSource    then Enemy.dieSFX    = dieSource:GetComponent("Audio Source")    end
     if hurtSource   then Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source")   end
+    if dodgeSource  then Enemy.dodgeSFX  = dodgeSource:GetComponent("Audio Source")   end
+    if stepsSource  then Enemy.stepSFX  = stepsSource:GetComponent("Audio Source")   end
+
+    ---Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
 
     PlayAnim(self.public.animIdle, 0.0)
     Engine.Log("[Skeleton] Start OK  HP=" .. hp)
@@ -727,7 +739,12 @@ end
 -- UPDATE
 -- ─────────────────────────────────────────────────────────────────────────
 function Update(self, dt)
-    if isDead then return end
+    if isDead or not self.gameObject then return end
+
+    if Input.GetKey("0") then
+        TakeDamage(self, hp, self.transform.worldPosition)
+        return
+    end
 
     -- Muerte diferida (permite que la animación arranque limpia)
     if pendingDeath then
@@ -740,6 +757,7 @@ function Update(self, dt)
         Engine.Log("[Skeleton] MUERTO")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
+        Enemy.dieSFX:PlayAudioEvent()
         self:Destroy()
         return
     end
@@ -857,6 +875,20 @@ function Update(self, dt)
             currentState = State.CHASE
             Engine.Log("[Skeleton] AGRO")
         end
+    end
+
+
+    -- ── Sonido de pasos ───────────────────────────────────────────────────
+    if currentState == State.PATROL or currentState == State.CHASE
+      or currentState == State.ORBIT  or currentState == State.DODGE then
+        stepTimer = stepTimer + dt
+        if stepTimer >= 0.5 then
+            stepTimer = 0
+            Enemy.stepSFX:PlayAudioEvent()
+        end
+    else
+        stepTimer = 0
+        if Enemy.stepSFX then Enemy.stepSFX:StopAudioEvent() end
     end
 
     -- ── Dispatch de estados ───────────────────────────────────────────────

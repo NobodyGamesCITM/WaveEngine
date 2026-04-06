@@ -77,10 +77,12 @@ public = {
 
     animIdle        = "Idle",
     animWalk        = "Walk",
-    animAnticipate  = "Anticipate",
+    animAnticipate  = "Idle",
     animAttack      = "Attack",
-    animHit         = "Hit",
-    animDeath       = "Death",
+    animHit         = "Idle",
+    animDeath       = "Idle",
+    animOrbit       = "Orbit",
+    animDodge       = "Dodge",
 }
 
 local currentState = State.IDLE
@@ -291,6 +293,8 @@ local function UpdatePatrol(self, dt)
         return
     end
 
+    PlayAnim(self.public.animWalk, 0.2)
+
     local dx, dz = nav:GetMoveDirection(0.3)
     SetTargetVelocity(dx, dz, self.public.patrolSpeed)
     ApplyMoveVelocity(dt, self.public.moveAccel)
@@ -323,11 +327,11 @@ local function UpdateChase(self, dt)
             + math.random() * (self.public.orbitDurMax - self.public.orbitDurMin)
         orbitDirTimer = self.public.orbitDirFlipMin
             + math.random() * (self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
-        PlayAnim(self.public.animWalk, 0.2)
         currentState = State.ORBIT
         Engine.Log("[Skeleton] CHASE → ORBIT")
         return
     end
+    PlayAnim(self.public.animWalk, 0.2)
 
     navRefreshTimer = navRefreshTimer - dt
     if navRefreshTimer <= 0 then
@@ -344,6 +348,7 @@ end
 local function UpdateOrbit(self, dt)
     if not playerGO then currentState = State.IDLE; return end
 
+    PlayAnim(self.public.animOrbit, 0.2)
     local myPos = self.transform.worldPosition
     local plPos = playerGO.transform.worldPosition
     local dist  = DistFlat(myPos, plPos)
@@ -550,6 +555,7 @@ local function UpdateAttack(self, dt)
                 playerHitThisAttack                = true
                 _PlayerController_pendingDamage    = _EnemyDamage_skeleton
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
+                _PlayerController_pendingDamage=0
             end
         end
     end
@@ -571,7 +577,7 @@ local function UpdateAttack(self, dt)
                 + math.random() * (self.public.orbitDurMax - self.public.orbitDurMin)
             orbitDirTimer = self.public.orbitDirFlipMin
                 + math.random() * (self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
-            PlayAnim(self.public.animWalk, 0.25)
+            PlayAnim(self.public.animOrbit, 0.25)
             currentState = State.ORBIT
             Engine.Log("[Skeleton] ATTACK → ORBIT (jugador cerca)")
         else
@@ -838,6 +844,8 @@ function OnTriggerEnter(self, other)
                 playerHitThisAttack                = true
                 _PlayerController_pendingDamage    = _EnemyDamage_skeleton
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
+                alreadyHit = false
+
             end
         end
     end

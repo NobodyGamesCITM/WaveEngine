@@ -18,6 +18,13 @@ namespace AK
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
         static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
+        static const AkUniqueID SFX_MINOCHARGE = 3041839238U;
+        static const AkUniqueID SFX_MINOCRASH = 385136311U;
+        static const AkUniqueID SFX_MINODIE = 2637687044U;
+        static const AkUniqueID SFX_MINOHURT = 1184257229U;
+        static const AkUniqueID SFX_MINOIDLE = 2971129212U;
+        static const AkUniqueID SFX_MINOPRECHARGE = 1239040809U;
+        static const AkUniqueID SFX_MINOSTEPS = 1248591155U;
         static const AkUniqueID SFX_PLAYERATTACK = 3758894654U;
         static const AkUniqueID SFX_PLAYERDEATH = 1000127844U;
         static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;

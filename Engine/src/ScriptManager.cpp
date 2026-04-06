@@ -1889,6 +1889,9 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  
         lua_setfield(L, -2, "PlayAudioEvent");
 
+        lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);
+        lua_setfield(L, -2, "SelectPlayAudioEvent");
+
         lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
         lua_setfield(L, -2, "StopAudioEvent");
 

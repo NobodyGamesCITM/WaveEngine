@@ -1,10 +1,14 @@
 Event	ID	Name			Wwise Object Path	Notes
 	115335488	SFX_Mask_PickUp			\Default Work Unit\Player\SFX_Mask_PickUp	
+	385136311	SFX_MinoCrash			\Default Work Unit\Minocabro\SFX_MinoCrash	
 	416781375	UI_ButtonPress			\Default Work Unit\Other\UI_ButtonPress	
 	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
 	638756417	MUS_BGM			\Default Work Unit\Music\MUS_BGM	
 	724467519	SFX_PlayerFootSteps			\Default Work Unit\Player\SFX_PlayerFootSteps	
 	1000127844	SFX_PlayerDeath			\Default Work Unit\Player\SFX_PlayerDeath	
+	1184257229	SFX_MinoHurt			\Default Work Unit\Minocabro\SFX_MinoHurt	
+	1239040809	SFX_MinoPrecharge			\Default Work Unit\Minocabro\SFX_MinoPrecharge	
+	1248591155	SFX_MinoSteps			\Default Work Unit\Minocabro\SFX_MinoSteps	
 	1263671132	SFX_ItemPickup			\Default Work Unit\Player\SFX_ItemPickup	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
@@ -12,8 +16,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	2050401325	SFX_SirenSing			\Default Work Unit\Siren\SFX_SirenSing	
 	2295055714	UI_ButtonSelect			\Default Work Unit\Other\UI_ButtonSelect	
 	2400499341	SFX_SkeletonDodge			\Default Work Unit\Skeleton\SFX_SkeletonDodge	
+	2637687044	SFX_MinoDie			\Default Work Unit\Minocabro\SFX_MinoDie	
 	2660566025	SFX_SkeletonSteps			\Default Work Unit\Skeleton\SFX_SkeletonSteps	
+	2971129212	SFX_MinoIdle			\Default Work Unit\Minocabro\SFX_MinoIdle	
 	3020549885	SFX_TorchFire			\Default Work Unit\Other\SFX_TorchFire	
+	3041839238	SFX_MinoCharge			\Default Work Unit\Minocabro\SFX_MinoCharge	
 	3212792312	SFX_MansionAmbience			\Default Work Unit\Other\SFX_MansionAmbience	
 	3651743467	SFX_SirenHurt			\Default Work Unit\Siren\SFX_SirenHurt	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
@@ -83,13 +90,19 @@ Effect plug-ins	ID	Name	Type				Notes
 	3442768367	Hall_Large_Dark	Wwise RoomVerb			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	12684693	minocabro_precharge_04	.cache\A3\{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_04		115496
 	44994569	siren_water	.cache\50\{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		46376
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
+	84435203	minocabro_footstep_01	.cache\12\{125C6D41-DD53-0963-EE50-561DAFAFB7B7}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_01		30392
+	89671109	minocabro_footstep_02	.cache\8C\{8CB2A334-8F2D-D73A-DFF4-ED095CC5A732}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_02		33488
 	96160614	player_hit	.cache\2F\{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem		\Containers\Default Work Unit\Objects\Player\player_hit		28016
 	117517246	In The Blood Hades	.cache\77\{77DC3B2C-C429-11E2-762E-359D20698C41}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu_Playlist\MainMenu\In The Blood Hades		1355624
 	124812761	water_run_06	.cache\4E\{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_06		7352
+	126486740	minocabro_hoof_03	.cache\7F\{7FF7E742-1809-4DB8-353E-908C44CEE054}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_03		39752
+	131567107	minocabro_idlegrunt_01	.cache\15\{1594A7F7-635C-BF04-2D41-33C0156C3E93}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_01		142280
+	136280820	minocabro_idlegrunt_04	.cache\D1\{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_04		146240
 	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
 	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	151597588	UI_ButtonSelected	.cache\14\{145A255B-AD7B-ECC4-3142-80DA7105D668}.wem		\Containers\Default Work Unit\UI_ButtonSelected		4688
@@ -98,34 +111,48 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	186892897	Item_PickUp	.cache\E8\{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem		\Containers\Default Work Unit\Objects\Player\Item_PickUp		17432
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
+	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
 	250874789	grass_run_01	.cache\44\{44A3DFA2-4ED9-48C9-BB11-1095A26AB9BC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_01		7604
 	255095212	skeleton_attack	.cache\36\{36CAF579-42F5-2055-8E90-21EA990D926D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Slashes\skeleton_attack		15344
 	260713655	dirt_run_01	.cache\0F\{0FFCCFAF-A392-154C-EC07-070CAA1D808F}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_01		7604
+	273412701	Mino_StunnedGrowl	.cache\48\{48AAF9F8-63A6-1243-88EF-17BAAEB125CA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_StunnedGrowl		123272
+	278946100	minocabro_precharge_01	.cache\5B\{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_01		137888
+	281166023	minocabro_hurt_02	.cache\72\{72F01A06-EAF4-51E3-F8F8-C6E55F27BCFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
+	294731171	minocabro_footstep_06	.cache\A5\{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_06		30032
 	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
 	328752554	water_walk_04	.cache\52\{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_04		12824
+	333485331	minocabro_hoof_01	.cache\8D\{8D1B2545-A4BE-F337-F21E-60D770D49360}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_01		34352
 	333608203	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
 	353618428	skeleton_Dodge	.cache\C8\{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Dodge		11600
 	362843339	stone_run_01	.cache\13\{137B0283-6182-0727-3344-3A629EB6416C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_01		7604
 	406806222	stone_run_04	.cache\48\{48A8D97C-15AD-8CC1-C142-56AB8B4CFCC2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_04		7424
 	412634728	dirt_walk_02	.cache\B8\{B8205D44-66B6-C1F3-62B8-3F82E9E26058}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_02		14408
+	415786301	minocabro_hoof_02	.cache\47\{475D5499-4033-8E1A-EBAE-256D66425C63}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_02		42344
 	424474249	skeleton_Die	.cache\8A\{8AFB042F-4E5E-CF03-0416-DE888B7ED984}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Die		10844
 	425570416	water_walk_06	.cache\E6\{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_06		13292
+	436047105	minocabro_footstep_07	.cache\21\{216D4506-9725-1778-07CC-AB40635CD8AE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_07		30680
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
+	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
 	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
 	495811719	stone_walk_03	.cache\3D\{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_03		13580
 	520645407	Mask_PickUp	.cache\4C\{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem		\Containers\Default Work Unit\Objects\Player\Mask_PickUp		49328
+	531473372	minocabro_hoof_04	.cache\13\{130DEF8E-D1F9-7D82-405A-F09EC962B5ED}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_04		41696
 	533026546	treeAmbience	.cache\D4\{D4E93A81-F944-4B21-5B4F-14741401597B}.wem		\Containers\Default Work Unit\Objects\treeAmbience		434240
 	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
 	578288656	stone_walk_01	.cache\3F\{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_01		13364
+	585738113	minocabro_hurt_03	.cache\26\{264453ED-9D6A-7709-6B66-ABC54E7A0E48}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_03		41912
 	598271853	stone_run_03	.cache\EE\{EE4BD707-A4F4-CEAC-89A3-5CF6DD87A5A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_03		7532
 	599602142	dirt_run_06	.cache\3F\{3F3B2D8E-433F-4FBB-63F3-6F54BCE29836}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_06		7352
 	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604
+	617220961	minocabro_footstep_03	.cache\E3\{E317B072-E9B3-EBE5-4709-0EA2679A9BD9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_03		28088
+	618455848	Mino_DeathGrowl	.cache\60\{605B5B14-B7CA-12ED-67DE-DB320796F511}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_DeathGrowl		121904
 	629385577	sword_slice_soft	.cache\50\{500A7620-3D3B-0D66-4878-7359F88B5448}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_soft		11816
 	639013023	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292
 	642231808	grass_run_02	.cache\AD\{AD62AB3C-7BDF-5173-5EA1-5D20D082709F}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_02		7244
+	642616489	minocabro_footstep_05	.cache\91\{9131534D-C685-71B7-FC0A-1B2731955757}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_05		27728
 	647640996	torchFire	.cache\92\{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem		\Containers\Default Work Unit\Objects\torchFire		1760264
 	658947672	dirt_walk_01	.cache\91\{91235923-528D-B681-E796-9CDE151A28A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_01		13364
 	663484052	skeleton_Step	.cache\85\{85480C67-C83E-070A-9714-960378316322}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Step		20816
@@ -133,27 +160,36 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	680497514	stone_walk_05	.cache\29\{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_05		13400
 	699991876	sword_slice_hard	.cache\5C\{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_hard		25640
 	726491942	dirt_walk_05	.cache\47\{47B28077-6411-38F4-8407-242380E9024D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_05		13400
+	752261276	minocabro_wallcrash_boulder	.cache\9D\{9DD305E0-6FCF-959F-B0C3-790C87EAFFB6}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_boulder		104912
 	786202757	siren_sing	.cache\CA\{CA2FD2A4-9365-887A-C847-414A5878E629}.wem		\Containers\Default Work Unit\Objects\Siren\siren_sing		268712
 	786254834	grass_run_03	.cache\8A\{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_03		7532
 	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
 	794836068	Mask_Change	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Change		18800
+	822076345	minocabro_precharge_02	.cache\CA\{CA82DE09-5149-7B26-36A5-779B77FBF7F8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_02		160208
 	823794324	siren_die	.cache\52\{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem		\Containers\Default Work Unit\Objects\Siren\siren_die		47456
+	827699159	minocabro_hurt_01	.cache\E2\{E2075A8F-B6DE-623B-ED5F-D6733DF742CF}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
+	864759864	minocabro_hurt_04	.cache\FB\{FB802626-D192-1663-D73D-59B73096EE80}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
 	908137877	water_run_05	.cache\0E\{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_05		6632
 	914187209	stone_walk_02	.cache\5C\{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_02		14408
 	915946584	grass_walk_03	.cache\DD\{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_03		13580
+	943118833	minocabro_idlegrunt_03	.cache\EC\{EC19BD2F-9107-C188-C86C-B918C0F9E0BE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_03		215720
+	946854841	Mino_Collapse	.cache\15\{154AA8AB-9565-0C06-32D7-8E16F5F8907C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Collapse		32336
 	966202110	i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4	.cache\66\{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Combat_Playlist\Level1_Combat\i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4		5270480
 	970219648	grass_walk_05	.cache\E3\{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_05		13400
+	980240822	minocabro_precharge_03	.cache\0C\{0CE467A5-C14A-8B27-258C-11A0A2299F4F}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_03		163952
 	981963331	dirt_run_05	.cache\52\{5287170D-9AC5-9A3B-8AC3-3CA4B46F2E45}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_05		6632
 	986604710	water_walk_05	.cache\B9\{B98C69CB-B7F6-3901-EA36-46D287CD99B5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_05		13400
 	994023216	mansionAmbience	.cache\68\{6897335D-343C-DA09-0C5A-B425F621D239}.wem		\Containers\Default Work Unit\Objects\mansionAmbience		2415248
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
+	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496
 	1040823208	UI_ButtonPressed	.cache\6A\{6A65E023-E68E-3BFF-47C8-39D500E2C5D4}.wem		\Containers\Default Work Unit\UI_ButtonPressed		46168
 	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244
+	1053237588	Mino_Charge	.cache\2B\{2B630395-DE9C-A067-BC08-8E1921E200EA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Charge		102608
 	1065543167	stone_walk_04	.cache\52\{528ACFC3-714E-8661-0F67-11DFD83C846C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_04		12824
 	1068516576	siren_hurt	.cache\0E\{0E099494-E65B-B322-26E1-9C07531BA8FD}.wem		\Containers\Default Work Unit\Objects\Siren\siren_hurt		17216
 

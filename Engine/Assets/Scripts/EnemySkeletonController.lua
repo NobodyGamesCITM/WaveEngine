@@ -555,7 +555,6 @@ local function UpdateAttack(self, dt)
                 playerHitThisAttack                = true
                 _PlayerController_pendingDamage    = _EnemyDamage_skeleton
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
-                _PlayerController_pendingDamage=0
             end
         end
     end

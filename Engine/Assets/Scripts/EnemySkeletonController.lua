@@ -1,56 +1,30 @@
--- ============================================================
---  EnemySkeletonController.lua  –  Primer enemigo del juego
---
---  Estado simplificado, pensado para ser aprendible:
---
---    IDLE ──► PATROL ──► CHASE ──► ORBIT ──► ANTICIPATE ──► ATTACK
---               ▲           ▲        │                         │
---               │           └────────┘  (jugador escapa)       │
---               └──────────────────────────────────────────────┘
---                              (cooldown → ORBIT si sigue cerca, si no CHASE)
---
---  El DODGE existe como interrupción desde CHASE/ORBIT/ANTICIPATE,
---  pero con baja probabilidad y cooldown largo: el jugador puede
---  aprender cuándo ocurre sin sentirlo injusto.
---
---  Movimiento: siempre por física (rb). NavMesh solo en CHASE/PATROL.
---  En ORBIT y DODGE el agente navmesh está parado; el rigidbody
---  gestiona las colisiones con paredes de forma natural.
--- ============================================================
-
--- ── stdlib aliases ────────────────────────────────────────────────────────
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
 local abs   = math.abs
 
--- ── Audio source GameObjects (filled in Start) ────────────────────────────
 local attackSource = nil
 local dieSource    = nil
 local hurtSource   = nil
 local dodgeSource  = nil
 local stepsSource  = nil
 
--- ── States ────────────────────────────────────────────────────────────────
 local State = {
     IDLE       = "Idle",
     PATROL     = "Patrol",
     CHASE      = "Chase",
-    ORBIT      = "Orbit",      -- strafe alrededor del jugador antes de atacar
-    DODGE      = "Dodge",      -- esquive lateral reactivo
-    ANTICIPATE = "Anticipate", -- telegrafía el ataque (el jugador puede esquivar)
+    ORBIT      = "Orbit",
+    DODGE      = "Dodge",
+    ANTICIPATE = "Anticipate",
     ATTACK     = "Attack",
     DEAD       = "Dead",
 }
 
--- ── Global interop ────────────────────────────────────────────────────────
 _EnemyDamage_skeleton = 20
 
--- ── Parámetros públicos ───────────────────────────────────────────────────
 public = {
     maxHp           = 30,
 
-    -- Movimiento
     patrolSpeed     = 1.5,
     chaseSpeed      = 3.5,
     lungeForce      = 11.0,
@@ -58,61 +32,49 @@ public = {
     brakeDecel      = 14.0,
     rotationSpeed   = 4.0,
 
-    -- NavMesh
     navRefreshRate  = 0.18,
 
-    -- Detección
     aggroRadius     = 8.0,
     deaggroRadius   = 14.0,
-    attackRange     = 2.0,
+    -- FIX: aumentado de 2.0 a 2.8 para que el polling de distancia registre
+    -- el golpe de forma fiable aunque el lunge sobrepase ligeramente al player
+    -- o el motor no re-dispare OnTriggerEnter al re-habilitar el collider.
+    attackRange     = 2.8,
 
-    -- Patrulla
     patrolWaitMin   = 1.0,
     patrolWaitMax   = 2.8,
 
-    -- ── ORBIT ─────────────────────────────────────────────────────────────
-    -- El esqueleto entra en órbita cuando está cerca del jugador.
-    -- Da vueltas a su alrededor durante un tiempo aleatorio y luego
-    -- entra en ANTICIPATE. El jugador puede anticipar el ataque viendo
-    -- cuándo termina el strafe.
     orbitTriggerDist  = 5.0,
-    orbitRadius       = 3.2,   -- distancia que intenta mantener al orbitar
-    orbitSpeed        = 2.2,   -- velocidad de strafe
-    orbitCorrSpeed    = 5.0,   -- fuerza del resorte radial
+    orbitRadius       = 3.2,
+    orbitSpeed        = 2.2,
+    orbitCorrSpeed    = 5.0,
     orbitCorrMaxFrac  = 0.6,
-    orbitDurMin       = 1.2,   -- tiempo mínimo de órbita antes de atacar
+    orbitDurMin       = 1.2,
     orbitDurMax       = 2.5,
-    orbitDirFlipMin   = 0.8,   -- el esqueleto puede cambiar de dirección...
-    orbitDirFlipMax   = 1.8,   -- ...para no ser predecible en exceso
+    orbitDirFlipMin   = 0.8,
+    orbitDirFlipMax   = 1.8,
     orbitDirFlipChance= 0.35,
 
-    -- ── DODGE ─────────────────────────────────────────────────────────────
-    -- Baja probabilidad y cooldown largo: el jugador lo verá pocas veces
-    -- y podrá entender cuándo sucede (jugador corriendo directo al enemigo).
-    dodgeChance         = 0.10,   -- 10 % de éxito cuando se cumplen condiciones
-    dodgeApproachThresh = 10.0,   -- velocidad de aproximación mínima para activar
-    dodgeThreatDist     = 4.5,    -- distancia máxima para que el dodge sea válido
+    dodgeChance         = 0.10,
+    dodgeApproachThresh = 10.0,
+    dodgeThreatDist     = 4.5,
     dodgeImpulse        = 10.0,
-    dodgeSideRatio      = 0.80,   -- mayoría del impulso es lateral
+    dodgeSideRatio      = 0.80,
     dodgeDur            = 0.28,
-    dodgeCooldown       = 4.0,    -- espera larga entre esquives: aprendible
+    dodgeCooldown       = 4.0,
     dodgeInvincible     = false,
     animDodge           = "Roll",
 
-    -- ── Ataque ────────────────────────────────────────────────────────────
-    -- anticipateDur largo (0.75 s) para que el jugador pueda reaccionar.
-    -- Es el primer enemigo: el telegrafío tiene que ser claro.
     anticipateDur   = 0.75,
     attackDur       = 0.45,
     attackColDelay  = 0.18,
     lungeStopDelay  = 0.30,
-    cooldown        = 3.0,     -- cooldown fijo (sin rage mode en el primer enemigo)
+    cooldown        = 3.0,
     attackDamage    = 20,
     knockbackForce  = 6.0,
     stunDuration    = 0.80,
     hitReactDelay   = 0.15,
 
-    -- Anims
     animIdle        = "Idle",
     animWalk        = "Walk",
     animAnticipate  = "Anticipate",
@@ -121,7 +83,6 @@ public = {
     animDeath       = "Death",
 }
 
--- ── Estado de ejecución ───────────────────────────────────────────────────
 local currentState = State.IDLE
 local hp           = 0
 
@@ -142,35 +103,29 @@ local playerHitThisAttack = false
 local anticipateTimer = 0
 local lungeStopTimer  = 0
 
--- ── ORBIT runtime ─────────────────────────────────────────────────────────
 local orbitDir      = 1
 local orbitTimer    = 0
 local orbitDur      = 0
 local orbitDirTimer = 0
 
--- ── DODGE runtime ─────────────────────────────────────────────────────────
 local dodgeTimer       = 0
 local dodgeCoolTimer   = 0
 local dodgeVelX        = 0
 local dodgeVelZ        = 0
 local stateBeforeDodge = nil
-local playerApproachSpd = 0   -- velocidad de aproximación del jugador (suavizada)
+local playerApproachSpd = 0
 local playerPrevX      = 0
 local playerPrevZ      = 0
 
--- ── NavMesh ───────────────────────────────────────────────────────────────
 local navRefreshTimer = 0
 
--- ── Hit detection ─────────────────────────────────────────────────────────
 local playerAttackHandled = false
 local alreadyHit          = false
 
--- ── Cola de daño retardado ────────────────────────────────────────────────
 local pendingPlayerDmg    = 0
 local pendingPlayerDmgPos = nil
 local hitReactTimer       = 0
 
--- ── Componentes ───────────────────────────────────────────────────────────
 local nav       = nil
 local rb        = nil
 local anim      = nil
@@ -181,9 +136,10 @@ local targetVelX = 0
 local targetVelZ = 0
 local currentYaw = 0
 
-local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil,  dodgeSFX=nil, stepSFX=nil }
+local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, dodgeSFX=nil, stepSFX=nil }
 
 local stepTimer = 0
+
 -- ─────────────────────────────────────────────────────────────────────────
 -- HELPERS
 -- ─────────────────────────────────────────────────────────────────────────
@@ -215,7 +171,6 @@ local function Clamp(v, lo, hi)
     return v
 end
 
--- Física: velocidad objetivo y aplicación por interpolación
 local function SetTargetVelocity(dx, dz, speed)
     targetVelX = dx * speed
     targetVelZ = dz * speed
@@ -352,7 +307,6 @@ local function UpdateChase(self, dt)
     local plPos = playerGO.transform.worldPosition
     local dist  = DistFlat(myPos, plPos)
 
-    -- Pierde el agro si el jugador se aleja demasiado
     if dist > self.public.deaggroRadius then
         nav:StopMovement(); RequestBrakeXZ(self)
         PlayAnim(self.public.animIdle, 0.3)
@@ -361,7 +315,6 @@ local function UpdateChase(self, dt)
         return
     end
 
-    -- Entra en órbita cuando está suficientemente cerca
     if dist <= self.public.orbitTriggerDist and not isOnCooldown then
         nav:StopMovement()
         orbitDir      = (math.random() < 0.5) and 1 or -1
@@ -376,7 +329,6 @@ local function UpdateChase(self, dt)
         return
     end
 
-    -- Navmesh: recalcula ruta al jugador periódicamente
     navRefreshTimer = navRefreshTimer - dt
     if navRefreshTimer <= 0 then
         nav:SetDestination(plPos.x, plPos.y, plPos.z)
@@ -389,15 +341,6 @@ local function UpdateChase(self, dt)
     FaceTargetSmooth(self, plPos, dt)
 end
 
--- ── ORBIT ─────────────────────────────────────────────────────────────────
---
--- El esqueleto rodea al jugador en círculo a distancia fija (orbitRadius),
--- usando solo física. El navmesh está parado: las paredes se gestionan
--- mediante colisiones del rigidbody.
---
--- Después de orbitDur segundos, entra en ANTICIPATE y ataca.
--- Ocasionalmente cambia de dirección para no ser completamente predecible.
---
 local function UpdateOrbit(self, dt)
     if not playerGO then currentState = State.IDLE; return end
 
@@ -405,10 +348,8 @@ local function UpdateOrbit(self, dt)
     local plPos = playerGO.transform.worldPosition
     local dist  = DistFlat(myPos, plPos)
 
-    -- Siempre mira al jugador
     FaceTargetSmooth(self, plPos, dt)
 
-    -- Sale del agro si el jugador se aleja mucho
     if dist > self.public.deaggroRadius then
         RequestBrakeXZ(self)
         PlayAnim(self.public.animIdle, 0.3)
@@ -417,7 +358,6 @@ local function UpdateOrbit(self, dt)
         return
     end
 
-    -- Si el jugador escapó, vuelve a perseguir con navmesh
     if dist > self.public.orbitTriggerDist * 1.6 then
         navRefreshTimer = 0
         PlayAnim(self.public.animWalk, 0.2)
@@ -426,7 +366,6 @@ local function UpdateOrbit(self, dt)
         return
     end
 
-    -- Cuando el timer de órbita expira, ataca
     if orbitTimer >= orbitDur then
         RequestBrakeXZ(self)
         ApplyMoveVelocity(dt, self.public.brakeDecel)
@@ -437,7 +376,6 @@ local function UpdateOrbit(self, dt)
         return
     end
 
-    -- Cambio de dirección ocasional
     orbitDirTimer = orbitDirTimer - dt
     if orbitDirTimer <= 0 then
         if math.random() < self.public.orbitDirFlipChance then
@@ -447,28 +385,22 @@ local function UpdateOrbit(self, dt)
             + math.random() * (self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
     end
 
-    -- ── Composición de velocidad (pura física) ─────────────────────────────
-    -- Vector radial: del jugador al enemigo (dirección "alejarse del jugador")
     local rdx, rdz = NormFlat(myPos.x - plPos.x, myPos.z - plPos.z)
 
-    -- Vector tangencial: perpendicular al radial (dirección de strafe)
     local tdx, tdz
     if orbitDir > 0 then tdx, tdz = -rdz,  rdx
     else                  tdx, tdz =  rdz, -rdx  end
 
-    -- Resorte radial: corrige la distancia al radio deseado
     local error   = dist - self.public.orbitRadius
     local corrMax = self.public.orbitSpeed * self.public.orbitCorrMaxFrac
     local corrVel = Clamp(-error * self.public.orbitCorrSpeed, -corrMax, corrMax)
 
-    -- Pulso sinusoidal suave: da naturalidad al movimiento de aproximación/alejamiento
     local pulse = math.sin(orbitTimer * 5.0) * self.public.orbitSpeed * 0.3
 
     local radialTotal = corrVel + pulse
     local blendX      = tdx * self.public.orbitSpeed + rdx * radialTotal
     local blendZ      = tdz * self.public.orbitSpeed + rdz * radialTotal
 
-    -- Renormaliza a orbitSpeed para que la velocidad sea constante
     local bLen = sqrt(blendX * blendX + blendZ * blendZ)
     if bLen > 0.001 then
         blendX = (blendX / bLen) * self.public.orbitSpeed
@@ -482,13 +414,6 @@ local function UpdateOrbit(self, dt)
     orbitTimer = orbitTimer + dt
 end
 
--- ── DODGE ─────────────────────────────────────────────────────────────────
---
--- Movimiento lateral puro por física (navmesh parado).
--- El esqueleto sigue mirando al jugador para que parezca intencional.
--- Cooldown largo (4 s): en un combate normal el jugador lo verá 1-2 veces
--- y puede aprender a reconocerlo.
---
 local function UpdateDodge(self, dt)
     dodgeTimer = dodgeTimer - dt
 
@@ -519,18 +444,10 @@ local function UpdateDodge(self, dt)
     end
 end
 
--- ── TryDodge ──────────────────────────────────────────────────────────────
--- Intento de esquive predictivo. Se evalúa antes del dispatch de estados.
--- Condiciones: jugador corriendo directo al esqueleto a alta velocidad,
---              dentro del rango de amenaza, y cooldown terminado.
--- Un 10 % de probabilidad garantiza que el jugador lo pueda ver pero
--- no se sienta como un muro de invulnerabilidad.
---
 local function TryDodge(self, dt, playerPos, myPos)
     if dodgeCoolTimer > 0 then return false end
     if isDead or isStunned  then return false end
 
-    -- Solo esquiva desde estos estados (no desde ATTACK ni ANTICIPATE tardío)
     if currentState ~= State.ORBIT
     and currentState ~= State.CHASE
     and currentState ~= State.ANTICIPATE then
@@ -544,9 +461,6 @@ local function TryDodge(self, dt, playerPos, myPos)
 
     if math.random() > self.public.dodgeChance then return false end
 
-    -- ── Dirección del esquive ──────────────────────────────────────────────
-    -- Eje lateral perpendicular al vector jugador→enemigo.
-    -- Elegimos el lado hacia el que el jugador NO se mueve.
     local rdx, rdz = NormFlat(myPos.x - playerPos.x, myPos.z - playerPos.z)
 
     local latX1, latZ1 =  rdz, -rdx
@@ -561,7 +475,6 @@ local function TryDodge(self, dt, playerPos, myPos)
     if dot1 <= dot2 then lx, lz = latX1, latZ1
     else                  lx, lz = latX2, latZ2  end
 
-    -- Mezcla lateral + ligero retroceso
     local s  = self.public.dodgeSideRatio
     local bx = lx * s + (-rdx) * (1 - s)
     local bz = lz * s + (-rdz) * (1 - s)
@@ -584,7 +497,6 @@ local function TryDodge(self, dt, playerPos, myPos)
     return true
 end
 
--- ── ANTICIPATE ────────────────────────────────────────────────────────────
 local function UpdateAnticipate(self, dt)
     anticipateTimer = anticipateTimer + dt
     RequestBrakeXZ(self)
@@ -594,7 +506,6 @@ local function UpdateAnticipate(self, dt)
 
     if anticipateTimer < self.public.anticipateDur then return end
 
-    -- Ejecuta el ataque con lunge
     local myPos     = self.transform.worldPosition
     local plPos     = playerGO and playerGO.transform.worldPosition or myPos
     local ndx, ndz  = NormFlat(plPos.x - myPos.x, plPos.z - myPos.z)
@@ -615,7 +526,6 @@ local function UpdateAnticipate(self, dt)
     Engine.Log("[Skeleton] ANTICIPATE → ATTACK (lunge)")
 end
 
--- ── ATTACK ────────────────────────────────────────────────────────────────
 local function UpdateAttack(self, dt)
     attackTimer    = attackTimer    + dt
     lungeStopTimer = lungeStopTimer - dt
@@ -625,14 +535,14 @@ local function UpdateAttack(self, dt)
         ApplyMoveVelocity(dt, self.public.brakeDecel)
     end
 
-    -- Activa el collider de daño después de un pequeño delay
     if attackTimer >= self.public.attackColDelay and attackCol then
         attackCol:Enable()
     end
 
-    -- Polling de hit por distancia (respaldo al trigger)
+    -- Polling de distancia como respaldo al trigger.
+    -- Usa worldPosition en ambos lados para evitar mezcla de espacios de coordenadas.
     if attackTimer >= self.public.attackColDelay and not playerHitThisAttack and playerGO then
-        local pp = playerGO.transform.position
+        local pp = playerGO.transform.worldPosition
         local mp = self.transform.worldPosition
         if pp and DistFlat(pp, mp) <= self.public.attackRange then
             local pending = _PlayerController_pendingDamage or 0
@@ -652,7 +562,6 @@ local function UpdateAttack(self, dt)
         isOnCooldown  = true
         cooldownTimer = self.public.cooldown + math.random() * 0.8
 
-        -- Si el jugador sigue cerca, vuelve a orbitar; si no, persigue
         local dist = playerGO and DistFlat(self.transform.worldPosition,
                                            playerGO.transform.worldPosition) or 999
         if dist <= self.public.orbitTriggerDist * 1.3 then
@@ -727,9 +636,7 @@ function Start(self)
     if dieSource    then Enemy.dieSFX    = dieSource:GetComponent("Audio Source")    end
     if hurtSource   then Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source")   end
     if dodgeSource  then Enemy.dodgeSFX  = dodgeSource:GetComponent("Audio Source")   end
-    if stepsSource  then Enemy.stepSFX  = stepsSource:GetComponent("Audio Source")   end
-
-    ---Enemy.stepSFX = self.gameObject:GetComponent("Audio Source")
+    if stepsSource  then Enemy.stepSFX   = stepsSource:GetComponent("Audio Source")   end
 
     PlayAnim(self.public.animIdle, 0.0)
     Engine.Log("[Skeleton] Start OK  HP=" .. hp)
@@ -746,7 +653,6 @@ function Update(self, dt)
         return
     end
 
-    -- Muerte diferida (permite que la animación arranque limpia)
     if pendingDeath then
         isAttacking = false;  isOnCooldown = false
         if nav then nav:StopMovement() end
@@ -770,13 +676,11 @@ function Update(self, dt)
         return
     end
 
-    -- Daño externo (vía tabla global)
     if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
         TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
         _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
-    -- Flush del daño retardado del jugador
     if pendingPlayerDmg > 0 then
         hitReactTimer = hitReactTimer - dt
         if hitReactTimer <= 0 then
@@ -785,7 +689,6 @@ function Update(self, dt)
             pendingPlayerDmg    = 0
             pendingPlayerDmgPos = nil
 
-            -- Comprobación de orientación en el momento del impacto
             local applyDmg = true
             if playerGO then
                 local pp    = playerGO.transform.worldPosition
@@ -800,7 +703,6 @@ function Update(self, dt)
         end
     end
 
-    -- Stun
     if isStunned then
         stunTimer = stunTimer - dt
         HardBrakeXZ()
@@ -811,7 +713,6 @@ function Update(self, dt)
         return
     end
 
-    -- Cooldown de ataque
     if isOnCooldown then
         cooldownTimer = cooldownTimer - dt
         if cooldownTimer <= 0 then
@@ -819,12 +720,10 @@ function Update(self, dt)
         end
     end
 
-    -- Cooldown de esquive (independiente del de ataque)
     if dodgeCoolTimer > 0 then
         dodgeCoolTimer = dodgeCoolTimer - dt
     end
 
-    -- Lazy-init de componentes
     if not nav or not rb then
         nav = self.gameObject:GetComponent("Navigation")
         rb  = self.gameObject:GetComponent("Rigidbody")
@@ -835,11 +734,11 @@ function Update(self, dt)
         playerGO = GameObject.Find("Player")
     end
 
-    -- ── Polling del ataque del jugador (Modo A) ───────────────────────────
+    -- ── Polling del ataque del jugador ────────────────────────────────────
     if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
         if not playerAttackHandled and playerGO and not isDead then
             local myPos = self.transform.worldPosition
-            local pp    = playerGO.transform.position
+            local pp    = playerGO.transform.worldPosition
             if pp then
                 local dist = DistFlat(myPos, pp)
                 if dist <= self.public.attackRange + 1.5 then
@@ -870,7 +769,6 @@ function Update(self, dt)
         playerPrevX = pp.x
         playerPrevZ = pp.z
 
-        -- Intento de esquive (antes del dispatch, puede interrumpir estados)
         if TryDodge(self, dt, pp, myP) then return end
     end
 
@@ -884,7 +782,6 @@ function Update(self, dt)
             Engine.Log("[Skeleton] AGRO")
         end
     end
-
 
     -- ── Sonido de pasos ───────────────────────────────────────────────────
     if currentState == State.PATROL or currentState == State.CHASE
@@ -946,4 +843,13 @@ function OnTriggerEnter(self, other)
     end
 end
 
-function OnTriggerExit(self, other) end
+-- FIX: rellenado. Antes estaba vacío, lo que impedía resetear alreadyHit
+-- vía trigger en situaciones donde el collider del player salía físicamente
+-- del trigger del skeleton (por ejemplo al hacer roll o alejarse).
+-- El reset principal sigue siendo el polling del Update (cuando
+-- _PlayerController_lastAttack == ""), pero tener ambos es más robusto.
+function OnTriggerExit(self, other)
+    if other:CompareTag("Player") then
+        alreadyHit = false
+    end
+end

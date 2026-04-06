@@ -739,7 +739,7 @@ end
 -- UPDATE
 -- ─────────────────────────────────────────────────────────────────────────
 function Update(self, dt)
-    if isDead or not self.gameObject then return end
+    if not self.gameObject or isDead then return end
 
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
@@ -758,6 +758,14 @@ function Update(self, dt)
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
         Enemy.dieSFX:PlayAudioEvent()
+        nav       = nil
+        rb        = nil
+        anim      = nil
+        attackCol = nil
+        if Enemy.dieSFX then Enemy.dieSFX:StopAudioEvent() end
+        if Enemy.attackSFX then Enemy.attackSFX:StopAudioEvent() end
+        if Enemy.hurtSFX then Enemy.hurtSFX:StopAudioEvent() end
+        if Enemy.stepSFX then Enemy.stepSFX:StopAudioEvent() end
         self:Destroy()
         return
     end

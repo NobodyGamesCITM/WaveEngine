@@ -359,25 +359,32 @@ function Update(self, dt)
 
     -- Muerte diferida: destruir aquí, nunca desde TakeDamage ni OnTriggerEnter
     if pendingDeath then
-        isDead = true
-        if attackCol then attackCol:Disable() end
-        if Enemy.nav  then Enemy.nav:StopMovement() end
-        if Enemy.rb   then
-            local vel = Enemy.rb:GetLinearVelocity()
-            Enemy.rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
-        end
-        Enemy.currentState = State.DEAD
+        local _nav = Enemy.nav
+        local _rb  = Enemy.rb
 
-        
-        -- Nulificar refs antes de Destroy para evitar dangling pointers
-        attackCol = nil
-        Enemy.nav = nil
-        Enemy.rb  = nil
+        attackCol      = nil
+        Enemy.nav      = nil
+        Enemy.rb       = nil
+        Enemy.anim     = nil
+        Enemy.playerGO = nil
+        Enemy.stepSFX  = nil
+        Enemy.voiceSFX = nil
+
+        if _nav then _nav:StopMovement() end
+        if _rb  then
+            local vel = _rb:GetLinearVelocity()
+            _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+        end
+
+        Enemy.currentState = State.DEAD
+        isDead = true
+
         Engine.Log("[Minocabro] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
 
         self:Destroy()
+
         return
     end
 
@@ -470,7 +477,7 @@ function Update(self, dt)
             if Enemy.stepSFX then Enemy.stepSFX:SelectPlayAudioEvent("SFX_MinoSteps") end
         end
 
-        if attackCol then attackCol:Enable() end
+        if attackCol and not pendingDeath then attackCol:Enable() end
 
         -- Rampa: acelerar hasta chargeSpeed
         chargeSpeedCurrent = min(
@@ -489,8 +496,8 @@ function Update(self, dt)
 
         if Enemy.chargeTimer <= 0 then
             -- Carga fallida: entrar en stumble
-            if attackCol then attackCol:Disable() end
-            
+            --if attackCol then attackCol:Disable() end
+            attackCol = nil 
 
             -- Guardar la inercia residual para el stumble
             stumbleDecelX = Enemy.chargeDirX * chargeSpeedCurrent * 0.5
@@ -813,7 +820,7 @@ function OnTriggerEnter(self, other)
             _PlayerController_pendingDamage    = _EnemyDamage_minocabro
             _PlayerController_pendingDamagePos = self.transform.worldPosition
 
-            if attackCol then attackCol:Disable() end
+            attackCol = nil
             if Enemy.rb then
                 local vel = Enemy.rb:GetLinearVelocity()
                 Enemy.rb:SetLinearVelocity(0, vel.y, 0)

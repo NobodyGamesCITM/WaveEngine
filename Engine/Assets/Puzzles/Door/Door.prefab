@@ -1,0 +1,563 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -0.0370330810546875,
+                            1.9073486328125e-05,
+                            -0.199981689453125
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.2000000476837158,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            3.0,
+                            5.0,
+                            1.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    }
+                ],
+                "name": "Puerta_Sala_2_Colision",
+                "tag": "",
+                "uid": 13897740462440258027
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 9799593306393501668,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 10245776385937788174,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "arc2",
+                                                                                "tag": "",
+                                                                                "uid": 3656357170506987924
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    -2.705845832824707,
+                                                                                    -2.832265853881836,
+                                                                                    -0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "arc2_$AssimpFbx$_ScalingPivotInverse",
+                                                                        "tag": "",
+                                                                        "uid": 17667614726421750372
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            2.433647394180298,
+                                                                            2.433647394180298,
+                                                                            2.433647394180298
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "arc2_$AssimpFbx$_Scaling",
+                                                                "tag": "",
+                                                                "uid": 17443583150151691145
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    2.705845832824707,
+                                                                    2.832265853881836,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "arc2_$AssimpFbx$_ScalingPivot",
+                                                        "tag": "",
+                                                        "uid": 5736574745761303926
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            3.8792290687561035,
+                                                            4.0604705810546875,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "arc2_$AssimpFbx$_ScalingOffset",
+                                                "tag": "",
+                                                "uid": 12324837899066602700
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -6.5850749015808105,
+                                                    -6.892736434936523,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "arc2_$AssimpFbx$_RotationPivotInverse",
+                                        "tag": "",
+                                        "uid": 15350928887677289418
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            6.5850749015808105,
+                                            6.892736434936523,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "arc2_$AssimpFbx$_RotationPivot",
+                                "tag": "",
+                                "uid": 1152143362037843754
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -6.585074424743652,
+                                    1.2443957328796387,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "arc2_$AssimpFbx$_Translation",
+                        "tag": "",
+                        "uid": 13464068496588314037
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    -7.62939453125e-06,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 17404586916086838726,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 10245776385937788174,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "valla2",
+                                                        "tag": "",
+                                                        "uid": 15375629915799325858
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -0.0,
+                                                            -7.319418907165527,
+                                                            -9.238719940185547e-07
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "valla2_$AssimpFbx$_ScalingPivotInverse",
+                                                "tag": "",
+                                                "uid": 7450586665902051106
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.0,
+                                                    7.319418907165527,
+                                                    9.238719940185547e-07
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "valla2_$AssimpFbx$_ScalingPivot",
+                                        "tag": "",
+                                        "uid": 3359971159925538384
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -0.0,
+                                            -7.319418907165527,
+                                            -9.238719940185547e-07
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "valla2_$AssimpFbx$_RotationPivotInverse",
+                                "tag": "",
+                                "uid": 16642379980865077241
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    7.319418907165527,
+                                    9.238719940185547e-07
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "AngularDamping": 0.0,
+                                "FreezePos": [
+                                    true,
+                                    false,
+                                    true
+                                ],
+                                "FreezeRot": [
+                                    true,
+                                    true,
+                                    true
+                                ],
+                                "LinearDamping": 0.0,
+                                "Mass": 1.0,
+                                "Type": 1,
+                                "UseCCD": false,
+                                "UseGravity": false,
+                                "active": true,
+                                "type": 8
+                            },
+                            {
+                                "active": true,
+                                "publicVariables": [
+                                    {
+                                        "name": "speed",
+                                        "type": 0,
+                                        "value": 1.0
+                                    },
+                                    {
+                                        "name": "myColision",
+                                        "type": 1,
+                                        "value": "Puerta_Sala_2_Colision"
+                                    },
+                                    {
+                                        "name": "distance",
+                                        "type": 0,
+                                        "value": 10.0
+                                    }
+                                ],
+                                "scriptUID": 2217885483722212414,
+                                "type": 6
+                            }
+                        ],
+                        "name": "Puerta_Sala_2",
+                        "tag": "",
+                        "uid": 2126180425236198365
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            -3.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            0.23914498090744019,
+                            0.67821204662323,
+                            0.67821204662323
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Puerta_Medieval_Abajo",
+                "tag": "",
+                "uid": 3931467627385540654
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    113.0,
+                    44.80000305175781,
+                    -273.5999755859375
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.700000047683716,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "Door",
+        "tag": "",
+        "uid": 18012382464005037499
+    }
+]

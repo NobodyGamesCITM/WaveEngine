@@ -1,4 +1,4 @@
-﻿#include "ScriptManager.h"
+#include "ScriptManager.h"
 #include "Application.h"
 #include "Input.h"
 #include "Time.h"
@@ -153,6 +153,7 @@ bool ScriptManager::PostUpdate() {
         pendingSceneLoad.clear();
        
         Application::GetInstance().loader->LoadScene(path);
+        
     }
 
     return true;
@@ -331,6 +332,13 @@ static int Lua_Engine_LoadScene(lua_State* L) {
 static int Lua_Engine_GetScenesPath(lua_State* L) {
     std::string path = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\" ).string();
     lua_pushstring(L, path.c_str());
+    return 1;
+}
+
+static int Lua_Engine_GetCurrentScene(lua_State* L) {
+
+    std::string sceneName = Application::GetInstance().scene.get()->name;
+    lua_pushstring(L, sceneName.c_str());
     return 1;
 }
 
@@ -526,10 +534,15 @@ static int Lua_Input_StopRumble(lua_State* L)
 
 static int Lua_Navigation_GetRandomPoint(lua_State* L)
 {
-    luaL_checkudata(L, 1, "Navigation");
+    ComponentNavigation** navPtr =
+        static_cast<ComponentNavigation**>(luaL_checkudata(L, 1, "Navigation"));
+    ComponentNavigation* nav = *navPtr;
 
     glm::vec3 point;
-    bool ok = Application::GetInstance().navMesh->GetRandomPoint(point);
+    bool ok = false;
+
+    if (nav && nav->linkedSurface)
+        ok = Application::GetInstance().navMesh->GetRandomPoint(nav->linkedSurface, point);
 
     if (ok)
     {
@@ -779,7 +792,7 @@ static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     return 0;
 }
 
-static int Lua_Audio_PlaySpecificAudioEvent(lua_State* L) {
+static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
     std::string eventName(luaL_checkstring(L, 2));
@@ -787,25 +800,50 @@ static int Lua_Audio_PlaySpecificAudioEvent(lua_State* L) {
 
     Application::GetInstance().audio.get()->audioSystem->PlayEvent(wEventName.c_str(), source->goID);
     AK::SoundEngine::RenderAudio();
+
+    source->eventName = eventName;
     return 0;
 }
+
 
 static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
     Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
     return 0;
 }
 
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
-    float volume = luaL_checknumber(L, 1);
+    lua_getfield(L, 1, "ptr");  
+    float volume = luaL_checknumber(L, 2);
     AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
     Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, source->goID);
 
     AK::SoundEngine::RenderAudio();
     return 0;
 }
+
+static int Lua_Audio_SetGlobalVolume(lua_State* L) {
+    //lua_getfield(L, 1, "ptr");  
+    float volume = static_cast<float>(luaL_checknumber(L, 1));
+    //AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    Application::GetInstance().audio.get()->audioSystem->SetGlobalVolume(volume);
+
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
+static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
+    lua_getfield(L, 1, "ptr");  
+    AudioListener* listener = *static_cast<AudioListener**>(lua_touserdata(L, -1));
+    if (listener) {
+        listener->SetAsDefaultListener();
+    }
+    return 0;
+}
+
 // UI
 // UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
@@ -942,12 +980,16 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetMusicState");
     lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
     lua_setfield(L, -2, "PlayAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);
+    lua_setfield(L, -2, "SelectPlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
     lua_setfield(L, -2, "StopAudioEvent");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
     lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
     lua_setfield(L, -2, "SetSourceVolume");
+    lua_pushcfunction(L, Lua_Audio_SetGlobalVolume);
+    lua_setfield(L, -2, "SetGlobalVolume");
     lua_setglobal(L, "Audio");
 
     
@@ -1267,6 +1309,50 @@ static int Lua_GameObject_Find(lua_State* L) {
         };
 
     GameObject* found = findByName(root, name);
+
+    if (!found) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+    *udata = found;
+
+    luaL_getmetatable(L, "GameObject");
+    lua_setmetatable(L, -2);
+
+    return 1;
+}
+
+// go = GameObject.FindInChildren(go, name)
+static int Lua_GameObject_FindInChildren(lua_State* L) {
+    
+    GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+
+    if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
+        LOG_CONSOLE("[Lua] ERROR: Cannot FindInChildren on invalid/deleted GameObject");
+        return 0;
+    }
+
+    GameObject* obj = *objPtr;
+
+    const char* name = luaL_checkstring(L, 2);
+
+    std::function<GameObject* (GameObject*, const std::string&)> findByName;
+    findByName = [&](GameObject* node, const std::string& targetName) -> GameObject* {
+        if (node->GetName() == targetName) {
+            return node;
+        }
+
+        for (GameObject* child : node->GetChildren()) {
+            GameObject* result = findByName(child, targetName);
+            if (result) return result;
+        }
+
+        return nullptr;
+        };
+
+    GameObject* found = findByName(obj, name);
 
     if (!found) {
         lua_pushnil(L);
@@ -1857,11 +1943,17 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         *ud = source;
         lua_setfield(L, -2, "ptr");  // store userdata in table as "ptr"
 
-        lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  // no upvalue, just a plain function
+        lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);  
         lua_setfield(L, -2, "PlayAudioEvent");
 
-        lua_pushcfunction(L, Lua_Audio_StopAudioEvent);  // no upvalue, just a plain function
+        lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);
+        lua_setfield(L, -2, "SelectPlayAudioEvent");
+
+        lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
         lua_setfield(L, -2, "StopAudioEvent");
+
+        lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
+        lua_setfield(L, -2, "SetSourceVolume");
 
         return 1;
     }
@@ -1873,9 +1965,16 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             lua_pushnil(L);
             return 1;
         }
-        // Store it as a pointer-to-pointer (full userdata)
-        AudioListener** list = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
-        *list = listener;
+
+        lua_newtable(L);
+
+        AudioListener** ud = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
+        *ud = listener;
+        lua_setfield(L, -2, "ptr");
+
+        lua_pushcfunction(L, Lua_Audio_SetAsDefaultListener);
+        lua_setfield(L, -2, "SetAsDefaultListener");
+
         return 1;
     }
 
@@ -2037,6 +2136,9 @@ void ScriptManager::RegisterGameObjectAPI() {
 
     lua_pushcfunction(L, Lua_GameObject_Find);
     lua_setfield(L, -2, "Find");
+
+    lua_pushcfunction(L, Lua_GameObject_FindInChildren);
+    lua_setfield(L, -2, "FindInChildren");
 
     lua_pushcfunction(L, Lua_GameObject_FindByTag);
     lua_setfield(L, -2, "FindByTag");

@@ -801,26 +801,21 @@ bool ModuleNavMesh::LoadNavMesh(const char* path, GameObject* owner)
 // ---------------------------------------------------------------------------
 // GetRandomPoint
 // ---------------------------------------------------------------------------
-bool ModuleNavMesh::GetRandomPoint(glm::vec3& outPoint)
+bool ModuleNavMesh::GetRandomPoint(GameObject* surface, glm::vec3& outPoint)
 {
-    for (auto& data : navMeshes)
+    NavMeshData* data = GetNavMeshData(surface);
+    if (!data || !data->navQuery) return false;
+
+    dtQueryFilter filter;
+    filter.setIncludeFlags(0xFFFF);
+    dtPolyRef randomRef = 0;
+    float randomPt[3] = {};
+
+    dtStatus status = data->navQuery->findRandomPoint(&filter, NavRand, &randomRef, randomPt);
+    if (dtStatusSucceed(status))
     {
-        if (!data.navQuery) continue;
-
-        dtQueryFilter filter;
-        filter.setIncludeFlags(0xFFFF);
-
-        dtPolyRef randomRef = 0;
-        float     randomPt[3] = {};
-
-        dtStatus status =
-            data.navQuery->findRandomPoint(&filter, NavRand, &randomRef, randomPt);
-
-        if (dtStatusSucceed(status))
-        {
-            outPoint = { randomPt[0], randomPt[1], randomPt[2] };
-            return true;
-        }
+        outPoint = { randomPt[0], randomPt[1], randomPt[2] };
+        return true;
     }
     return false;
 }

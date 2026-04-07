@@ -10,11 +10,19 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{1C627CFA-2DC4-66D4-E550-014CAE4DC5E0}",
+    "Hash": "{D8F4AAF9-CA25-A970-8295-950D8F762C9D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
     "Media": [
+     {
+      "Id": "12684693",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_precharge_04.wav",
+      "CachePath": "A3/{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem"
+     },
      {
       "Id": "44994569",
       "Language": "SFX",
@@ -48,6 +56,22 @@
       "CachePath": "4B/{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem"
      },
      {
+      "Id": "84435203",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_01.wav",
+      "CachePath": "12/{125C6D41-DD53-0963-EE50-561DAFAFB7B7}.wem"
+     },
+     {
+      "Id": "89671109",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_02.wav",
+      "CachePath": "8C/{8CB2A334-8F2D-D73A-DFF4-ED095CC5A732}.wem"
+     },
+     {
       "Id": "96160614",
       "Language": "SFX",
       "Streaming": "false",
@@ -70,6 +94,30 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_06.wav",
       "CachePath": "4E/{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem"
+     },
+     {
+      "Id": "126486740",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hoof_03.wav",
+      "CachePath": "7F/{7FF7E742-1809-4DB8-353E-908C44CEE054}.wem"
+     },
+     {
+      "Id": "131567107",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_idlegrunt_01.wav",
+      "CachePath": "15/{1594A7F7-635C-BF04-2D41-33C0156C3E93}.wem"
+     },
+     {
+      "Id": "136280820",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_idlegrunt_04.wav",
+      "CachePath": "D1/{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem"
      },
      {
       "Id": "137281643",
@@ -136,6 +184,14 @@
       "CachePath": "5C/{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem"
      },
      {
+      "Id": "218509929",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_04.wav",
+      "CachePath": "6F/{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem"
+     },
+     {
       "Id": "232432669",
       "Language": "SFX",
       "Streaming": "false",
@@ -176,6 +232,38 @@
       "CachePath": "0F/{0FFCCFAF-A392-154C-EC07-070CAA1D808F}.wem"
      },
      {
+      "Id": "273412701",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_stunned_01.wav",
+      "CachePath": "48/{48AAF9F8-63A6-1243-88EF-17BAAEB125CA}.wem"
+     },
+     {
+      "Id": "278946100",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_precharge_01.wav",
+      "CachePath": "5B/{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem"
+     },
+     {
+      "Id": "281166023",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hurt_02.wav",
+      "CachePath": "BF/{BF222142-8DC0-F421-A977-3DBE384408D4}.wem"
+     },
+     {
+      "Id": "294731171",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_06.wav",
+      "CachePath": "A5/{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem"
+     },
+     {
       "Id": "309921112",
       "Language": "SFX",
       "Streaming": "false",
@@ -190,6 +278,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_walk_04.wav",
       "CachePath": "52/{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem"
+     },
+     {
+      "Id": "333485331",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hoof_01.wav",
+      "CachePath": "8D/{8D1B2545-A4BE-F337-F21E-60D770D49360}.wem"
      },
      {
       "Id": "333608203",
@@ -232,6 +328,14 @@
       "CachePath": "B8/{B8205D44-66B6-C1F3-62B8-3F82E9E26058}.wem"
      },
      {
+      "Id": "415786301",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hoof_02.wav",
+      "CachePath": "47/{475D5499-4033-8E1A-EBAE-256D66425C63}.wem"
+     },
+     {
       "Id": "424474249",
       "Language": "SFX",
       "Streaming": "false",
@@ -248,12 +352,36 @@
       "CachePath": "E6/{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem"
      },
      {
+      "Id": "426226260",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ButtonPressedHK_epic.wav",
+      "CachePath": "87/{87C0864C-0086-3EE6-A8D4-0EDEA5C1C2A5}.wem"
+     },
+     {
+      "Id": "436047105",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_07.wav",
+      "CachePath": "21/{216D4506-9725-1778-07CC-AB40635CD8AE}.wem"
+     },
+     {
       "Id": "459666570",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_02.wav",
       "CachePath": "0A/{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem"
+     },
+     {
+      "Id": "468250888",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_wallcrash_rubble.wav",
+      "CachePath": "EA/{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem"
      },
      {
       "Id": "479303077",
@@ -288,6 +416,14 @@
       "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
      },
      {
+      "Id": "531473372",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hoof_04.wav",
+      "CachePath": "13/{130DEF8E-D1F9-7D82-405A-F09EC962B5ED}.wem"
+     },
+     {
       "Id": "533026546",
       "Language": "SFX",
       "Streaming": "false",
@@ -310,6 +446,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_01.wav",
       "CachePath": "3F/{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem"
+     },
+     {
+      "Id": "585738113",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hurt_03.wav",
+      "CachePath": "34/{34316DED-6F89-5154-B91B-6BA1D8781BCD}.wem"
      },
      {
       "Id": "598271853",
@@ -336,6 +480,22 @@
       "CachePath": "32/{326D9B66-5780-432B-7402-570F2DCA37FC}.wem"
      },
      {
+      "Id": "617220961",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_03.wav",
+      "CachePath": "E3/{E317B072-E9B3-EBE5-4709-0EA2679A9BD9}.wem"
+     },
+     {
+      "Id": "618455848",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_deathgrowl.wav",
+      "CachePath": "D6/{D6A8C950-894B-852B-483E-5C0DB675E006}.wem"
+     },
+     {
       "Id": "629385577",
       "Language": "SFX",
       "Streaming": "false",
@@ -358,6 +518,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_run_02.wav",
       "CachePath": "AD/{AD62AB3C-7BDF-5173-5EA1-5D20D082709F}.wem"
+     },
+     {
+      "Id": "642616489",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_footstep_05.wav",
+      "CachePath": "91/{9131534D-C685-71B7-FC0A-1B2731955757}.wem"
      },
      {
       "Id": "647640996",
@@ -416,6 +584,14 @@
       "CachePath": "47/{47B28077-6411-38F4-8407-242380E9024D}.wem"
      },
      {
+      "Id": "752261276",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_wallcrash_boulder.wav",
+      "CachePath": "9D/{9DD305E0-6FCF-959F-B0C3-790C87EAFFB6}.wem"
+     },
+     {
       "Id": "786202757",
       "Language": "SFX",
       "Streaming": "false",
@@ -448,12 +624,28 @@
       "CachePath": "D0/{D08E576C-107D-5583-50CF-0F7F7379C941}.wem"
      },
      {
+      "Id": "822076345",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_precharge_02.wav",
+      "CachePath": "CA/{CA82DE09-5149-7B26-36A5-779B77FBF7F8}.wem"
+     },
+     {
       "Id": "823794324",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "siren_death.wav",
       "CachePath": "52/{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem"
+     },
+     {
+      "Id": "827699159",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hurt_01.wav",
+      "CachePath": "D8/{D8995B34-25F3-316D-91E2-3BE003579390}.wem"
      },
      {
       "Id": "835964148",
@@ -478,6 +670,14 @@
       "Location": "Memory",
       "ShortName": "The Underworld_EPIC The Musical.wav",
       "CachePath": "DF/{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem"
+     },
+     {
+      "Id": "864759864",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_hurt_04.wav",
+      "CachePath": "60/{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem"
      },
      {
       "Id": "872826203",
@@ -512,6 +712,22 @@
       "CachePath": "DD/{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem"
      },
      {
+      "Id": "943118833",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_idlegrunt_03.wav",
+      "CachePath": "EC/{EC19BD2F-9107-C188-C86C-B918C0F9E0BE}.wem"
+     },
+     {
+      "Id": "946854841",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_collapse.wav",
+      "CachePath": "15/{154AA8AB-9565-0C06-32D7-8E16F5F8907C}.wem"
+     },
+     {
       "Id": "966202110",
       "Language": "SFX",
       "Streaming": "false",
@@ -526,6 +742,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_05.wav",
       "CachePath": "E3/{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem"
+     },
+     {
+      "Id": "980240822",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_precharge_03.wav",
+      "CachePath": "0C/{0CE467A5-C14A-8B27-258C-11A0A2299F4F}.wem"
      },
      {
       "Id": "981963331",
@@ -568,12 +792,12 @@
       "CachePath": "8B/{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem"
      },
      {
-      "Id": "1040823208",
+      "Id": "1023245561",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "universfield-interface-124464.wav",
-      "CachePath": "6A/{6A65E023-E68E-3BFF-47C8-39D500E2C5D4}.wem"
+      "ShortName": "minocabro_idlegrunt_02.wav",
+      "CachePath": "3D/{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem"
      },
      {
       "Id": "1045497793",
@@ -582,6 +806,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_02.wav",
       "CachePath": "D9/{D9E41754-8D72-EB32-8656-806E11273942}.wem"
+     },
+     {
+      "Id": "1053237588",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minocabro_angry.wav",
+      "CachePath": "2B/{2B630395-DE9C-A067-BC08-8E1921E200EA}.wem"
      },
      {
       "Id": "1065543167",
@@ -848,6 +1080,177 @@
       "MediaRefs": [
        {
         "Id": "794836068"
+       }
+      ]
+     },
+     {
+      "Id": "3041839238",
+      "Name": "SFX_MinoCharge",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoCharge",
+      "GUID": "{9C238639-0895-4F1D-A576-C0A266052C5A}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5935537",
+      "DurationMax": "2.6800272",
+      "MediaRefs": [
+       {
+        "Id": "1053237588"
+       }
+      ]
+     },
+     {
+      "Id": "385136311",
+      "Name": "SFX_MinoCrash",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoCrash",
+      "GUID": "{CF6CBB00-EC82-40C7-8F29-32C4484F102A}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.898929",
+      "DurationMax": "3.457481",
+      "MediaRefs": [
+       {
+        "Id": "273412701"
+       },
+       {
+        "Id": "468250888"
+       },
+       {
+        "Id": "752261276"
+       }
+      ]
+     },
+     {
+      "Id": "2637687044",
+      "Name": "SFX_MinoDie",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoDie",
+      "GUID": "{527F17F1-9C7A-456D-8822-3CB81C90A7E8}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.46259",
+      "DurationMax": "3.46259",
+      "MediaRefs": [
+       {
+        "Id": "618455848"
+       },
+       {
+        "Id": "946854841"
+       }
+      ]
+     },
+     {
+      "Id": "1184257229",
+      "Name": "SFX_MinoHurt",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoHurt",
+      "GUID": "{C937AFA1-0B7A-4E9B-941E-15541FAAABB1}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.91873324",
+      "DurationMax": "1.4545414",
+      "MediaRefs": [
+       {
+        "Id": "281166023"
+       },
+       {
+        "Id": "585738113"
+       },
+       {
+        "Id": "827699159"
+       },
+       {
+        "Id": "864759864"
+       }
+      ]
+     },
+     {
+      "Id": "2971129212",
+      "Name": "SFX_MinoIdle",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoIdle",
+      "GUID": "{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.628038",
+      "DurationMax": "4.3457294",
+      "MediaRefs": [
+       {
+        "Id": "131567107"
+       },
+       {
+        "Id": "136280820"
+       },
+       {
+        "Id": "943118833"
+       },
+       {
+        "Id": "1023245561"
+       }
+      ]
+     },
+     {
+      "Id": "1239040809",
+      "Name": "SFX_MinoPrecharge",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoPrecharge",
+      "GUID": "{87F93940-23E6-4308-8CC3-1107DAB901AC}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.5642729",
+      "DurationMax": "3.4981484",
+      "MediaRefs": [
+       {
+        "Id": "12684693"
+       },
+       {
+        "Id": "126486740"
+       },
+       {
+        "Id": "278946100"
+       },
+       {
+        "Id": "333485331"
+       },
+       {
+        "Id": "415786301"
+       },
+       {
+        "Id": "531473372"
+       },
+       {
+        "Id": "822076345"
+       },
+       {
+        "Id": "980240822"
+       }
+      ]
+     },
+     {
+      "Id": "1248591155",
+      "Name": "SFX_MinoSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoSteps",
+      "GUID": "{BF9B421B-E71B-44A0-AF1A-E7BCED648445}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5102746",
+      "DurationMax": "0.7340707",
+      "MediaRefs": [
+       {
+        "Id": "84435203"
+       },
+       {
+        "Id": "89671109"
+       },
+       {
+        "Id": "218509929"
+       },
+       {
+        "Id": "294731171"
+       },
+       {
+        "Id": "436047105"
+       },
+       {
+        "Id": "617220961"
+       },
+       {
+        "Id": "642616489"
        }
       ]
      },
@@ -1391,11 +1794,11 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
       "DurationType": "OneShot",
-      "DurationMin": "0.92673016",
-      "DurationMax": "0.92673016",
+      "DurationMin": "1.2293333",
+      "DurationMax": "1.2293333",
       "MediaRefs": [
        {
-        "Id": "1040823208"
+        "Id": "426226260"
        }
       ]
      },
@@ -1405,8 +1808,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
       "DurationType": "OneShot",
-      "DurationMin": "0.09173328",
-      "DurationMax": "0.09173328",
+      "DurationMin": "0.1456175",
+      "DurationMax": "0.1456175",
       "MediaRefs": [
        {
         "Id": "151597588"
@@ -1668,6 +2071,6 @@
     ]
    }
   ],
-  "FileHash": "{2EE3E278-33A6-B883-7FAF-BD252A50D0F2}"
+  "FileHash": "{490E6955-149C-A464-61E6-C905702DF531}"
  }
 }

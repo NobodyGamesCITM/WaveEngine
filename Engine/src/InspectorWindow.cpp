@@ -1668,6 +1668,34 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                             }
                             break;
                         }
+                        case ScriptVarType::PREFAB:
+                        {
+                            std::string currentPrefab = std::get<std::string>(var.value);
+                            std::string displayName = "None (Drop Prefab)";
+
+                            if (!currentPrefab.empty())
+                                displayName = std::filesystem::path(currentPrefab).filename().string();
+
+                            ImGui::Text("%s", var.name.c_str());
+                            std::string btnId = displayName + "##prefab_" + var.name + std::to_string(i);
+
+                            ImGui::Button(btnId.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20));
+
+                            if (ImGui::BeginDragDropTarget())
+                            {
+                                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_ITEM"))
+                                {
+                                    DragDropPayload* dropData = (DragDropPayload*)payload->Data;
+                                    if (dropData->assetType == DragDropAssetType::PREFAB)
+                                    {
+                                        ScriptVariable newVar(var.name, ScriptVarType::PREFAB, dropData->assetPath);
+                                        scriptComp->UpdatePublicVariable(i, newVar);
+                                    }
+                                }
+                                ImGui::EndDragDropTarget();
+                            }
+                            break;
+                        }
                         }
 
                         ImGui::PopID();

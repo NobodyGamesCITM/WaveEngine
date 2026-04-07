@@ -147,11 +147,11 @@ function Update(self, dt)
     end
 
     -- Shake from the player script
-    if playerScript and playerScript.triggerCameraShake then
-        self.public.shakeDuration  = playerScript.shakeDuration
-        self.public.shakeMagnitude = playerScript.shakeMagnitude
+    if playerScript and playerScript.public.triggerCameraShake == true then
+        self.public.shakeDuration  = playerScript.public.hitShakeDuration
+        self.public.shakeMagnitude = playerScript.public.hitShakeMagnitude
         TriggerShake(self)
-        playerScript.triggerCameraShake = false
+        playerScript.public.triggerCameraShake = false
     end
 
     UpdateShake(self, dt)

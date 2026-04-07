@@ -51,6 +51,9 @@ public:
 
 
     void GetMoveDirection(float threshold, float& dx, float& dz);
+
+    bool GetRandomPoint(float& x, float& y, float& z);
+
 private:
     bool SnapPositionToNavMesh(glm::vec3& position);
     uint64_t tempSurfaceUID = 0; // Variable temporal para guardar el ID durante la carga

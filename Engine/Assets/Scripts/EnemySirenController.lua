@@ -8,6 +8,7 @@ local GRAVITY = 14.0   -- unidades/s²
 
 -- ── States ────────────────────────────────────────────────────────────────
 local State = {
+    HIDE     = "Hide",
     IDLE     = "Idle",
     WINDUP   = "WindUp",   -- telegrafía el disparo antes de lanzar
     COOLDOWN = "Cooldown",
@@ -65,7 +66,13 @@ local hasDeathPlayed = false
 local hasHurtPlayed = false
 local isSinging = false
 
+local hideCooldownTimer = 0
+local hideDurationTimer = 0
+local HIDE_MAX_DURATION = 1.0
+local HIDE_COOLDOWN     = 2.5  
+local EVADE_CHANCE      = 0.6  
 
+local deathTimer = 2.5
 
 -- ── Public (modificable desde el inspector) ───────────────────────────────
 public = {
@@ -86,7 +93,7 @@ public = {
     rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
 
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
-    maxLifetime = MAX_LIFETIME,
+    maxLifetime      = 10.0,
 }
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 
@@ -99,17 +106,12 @@ local function shortAngleDiff(a, b)
 end
 
 -- Calcula la velocidad inicial para un arco parabólico dado origen, destino y tiempo de vuelo.
--- Ecuaciones cinemáticas:
---   x(t) = sx + vx·t          →  vx = dx / T
---   z(t) = sz + vz·t          →  vz = dz / T
---   y(t) = sy + vy·t - ½g·t²  →  vy = (dy + ½g·T²) / T
 local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     local dx = tx - sx
     local dz = tz - sz
     local dy = ty - sy
     local distXZ = sqrt(dx*dx + dz*dz)
 
-    -- SEGURIDAD: Distancia mínima para evitar errores matemáticos
     if distXZ < 0.5 then distXZ = 0.5 end
 
     local h = distXZ * 0.5
@@ -132,9 +134,22 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
 
+    if Mortar.currentState == State.HIDE then
+        if Mortar.currentState == State.HIDE then
+            Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
+        end
+        hasDeathPlayed = true
+        return 
+    end
     hp = hp - amount
     Engine.Log("[Mortar] HP: " .. hp .. "/" .. self.public.maxHp)
 
+    if hurtSFX then 
+        if singSFX then singSFX:StopAudioEvent() end
+        hurtSFX:PlayAudioEvent() 
+        isSinging = false    
+    end
+    
     _PlayerController_triggerCameraShake = true
 
     -- Knockback
@@ -150,18 +165,19 @@ local function TakeDamage(self, amount, attackerPos)
 
     if hp <= 0 then
         isDead              = true
-        pendingDestroy      = true
         Mortar.currentState = State.DEAD
+
+        if singSFX then singSFX:StopAudioEvent() end
+        if dipSFX then dipSFX:StopAudioEvent() end
 
         if not hasDeathPlayed then
 			if deathSFX then deathSFX:PlayAudioEvent() end
 			hasDeathPlayed = true
 		end
-        -- Ralentización de impacto
+
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
 
-        -- Destruir todos los proyectiles en vuelo
         for _, shell in ipairs(activeShells) do
             SafeDestroyShell(shell)
         end
@@ -213,10 +229,10 @@ local function FireShell(self, tx, ty, tz)
     end
 end
 
--- ── SafeMoveShell: mueve el GO del proyectil con protección ante userdata inválido ──
+-- ── SafeMoveShell ──────────────────────────────────────────────────────────
 local function SafeMoveShell(s, x, y, z, t)
     if not s.go then return end
-    if s.goInvalid then return end  -- ya sabemos que falló, no reintentar
+    if s.goInvalid then return end
 
     local ok, err = pcall(function()
         local tr = s.go.transform
@@ -233,20 +249,19 @@ local function SafeMoveShell(s, x, y, z, t)
     end)
 
     if not ok then
-        -- El userdata existe pero el puntero interno es null (instanciación fallida)
         s.goInvalid = true
         s.go        = nil
     end
 end
 
--- ── SafeDestroyShell: destruye el GO con protección ──────────────────────
+-- ── SafeDestroyShell ──────────────────────────────────────────────────────
 local function SafeDestroyShell(s)
     if not s.go or s.goInvalid then return end
     pcall(function() GameObject.Destroy(s.go) end)
     s.go = nil
 end
 
--- ── UpdateShells: simula el arco parabólico y gestiona los impactos ───────
+-- ── UpdateShells ──────────────────────────────────────────────────────────
 local function UpdateShells(self, dt)
     if #activeShells == 0 then return end
 
@@ -254,16 +269,13 @@ local function UpdateShells(self, dt)
         local s = activeShells[i]
         s.age = s.age + dt
 
-        -- Posición en el tiempo t mediante cinemática
         local t = s.age
         local x = s.sx + s.vx * t
         local y = s.sy + s.vy * t - 0.5 * GRAVITY * t * t
         local z = s.sz + s.vz * t
 
-        -- Mover el visual del proyectil (falla silenciosamente si el GO es inválido)
         SafeMoveShell(s, x, y, z, t)
 
-        -- ── Detección de impacto ──────────────────────────────────────────
         local impacted = (s.age >= s.flightTime) or (y < -50.0)
 
         if impacted and not s.hasHit then
@@ -273,19 +285,18 @@ local function UpdateShells(self, dt)
                      .. string.format("%.1f", x) .. ", "
                      .. string.format("%.1f", z) .. ")")
 
-            -- Daño en área al player
             if Mortar.playerGO then
                 local pp = Mortar.playerGO.transform.position
                 if pp then
-                    local impDx   = pp.x - s.targetX
-                    local impDz   = pp.z - s.targetZ
+                    local impDx   = pp.x - x
+                    local impDz   = pp.z - z
                     local impDist = sqrt(impDx * impDx + impDz * impDz)
 
                     if impDist <= self.public.blastRadius then
                         local factor = 1.0 - (impDist / self.public.blastRadius) * 0.5
                         local dmg    = math.max(math.floor(self.public.attackDamage * factor), 1)
 
-                        if _PlayerController_pendingDamage == 0 then
+                        if (_PlayerController_pendingDamage or 0) == 0 then
                             _PlayerController_pendingDamage    = dmg
                             _PlayerController_pendingDamagePos = { x = x, y = y, z = z }
                             Engine.Log("[Mortar] HIT PLAYER for " .. dmg
@@ -321,8 +332,6 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-
-
     singSource = GameObject.Find("SingSource")
     dieSource = GameObject.Find("SirenDieSource")
     hurtSource = GameObject.Find("SirenHurtSource")
@@ -333,21 +342,17 @@ function Start(self)
     hurtSFX  = hurtSource:GetComponent("Audio Source")
     dipSFX   = dipSource:GetComponent("Audio Source")
     
-
     if not singSFX then
- 		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
 	end
-
     if not deathSFX then 
 		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
 	end
-
     if not dipSFX then 
 		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
 	end
 
     Prefab.Load("Sirena_Bullet", finalPath)
-    -- Bloqueamos el Rigidbody para que el mortero no se mueva
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)
     end
@@ -360,21 +365,31 @@ end
 function Update(self, dt)
     if not self.gameObject then return end
 
-    -- Debug: suicidio con tecla 0
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
         return
     end
 
     if isDead then
-        if pendingDestroy then
+        deathTimer = deathTimer - dt
+        local pos = self.transform.position
+        self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
+        if deathTimer <= 0 then
             self:Destroy()
-            pendingDestroy = false
         end
         return
     end
 
-    -- Simular proyectiles en vuelo independientemente del estado del mortero
+    -- FIX: reset de alreadyHit atado al fin del ataque del player.
+    -- OnTriggerExit no es fiable cuando el collider de ataque se deshabilita
+    -- al terminar la animación: muchos motores no disparan el evento de salida
+    -- en ese caso y alreadyHit queda bloqueado a true para siempre.
+    -- Reseteamos aquí, igual que hace el skeleton, para permitir múltiples golpes.
+    if _PlayerController_lastAttack == nil or _PlayerController_lastAttack == "" then
+        alreadyHit = false
+    end
+
+    -- Simular proyectiles en vuelo
     UpdateShells(self, dt)
 
     -- Reintentar componentes si faltan
@@ -382,7 +397,7 @@ function Update(self, dt)
         Mortar.rb = self.gameObject:GetComponent("Rigidbody")
     end
 
-    -- Mantener el mortero quieto (sin navegación, solo anclamos velocidad)
+    -- Mantener el mortero quieto
     if Mortar.rb then
         local vel = Mortar.rb:GetLinearVelocity()
         if vel then
@@ -395,13 +410,18 @@ function Update(self, dt)
         Mortar.playerGO = GameObject.Find("Player")
         if Mortar.playerGO then
             Engine.Log("[Mortar] Player encontrado")
-            
         end
-
-        
     end
 
     if not Mortar.playerGO then return end
+
+    if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
+        TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
+        _EnemyPendingDamage[self.gameObject.name] = nil
+    end
+
+    if hideCooldownTimer > 0 then hideCooldownTimer = hideCooldownTimer - dt end
+    local playerAttack = _PlayerController_lastAttack
 
     local myPos = self.transform.position
     local pp    = Mortar.playerGO.transform.position
@@ -411,35 +431,65 @@ function Update(self, dt)
     local distZ = pp.z - myPos.z
     local dist  = sqrt(distX * distX + distZ * distZ)
 
+    if playerAttack ~= "" and hideCooldownTimer <= 0 and Mortar.currentState ~= State.HIDE then
+        local currentEvadeChance = EVADE_CHANCE
+        if dist < 5.0 then
+            currentEvadeChance = 0.9
+        end
+
+        if math.random() < currentEvadeChance then
+            Mortar.currentState = State.HIDE
+            hideDurationTimer = HIDE_MAX_DURATION
+            hideCooldownTimer = HIDE_COOLDOWN
+            if dipSFX then dipSFX:PlayAudioEvent() end
+            Engine.Log("[Siren] ¡Ataque detectado! Sumergiéndose...")
+        else
+            hideCooldownTimer = 0.5 
+        end
+    end
+
     -- ── Máquina de estados ────────────────────────────────────────────────
 
-    if Mortar.currentState == State.IDLE then
-
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
-            Mortar.anim:Play("Look")
+    if Mortar.currentState == State.HIDE then
+        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+            Mortar.anim:Play("Hide")
         end
-        -- Espera a que el player entre en rango
+
+        hideDurationTimer = hideDurationTimer - dt
+
+        if _PlayerController_lastAttack ~= "" then
+            hideDurationTimer = 2 
+        end
+
+        if hideDurationTimer <= 0 then
+            Mortar.currentState = State.IDLE
+            Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
+        end
+
+        return
+
+    elseif Mortar.currentState == State.IDLE then
+
         if dist <= self.public.detectRange and dist >= self.public.minRange then
+            Mortar.anim:Play("Look")
             Mortar.currentState = State.WINDUP
             if not isSinging then
                 if singSFX then singSFX:PlayAudioEvent() end
                 isSinging = true
             end
-            windUpTimer         = 0
+            windUpTimer = 0
             Engine.Log("[Mortar] Player detectado a dist=" ..
                        string.format("%.1f", dist) .. ". Wind-up...")
+        else
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+                Mortar.anim:Play("Hide")
+            end
         end
 
     elseif Mortar.currentState == State.WINDUP then
-        -- Gira hacia el player mientras se telegrafía el disparo
         FacePlayer(self, pp, dt)
         windUpTimer = windUpTimer + dt
 
-        --if not isSinging then 
-
-       -- end
-
-        -- Si el player sale de rango durante el wind-up, abortamos
         if dist > self.public.detectRange or dist < self.public.minRange then
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime * 0.4
@@ -447,35 +497,40 @@ function Update(self, dt)
             return
         end
 
-        -- Animar (si hay animación de wind-up disponible)
         if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Charge") then
             Mortar.anim:Play("Charge")
         end
 
         if windUpTimer >= self.public.windUpTime then
-            -- Snapshot de la posición del player en el momento del disparo
             FireShell(self, pp.x, pp.y, pp.z)
-
             if Mortar.anim then Mortar.anim:Play("Fire") end
-
-           
-
             Mortar.currentState = State.COOLDOWN
             cooldownTimer       = self.public.cooldownTime
+            if Mortar.anim then 
+                Mortar.anim:Play("Hide") 
+            end
             Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
         end
 
     elseif Mortar.currentState == State.COOLDOWN then
+        if cooldownTimer < (self.public.cooldownTime - 0.4) then
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
+                Mortar.anim:Play("Hide")
+            end
+        end
+
         cooldownTimer = cooldownTimer - dt
 
         if cooldownTimer <= 0 then
-            -- Si el player sigue en rango, volvemos a wind-up directamente
+            Mortar.currentState = State.IDLE
+            if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
+                Mortar.anim:Play("Look")
+            end
             if dist <= self.public.detectRange and dist >= self.public.minRange then
                 Mortar.currentState = State.WINDUP
                 windUpTimer         = 0
                 Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
             else
-                Mortar.currentState = State.IDLE
                 if isSinging then
 				    if singSFX then singSFX:StopAudioEvent() end
                     isSinging = false
@@ -485,16 +540,15 @@ function Update(self, dt)
         end
     end
 
-    -- Seguridad: procesar destrucción pendiente al final del frame
     if pendingDestroy then
         self:Destroy()
         pendingDestroy = false
     end
 end
 
--- ── OnTriggerEnter: el mortero puede recibir golpes del player ────────────
+-- ── OnTriggerEnter ────────────────────────────────────────────────────────
 function OnTriggerEnter(self, other)
-    if isDead then return end
+    if isDead or Mortar.currentState == State.HIDE then return end
 
     if other:CompareTag("Player") then
         if not alreadyHit then

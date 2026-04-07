@@ -322,7 +322,7 @@ States[State.DEAD] = {
         Engine.Log("[Player] Player is DEAD")
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         _G._PlayerController_isDead = true 
-        if Player.voiceSFX then Player.voiceSFX:PlayAudioEvent() end
+        if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_PlayerDeath") end
         local anim = self.gameObject:GetComponent("Animation")
         if anim and Player.isDrowning then anim:Play("Drown", 0.5)
         else anim:Play("Die", 0.5) end
@@ -477,7 +477,7 @@ States[State.WALK] = {
             if stepTimer >= (0.5 / self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                Player.stepSFX:PlayAudioEvent()
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
         end
         
@@ -563,7 +563,7 @@ States[State.RUNNING] = {
             if stepTimer >= (0.25/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                Player.stepSFX:PlayAudioEvent()
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
         end
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
@@ -712,7 +712,7 @@ States[State.ATTACK_HEAVY] = {
         end
 
         if attackTimer >= self.public.heavyDuration then
-            if Player.swordSFX then Player.swordSFX:PlayAudioEvent() end
+            if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack") end
             attackCooldown = self.public.attackCooldown
             ChangeState(self, State.IDLE)
         end
@@ -778,7 +778,7 @@ States[State.ATTACK_LIGHT] = {
 
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then
-                Player.swordSFX:PlayAudioEvent()
+                Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack")
             end
             if attackNum == 3 then
                 attackCooldown = self.public.comboCooldown
@@ -804,7 +804,7 @@ local function TakeDamage(self, amount, attackerPos)
     _PlayerController_triggerCameraShake = true
 
     if self.public.health > 0 and Player.rb and attackerPos then
-        if Player.hitSFX then Player.hitSFX:PlayAudioEvent() end
+        if Player.hitSFX then Player.hitSFX:SelectPlayAudioEvent("SFX_PlayerHit") end
         local playerPos = self.transform.worldPosition
         local dx = playerPos.x - attackerPos.x
         local dz = playerPos.z - attackerPos.z
@@ -821,8 +821,53 @@ local function TakeDamage(self, amount, attackerPos)
     end
 end
 
+local function RefreshAudioSources(self)
+    Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
+    local go = self.gameObject
+    
+    -- Prioritize specific children for different SFX types
+    local stepGo   = GameObject.FindInChildren(go, "StepSource") or GameObject.FindInChildren(go, "SFX_FootSteps")
+    local swordGo  = GameObject.FindInChildren(go, "SwordSource") or GameObject.FindInChildren(go, "SFX_Sword")
+    local voiceGo  = GameObject.FindInChildren(go, "VoiceSource") or GameObject.FindInChildren(go, "SFX_Voice")
+    local hitGo    = GameObject.FindInChildren(go, "HitSource") or GameObject.FindInChildren(go, "SFX_Hit")
+    local maskGo   = GameObject.FindInChildren(go, "MaskSource") or GameObject.FindInChildren(go, "SFX_Mask")
+    local itemGo   = GameObject.FindInChildren(go, "ItemSource") or GameObject.FindInChildren(go, "SFX_Item")
+    
+    local rootSource = go:GetComponent("Audio Source")
+    if not rootSource then
+        Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
+    end
+
+    Player.stepSFX       = (stepGo and stepGo:GetComponent("Audio Source")) or rootSource
+    Player.swordSFX      = (swordGo and swordGo:GetComponent("Audio Source")) or rootSource
+    Player.voiceSFX      = (voiceGo and voiceGo:GetComponent("Audio Source")) or rootSource
+    Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
+    Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
+    Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
+    Player.itemPickSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+
+    Engine.Log("[Player] Audio Source Mapping Status:")
+    Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - SwordSFX: " .. (swordGo and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - VoiceSFX: " .. (voiceGo and "CHILD FOUND" or "ROOT DEFAULT"))
+end
+
 function Start(self)
     Engine.Log("[Player] Start() called - Initializing player")
+    
+    -- Reset local Player table to avoid dangling pointers from previous scenes
+    Player.currentState    = nil
+    Player.currentMask     = nil
+    Player.rb              = nil
+    Player.smokePS         = nil
+    Player.stepSFX         = nil
+    Player.voiceSFX        = nil
+    Player.swordSFX        = nil
+    Player.pickMaskSFX     = nil
+    Player.changeMaskSFX   = nil
+    Player.itemPickSFX     = nil
+    Player.hitSFX          = nil
+
     _G.PlayerInstance = self
     
     -- Force world movement
@@ -846,54 +891,12 @@ function Start(self)
     attackNum = 0
     attackBufferPending = false
 
-    self.public.stamina = 100
-    self.public.health  = 100
+    self.public.stamina = 1    self.public.health  = 100
 
 	--steps
     self.stepTimer = 0
 
-    voiceSource = GameObject.Find("VoiceSource")
-    attackSource = GameObject.Find("AttackSource")
-    hitSource = GameObject.Find("HitSource")
-    equipSource = GameObject.Find("EquipSource")
-    changeSource = GameObject.Find("ChangeSource")
-    itemSource = GameObject.Find("ItemSource")
-
-    Player.stepSFX = self.gameObject:GetComponent("Audio Source")
-    Player.voiceSFX = voiceSource:GetComponent("Audio Source")
-    Player.swordSFX = attackSource:GetComponent("Audio Source")
-    Player.hitSFX = hitSource:GetComponent("Audio Source")
-    Player.pickMaskSFX = equipSource:GetComponent("Audio Source")
-    Player.changeMaskSFX = changeSource:GetComponent("Audio Source")
-    Player.itemPickSFX = itemSource:GetComponent("Audio Source")
-
-    if not Player.stepSFX then
- 		Engine.Log("[PLAYER AUDIO] Unable to retrieve the player's AudioSource") 
-	end
-
-    if not Player.voiceSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve VoiceSource") 
-	end
-
-    if not Player.swordSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve SwordSource") 
-	end
-
-    if not Player.hitSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve hitSource") 
-	end
-
-    if not Player.pickMaskSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve equipSource") 
-	end
-    
-    if not Player.changeMaskSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve changeSource") 
-	end
-
-    if not Player.itemPickSFX then 
-		Engine.Log("[PLAYER AUDIO] Unable to retrieve itemSource") 
-	end
+    RefreshAudioSources(self)
 
     Player.currentSurface = "Dirt" --default surface
 
@@ -919,14 +922,14 @@ function Start(self)
     Player.hermesGraceTimer = 0
     _PlayerController_currentMask = "None"
 	
-    local smokeObj = GameObject.Find("SmokeTrail")
+    local smokeObj = GameObject.FindInChildren(self.gameObject, "SmokeTrail")
     if smokeObj then
         Player.smokePS = smokeObj:GetComponent("ParticleSystem")
         if Player.smokePS then
             Player.smokePS:Stop()
         end
     else
-        Engine.Log("[Player] No SmokeTrail child found")
+        Engine.Log("[Player] No SmokeTrail child found in hierarchy")
     end
 
     _G._PlayerController_isDead = false
@@ -939,7 +942,7 @@ function Start(self)
     Mask.HERMES = "None"
     Mask.ARES   = "None"
 
-    Player.currentState = nil -- Force reset state logic for new instance
+    Player.currentState = State.IDLE -- Force reset state logic for new instance
     ChangeState(self, State.IDLE, true)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
@@ -972,15 +975,27 @@ function Update(self, dt)
     end
     
     -- Safety: ensure game is not stuck in pause during first few frames of a scene
-    if _G._NewSceneLoaded == true or not Player.firstFrameCheck then
-        _G._NewSceneLoaded = false -- Reset flag
-        Engine.Log("[Player] New Scene Detected - Resetting persistent state")
+    local sceneLoaderCount = _G._SceneLoaderCounter or 0
+    if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
+        Player.lastSceneCounter = sceneLoaderCount
+        Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
         
         Game.Resume()
         Game.SetTimeScale(1.0)
         
         -- Reset Rigidbody and search for a SpawnPoint in the new scene
         Player.rb = self.gameObject:GetComponent("Rigidbody")
+
+        self.gameObject:SetTag("PersistentPlayer")
+        local dummyPlayer = GameObject.Find("Player")
+        if dummyPlayer and dummyPlayer.tag ~= "PersistentPlayer" then
+            Engine.Log("[Player] Destroying dummy player from scene to prevent AudioListener conflicts")
+            GameObject.Destroy(dummyPlayer)
+        end
+        self.gameObject:SetTag("Player")
+
+        Player.restoreListenerFrames = 2
+        
         local spawn = GameObject.Find("SpawnPoint")
         if spawn then
             pcall(function()
@@ -991,19 +1006,14 @@ function Update(self, dt)
         end
         
         -- Forzado de Audio (Master Fallback)
+        Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
         local mGo = GameObject.Find("MusicSource")
         if mGo then
             local musicComp = mGo:GetComponent("Audio Source")
             if musicComp then
-                Engine.Log("[Player] Master Audio Fix: MusicSource found. Replaying 'Level2' music...")
-                Audio.SetMusicState("Level2")
+                Engine.Log("[Player] Master Audio Fix: Found MusicSource")
                 musicComp:SetSourceVolume(100.0)
-                musicComp:PlayAudioEvent()
-                
-                -- Reposition to player to avoid 3D attenuation
-                local pPos = self.transform.position
-                mGo.transform:SetPosition(pPos.x, pPos.y + 2.0, pPos.z)
             else
                 Engine.Log("[Player] ERROR: MusicSource found but NO 'Audio Source' component!")
             end
@@ -1011,7 +1021,29 @@ function Update(self, dt)
             Engine.Log("[Player] WARNING: No 'MusicSource' object found to restore audio.")
         end
         
+        RefreshAudioSources(self)
+        
         Player.firstFrameCheck = true
+    end
+
+    if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
+        Player.masterAudioTimer = Player.masterAudioTimer - dt
+        Audio.SetGlobalVolume(100.0)
+    end
+
+    if Player.restoreListenerFrames then
+        Player.restoreListenerFrames = Player.restoreListenerFrames - 1
+        if Player.restoreListenerFrames <= 0 then
+            local listenerObj = GameObject.Find("Listener")
+            if listenerObj then
+                local lComp = listenerObj:GetComponent("Audio Listener")
+                if lComp and lComp.SetAsDefaultListener then
+                    lComp:SetAsDefaultListener()
+                    Engine.Log("[Player] DELAYED Master Audio Fix: Default Listener Restored!")
+                end
+            end
+            Player.restoreListenerFrames = nil
+        end
     end
 
     if attackBuffer == true and Player.currentState ~= State.ATTACK_LIGHT then
@@ -1066,30 +1098,30 @@ function Update(self, dt)
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
         --EquipMask(self, Mask.HERMES) 
         MaskScroll(self)
-        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
         EquipMask(self, Mask.NONE) 
-        if Player.changeMaskSFX then Player.changeMaskSFX:PlayAudioEvent() end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
     end --debug
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
         --EquipMask(self,Mask.APOLLO)
-        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end --debug
 
     if Input.GetKeyDown("F2") then 
         giveHermesMask = true
         --EquipMask(self,Mask.HERMES)
-        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end --debug
 
     if Input.GetKeyDown("F3") then 
         giveAresMask = true
         --EquipMask(self,Mask.ARES)
-        if Player.pickMaskSFX then Player.pickMaskSFX:PlayAudioEvent() end
+        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end --debug
     --Respawn debug
     if Input.GetKeyDown("M") then

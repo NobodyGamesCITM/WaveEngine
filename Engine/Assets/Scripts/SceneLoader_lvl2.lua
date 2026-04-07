@@ -35,15 +35,20 @@ function Start(self)
     Game.Resume()
     Game.SetTimeScale(1.0)
     _G._PlayerController_isDead = false
-    _G.PlayerInstance = nil
-    
     self.fadeCanvas = self.gameObject:GetComponent("Canvas") or (GameObject.Find("FadeCanvas") and GameObject.Find("FadeCanvas"):GetComponent("Canvas"))
-
-   
+    
+    self.lastSceneCounter = -1
 end
 
-
 function Update(self, dt)
+    -- PERSISTENCE: If scene changed, reset to state 4 (Fade IN)
+    local currentCounter = _G._SceneCounter or 0
+    if (self.lastSceneCounter or 0) ~= currentCounter then
+        Engine.Log("[SceneLoader] New scene count detected: " .. currentCounter .. ". Resetting for Fade IN.")
+        self.state = 4
+        self.fadeTimer = 0.0
+        self.lastSceneCounter = currentCounter
+    end
 
 	-- BUSCAR Y REPARAR TODO
     local pObj = GameObject.Find("Player")
@@ -119,6 +124,8 @@ function Update(self, dt)
             self.state = 3
             local sn = self.public.targetScene
             if type(sn) == "table" then sn = sn.value end
+            _G._SceneCounter = (_G._SceneCounter or 0) + 1
+            self.lastSceneCounter = -1
             Engine.LoadScene(Engine.GetScenesPath(), sn)
         end
     end

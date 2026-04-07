@@ -218,6 +218,7 @@ void Rigidbody::CreateBody()
         float sF, dF, rest;
         col->GetMaterialValues(sF, dF, rest);
         physx::PxMaterial* mat = physics->createMaterial(sF, dF, rest);
+        mat->setRestitutionCombineMode(physx::PxCombineMode::eMIN);
 
         physx::PxShape* shape = physx::PxRigidActorExt::createExclusiveShape(*tempActor, *geo, *mat);
 
@@ -278,6 +279,8 @@ void Rigidbody::UpdateShapesGeometry() {
             float sF, dF, rest;
             col->GetMaterialValues(sF, dF, rest);
             physx::PxMaterial* newMat = physics->createMaterial(sF, dF, rest);
+            newMat->setRestitutionCombineMode(physx::PxCombineMode::eMIN);
+
             shape->setMaterials(&newMat, 1);
             newMat->release();
 
@@ -312,6 +315,8 @@ void Rigidbody::UpdateShapeProperties(Collider* col) {
     float sF, dF, rest;
     col->GetMaterialValues(sF, dF, rest);
     physx::PxMaterial* newMat = Application::GetInstance().physics.get()->GetPhysics()->createMaterial(sF, dF, rest);
+    newMat->setRestitutionCombineMode(physx::PxCombineMode::eMIN);
+
     shape->setMaterials(&newMat, 1);
     newMat->release();
 

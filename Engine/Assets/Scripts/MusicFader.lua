@@ -9,10 +9,9 @@ local musicVolume = 0.0
 local firstFrame = true
 
 function Start(self)
+    firstFrame = true
     Engine.Log("[MusicFader] Start called. Target state: Level2")
     Audio.SetMusicState("Level2");
-	musicVolume = 0.0
-	Audio.SetGlobalVolume(0.0)
 end
 
 function Update(self, dt)
@@ -42,10 +41,8 @@ function Update(self, dt)
     if fadeDuration > 0 and musicVolume < 100.0 then
         musicVolume = musicVolume + (100.0 / fadeDuration) * dt
         if musicVolume > 100.0 then musicVolume = 100.0 end
-        Audio.SetGlobalVolume(musicVolume)
     elseif fadeDuration <= 0 and musicVolume < 100.0 then
         musicVolume = 100.0
-        Audio.SetGlobalVolume(100.0)
     end
 end
 

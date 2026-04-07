@@ -119,7 +119,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	260713655	dirt_run_01	.cache\0F\{0FFCCFAF-A392-154C-EC07-070CAA1D808F}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_01		7604
 	273412701	Mino_StunnedGrowl	.cache\48\{48AAF9F8-63A6-1243-88EF-17BAAEB125CA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_StunnedGrowl		123272
 	278946100	minocabro_precharge_01	.cache\5B\{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_01		137888
-	281166023	minocabro_hurt_02	.cache\72\{72F01A06-EAF4-51E3-F8F8-C6E55F27BCFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
+	281166023	minocabro_hurt_02	.cache\BF\{BF222142-8DC0-F421-A977-3DBE384408D4}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
 	294731171	minocabro_footstep_06	.cache\A5\{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_06		30032
 	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
 	328752554	water_walk_04	.cache\52\{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_04		12824
@@ -132,6 +132,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	415786301	minocabro_hoof_02	.cache\47\{475D5499-4033-8E1A-EBAE-256D66425C63}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_02		42344
 	424474249	skeleton_Die	.cache\8A\{8AFB042F-4E5E-CF03-0416-DE888B7ED984}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Die		10844
 	425570416	water_walk_06	.cache\E6\{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_06		13292
+	426226260	ButtonPressedHK_epic	.cache\87\{87C0864C-0086-3EE6-A8D4-0EDEA5C1C2A5}.wem		\Containers\Default Work Unit\UI_ButtonPressedSFX\ButtonPressedHK_epic		61136
 	436047105	minocabro_footstep_07	.cache\21\{216D4506-9725-1778-07CC-AB40635CD8AE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_07		30680
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
@@ -143,12 +144,12 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	533026546	treeAmbience	.cache\D4\{D4E93A81-F944-4B21-5B4F-14741401597B}.wem		\Containers\Default Work Unit\Objects\treeAmbience		434240
 	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
 	578288656	stone_walk_01	.cache\3F\{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_01		13364
-	585738113	minocabro_hurt_03	.cache\26\{264453ED-9D6A-7709-6B66-ABC54E7A0E48}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_03		41912
+	585738113	minocabro_hurt_03	.cache\34\{34316DED-6F89-5154-B91B-6BA1D8781BCD}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_03		41912
 	598271853	stone_run_03	.cache\EE\{EE4BD707-A4F4-CEAC-89A3-5CF6DD87A5A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_03		7532
 	599602142	dirt_run_06	.cache\3F\{3F3B2D8E-433F-4FBB-63F3-6F54BCE29836}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_06		7352
 	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604
 	617220961	minocabro_footstep_03	.cache\E3\{E317B072-E9B3-EBE5-4709-0EA2679A9BD9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_03		28088
-	618455848	Mino_DeathGrowl	.cache\60\{605B5B14-B7CA-12ED-67DE-DB320796F511}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_DeathGrowl		121904
+	618455848	Mino_DeathGrowl	.cache\D6\{D6A8C950-894B-852B-483E-5C0DB675E006}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_DeathGrowl		121904
 	629385577	sword_slice_soft	.cache\50\{500A7620-3D3B-0D66-4878-7359F88B5448}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_soft		11816
 	639013023	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292
 	642231808	grass_run_02	.cache\AD\{AD62AB3C-7BDF-5173-5EA1-5D20D082709F}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_02		7244
@@ -167,11 +168,11 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	794836068	Mask_Change	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Change		18800
 	822076345	minocabro_precharge_02	.cache\CA\{CA82DE09-5149-7B26-36A5-779B77FBF7F8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_02		160208
 	823794324	siren_die	.cache\52\{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem		\Containers\Default Work Unit\Objects\Siren\siren_die		47456
-	827699159	minocabro_hurt_01	.cache\E2\{E2075A8F-B6DE-623B-ED5F-D6733DF742CF}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
+	827699159	minocabro_hurt_01	.cache\D8\{D8995B34-25F3-316D-91E2-3BE003579390}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
-	864759864	minocabro_hurt_04	.cache\FB\{FB802626-D192-1663-D73D-59B73096EE80}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
+	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
 	908137877	water_run_05	.cache\0E\{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_05		6632
 	914187209	stone_walk_02	.cache\5C\{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_02		14408

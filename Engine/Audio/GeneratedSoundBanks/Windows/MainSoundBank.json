@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{F3EE29AE-3268-0B37-BA07-A911DDD8F1C7}",
+    "Hash": "{D8F4AAF9-CA25-A970-8295-950D8F762C9D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -253,7 +253,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hurt_02.wav",
-      "CachePath": "72/{72F01A06-EAF4-51E3-F8F8-C6E55F27BCFB}.wem"
+      "CachePath": "BF/{BF222142-8DC0-F421-A977-3DBE384408D4}.wem"
      },
      {
       "Id": "294731171",
@@ -352,6 +352,14 @@
       "CachePath": "E6/{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem"
      },
      {
+      "Id": "426226260",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ButtonPressedHK_epic.wav",
+      "CachePath": "87/{87C0864C-0086-3EE6-A8D4-0EDEA5C1C2A5}.wem"
+     },
+     {
       "Id": "436047105",
       "Language": "SFX",
       "Streaming": "false",
@@ -445,7 +453,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hurt_03.wav",
-      "CachePath": "26/{264453ED-9D6A-7709-6B66-ABC54E7A0E48}.wem"
+      "CachePath": "34/{34316DED-6F89-5154-B91B-6BA1D8781BCD}.wem"
      },
      {
       "Id": "598271853",
@@ -485,7 +493,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_deathgrowl.wav",
-      "CachePath": "60/{605B5B14-B7CA-12ED-67DE-DB320796F511}.wem"
+      "CachePath": "D6/{D6A8C950-894B-852B-483E-5C0DB675E006}.wem"
      },
      {
       "Id": "629385577",
@@ -637,7 +645,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hurt_01.wav",
-      "CachePath": "E2/{E2075A8F-B6DE-623B-ED5F-D6733DF742CF}.wem"
+      "CachePath": "D8/{D8995B34-25F3-316D-91E2-3BE003579390}.wem"
      },
      {
       "Id": "835964148",
@@ -669,7 +677,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hurt_04.wav",
-      "CachePath": "FB/{FB802626-D192-1663-D73D-59B73096EE80}.wem"
+      "CachePath": "60/{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem"
      },
      {
       "Id": "872826203",
@@ -1786,8 +1794,13 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
       "DurationType": "OneShot",
-      "DurationMin": "0",
-      "DurationMax": "0"
+      "DurationMin": "1.2293333",
+      "DurationMax": "1.2293333",
+      "MediaRefs": [
+       {
+        "Id": "426226260"
+       }
+      ]
      },
      {
       "Id": "2295055714",
@@ -2058,6 +2071,6 @@
     ]
    }
   ],
-  "FileHash": "{C223446F-4971-459B-D22B-E847E0AF12B5}"
+  "FileHash": "{490E6955-149C-A464-61E6-C905702DF531}"
  }
 }

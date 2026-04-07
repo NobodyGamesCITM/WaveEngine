@@ -311,6 +311,11 @@ local function LaunchCharge(self)
     Enemy.hitDuringCharge = false
     chargeSpeedCurrent    = 0   -- arranca desde 0, aceleración gradual
 
+    if not attackCol then
+        attackCol = self.gameObject:GetComponent("Box Collider")
+    end
+    if attackCol then attackCol:Enable() end
+
     local targetAngle = atan2(Enemy.chargeDirX, Enemy.chargeDirZ) * (180.0 / pi)
     Enemy.currentY = targetAngle
     self.transform:SetRotation(0, Enemy.currentY, 0)
@@ -387,7 +392,7 @@ function Update(self, dt)
             local _nav = Enemy.nav
             local _rb  = Enemy.rb
 
-            attackCol      = nil
+            if attackCol then attackCol:Disable() end
             Enemy.nav      = nil
             Enemy.rb       = nil
             Enemy.anim     = nil
@@ -523,7 +528,14 @@ function Update(self, dt)
         if Enemy.chargeTimer <= 0 then
             -- Carga fallida: entrar en stumble
             --if attackCol then attackCol:Disable() end
-            attackCol = nil 
+            if attackCol then attackCol:Disable() end
+            if not Enemy.anim:IsPlayingAnimation("Idle") then
+                PlayAnim("Idle", 0.5)
+                if Enemy.voiceSFX then 
+                    Enemy.voiceSFX:StopAudioEvent()
+                    Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoIdle") 
+                end
+            end
 
             -- Guardar la inercia residual para el stumble
             stumbleDecelX = Enemy.chargeDirX * chargeSpeedCurrent * 0.5
@@ -866,7 +878,14 @@ function OnTriggerEnter(self, other)
             _PlayerController_pendingDamage    = _EnemyDamage_minocabro
             _PlayerController_pendingDamagePos = self.transform.worldPosition
 
-            attackCol = nil
+            if attackCol then attackCol:Disable() end
+              if not Enemy.anim:IsPlayingAnimation("Idle") then
+                PlayAnim("Idle", 0.5)
+                if Enemy.voiceSFX then 
+                    Enemy.voiceSFX:StopAudioEvent()
+                    Enemy.voiceSFX:SelectPlayAudioEvent("SFX_MinoIdle") 
+                end
+            end
             if Enemy.rb then
                 local vel = Enemy.rb:GetLinearVelocity()
                 Enemy.rb:SetLinearVelocity(0, vel.y, 0)

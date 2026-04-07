@@ -155,6 +155,9 @@ void HierarchyWindow::Draw()
 
     ImGui::Begin(name.c_str(), &isOpen);
 
+    visibleObjects.clear();
+    pendingShiftSelection = nullptr;
+
     isHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow | ImGuiHoveredFlags_ChildWindows);
 
     HandleAutoScroll();
@@ -210,6 +213,20 @@ void HierarchyWindow::Draw()
         ImGui::EndDragDropTarget();
     }
 
+    if (pendingShiftSelection)
+    {
+        GameObject* anchor = Application::GetInstance().selectionManager->GetSelectionAnchor();
+        if (anchor)
+        {
+            Application::GetInstance().selectionManager->SelectRange(anchor, pendingShiftSelection, visibleObjects);
+        }
+        else
+        {
+            Application::GetInstance().selectionManager->SetSelectedObject(pendingShiftSelection);
+        }
+        pendingShiftSelection = nullptr;
+    }
+
     DrawBackgroundContextMenu();
 
     ImGui::End();
@@ -218,6 +235,8 @@ void HierarchyWindow::Draw()
 void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
 {
     if (gameObject == nullptr) return;
+
+    visibleObjects.push_back(gameObject);
 
     const std::vector<GameObject*>& children = gameObject->GetChildren();
     bool hasChildren = !children.empty();
@@ -295,23 +314,31 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
             if (!ImGui::IsMouseDragging(ImGuiMouseButton_Left))
             {
                 const bool* keys = SDL_GetKeyboardState(NULL);
+                bool ctrlPressed = keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL];
                 bool shiftPressed = keys[SDL_SCANCODE_LSHIFT] || keys[SDL_SCANCODE_RSHIFT];
 
-                if (shiftPressed)
+                if (ctrlPressed)
                 {
                     selectionManager->ToggleSelection(gameObject);
                 }
+                else if (shiftPressed)
+                {
+                    pendingShiftSelection = gameObject;
+                }
                 else
                 {
+                    selectionManager->ClearSelection();
+
                     if (hasChildren)
                     {
-                        selectionManager->ClearSelection();
                         SelectGameObjectAndChildren(gameObject);
                     }
                     else
                     {
                         selectionManager->SetSelectedObject(gameObject);
                     }
+
+                    selectionManager->SetSelectionAnchor(gameObject);
                 }
             }
         }

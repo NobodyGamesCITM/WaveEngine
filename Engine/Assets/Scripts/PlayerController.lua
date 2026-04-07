@@ -479,7 +479,7 @@ States[State.WALK] = {
             if stepTimer >= (0.5 / self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
             end
         end
         
@@ -565,7 +565,7 @@ States[State.RUNNING] = {
             if stepTimer >= (0.25/self.public.sprintMultiplier) then
 				stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
             end
         end
         ApplyMovementAndRotation(self, dt, moveX, moveZ)
@@ -780,7 +780,7 @@ States[State.ATTACK_LIGHT] = {
 
         if attackTimer >= self.public.attackDuration then
             if Player.swordSFX then
-                Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack")
+                if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack") end
             end
             if attackNum == 3 then
                 attackCooldown = self.public.comboCooldown

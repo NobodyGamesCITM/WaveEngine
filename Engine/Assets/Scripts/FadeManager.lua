@@ -8,11 +8,23 @@ public = {
     sceneMusic   = "Level1",    -- The music track for this specific level
 }
 
+local lastScene = ""
+
 function Start(self)
     -- Initiation moved to Update to ensure components are ready
+    self.lastSceneCounter = -1
 end
 
 function Update(self, dt)
+    -- PERSISTENCE: If scene changed, reset initialized to re-run Fade In logic
+    local currentCounter = _G._SceneCounter or 0
+    if (self.lastSceneCounter or 0) ~= currentCounter then
+        Engine.Log("[FadeManager] New scene count detected: " .. currentCounter .. ". Resetting for Fade IN. Current initialized: " .. tostring(self.initialized))
+        self.initialized = false
+        self.lastSceneCounter = currentCounter
+        self.currentST = 1 -- Forced Fade In 
+    end
+
     -- Delayed Initialization to ensure everything is ready
     if not self.initialized then
         Engine.Log("[FadeManager] Initializing on " .. (self.gameObject and self.gameObject.name or "Unknown"))
@@ -103,6 +115,9 @@ function Update(self, dt)
             self.canvasComp:SetOpacity(alpha) 
         end
         
+        -- Forzado de Audio (Master Fallback)
+        Audio.SetGlobalVolume(100.0)
+        
         -- Optional: Music fade
         Audio.SetGlobalVolume((1.0 - alpha) * 100.0)
         
@@ -110,6 +125,8 @@ function Update(self, dt)
             self.currentST = 0 -- Stop state to avoid loops
             local target = self.public.targetScene or "MainMenu"
             Engine.Log("[FadeManager] Fade OUT Finished. Loading scene: " .. target)
+            self.lastSceneCounter = -1
+            _G._SceneCounter = (_G._SceneCounter or 0) + 1
             _G._NewSceneLoaded = true
             _G._MenuManager_NeedReinit = true -- Specific flag for MenuManager persistence
             Engine.LoadScene(Engine.GetScenesPath(), target)

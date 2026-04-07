@@ -77,10 +77,12 @@ public = {
 
     animIdle        = "Idle",
     animWalk        = "Walk",
-    animAnticipate  = "Anticipate",
+    animAnticipate  = "Idle",
     animAttack      = "Attack",
-    animHit         = "Hit",
-    animDeath       = "Death",
+    animHit         = "Idle",
+    animDeath       = "Idle",
+    animOrbit       = "Orbit",
+    animDodge       = "Dodge",
 }
 
 local currentState = State.IDLE
@@ -250,7 +252,6 @@ local function TakeDamage(self, amount, attackerPos)
         lungeStopTimer      = 0
         orbitTimer          = 0
 
-        if attackCol then attackCol:Disable() end
         if nav       then nav:StopMovement()  end
         HardBrakeXZ()
         if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
@@ -291,6 +292,8 @@ local function UpdatePatrol(self, dt)
         return
     end
 
+    PlayAnim(self.public.animWalk, 0.2)
+
     local dx, dz = nav:GetMoveDirection(0.3)
     SetTargetVelocity(dx, dz, self.public.patrolSpeed)
     ApplyMoveVelocity(dt, self.public.moveAccel)
@@ -323,11 +326,11 @@ local function UpdateChase(self, dt)
             + math.random() * (self.public.orbitDurMax - self.public.orbitDurMin)
         orbitDirTimer = self.public.orbitDirFlipMin
             + math.random() * (self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
-        PlayAnim(self.public.animWalk, 0.2)
         currentState = State.ORBIT
         Engine.Log("[Skeleton] CHASE → ORBIT")
         return
     end
+    PlayAnim(self.public.animWalk, 0.2)
 
     navRefreshTimer = navRefreshTimer - dt
     if navRefreshTimer <= 0 then
@@ -344,6 +347,7 @@ end
 local function UpdateOrbit(self, dt)
     if not playerGO then currentState = State.IDLE; return end
 
+    PlayAnim(self.public.animOrbit, 0.2)
     local myPos = self.transform.worldPosition
     local plPos = playerGO.transform.worldPosition
     local dist  = DistFlat(myPos, plPos)
@@ -514,7 +518,6 @@ local function UpdateAnticipate(self, dt)
     targetVelX = ndx * self.public.lungeForce * 0.5
     targetVelZ = ndz * self.public.lungeForce * 0.5
 
-    if attackCol then attackCol:Disable() end
     playerHitThisAttack = false
     isAttacking         = true
     attackTimer         = 0
@@ -535,10 +538,6 @@ local function UpdateAttack(self, dt)
         ApplyMoveVelocity(dt, self.public.brakeDecel)
     end
 
-    if attackTimer >= self.public.attackColDelay and attackCol then
-        attackCol:Enable()
-    end
-
     -- Polling de distancia como respaldo al trigger.
     -- Usa worldPosition en ambos lados para evitar mezcla de espacios de coordenadas.
     if attackTimer >= self.public.attackColDelay and not playerHitThisAttack and playerGO then
@@ -557,7 +556,6 @@ local function UpdateAttack(self, dt)
     if attackTimer >= self.public.attackDur then
         isAttacking         = false
         playerHitThisAttack = false
-        if attackCol then attackCol:Disable() end
         attackTimer   = 0
         isOnCooldown  = true
         cooldownTimer = self.public.cooldown + math.random() * 0.8
@@ -571,7 +569,7 @@ local function UpdateAttack(self, dt)
                 + math.random() * (self.public.orbitDurMax - self.public.orbitDurMin)
             orbitDirTimer = self.public.orbitDirFlipMin
                 + math.random() * (self.public.orbitDirFlipMax - self.public.orbitDirFlipMin)
-            PlayAnim(self.public.animWalk, 0.25)
+            PlayAnim(self.public.animOrbit, 0.25)
             currentState = State.ORBIT
             Engine.Log("[Skeleton] ATTACK → ORBIT (jugador cerca)")
         else
@@ -626,6 +624,7 @@ function Start(self)
     rb        = self.gameObject:GetComponent("Rigidbody")
     anim      = self.gameObject:GetComponent("Animation")
     attackCol = self.gameObject:GetComponent("Box Collider")
+    if attackCol then attackCol:Enable() end
 
     attackSource = GameObject.Find("SK_KopisSource")
     hurtSource   = GameObject.Find("SK_HurtSource")
@@ -838,6 +837,8 @@ function OnTriggerEnter(self, other)
                 playerHitThisAttack                = true
                 _PlayerController_pendingDamage    = _EnemyDamage_skeleton
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
+                alreadyHit = false
+
             end
         end
     end

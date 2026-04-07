@@ -288,8 +288,8 @@ local function UpdateShells(self, dt)
             if Mortar.playerGO then
                 local pp = Mortar.playerGO.transform.position
                 if pp then
-                    local impDx   = pp.x - s.targetX
-                    local impDz   = pp.z - s.targetZ
+                    local impDx   = pp.x - x
+                    local impDz   = pp.z - z
                     local impDist = sqrt(impDx * impDx + impDz * impDz)
 
                     if impDist <= self.public.blastRadius then

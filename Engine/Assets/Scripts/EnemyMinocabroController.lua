@@ -41,6 +41,7 @@ local Enemy = {
 
 local isDead            = false
 local pendingDeath      = false   -- hp <= 0, destruir al inicio del siguiente Update
+local deathTimer        = 3.5
 local alreadyHit        = false
 local playerAttackHandled = false
 local attackCol         = nil
@@ -378,32 +379,36 @@ function Update(self, dt)
 
     -- Muerte diferida: destruir aquí, nunca desde TakeDamage ni OnTriggerEnter
     if pendingDeath then
-        local _nav = Enemy.nav
-        local _rb  = Enemy.rb
+        deathTimer = deathTimer - dt
+      
+        if deathTimer <= 0 then
+            isDead = true
+              
+            local _nav = Enemy.nav
+            local _rb  = Enemy.rb
 
-        attackCol      = nil
-        Enemy.nav      = nil
-        Enemy.rb       = nil
-        Enemy.anim     = nil
-        Enemy.playerGO = nil
-        Enemy.stepSFX  = nil
-        Enemy.voiceSFX = nil
+            attackCol      = nil
+            Enemy.nav      = nil
+            Enemy.rb       = nil
+            Enemy.anim     = nil
+            Enemy.playerGO = nil
+            Enemy.stepSFX  = nil
+            Enemy.voiceSFX = nil
 
-        if _nav then _nav:StopMovement() end
-        if _rb  then
-            local vel = _rb:GetLinearVelocity()
-            _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+            if _nav then _nav:StopMovement() end
+            if _rb  then
+                local vel = _rb:GetLinearVelocity()
+                _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+            end
+
+            Enemy.currentState = State.DEAD
+
+            Engine.Log("[Minocabro] DEAD")
+            Game.SetTimeScale(0.2)
+            _impactFrameTimer = 0.1
+
+            self:Destroy()
         end
-
-        Enemy.currentState = State.DEAD
-        isDead = true
-
-        Engine.Log("[Minocabro] DEAD")
-        Game.SetTimeScale(0.2)
-        _impactFrameTimer = 0.1
-
-        self:Destroy()
-
         return
     end
 

@@ -57,11 +57,11 @@ function Update (self, deltaTime)
     end     
 
     if openDoor2 then 
-        if not ColisionDisabled then  DisableColision(self) end
         local p = self.transform.worldPosition
         if not isOpen then  
             if p.y >= finalY then rb:SetLinearVelocity(0, -1, 0)
             else 
+                if not ColisionDisabled then  DisableColision(self) end
                 Engine.Log("---------------------------------------------------------------------")
                 Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
                 Engine.Log("---------------------------------------------------------------------")

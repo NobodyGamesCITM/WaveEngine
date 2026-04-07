@@ -112,4 +112,5 @@ function OnTriggerEnter(self, other)
     end
 
     hasHit = true
+    Engine.Log("Hit : " ..tostring(other.name))
 end

@@ -58,7 +58,7 @@ function Update(self, dt)
             pScript.public.canMove = true
             pScript.public.health = 100
             _G.PlayerInstance = pScript
-            Engine.Log("[SceneLoader] Player found and initialized.")
+            --Engine.Log("[SceneLoader] Player found and initialized.")
         end
     else
         Engine.Log("[SceneLoader] WARNING: Player not found in scene.")
@@ -130,8 +130,8 @@ function Update(self, dt)
         end
     end
 
-    Engine.Log("Player inside = " .. tostring(self.playerInside))
-    Engine.Log("Current state = " .. tostring(self.state))
+   -- Engine.Log("Player inside = " .. tostring(self.playerInside))
+   -- Engine.Log("Current state = " .. tostring(self.state))
     
 
 end

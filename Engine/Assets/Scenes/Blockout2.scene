@@ -308,7 +308,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.9368420839309692,
+                    "aspectRatio": 0.4359550476074219,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -320,6 +320,36 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "zoomMax",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player"
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "zoomSpeed",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "shakeFrequency",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
                             "name": "shakeMagnitude",
                             "type": 0,
                             "value": 0.30000001192092896
@@ -328,36 +358,6 @@
                             "name": "zoomMin",
                             "type": 0,
                             "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "zoomMax",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "shakeDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player"
-                        },
-                        {
-                            "name": "shakeFrequency",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "zoomSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -3699,7 +3699,7 @@
                             "speedMax": 0.30000001192092896,
                             "speedMin": 0.05000000074505806,
                             "textureCols": 1,
-                            "texturePath": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                            "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                             "textureRows": 1,
                             "textureUID": 17065513980760032408,
                             "type": 7
@@ -3833,22 +3833,17 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "staminaCost",
+                            "name": "attackImpulseWindow",
                             "type": 0,
-                            "value": 80.0
+                            "value": 0.15000000596046448
                         },
                         {
-                            "name": "bulletSpawnY",
+                            "name": "speedIncrease",
                             "type": 0,
-                            "value": 1.0
+                            "value": 10.0
                         },
                         {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "chargeSpeed",
+                            "name": "hpRecover",
                             "type": 0,
                             "value": 30.0
                         },
@@ -3858,89 +3853,14 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "heavyDuration",
+                            "name": "knockbackForce",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 14.0
                         },
                         {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.20000000298023224
-                        },
-                        {
-                            "name": "hitShakeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "heavyStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "attackImpulseForce",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "attackBufferDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "speedHermesBonus",
+                            "name": "rollSpeed",
                             "type": 0,
                             "value": 15.0
-                        },
-                        {
-                            "name": "canMove",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
                         },
                         {
                             "name": "rollStaminaCost",
@@ -3948,17 +3868,52 @@
                             "value": 25.0
                         },
                         {
-                            "name": "triggerCameraShake",
-                            "type": 2,
-                            "value": false
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
                         },
                         {
-                            "name": "bulletScale",
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.20000000298023224
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "canMove",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "rollDuration",
                             "type": 0,
                             "value": 1.0
                         },
                         {
-                            "name": "rollSpeed",
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "comboCooldown",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "speedHermesBonus",
                             "type": 0,
                             "value": 15.0
                         },
@@ -3968,44 +3923,19 @@
                             "value": 50.0
                         },
                         {
-                            "name": "heavyAttackDelay",
-                            "type": 0,
-                            "value": 0.3499999940395355
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "attackImpulseWindow",
-                            "type": 0,
-                            "value": 0.15000000596046448
-                        },
-                        {
                             "name": "sprintMultiplier",
                             "type": 0,
                             "value": 1.5
                         },
                         {
-                            "name": "giveAresMask",
+                            "name": "interact",
                             "type": 2,
                             "value": false
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "attackImpulseForce",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 8.0
                         },
                         {
                             "name": "heavyUpImpulse",
@@ -4018,37 +3948,47 @@
                             "value": 0.5
                         },
                         {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "comboCooldown",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
                             "name": "attackCooldown",
                             "type": 0,
                             "value": 0.5
                         },
                         {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.800000011920929
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
                         },
                         {
-                            "name": "hpLossCost",
+                            "name": "heavyAttackDelay",
                             "type": 0,
-                            "value": 30.0
+                            "value": 0.3499999940395355
                         },
                         {
-                            "name": "interact",
+                            "name": "heavyDuration",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "triggerCameraShake",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "bulletSpawnY",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "giveHermesMask",
                             "type": 2,
                             "value": false
                         },
@@ -4056,6 +3996,66 @@
                             "name": "stamina",
                             "type": 0,
                             "value": 100.0
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "attackBufferDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.800000011920929
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -12358,14 +12358,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "fadeDuration",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
                             "name": "targetScene",
                             "type": 1,
                             "value": "Blockout2"
+                        },
+                        {
+                            "name": "sceneMusic",
+                            "type": 1,
+                            "value": "Level2"
                         },
                         {
                             "name": "autoFadeIn",
@@ -12373,9 +12373,9 @@
                             "value": true
                         },
                         {
-                            "name": "sceneMusic",
-                            "type": 1,
-                            "value": "Level2"
+                            "name": "fadeDuration",
+                            "type": 0,
+                            "value": 2.0
                         }
                     ],
                     "scriptUID": 3774928450651395946,
@@ -12580,7 +12580,7 @@
                             "active": true,
                             "position": [
                                 79.0,
-                                8.0,
+                                8.210000038146973,
                                 -77.0
                             ],
                             "rotation": [
@@ -12599,9 +12599,19 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
+                                    "name": "gridR",
+                                    "type": 0,
+                                    "value": 4.0
+                                },
+                                {
+                                    "name": "gridC",
+                                    "type": 0,
+                                    "value": 5.0
+                                },
+                                {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
                                 },
                                 {
                                     "name": "hitDistance",
@@ -12614,19 +12624,9 @@
                                     "value": "ManagerPuzzleApolo"
                                 },
                                 {
-                                    "name": "gridC",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "moveSpeed",
-                                    "type": 0,
-                                    "value": 8.0
-                                },
-                                {
-                                    "name": "gridR",
-                                    "type": 0,
-                                    "value": 4.0
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Rock"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -12839,7 +12839,7 @@
                             "active": true,
                             "position": [
                                 67.0,
-                                8.0,
+                                8.210000038146973,
                                 -95.0
                             ],
                             "rotation": [
@@ -12858,9 +12858,19 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
+                                    "name": "gridR",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "gridC",
+                                    "type": 0,
+                                    "value": 4.0
+                                },
+                                {
+                                    "name": "moveSpeed",
+                                    "type": 0,
+                                    "value": 5.0
                                 },
                                 {
                                     "name": "hitDistance",
@@ -12873,19 +12883,9 @@
                                     "value": "ManagerPuzzleApolo"
                                 },
                                 {
-                                    "name": "gridC",
-                                    "type": 0,
-                                    "value": 4.0
-                                },
-                                {
-                                    "name": "moveSpeed",
-                                    "type": 0,
-                                    "value": 8.0
-                                },
-                                {
-                                    "name": "gridR",
-                                    "type": 0,
-                                    "value": 6.0
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Rock"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -12943,7 +12943,7 @@
                             "active": true,
                             "position": [
                                 44.0,
-                                8.0,
+                                7.820000171661377,
                                 -107.0
                             ],
                             "rotation": [
@@ -12962,34 +12962,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "totalPlates",
-                                    "type": 0,
-                                    "value": 2.0
-                                },
-                                {
                                     "name": "prefab3Way",
                                     "type": 6,
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
                                 },
                                 {
-                                    "name": "cellSize",
-                                    "type": 0,
-                                    "value": 4.85099983215332
-                                },
-                                {
-                                    "name": "doorName",
-                                    "type": 1,
-                                    "value": "Puerta_Sala_1"
-                                },
-                                {
-                                    "name": "originX",
-                                    "type": 0,
-                                    "value": 44.0
-                                },
-                                {
-                                    "name": "layout",
-                                    "type": 1,
-                                    "value": "11111111111, 11110000001, 10000000001, 10110111021, 10100000001, 10000100001, 10000110021, 10000000001, 10000000111, 11111111111"
+                                    "name": "prefab2WayLine",
+                                    "type": 6,
+                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
                                 },
                                 {
                                     "name": "prefab2WayL",
@@ -12997,19 +12977,24 @@
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_L.prefab"
                                 },
                                 {
+                                    "name": "totalPlates",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "originX",
+                                    "type": 0,
+                                    "value": 44.0
+                                },
+                                {
                                     "name": "prefabPlate",
                                     "type": 6,
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
                                 },
                                 {
-                                    "name": "originZ",
-                                    "type": 0,
-                                    "value": -107.0
-                                },
-                                {
-                                    "name": "prefab4Way",
-                                    "type": 6,
-                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
+                                    "name": "doorName",
+                                    "type": 1,
+                                    "value": "Puerta_Sala_1"
                                 },
                                 {
                                     "name": "prefab1Way",
@@ -13017,9 +13002,24 @@
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
                                 },
                                 {
-                                    "name": "prefab2WayLine",
+                                    "name": "layout",
+                                    "type": 1,
+                                    "value": "11111111111, 11110000001, 10000000001, 10110111021, 10100000001, 10000100001, 10000110021, 10000000001, 10000000111, 11111111111"
+                                },
+                                {
+                                    "name": "prefab4Way",
                                     "type": 6,
-                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
+                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
+                                },
+                                {
+                                    "name": "originZ",
+                                    "type": 0,
+                                    "value": -107.0
+                                },
+                                {
+                                    "name": "cellSize",
+                                    "type": 0,
+                                    "value": 4.85099983215332
                                 }
                             ],
                             "scriptUID": 16200370253487048842,
@@ -13516,6 +13516,11 @@
                                             "active": true,
                                             "publicVariables": [
                                                 {
+                                                    "name": "distance",
+                                                    "type": 0,
+                                                    "value": 10.0
+                                                },
+                                                {
                                                     "name": "speed",
                                                     "type": 0,
                                                     "value": 1.0
@@ -13524,11 +13529,6 @@
                                                     "name": "myColision",
                                                     "type": 1,
                                                     "value": "Puerta_Sala_1_Colision"
-                                                },
-                                                {
-                                                    "name": "distance",
-                                                    "type": 0,
-                                                    "value": 10.0
                                                 }
                                             ],
                                             "scriptUID": 2217885483722212414,
@@ -13937,9 +13937,9 @@
                         {
                             "active": true,
                             "position": [
-                                126.189453125,
-                                -0.5751094818115234,
-                                -526.1278076171875
+                                132.0,
+                                -0.5149999856948853,
+                                -517.0
                             ],
                             "rotation": [
                                 0.0,
@@ -13995,9 +13995,19 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
+                                },
+                                {
+                                    "name": "doorName",
+                                    "type": 1,
+                                    "value": "Puerta_Sala_2"
                                 },
                                 {
                                     "name": "fordwardOffset",
@@ -14005,24 +14015,14 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "doorName",
-                                    "type": 1,
-                                    "value": "Puerta_Sala_1"
+                                    "name": "onlyRedirected",
+                                    "type": 2,
+                                    "value": false
                                 },
                                 {
                                     "name": "dirY",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "onlyRedirected",
-                                    "type": 2,
-                                    "value": false
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -14032,14 +14032,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -14368,7 +14368,7 @@
                             "active": true,
                             "position": [
                                 130.4894561767578,
-                                -0.5751094818115234,
+                                -0.5149999856948853,
                                 -511.1278076171875
                             ],
                             "rotation": [
@@ -14425,14 +14425,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "fordwardOffset",
-                                    "type": 0,
-                                    "value": 1.0
                                 },
                                 {
                                     "name": "doorName",
@@ -14440,12 +14440,7 @@
                                     "value": "Puerta_Sala_1"
                                 },
                                 {
-                                    "name": "dirY",
-                                    "type": 0,
-                                    "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
+                                    "name": "fordwardOffset",
                                     "type": 0,
                                     "value": 1.0
                                 },
@@ -14453,6 +14448,11 @@
                                     "name": "onlyRedirected",
                                     "type": 2,
                                     "value": true
+                                },
+                                {
+                                    "name": "dirY",
+                                    "type": 0,
+                                    "value": 0.0
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -14462,14 +14462,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -14479,19 +14479,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
-                                },
-                                {
-                                    "name": "hitDistance",
+                                    "name": "gridR",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "managerName",
-                                    "type": 1,
-                                    "value": "ManagerPuzzleApolo2"
+                                    "value": 8.0
                                 },
                                 {
                                     "name": "gridC",
@@ -14504,9 +14494,19 @@
                                     "value": 8.0
                                 },
                                 {
-                                    "name": "gridR",
+                                    "name": "hitDistance",
                                     "type": 0,
-                                    "value": 8.0
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "managerName",
+                                    "type": 1,
+                                    "value": "ManagerPuzzleApolo2"
+                                },
+                                {
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Statue"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -14519,7 +14519,7 @@
                     "uid": 4275396085198531646
                 },
                 {
-                    "active": true,
+                    "active": false,
                     "children": [
                         {
                             "active": true,
@@ -14835,7 +14835,7 @@
                             "active": true,
                             "position": [
                                 140.4894561767578,
-                                -0.5751094818115234,
+                                -0.5149999856948853,
                                 -525.1278076171875
                             ],
                             "rotation": [
@@ -14892,14 +14892,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "fordwardOffset",
-                                    "type": 0,
-                                    "value": 1.0
                                 },
                                 {
                                     "name": "doorName",
@@ -14907,12 +14907,7 @@
                                     "value": "Puerta_Sala_1"
                                 },
                                 {
-                                    "name": "dirY",
-                                    "type": 0,
-                                    "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
+                                    "name": "fordwardOffset",
                                     "type": 0,
                                     "value": 1.0
                                 },
@@ -14920,6 +14915,11 @@
                                     "name": "onlyRedirected",
                                     "type": 2,
                                     "value": true
+                                },
+                                {
+                                    "name": "dirY",
+                                    "type": 0,
+                                    "value": 0.0
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -14929,14 +14929,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -14946,19 +14946,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
-                                },
-                                {
-                                    "name": "hitDistance",
+                                    "name": "gridR",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "managerName",
-                                    "type": 1,
-                                    "value": "ManagerPuzzleApolo2"
+                                    "value": 4.0
                                 },
                                 {
                                     "name": "gridC",
@@ -14971,9 +14961,19 @@
                                     "value": 8.0
                                 },
                                 {
-                                    "name": "gridR",
+                                    "name": "hitDistance",
                                     "type": 0,
-                                    "value": 4.0
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "managerName",
+                                    "type": 1,
+                                    "value": "ManagerPuzzleApolo2"
+                                },
+                                {
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Statue"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -15302,7 +15302,7 @@
                             "active": true,
                             "position": [
                                 141.4894561767578,
-                                -0.5751094818115234,
+                                -0.5149999856948853,
                                 -513.1278076171875
                             ],
                             "rotation": [
@@ -15359,14 +15359,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "fordwardOffset",
-                                    "type": 0,
-                                    "value": 1.0
                                 },
                                 {
                                     "name": "doorName",
@@ -15374,12 +15374,7 @@
                                     "value": "Puerta_Sala_1"
                                 },
                                 {
-                                    "name": "dirY",
-                                    "type": 0,
-                                    "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
+                                    "name": "fordwardOffset",
                                     "type": 0,
                                     "value": 1.0
                                 },
@@ -15387,6 +15382,11 @@
                                     "name": "onlyRedirected",
                                     "type": 2,
                                     "value": true
+                                },
+                                {
+                                    "name": "dirY",
+                                    "type": 0,
+                                    "value": 0.0
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -15396,14 +15396,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -15413,19 +15413,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
-                                },
-                                {
-                                    "name": "hitDistance",
+                                    "name": "gridR",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "managerName",
-                                    "type": 1,
-                                    "value": "ManagerPuzzleApolo2"
+                                    "value": 7.0
                                 },
                                 {
                                     "name": "gridC",
@@ -15438,9 +15428,19 @@
                                     "value": 8.0
                                 },
                                 {
-                                    "name": "gridR",
+                                    "name": "hitDistance",
                                     "type": 0,
-                                    "value": 7.0
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "managerName",
+                                    "type": 1,
+                                    "value": "ManagerPuzzleApolo2"
+                                },
+                                {
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Statue"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -15769,7 +15769,7 @@
                             "active": true,
                             "position": [
                                 155.4894561767578,
-                                -0.5751094818115234,
+                                -0.5149999856948853,
                                 -511.1278076171875
                             ],
                             "rotation": [
@@ -15826,14 +15826,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "fordwardOffset",
-                                    "type": 0,
-                                    "value": 1.0
                                 },
                                 {
                                     "name": "doorName",
@@ -15841,12 +15841,7 @@
                                     "value": "Puerta_Sala_1"
                                 },
                                 {
-                                    "name": "dirY",
-                                    "type": 0,
-                                    "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
+                                    "name": "fordwardOffset",
                                     "type": 0,
                                     "value": 1.0
                                 },
@@ -15854,6 +15849,11 @@
                                     "name": "onlyRedirected",
                                     "type": 2,
                                     "value": true
+                                },
+                                {
+                                    "name": "dirY",
+                                    "type": 0,
+                                    "value": 0.0
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -15863,14 +15863,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -15880,19 +15880,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "entityType",
-                                    "type": 1,
-                                    "value": "Rock"
-                                },
-                                {
-                                    "name": "hitDistance",
+                                    "name": "gridR",
                                     "type": 0,
-                                    "value": 3.5
-                                },
-                                {
-                                    "name": "managerName",
-                                    "type": 1,
-                                    "value": "ManagerPuzzleApolo2"
+                                    "value": 7.0
                                 },
                                 {
                                     "name": "gridC",
@@ -15905,9 +15895,19 @@
                                     "value": 8.0
                                 },
                                 {
-                                    "name": "gridR",
+                                    "name": "hitDistance",
                                     "type": 0,
-                                    "value": 7.0
+                                    "value": 3.5
+                                },
+                                {
+                                    "name": "managerName",
+                                    "type": 1,
+                                    "value": "ManagerPuzzleApolo2"
+                                },
+                                {
+                                    "name": "entityType",
+                                    "type": 1,
+                                    "value": "Statue"
                                 }
                             ],
                             "scriptUID": 13152586541649841119,
@@ -16235,9 +16235,9 @@
                         {
                             "active": true,
                             "position": [
-                                170.78945922851563,
-                                -0.5751094818115234,
-                                -526.1278076171875
+                                175.0,
+                                -0.5149999856948853,
+                                -517.0
                             ],
                             "rotation": [
                                 0.0,
@@ -16293,9 +16293,19 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "dirZ",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "dirX",
                                     "type": 0,
                                     "value": 0.0
+                                },
+                                {
+                                    "name": "doorName",
+                                    "type": 1,
+                                    "value": "Puerta_Sala_2"
                                 },
                                 {
                                     "name": "fordwardOffset",
@@ -16303,24 +16313,14 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "doorName",
-                                    "type": 1,
-                                    "value": "Puerta_Sala_1"
+                                    "name": "onlyRedirected",
+                                    "type": 2,
+                                    "value": false
                                 },
                                 {
                                     "name": "dirY",
                                     "type": 0,
                                     "value": 0.0
-                                },
-                                {
-                                    "name": "dirZ",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "onlyRedirected",
-                                    "type": 2,
-                                    "value": false
                                 }
                             ],
                             "scriptUID": 3213472682470300881,
@@ -16330,14 +16330,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "rotationSpeed",
-                                    "type": 0,
-                                    "value": 180.0
-                                },
-                                {
                                     "name": "targetDegrees",
                                     "type": 0,
                                     "value": 90.0
+                                },
+                                {
+                                    "name": "rotationSpeed",
+                                    "type": 0,
+                                    "value": 180.0
                                 }
                             ],
                             "scriptUID": 1724783290381993592,
@@ -16835,6 +16835,11 @@
                                             "active": true,
                                             "publicVariables": [
                                                 {
+                                                    "name": "distance",
+                                                    "type": 0,
+                                                    "value": 10.0
+                                                },
+                                                {
                                                     "name": "speed",
                                                     "type": 0,
                                                     "value": 1.0
@@ -16843,11 +16848,6 @@
                                                     "name": "myColision",
                                                     "type": 1,
                                                     "value": "Puerta_Sala_2_Colision"
-                                                },
-                                                {
-                                                    "name": "distance",
-                                                    "type": 0,
-                                                    "value": 10.0
                                                 }
                                             ],
                                             "scriptUID": 2217885483722212414,
@@ -16919,7 +16919,7 @@
                             "active": true,
                             "position": [
                                 121.99999237060547,
-                                0.5,
+                                -0.5299999713897705,
                                 -531.2000732421875
                             ],
                             "rotation": [
@@ -16938,34 +16938,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "totalPlates",
-                                    "type": 0,
-                                    "value": 0.0
-                                },
-                                {
                                     "name": "prefab3Way",
                                     "type": 6,
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
                                 },
                                 {
-                                    "name": "cellSize",
-                                    "type": 0,
-                                    "value": 4.800000190734863
-                                },
-                                {
-                                    "name": "doorName",
-                                    "type": 1,
-                                    "value": "Puerta_Sala_2"
-                                },
-                                {
-                                    "name": "originX",
-                                    "type": 0,
-                                    "value": 122.0
-                                },
-                                {
-                                    "name": "layout",
-                                    "type": 1,
-                                    "value": "11111111111111, 10000100011111, 10000100010001, 11000000010001, 11110000010001, 11111001111111, 11000001000011, 11000001000111, 11000111111111, 11111111111111"
+                                    "name": "prefab2WayLine",
+                                    "type": 6,
+                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
                                 },
                                 {
                                     "name": "prefab2WayL",
@@ -16973,19 +16953,24 @@
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_L.prefab"
                                 },
                                 {
+                                    "name": "totalPlates",
+                                    "type": 0,
+                                    "value": 0.0
+                                },
+                                {
+                                    "name": "originX",
+                                    "type": 0,
+                                    "value": 122.0
+                                },
+                                {
                                     "name": "prefabPlate",
                                     "type": 6,
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
                                 },
                                 {
-                                    "name": "originZ",
-                                    "type": 0,
-                                    "value": -531.2000122070313
-                                },
-                                {
-                                    "name": "prefab4Way",
-                                    "type": 6,
-                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
+                                    "name": "doorName",
+                                    "type": 1,
+                                    "value": "Puerta_Sala_2"
                                 },
                                 {
                                     "name": "prefab1Way",
@@ -16993,9 +16978,24 @@
                                     "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
                                 },
                                 {
-                                    "name": "prefab2WayLine",
+                                    "name": "layout",
+                                    "type": 1,
+                                    "value": "11111111111111, 10000100011111, 10000100010001, 11000000010001, 11110000010001, 11111001111111, 11000001000011, 11000001000111, 11000111111111, 11111111111111"
+                                },
+                                {
+                                    "name": "prefab4Way",
                                     "type": 6,
-                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
+                                    "value": "C:\\Users\\aalca\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
+                                },
+                                {
+                                    "name": "originZ",
+                                    "type": 0,
+                                    "value": -531.2000122070313
+                                },
+                                {
+                                    "name": "cellSize",
+                                    "type": 0,
+                                    "value": 4.800000190734863
                                 }
                             ],
                             "scriptUID": 16200370253487048842,

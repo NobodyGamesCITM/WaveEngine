@@ -145,7 +145,6 @@ private:
     void HandleCopyPaste();
 
     std::vector<GameObject*> ObjectsCopy;
-    bool ischild = false;
 
     bool centerOnPaste = false;
     float pasteDistance = 10.0f;

@@ -15,6 +15,7 @@ void SelectionManager::SetSelectedObject(GameObject* obj)
 	{
 		selectedObjects.push_back(obj);
 		obj->SetSelected(true);
+		selectionAnchor = obj;
 		LOG_DEBUG("Selected object: %s", obj->GetName().c_str());
 	}
 }
@@ -56,6 +57,7 @@ void SelectionManager::ToggleSelection(GameObject* obj)
 	{
 		AddToSelection(obj);
 	}
+	selectionAnchor = obj;
 }
 
 void SelectionManager::ClearSelection()
@@ -108,6 +110,28 @@ bool SelectionManager::IsSelected(GameObject* obj) const
 {
 	if (obj) return obj->IsSelected();
 	return false;
+}
+
+void SelectionManager::SelectRange(GameObject* start, GameObject* end, const std::vector<GameObject*>& allObjects)
+{
+	if (!start || !end || allObjects.empty()) return;
+
+	auto itStart = std::find(allObjects.begin(), allObjects.end(), start);
+	auto itEnd = std::find(allObjects.begin(), allObjects.end(), end);
+
+	if (itStart == allObjects.end() || itEnd == allObjects.end()) return;
+
+	ClearSelection();
+
+	auto first = std::min(itStart, itEnd);
+	auto last = std::max(itStart, itEnd);
+
+	for (auto it = first; it != std::next(last); ++it)
+	{
+		AddToSelection(*it);
+	}
+
+	selectionAnchor = end;
 }
 
 void SelectionManager::OnEvent(const Event& event)

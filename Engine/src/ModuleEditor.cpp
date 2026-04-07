@@ -1298,7 +1298,6 @@ void ModuleEditor::HandleCopyPaste()
             setActiveRecursive(clonedObject, true, setActiveRecursive);
             if (centerOnPaste) clonedObject->transform->SetPosition(centerPos);
             root->AddChild(clonedObject);
-            ischild = false;
             Application::GetInstance().selectionManager->AddToSelection(clonedObject);
             composite->AddCommand(std::make_unique<CreateCommand>(clonedObject));
         }
@@ -1310,13 +1309,15 @@ void ModuleEditor::HandleCopyPaste()
         std::vector<GameObject*> toClone = Application::GetInstance().selectionManager->GetFilteredObjects();
         if (!toClone.empty())
         {
-            GameObject* root = Application::GetInstance().scene->GetRoot();
+            GameObject* sceneRoot = Application::GetInstance().scene->GetRoot();
             Application::GetInstance().selectionManager->ClearSelection();
             auto composite = std::make_unique<CompositeCommand>();
             for (GameObject* obj : toClone)
             {
                 GameObject* cloned = CloneGameObject(obj);
-                root->AddChild(cloned);
+                if (!cloned) continue;
+                GameObject* parent = obj->GetParent() ? obj->GetParent() : sceneRoot;
+                parent->AddChild(cloned);
                 Application::GetInstance().selectionManager->AddToSelection(cloned);
                 composite->AddCommand(std::make_unique<CreateCommand>(cloned));
             }
@@ -1327,90 +1328,26 @@ void ModuleEditor::HandleCopyPaste()
 
 GameObject* ModuleEditor::CloneGameObject(GameObject* original)
 {
-    std::string name = original->GetName() + "_copy";
-    GameObject* clone = new GameObject(name.c_str());
+    nlohmann::json serialized = nlohmann::json::array();
+    original->Serialize(serialized);
+    if (serialized.empty()) return nullptr;
 
-    Transform* originalTransform =
-        (Transform*)original->GetComponent(ComponentType::TRANSFORM);
-   
-    clone->transform->SetGlobalPosition(originalTransform->GetGlobalPosition());
-    clone->transform->SetGlobalScale(originalTransform->GetGlobalScale());
-    clone->transform->SetGlobalRotation(originalTransform->GetGlobalRotation());
+    nlohmann::json& objJson = serialized[0];
 
-    if (ischild)
-    {
-        clone->transform->SetPosition(originalTransform->GetPosition());
-        clone->transform->SetScale(originalTransform->GetScale());
-        clone->transform->SetRotation(originalTransform->GetRotation());
-    }
+    std::function<void(nlohmann::json&)> stripUIDs = [&](nlohmann::json& node) {
+        node.erase("uid");
+        if (node.contains("children") && node["children"].is_array())
+            for (auto& child : node["children"])
+                stripUIDs(child);
+    };
+    stripUIDs(objJson);
 
-    if (original->GetComponent(ComponentType::MESH))
-    {
-        ComponentMesh* originalMesh =
-            (ComponentMesh*)original->GetComponent(ComponentType::MESH);
+    if (objJson.contains("name"))
+        objJson["name"] = objJson["name"].get<std::string>() + "_copy";
 
-        ComponentMesh* newMesh =
-            (ComponentMesh*)clone->CreateComponent(ComponentType::MESH);
-       
-		UID meshUid = originalMesh->GetMeshUID();
-        if(meshUid == 0)
-		{
-			newMesh->SetMesh(originalMesh->GetMesh());
-			newMesh->SetPrimitiveType(originalMesh->GetPrimitiveType());
-        }
-        else newMesh->LoadMeshByUID(meshUid);
-    }
-
-  //  if (original->GetComponent(ComponentType::MATERIAL))
-  //  {
-  //      ComponentMaterial* originalMaterial =
-  //          (ComponentMaterial*)original->GetComponent(ComponentType::MATERIAL);
-
-  //      ComponentMaterial* newMaterial =
-  //          (ComponentMaterial*)clone->CreateComponent(ComponentType::MATERIAL);
-  //      UID tempUid = originalMaterial->GetTextureUID();
-  //      if(tempUid !=0)newMaterial->LoadTextureByUID(tempUid);
-		//else if (originalMaterial->IsUsingCheckerboard()) newMaterial->CreateCheckerboardTexture();
-
-  //      newMaterial->SetDiffuseColor(originalMaterial->GetDiffuseColor());
-  //  }
-
-    if (original->GetComponent(ComponentType::SCRIPT))
-    {
-        ComponentScript * originalScript =
-            (ComponentScript*)original->GetComponent(ComponentType::SCRIPT);
-
-        ComponentScript* newScript =
-            (ComponentScript*)clone->CreateComponent(ComponentType::SCRIPT);
-
-        newScript->LoadScriptByUID(originalScript->GetScriptUID());
-    }
-    if (original->GetComponent(ComponentType::ANIMATION))
-    {
-        ComponentAnimation * originalAnimator =
-            (ComponentAnimation*)original->GetComponent(ComponentType::ANIMATION);
-
-        ComponentAnimation* newAnimator =
-            (ComponentAnimation*)clone->CreateComponent(ComponentType::ANIMATION);
-        std::map<std::string, AnimationData> animations = originalAnimator->animationsLibrary;
-        for(auto & anim: animations)
-			newAnimator->AddAnimation(anim.first, anim.second.uid);
-    }
-    if (original->GetComponent(ComponentType::PARTICLE))
-    {
-        ComponentParticleSystem* originalParticle =
-            (ComponentParticleSystem*)original->GetComponent(ComponentType::PARTICLE);
-
-        ComponentParticleSystem* newParticle =
-            (ComponentParticleSystem*)clone->CreateComponent(ComponentType::PARTICLE);
-    }
-    for (GameObject* child : original->GetChildren())
-    {
-        ischild = true;
-        GameObject* childClone = CloneGameObject(child);
-        clone->AddChild(childClone);
-    }
-    ischild = false;
+    GameObject* clone = GameObject::Deserialize(objJson, nullptr);
+    if (clone)
+        clone->SolveReferences();
 
     return clone;
 }

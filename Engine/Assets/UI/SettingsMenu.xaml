@@ -70,14 +70,12 @@
         </Storyboard>
       </ResourceDictionary>
     </Grid.Resources>
-    <Grid.Background>
-        <ImageBrush/>
-    </Grid.Background>
     <Grid.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
+    <Image x:Name="Background" Grid.ColumnSpan="3" Grid.RowSpan="3" Source="Textures/Settings.PNG"/>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -89,9 +87,6 @@
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="Textures/Settings_Background.PNG" Stretch="Uniform"/>
-        </Grid.Background>
         <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>

@@ -50,13 +50,13 @@ function Update(self, dt)
         self.lastSceneCounter = currentCounter
     end
 
-	-- BUSCAR Y REPARAR TODO
+	-- BUSCAR Y REPARAR (Solo si no está inicializado)
     local pObj = GameObject.Find("Player")
     if pObj then
         pScript = GameObject.GetScript(pObj)
-        if pScript and pScript.public then 
+        -- Eliminado el reset de vida en Update para que el daño persista
+        if pScript and pScript.public and not _G.PlayerInstance then 
             pScript.public.canMove = true
-            pScript.public.health = 100
             _G.PlayerInstance = pScript
             --Engine.Log("[SceneLoader] Player found and initialized.")
         end
@@ -141,6 +141,3 @@ end
 
 function OnTriggerEnter(self, other) if other and other:CompareTag("Player") then self.playerInside = true end end
 function OnTriggerExit(self, other) if other and other:CompareTag("Player") then self.playerInside = false end end
-
-
-

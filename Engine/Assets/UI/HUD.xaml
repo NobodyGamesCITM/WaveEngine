@@ -13,51 +13,66 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            
-<!-- HUD superior izquierda -->
-<Grid HorizontalAlignment="Left"
-      VerticalAlignment="Top"
-      Margin="20,20,0,0"
-      Width="500"
-      Height="168">
+            <!-- HUD superior izquierda -->
+            <Grid HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="20,20,0,0"
+                  Width="500"
+                  Height="168">
 
-    <!-- CAPA 1: MainHUD de fondo -->
-    <Image Source="Textures/MainHUD.PNG"
-           Width="500"
-           Height="168"
-           HorizontalAlignment="Left"
-           VerticalAlignment="Top"
-           Stretch="Fill"/>
+                <!-- CAPA 1: MainHUD de fondo -->
+                <Image x:Name="HUD_Base" Source="Textures/MainHUD.PNG"
+                       Width="500"
+                       Height="168"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Stretch="Fill"/>
 
-    <!-- CAPA 2: Barras encima del MainHUD -->
-<Image Source="Textures/Barras.PNG"
-       Width="322"
-       Height="79"
-       HorizontalAlignment="Left"
-       VerticalAlignment="Top"
-       Margin="125,0,0,0"
-       Stretch="Fill"/>
+                <!-- Barra de vida -->
+                <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
+                      HorizontalAlignment="Stretch">
+                    <Grid x:Name="HealthBarGrid"
+                          HorizontalAlignment="Left"
+                          Width="334">
+                        <Image x:Name="HealthBar" Source="Textures/Health_Bar.PNG"
+                               HorizontalAlignment="Left"
+                               Stretch="Fill"/>
+                    </Grid>
+                </Grid>
 
-<!-- CAPA 3: Pociones debajo de las barras -->
-<StackPanel Orientation="Horizontal"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="223,105,0,0">
-    <Image Source="Textures/HealthPotion.png"
-           Width="35" Height="35"
-           Margin="0,0,8,0"/>
-    <Image Source="Textures/HealthPotion.png"
-           Width="35" Height="35"
-           Margin="0,0,8,0"/>
-    <Image Source="Textures/HealthPotion.png"
-           Width="35" Height="35"
-           Margin="0,0,8,0"/>
-    <Image Source="Textures/HealthPotion.png"
-           Width="35" Height="35"
-           Margin="0,0,8,0"/>
-</StackPanel>
+                <!-- Barra de stamina -->
+                <Grid x:Name="StaminaBarContainer" Margin="163,54,86,93"
+                      HorizontalAlignment="Stretch">
+                    <Grid x:Name="StaminaBarGrid"
+                          HorizontalAlignment="Left"
+                          Width="251">
+                        <Image x:Name="StaminaBar" Source="Textures/Stamina_Bar.PNG"
+                               HorizontalAlignment="Left"
+                               Stretch="Fill"/>
+                    </Grid>
+                </Grid>
 
-</Grid>
+                <!-- Pociones usadas (capa inferior) -->
+                <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="237,92,0,0" Height="52">
+                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Width="35" Height="35"/>
+                    <Image x:Name="UsedPotion2" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
+                    <Image x:Name="UsedPotion3" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
+                    <Image x:Name="UsedPotion4" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
+                </StackPanel>
+
+                <!-- Pociones activas (capa superior) -->
+                <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="237,92,0,0" Height="52">
+                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="35" Height="35"/>
+                    <Image x:Name="Potion2" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
+                    <Image x:Name="Potion3" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
+                    <Image x:Name="Potion4" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
+                </StackPanel>
+
+            </Grid>
 
             <!-- Prompt de interacción: abajo al centro -->
             <Grid x:Name="InteractPrompt"

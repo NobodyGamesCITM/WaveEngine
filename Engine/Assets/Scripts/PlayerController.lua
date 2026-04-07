@@ -89,6 +89,8 @@ local Player = {
     attackBuffer = false,
     attackBufferPending = false,
     attackNum = 0,
+
+    health = 100,
 }
 
 public = {
@@ -798,7 +800,9 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
     if Player.godMode then return end
 
-    self.public.health = math.max(0, self.public.health - amount)
+    health = math.max(0, health - amount)
+
+    self.public.health = health
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
@@ -892,6 +896,7 @@ function Start(self)
     attackBufferPending = false
 
     self.public.stamina = 1    self.public.health  = 100
+    health = 100
 
 	--steps
     self.stepTimer = 0
@@ -1205,6 +1210,7 @@ function ResetPlayer(self)
 
     -- Vida y stamina al máximo
     self.public.health  = 100
+    health = 100
     self.public.stamina = 100
 
     -- Pociones

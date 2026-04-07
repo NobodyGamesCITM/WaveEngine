@@ -1,0 +1,45 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    4.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Plane",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 16307128345679725257,
+                "type": 3
+            },
+            {
+                "active": true,
+                "scriptUID": 11938354301765966686,
+                "type": 6
+            }
+        ],
+        "name": "Puzzle_Tile_1Way",
+        "tag": "",
+        "uid": 15942116825128320035
+    }
+]

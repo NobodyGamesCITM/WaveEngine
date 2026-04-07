@@ -24,6 +24,7 @@ MaterialEditorWindow::~MaterialEditorWindow()
         sMat->SetHeightMap(0);
         sMat->SetMetallicMap(0);
         sMat->SetOcclusionMap(0);
+        sMat->SetEmissiveMap(0);
 
         delete editingMaterial;
         editingMaterial = nullptr;
@@ -63,6 +64,13 @@ void MaterialEditorWindow::Draw() {
                 sMat->SetColor(color);
             }
 
+            // --- EMISIVO (NUEVO) ---
+            glm::vec3 emissiveColor = sMat->GetEmissiveColor();
+            if (ImGui::ColorEdit3("Emissive Color/Intensity", glm::value_ptr(emissiveColor), ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_Float)) {
+                sMat->SetEmissiveColor(emissiveColor);
+            }
+            // -----------------------
+
             // --- PARÁMETROS PBR ---
             float metallic = sMat->GetMetallic();
             if (ImGui::SliderFloat("Metallic", &metallic, 0.0f, 1.0f)) {
@@ -94,25 +102,30 @@ void MaterialEditorWindow::Draw() {
 
             ImGui::Separator();
 
+            // --- TEXTURE SLOTS ---
             UID albedoUID = sMat->GetAlbedoMapUID();
-            if (DrawTextureSlot("Albedo Map", albedoUID, sMat)) 
+            if (DrawTextureSlot("Albedo Map", albedoUID, sMat))
                 sMat->SetAlbedoMap(albedoUID);
 
             UID normalUID = sMat->GetNormalMapUID();
-            if (DrawTextureSlot("Normal Map", normalUID, sMat)) 
+            if (DrawTextureSlot("Normal Map", normalUID, sMat))
                 sMat->SetNormalMap(normalUID);
 
             UID heightUID = sMat->GetHeightMapUID();
-            if (DrawTextureSlot("Height Map", heightUID, sMat)) 
+            if (DrawTextureSlot("Height Map", heightUID, sMat))
                 sMat->SetHeightMap(heightUID);
 
             UID metallicUID = sMat->GetMetallicMapUID();
-            if (DrawTextureSlot("Metallic Map", metallicUID, sMat)) 
+            if (DrawTextureSlot("Metallic Map", metallicUID, sMat))
                 sMat->SetMetallicMap(metallicUID);
 
             UID occlusionUID = sMat->GetOcclusioMapUID();
-            if (DrawTextureSlot("Occlusion Map", occlusionUID, sMat)) 
+            if (DrawTextureSlot("Occlusion Map", occlusionUID, sMat))
                 sMat->SetOcclusionMap(occlusionUID);
+
+            UID emissiveUID = sMat->GetEmissiveMapUID();
+            if (DrawTextureSlot("Emissive Map", emissiveUID, sMat))
+                sMat->SetEmissiveMap(emissiveUID);
         }
 
         ImGui::Spacing();

@@ -94,7 +94,6 @@ void AssetsWindow::RefreshAssets()
 
     BuildTreeRecursive(rootNode);
 
-    // Restaurar navegación
     AssetNode* restoredNode = FindNodeByPath(rootNode, previousPath);
     if (restoredNode) {
         currentNode = restoredNode;

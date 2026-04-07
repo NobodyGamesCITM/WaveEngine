@@ -252,7 +252,6 @@ local function TakeDamage(self, amount, attackerPos)
         lungeStopTimer      = 0
         orbitTimer          = 0
 
-        if attackCol then attackCol:Disable() end
         if nav       then nav:StopMovement()  end
         HardBrakeXZ()
         if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
@@ -519,7 +518,6 @@ local function UpdateAnticipate(self, dt)
     targetVelX = ndx * self.public.lungeForce * 0.5
     targetVelZ = ndz * self.public.lungeForce * 0.5
 
-    if attackCol then attackCol:Disable() end
     playerHitThisAttack = false
     isAttacking         = true
     attackTimer         = 0
@@ -540,10 +538,6 @@ local function UpdateAttack(self, dt)
         ApplyMoveVelocity(dt, self.public.brakeDecel)
     end
 
-    if attackTimer >= self.public.attackColDelay and attackCol then
-        attackCol:Enable()
-    end
-
     -- Polling de distancia como respaldo al trigger.
     -- Usa worldPosition en ambos lados para evitar mezcla de espacios de coordenadas.
     if attackTimer >= self.public.attackColDelay and not playerHitThisAttack and playerGO then
@@ -562,7 +556,6 @@ local function UpdateAttack(self, dt)
     if attackTimer >= self.public.attackDur then
         isAttacking         = false
         playerHitThisAttack = false
-        if attackCol then attackCol:Disable() end
         attackTimer   = 0
         isOnCooldown  = true
         cooldownTimer = self.public.cooldown + math.random() * 0.8
@@ -631,6 +624,7 @@ function Start(self)
     rb        = self.gameObject:GetComponent("Rigidbody")
     anim      = self.gameObject:GetComponent("Animation")
     attackCol = self.gameObject:GetComponent("Box Collider")
+    if attackCol then attackCol:Enable() end
 
     attackSource = GameObject.Find("SK_KopisSource")
     hurtSource   = GameObject.Find("SK_HurtSource")

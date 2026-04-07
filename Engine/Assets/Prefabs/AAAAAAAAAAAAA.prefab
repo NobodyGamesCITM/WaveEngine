@@ -1,0 +1,45 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "meshUID": 1482711841123970611,
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 3850433614951368511,
+                "type": 3
+            },
+            {
+                "active": true,
+                "scriptUID": 11938354301765966686,
+                "type": 6
+            }
+        ],
+        "name": "base1",
+        "tag": "",
+        "uid": 529055757654666816
+    }
+]

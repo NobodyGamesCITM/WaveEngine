@@ -1,0 +1,45 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    5.0,
+                    2.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Plane",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 6337835419757823377,
+                "type": 3
+            },
+            {
+                "active": true,
+                "scriptUID": 11938354301765966686,
+                "type": 6
+            }
+        ],
+        "name": "Puzzle_Tile_2Way_L",
+        "tag": "",
+        "uid": 9717893046464998318
+    }
+]

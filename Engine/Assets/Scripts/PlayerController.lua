@@ -170,6 +170,7 @@ local function GetMovementInput(self)
     if moveX ~= 0 or moveZ ~= 0 then
         -- Log removed to reduce console clutter
     end
+    if _G.interact == true then _G.interact = false end -- auto-reset global after one use
 
     if self.public.interact == true then self.public.interact = false end
     if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
@@ -178,7 +179,6 @@ local function GetMovementInput(self)
         _G.interact = true -- sync with global for old scripts like Portal.lua
     end
     
-    if _G.interact == true then _G.interact = false end -- auto-reset global after one use
 
     moveX, moveZ = normalizeInput(moveX, moveZ)
     local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
@@ -639,7 +639,7 @@ States[State.SHOOTING] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 1.0) 
+            anim:Play("Apolo", 2.0) 
             --anim:SetSpeed("Apolo", 0.1)
         end -- aquí shoot
         attackTimer = 0

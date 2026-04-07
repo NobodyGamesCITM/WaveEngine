@@ -1,0 +1,96 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -71.03987884521484,
+                    -8.06200122833252,
+                    -263.7395324707031
+                ],
+                "rotation": [
+                    0.0,
+                    -0.028005363419651985,
+                    0.0
+                ],
+                "scale": [
+                    15.725936889648438,
+                    0.7193607091903687,
+                    33.8472900390625
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Cube",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 8227335941818663295,
+                "type": 3
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    1.0,
+                    20.0,
+                    1.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 10
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 16
+            },
+            {
+                "active": true,
+                "scriptUID": 330382436338963650,
+                "type": 6
+            }
+        ],
+        "name": "Agua_izq",
+        "tag": "Water",
+        "uid": 3053595784808951142
+    }
+]

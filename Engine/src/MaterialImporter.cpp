@@ -118,10 +118,10 @@ UID MaterialImporter::CreateNewMaterial(const std::string& directory, const std:
         success = true;
     }
 
-    Application::GetInstance().resources.get()->ImportFile(fileName.c_str(), true);
+    UID importedUID = Application::GetInstance().resources.get()->ImportFile(fileName.c_str(), true);
 
     delete defaultMat;
-    return success ? newUID : 0;
+    return importedUID;
 }
 
 Material* MaterialImporter::CloneMaterial(const Material* source) {

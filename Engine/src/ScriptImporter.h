@@ -14,4 +14,6 @@ public:
     static bool SaveToCustomFormat(const Script& script, const UID& filename);
     static Script LoadFromCustomFormat(const UID& filename);
 
+    static std::string GetDefaultScriptTemplate();
+    static UID CreateNewScript(const std::string& directory, const std::string& name);
 };

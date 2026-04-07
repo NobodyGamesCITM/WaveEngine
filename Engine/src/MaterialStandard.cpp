@@ -22,6 +22,7 @@ MaterialStandard::~MaterialStandard()
     if (normalMapUID != 0) resModule->ReleaseResource(normalMapUID);
     if (heightMapUID != 0) resModule->ReleaseResource(heightMapUID);
     if (metallicMapUID != 0) resModule->ReleaseResource(metallicMapUID);
+    if (roughnessMapUID != 0) resModule->ReleaseResource(roughnessMapUID);
     if (occlusionMapUID != 0) resModule->ReleaseResource(occlusionMapUID);
     if (emissiveMapUID != 0) resModule->ReleaseResource(emissiveMapUID);
 
@@ -31,6 +32,7 @@ MaterialStandard::~MaterialStandard()
     metallicMapUID = 0;
     occlusionMapUID = 0;
     emissiveMapUID = 0;
+    roughnessMapUID = 0;
 }
 
 void MaterialStandard::Bind(Shader* shader)
@@ -41,6 +43,7 @@ void MaterialStandard::Bind(Shader* shader)
     if (albedoMap == nullptr && albedoMapUID != 0) albedoMap = (ResourceTexture*)resModule->RequestResource(albedoMapUID);
     if (normalMap == nullptr && normalMapUID != 0) normalMap = (ResourceTexture*)resModule->RequestResource(normalMapUID);
     if (metallicMap == nullptr && metallicMapUID != 0) metallicMap = (ResourceTexture*)resModule->RequestResource(metallicMapUID);
+    if (roughnessMap == nullptr && roughnessMapUID != 0) roughnessMap = (ResourceTexture*)resModule->RequestResource(roughnessMapUID);
     if (occlusionMap == nullptr && occlusionMapUID != 0) occlusionMap = (ResourceTexture*)resModule->RequestResource(occlusionMapUID);
     if (heightMap == nullptr && heightMapUID != 0) heightMap = (ResourceTexture*)resModule->RequestResource(heightMapUID);
     if (emissiveMap == nullptr && emissiveMapUID != 0) emissiveMap = (ResourceTexture*)resModule->RequestResource(emissiveMapUID);
@@ -123,6 +126,18 @@ void MaterialStandard::Bind(Shader* shader)
     }
     shader->SetInt("uEmissiveMap", 5);
 
+    // Roughness
+    glActiveTexture(GL_TEXTURE6);
+    if (roughnessMap && roughnessMap->IsLoadedToMemory()) {
+        glBindTexture(GL_TEXTURE_2D, roughnessMap->GetGPU_ID());
+        shader->SetBool("uUseRoughnessMap", true);
+    }
+    else {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        shader->SetBool("uUseRoughnessMap", false);
+    }
+    shader->SetInt("uRoughnessMap", 6);
+
     glActiveTexture(GL_TEXTURE0);
 }
 
@@ -133,10 +148,8 @@ void MaterialStandard::LoadCustomData(std::ifstream& file) {
     file.read((char*)&normalMapUID, sizeof(UID));
     file.read((char*)&heightMapUID, sizeof(UID));
     file.read((char*)&occlusionMapUID, sizeof(UID));
-    file.read((char*)&emissiveMapUID, sizeof(UID));
 
     file.read((char*)&color, sizeof(glm::vec4));
-    file.read((char*)&emissiveColor, sizeof(glm::vec3));
     file.read((char*)&metallic, sizeof(float));
     file.read((char*)&roughness, sizeof(float));
     file.read((char*)&heightScale, sizeof(float));
@@ -144,12 +157,17 @@ void MaterialStandard::LoadCustomData(std::ifstream& file) {
     file.read((char*)&tiling, sizeof(glm::vec2));
     file.read((char*)&offset, sizeof(glm::vec2));
 
+    file.read((char*)&emissiveMapUID, sizeof(UID));
+    file.read((char*)&emissiveColor, sizeof(glm::vec3));
+    file.read((char*)&roughnessMapUID, sizeof(UID));
+
     SetAlbedoMap(albedoMapUID);
     SetMetallicMap(metallicMapUID);
     SetNormalMap(normalMapUID);
     SetHeightMap(heightMapUID);
     SetOcclusionMap(occlusionMapUID);
     SetEmissiveMap(emissiveMapUID);
+    SetRoughnessMap(roughnessMapUID);
 }
 
 void MaterialStandard::SaveCustomData(std::ofstream& file) const {
@@ -159,17 +177,18 @@ void MaterialStandard::SaveCustomData(std::ofstream& file) const {
     file.write((char*)&normalMapUID, sizeof(UID));
     file.write((char*)&heightMapUID, sizeof(UID));
     file.write((char*)&occlusionMapUID, sizeof(UID));
-    file.write((char*)&emissiveMapUID, sizeof(UID));
-
 
     file.write((char*)&color, sizeof(glm::vec4));
-    file.write((char*)&emissiveColor, sizeof(glm::vec3));
     file.write((char*)&metallic, sizeof(float));
     file.write((char*)&roughness, sizeof(float));
     file.write((char*)&heightScale, sizeof(float));
     
     file.write((char*)&tiling, sizeof(glm::vec2));
     file.write((char*)&offset, sizeof(glm::vec2));
+
+    file.write((char*)&emissiveMapUID, sizeof(UID));
+    file.write((char*)&emissiveColor, sizeof(glm::vec3));
+    file.write((char*)&roughnessMapUID, sizeof(UID));
 }
 
 void MaterialStandard::SaveToJson(nlohmann::json& j) const {
@@ -179,6 +198,7 @@ void MaterialStandard::SaveToJson(nlohmann::json& j) const {
     j["MetallicMapUID"] = metallicMapUID;
     j["OcclusionMapUID"] = occlusionMapUID;
     j["EmissiveMapUID"] = emissiveMapUID;
+    j["RoughnessMapUID"] = roughnessMapUID;
 
     j["Color"] = { color.r, color.g, color.b, color.a };
     j["EmissiveColor"] = { emissiveColor.r, emissiveColor.g, emissiveColor.b };
@@ -198,6 +218,7 @@ void MaterialStandard::LoadFromJson(const nlohmann::json& j) {
     UID tempMetallicMapUID = j.value("MetallicMapUID", 0ull);
     UID tempOcclusionMapUID = j.value("OcclusionMapUID", 0ull);
     UID tempEmissiveMapUID = j.value("EmissiveMapUID", 0ull);
+    UID tempRoughnessMapUID = j.value("RoughnessMapUID", 0ull);
 
     if (j.contains("Color")) {
         auto c = j["Color"];
@@ -226,6 +247,7 @@ void MaterialStandard::LoadFromJson(const nlohmann::json& j) {
     SetMetallicMap(tempMetallicMapUID);
     SetOcclusionMap(tempOcclusionMapUID);
     SetEmissiveMap(tempEmissiveMapUID);
+    SetRoughnessMap(tempRoughnessMapUID);
 }
 
 void MaterialStandard::SetAlbedoMap(UID uid) {
@@ -258,6 +280,14 @@ void MaterialStandard::SetMetallicMap(UID uid) {
     }
     metallicMapUID = uid;
     metallicMap = (metallicMapUID != 0) ? (ResourceTexture*)Application::GetInstance().resources->RequestResource(metallicMapUID) : nullptr;
+}
+
+void MaterialStandard::SetRoughnessMap(UID uid) {
+    if (roughnessMapUID != 0) {
+        Application::GetInstance().resources->ReleaseResource(roughnessMapUID);
+    }
+    roughnessMapUID = uid;
+    roughnessMap = (roughnessMapUID != 0) ? (ResourceTexture*)Application::GetInstance().resources->RequestResource(roughnessMapUID) : nullptr;
 }
 
 void MaterialStandard::SetOcclusionMap(UID uid) {

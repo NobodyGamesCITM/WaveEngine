@@ -22,6 +22,7 @@ public:
     void SetHeightMap(UID uid);
     void SetOcclusionMap(UID uid);
     void SetEmissiveMap(UID uid);
+    void SetRoughnessMap(UID uid);
 
     const glm::vec4& GetColor() { return color; }
     const float GetMetallic() { return metallic; }
@@ -41,6 +42,7 @@ public:
 
     const UID GetAlbedoMapUID() { return albedoMapUID; }
     const UID GetMetallicMapUID() { return metallicMapUID; }
+    const UID GetRoughnessMapUID() { return roughnessMapUID; }
     const UID GetNormalMapUID() { return normalMapUID; }
     const UID GetHeightMapUID() { return heightMapUID; }
     const UID GetOcclusioMapUID() { return occlusionMapUID; }
@@ -56,6 +58,7 @@ private:
     
     UID albedoMapUID = 0;
     UID metallicMapUID = 0;
+    UID roughnessMapUID = 0;
     UID normalMapUID = 0;
     UID heightMapUID = 0;
     UID occlusionMapUID = 0;
@@ -63,6 +66,7 @@ private:
 
     ResourceTexture* albedoMap = nullptr;
     ResourceTexture* metallicMap = nullptr;
+    ResourceTexture* roughnessMap = nullptr;
     ResourceTexture* normalMap = nullptr;
     ResourceTexture* heightMap = nullptr;
     ResourceTexture* occlusionMap = nullptr;
@@ -75,8 +79,4 @@ private:
     float heightScale = 0.05f;
     glm::vec2 tiling = { 1.0f, 1.0f };
     glm::vec2 offset = { 0.0f, 0.0f };
-
-
-
-
 };

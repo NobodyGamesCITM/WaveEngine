@@ -23,6 +23,7 @@ MaterialEditorWindow::~MaterialEditorWindow()
         sMat->SetNormalMap(0);
         sMat->SetHeightMap(0);
         sMat->SetMetallicMap(0);
+        sMat->SetRoughnessMap(0);
         sMat->SetOcclusionMap(0);
         sMat->SetEmissiveMap(0);
 
@@ -46,7 +47,6 @@ void MaterialEditorWindow::Draw() {
             return;
         }
 
-        // --- TIPO DE MATERIAL ---
         int currentType = (int)editingMaterial->GetType();
         const char* types[] = { "Standard", "Unlit", "Water" };
         if (ImGui::Combo("Material Type", &currentType, types, IM_ARRAYSIZE(types))) {
@@ -54,24 +54,19 @@ void MaterialEditorWindow::Draw() {
         }
         ImGui::Separator();
 
-        // --- PROPIEDADES STANDARD ---
         if (editingMaterial->GetType() == MaterialType::STANDARD) {
             MaterialStandard* sMat = (MaterialStandard*)editingMaterial;
 
-            // Albedo y Opacidad
             glm::vec4 color = sMat->GetColor();
             if (ImGui::ColorEdit4("Albedo Tint", glm::value_ptr(color))) {
                 sMat->SetColor(color);
             }
 
-            // --- EMISIVO (NUEVO) ---
             glm::vec3 emissiveColor = sMat->GetEmissiveColor();
             if (ImGui::ColorEdit3("Emissive Color/Intensity", glm::value_ptr(emissiveColor), ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_Float)) {
                 sMat->SetEmissiveColor(emissiveColor);
             }
-            // -----------------------
 
-            // --- PARÁMETROS PBR ---
             float metallic = sMat->GetMetallic();
             if (ImGui::SliderFloat("Metallic", &metallic, 0.0f, 1.0f)) {
                 sMat->SetMetallic(metallic);
@@ -89,7 +84,6 @@ void MaterialEditorWindow::Draw() {
 
             ImGui::Separator();
 
-            // --- UV TRANSFORM ---
             glm::vec2 tiling = sMat->GetTiling();
             if (ImGui::DragFloat2("Tiling", glm::value_ptr(tiling), 0.1f)) {
                 sMat->SetTiling(tiling);
@@ -102,7 +96,6 @@ void MaterialEditorWindow::Draw() {
 
             ImGui::Separator();
 
-            // --- TEXTURE SLOTS ---
             UID albedoUID = sMat->GetAlbedoMapUID();
             if (DrawTextureSlot("Albedo Map", albedoUID, sMat))
                 sMat->SetAlbedoMap(albedoUID);
@@ -126,6 +119,10 @@ void MaterialEditorWindow::Draw() {
             UID emissiveUID = sMat->GetEmissiveMapUID();
             if (DrawTextureSlot("Emissive Map", emissiveUID, sMat))
                 sMat->SetEmissiveMap(emissiveUID);
+
+            UID roughnessUID = sMat->GetRoughnessMapUID();
+            if (DrawTextureSlot("Roughness Map", roughnessUID, sMat))
+                sMat->SetRoughnessMap(roughnessUID);
         }
 
         ImGui::Spacing();

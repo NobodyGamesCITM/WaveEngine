@@ -50,10 +50,11 @@ bool ShaderStandard::CreateShader()
         "uniform sampler2D uOcclusionMap;\n"
         "uniform sampler2D uHeightMap;\n"
         "uniform sampler2D uShadowMap;\n"
-        "uniform sampler2D uEmissiveMap;\n" // <-- AÑADIDO
+        "uniform sampler2D uEmissiveMap;\n"
+        "uniform sampler2D uRoughnessMap;\n"
         "\n"
         "uniform vec4  uColor;\n"
-        "uniform vec3  uEmissiveColor;\n" // <-- AÑADIDO
+        "uniform vec3  uEmissiveColor;\n"
         "uniform float uHeightScale;\n"
         "uniform float uMetallic;\n"
         "uniform float uRoughness;\n"
@@ -66,7 +67,8 @@ bool ShaderStandard::CreateShader()
         "uniform bool uUseOcclusionMap;\n"
         "uniform bool uUseHeightMap;\n"
         "uniform bool uShadowsEnabled;\n"
-        "uniform bool uUseEmissiveMap;\n" // <-- AÑADIDO
+        "uniform bool uUseEmissiveMap;\n"
+        "uniform bool uUseRoughnessMap;\n"
         "\n"
         "struct DirLightGLSL {\n"
         "    vec3 direction; float _p0;\n"
@@ -188,7 +190,8 @@ bool ShaderStandard::CreateShader()
         "    vec3 albedo = pow(texColor.rgb, vec3(2.2)) * uColor.rgb;\n"
         "    float metallic = uUseMetallicMap ? texture(uMetallicMap, uv).r * uMetallic : uMetallic;\n"
         "    float ao = uUseOcclusionMap ? texture(uOcclusionMap, uv).r : 1.0;\n"
-        "    float roughness = clamp(uRoughness, 0.05, 1.0);\n"
+            "    float texRoughness = uUseRoughnessMap ? texture(uRoughnessMap, uv).r * uRoughness : uRoughness;\n"
+            "    float roughness = clamp(texRoughness, 0.05, 1.0);\n"
         "\n"
         "    vec3 result = vec3(0.0);\n"
         "\n"

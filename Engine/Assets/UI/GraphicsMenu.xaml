@@ -25,15 +25,27 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <TextBlock x:Name="TextContent"
-                                       Text="{TemplateBinding Content}"
-                                       FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       FontWeight="{TemplateBinding FontWeight}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Image x:Name="ArrowL" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="0,0,15,0" Visibility="Hidden" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextContent"
+                                           Text="{TemplateBinding Content}"
+                                           FontFamily="{TemplateBinding FontFamily}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontWeight="{TemplateBinding FontWeight}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
+                            </StackPanel>
                             <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter TargetName="ArrowL" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
+                                </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="TextContent" Property="Foreground" Value="#88FFFFFF"/>
                                 </Trigger>
@@ -97,10 +109,10 @@
 
                     <RadioButton x:Name="FullScreen"
                                  Content="FullScreen"
-                                 FontSize="20" FontFamily="Arial"/>
+                                 FontSize="20" FontFamily="Arial" Grid.RowSpan="2" Margin="242,33,182,91"/>
                     <RadioButton x:Name="AntiAliasing"
                                  Grid.Row="1"
-                                 Content="AntiAliasing" FontFamily="Arial"/>
+                                 Content="AntiAliasing" FontFamily="Arial" Grid.RowSpan="2" Margin="242,33,182,21"/>
 
                     <Button x:Name="ResolutionButton"
                             Grid.Row="3"

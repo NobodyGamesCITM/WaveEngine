@@ -14,13 +14,13 @@ end
 local function RefreshHealthBar(targetHealth, dt)
     currentDisplayHealth = dt and Lerp(currentDisplayHealth, targetHealth, dt * LERP_SPEED) or targetHealth
     local clamped = math.max(0, math.min(100, currentDisplayHealth))
-    UI.SetElementWidth("HealthBar", (clamped / 100.0) * HEALTH_BAR_MAX_WIDTH)
+    UI.SetElementWidth("HealthBarContainer", (clamped / 100.0) * HEALTH_BAR_MAX_WIDTH)
 end
 
 local function RefreshStaminaBar(targetStamina, dt)
     currentDisplayStamina = dt and Lerp(currentDisplayStamina, targetStamina, dt * LERP_SPEED) or targetStamina
     local clamped = math.max(0, math.min(100, currentDisplayStamina))
-    UI.SetElementWidth("StaminaBar", (clamped / 100.0) * STAMINA_BAR_MAX_WIDTH)
+    UI.SetElementWidth("StaminaBarContainer", (clamped / 100.0) * STAMINA_BAR_MAX_WIDTH)
 end
 
 local function RefreshPotionUI(potions)

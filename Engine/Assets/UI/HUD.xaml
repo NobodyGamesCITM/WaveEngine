@@ -30,7 +30,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
                 <!-- Barra de vida -->
                 <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="Left"
+                      ClipToBounds="True">
                     <Grid x:Name="HealthBarGrid"
                           HorizontalAlignment="Left"
                           Width="334">
@@ -42,7 +43,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
                 <!-- Barra de stamina -->
                 <Grid x:Name="StaminaBarContainer" Margin="163,54,86,93"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="Left"
+                      ClipToBounds="True">
                     <Grid x:Name="StaminaBarGrid"
                           HorizontalAlignment="Left"
                           Width="251">

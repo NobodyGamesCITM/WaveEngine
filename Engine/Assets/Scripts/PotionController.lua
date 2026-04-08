@@ -31,7 +31,7 @@ function Update(self, dt)
     end
 
     -- Input para usar poción
-    if Input.GetKey("3") and potionCooldown <= 0 then
+    if Input.GetKey("3") or Inout.GetGamepadButton("DPadDown") and potionCooldown <= 0 then
         if self.public.potionCount > 0 and _G.PlayerInstance and _G.PlayerInstance.public.health < 100 and not potionHealing then
             self.public.potionCount = self.public.potionCount - 1
             potionHealing = true

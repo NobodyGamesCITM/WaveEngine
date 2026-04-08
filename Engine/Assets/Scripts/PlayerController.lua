@@ -283,6 +283,20 @@ end
 
 local function EquipMask(self, newMask)
 
+    if newMask == Mask.APOLLO then 
+        if maskAres then maskAres:SetActive(false)end
+        if maskApolo then maskApolo:SetActive(true)end
+        if maskHermes then maskHermes:SetActive(false)end
+    elseif newMask == Mask.HERMES then 
+        if maskAres then maskAres:SetActive(false)end
+        if maskApolo then maskApolo:SetActive(false)end
+        if maskHermes then maskHermes:SetActive(true)end
+    elseif newMask == Mask.ARES then 
+        if maskAres then maskAres:SetActive(true) end
+        if maskApolo then maskApolo:SetActive(false)end
+        if maskHermes then maskHermes:SetActive(false)end
+    end
+
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
         Engine.Log("[Player] Hermes quitado sobre el agua")
@@ -929,7 +943,15 @@ function Start(self)
     ChangeState(self, State.IDLE, true)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
-    
+
+    maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
+    maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
+    maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
+
+    if maskApolo then maskApolo:SetActive(false) end
+    if maskHermes then maskHermes:SetActive(false) end
+    if maskAres then maskAres:SetActive(false) end
+
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
     end

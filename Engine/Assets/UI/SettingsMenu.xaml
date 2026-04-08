@@ -12,6 +12,34 @@
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary Source="Resources.xaml"/>
         </ResourceDictionary.MergedDictionaries>
+        <Style x:Key="TextButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock x:Name="TextContent"
+                                   Text="{TemplateBinding Content}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="TextContent" Property="Foreground" Value="#88FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Storyboard x:Key="Intro">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="GraphicsButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
@@ -94,7 +122,7 @@
             </Grid.RowDefinitions>
             <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Width="445" Text="SETTINGS">
+                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="./#ForgottenUncial" StrokeThickness="8" Width="445" Text="SETTINGS">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -120,7 +148,7 @@
                         <RowDefinition Height="30*"/>
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="GRAPHICS" Command="{Binding Path=Commands[GraphicsButton]}">   
+                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="GRAPHICS" Command="{Binding Path=Commands[GraphicsButton]}">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                   <noesis:SetFocusAction/>
@@ -138,7 +166,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="SOUNDS" Command="{Binding Path=Commands[SoundsButton]}">
+                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="SOUNDS" Command="{Binding Path=Commands[SoundsButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -153,7 +181,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="BACK" Command="{Binding Path=Commands[BackButton]}">
+                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="BACK" Command="{Binding Path=Commands[BackButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

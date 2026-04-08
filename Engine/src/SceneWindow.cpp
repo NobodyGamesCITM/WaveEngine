@@ -403,17 +403,30 @@ void SceneWindow::DrawGizmo()
     //glm::mat4 viewMatrix = camera->GetViewMatrix();
     //glm::mat4 projectionMatrix = camera->GetProjectionMatrix();
 
+    // 5. Manipulacion
+    ImGuizmo::OPERATION currentOp = inspectorWindow->GetCurrentGizmoOperation();
+    ImGuizmo::MODE currentMode = inspectorWindow->GetCurrentGizmoMode();
+
     glm::vec3 pivot(0.0f);
     for (auto* t : transforms)
         pivot += t->GetGlobalPosition();
     pivot /= transforms.size();
 
-    glm::mat4 originalPivotMatrix = glm::translate(glm::mat4(1.0f), pivot);
+    glm::mat4 originalPivotMatrix;
+    if (currentMode == ImGuizmo::LOCAL && transforms.size() == 1)
+    {
+        glm::mat4 globalMat = transforms[0]->GetGlobalMatrix();
+        glm::vec3 pos, scale, skew;
+        glm::vec4 persp;
+        glm::quat rot;
+        glm::decompose(globalMat, scale, rot, pos, skew, persp);
+        originalPivotMatrix = glm::translate(glm::mat4(1.0f), pos) * glm::mat4_cast(rot);
+    }
+    else
+    {
+        originalPivotMatrix = glm::translate(glm::mat4(1.0f), pivot);
+    }
     glm::mat4 gizmoMatrix = originalPivotMatrix;
-
-    // 5. Manipulaci�n
-    ImGuizmo::OPERATION currentOp = inspectorWindow->GetCurrentGizmoOperation();
-    ImGuizmo::MODE currentMode = inspectorWindow->GetCurrentGizmoMode();
 
     float snapValues[3];
 

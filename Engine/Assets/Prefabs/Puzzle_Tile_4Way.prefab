@@ -1,0 +1,45 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    5.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Plane",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 12896890936891103369,
+                "type": 3
+            },
+            {
+                "active": true,
+                "scriptUID": 11938354301765966686,
+                "type": 6
+            }
+        ],
+        "name": "Puzzle_Tile_4Way",
+        "tag": "",
+        "uid": 2303377704795850540
+    }
+]

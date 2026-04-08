@@ -9,9 +9,9 @@
                     {
                         "active": true,
                         "position": [
-                            -0.1481475830078125,
-                            0.0,
-                            -1.1999969482421875
+                            -0.0370330810546875,
+                            1.9073486328125e-05,
+                            -0.199981689453125
                         ],
                         "rotation": [
                             0.0,
@@ -64,9 +64,9 @@
                         "type": 8
                     }
                 ],
-                "name": "Puerta_Sala_1_Colision",
+                "name": "Puerta_Sala_2_Colision",
                 "tag": "",
-                "uid": 15147021150765807201
+                "uid": 13897740462440258027
             },
             {
                 "active": true,
@@ -128,7 +128,7 @@
                                                                                 ],
                                                                                 "name": "arc2",
                                                                                 "tag": "",
-                                                                                "uid": 8571648098283522451
+                                                                                "uid": 3656357170506987924
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -154,7 +154,7 @@
                                                                         ],
                                                                         "name": "arc2_$AssimpFbx$_ScalingPivotInverse",
                                                                         "tag": "",
-                                                                        "uid": 5942485740334039475
+                                                                        "uid": 17667614726421750372
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -180,7 +180,7 @@
                                                                 ],
                                                                 "name": "arc2_$AssimpFbx$_Scaling",
                                                                 "tag": "",
-                                                                "uid": 48986791802922887
+                                                                "uid": 17443583150151691145
                                                             }
                                                         ],
                                                         "components": [
@@ -206,7 +206,7 @@
                                                         ],
                                                         "name": "arc2_$AssimpFbx$_ScalingPivot",
                                                         "tag": "",
-                                                        "uid": 3606791958104204885
+                                                        "uid": 5736574745761303926
                                                     }
                                                 ],
                                                 "components": [
@@ -232,7 +232,7 @@
                                                 ],
                                                 "name": "arc2_$AssimpFbx$_ScalingOffset",
                                                 "tag": "",
-                                                "uid": 16699381454214835537
+                                                "uid": 12324837899066602700
                                             }
                                         ],
                                         "components": [
@@ -258,7 +258,7 @@
                                         ],
                                         "name": "arc2_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 10975371689638033763
+                                        "uid": 15350928887677289418
                                     }
                                 ],
                                 "components": [
@@ -284,7 +284,7 @@
                                 ],
                                 "name": "arc2_$AssimpFbx$_RotationPivot",
                                 "tag": "",
-                                "uid": 910471953486680333
+                                "uid": 1152143362037843754
                             }
                         ],
                         "components": [
@@ -310,7 +310,7 @@
                         ],
                         "name": "arc2_$AssimpFbx$_Translation",
                         "tag": "",
-                        "uid": 6118225998099074234
+                        "uid": 13464068496588314037
                     },
                     {
                         "active": true,
@@ -332,7 +332,7 @@
                                                                 "active": true,
                                                                 "position": [
                                                                     0.0,
-                                                                    0.0,
+                                                                    -7.62939453125e-06,
                                                                     0.0
                                                                 ],
                                                                 "rotation": [
@@ -360,7 +360,7 @@
                                                         ],
                                                         "name": "valla2",
                                                         "tag": "",
-                                                        "uid": 8030507606456021062
+                                                        "uid": 15375629915799325858
                                                     }
                                                 ],
                                                 "components": [
@@ -386,7 +386,7 @@
                                                 ],
                                                 "name": "valla2_$AssimpFbx$_ScalingPivotInverse",
                                                 "tag": "",
-                                                "uid": 8071786664647651527
+                                                "uid": 7450586665902051106
                                             }
                                         ],
                                         "components": [
@@ -412,7 +412,7 @@
                                         ],
                                         "name": "valla2_$AssimpFbx$_ScalingPivot",
                                         "tag": "",
-                                        "uid": 15908846152915130628
+                                        "uid": 3359971159925538384
                                     }
                                 ],
                                 "components": [
@@ -438,7 +438,7 @@
                                 ],
                                 "name": "valla2_$AssimpFbx$_RotationPivotInverse",
                                 "tag": "",
-                                "uid": 6688752735500266471
+                                "uid": 16642379980865077241
                             }
                         ],
                         "components": [
@@ -485,28 +485,28 @@
                                 "active": true,
                                 "publicVariables": [
                                     {
+                                        "name": "speed",
+                                        "type": 0,
+                                        "value": 1.0
+                                    },
+                                    {
                                         "name": "myColision",
                                         "type": 1,
-                                        "value": "Puerta_Sala_1_Colision"
+                                        "value": "Puerta_Sala_2_Colision"
                                     },
                                     {
                                         "name": "distance",
                                         "type": 0,
                                         "value": 10.0
-                                    },
-                                    {
-                                        "name": "speed",
-                                        "type": 0,
-                                        "value": 1.0
                                     }
                                 ],
                                 "scriptUID": 2217885483722212414,
                                 "type": 6
                             }
                         ],
-                        "name": "Puerta_Sala_1",
+                        "name": "Puerta_Sala_2",
                         "tag": "",
-                        "uid": 11221235394639095729
+                        "uid": 2126180425236198365
                     }
                 ],
                 "components": [
@@ -532,16 +532,16 @@
                 ],
                 "name": "Puerta_Medieval_Abajo",
                 "tag": "",
-                "uid": 14243614621555802781
+                "uid": 3931467627385540654
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    171.5,
-                    30.80000114440918,
-                    -201.59999084472656
+                    113.0,
+                    44.80000305175781,
+                    -273.5999755859375
                 ],
                 "rotation": [
                     0.0,
@@ -557,8 +557,7 @@
             }
         ],
         "name": "Door",
-        "prefabInstance": 11916540983581581732,
         "tag": "",
-        "uid": 14492205680756042549
+        "uid": 18012382464005037499
     }
 ]

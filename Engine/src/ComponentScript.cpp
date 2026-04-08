@@ -108,6 +108,9 @@ void ComponentScript::Serialize(nlohmann::json& componentObj) const
             case ScriptVarType::SCENE:
                 varObj["value"] = std::get<std::string>(var.value);
                 break;
+            case ScriptVarType::PREFAB:
+                varObj["value"] = std::get<std::string>(var.value);
+                break;
             }
 
             varsArray.push_back(varObj);
@@ -170,6 +173,11 @@ void ComponentScript::Deserialize(const nlohmann::json& componentObj)
                     case ScriptVarType::SCENE: {
                         std::string value = varObj["value"].get<std::string>();
                         savedVars.emplace_back(varName, ScriptVarType::SCENE, value);
+                        break;
+                    }
+                    case ScriptVarType::PREFAB: {
+                        std::string value = varObj["value"].get<std::string>();
+                        savedVars.emplace_back(varName, ScriptVarType::PREFAB, value);
                         break;
                     }
                     }
@@ -718,6 +726,11 @@ void ComponentScript::ExtractPublicVariables()
                         newVariables.emplace_back(varName, ScriptVarType::SCENE, val);
                         handled = true;
                     }
+                    else if (typeStr == "Prefab") {
+                        std::string val = lua_isstring(L, -1) ? lua_tostring(L, -1) : "";
+                        newVariables.emplace_back(varName, ScriptVarType::PREFAB, val);
+                        handled = true;
+                    }
                 }
                 lua_pop(L, 2); // pop type y value
 
@@ -868,6 +881,9 @@ void ComponentScript::PushVariableToLua(lua_State* L, const ScriptVariable& var)
         break;
     }
     case ScriptVarType::SCENE:
+        lua_pushstring(L, std::get<std::string>(var.value).c_str());
+        break;
+    case ScriptVarType::PREFAB:
         lua_pushstring(L, std::get<std::string>(var.value).c_str());
         break;
     }

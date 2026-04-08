@@ -1,4 +1,4 @@
-﻿#include "ScriptManager.h"
+#include "ScriptManager.h"
 #include "Application.h"
 #include "Input.h"
 #include "Time.h"
@@ -832,6 +832,15 @@ static int Lua_Audio_SetGlobalVolume(lua_State* L) {
     Application::GetInstance().audio.get()->audioSystem->SetGlobalVolume(volume);
 
     AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
+static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
+    lua_getfield(L, 1, "ptr");  
+    AudioListener* listener = *static_cast<AudioListener**>(lua_touserdata(L, -1));
+    if (listener) {
+        listener->SetAsDefaultListener();
+    }
     return 0;
 }
 
@@ -1956,9 +1965,16 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             lua_pushnil(L);
             return 1;
         }
-        // Store it as a pointer-to-pointer (full userdata)
-        AudioListener** list = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
-        *list = listener;
+
+        lua_newtable(L);
+
+        AudioListener** ud = (AudioListener**)lua_newuserdata(L, sizeof(AudioListener*));
+        *ud = listener;
+        lua_setfield(L, -2, "ptr");
+
+        lua_pushcfunction(L, Lua_Audio_SetAsDefaultListener);
+        lua_setfield(L, -2, "SetAsDefaultListener");
+
         return 1;
     }
 

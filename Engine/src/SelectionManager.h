@@ -27,14 +27,19 @@ public:
 	GameObject* GetSelectedObject() const;
 	std::vector<GameObject*> GetFilteredObjects();
 
+	GameObject* GetSelectionAnchor() const { return selectionAnchor; }
+	void SetSelectionAnchor(GameObject* obj) { selectionAnchor = obj; }
+
 	const std::vector<GameObject*>& GetSelectedObjects() const { return selectedObjects; }
 	bool IsSelected(GameObject* obj) const;
 	bool HasSelection() const { return !selectedObjects.empty(); }
 	int GetSelectionCount() const { return static_cast<int>(selectedObjects.size()); }
+	void SelectRange(GameObject* start, GameObject* end, const std::vector<GameObject*>& allObjects);
 
 	void OnEvent(const Event& event);
 
 private:
 	std::vector<GameObject*> selectedObjects;
+	GameObject* selectionAnchor = nullptr;
 
 };

@@ -8,6 +8,8 @@ public = {
 local canvas     = nil
 local allDialogs = nil
 
+_G._IsDialogActive = false
+
 local PORTRAIT_MAP = {
     ["Telemaco"]    = "Portrait_Telemaco",
     ["Atenea"]      = "Portrait_Atenea",
@@ -122,7 +124,8 @@ local function startSequence(sequenceId)
     state.active          = true
     state.currentSequence = seq.dialogs
     state.currentIndex    = 1
-    _G.DialogActive       = true
+    _G._IsDialogActive    = true   -- usado por MenuManager para no reanudar el juego
+    _G.DialogActive       = true   -- flag público general
     Game.Pause()
     UI.SetElementVisibility("DialogBox", true)
     loadDialogEntry(state.currentSequence[1])
@@ -138,6 +141,7 @@ function ForceCloseDialog()
     state.active          = false
     state.currentSequence = nil
     state.currentIndex    = 0
+    _G._IsDialogActive    = false
     lastDisplayedChars    = -1
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
@@ -176,6 +180,7 @@ local function closeDialog()
     state.active          = false
     state.currentSequence = nil
     state.currentIndex    = 0
+    _G._IsDialogActive    = false
     lastDisplayedChars    = -1
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)

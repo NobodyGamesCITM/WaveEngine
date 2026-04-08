@@ -35,6 +35,9 @@ private:
     void DrawInsertionLine(const ImVec2& start, const ImVec2& end);
     void HandleAutoScroll();
 
+    std::vector<GameObject*> visibleObjects;
+    GameObject* pendingShiftSelection = nullptr;
+
     // Renaming functionality
     GameObject* renamingObject = nullptr;
     char renameBuffer[256] = "";

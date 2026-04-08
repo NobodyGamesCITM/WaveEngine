@@ -262,7 +262,7 @@ function Update(self, dt)
         if self.current == "HUD.xaml" then
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
-				-- No SetMusicState here to avoid restarting track
+                -- No SetMusicState here to avoid restarting track
             else
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
@@ -273,20 +273,13 @@ function Update(self, dt)
             end
         elseif self.current == "MainMenu.xaml" then
             if not self.isMusicPlaying and self.musicComp then
-			 	self.musicComp:PlayAudioEvent()
-				self.isMusicPlaying = true
-			end
-			Audio.SetMusicState("MainMenu")
+                self.musicComp:PlayAudioEvent()
+                self.isMusicPlaying = true
+            end
+            Audio.SetMusicState("MainMenu")
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
         SetPhase(self, "fadeIn")
     end
 end
-
-
-
-
-
-
-

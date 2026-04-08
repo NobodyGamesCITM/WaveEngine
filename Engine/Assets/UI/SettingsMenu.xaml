@@ -12,6 +12,77 @@
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary Source="Resources.xaml"/>
         </ResourceDictionary.MergedDictionaries>
+        <Style x:Key="TextButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <StackPanel x:Name="ButtonContent" Orientation="Horizontal" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                            <StackPanel.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </StackPanel.RenderTransform>
+                            <Image x:Name="ArrowL" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="0,0,15,0" Visibility="Hidden" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TextContent"
+                                       Text="{TemplateBinding Content}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <Image.RenderTransform>
+                                    <ScaleTransform ScaleX="-1"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.15">
+                                                <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.15">
+                                                <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.15"/>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.15"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="ArrowL" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.9" Duration="0:0:0.05"/>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.9" Duration="0:0:0.05"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Setter TargetName="TextContent" Property="Foreground" Value="#88FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Storyboard x:Key="Intro">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="GraphicsButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
@@ -70,14 +141,12 @@
         </Storyboard>
       </ResourceDictionary>
     </Grid.Resources>
-    <Grid.Background>
-        <ImageBrush/>
-    </Grid.Background>
     <Grid.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
+    <Image x:Name="Background" Grid.ColumnSpan="3" Grid.RowSpan="3" Source="Textures/Settings.PNG"/>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -89,9 +158,6 @@
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="Textures/Settings_Background.PNG" Stretch="Uniform"/>
-        </Grid.Background>
         <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>
@@ -99,7 +165,7 @@
             </Grid.RowDefinitions>
             <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="Arial" StrokeThickness="8" Width="445" Text="SETTINGS">
+                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="./#ForgottenUncial" StrokeThickness="8" Width="445" Text="SETTINGS">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -125,7 +191,7 @@
                         <RowDefinition Height="30*"/>
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="GRAPHICS" Command="{Binding Path=Commands[GraphicsButton]}">   
+                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="GRAPHICS" Command="{Binding Path=Commands[GraphicsButton]}">   
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                   <noesis:SetFocusAction/>
@@ -143,7 +209,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="SOUNDS" Command="{Binding Path=Commands[SoundsButton]}">
+                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="SOUNDS" Command="{Binding Path=Commands[SoundsButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -158,7 +224,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" RenderTransformOrigin="0.5,0.5" Content="BACK" Command="{Binding Path=Commands[BackButton]}">
+                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" Style="{StaticResource TextButtonStyle}" RenderTransformOrigin="0.5,0.5" Content="BACK" Command="{Binding Path=Commands[BackButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>

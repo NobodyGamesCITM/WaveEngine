@@ -374,4 +374,5 @@ void ComponentCanvas::SetOpacity(float alpha)
 float ComponentCanvas::GetOpacity() const
 {
     return opacity;
+
 }

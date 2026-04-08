@@ -16,8 +16,10 @@ function Update(self, deltaTime)
     if interact == true then 
         local obj = GameObject.Find("Player")
         local playerPos = obj.transform.position
+
         for i, checkpoint in ipairs(checkpoints) do
             local pos = checkpoint.transform.worldPosition
+            --Engine.Log("Checkpoint x: " ..tostring(pos.x).."  y: "..tostring(pos.y))
             if (math.abs(pos.x - playerPos.x) < self.public.near) then
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("Checkpoint taken")

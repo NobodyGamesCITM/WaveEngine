@@ -8,81 +8,89 @@
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
-      <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-          <ResourceDictionary Source="Resources.xaml"/>
-        </ResourceDictionary.MergedDictionaries>
-        <Storyboard x:Key="Intro">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="StartButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StartButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SettingsButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ExitButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ExitButton">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CircleEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-      </ResourceDictionary>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="TextButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontFamily" Value="./#ForgottenUncial"/> 
+                <Setter Property="FontSize" Value="36"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <StackPanel x:Name="ButtonContent" Orientation="Horizontal" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <StackPanel.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                </StackPanel.RenderTransform>
+                                <Image x:Name="ArrowL" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="0,0,15,0" Visibility="Hidden" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextContent"
+                                           Text="{TemplateBinding Content}"
+                                           FontFamily="{TemplateBinding FontFamily}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontWeight="{TemplateBinding FontWeight}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
+                            </StackPanel>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.15">
+                                                    <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.15">
+                                                    <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.15"/>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.15"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                    <Setter TargetName="ArrowL" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.9" Duration="0:0:0.05"/>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.9" Duration="0:0:0.05"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Setter TargetName="TextContent" Property="Foreground" Value="#88000000"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </Grid.Resources>
 
-    <Grid.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource Intro}"/>
-        </EventTrigger>
-    </Grid.Triggers>
-
-    <!-- Fondo que cubre TODA la pantalla real, fuera del Viewbox -->
     <Grid.Background>
         <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
     </Grid.Background>
 
-    <!-- Viewbox Uniform: mantiene proporciones 16:9, sin deformación -->
     <Viewbox Stretch="Uniform"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch">
@@ -93,35 +101,27 @@
                 <ColumnDefinition Width="512"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Columna izquierda vacía, el fondo ya está en el Grid raíz -->
-
-            <!-- Título arriba izquierda -->
             <TextBlock x:Name="MainMenu_text"
                        Grid.Column="0"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
                        Margin="30,25,0,0"
                        FontSize="52"
-                       FontFamily="Arial"
                        FontWeight="Bold"
-                       Foreground="Black" Text="MainMenu"/>
+                       Foreground="Black"
+                       Text="MainMenu" FontFamily="Arial"/>
 
-            <!-- Columna derecha: panel cyan con borde diagonal -->
             <Grid Grid.Column="1">
-
                 <StackPanel VerticalAlignment="Center"
-                            HorizontalAlignment="Center" Width="359" Height="497" Margin="121,209,0,0">
+                            HorizontalAlignment="Center"
+                            Width="359" Height="497"
+                            Margin="121,209,0,0">
+
                     <Button x:Name="StartButton"
                             Content="START"
-                            FontSize="36"
-                            FontWeight="Bold"
-                            FontFamily="Arial"
-                            Foreground="Black"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            RenderTransformOrigin="0.5,0.5"
-                            Command="{Binding Path=Commands[StartButton]}" Margin="0,0,0,90">
+                            Style="{StaticResource TextButtonStyle}"
+                            Margin="0,0,0,90"
+                            Command="{Binding Path=Commands[StartButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                 <noesis:SetFocusAction/>
@@ -130,65 +130,29 @@
                                 <noesis:SetFocusAction/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
                     </Button>
+
                     <Button x:Name="SettingsButton"
                             Content="SETTINGS"
-                            FontSize="36"
-                            FontWeight="Bold"
-                            FontFamily="Arial"
-                            Foreground="Black"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            RenderTransformOrigin="0.5,0.5"
-                            Command="{Binding Commands[SettingsButton]}" Margin="0,0,0,90">
+                            Style="{StaticResource TextButtonStyle}"
+                            Margin="0,0,0,90"
+                            Command="{Binding Commands[SettingsButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
                     </Button>
+
                     <Button x:Name="ExitButton"
                             Content="EXIT"
-                            Margin="0,0,0,0"
-                            FontSize="36"
-                            FontWeight="Bold"
-                            FontFamily="Arial"
-                            Foreground="Black"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            RenderTransformOrigin="0.5,0.5"
+                            Style="{StaticResource TextButtonStyle}"
                             Command="{Binding Commands[ExitButton]}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
                     </Button>
 
                 </StackPanel>

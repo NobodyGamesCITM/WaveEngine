@@ -35,23 +35,28 @@ function Start(self)
     Game.Resume()
     Game.SetTimeScale(1.0)
     _G._PlayerController_isDead = false
-    _G.PlayerInstance = nil
-    
     self.fadeCanvas = self.gameObject:GetComponent("Canvas") or (GameObject.Find("FadeCanvas") and GameObject.Find("FadeCanvas"):GetComponent("Canvas"))
-
-   
+    
+    self.lastSceneCounter = -1
 end
 
-
 function Update(self, dt)
+    -- PERSISTENCE: If scene changed, reset to state 4 (Fade IN)
+    local currentCounter = _G._SceneCounter or 0
+    if (self.lastSceneCounter or 0) ~= currentCounter then
+        Engine.Log("[SceneLoader] New scene count detected: " .. currentCounter .. ". Resetting for Fade IN.")
+        self.state = 4
+        self.fadeTimer = 0.0
+        self.lastSceneCounter = currentCounter
+    end
 
-	-- BUSCAR Y REPARAR TODO
+	-- BUSCAR Y REPARAR (Solo si no está inicializado)
     local pObj = GameObject.Find("Player")
     if pObj then
         pScript = GameObject.GetScript(pObj)
-        if pScript and pScript.public then 
+        -- Eliminado el reset de vida en Update para que el daño persista
+        if pScript and pScript.public and not _G.PlayerInstance then 
             pScript.public.canMove = true
-            pScript.public.health = 100
             _G.PlayerInstance = pScript
             --Engine.Log("[SceneLoader] Player found and initialized.")
         end
@@ -119,6 +124,8 @@ function Update(self, dt)
             self.state = 3
             local sn = self.public.targetScene
             if type(sn) == "table" then sn = sn.value end
+            _G._SceneCounter = (_G._SceneCounter or 0) + 1
+            self.lastSceneCounter = -1
             Engine.LoadScene(Engine.GetScenesPath(), sn)
         end
     end
@@ -134,6 +141,3 @@ end
 
 function OnTriggerEnter(self, other) if other and other:CompareTag("Player") then self.playerInside = true end end
 function OnTriggerExit(self, other) if other and other:CompareTag("Player") then self.playerInside = false end end
-
-
-

@@ -56,22 +56,92 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
                 <!-- Pociones usadas (capa inferior) -->
                 <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
-                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="237,92,0,0" Height="52">
-                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Width="35" Height="35"/>
-                    <Image x:Name="UsedPotion2" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
-                    <Image x:Name="UsedPotion3" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
-                    <Image x:Name="UsedPotion4" Width="35" Height="35" Source="Textures/Pocion_Used.PNG"/>
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="177,59,0,0">
+                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion2" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion3" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion4" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                 </StackPanel>
 
                 <!-- Pociones activas (capa superior) -->
                 <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
-                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="237,92,0,0" Height="52">
-                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="35" Height="35"/>
-                    <Image x:Name="Potion2" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
-                    <Image x:Name="Potion3" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
-                    <Image x:Name="Potion4" Width="35" Height="35" Source="Textures/Pocion.PNG"/>
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="177,59,0,0">
+                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion2" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion3" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion4" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                 </StackPanel>
 
             </Grid>

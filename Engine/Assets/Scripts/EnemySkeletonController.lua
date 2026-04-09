@@ -7,7 +7,6 @@ local attackSource = nil
 local dieSource    = nil
 local hurtSource   = nil
 local dodgeSource  = nil
-local stepsSource  = nil
 
 local State = {
     IDLE       = "Idle",
@@ -138,10 +137,9 @@ local targetVelX = 0
 local targetVelZ = 0
 local currentYaw = 0
 
-local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, dodgeSFX=nil--, stepSFX=nil 
-}
+local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, dodgeSFX=nil, stepSFX=nil }
 
-local stepTimer = 0
+local stepTimer = 0.5
 
 -- ─────────────────────────────────────────────────────────────────────────
 -- HELPERS
@@ -217,6 +215,58 @@ local function PlayAnim(name, blend)
     if anim then anim:Play(name, blend or 0.15) end
 end
 
+-- function for playing the audioevent already configured in the Inspector
+local function PlaySFX(audioComp)
+    if audioComp then audioComp:PlayAudioEvent()
+    else 
+        Engine.Log("Could not play configured event in Audio Source ".. tostring(audioComp).. ", component not found")
+    end
+end
+
+-- function for playing changing the audioevent currently in the Audio Source component and play the one you pass to it (similar to PlayOneShot() in Unity)
+local function SelectPlaySFX(audioComp, eventName)
+    if audioComp then audioComp:SelectPlayAudioEvent(audioComp, eventName) 
+    else 
+        Engine.Log("Could not play " .. eventName ..", Audio Source component".. tostring(audioComp).. " not found")
+    end
+end
+
+
+local function FindAudioComponents(self)
+    attackSource = GameObject.FindInChildren(self.gameObject, "SK_KopisSource")
+    if not attackSource then Engine.Log("Could not retrieve GameObject containing Skeleton attackSFX")
+    else
+        Enemy.attackSFX = attackSource:GetComponent("Audio Source")
+        if not Enemy.attackSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton attackSFX") end
+    end
+
+    hurtSource   = GameObject.FindInChildren(self.gameObject, "SK_HurtSource")
+    if not hurtSource then Engine.Log("Could not retrieve GameObject containing Skeleton hurtSFX") 
+    else         
+        Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source") 
+        if not Enemy.hurtSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton hurtSFX") end
+    end
+
+    dieSource    = GameObject.FindInChildren(self.gameObject, "SK_DieSource")
+    if not dieSource then Engine.Log("Could not retrieve GameObject containing Skeleton deathSFX") 
+    else
+        Enemy.dieSFX    = dieSource:GetComponent("Audio Source") 
+        if not Enemy.dieSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dieSFX") end
+    end
+
+    dodgeSource  = GameObject.FindInChildren(self.gameObject, "SK_DodgeSource")
+    if not dodgeSource then Engine.Log("Could not retrieve GameObject containing Skeleton dodgeSFX") 
+    else
+        Enemy.dodgeSFX  = dodgeSource:GetComponent("Audio Source")
+        if not Enemy.dodgeSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dodgeSFX") end
+    end
+
+    Enemy.stepSFX   = self.gameObject:GetComponent("Audio Source")
+    if not Enemy.stepSFX then 
+        Engine.Log("[SKELETROY AUDIO] Make sure there's an Audio Source with Steps SFX in the Enemy's parent GameObject!") 
+    end
+end
+
 -- ─────────────────────────────────────────────────────────────────────────
 -- TAKEDAMAGE
 -- ─────────────────────────────────────────────────────────────────────────
@@ -242,7 +292,7 @@ local function TakeDamage(self, amount, attackerPos)
     end
 
     if hp <= 0 and not pendingDeath then
-        -- if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
+        if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
         pendingDeath = true
     else
         isStunned           = true
@@ -255,7 +305,7 @@ local function TakeDamage(self, amount, attackerPos)
 
         if nav       then nav:StopMovement()  end
         HardBrakeXZ()
-        -- if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
+        if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
         PlayAnim(self.public.animHit, 0.05)
         Engine.Log("[Skeleton] STUN " .. self.public.stunDuration .. "s")
     end
@@ -495,7 +545,7 @@ local function TryDodge(self, dt, playerPos, myPos)
                 bz * self.public.dodgeImpulse * 0.5, 2)
 
     if nav then nav:StopMovement() end
-    -- if Enemy.dodgeSFX then Enemy.dodgeSFX:PlayAudioEvent() end
+    if Enemy.dodgeSFX then Enemy.dodgeSFX:PlayAudioEvent() end
     PlayAnim(self.public.animDodge, 0.05)
     currentState = State.DODGE
     Engine.Log("[Skeleton] DODGE (approachSpd=" .. string.format("%.1f", playerApproachSpd) .. ")")
@@ -524,7 +574,7 @@ local function UpdateAnticipate(self, dt)
     attackTimer         = 0
     lungeStopTimer      = self.public.lungeStopDelay
 
-    -- if Enemy.attackSFX then Enemy.attackSFX:PlayAudioEvent() end
+    if Enemy.attackSFX then Enemy.attackSFX:PlayAudioEvent() end
     PlayAnim(self.public.animAttack, 0.05)
     currentState = State.ATTACK
     Engine.Log("[Skeleton] ANTICIPATE → ATTACK (lunge)")
@@ -627,16 +677,9 @@ function Start(self)
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Enable() end
 
-    attackSource = GameObject.Find("SK_KopisSource")
-    hurtSource   = GameObject.Find("SK_HurtSource")
-    dieSource    = GameObject.Find("SK_DieSource")
-    dodgeSource  = GameObject.Find("SK_DodgeSource")
-    stepsSource  = GameObject.Find("SK_StepsSource")
-    if attackSource then Enemy.attackSFX = attackSource:GetComponent("Audio Source") end
-    if dieSource    then Enemy.dieSFX    = dieSource:GetComponent("Audio Source")    end
-    if hurtSource   then Enemy.hurtSFX   = hurtSource:GetComponent("Audio Source")   end
-    if dodgeSource  then Enemy.dodgeSFX  = dodgeSource:GetComponent("Audio Source")   end
-    --if stepsSource  then Enemy.stepSFX   = stepsSource:GetComponent("Audio Source")   end
+
+    FindAudioComponents(self)
+    
 
     PlayAnim(self.public.animIdle, 0.0)
     Engine.Log("[Skeleton] Start OK  HP=" .. hp)
@@ -663,15 +706,21 @@ function Update(self, dt)
         Engine.Log("[Skeleton] MUERTO")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
-        -- Enemy.dieSFX:PlayAudioEvent()
+        --Enemy.dieSFX:PlayAudioEvent()
         nav       = nil
         rb        = nil
         anim      = nil
         attackCol = nil
+        dieSource = nil
+        hurtSource = nil
+        attackSource = nil
+        dodgeSource = nil
+
+        
         -- if Enemy.dieSFX then Enemy.dieSFX:StopAudioEvent() end
-        --if Enemy.attackSFX then Enemy.attackSFX:StopAudioEvent() end
-        --if Enemy.hurtSFX then Enemy.hurtSFX:StopAudioEvent() end
-        --if Enemy.stepSFX then Enemy.stepSFX:StopAudioEvent() end
+        -- if Enemy.attackSFX then Enemy.attackSFX:StopAudioEvent() end
+        -- if Enemy.hurtSFX then Enemy.hurtSFX:StopAudioEvent() end
+        -- if Enemy.stepSFX then Enemy.stepSFX:StopAudioEvent() end
         self:Destroy()
         return
     end
@@ -730,6 +779,11 @@ function Update(self, dt)
         return
     end
 
+    if not Enemy.stepSFX or not Enemy.dieSFX or not Enemy.hurtSFX or not Enemy.attackSFX or not Enemy.dodgeSFX then
+        FindAudioComponents(self)
+        return
+    end
+
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
@@ -783,13 +837,15 @@ function Update(self, dt)
         end
     end
 
+    -- TODO: Adjust stepSFX speed for each animation
     -- ── Sonido de pasos ───────────────────────────────────────────────────
     if currentState == State.PATROL or currentState == State.CHASE
       or currentState == State.ORBIT  or currentState == State.DODGE then
         stepTimer = stepTimer + dt
         if stepTimer >= 0.5 then
             stepTimer = 0
-            --Enemy.stepSFX:PlayAudioEvent()
+            PlaySFX(Enemy.stepSFX)
+            --if Enemy.stepSFX then Enemy.stepSFX:PlayAudioEvent() end
         end
     else
         stepTimer = 0
@@ -855,3 +911,4 @@ function OnTriggerExit(self, other)
         alreadyHit = false
     end
 end
+

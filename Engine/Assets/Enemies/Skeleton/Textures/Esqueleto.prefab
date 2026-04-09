@@ -3282,119 +3282,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "animHit",
-                        "type": 1,
-                        "value": "Hit"
+                        "name": "lungeStopDelay",
+                        "type": 0,
+                        "value": 0.30000001192092896
                     },
                     {
                         "name": "attackRange",
                         "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "attackDur",
-                        "type": 0,
-                        "value": 0.44999998807907104
-                    },
-                    {
-                        "name": "animAttack",
-                        "type": 1,
-                        "value": "Attack"
-                    },
-                    {
-                        "name": "aggroRadius",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "orbitRadius",
-                        "type": 0,
-                        "value": 3.200000047683716
-                    },
-                    {
-                        "name": "lungeForce",
-                        "type": 0,
-                        "value": 11.0
-                    },
-                    {
-                        "name": "navRefreshRate",
-                        "type": 0,
-                        "value": 0.18000000715255737
-                    },
-                    {
-                        "name": "anticipateDur",
-                        "type": 0,
-                        "value": 0.75
-                    },
-                    {
-                        "name": "animIdle",
-                        "type": 1,
-                        "value": "Idle"
-                    },
-                    {
-                        "name": "knockbackForce",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "moveAccel",
-                        "type": 0,
-                        "value": 18.0
-                    },
-                    {
-                        "name": "animOrbit",
-                        "type": 1,
-                        "value": "Orbit"
-                    },
-                    {
-                        "name": "animDodge",
-                        "type": 1,
-                        "value": "Roll"
-                    },
-                    {
-                        "name": "rotationSpeed",
-                        "type": 0,
-                        "value": 4.0
-                    },
-                    {
-                        "name": "patrolSpeed",
-                        "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "orbitTriggerDist",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "brakeDecel",
-                        "type": 0,
-                        "value": 14.0
-                    },
-                    {
-                        "name": "orbitCorrSpeed",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "patrolWaitMin",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "animWalk",
-                        "type": 1,
-                        "value": "Walk"
-                    },
-                    {
-                        "name": "animDeath",
-                        "type": 1,
-                        "value": "Death"
-                    },
-                    {
-                        "name": "animAnticipate",
-                        "type": 1,
-                        "value": "Anticipate"
+                        "value": 2.799999952316284
                     },
                     {
                         "name": "orbitCorrMaxFrac",
@@ -3402,34 +3297,9 @@
                         "value": 0.6000000238418579
                     },
                     {
-                        "name": "lungeStopDelay",
+                        "name": "dodgeThreatDist",
                         "type": 0,
-                        "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "orbitDirFlipChance",
-                        "type": 0,
-                        "value": 0.3499999940395355
-                    },
-                    {
-                        "name": "orbitDurMax",
-                        "type": 0,
-                        "value": 2.5
-                    },
-                    {
-                        "name": "orbitDirFlipMax",
-                        "type": 0,
-                        "value": 1.7999999523162842
-                    },
-                    {
-                        "name": "stunDuration",
-                        "type": 0,
-                        "value": 0.800000011920929
-                    },
-                    {
-                        "name": "patrolWaitMax",
-                        "type": 0,
-                        "value": 2.799999952316284
+                        "value": 4.5
                     },
                     {
                         "name": "maxHp",
@@ -3437,9 +3307,184 @@
                         "value": 30.0
                     },
                     {
+                        "name": "navRefreshRate",
+                        "type": 0,
+                        "value": 0.18000000715255737
+                    },
+                    {
+                        "name": "animWalk",
+                        "type": 1,
+                        "value": "Walk"
+                    },
+                    {
                         "name": "deaggroRadius",
                         "type": 0,
                         "value": 14.0
+                    },
+                    {
+                        "name": "patrolWaitMin",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 4.0
+                    },
+                    {
+                        "name": "attackColDelay",
+                        "type": 0,
+                        "value": 0.18000000715255737
+                    },
+                    {
+                        "name": "dodgeDur",
+                        "type": 0,
+                        "value": 0.2800000011920929
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "chaseSpeed",
+                        "type": 0,
+                        "value": 3.5
+                    },
+                    {
+                        "name": "dodgeChance",
+                        "type": 0,
+                        "value": 0.10000000149011612
+                    },
+                    {
+                        "name": "patrolSpeed",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "animAnticipate",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "dodgeApproachThresh",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "animOrbit",
+                        "type": 1,
+                        "value": "Orbit"
+                    },
+                    {
+                        "name": "attackDur",
+                        "type": 0,
+                        "value": 0.44999998807907104
+                    },
+                    {
+                        "name": "orbitCorrSpeed",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "animHit",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "animAttack",
+                        "type": 1,
+                        "value": "Attack"
+                    },
+                    {
+                        "name": "animIdle",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "hitReactDelay",
+                        "type": 0,
+                        "value": 0.15000000596046448
+                    },
+                    {
+                        "name": "moveAccel",
+                        "type": 0,
+                        "value": 18.0
+                    },
+                    {
+                        "name": "patrolWaitMax",
+                        "type": 0,
+                        "value": 2.799999952316284
+                    },
+                    {
+                        "name": "dodgeCooldown",
+                        "type": 0,
+                        "value": 4.0
+                    },
+                    {
+                        "name": "orbitDirFlipMin",
+                        "type": 0,
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "brakeDecel",
+                        "type": 0,
+                        "value": 14.0
+                    },
+                    {
+                        "name": "stunDuration",
+                        "type": 0,
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "aggroRadius",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "lungeForce",
+                        "type": 0,
+                        "value": 11.0
+                    },
+                    {
+                        "name": "orbitDurMin",
+                        "type": 0,
+                        "value": 1.2000000476837158
+                    },
+                    {
+                        "name": "orbitTriggerDist",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "orbitDirFlipMax",
+                        "type": 0,
+                        "value": 1.7999999523162842
+                    },
+                    {
+                        "name": "orbitDurMax",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
+                        "name": "animDeath",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "anticipateDur",
+                        "type": 0,
+                        "value": 0.75
+                    },
+                    {
+                        "name": "orbitDirFlipChance",
+                        "type": 0,
+                        "value": 0.3499999940395355
+                    },
+                    {
+                        "name": "animDodge",
+                        "type": 1,
+                        "value": "Dodge"
                     },
                     {
                         "name": "dodgeInvincible",
@@ -3452,34 +3497,14 @@
                         "value": 20.0
                     },
                     {
-                        "name": "cooldown",
-                        "type": 0,
-                        "value": 3.0
-                    },
-                    {
                         "name": "dodgeImpulse",
                         "type": 0,
                         "value": 10.0
                     },
                     {
-                        "name": "hitReactDelay",
+                        "name": "cooldown",
                         "type": 0,
-                        "value": 0.15000000596046448
-                    },
-                    {
-                        "name": "attackColDelay",
-                        "type": 0,
-                        "value": 0.18000000715255737
-                    },
-                    {
-                        "name": "dodgeCooldown",
-                        "type": 0,
-                        "value": 4.0
-                    },
-                    {
-                        "name": "orbitDurMin",
-                        "type": 0,
-                        "value": 1.2000000476837158
+                        "value": 3.0
                     },
                     {
                         "name": "dodgeSideRatio",
@@ -3487,39 +3512,14 @@
                         "value": 0.800000011920929
                     },
                     {
-                        "name": "chaseSpeed",
-                        "type": 0,
-                        "value": 3.5
-                    },
-                    {
                         "name": "orbitSpeed",
                         "type": 0,
                         "value": 2.200000047683716
                     },
                     {
-                        "name": "dodgeThreatDist",
+                        "name": "orbitRadius",
                         "type": 0,
-                        "value": 4.5
-                    },
-                    {
-                        "name": "dodgeApproachThresh",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
-                        "name": "dodgeChance",
-                        "type": 0,
-                        "value": 0.10000000149011612
-                    },
-                    {
-                        "name": "orbitDirFlipMin",
-                        "type": 0,
-                        "value": 0.800000011920929
-                    },
-                    {
-                        "name": "dodgeDur",
-                        "type": 0,
-                        "value": 0.2800000011920929
+                        "value": 3.200000047683716
                     }
                 ],
                 "scriptUID": 2354537265489101487,
@@ -3586,6 +3586,13 @@
                 "NavType": 1,
                 "active": true,
                 "type": 24
+            },
+            {
+                "active": true,
+                "eventName": "SFX_SkeletonSteps",
+                "playOnAwake": false,
+                "type": 26,
+                "volume": 100.0
             }
         ],
         "name": "Skeleton",

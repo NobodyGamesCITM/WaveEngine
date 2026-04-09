@@ -167,11 +167,7 @@ local function TakeDamage(self, amount, attackerPos)
         local len = sqrt(dx * dx + dz * dz)
         if len > 0.001 then dx = dx / len; dz = dz / len end
         local vel = Enemy.rb:GetLinearVelocity()
-        Enemy.rb:SetLinearVelocity(
-            dx * self.public.knockbackForce * 0.4,
-            vel.y,
-            dz * self.public.knockbackForce * 0.4
-        )
+        Enemy.rb:SetLinearVelocity(0,0,0)
     end
 
     if hp <= 0 then
@@ -392,7 +388,7 @@ function Update(self, dt)
             local _nav = Enemy.nav
             local _rb  = Enemy.rb
 
-            if attackCol then attackCol:Disable() end
+            --if attackCol then attackCol:Disable() end
             Enemy.nav      = nil
             Enemy.rb       = nil
             Enemy.anim     = nil
@@ -405,6 +401,9 @@ function Update(self, dt)
                 local vel = _rb:GetLinearVelocity()
                 _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
             end
+
+      
+
 
             Enemy.currentState = State.DEAD
 

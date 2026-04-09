@@ -129,6 +129,11 @@ void ModuleAudio::SetSwitch(AudioSource* source, AkSwitchGroupID switchGroup, Ak
     audioSystem->SetSwitch(switchGroup, switchState, source->goID);
 }
 
+void ModuleAudio::SetGlobalVolume(float vol) {
+    audioSystem->SetGlobalVolume(vol);
+}
+
+
 void ModuleAudio::SetMusicVolume(float vol) {
     audioSystem->SetMusicVolume(vol);
 }

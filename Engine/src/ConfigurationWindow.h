@@ -45,6 +45,7 @@ private:
     bool showAudioVolumeWindow = true;
     float musicVolume = 100.0f;
     float sfxVolume = 100.0f;
+    float globalVolume = 100.0f;
 
     // Debug visualization
     bool showAABB = false;

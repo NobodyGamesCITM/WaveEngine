@@ -73,7 +73,9 @@ public:
 	/*void SetDialogVolume(int volume);*/
 	void SetSFXVolume(int volume);
 	void SetMusicVolume(int volume);
+	float GetMusicVolume() { return musicVolume; }
 	void SetAudioSourceVolume(float vol, AkGameObjectID id);
+	float GetSFXVolume() { return sfxVolume; }
 
 	// Register/unregister AudioComponent
 	void RegisterAudioComponent(AudioComponent* component) {
@@ -137,6 +139,8 @@ private:
 	
 	
 	float globalVolume = 100.0f;
+	float musicVolume = 100.0f;
+	float sfxVolume = 100.0f;
 
 	std::vector<AkGameObjectID> gameObjectIDs;
 	std::vector<AudioEvent*> audioEvents;

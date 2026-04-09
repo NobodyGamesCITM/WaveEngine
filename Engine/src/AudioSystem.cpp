@@ -385,16 +385,15 @@ void AudioSystem::SetMasterVolume(int vol) {
 }
 
 void AudioSystem::SetMusicVolume(int vol) {
+    musicVolume = vol;
     AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::MUSIC_VOLUME, (AkRtpcValue)vol);
 }
 
 void AudioSystem::SetSFXVolume(int vol) {
+    sfxVolume = vol;
     AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::SFX_VOLUME, (AkRtpcValue)vol);
 }
-//
-//void AudioSystem::SetDialogVolume(int vol) {
-//    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::DIALOG_VOLUME, (AkRtpcValue)vol);
-//}
+
 void AudioSystem::SetAudioSourceVolume(float vol, AkGameObjectID goID) {
     AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::AUDIOSOURCE_VOLUME, (AkRtpcValue)vol, goID);
 }

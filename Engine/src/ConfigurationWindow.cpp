@@ -10,6 +10,7 @@
 #include "ModuleEditor.h"
 #include "EditorCamera.h"
 #include "Log.h"
+#include "AudioSystem.h"
 
 ConfigurationWindow::ConfigurationWindow()
     : EditorWindow("Configuration")
@@ -215,9 +216,24 @@ void ConfigurationWindow::DrawAudioVolumeSettings() {
     ImGui::Spacing();
     ImGui::Separator();
 
+    globalVolume = Application::GetInstance().audio.get()->audioSystem->GetGlobalVolume();
+    musicVolume = Application::GetInstance().audio.get()->audioSystem->GetMusicVolume();
+    sfxVolume = Application::GetInstance().audio.get()->audioSystem->GetSFXVolume();
+
+    
+
+    ImGui::Text("Global Volume");
+    if (ImGui::SliderFloat("##GlobalVolume", &globalVolume, 0.0f, 100.0f, "%.2f"))
+    {
+        
+        if (Application::GetInstance().audio)
+            Application::GetInstance().audio->SetGlobalVolume(globalVolume);
+    }
+
     ImGui::Text("Music Volume");
     if (ImGui::SliderFloat("##MusicVolume", &musicVolume, 0.0f, 100.0f, "%.2f"))
     {
+        
         if (Application::GetInstance().audio)
             Application::GetInstance().audio->SetMusicVolume(musicVolume);
     }
@@ -228,22 +244,6 @@ void ConfigurationWindow::DrawAudioVolumeSettings() {
         if (Application::GetInstance().audio)
             Application::GetInstance().audio->SetSFXVolume(sfxVolume);
     }
-
-    /*if (ImGui::Button("Mute"))
-    {
-            sfxVolume01 = 0.0f;
-            if (Application::GetInstance().audio)
-                Application::GetInstance().audio->SetSfxVolume(sfxVolume01);
-    }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("Max"))
-        {
-            sfxVolume01 = 1.0f;
-            if (Application::GetInstance().audio)
-                Application::GetInstance().audio->SetSfxVolume(sfxVolume01);
-    }*/
 
     ImGui::Spacing();
 

@@ -48,7 +48,7 @@ local function Init(self)
     playerScript = playerObj:GetComponent("Script")
 
     -- Audio
-	Audio.SetMusicState("Level1")
+	--Audio.SetMusicState("Level1")
 
     -- Compute initial world offset
     local camPos    = self.transform.worldPosition

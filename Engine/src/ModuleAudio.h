@@ -50,6 +50,8 @@ public:
 
     void SetMusicVolume(float volume);
 
+    void SetGlobalVolume(float volume);
+
     void SetSFXVolume(float volume);
 
     //for switching bg music

@@ -83,12 +83,15 @@ local Player = {
     hermesDeathRespawn = false,
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
+    hermesRespawnCooldown = 0,
     baseSpeed = 15.0,
     isGrounded = false,
 
     attackBuffer = false,
     attackBufferPending = false,
     attackNum = 0,
+
+    staminaLock = false,
 }
 
 public = {
@@ -200,13 +203,7 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
 
     if abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
         local targetAngle = atan2(faceDirX, faceDirZ) * (180.0 / pi)
-        local delta = ((targetAngle - Player.lastAngle + 180) % 360) - 180
-        local maxStep = self.public.ROTATION_SPEED * dt
-        if math.abs(delta) <= maxStep then
-            Player.lastAngle = targetAngle
-        else
-            Player.lastAngle = Player.lastAngle + (delta > 0 and maxStep or -maxStep)
-        end
+        Player.lastAngle = targetAngle
         if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
     end
 
@@ -238,13 +235,7 @@ local function UpdateFlyingGodMode(self, dt)
         Player.lastDirZ = faceDirZ / faceDirLen
 
         local targetAngle = atan2(faceDirX, faceDirZ) * (180.0 / pi)
-        local delta = ((targetAngle - Player.lastAngle + 180) % 360) - 180
-        local maxStep = self.public.ROTATION_SPEED * dt
-        if math.abs(delta) <= maxStep then
-            Player.lastAngle = targetAngle
-        else
-            Player.lastAngle = Player.lastAngle + (delta > 0 and maxStep or -maxStep)
-        end
+        Player.lastAngle = targetAngle
         Player.rb:SetRotation(0, Player.lastAngle, 0)
     end
 
@@ -263,6 +254,7 @@ local States = {}
 
 local function ChangeState(self, newState, force)
     if not force and Player.currentState == newState then return end
+    if newState == State.RUNNING and staminaLock == true then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -348,17 +340,31 @@ States[State.DEAD] = {
             if Player.hermesDeathTimer <= 0 then
                 Player.hermesDeathRespawn = false    
                 Player.hermesGraceTimer = 0
-                self.public.stamina = 0
                 local rp = Player.respawnPos
                 self.transform:SetPosition(rp.x, rp.y, rp.z)
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-                _G._PlayerController_isDead = false
-                ChangeState(self, State.IDLE)
                 if Player.hermesPendingUnequip then
                     _PlayerController_currentMask = "None" 
                     Player.hermesPendingUnequip = false    
                 end
+                Player.hermesRespawnCooldown = 1.5
+                _G._PlayerController_isDead = false
+
+                local anim = self.gameObject:GetComponent("Animation")
+                if anim then 
+                    pcall(function() anim:Play("Idle", 0.5) end)
+                end
             end
+        end
+
+        if Player.hermesRespawnCooldown > 0 then
+            Player.hermesRespawnCooldown = Player.hermesRespawnCooldown - dt
+            if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+            if Player.hermesRespawnCooldown <= 0 then
+                ChangeState(self, State.IDLE)
+            end
+            self.public.stamina = 50.0
+            staminaLock = true
         end
     end
 }
@@ -977,6 +983,13 @@ function Update(self, dt)
         ChangeState(self, State.IDLE, true)
     end
     
+    if self.public.stamina < 0.5 then 
+        staminaLock = true
+    end
+    if self.public.stamina == 100 and staminaLock == true then
+        staminaLock = false
+    end
+
     local sceneLoaderCount = _G._SceneLoaderCounter or 0
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
         Player.lastSceneCounter = sceneLoaderCount

@@ -3527,71 +3527,6 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "stopSmoothing",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "chargeSpeed",
-                        "type": 0,
-                        "value": 28.0
-                    },
-                    {
-                        "name": "chaseUpdateRate",
-                        "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
-                        "name": "moveSpeed",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "rotationSpeed",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
-                        "name": "chargeCooldown",
-                        "type": 0,
-                        "value": 3.5
-                    },
-                    {
-                        "name": "patrolRadius",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "windupRotSpeed",
-                        "type": 0,
-                        "value": 25.0
-                    },
-                    {
-                        "name": "weaveAmplitude",
-                        "type": 0,
-                        "value": 2.5
-                    },
-                    {
-                        "name": "weaveFrequency",
-                        "type": 0,
-                        "value": 1.7999999523162842
-                    },
-                    {
-                        "name": "dirSmoothing",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
-                        "name": "knockbackForce",
-                        "type": 0,
-                        "value": 22.0
-                    },
-                    {
-                        "name": "maxHp",
-                        "type": 0,
-                        "value": 60.0
-                    },
-                    {
                         "name": "chargeDuration",
                         "type": 0,
                         "value": 0.699999988079071
@@ -3602,17 +3537,82 @@
                         "value": 3.0
                     },
                     {
-                        "name": "chargeRange",
+                        "name": "weaveFrequency",
                         "type": 0,
-                        "value": 12.0
+                        "value": 1.7999999523162842
+                    },
+                    {
+                        "name": "stopSmoothing",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "maxHp",
+                        "type": 0,
+                        "value": 60.0
+                    },
+                    {
+                        "name": "moveSpeed",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "dirSmoothing",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "patrolRadius",
+                        "type": 0,
+                        "value": 6.0
                     },
                     {
                         "name": "chaseRange",
                         "type": 0,
                         "value": 18.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "weaveAmplitude",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
+                        "name": "windupRotSpeed",
+                        "type": 0,
+                        "value": 25.0
+                    },
+                    {
+                        "name": "chargeSpeed",
+                        "type": 0,
+                        "value": 28.0
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 22.0
+                    },
+                    {
+                        "name": "chaseUpdateRate",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "chargeCooldown",
+                        "type": 0,
+                        "value": 3.5
+                    },
+                    {
+                        "name": "chargeRange",
+                        "type": 0,
+                        "value": 12.0
                     }
                 ],
-                "scriptUID": 18416410955959963820,
+                "scriptUID": 9678065112894737398,
                 "type": 6
             },
             {
@@ -3648,7 +3648,7 @@
             {
                 "Center": [
                     0.0,
-                    50.0,
+                    45.0,
                     20.0
                 ],
                 "DynamicFriction": 0.5,

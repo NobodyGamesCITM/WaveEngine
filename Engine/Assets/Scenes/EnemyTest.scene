@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.4254544973373413,
+                    "aspectRatio": 1.5363527536392212,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -42,19 +42,9 @@
                             "value": 25.0
                         },
                         {
-                            "name": "playerName",
-                            "type": 1,
-                            "value": "Player"
-                        },
-                        {
-                            "name": "shakeDuration",
+                            "name": "zoomSpeed",
                             "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "shakeMagnitude",
-                            "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 3.0
                         },
                         {
                             "name": "zoomMax",
@@ -62,19 +52,29 @@
                             "value": 3.0
                         },
                         {
-                            "name": "followSpeed",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
                             "name": "zoomMin",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "zoomSpeed",
+                            "name": "shakeMagnitude",
                             "type": 0,
-                            "value": 3.0
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "shakeDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "playerName",
+                            "type": 1,
+                            "value": "Player"
+                        },
+                        {
+                            "name": "followSpeed",
+                            "type": 0,
+                            "value": 5.0
                         }
                     ],
                     "scriptUID": 3302217500676688058,
@@ -3543,29 +3543,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "speedHermesBonus",
                             "type": 0,
                             "value": 15.0
                         },
                         {
-                            "name": "attackImpulseWindow",
+                            "name": "stamina",
                             "type": 0,
-                            "value": 0.15000000596046448
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
+                            "value": 100.0
                         },
                         {
                             "name": "shootDuration",
@@ -3573,14 +3558,14 @@
                             "value": 0.5
                         },
                         {
-                            "name": "hitShakeMagnitude",
+                            "name": "chargeSpeed",
                             "type": 0,
-                            "value": 6.0
+                            "value": 30.0
                         },
                         {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
+                            "name": "attackImpulseForce",
+                            "type": 0,
+                            "value": 6.0
                         },
                         {
                             "name": "hpLossCost",
@@ -3588,9 +3573,59 @@
                             "value": 30.0
                         },
                         {
-                            "name": "speed",
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "heavyAttackDelay",
+                            "type": 0,
+                            "value": 0.3499999940395355
+                        },
+                        {
+                            "name": "canMove",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "comboCooldown",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "rollSpeed",
                             "type": 0,
                             "value": 15.0
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "heavyUpImpulse",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 10.0
                         },
                         {
                             "name": "health",
@@ -3598,14 +3633,14 @@
                             "value": 100.0
                         },
                         {
-                            "name": "rollDuration",
+                            "name": "tiredMultiplier",
                             "type": 0,
-                            "value": 1.0
+                            "value": 0.699999988079071
                         },
                         {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
                         },
                         {
                             "name": "staminaCost",
@@ -3613,9 +3648,89 @@
                             "value": 80.0
                         },
                         {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "attackBufferDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "triggerCameraShake",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.800000011920929
+                        },
+                        {
+                            "name": "attackImpulseWindow",
+                            "type": 0,
+                            "value": 0.15000000596046448
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
                             "name": "sprintMultiplier",
                             "type": 0,
                             "value": 1.5
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
                         },
                         {
                             "name": "bulletPrefab",
@@ -3628,19 +3743,9 @@
                             "value": 2.0
                         },
                         {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
                             "name": "hitShakeDuration",
                             "type": 0,
                             "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
                         },
                         {
                             "name": "bulletSpawnY",
@@ -3648,109 +3753,9 @@
                             "value": 1.0
                         },
                         {
-                            "name": "triggerCameraShake",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "attackImpulseForce",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "heavyAttackDelay",
-                            "type": 0,
-                            "value": 0.3499999940395355
-                        },
-                        {
                             "name": "heavyDuration",
                             "type": 0,
                             "value": 0.699999988079071
-                        },
-                        {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "canMove",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "attackBufferDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "comboCooldown",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "attackCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.800000011920929
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
                         },
                         {
                             "name": "usingStamina",
@@ -3758,14 +3763,9 @@
                             "value": false
                         },
                         {
-                            "name": "heavyStaminaCost",
+                            "name": "staminaRecover",
                             "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
+                            "value": 50.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -3909,12 +3909,12 @@
                             "value": 8.0
                         },
                         {
-                            "name": "offsetX",
+                            "name": "offsetZ",
                             "type": 0,
                             "value": 0.0
                         },
                         {
-                            "name": "offsetZ",
+                            "name": "offsetX",
                             "type": 0,
                             "value": 0.0
                         }
@@ -4279,11 +4279,6 @@
                             "value": "Level1.scene"
                         },
                         {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
@@ -4292,6 +4287,11 @@
                             "name": "lowerVolume",
                             "type": 0,
                             "value": 60.0
+                        },
+                        {
+                            "name": "fullVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -7610,7 +7610,7 @@
                         {
                             "active": true,
                             "position": [
-                                0.0,
+                                6.103515625e-05,
                                 0.0,
                                 0.0
                             ],
@@ -7763,7 +7763,7 @@
                 {
                     "active": true,
                     "position": [
-                        40.0,
+                        21.0,
                         4.0,
                         0.0
                     ],
@@ -7831,64 +7831,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "chargeDuration",
+                            "name": "tooCloseRange",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 3.5
                         },
                         {
-                            "name": "idleWaitTime",
+                            "name": "preparationTime",
                             "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "weaveFrequency",
-                            "type": 0,
-                            "value": 1.7999999523162842
-                        },
-                        {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 60.0
-                        },
-                        {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "dirSmoothing",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "chaseRange",
-                            "type": 0,
-                            "value": 18.0
-                        },
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "weaveAmplitude",
-                            "type": 0,
-                            "value": 2.5
-                        },
-                        {
-                            "name": "windupRotSpeed",
-                            "type": 0,
-                            "value": 25.0
+                            "value": 1.2000000476837158
                         },
                         {
                             "name": "chargeSpeed",
@@ -7896,24 +7846,74 @@
                             "value": 28.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "dirSmoothing",
                             "type": 0,
-                            "value": 22.0
-                        },
-                        {
-                            "name": "chaseUpdateRate",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "chargeCooldown",
-                            "type": 0,
-                            "value": 3.5
+                            "value": 10.0
                         },
                         {
                             "name": "chargeRange",
                             "type": 0,
                             "value": 12.0
+                        },
+                        {
+                            "name": "repositionSpeed",
+                            "type": 0,
+                            "value": 4.0
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "wallSpeedThresh",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "hurtStunTime",
+                            "type": 0,
+                            "value": 0.800000011920929
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 60.0
+                        },
+                        {
+                            "name": "stopSmoothing",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "wallStunTime",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "detectRange",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "attackDamage",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 22.0
                         }
                     ],
                     "scriptUID": 9678065112894737398,
@@ -7972,6 +7972,148 @@
             "prefabInstance": 16862592813323258512,
             "tag": "",
             "uid": 5112036782526503520
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -18.0,
+                        7.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.2000000476837158,
+                        11.520000457763672,
+                        21.57600212097168
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                }
+            ],
+            "name": "Cube",
+            "tag": "",
+            "uid": 7276253511252659686
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -18.0,
+                        7.0,
+                        -7.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        -89.98021697998047,
+                        0.0
+                    ],
+                    "scale": [
+                        1.2000000476837158,
+                        11.520000457763672,
+                        21.57600212097168
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "primitiveType": "Cube",
+                    "type": 1
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                }
+            ],
+            "name": "Cube_copy_copy",
+            "tag": "",
+            "uid": 17412676734790075015
         }
     ],
     "version": 1

@@ -12,6 +12,7 @@ local State = {
     PREPARATION = "Preparation",
     CHARGE      = "Charge",
     WALL        = "Wall",
+    AFTER_ATTACK = "After_Attack",
     DEAD        = "Dead",
 }
 
@@ -21,18 +22,28 @@ public = {
     detectRange     = 15.0,
     tooCloseRange   = 3.5,
     chargeRange     = 12.0,
-    preparationTime = 1.2,
+
+    preparationTime = 1.5,
     chargeSpeed     = 18.0,
     chargeDuration  = 0.8,
     repositionSpeed = 4.0,
     attackDamage    = 25,
     knockbackForce  = 8.0,
-    rotationSpeed   = 5.0,
-    wallStunTime    = 2.5,
+    wallStunTime    = 5.0,
     wallSpeedThresh = 1.5,
-    moveSpeed       = 5.0,
+
+    --Movement
+    moveSpeed       = 10.0,
+    moveAccel       = 12.0,
+    brakeDecel      = 10.0,
+    rotationSpeed   = 3.0,
+
     dirSmoothing    = 10.0,
     stopSmoothing   = 8.0,
+
+
+    hurtStunTime = 0.8,
+    afterStunTime = 2.2,
 }
 
 -- Internal variables
@@ -58,6 +69,13 @@ local currentYaw       = 0
 
 local chargeDirX = 0
 local chargeDirZ = 1
+
+local targetVelX = 0
+local targetVelZ = 0
+
+-- Inercia post-carga (para el deslizamiento al frenar sin impacto)
+local slideVelX = 0
+local slideVelZ = 0
 
 _EnemyDamage_minocabro = 35
 
@@ -92,7 +110,7 @@ local function RotateTowards(self, dirX, dirZ, speed, dt)
     local diff = shortAngleDiff(currentYaw, targetAngle)
     currentYaw = currentYaw + diff * speed * dt
     self.transform:SetRotation(0, currentYaw, 0)
-end
+end 
 
 local function StopMovement()
     if not rb then return end
@@ -101,24 +119,6 @@ local function StopMovement()
     smoothDx, smoothDz = 0, 0
 end
 
-local function MoveTowards(self, dirX, dirZ, speed, dt)
-    if not rb then return end
-
-    local t = min(1.0, dt * self.public.dirSmoothing)
-    smoothDx = smoothDx + (dirX - smoothDx) * t
-    smoothDz = smoothDz + (dirZ - smoothDz) * t
-
-    local mag = sqrt(smoothDx*smoothDx + smoothDz*smoothDz)
-    if mag > 0.01 then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(
-            (smoothDx / mag) * speed,
-            vel.y,
-            (smoothDz / mag) * speed
-        )
-        RotateTowards(self, smoothDx, smoothDz, self.public.rotationSpeed, dt)
-    end
-end
 
 local function ChangeState(newState)
     currentState = newState
@@ -138,14 +138,22 @@ local function TakeDamage(self, amount, attackerPos)
         local dz  = pos.z - attackerPos.z
         local len = sqrt(dx*dx + dz*dz)
         if len > 0.001 then dx = dx/len; dz = dz/len end
-        rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
+        rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
     end
 
     if hp <= 0 then
         if anim then anim:Play("Death") end
         ChangeState(State.DEAD)
     else
-        PlayAnim("Hurt", 0.5)
+        anim:Play("Hurt")
+        StopMovement()
+
+        wallStunTimer = self.public.hurtStunTime
+        wallStunTimer = wallStunTimer - dt
+        if wallStunTimer <= 0 then
+            ChangeState(State.AFTER_ATTACK)
+        end
+
     end
 end
 
@@ -160,28 +168,35 @@ function UpdateIdle(self, dist)
 end
 
 function UpdateCombat(self, myPos, pp, dist, dt)
-    if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk") end
-
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
-
+    
+    
     if dist < self.public.tooCloseRange then
         ChangeState(State.REPOSITION)
+    
     elseif dist <= self.public.chargeRange then
         chargeDirX       = dx
         chargeDirZ       = dz
         preparationTimer = 0
         StopMovement()
         ChangeState(State.PREPARATION)
+    
     else
-        MoveTowards(self, dx, dz, self.public.moveSpeed, dt)
+        Engine.Log("updatecombat andar")
+        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2, 0.5) end
+        local vel = self.public.moveSpeed
+        local cv = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+        --RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+
     end
 end
 
 function UpdateReposition(self, myPos, pp, dist, dt)
-    if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk") end
+    if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle") end
 
     -- Opposite direction to the player
     local dx = myPos.x - pp.x
@@ -192,15 +207,13 @@ function UpdateReposition(self, myPos, pp, dist, dt)
     local lookDx = pp.x - myPos.x
     local lookDz = pp.z - myPos.z
 
-    if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(
-            dx * self.public.repositionSpeed,
-            vel.y,
-            dz * self.public.repositionSpeed
-        )
-        RotateTowards(self, lookDx, lookDz, self.public.rotationSpeed, dt)
-    end
+    local vel = self.public.moveSpeed
+
+    local currentVel = rb:GetLinearVelocity()
+    rb:SetLinearVelocity(dx*vel,currentVel.y,dz*vel)
+
+    RotateTowards(self, lookDx, lookDz, self.public.rotationSpeed, dt)
+
 
     if dist >= self.public.tooCloseRange + 0.5 then
         StopMovement()
@@ -213,13 +226,26 @@ function UpdatePreparation(self, pp, dt)
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
-    StopMovement()
+    --StopMovement()
 
     if anim and not anim:IsPlayingAnimation("PreCharge") then
         PlayAnim("PreCharge")
     end
 
     preparationTimer = preparationTimer + dt
+
+    if rb and preparationTimer < (self.public.preparationTime * 0.5) then
+        local len = sqrt(dx*dx + dz*dz)
+        if len > 0.001 then
+            local backDx = -(dx / len)
+            local backDz = -(dz / len)
+            local vel = rb:GetLinearVelocity()
+            rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
+        end
+    else
+        StopMovement()
+    end
+
     if preparationTimer >= self.public.preparationTime then
         -- Recalculate final direction
         local len = sqrt(dx*dx + dz*dz)
@@ -249,6 +275,7 @@ function UpdateCharge(self, dt)
                 StopMovement()
                 wallStunTimer = self.public.wallStunTime
                 ChangeState(State.WALL)
+                Engine.Log("Wallll")
                 return
             end
         end
@@ -259,8 +286,13 @@ function UpdateCharge(self, dt)
 
     if chargeTimer >= self.public.chargeDuration then
         if attackCol then attackCol:Disable() end
-        StopMovement()
-        ChangeState(State.COMBAT)
+        --Save direction for after
+        slideVelX = chargeDirX * self.public.chargeSpeed
+        slideVelZ = chargeDirZ * self.public.chargeSpeed
+        
+        wallStunTimer = self.public.afterStunTime
+
+        ChangeState(State.AFTER_ATTACK)
     end
 end
 
@@ -268,6 +300,34 @@ function UpdateWall(self, dt)
     if anim and not anim:IsPlayingAnimation("wall") then
         PlayAnim("wall")
     end
+    wallStunTimer = wallStunTimer - dt
+    if wallStunTimer <= 0 then
+        ChangeState(State.COMBAT)
+    end
+end
+
+function UpdateAfter_Attack(self, dt)
+    if anim and not anim:IsPlayingAnimation("Idle") then
+        anim:Play("Idle", 0.3)
+    end
+
+    if playerGO then
+        local myPos = self.transform.worldPosition
+        local pp = playerGO.transform.worldPosition
+        local dx = pp.x - myPos.x
+        local dz = pp.z - myPos.z
+        RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+    end
+
+    local friction = self.public.stopSmoothing
+    slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
+    slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
+ 
+    if rb then
+        local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(slideVelX, vel.y, slideVelZ)
+    end
+
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
         ChangeState(State.COMBAT)
@@ -373,6 +433,7 @@ function Update(self, dt)
     elseif currentState == State.PREPARATION  then UpdatePreparation(self, pp, dt)
     elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
     elseif currentState == State.WALL         then UpdateWall(self, dt)
+    elseif currentState == State.AFTER_ATTACK then UpdateAfter_Attack(self, dt)
     elseif currentState == State.DEAD         then UpdateDeath(self, dt)
     end
 end
@@ -402,9 +463,10 @@ function OnTriggerEnter(self, other)
             _PlayerController_triggerCameraShake = true
             
             if attackCol then attackCol:Disable() end
-
             StopMovement()
-            ChangeState(State.COMBAT)
+            slideVelX=0
+            slideVelZ=0
+            ChangeState(State.AFTER_ATTACK)
             Engine.Log("[Minocabro] Impacto! Dano: " .. _EnemyDamage_minocabro)
         end
     end

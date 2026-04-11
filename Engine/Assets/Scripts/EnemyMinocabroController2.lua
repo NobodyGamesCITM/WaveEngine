@@ -7,12 +7,12 @@ local abs   = math.abs
 -- States
 local State = {
     IDLE        = "Idle",
-    COMBAT      = "Combat",
-    REPOSITION  = "Reposition",
-    PREPARATION = "Preparation",
-    CHARGE      = "Charge",
-    WALL        = "Wall",
-    AFTER_ATTACK = "After_Attack",
+    CHASE      = "Chase", --Searching and walking to player
+    REPOSITION  = "Reposition", -- Getting away if player is too close
+    ANTICIPATION = "Anticipation", -- Waiting before charging
+    CHARGE      = "Charge", -- Running to hit
+    WALL        = "Wall", --Stunned because hit a wall
+    RECOVERY = "Recovery", --Recovering after charge
     DEAD        = "Dead",
 }
 
@@ -26,24 +26,25 @@ public = {
     preparationTime = 1.5,
     chargeSpeed     = 18.0,
     chargeDuration  = 0.8,
-    repositionSpeed = 4.0,
-    attackDamage    = 25,
     knockbackForce  = 8.0,
     wallStunTime    = 5.0,
     wallSpeedThresh = 1.5,
 
     --Movement
     moveSpeed       = 10.0,
-    moveAccel       = 12.0,
-    brakeDecel      = 10.0,
     rotationSpeed   = 3.0,
 
-    dirSmoothing    = 10.0,
     stopSmoothing   = 8.0,
 
 
     hurtStunTime = 0.8,
     afterStunTime = 2.2,
+
+    enemyDamageMin=5,
+    enemyDamageMax=35,
+
+    predictionTime = 0.4, 
+
 }
 
 -- Internal variables
@@ -70,10 +71,7 @@ local currentYaw       = 0
 local chargeDirX = 0
 local chargeDirZ = 1
 
-local targetVelX = 0
-local targetVelZ = 0
-
--- Inercia post-carga (para el deslizamiento al frenar sin impacto)
+-- Inertia after charge (sliding)
 local slideVelX = 0
 local slideVelZ = 0
 
@@ -81,6 +79,15 @@ _EnemyDamage_minocabro = 35
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
+
+local cameFromWall =false 
+
+-- Sounds
+local voiceSFX = nil
+local stepSFX  = nil
+local stepSource        = nil
+local voiceSource       = nil
+local stepTimer = 0
 
 -- Helpers
 local function lerp(a, b, t)
@@ -109,7 +116,7 @@ local function RotateTowards(self, dirX, dirZ, speed, dt)
     local targetAngle = atan2(dirX, dirZ) * (180.0 / pi)
     local diff = shortAngleDiff(currentYaw, targetAngle)
     currentYaw = currentYaw + diff * speed * dt
-    self.transform:SetRotation(0, currentYaw, 0)
+    rb:SetRotation(0, currentYaw, 0)
 end 
 
 local function StopMovement()
@@ -123,6 +130,16 @@ end
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Minocabro] -> " .. newState)
+
+    if newState == State.CHARGE then
+        if voiceSFX then  voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
+    elseif newState == State.WALL then
+        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoStun") end
+    elseif newState == State.ANTICIPATION then
+        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoRoar") end
+    elseif newState == State.DEAD then
+        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoDeath") end
+    end
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -145,13 +162,15 @@ local function TakeDamage(self, amount, attackerPos)
         if anim then anim:Play("Death") end
         ChangeState(State.DEAD)
     else
+        
+        if voiceSFX then voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
         anim:Play("Hurt")
         StopMovement()
 
         wallStunTimer = self.public.hurtStunTime
         wallStunTimer = wallStunTimer - dt
         if wallStunTimer <= 0 then
-            ChangeState(State.AFTER_ATTACK)
+            ChangeState(State.RECOVERY)
         end
 
     end
@@ -163,11 +182,11 @@ function UpdateIdle(self, dist)
         anim:Play("Idle")
     end
     if dist <= self.public.detectRange then
-        ChangeState(State.COMBAT)
+        ChangeState(State.CHASE)
     end
 end
 
-function UpdateCombat(self, myPos, pp, dist, dt)
+function UpdateChase(self, myPos, pp, dist, dt)
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
@@ -182,15 +201,22 @@ function UpdateCombat(self, myPos, pp, dist, dt)
         chargeDirZ       = dz
         preparationTimer = 0
         StopMovement()
-        ChangeState(State.PREPARATION)
+        ChangeState(State.ANTICIPATION)
     
     else
         Engine.Log("updatecombat andar")
-        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2, 0.5) end
+        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+      
+        if stepTimer >= 0.5 then
+            stepTimer = 0
+            if stepSFX then stepSFX:PlayAudioEvent() end
+        end
+
         local vel = self.public.moveSpeed
         local cv = rb:GetLinearVelocity()
+        RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+
         rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
-        --RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
 
     end
 end
@@ -217,11 +243,11 @@ function UpdateReposition(self, myPos, pp, dist, dt)
 
     if dist >= self.public.tooCloseRange + 0.5 then
         StopMovement()
-        ChangeState(State.COMBAT)
+        ChangeState(State.CHASE)
     end
 end
 
-function UpdatePreparation(self, pp, dt)
+function UpdateAnticipation(self, pp, dt)
     local myPos = self.transform.worldPosition
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
@@ -230,6 +256,7 @@ function UpdatePreparation(self, pp, dt)
 
     if anim and not anim:IsPlayingAnimation("PreCharge") then
         PlayAnim("PreCharge")
+
     end
 
     preparationTimer = preparationTimer + dt
@@ -247,26 +274,56 @@ function UpdatePreparation(self, pp, dt)
     end
 
     if preparationTimer >= self.public.preparationTime then
-        -- Recalculate final direction
-        local len = sqrt(dx*dx + dz*dz)
+        local predictedX = pp.x
+        local predictedZ = pp.z
+
+        if rb then
+            local predictionVel = rb:GetLinearVelocity()
+            local time = self.public.predictionTime
+            predictedX = pp.x + predictionVel.x * time
+            predictedZ = pp.z + predictionVel.z * time
+        end
+
+        local predictionDx= predictedX - myPos.x
+        local predictionDz= predictedZ - myPos.z
+        local len = sqrt(predictionDx*predictionDx + predictionDz*predictionDz)
         if len > 0.001 then
-            chargeDirX, chargeDirZ = dx/len, dz/len
+            chargeDirX, chargeDirZ = predictionDx/len, predictionDz/len
         end
         chargeTimer = 0
         ChangeState(State.CHARGE)
     end
+
+    --if preparationTimer >= self.public.preparationTime then
+        -- Recalculate final direction
+        --local len = sqrt(dx*dx + dz*dz)
+        --if len > 0.001 then
+            --chargeDirX, chargeDirZ = dx/len, dz/len
+        --end
+        --chargeTimer = 0
+        --ChangeState(State.CHARGE)
+    --end
 end
 
 function UpdateCharge(self, dt)
+
+    if stepTimer >= 0.25 then
+        stepTimer = 0
+        if stepSFX then 
+            stepSFX:PlayAudioEvent() 
+        end
+    end
+
     if anim and not anim:IsPlayingAnimation("Charge") then
         PlayAnim("Charge")
+
     end
 
     chargeTimer = chargeTimer + dt
 
     if rb then
         local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, vel.y, chargeDirZ * self.public.chargeSpeed)
+        rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
 
         if chargeTimer > 0.2 then
             local actualSpeed = sqrt(vel.x*vel.x + vel.z*vel.z)
@@ -275,7 +332,6 @@ function UpdateCharge(self, dt)
                 StopMovement()
                 wallStunTimer = self.public.wallStunTime
                 ChangeState(State.WALL)
-                Engine.Log("Wallll")
                 return
             end
         end
@@ -287,31 +343,37 @@ function UpdateCharge(self, dt)
     if chargeTimer >= self.public.chargeDuration then
         if attackCol then attackCol:Disable() end
         --Save direction for after
-        slideVelX = chargeDirX * self.public.chargeSpeed
-        slideVelZ = chargeDirZ * self.public.chargeSpeed
+        slideVelX = chargeDirX * 8.0
+        slideVelZ = chargeDirZ * 8.0
         
         wallStunTimer = self.public.afterStunTime
 
-        ChangeState(State.AFTER_ATTACK)
+        ChangeState(State.RECOVERY)
     end
 end
 
 function UpdateWall(self, dt)
-    if anim and not anim:IsPlayingAnimation("wall") then
-        PlayAnim("wall")
+    if anim and not anim:IsPlayingAnimation("Wall") then
+        PlayAnim("Wall")
     end
+    Engine.Log("Wallll")
+
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
-        ChangeState(State.COMBAT)
+        slideVelX = 0
+        slideVelZ = 0
+        wallStunTimer = self.public.afterStunTime
+        cameFromWall = true
+        ChangeState(State.RECOVERY)
     end
 end
 
-function UpdateAfter_Attack(self, dt)
+function UpdateRecovery(self, dt)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle", 0.3)
     end
 
-    if playerGO then
+    if playerGO and not cameFromWall then
         local myPos = self.transform.worldPosition
         local pp = playerGO.transform.worldPosition
         local dx = pp.x - myPos.x
@@ -330,7 +392,8 @@ function UpdateAfter_Attack(self, dt)
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
-        ChangeState(State.COMBAT)
+        cameFromWall = false
+        ChangeState(State.CHASE)
     end
 end
 
@@ -366,6 +429,20 @@ function Start(self)
 
     rb   = self.gameObject:GetComponent("Rigidbody")
     anim = self.gameObject:GetComponent("Animation")
+
+    stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
+    voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
+    
+   
+    if stepSource then
+        stepSFX = stepSource:GetComponent("Audio Source")
+    else Engine.Log("[Minocabro] WARNING: Audio Source for steps not found") end
+
+    if voiceSource then
+        voiceSFX = voiceSource:GetComponent("Audio Source")
+    else Engine.Log("[Minocabro] WARNING: Audio Source for voice not found") end
+
+    stepTimer = 0.5
 
     if anim then anim:Play("Idle") end
 
@@ -420,6 +497,7 @@ function Update(self, dt)
     end
     if not playerGO then return end
 
+    stepTimer = stepTimer + dt
     local myPos = self.transform.worldPosition
     local pp    = playerGO.transform.worldPosition
     if not pp then return end
@@ -428,12 +506,12 @@ function Update(self, dt)
 
     -- State machine
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
-    elseif currentState == State.COMBAT       then UpdateCombat(self, myPos, pp, dist, dt)
+    elseif currentState == State.CHASE       then UpdateChase(self, myPos, pp, dist, dt)
     elseif currentState == State.REPOSITION   then UpdateReposition(self, myPos, pp, dist, dt)
-    elseif currentState == State.PREPARATION  then UpdatePreparation(self, pp, dt)
+    elseif currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
     elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
     elseif currentState == State.WALL         then UpdateWall(self, dt)
-    elseif currentState == State.AFTER_ATTACK then UpdateAfter_Attack(self, dt)
+    elseif currentState == State.RECOVERY then UpdateRecovery(self, dt)
     elseif currentState == State.DEAD         then UpdateDeath(self, dt)
     end
 end
@@ -456,8 +534,20 @@ function OnTriggerEnter(self, other)
         end
 
         -- The enemy hits the player
-        if currentState == State.CHARGE and not alreadyHit and (_PlayerController_pendingDamage == 0 or _PlayerController_pendingDamage == nil) then
+        if currentState == State.CHARGE and not alreadyHit and _PlayerController_pendingDamage == 0 then
             alreadyHit  = true
+            
+            local timeCharge = chargeTimer
+            local durationMax = self.public.chargeDuration
+
+            local ratio = timeCharge/durationMax
+
+            local finalDamage = self.public.enemyDamageMin + (self.public.enemyDamageMax - self.public.enemyDamageMin) * ratio
+
+            finalDamage = math.floor(finalDamage)
+
+            _EnemyDamage_minocabro = finalDamage
+
             _PlayerController_pendingDamage    =  _EnemyDamage_minocabro
             _PlayerController_pendingDamagePos = self.transform.worldPosition
             _PlayerController_triggerCameraShake = true
@@ -465,9 +555,9 @@ function OnTriggerEnter(self, other)
             if attackCol then attackCol:Disable() end
             StopMovement()
             slideVelX=0
-            slideVelZ=0
-            ChangeState(State.AFTER_ATTACK)
-            Engine.Log("[Minocabro] Impacto! Dano: " .. _EnemyDamage_minocabro)
+            slideVelZ= 0
+            ChangeState(State.RECOVERY)
+            Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end
     end
 end

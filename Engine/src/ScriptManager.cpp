@@ -864,7 +864,6 @@ static int Lua_UI_GetCanvasButtons(lua_State* L) {
     
     std::unordered_set<std::string> allButtons = UIManager::GetInstance().GetCanvasButtons();
 
-    LOG_CONSOLE("[UI] GetCanvasButtons called, count: %d", (int)allButtons.size());
     lua_newtable(L);
     int index = 1;
     for (const auto& name : allButtons) {

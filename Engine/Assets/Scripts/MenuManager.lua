@@ -207,24 +207,22 @@ function Update(self, dt)
             end
         end
 
-        local allCanvasButtons = UI.GetCanvasButtons()
-
-        for i, button in ipairs(allCanvasButtons) do
-            if UI.WasFocused(tostring(button)) then
-                Engine.Log("[BUTTON AUDIO] "..tostring(button).. " was focused")
-                if self.selectSFX then 
-                    self.selectSFX:PlayAudioEvent() 
-                    Engine.Log("[BUTTON AUDIO] selectSFX played")
-                end
-            end
-        end
-
 
         -- if UI.WasFocused("StartButton") or UI.WasFocused("SettingsButton") or UI.WasFocused("ExitButton") 
         -- or UI.WasFocused("ResumButton") or UI.WasFocused("TryAgainButton") or UI.WasFocused("BackToMenuButton") then
         --     if self.selectSFX then self.selectSFX:PlayAudioEvent() end
         -- end
         
+        local allCanvasButtons = UI.GetCanvasButtons()
+
+        for i, button in ipairs(allCanvasButtons) do
+            if UI.WasFocused(tostring(button)) then
+                if self.selectSFX then 
+                    self.selectSFX:PlayAudioEvent() 
+                end
+            end
+        end
+
         if UI.WasClicked("StartButton") then
             --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
             NavigateTo(self, "HUD.xaml")

@@ -695,9 +695,9 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
             currentShader->SetVec3("lightDir", lightDir);
 
             if (currentShader == standardShader.get()) {
-                glActiveTexture(GL_TEXTURE5);
+                glActiveTexture(GL_TEXTURE7);
                 glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
-                currentShader->SetInt("uShadowMap", 5);
+                currentShader->SetInt("uShadowMap", 7);
                 currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
             }
         }
@@ -769,9 +769,9 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
 
             // Re-bindear shadow map cada vez que se activa standardShader
             if (currentShader == standardShader.get()) {
-                glActiveTexture(GL_TEXTURE5);
+                glActiveTexture(GL_TEXTURE7);
                 glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
-                currentShader->SetInt("uShadowMap", 5);
+                currentShader->SetInt("uShadowMap", 7);
                 currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
             }
         }

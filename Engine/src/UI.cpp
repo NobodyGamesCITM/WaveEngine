@@ -123,6 +123,7 @@ void UI::OnResize(uint32_t width, uint32_t height)
         c->Resize((int)width, (int)height);
 }
 
+
 //Gamepad input handling
 static Noesis::Key SDLGamepadButtonToNoesisKey(int sdlButton)
 {

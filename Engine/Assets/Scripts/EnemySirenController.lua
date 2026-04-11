@@ -332,10 +332,10 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-    singSource = GameObject.Find("SingSource")
-    dieSource = GameObject.Find("SirenDieSource")
-    hurtSource = GameObject.Find("SirenHurtSource")
-    dipSource = GameObject.Find("DipSource")
+    singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
+    dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
+    hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
+    dipSource = GameObject.FindInChildren(self.gameObject,"DipSource")
 
     singSFX  = singSource:GetComponent("Audio Source")
     deathSFX = dieSource:GetComponent("Audio Source")

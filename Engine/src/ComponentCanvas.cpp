@@ -67,11 +67,15 @@ void ComponentCanvas::CleanUp()
 }
 
 static void HookEvents(Noesis::Visual* element) {
+
     if (!element) return;
+    
 
     if (auto button = Noesis::DynamicCast<Noesis::Button*>(element)) {
         const char* name = button->GetName();
+        
         if (name && strlen(name) > 0) {
+            UIManager::GetInstance().RegisterButton(name);
             button->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args)
             {
                 if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
@@ -79,6 +83,15 @@ static void HookEvents(Noesis::Visual* element) {
                     UIManager::GetInstance().RegisterClickedButton(btn->GetName());
                 }
             };
+            
+            button->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args) {
+
+                if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
+                    LOG_CONSOLE("[Canvas] Button Focused: %s", btn->GetName());
+                    UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
+                }
+            };
+            
         }
     }
 
@@ -118,6 +131,7 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     view->GetRenderer()->Init(device);
     currentXAML = filename;
     view->Activate();
+    UIManager::GetInstance().ClearCanvasButtons();
     needsHookEvents = true;
     return true;
 }

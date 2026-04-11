@@ -79,7 +79,7 @@ static void HookEvents(Noesis::Visual* element) {
             button->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args)
             {
                 if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
-                    LOG_CONSOLE("[Canvas] Button Clicked: %s", btn->GetName());
+                    //LOG_CONSOLE("[Canvas] Button Clicked: %s", btn->GetName());
                     UIManager::GetInstance().RegisterClickedButton(btn->GetName());
                 }
             };
@@ -87,7 +87,7 @@ static void HookEvents(Noesis::Visual* element) {
             button->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args) {
 
                 if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
-                    LOG_CONSOLE("[Canvas] Button Focused: %s", btn->GetName());
+                    //LOG_CONSOLE("[Canvas] Button Focused: %s", btn->GetName());
                     UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
                 }
             };

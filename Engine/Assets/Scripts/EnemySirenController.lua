@@ -1,3 +1,5 @@
+Engine.Log("[SIREN] Script file loaded")
+
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -430,6 +432,42 @@ function UpdateCooldown(self, dist, dt)
     end
 end
 
+local function FindSirenAudioComponents(self)
+    Engine.Log("[SIREN AUDIO] Searching in: " .. tostring(self.gameObject.name))
+    
+    singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
+    Engine.Log("[SIREN AUDIO] SingSource found: " .. tostring(singSource ~= nil))
+    
+    dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
+    Engine.Log("[SIREN AUDIO] DieSource found: " .. tostring(dieSource ~= nil))
+    
+    hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
+    Engine.Log("[SIREN AUDIO] HurtSource found: " .. tostring(hurtSource ~= nil))
+    
+    dipSource = GameObject.FindInChildren(self.gameObject, "DipSource")
+    Engine.Log("[SIREN AUDIO] DipSource found: " .. tostring(dipSource ~= nil))
+
+    -- singSource = GameObject.Find("SingSource")
+    -- dieSource = GameObject.Find("SirenDieSource")
+    -- hurtSource = GameObject.Find("SirenHurtSource")
+    -- dipSource = GameObject.Find("DipSource")
+
+    singSFX  = singSource:GetComponent("Audio Source")
+    deathSFX = dieSource:GetComponent("Audio Source")
+    hurtSFX  = hurtSource:GetComponent("Audio Source")
+    dipSFX   = dipSource:GetComponent("Audio Source")
+    
+    if not singSFX then
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
+	end
+    if not deathSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
+	end
+    if not dipSFX then 
+		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
+	end
+end
+
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
     Game.SetTimeScale(1.0)
@@ -450,26 +488,6 @@ function Start(self)
     cooldownTimer = 0
     activeShells  = {}
 
-    singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
-    dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
-    hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
-    dipSource = GameObject.FindInChildren(self.gameObject,"DipSource")
-
-    singSFX  = singSource:GetComponent("Audio Source")
-    deathSFX = dieSource:GetComponent("Audio Source")
-    hurtSFX  = hurtSource:GetComponent("Audio Source")
-    dipSFX   = dipSource:GetComponent("Audio Source")
-    
-    if not singSFX then
-		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
-	end
-    if not deathSFX then 
-		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
-	end
-    if not dipSFX then 
-		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
-	end
-
     Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
 
@@ -484,6 +502,35 @@ end
 -- Update
 function Update(self, dt)
     if not self.gameObject then return end
+
+    -- Re-initialize if state was lost (e.g. after hot reload)
+    -- if not Mortar.currentState then
+    --     Game.SetTimeScale(1.0)
+
+    --     hp             = self.public.maxHp
+    --     isDead         = false
+    --     alreadyHit     = false
+    --     pendingDestroy = false
+
+    --     Mortar.currentState = State.IDLE
+    --     Mortar.currentY     = 0
+    --     Mortar.targetY      = 0
+    --     Mortar.playerGO     = nil
+    --     Mortar.rb           = self.gameObject:GetComponent("Rigidbody")
+    --     Mortar.anim         = self.gameObject:GetComponent("Animation")
+
+    --     windUpTimer   = 0
+    --     cooldownTimer = 0
+    --     activeShells  = {}
+
+    --     Prefab.Load("Sirena_Bullet", finalPath)
+    --     Prefab.Load("Sirenfeedback", finalPath_Feedback)
+
+    --     if Mortar.rb then
+    --         Mortar.rb:SetLinearVelocity(0, 0, 0)
+    --     end
+    --     Engine.Log("[Siren] State was nil, re-initialized to IDLE")
+    -- end
 
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
@@ -510,6 +557,14 @@ function Update(self, dt)
     -- Retry components if missing
     if not Mortar.rb then
         Mortar.rb = self.gameObject:GetComponent("Rigidbody")
+    end
+
+    if not Mortar.anim then
+        Mortar.anim = self.gameObject:GetComponent("Animation")
+    end
+
+    if not dipSFX or not hurtSFX or not deathSFX or not singSFX then
+        FindSirenAudioComponents(self)
     end
 
     -- Keep the mortar still
@@ -571,6 +626,8 @@ function Update(self, dt)
     elseif Mortar.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
+    Engine.Log("[Siren] State: " .. tostring(Mortar.currentState) .. " dist: " .. string.format("%.1f", dist))
+
     if pendingDestroy then
         self:Destroy()
         pendingDestroy = false
@@ -603,3 +660,4 @@ function OnTriggerExit(self, other)
         alreadyHit = false
     end
 end
+

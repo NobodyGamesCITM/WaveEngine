@@ -360,7 +360,7 @@ function Start(self)
     activeShells  = {}
 
     --FindSirenAudioComponents(self)
-    voiceSource = GameObject.FindInChildren(self.gameObject, "SirenVoiceSource")
+    voiceSource = GameObject.FindInChildren(self.gameObject, "singSource")
     if voiceSource then 
         voiceSFX  = voiceSource:GetComponent("Audio Source")
         if not voiceSFX then
@@ -370,7 +370,7 @@ function Start(self)
         Engine.Log("[SIREN AUDIO] Unable to retrieve SirenVoiceSource GameObject")
     end
 
-   waterSource = GameObject.FindInChildren(self.gameObject, "SirenWaterSource")
+   waterSource = GameObject.FindInChildren(self.gameObject, "dipSource")
     if waterSource then 
         waterSFX = Mortar.waterSource:GetComponent("Audio Source")
         if not waterSFX then 

@@ -757,7 +757,6 @@ void AssetsWindow::LoadFBXSubresources(AssetNode* fbxAsset)
         delete sub;
     }
     fbxAsset->subResources.clear();
-
     std::string metaPath = fbxAsset->path + ".meta";
     if (!fs::exists(metaPath)) return;
 
@@ -766,7 +765,6 @@ void AssetsWindow::LoadFBXSubresources(AssetNode* fbxAsset)
 
     ModuleResources* resources = Application::GetInstance().resources.get();
     if (!resources) return;
-
     const auto& allResources = resources->GetAllResources();
 
     for (const auto& [meshName, meshUID] : meta.meshes)
@@ -788,11 +786,36 @@ void AssetsWindow::LoadFBXSubresources(AssetNode* fbxAsset)
             meshEntry->inMemory = it->second->IsLoadedToMemory();
             meshEntry->references = it->second->GetReferenceCount();
         }
-
         meshEntry->cachedDisplayName = TruncateFileName(meshEntry->name, iconSize * 0.7f);
         fbxAsset->subResources.push_back(meshEntry);
     }
+
+    //anims
+    for (const auto& [animName, animUID] : meta.animations)
+    {
+        std::string libPath = LibraryManager::GetLibraryPath(animUID);
+        if (!LibraryManager::FileExists(libPath))
+            continue;
+        AssetNode* animEntry = new AssetNode();
+        animEntry->name = animName;
+        animEntry->path = libPath;
+        animEntry->extension = ".anim";
+        animEntry->isDirectory = false;
+        animEntry->isFBX = false;
+        animEntry->uid = animUID;
+
+        auto it = allResources.find(animUID);
+        if (it != allResources.end()) {
+            animEntry->inMemory = it->second->IsLoadedToMemory();
+            animEntry->references = it->second->GetReferenceCount();
+        }
+        animEntry->cachedDisplayName = TruncateFileName(animEntry->name, iconSize * 0.7f);
+        fbxAsset->subResources.push_back(animEntry);
+    }
+
+    LOG_DEBUG("[AssetsWindow] FBX Subresources loaded: %d items", (int)fbxAsset->subResources.size());
 }
+
 
 
 // === DRAW ICONS Y PREVIEWS (Idénticos a tu V1, adaptados al puntero) ===

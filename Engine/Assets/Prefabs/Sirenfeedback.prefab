@@ -1,0 +1,35 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -4.0,
+                    0.0,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.75,
+                    0.0027500002179294825,
+                    2.75
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Cylinder",
+                "type": 1
+            }
+        ],
+        "name": "Sirenfeedback",
+        "tag": "",
+        "uid": 3872800122960749930
+    }
+]

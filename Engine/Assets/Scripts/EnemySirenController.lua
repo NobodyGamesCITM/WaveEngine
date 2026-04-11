@@ -89,6 +89,7 @@ public = {
 }
 
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
+local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
 
 -- Helpers
 local function shortAngleDiff(a, b)
@@ -177,6 +178,7 @@ local function TakeDamage(self, amount, attackerPos)
         _impactFrameTimer = 0.07
 
         for _, shell in ipairs(activeShells) do
+            if shell.shadowGo then pcall(function() GameObject.Destroy(shell.shadowGo) end) end
             SafeDestroyShell(shell)
         end
         activeShells = {}
@@ -207,18 +209,23 @@ local function FireShell(self, tx, ty, tz)
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
 
     local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+
     if bulletAsset then
         local shell = Prefab.Instantiate("Sirena_Bullet")
+        local FeedbackAsset = Prefab.Instantiate("Sirenfeedback")
 
         table.insert(activeShells, {
             go         = shell,
+            shadowGo = FeedbackAsset,
             age        = 0,
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
             vx = vx, vy = vy, vz = vz,
             targetX    = tx,
+            targetY    = ty,
             targetZ    = tz,
             hasHit     = false,
+            feedbackSet = false,
         })
         
         Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
@@ -265,6 +272,16 @@ local function UpdateShells(self, dt)
 
     for i = #activeShells, 1, -1 do
         local s = activeShells[i]
+
+        if s.shadowGo and not s.feedbackSet then
+            local tr = s.shadowGo.transform
+            if tr then
+                tr:SetPosition(s.targetX, s.targetY + 0.1, s.targetZ)
+                s.feedbackSet = true
+                Engine.Log("[Feedback] Posicionado correctamente en el suelo")
+            end
+        end
+        
         s.age = s.age + dt
 
         local t = s.age
@@ -278,6 +295,10 @@ local function UpdateShells(self, dt)
 
         if impacted and not s.hasHit then
             s.hasHit = true
+
+            if s.shadowGo then
+                pcall(function() GameObject.Destroy(s.shadowGo) end)
+            end
 
             Engine.Log("[Mortar] Impact at ("
                      .. string.format("%.1f", x) .. ", "
@@ -450,6 +471,8 @@ function Start(self)
 	end
 
     Prefab.Load("Sirena_Bullet", finalPath)
+    Prefab.Load("Sirenfeedback", finalPath_Feedback)
+
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)
     end

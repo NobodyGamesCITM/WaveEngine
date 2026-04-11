@@ -852,6 +852,28 @@ static int Lua_UI_WasClicked(lua_State* L) {
     return 1;
 }
 
+// UI
+// UI.WasFocused("ButtonName") → bool
+static int Lua_UI_WasFocused(lua_State* L) {
+    const char* name = luaL_checkstring(L, 1);
+    lua_pushboolean(L, UIManager::GetInstance().WasButtonJustFocused(name));
+    return 1;
+}
+
+static int Lua_UI_GetCanvasButtons(lua_State* L) {
+    
+    std::unordered_set<std::string> allButtons = UIManager::GetInstance().GetCanvasButtons();
+
+    LOG_CONSOLE("[UI] GetCanvasButtons called, count: %d", (int)allButtons.size());
+    lua_newtable(L);
+    int index = 1;
+    for (const auto& name : allButtons) {
+        lua_pushstring(L, name.c_str());
+        lua_rawseti(L, -2, index++);
+    }
+    return 1;
+}
+
 // UI.SetElementHeight("GridName", 42.0)
 static int Lua_UI_SetElementHeight(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
@@ -1023,6 +1045,8 @@ void ScriptManager::RegisterEngineFunctions() {
     //UI
     lua_newtable(L);
     lua_pushcfunction(L, Lua_UI_WasClicked);            lua_setfield(L, -2, "WasClicked");
+    lua_pushcfunction(L, Lua_UI_WasFocused);            lua_setfield(L, -2, "WasFocused");
+    lua_pushcfunction(L, Lua_UI_GetCanvasButtons);      lua_setfield(L, -2, "GetCanvasButtons");
     lua_pushcfunction(L, Lua_UI_SetElementHeight);      lua_setfield(L, -2, "SetElementHeight");
     lua_pushcfunction(L, Lua_UI_SetElementWidth);       lua_setfield(L, -2, "SetElementWidth");
     lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
@@ -1324,7 +1348,7 @@ static int Lua_GameObject_Find(lua_State* L) {
     return 1;
 }
 
-// go = GameObject.FindInChildren(go, name)
+// go = GameObject.FindInChildren(parentGOname, targetGOname)
 static int Lua_GameObject_FindInChildren(lua_State* L) {
     
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));

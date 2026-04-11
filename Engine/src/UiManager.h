@@ -11,9 +11,19 @@ public:
     static UIManager& GetInstance();
 
     //Botones
+    void RegisterButton(const std::string& name);
     void RegisterClickedButton(const std::string& name);
+    void RegisterFocusedButton(const std::string& name);
+    
     bool WasButtonJustClicked(const std::string& name) const;
+    bool WasButtonJustFocused(const std::string& name) const;
+
     void ClearFrameClicks();
+    void ClearFrameFocused();
+    void ClearCanvasButtons();
+
+    //llamable des de Lua
+    std::unordered_set<std::string> GetCanvasButtons();
 
     //Canvas registry
     void RegisterCanvas(ComponentCanvas* canvas);
@@ -24,6 +34,7 @@ public:
     void SetElementWidth(const std::string& elementName, float width);
     void SetElementText(const std::string& elementName, const std::string& text);
     void SetElementVisibility(const std::string& elementName, bool visible);
+
 private:
     UIManager() = default;
     ~UIManager() = default;
@@ -33,5 +44,7 @@ private:
     void* FindElement(const std::string& elementName);
 
     std::unordered_set<std::string> m_justClickedButtons;
+    std::unordered_set<std::string> m_justFocusedButtons;
     std::vector<ComponentCanvas*>   m_canvases;
+    std::unordered_set<std::string> m_canvasButtons;
 };

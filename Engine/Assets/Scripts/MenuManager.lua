@@ -110,6 +110,7 @@ function Initialize(self)
     return true
 end
 
+
 function Start(self)
     Initialize(self)
 end
@@ -120,7 +121,12 @@ function Update(self, dt)
         _G._MenuManager_NeedReinit = false
         Initialize(self)
     end
-    
+
+    if self.current == "MainMenu.xaml" then
+        Audio.SetMusicState("MainMenu")
+        Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+        Game.Pause()
+    end
     -- Detect scene change via common global if available
     if _G._NewSceneLoaded and not self.sceneLoadedFlag then
         self.sceneLoadedFlag = true
@@ -180,10 +186,11 @@ function Update(self, dt)
             -- String matching can be tricky with paths, so we check for substring too
             local isHUD = (self.current == "HUD.xaml") or self.current:find("HUD.xaml")
             local isPause = (self.current == "PauseMenu.xaml") or self.current:find("PauseMenu.xaml")
+            --local isMainMenu = (self.current == "MainMenu.xaml") or self.current:find("MainMenu.xaml")
 
+      
+ 
             if isHUD then
-                
-
                 Engine.Log("[MenuManager] Logic: Open PauseMenu")
                 if _G.SuspendDialog then _G.SuspendDialog() end
                 Game.Pause()
@@ -200,6 +207,24 @@ function Update(self, dt)
             end
         end
 
+        local allCanvasButtons = UI.GetCanvasButtons()
+
+        for i, button in ipairs(allCanvasButtons) do
+            if UI.WasFocused(tostring(button)) then
+                Engine.Log("[BUTTON AUDIO] "..tostring(button).. " was focused")
+                if self.selectSFX then 
+                    self.selectSFX:PlayAudioEvent() 
+                    Engine.Log("[BUTTON AUDIO] selectSFX played")
+                end
+            end
+        end
+
+
+        -- if UI.WasFocused("StartButton") or UI.WasFocused("SettingsButton") or UI.WasFocused("ExitButton") 
+        -- or UI.WasFocused("ResumButton") or UI.WasFocused("TryAgainButton") or UI.WasFocused("BackToMenuButton") then
+        --     if self.selectSFX then self.selectSFX:PlayAudioEvent() end
+        -- end
+        
         if UI.WasClicked("StartButton") then
             --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
             NavigateTo(self, "HUD.xaml")
@@ -232,6 +257,7 @@ function Update(self, dt)
                 _G.PlayerInstance.public.stamina = 100
             end
             NavigateTo(self, "MainMenu.xaml")
+            Game.Pause()
         end
 
         if UI.WasClicked("SoundsButton") then
@@ -276,16 +302,13 @@ function Update(self, dt)
             if _G.ForceCloseDialog then _G.ForceCloseDialog() end
         end
 
+
         if self.nextXaml == "PauseMenu.xaml" or self.nextXaml == "GraphicsMenu.xaml" or self.nextXaml == "LoseMenu.xaml" or  self.nextXaml == "SettingsMenu.xaml" then
             Audio.SetGlobalVolume(self.public.lowerVolume or 60.0)
         elseif self.nextXaml == "MainMenu.xaml" or self.nextXaml == "HUD.xaml" then
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
         end
-
-        --if self.current == "HUD.xaml" then
             
-        
-
        
         local previous = self.current
         self.canvas:LoadXAML(self.nextXaml)
@@ -316,6 +339,7 @@ function Update(self, dt)
         elseif self.current == "MainMenu.xaml" then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+            Game.Pause()
         end
         -- if not self.isMusicPlaying and self.musicComp then
         --     self.musicComp:PlayAudioEvent()

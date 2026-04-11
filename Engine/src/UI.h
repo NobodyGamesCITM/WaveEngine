@@ -31,6 +31,7 @@ public:
     void OnMouseButtonDown(int x, int y, int sdlButton);
     void OnMouseButtonUp(int x, int y, int sdlButton);
     void OnMouseWheel(int x, int y, int delta);
+  
 
     // Gamepad input
     void OnGamepadButtonDown(int sdlButton);

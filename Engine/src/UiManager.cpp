@@ -11,9 +11,21 @@ UIManager& UIManager::GetInstance() {
     return instance;
 }
 
+void UIManager::RegisterButton(const std::string& name) {
+    if (!name.empty()) {
+        m_canvasButtons.insert(name);
+    }
+}
+
 void UIManager::RegisterClickedButton(const std::string& name) {
     if (!name.empty()) {
         m_justClickedButtons.insert(name);
+    }
+}
+
+void UIManager::RegisterFocusedButton(const std::string& name) {
+    if (!name.empty()) {
+        m_justFocusedButtons.insert(name);
     }
 }
 
@@ -21,8 +33,21 @@ bool UIManager::WasButtonJustClicked(const std::string& name) const {
     return m_justClickedButtons.count(name) > 0;
 }
 
+bool UIManager::WasButtonJustFocused(const std::string& name) const {
+    return m_justFocusedButtons.count(name) > 0;
+}
+
 void UIManager::ClearFrameClicks() {
     m_justClickedButtons.clear();
+}
+
+//clears the focus CHANGE, not the state
+void UIManager::ClearFrameFocused() {
+    m_justFocusedButtons.clear();
+}
+
+void UIManager::ClearCanvasButtons() {
+    m_canvasButtons.clear();
 }
 
 void UIManager::RegisterCanvas(ComponentCanvas* canvas) {
@@ -82,4 +107,8 @@ void UIManager::SetElementVisibility(const std::string& elementName, bool visibl
 
     fe->SetVisibility(visible ? Noesis::Visibility_Visible
         : Noesis::Visibility_Hidden);
+}
+
+std::unordered_set<std::string> UIManager::GetCanvasButtons() {
+    return m_canvasButtons;
 }

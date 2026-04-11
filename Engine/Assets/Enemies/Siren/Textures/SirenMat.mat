@@ -6,8 +6,14 @@
         1.0,
         1.0
     ],
+    "EmissiveColor": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "EmissiveMapUID": 0,
     "HeightMapUID": 11825509403167158018,
-    "HeightScale": 0.004999999888241291,
+    "HeightScale": 0.0,
     "Metallic": 0.0,
     "MetallicMapUID": 17667377996768971775,
     "NormalMapUID": 13296471538974219574,
@@ -18,6 +24,7 @@
     ],
     "Opacity": 1.0,
     "Roughness": 1.0,
+    "RoughnessMapUID": 0,
     "Tiling": [
         1.0,
         1.0

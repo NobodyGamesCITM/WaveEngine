@@ -2242,7 +2242,7 @@
                                 "volume": 100.0
                             }
                         ],
-                        "name": "SingSource",
+                        "name": "SirenVoiceSource",
                         "tag": "",
                         "uid": 15455647535750652699
                     },
@@ -2277,7 +2277,7 @@
                                 "volume": 100.0
                             }
                         ],
-                        "name": "SirenDieSource",
+                        "name": "SirenWaterSource",
                         "tag": "",
                         "uid": 4432634091147367591
                     },
@@ -2503,29 +2503,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "windUpTime",
+                        "name": "flightTime",
                         "type": 0,
-                        "value": 1.600000023841858
-                    },
-                    {
-                        "name": "minRange",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "maxHp",
-                        "type": 0,
-                        "value": 50.0
-                    },
-                    {
-                        "name": "maxLifetime",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
-                        "name": "attackDamage",
-                        "type": 0,
-                        "value": 30.0
+                        "value": 4.0
                     },
                     {
                         "name": "detectRange",
@@ -2533,14 +2513,9 @@
                         "value": 22.0
                     },
                     {
-                        "name": "rotationSpeed",
+                        "name": "knockbackForce",
                         "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "blastRadius",
-                        "type": 0,
-                        "value": 3.5
+                        "value": 3.0
                     },
                     {
                         "name": "barrelOffsetY",
@@ -2548,14 +2523,14 @@
                         "value": 1.7999999523162842
                     },
                     {
-                        "name": "cooldownTime",
+                        "name": "maxHp",
                         "type": 0,
-                        "value": 4.5
+                        "value": 50.0
                     },
                     {
-                        "name": "flightTime",
+                        "name": "attackDamage",
                         "type": 0,
-                        "value": 4.0
+                        "value": 30.0
                     },
                     {
                         "name": "projectilePrefab",
@@ -2563,12 +2538,37 @@
                         "value": "Sirena_Bullet"
                     },
                     {
-                        "name": "knockbackForce",
+                        "name": "cooldownTime",
                         "type": 0,
-                        "value": 3.0
+                        "value": 4.5
+                    },
+                    {
+                        "name": "windUpTime",
+                        "type": 0,
+                        "value": 1.600000023841858
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "maxLifetime",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "blastRadius",
+                        "type": 0,
+                        "value": 3.5
+                    },
+                    {
+                        "name": "minRange",
+                        "type": 0,
+                        "value": 5.0
                     }
                 ],
-                "scriptUID": 2835141273378409201,
+                "scriptUID": 9980535816635149869,
                 "type": 6
             },
             {
@@ -2577,31 +2577,12 @@
                 "type": 3
             },
             {
-                "Animations": [
-                    {
-                        "UID": 6424668421855948082,
-                        "loop": false,
-                        "name": "Hide",
-                        "speed": 1.0
-                    },
-                    {
-                        "UID": 3625635107192296753,
-                        "loop": true,
-                        "name": "Look",
-                        "speed": 1.0
-                    },
-                    {
-                        "UID": 6729198245658455764,
-                        "loop": false,
-                        "name": "Show",
-                        "speed": 1.0
-                    }
-                ],
+                "Animations": [],
                 "active": true,
                 "type": 28
             }
         ],
-        "name": "Siren",
+        "name": "Siren2",
         "tag": "Enemy",
         "uid": 16411027618150366466
     }

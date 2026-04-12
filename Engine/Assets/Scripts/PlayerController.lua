@@ -749,6 +749,21 @@ States[State.ATTACK_LIGHT] = {
     Update = function(self, dt)
         attackTimer = attackTimer + dt
 
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
+            attackBuffer = false
+            attackBufferPending = false
+            attackCooldown = 0
+            local moveX, moveZ, inputLen = GetMovementInput(self)
+            if inputLen > 0.01 then
+                Player.lastDirX = moveX / inputLen
+                Player.lastDirZ = moveZ / inputLen
+                Player.lastAngle = math.atan(moveX / inputLen, moveZ / inputLen) * (180.0 / math.pi)
+                if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
+            end
+            ChangeState(self, State.ROLL)
+            return
+        end
+
         if attackTimer >= Player.attackDelay and attackCol then
             _PlayerController_lastAttack = "light"
             attackCol:Enable()

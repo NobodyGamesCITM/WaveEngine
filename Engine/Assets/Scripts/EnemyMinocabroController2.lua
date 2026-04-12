@@ -259,6 +259,41 @@ function UpdateAnticipation(self, pp, dt)
 
     end
 
+    if self.chargeFeedbackGO then
+        --Maximum possible distance
+        local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
+        
+        -- Vcetor distance player
+        local vectorToPlayerX = pp.x - myPos.x
+        local vectorToPlayerZ = pp.z - myPos.z
+        local currentDistToPlayer = sqrt(vectorToPlayerX * vectorToPlayerX + vectorToPlayerZ * vectorToPlayerZ)
+
+        -- Trim the indicator if the player is closer than the max range
+        local indicatorLength = maxChargeDistance
+        if currentDistToPlayer < maxChargeDistance then
+            indicatorLength = currentDistToPlayer
+        end
+
+        local distance = sqrt(dx*dx + dz*dz)
+        local directionX, directionZ = dx, dz
+        if distance > 0.001 then 
+            directionX = dx / distance 
+            directionZ = dz / distance 
+        end
+
+        -- Calculate the center position
+        local positionX = myPos.x + directionX * (indicatorLength * 0.5)
+        local positionY = myPos.y +0.15
+        local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
+
+        local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
+
+        self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
+        self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
+        self.chargeFeedbackGO.transform:SetScale(0.4, 0.05, indicatorLength)
+    end
+
+
     preparationTimer = preparationTimer + dt
 
     if rb and preparationTimer < (self.public.preparationTime * 0.5) then
@@ -454,6 +489,9 @@ function Start(self)
     end
 
     Engine.Log("[Minocabro] Start OK  HP=" .. hp)
+
+    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    self.chargeFeedbackGO = nil
 end
 
 function Update(self, dt)
@@ -503,6 +541,18 @@ function Update(self, dt)
     if not pp then return end
 
     local dist = Dist(myPos, pp)
+
+    -- Instanciar/destruir feedback ANTES de llamar al estado
+    if currentState == State.ANTICIPATION then
+        if not self.chargeFeedbackGO then
+            self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+        end
+    elseif currentState == State.RECOVERY then
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+    end
 
     -- State machine
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
@@ -556,6 +606,10 @@ function OnTriggerEnter(self, other)
             StopMovement()
             slideVelX=0
             slideVelZ= 0
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
             ChangeState(State.RECOVERY)
             Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end

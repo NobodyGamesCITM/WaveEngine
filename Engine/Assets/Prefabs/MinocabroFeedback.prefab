@@ -1,0 +1,35 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Cube",
+                "type": 1
+            }
+        ],
+        "name": "MinocabroFeedback",
+        "tag": "",
+        "uid": 6626604853194689297
+    }
+]

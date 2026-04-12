@@ -20,6 +20,7 @@ local hitSource
 local itemSource
 local equipSource
 local changeSource
+local swordMat = nil
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
@@ -298,6 +299,8 @@ local function EquipMask(self, newMask)
         Player.hermesDeathTimer   = 2.0
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
+
+        UpdateSwordMaterial()
         return
     end
     if Player.currentMask == Mask.HERMES then
@@ -312,6 +315,7 @@ local function EquipMask(self, newMask)
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
     _PlayerController_currentMask = newMask
+    UpdateSwordMaterial()
 end
 
 States[State.DEAD] = {
@@ -969,9 +973,15 @@ function Start(self)
     maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
+    swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
+
     if maskApolo then maskApolo:SetActive(false) end
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
+
+    if swordGameObject then
+        swordMat = swordGameObject:GetComponent("Material")
+    end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
@@ -1307,5 +1317,18 @@ function OnCollisionExit(self, other)
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false
+    end
+end
+
+function UpdateSwordMaterial()
+    if not swordMat then return end
+    if Player.currentMask == Mask.APOLLO then
+        swordMat.SetTexture("6751651313279286071")
+    elseif Player.currentMask == Mask.HERMES then
+        swordMat.SetTexture("17992362804328357788")
+    elseif Player.currentMask == Mask.ARES then
+        swordMat.SetTexture("13408905279443529047")
+    else
+        swordMat.SetTexture("2897285206442267137")
     end
 end

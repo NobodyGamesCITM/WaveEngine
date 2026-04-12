@@ -1610,14 +1610,14 @@ static int Lua_ComponentMesh_SetMesh(lua_State* L) {
 // Helper for ComponentMaterial.SetTexture
 static int Lua_ComponentMaterial_SetTexture(lua_State* L) {
     ComponentMaterial* mat = static_cast<ComponentMaterial*>(lua_touserdata(L, lua_upvalueindex(1)));
-    UID textureUID = static_cast<UID>(luaL_checknumber(L, 1));
 
-    // Enqueue texture change for PostUpdate
-    //FIXMAT
-    //auto& app = Application::GetInstance();
-    //app.scripts->EnqueueOperation([mat, textureUID]() {
-    //    mat->LoadTextureByUID(textureUID);
-    //    });
+    const char* uidStr = luaL_checkstring(L, 1);
+    UID materialUID = std::stoull(uidStr);
+
+    auto& app = Application::GetInstance();
+    app.scripts->EnqueueOperation([mat, materialUID]() {
+        mat->SetMaterial(materialUID);
+        });
 
     return 0;
 }

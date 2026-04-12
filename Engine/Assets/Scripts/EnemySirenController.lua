@@ -16,57 +16,56 @@ local State = {
     DEAD     = "Dead",
 }
 
--- Internal state
-local Mortar = {
-    currentState = nil,
-    rb           = nil,
-    anim         = nil,
-    playerGO     = nil,
-    currentY     = 0,    -- ángulo Y actual (para rotación suave hacia el player)
-    targetY      = 0,    -- ángulo Y deseado
-}
+-- -- Internal state
+-- local Mortar = {
+--     currentState = nil,
+--     rb           = nil,
+--     anim         = nil,
+--     playerGO     = nil,
+--     currentY     = 0,    -- ángulo Y actual (para rotación suave hacia el player)
+--     targetY      = 0,    -- ángulo Y deseado
+-- }
 
--- Variables de vida y daño
-local isDead         = false
-local pendingDestroy = false
-local alreadyHit     = false
-local hp
+-- -- Variables de vida y daño
+-- local isDead         = false
+-- local pendingDestroy = false
+-- local alreadyHit     = false
+-- local hp
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
 _EnemyDamage_mortar = 30
 
--- Internal timers
-local windUpTimer   = 0
-local cooldownTimer = 0
+-- -- Internal timers
+-- local windUpTimer   = 0
+-- local cooldownTimer = 0
 
 
-local activeShells = {}
+-- local activeShells = {}
 
--- gameobjects containing audiosources
-local singSource 
-local dieSource 
-local hurtSource 
-local dipSource 
+-- -- gameobjects containing audiosources
+-- local singSource 
+-- local dieSource 
+-- local hurtSource 
+-- local dipSource 
 
--- audio source components
-local singSFX = nil
-local deathSFX = nil
-local hurtSFX = nil
-local dipSFX = nil
+-- -- audio source components
+-- local singSFX = nil
+-- local deathSFX = nil
+-- local hurtSFX = nil
+-- local dipSFX = nil
 
-local hasDeathPlayed = false
-local hasHurtPlayed = false
-local isSinging = false
+-- local hasDeathPlayed = false
+-- local hasHurtPlayed = false
+-- local isSinging = false
 
-local hideCooldownTimer = 0
-local hideDurationTimer = 0
+
 local HIDE_MAX_DURATION = 1.0
 local HIDE_COOLDOWN     = 2.5  
 local EVADE_CHANCE      = 0.6  
 
-local deathTimer = 2.5
+
 
 -- Public
 public = {
@@ -101,8 +100,8 @@ local function shortAngleDiff(a, b)
     return d
 end
 
-local function ChangeState(newState)
-    Mortar.currentState = newState
+local function ChangeState(self, newState)
+    self.currentState = newState
     Engine.Log("[Siren State] -> " .. newState)
 end
 
@@ -133,57 +132,57 @@ end
 
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
-    if isDead then return end
+    if self.isDead then return end
 
-    if Mortar.currentState == State.HIDE then
-        if Mortar.currentState == State.HIDE then
+    if self.currentState == State.HIDE then
+        if self.currentState == State.HIDE then
             Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
         end
-        hasDeathPlayed = true
+        self.hasDeathPlayed = true
         return 
     end
-    hp = hp - amount
-    Engine.Log("[Mortar] HP: " .. hp .. "/" .. self.public.maxHp)
+    self.hp = self.hp - amount
+    Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
 
-    if hurtSFX then 
-        if singSFX then singSFX:StopAudioEvent() end
-        hurtSFX:PlayAudioEvent() 
-        isSinging = false    
+    if self.hurtSFX then 
+        if self.singSFX then self.singSFX:StopAudioEvent() end
+        self.hurtSFX:PlayAudioEvent() 
+        self.isSinging = false    
     end
     
     _PlayerController_triggerCameraShake = true
 
     -- Knockback
-    if Mortar.rb and attackerPos then
+    if self.rb and attackerPos then
         local pos = self.transform.worldPosition
         local dx  = pos.x - attackerPos.x
         local dz  = pos.z - attackerPos.z
         local len = sqrt(dx * dx + dz * dz)
         if len > 0.001 then dx = dx / len; dz = dz / len end
-        Mortar.rb:AddForce(dx * self.public.knockbackForce, 0,
+        self.rb:AddForce(dx * self.public.knockbackForce, 0,
                            dz * self.public.knockbackForce, 2)
     end
 
-    if hp <= 0 then
-        isDead              = true
-        Mortar.currentState = State.DEAD
+    if self.hp <= 0 then
+        self.isDead              = true
+        self.currentState = State.DEAD
 
-        if singSFX then singSFX:StopAudioEvent() end
-        if dipSFX then dipSFX:StopAudioEvent() end
+        if self.singSFX then self.singSFX:StopAudioEvent() end
+        if self.dipSFX then self.dipSFX:StopAudioEvent() end
 
-        if not hasDeathPlayed then
-			if deathSFX then deathSFX:PlayAudioEvent() end
-			hasDeathPlayed = true
+        if not self.hasDeathPlayed then
+			if self.deathSFX then self.deathSFX:PlayAudioEvent() end
+			self.hasDeathPlayed = true
 		end
 
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
 
-        for _, shell in ipairs(activeShells) do
+        for _, shell in ipairs(self.activeShells) do
             if shell.shadowGo then pcall(function() GameObject.Destroy(shell.shadowGo) end) end
             SafeDestroyShell(shell)
         end
-        activeShells = {}
+        self.activeShells = {}
 
         Engine.Log("[Mortar] DEAD")
     end
@@ -194,11 +193,11 @@ local function FacePlayer(self, playerPos, dt)
     local myPos = self.transform.position
     local dx    = playerPos.x - myPos.x
     local dz    = playerPos.z - myPos.z
-    Mortar.targetY = atan2(dx, dz) * (180.0 / pi)
+    self.targetY = atan2(dx, dz) * (180.0 / pi)
 
-    local diff = shortAngleDiff(Mortar.currentY, Mortar.targetY)
-    Mortar.currentY = Mortar.currentY + diff * self.public.rotationSpeed * dt
-    self.transform:SetRotation(0, Mortar.currentY, 0)
+    local diff = shortAngleDiff(self.currentY, self.targetY)
+    self.currentY = self.currentY + diff * self.public.rotationSpeed * dt
+    self.transform:SetRotation(0, self.currentY, 0)
 end
 
 -- FireShell: lanza un proyectil parabólico hacia la posición dada
@@ -216,7 +215,7 @@ local function FireShell(self, tx, ty, tz)
         local shell = Prefab.Instantiate("Sirena_Bullet")
         local FeedbackAsset = Prefab.Instantiate("Sirenfeedback")
 
-        table.insert(activeShells, {
+        table.insert(self.activeShells, {
             go         = shell,
             shadowGo = FeedbackAsset,
             age        = 0,
@@ -230,7 +229,7 @@ local function FireShell(self, tx, ty, tz)
             feedbackSet = false,
         })
         
-        Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
+        --Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
     else
         Engine.Log("[Mortar] Error al cargar el proyectil.")
     end
@@ -270,10 +269,10 @@ end
 
 -- UpdateShells
 local function UpdateShells(self, dt)
-    if #activeShells == 0 then return end
+    if not self.activeShells or #self.activeShells == 0 then return end
 
-    for i = #activeShells, 1, -1 do
-        local s = activeShells[i]
+    for i = #self.activeShells, 1, -1 do
+        local s = self.activeShells[i]
 
         if s.shadowGo and not s.feedbackSet then
             local tr = s.shadowGo.transform
@@ -306,8 +305,8 @@ local function UpdateShells(self, dt)
                      .. string.format("%.1f", x) .. ", "
                      .. string.format("%.1f", z) .. ")")
 
-            if Mortar.playerGO then
-                local pp = Mortar.playerGO.transform.position
+            if self.playerGO then
+                local pp = self.playerGO.transform.position
                 if pp then
                     local impDx   = pp.x - x
                     local impDz   = pp.z - z
@@ -328,25 +327,25 @@ local function UpdateShells(self, dt)
             end
 
             SafeDestroyShell(s)
-            table.remove(activeShells, i)
+            table.remove(self.activeShells, i)
         end
     end
 end
 
 
 function UpdateHide(self, dt)
-      if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
-            Mortar.anim:Play("Hide")
+      if self.anim and not self.anim:IsPlayingAnimation("Hide") then
+            self.anim:Play("Hide")
         end
 
-        hideDurationTimer = hideDurationTimer - dt
+        self.hideDurationTimer = self.hideDurationTimer - dt
 
         if _PlayerController_lastAttack ~= "" then
-            hideDurationTimer = 2 
+            self.hideDurationTimer = 2 
         end
 
-        if hideDurationTimer <= 0 then
-            Mortar.currentState = State.IDLE
+        if self.hideDurationTimer <= 0 then
+            self.currentState = State.IDLE
             Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
         end
 end
@@ -354,18 +353,21 @@ end
 function UpdateIdle(self, dist, dt)
 
     if dist <= self.public.detectRange and dist >= self.public.minRange then
-        Mortar.anim:Play("Look")
-        Mortar.currentState = State.WINDUP
-        if not isSinging then
-            if singSFX then singSFX:PlayAudioEvent() end
-            isSinging = true
+        if self.anim and not self.anim:IsPlayingAnimation("Look") then
+            self.anim:Play("Look")
         end
-        windUpTimer = 0
-        Engine.Log("[Mortar] Player detectado a dist=" .. string.format("%.1f", dist) .. ". Wind-up...")
-        ChangeState(State.WINDUP)
+
+        self.currentState = State.WINDUP
+        if not self.isSinging then
+            if self.singSFX then self.singSFX:PlayAudioEvent() end
+            self.isSinging = true
+        end
+        self.windUpTimer = 0
+        --Engine.Log("[Mortar] Player detectado a dist=" .. string.format("%.1f", dist) .. ". Wind-up...")
+        ChangeState(self, State.WINDUP)
     else
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
-            Mortar.anim:Play("Hide")
+        if self.anim and not self.anim:IsPlayingAnimation("Hide") then
+            self.anim:Play("Hide")
         end
     end
 
@@ -374,29 +376,30 @@ end
 function UpdateWindUp(self, pp, dist, dt)
 
     FacePlayer(self, pp, dt)
-        windUpTimer = windUpTimer + dt
+        self.windUpTimer = self.windUpTimer + dt
 
         if dist > self.public.detectRange or dist < self.public.minRange then
-            Mortar.currentState = State.COOLDOWN
-            cooldownTimer       = self.public.cooldownTime * 0.4
+            self.currentState = State.COOLDOWN
+            self.cooldownTimer       = self.public.cooldownTime * 0.4
             Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
             return
         end
 
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Charge") then
-            Mortar.anim:Play("Charge")
-        end
+        --NOTE: no charging animation for siren
+        -- if self.anim and not self.anim:IsPlayingAnimation("Charge") then
+        --     self.anim:Play("Charge")
+        -- end
 
-        if windUpTimer >= self.public.windUpTime then
+        if self.windUpTimer >= self.public.windUpTime then
             FireShell(self, pp.x, pp.y, pp.z)
-            if Mortar.anim then Mortar.anim:Play("Fire") end
-            Mortar.currentState = State.COOLDOWN
-            cooldownTimer       = self.public.cooldownTime
-            if Mortar.anim then 
-                Mortar.anim:Play("Hide") 
+            if self.anim then self.anim:Play("Fire") end
+            self.currentState = State.COOLDOWN
+            self.cooldownTimer       = self.public.cooldownTime
+            if self.anim then 
+                self.anim:Play("Hide") 
             end
             Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
-            ChangeState(State.COOLDOWN)
+            ChangeState(self, State.COOLDOWN)
         end
 
 
@@ -404,30 +407,30 @@ end
 
 function UpdateCooldown(self, dist, dt)
 
-    if cooldownTimer < (self.public.cooldownTime - 0.4) then
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Hide") then
-            Mortar.anim:Play("Hide")
+    if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
+        if self.anim and not self.anim:IsPlayingAnimation("Hide") then
+            self.anim:Play("Hide")
         end
     end
 
-    cooldownTimer = cooldownTimer - dt
+    self.cooldownTimer = self.cooldownTimer - dt
 
-    if cooldownTimer <= 0 then
-        Mortar.currentState = State.IDLE
-        if Mortar.anim and not Mortar.anim:IsPlayingAnimation("Look") then
-            Mortar.anim:Play("Look")
+    if self.cooldownTimer <= 0 then
+        self.currentState = State.IDLE
+        if self.anim and not self.anim:IsPlayingAnimation("Look") then
+            self.anim:Play("Look")
         end
         if dist <= self.public.detectRange and dist >= self.public.minRange then
-            Mortar.currentState = State.WINDUP
-            windUpTimer         = 0
+            self.currentState = State.WINDUP
+            self.windUpTimer         = 0
             Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
         else
-            if isSinging then
-                if singSFX then singSFX:StopAudioEvent() end
-                isSinging = false
+            if self.isSinging then
+                if self.singSFX then self.singSFX:StopAudioEvent() end
+                self.isSinging = false
             end
             Engine.Log("[Mortar] Cooldown listo. Volviendo a IDLE.")
-            ChangeState(State.IDLE)
+            ChangeState(self, State.IDLE)
         end
     end
 end
@@ -435,16 +438,16 @@ end
 local function FindSirenAudioComponents(self)
     Engine.Log("[SIREN AUDIO] Searching in: " .. tostring(self.gameObject.name))
     
-    singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
+    local singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
     Engine.Log("[SIREN AUDIO] SingSource found: " .. tostring(singSource ~= nil))
     
-    dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
+    local dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
     Engine.Log("[SIREN AUDIO] DieSource found: " .. tostring(dieSource ~= nil))
     
-    hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
+    local hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
     Engine.Log("[SIREN AUDIO] HurtSource found: " .. tostring(hurtSource ~= nil))
     
-    dipSource = GameObject.FindInChildren(self.gameObject, "DipSource")
+    local dipSource = GameObject.FindInChildren(self.gameObject, "DipSource")
     Engine.Log("[SIREN AUDIO] DipSource found: " .. tostring(dipSource ~= nil))
 
     -- singSource = GameObject.Find("SingSource")
@@ -452,50 +455,70 @@ local function FindSirenAudioComponents(self)
     -- hurtSource = GameObject.Find("SirenHurtSource")
     -- dipSource = GameObject.Find("DipSource")
 
-    singSFX  = singSource:GetComponent("Audio Source")
-    deathSFX = dieSource:GetComponent("Audio Source")
-    hurtSFX  = hurtSource:GetComponent("Audio Source")
-    dipSFX   = dipSource:GetComponent("Audio Source")
+    self.singSFX  = singSource:GetComponent("Audio Source")
+    self.deathSFX = dieSource:GetComponent("Audio Source")
+    self.hurtSFX  = hurtSource:GetComponent("Audio Source")
+    self.dipSFX   = dipSource:GetComponent("Audio Source")
     
-    if not singSFX then
+    if not self.singSFX then
 		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
 	end
-    if not deathSFX then 
+    if not self.hurtSFX then
+        Engine.Log("[SIREN AUDIO] Unable to retrieve SirenHurtSource") 
+    end
+    if not self.deathSFX then 
 		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
 	end
-    if not dipSFX then 
+    if not self.dipSFX then 
 		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
 	end
+
+
 end
 
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
     Game.SetTimeScale(1.0)
 
-    hp             = self.public.maxHp
-    isDead         = false
-    alreadyHit     = false
-    pendingDestroy = false
+    self.hp             = self.public.maxHp
+    self.isDead         = false
+    self.alreadyHit     = false
+    self.pendingDestroy = false
+    self.deathTimer     = 2.5
 
-    Mortar.currentState = State.IDLE
-    Mortar.currentY     = 0
-    Mortar.targetY      = 0
-    Mortar.playerGO     = nil
-    Mortar.rb           = self.gameObject:GetComponent("Rigidbody")
-    Mortar.anim         = self.gameObject:GetComponent("Animation")
+    self.currentState = State.IDLE
+    self.currentY     = 0
+    self.targetY      = 0
+    self.playerGO     = nil
+    self.rb           = self.gameObject:GetComponent("Rigidbody")
+    self.anim         = self.gameObject:GetComponent("Animation")
 
-    windUpTimer   = 0
-    cooldownTimer = 0
-    activeShells  = {}
+-- -- audio source components
+    self.singSFX = nil
+    self.deathSFX = nil
+    self.hurtSFX = nil
+    self.dipSFX = nil
+
+    FindSirenAudioComponents(self)
+
+    self.windUpTimer   = 0
+    self.cooldownTimer = 0
+    self.hideCooldownTimer = 0
+    self.hideDurationTimer = 0
+    self.activeShells  = {}
+
+    self.hasDeathPlayed = false
+    self.hasHurtPlayed = false
+    self.isSinging = false
 
     Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
 
-    if Mortar.rb then
-        Mortar.rb:SetLinearVelocity(0, 0, 0)
+    if self.rb then
+        self.rb:SetLinearVelocity(0, 0, 0)
     end
 
-    Engine.Log("[Mortar] Initialized. HP=" .. hp
+    Engine.Log("[Mortar] Initialized. HP=" .. self.hp
              .. " detectRange=" .. self.public.detectRange)
 end
 
@@ -503,146 +526,117 @@ end
 function Update(self, dt)
     if not self.gameObject then return end
 
-    -- Re-initialize if state was lost (e.g. after hot reload)
-    -- if not Mortar.currentState then
-    --     Game.SetTimeScale(1.0)
-
-    --     hp             = self.public.maxHp
-    --     isDead         = false
-    --     alreadyHit     = false
-    --     pendingDestroy = false
-
-    --     Mortar.currentState = State.IDLE
-    --     Mortar.currentY     = 0
-    --     Mortar.targetY      = 0
-    --     Mortar.playerGO     = nil
-    --     Mortar.rb           = self.gameObject:GetComponent("Rigidbody")
-    --     Mortar.anim         = self.gameObject:GetComponent("Animation")
-
-    --     windUpTimer   = 0
-    --     cooldownTimer = 0
-    --     activeShells  = {}
-
-    --     Prefab.Load("Sirena_Bullet", finalPath)
-    --     Prefab.Load("Sirenfeedback", finalPath_Feedback)
-
-    --     if Mortar.rb then
-    --         Mortar.rb:SetLinearVelocity(0, 0, 0)
-    --     end
-    --     Engine.Log("[Siren] State was nil, re-initialized to IDLE")
-    -- end
-
     if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
+        TakeDamage(self, self.hp, self.transform.worldPosition)
         return
     end
 
-    if isDead then
-        deathTimer = deathTimer - dt
+    if self.isDead then
+        self.deathTimer = self.deathTimer - dt
         local pos = self.transform.position
         self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
-        if deathTimer <= 0 then
+        if self.deathTimer <= 0 then
             self:Destroy()
         end
         return
     end
 
     if _PlayerController_lastAttack == nil or _PlayerController_lastAttack == "" then
-        alreadyHit = false
+        self.alreadyHit = false
     end
 
     -- Simular proyectiles en vuelo
     UpdateShells(self, dt)
 
     -- Retry components if missing
-    if not Mortar.rb then
-        Mortar.rb = self.gameObject:GetComponent("Rigidbody")
+    if not self.rb then
+        self.rb = self.gameObject:GetComponent("Rigidbody")
     end
 
-    if not Mortar.anim then
-        Mortar.anim = self.gameObject:GetComponent("Animation")
+    if not self.anim then
+        self.anim = self.gameObject:GetComponent("Animation")
     end
 
-    if not dipSFX or not hurtSFX or not deathSFX or not singSFX then
+    if not self.dipSFX or not self.hurtSFX or not self.deathSFX or not self.singSFX then
         FindSirenAudioComponents(self)
     end
 
     -- Keep the mortar still
-    if Mortar.rb then
-        local vel = Mortar.rb:GetLinearVelocity()
+    if self.rb then
+        local vel = self.rb:GetLinearVelocity()
         if vel then
-            Mortar.rb:SetLinearVelocity(0, vel.y, 0)
+            self.rb:SetLinearVelocity(0, vel.y, 0)
         end
     end
 
     -- Search player
-    if not Mortar.playerGO then
-        Mortar.playerGO = GameObject.Find("Player")
-        if Mortar.playerGO then
+    if not self.playerGO then
+        self.playerGO = GameObject.Find("Player")
+        if self.playerGO then
             Engine.Log("[Mortar] Player encontrado")
         end
     end
 
-    if not Mortar.playerGO then return end
+    if not self.playerGO then return end
 
     if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
         TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
         _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
-    if hideCooldownTimer > 0 then hideCooldownTimer = hideCooldownTimer - dt end
+    if self.hideCooldownTimer > 0 then self.hideCooldownTimer = self.hideCooldownTimer - dt end
     local playerAttack = _PlayerController_lastAttack
 
     local myPos = self.transform.position
-    local pp    = Mortar.playerGO.transform.position
+    local pp    = self.playerGO.transform.position
     if not pp then return end
 
     local distX = pp.x - myPos.x
     local distZ = pp.z - myPos.z
     local dist  = sqrt(distX * distX + distZ * distZ)
 
-    if playerAttack ~= "" and hideCooldownTimer <= 0 and Mortar.currentState ~= State.HIDE then
+    if playerAttack ~= "" and self.hideCooldownTimer <= 0 and self.currentState ~= State.HIDE then
         local currentEvadeChance = EVADE_CHANCE
         if dist < 5.0 then
             currentEvadeChance = 0.9
         end
 
         if math.random() < currentEvadeChance then
-            Mortar.currentState = State.HIDE
-            hideDurationTimer = HIDE_MAX_DURATION
-            hideCooldownTimer = HIDE_COOLDOWN
-            if dipSFX then dipSFX:PlayAudioEvent() end
+            self.currentState = State.HIDE
+            self.hideDurationTimer = HIDE_MAX_DURATION
+            self.hideCooldownTimer = HIDE_COOLDOWN
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
             Engine.Log("[Siren] ¡Ataque detectado! Sumergiéndose...")
         else
-            hideCooldownTimer = 0.5 
+            self.hideCooldownTimer = 0.5 
         end
     end
 
     -- State machine
 
-    if     Mortar.currentState == State.HIDE     then UpdateHide(self, dt)
-    elseif Mortar.currentState == State.IDLE     then UpdateIdle(self, dist, dt)
-    elseif Mortar.currentState == State.WINDUP   then UpdateWindUp(self, pp, dist, dt)
-    elseif Mortar.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
+    if     self.currentState == State.HIDE     then UpdateHide(self, dt)
+    elseif self.currentState == State.IDLE     then UpdateIdle(self, dist, dt)
+    elseif self.currentState == State.WINDUP   then UpdateWindUp(self, pp, dist, dt)
+    elseif self.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
-    Engine.Log("[Siren] State: " .. tostring(Mortar.currentState) .. " dist: " .. string.format("%.1f", dist))
+    --Engine.Log("[Siren] State: " .. tostring(self.currentState) .. " dist: " .. string.format("%.1f", dist))
 
-    if pendingDestroy then
+    if self.pendingDestroy then
         self:Destroy()
-        pendingDestroy = false
+        self.pendingDestroy = false
     end
 end
 
 -- OnTriggerEnter
 function OnTriggerEnter(self, other)
-    if isDead or Mortar.currentState == State.HIDE then return end
+    if self.isDead or self.currentState == State.HIDE then return end
 
     if other:CompareTag("Player") then
-        if not alreadyHit then
+        if not self.alreadyHit then
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
-                alreadyHit = true
+                self.alreadyHit = true
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -657,7 +651,7 @@ end
 -- OnTriggerExit
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then
-        alreadyHit = false
+        self.alreadyHit = false
     end
 end
 

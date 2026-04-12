@@ -10,7 +10,7 @@
                         "active": true,
                         "position": [
                             0.0,
-                            0.0,
+                            6.103515625e-05,
                             0.0
                         ],
                         "rotation": [
@@ -69,7 +69,7 @@
                 ],
                 "name": "Mesh_noTags",
                 "tag": "",
-                "uid": 4152421853308118759
+                "uid": 1671642300400228367
             },
             {
                 "active": true,
@@ -107,7 +107,7 @@
                         ],
                         "name": "SK_KopisSource",
                         "tag": "",
-                        "uid": 12392161711018110880
+                        "uid": 15313240654243011555
                     },
                     {
                         "active": true,
@@ -142,7 +142,7 @@
                         ],
                         "name": "SK_HurtSource",
                         "tag": "",
-                        "uid": 6391841801757874680
+                        "uid": 4207387137557244133
                     },
                     {
                         "active": true,
@@ -177,7 +177,7 @@
                         ],
                         "name": "SK_DieSource",
                         "tag": "",
-                        "uid": 13570209277839519384
+                        "uid": 2525657025493638076
                     },
                     {
                         "active": true,
@@ -212,7 +212,7 @@
                         ],
                         "name": "SK_DodgeSource",
                         "tag": "",
-                        "uid": 15717842909992438629
+                        "uid": 1811962473493069108
                     }
                 ],
                 "components": [
@@ -238,16 +238,16 @@
                 ],
                 "name": "AudioSources",
                 "tag": "",
-                "uid": 2730645504701375854
+                "uid": 691699001634436243
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    28.0,
-                    9.05145263671875,
-                    -72.0
+                    74.0,
+                    18.05145263671875,
+                    -16.0
                 ],
                 "rotation": [
                     0.0,
@@ -265,29 +265,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "chaseRange",
+                        "name": "chaseSpeed",
                         "type": 0,
-                        "value": 15.0
+                        "value": 3.5
                     },
                     {
-                        "name": "patrolRadius",
+                        "name": "anticipateDur",
                         "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "dirSmoothing",
-                        "type": 0,
-                        "value": 12.0
-                    },
-                    {
-                        "name": "lungeForce",
-                        "type": 0,
-                        "value": 18.0
-                    },
-                    {
-                        "name": "dashForce",
-                        "type": 0,
-                        "value": 10.0
+                        "value": 0.75
                     },
                     {
                         "name": "rotationSpeed",
@@ -295,19 +280,9 @@
                         "value": 15.0
                     },
                     {
-                        "name": "chaseUpdateRate",
+                        "name": "cooldown",
                         "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "moveSpeed",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "dodgeChance",
-                        "type": 0,
-                        "value": 0.5
+                        "value": 3.0
                     },
                     {
                         "name": "attackDamage",
@@ -315,34 +290,94 @@
                         "value": 10.0
                     },
                     {
-                        "name": "orbitRadius",
+                        "name": "maxHp",
                         "type": 0,
-                        "value": 3.0
+                        "value": 30.0
                     },
                     {
-                        "name": "facePlayerSpeed",
+                        "name": "orbitTriggerDist",
                         "type": 0,
-                        "value": 8.0
+                        "value": 5.0
                     },
                     {
-                        "name": "stopSmoothing",
+                        "name": "deaggroRadius",
+                        "type": 0,
+                        "value": 14.0
+                    },
+                    {
+                        "name": "animDeath",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "orbitDurMax",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
+                        "name": "dodgeInvincible",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "dodgeApproachThresh",
                         "type": 0,
                         "value": 10.0
                     },
                     {
-                        "name": "combatApproachTime",
+                        "name": "patrolWaitMax",
                         "type": 0,
-                        "value": 1.2000000476837158
+                        "value": 2.799999952316284
                     },
                     {
-                        "name": "orbitSpeed",
+                        "name": "hitReactDelay",
+                        "type": 0,
+                        "value": 0.15000000596046448
+                    },
+                    {
+                        "name": "orbitDirFlipMin",
+                        "type": 0,
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "dodgeCooldown",
+                        "type": 0,
+                        "value": 4.0
+                    },
+                    {
+                        "name": "dodgeThreatDist",
                         "type": 0,
                         "value": 4.5
                     },
                     {
-                        "name": "maxHp",
+                        "name": "brakeDecel",
                         "type": 0,
-                        "value": 30.0
+                        "value": 14.0
+                    },
+                    {
+                        "name": "animHit",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "animAnticipate",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "orbitDirFlipChance",
+                        "type": 0,
+                        "value": 0.3499999940395355
+                    },
+                    {
+                        "name": "navRefreshRate",
+                        "type": 0,
+                        "value": 0.18000000715255737
+                    },
+                    {
+                        "name": "animOrbit",
+                        "type": 1,
+                        "value": "Orbit"
                     },
                     {
                         "name": "knockbackForce",
@@ -350,14 +385,124 @@
                         "value": 2.0
                     },
                     {
-                        "name": "idleWaitTime",
+                        "name": "attackDur",
+                        "type": 0,
+                        "value": 0.44999998807907104
+                    },
+                    {
+                        "name": "dodgeChance",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "animWalk",
+                        "type": 1,
+                        "value": "Walk"
+                    },
+                    {
+                        "name": "animIdle",
+                        "type": 1,
+                        "value": "Idle"
+                    },
+                    {
+                        "name": "stunDuration",
+                        "type": 0,
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "animAttack",
+                        "type": 1,
+                        "value": "Attack"
+                    },
+                    {
+                        "name": "orbitRadius",
                         "type": 0,
                         "value": 3.0
+                    },
+                    {
+                        "name": "orbitSpeed",
+                        "type": 0,
+                        "value": 4.5
+                    },
+                    {
+                        "name": "lungeStopDelay",
+                        "type": 0,
+                        "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "attackColDelay",
+                        "type": 0,
+                        "value": 0.18000000715255737
+                    },
+                    {
+                        "name": "animDodge",
+                        "type": 1,
+                        "value": "Dodge"
+                    },
+                    {
+                        "name": "dodgeDur",
+                        "type": 0,
+                        "value": 0.2800000011920929
+                    },
+                    {
+                        "name": "dodgeSideRatio",
+                        "type": 0,
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "dodgeImpulse",
+                        "type": 0,
+                        "value": 10.0
                     },
                     {
                         "name": "attackRange",
                         "type": 0,
                         "value": 2.0
+                    },
+                    {
+                        "name": "orbitDurMin",
+                        "type": 0,
+                        "value": 1.2000000476837158
+                    },
+                    {
+                        "name": "aggroRadius",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "orbitDirFlipMax",
+                        "type": 0,
+                        "value": 1.7999999523162842
+                    },
+                    {
+                        "name": "lungeForce",
+                        "type": 0,
+                        "value": 18.0
+                    },
+                    {
+                        "name": "orbitCorrMaxFrac",
+                        "type": 0,
+                        "value": 0.6000000238418579
+                    },
+                    {
+                        "name": "patrolSpeed",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "orbitCorrSpeed",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "patrolWaitMin",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "moveAccel",
+                        "type": 0,
+                        "value": 18.0
                     }
                 ],
                 "scriptUID": 2354537265489101487,
@@ -418,7 +563,6 @@
             {
                 "ArrivalThreshold": 0.25,
                 "IsStatic": true,
-                "LinkedSurfaceUID": 13842108108991697631,
                 "MaxSlope": 35.0,
                 "MoveSpeed": 5.0,
                 "NavType": 1,
@@ -428,6 +572,6 @@
         ],
         "name": "Skeleton",
         "tag": "",
-        "uid": 5690789858933294429
+        "uid": 13468048471255611965
     }
 ]

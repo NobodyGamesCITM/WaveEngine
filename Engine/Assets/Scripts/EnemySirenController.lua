@@ -133,10 +133,9 @@ end
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
 
-
     if self.isDead then return end
 
-    if self.currentState == State.HIDE then
+    if self.isFullyHidden then
         if self.currentState == State.HIDE then
             Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
         end
@@ -281,8 +280,10 @@ local function UpdateShells(self, dt)
             local tr = s.shadowGo.transform
             if tr then
                 tr:SetPosition(s.targetX, s.targetY + 0.1, s.targetZ)
+                local scale = self.public.blastRadius
+                tr:SetScale(scale*2, 0.03, scale*2)
                 s.feedbackSet = true
-                Engine.Log("[Feedback] Posicionado correctamente en el suelo")
+
             end
         end
         
@@ -311,8 +312,8 @@ local function UpdateShells(self, dt)
             if self.playerGO then
                 local pp = self.playerGO.transform.position
                 if pp then
-                    local impDx   = pp.x - x
-                    local impDz   = pp.z - z
+                    local impDx   = pp.x - s.targetX
+                    local impDz   = pp.z - s.targetZ
                     local impDist = sqrt(impDx * impDx + impDz * impDz)
 
                     if impDist <= self.public.blastRadius then
@@ -321,9 +322,15 @@ local function UpdateShells(self, dt)
 
                         if (_PlayerController_pendingDamage or 0) == 0 then
                             _PlayerController_pendingDamage    = dmg
-                            _PlayerController_pendingDamagePos = { x = x, y = y, z = z }
+                            _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
                             Engine.Log("[Mortar] HIT PLAYER for " .. dmg
                                      .. " (dist=" .. string.format("%.2f", impDist) .. ")")
+                            Engine.Log("[Mortar] targetX=" .. string.format("%.2f", s.targetX) 
+                            .. " x=" .. string.format("%.2f", x)
+                            .. " targetZ=" .. string.format("%.2f", s.targetZ)
+                            .. " z=" .. string.format("%.2f", z)
+                            .. " playerDist=" .. string.format("%.2f", impDist)
+                            .. " blastRadius=" .. string.format("%.2f", self.public.blastRadius))
                         end
                     end
                 end
@@ -340,7 +347,18 @@ function UpdateHide(self, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
         if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+        self.isFullyHidden = false
     end
+
+    if not self.isFullyHidden then
+        self.hideAnimTimer = (self.hideAnimTimer or 0) + dt
+        if self.hideAnimTimer >= 0.4 then
+            self.isFullyHidden = true
+            Engine.Log("[Siren] Completamente escondida. Ahora es invulnerable.")
+        end
+    end
+
+
 
     self.hideDurationTimer = (self.hideDurationTimer or 0) - dt
 
@@ -349,44 +367,58 @@ function UpdateHide(self, dt)
     end
 
     if self.hideDurationTimer <= 0 then
+        self.isFullyHidden = false
+        self.hideAnimTimer = 0
         self.currentState = State.IDLE
         Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
     end
 end
 
 function UpdateIdle(self, dist, dt)
-
+    -- Caso 1: Jugador en rango de ataque
     if dist <= self.public.detectRange and dist >= self.public.minRange then
 
-        -- Engine.Log("[SIREN] Player in range? "..tostring(self.playerInRange))
-        -- if self.anim and not self.anim:IsPlayingAnimation("Show") and not self.playerInRange then
-        --     self.anim:Play("Show")
-        --     --Engine.Log("[SIREN ANIM] Playing Show Anim")
-        --     if self.dipSFX then self.dipSFX:PlayAudioEvent() end
-        --     self.playerInRange = true
-        -- end
-
-        if self.anim and not self.anim:IsPlayingAnimation("Look") then
-            self.anim:Play("Look")
+        -- Si no estamos visibles aún, activamos la aparición
+        if not self.isShowing and not self.playerInRange then
+            if self.anim then 
+                self.anim:Play("Show")
+                Engine.Log("[SIREN] Ejecutando Show")
+            end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            
+            self.isShowing = true
+            self.playerInRange = true
+            return 
         end
 
-        self.currentState = State.WINDUP
-        if not self.isSinging then
-            if self.singSFX then self.singSFX:PlayAudioEvent() end
-            self.isSinging = true
+        if self.isShowing then
+            self.isShowing = false 
+            
+            if self.anim then self.anim:Play("Look") end
+            
+            if not self.isSinging then
+                if self.singSFX then self.singSFX:PlayAudioEvent() end
+                self.isSinging = true
+            end
+            
+            self.windUpTimer = 0
+            ChangeState(self, State.WINDUP)
         end
-        self.windUpTimer = 0
-        --Engine.Log("[Mortar] Player detectado a dist=" .. string.format("%.1f", dist) .. ". Wind-up...")
-        ChangeState(self, State.WINDUP)
+
     else
-        if self.anim and not self.anim:IsPlayingAnimation("Hide") then
-            self.anim:Play("Hide")
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
-            --self.playerInRange = false
+        if self.playerInRange then
+            if self.anim and not self.anim:IsPlayingAnimation("Hide") then
+                self.anim:Play("Hide")
+                if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            end
+            self.playerInRange = false
+            self.isShowing = false
+            if self.isSinging then
+                if self.singSFX then self.singSFX:StopAudioEvent() end
+                self.isSinging = false
+            end
         end
-    end
-
+    end 
 end
 
 function UpdateWindUp(self, pp, dist, dt)
@@ -435,20 +467,18 @@ function UpdateCooldown(self, dist, dt)
 
     if self.cooldownTimer <= 0 then
         self.currentState = State.IDLE
-        if self.anim and not self.anim:IsPlayingAnimation("Look") then
-            self.anim:Play("Look")
+        self.isShowing = false
+
+        ChangeState(self, State.IDLE)
+
+        if self.anim and not self.anim:IsPlayingAnimation("Show") then
+            self.anim:Play("Show")
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             self.currentState = State.WINDUP
             self.windUpTimer         = 0
             Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
-        else
-            if self.isSinging then
-                if self.singSFX then self.singSFX:StopAudioEvent() end
-                self.isSinging = false
-            end
-            Engine.Log("[Mortar] Cooldown listo. Volviendo a IDLE.")
-            ChangeState(self, State.IDLE)
         end
     end
 end
@@ -505,6 +535,9 @@ function Start(self)
     self.pendingDestroy = false
     self.deathTimer     = 2.5
 
+    self.isFullyHidden = false
+    self.hideAnimTimer = 0
+
     self.currentState = State.IDLE
     self.currentY     = 0
     self.targetY      = 0
@@ -529,6 +562,7 @@ function Start(self)
     self.hasDeathPlayed = false
     self.hasHurtPlayed = false
     self.isSinging = false
+    self.isShowing = false
 
     Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
@@ -630,6 +664,8 @@ function Update(self, dt)
             self.currentState = State.HIDE
             self.hideDurationTimer = HIDE_MAX_DURATION
             self.hideCooldownTimer = HIDE_COOLDOWN
+            self.isFullyHidden = false 
+            self.hideAnimTimer = 0  
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
             Engine.Log("[Siren] ¡Ataque detectado! Sumergiéndose...")
         else
@@ -655,7 +691,7 @@ end
 
 -- OnTriggerEnter
 function OnTriggerEnter(self, other)
-    if self.isDead or self.currentState == State.HIDE then return end
+    if self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
 
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 

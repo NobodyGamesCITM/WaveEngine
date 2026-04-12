@@ -1,4 +1,4 @@
-Engine.Log("[SIREN] Script file loaded")
+--Siren Controller
 
 local atan2 = math.atan
 local pi    = math.pi
@@ -132,6 +132,8 @@ end
 
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
+
+
     if self.isDead then return end
 
     if self.currentState == State.HIDE then
@@ -147,6 +149,7 @@ local function TakeDamage(self, amount, attackerPos)
     if self.hurtSFX then 
         if self.singSFX then self.singSFX:StopAudioEvent() end
         self.hurtSFX:PlayAudioEvent() 
+        Engine.Log("[SIREN AUDIO] Hurt SFX Played")
         self.isSinging = false    
     end
     
@@ -334,27 +337,38 @@ end
 
 
 function UpdateHide(self, dt)
-      if self.anim and not self.anim:IsPlayingAnimation("Hide") then
-            self.anim:Play("Hide")
-        end
+    if self.anim and not self.anim:IsPlayingAnimation("Hide") then
+        self.anim:Play("Hide")
+        if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+    end
 
-        self.hideDurationTimer = self.hideDurationTimer - dt
+    self.hideDurationTimer = (self.hideDurationTimer or 0) - dt
 
-        if _PlayerController_lastAttack ~= "" then
-            self.hideDurationTimer = 2 
-        end
+    if _PlayerController_lastAttack ~= "" then
+        self.hideDurationTimer = 2 
+    end
 
-        if self.hideDurationTimer <= 0 then
-            self.currentState = State.IDLE
-            Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
-        end
+    if self.hideDurationTimer <= 0 then
+        self.currentState = State.IDLE
+        Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
+    end
 end
 
 function UpdateIdle(self, dist, dt)
 
     if dist <= self.public.detectRange and dist >= self.public.minRange then
+
+        -- Engine.Log("[SIREN] Player in range? "..tostring(self.playerInRange))
+        -- if self.anim and not self.anim:IsPlayingAnimation("Show") and not self.playerInRange then
+        --     self.anim:Play("Show")
+        --     --Engine.Log("[SIREN ANIM] Playing Show Anim")
+        --     if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+        --     self.playerInRange = true
+        -- end
+
         if self.anim and not self.anim:IsPlayingAnimation("Look") then
             self.anim:Play("Look")
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
 
         self.currentState = State.WINDUP
@@ -368,6 +382,8 @@ function UpdateIdle(self, dist, dt)
     else
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            --self.playerInRange = false
         end
     end
 
@@ -397,6 +413,7 @@ function UpdateWindUp(self, pp, dist, dt)
             self.cooldownTimer       = self.public.cooldownTime
             if self.anim then 
                 self.anim:Play("Hide") 
+                if self.dipSFX then self.dipSFX:PlayAudioEvent() end
             end
             Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
             ChangeState(self, State.COOLDOWN)
@@ -410,6 +427,7 @@ function UpdateCooldown(self, dist, dt)
     if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
     end
 
@@ -482,6 +500,7 @@ function Start(self)
 
     self.hp             = self.public.maxHp
     self.isDead         = false
+    self.playerInRange  = false
     self.alreadyHit     = false
     self.pendingDestroy = false
     self.deathTimer     = 2.5
@@ -584,7 +603,13 @@ function Update(self, dt)
         _EnemyPendingDamage[self.gameObject.name] = nil
     end
 
-    if self.hideCooldownTimer > 0 then self.hideCooldownTimer = self.hideCooldownTimer - dt end
+    --just in case hideCooldownTimer is nil
+    self.hideCooldownTimer = (self.hideCooldownTimer or 0) - dt
+
+    if self.hideCooldownTimer < 0 then 
+        self.hideCooldownTimer = 0 
+    end
+
     local playerAttack = _PlayerController_lastAttack
 
     local myPos = self.transform.position
@@ -632,7 +657,9 @@ end
 function OnTriggerEnter(self, other)
     if self.isDead or self.currentState == State.HIDE then return end
 
-    if other:CompareTag("Player") then
+	if not other then Engine.Log("[SIREN] other was nil"); return end
+
+    if other:CompareTag("Player") or other:CompareTag("Bullet") then
         if not self.alreadyHit then
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
@@ -650,8 +677,14 @@ end
 
 -- OnTriggerExit
 function OnTriggerExit(self, other)
-    if other:CompareTag("Player") then
+	if not other then Engine.Log("[SIREN] other was nil"); return end
+
+    if other:CompareTag("Player") or other:CompareTag("Bullet") then
         self.alreadyHit = false
     end
 end
+
+
+
+
 

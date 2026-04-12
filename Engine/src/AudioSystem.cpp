@@ -29,6 +29,8 @@
 #include <Common/AkGeneratedSoundBanksResolver.h>
 #include <AK/Plugin/AkRoomVerbFXFactory.h>
 #include <AK/Plugin/AkTimeStretchFXFactory.h>
+#include <AK/Plugin/AkMatrixReverbFXFactory.h>
+#include <AK/Plugin/AkTremoloFXFactory.h>
 #include <windows.h>
 
 AudioEvent::AudioEvent() {

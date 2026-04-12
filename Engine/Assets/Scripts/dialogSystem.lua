@@ -7,6 +7,7 @@ public = {
 
 local canvas     = nil
 local allDialogs = nil
+local wasAmbient = false
 
 _G._IsDialogActive = false
 
@@ -124,10 +125,18 @@ local function startSequence(sequenceId)
     state.active          = true
     state.currentSequence = seq.dialogs
     state.currentIndex    = 1
-    _G._IsDialogActive    = true   -- usado por MenuManager para no reanudar el juego
-    _G.DialogActive       = true   -- flag público general
-    Game.Pause()
+    _G._IsDialogActive    = true
+    _G.DialogActive       = true
+    wasAmbient            = _G.DialogAmbientMode or false
+    _G.DialogAmbientMode  = false
+    if not wasAmbient then
+        Game.Pause()
+    end
     UI.SetElementVisibility("DialogBox", true)
+    -- Ocultar ContinueIcon si es ambiental
+    if wasAmbient then
+        UI.SetElementVisibility("ContinueIcon", false)
+    end
     loadDialogEntry(state.currentSequence[1])
     Engine.Log("[DialogSystem] Started: " .. sequenceId)
 end
@@ -148,7 +157,10 @@ function ForceCloseDialog()
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
     _G.DialogActive = false
-    Game.Resume()
+    if not wasAmbient then
+        Game.Resume()
+    end
+    wasAmbient = false
     Engine.Log("[DialogSystem] Force closed")
 end
 
@@ -167,7 +179,7 @@ function ResumeDialog()
     if currentPortrait then
         UI.SetElementVisibility(currentPortrait, true)
     end
-    if state.isComplete then
+    if state.isComplete and not wasAmbient then
         UI.SetElementVisibility("ContinueIcon", true)
     end
 end
@@ -185,12 +197,16 @@ local function closeDialog()
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
     _G.DialogActive = false
-    Game.Resume()
+    if not wasAmbient then
+        Game.Resume()
+    end
+    wasAmbient = false
     Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
     if not state.active then return end
+    if wasAmbient then return end  -- los ambientales no se avanzan manualmente
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
@@ -224,12 +240,13 @@ function Start(self)
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
-    _G.ForceCloseDialog = ForceCloseDialog
-    _G.SuspendDialog    = SuspendDialog
-    _G.ResumeDialog     = ResumeDialog
-    _G.TriggerSequence  = TriggerSequence
-    _G.DialogActive     = false
-    _G.AdvanceDialog    = onAdvancePressed
+    _G.ForceCloseDialog  = ForceCloseDialog
+    _G.SuspendDialog     = SuspendDialog
+    _G.ResumeDialog      = ResumeDialog
+    _G.TriggerSequence   = TriggerSequence
+    _G.DialogActive      = false
+    _G.DialogAmbientMode = false
+    _G.AdvanceDialog     = onAdvancePressed
     Engine.Log("[DialogSystem] Ready")
 end
 
@@ -249,7 +266,9 @@ function Update(self, dt)
         updateUI()
         if state.displayedChars >= state.fullTextLen then
             state.isComplete = true
-            UI.SetElementVisibility("ContinueIcon", true)
+            if not wasAmbient then
+                UI.SetElementVisibility("ContinueIcon", true)
+            end
         end
     end
 end

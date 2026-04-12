@@ -77,6 +77,8 @@ void AssetsWindow::FreeTree(AssetNode* node)
 void AssetsWindow::RefreshAssets()
 {
     std::string previousPath = currentPath;
+    breadcrumbTrail.clear();
+    currentNode = nullptr;
 
     if (rootNode) {
         FreeTree(rootNode);
@@ -102,6 +104,7 @@ void AssetsWindow::RefreshAssets()
         currentNode = rootNode;
         currentPath = assetsRootPath;
     }
+    relativePathDirty = true;
 }
 
 void AssetsWindow::BuildTreeRecursive(AssetNode* parentNode)

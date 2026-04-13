@@ -327,7 +327,7 @@ void Rigidbody::UpdateShapeProperties(Collider* col) {
     WakeUp();
 }
 
-void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor ,physx::PxShape* shape, Collider* col)
+void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor, physx::PxShape* shape, Collider* col)
 {
     if (!shape || !col) return;
 
@@ -341,17 +341,31 @@ void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor ,physx::PxShape*
     glm::vec3 offset = colGlobalRot * (col->GetCenter() * colGlobalScale);
     glm::vec3 finalGlobalColPos = colGlobalPos + offset;
 
+    physx::PxQuat baseRot(
+        colGlobalRot.x,
+        colGlobalRot.y,
+        colGlobalRot.z,
+        colGlobalRot.w
+    );
+
+    physx::PxQuat extraRot = physx::PxQuat(physx::PxIdentity);
+
+    if (col->GetColliderType() == Collider::ColliderType::CAPSULE_COLLIDER)
+    {
+        extraRot = physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1));
+    }
+
+    physx::PxQuat finalRot = baseRot * extraRot;
+
     physx::PxTransform colGlobalPose(
         physx::PxVec3(finalGlobalColPos.x, finalGlobalColPos.y, finalGlobalColPos.z),
-        physx::PxQuat(colGlobalRot.x, colGlobalRot.y, colGlobalRot.z, colGlobalRot.w)
+        finalRot
     );
 
     physx::PxTransform relativePose = rbGlobalPose.getInverse().transform(colGlobalPose);
 
     if (!IsValidPose(relativePose))
     {
-        //LOG_CONSOLE("Rigidbody::UpdateShapeLocalPose - Invalid local pose on '%s'. Skipping setLocalPose.",
-        //    col->owner->name.c_str());
         WakeUp();
         return;
     }
@@ -359,7 +373,6 @@ void Rigidbody::UpdateShapeLocalPose(physx::PxRigidActor* actor ,physx::PxShape*
     shape->setLocalPose(relativePose);
     WakeUp();
 }
-
 void Rigidbody::AttachCollider(Collider* collider)
 {
     attachedColliders.push_back(collider);

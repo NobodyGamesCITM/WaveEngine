@@ -264,6 +264,7 @@ local function ChangeState(self, newState, force)
     if not force and Player.currentState == newState then return end
     if newState == State.RUNNING and staminaLock == true then return end
     if Player.maskAnimTimer > 0 then return end
+    if Player.healAnimTimer > 0 then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -1106,6 +1107,10 @@ function Update(self, dt)
             Player.maskAnimTimer = 0
             self.public.canMove = true
             ChangeState(self, State.IDLE)
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
+            ChangeState(self, State.IDLE, true)  -- force = true
         end
     end
 
@@ -1150,9 +1155,15 @@ function Update(self, dt)
         end
     end
 
-    if Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A") and Player.healAnimTimer <= 0 and self.public.health < 100 then
+    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) and Player.healAnimTimer <= 0 and self.public.health ~= 100 and Player.maskAnimTimer <= 0 then
+        ChangeState(self, State.IDLE)
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then pcall(function() anim:Play("Potion", 0.2) end) end
+        if anim then 
+            pcall(function() anim:Play("Idle", 0.0) end)
+            pcall(function() anim:Play("Potion", 0.2) end) 
+        end
         Player.healAnimTimer = Player.healAnimDuration
         Player.healPending = true
         self.public.canMove = false
@@ -1169,7 +1180,11 @@ function Update(self, dt)
                     Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
                 end
             self.public.canMove = true
-            ChangeState(self, State.IDLE)
+
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
         end
     end
 
@@ -1265,12 +1280,14 @@ function MaskScroll(self)
         elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
     end  
 
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
     if oldMask ~= Player.currentMask then
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
-            Engine.Log("HOla")
             anim:Play("Idle", 0.0)
-            anim:Play("Mask", 0.0) 
+            anim:Play("Mask", 0.2) 
         end
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false

@@ -20,6 +20,7 @@ local hitSource
 local itemSource
 local equipSource
 local changeSource
+local swordMat = nil
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
@@ -92,6 +93,13 @@ local Player = {
     attackNum = 0,
 
     staminaLock = false,
+
+    maskAnimDuration = 1.0,
+    maskAnimTimer = 0.0,
+
+    healAnimTimer = 0.0,
+    healAnimDuration = 1.0,
+    healPending = false,
 }
 
 public = {
@@ -255,6 +263,8 @@ local States = {}
 local function ChangeState(self, newState, force)
     if not force and Player.currentState == newState then return end
     if newState == State.RUNNING and staminaLock == true then return end
+    if Player.maskAnimTimer > 0 then return end
+    if Player.healAnimTimer > 0 then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -274,6 +284,7 @@ local function ChangeState(self, newState, force)
 end
 
 local function EquipMask(self, newMask)
+    if Player.maskAnimTimer > 0 then return end
 
     if newMask == Mask.APOLLO then 
         if maskAres then maskAres:SetActive(false)end
@@ -287,6 +298,10 @@ local function EquipMask(self, newMask)
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+    elseif newMask == Mask.NONE then 
+        if maskAres then maskAres:SetActive(false) end
+        if maskApolo then maskApolo:SetActive(false)end
+        if maskHermes then maskHermes:SetActive(false)end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -298,6 +313,8 @@ local function EquipMask(self, newMask)
         Player.hermesDeathTimer   = 2.0
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
+
+        UpdateSwordMaterial()
         return
     end
     if Player.currentMask == Mask.HERMES then
@@ -312,6 +329,7 @@ local function EquipMask(self, newMask)
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
     _PlayerController_currentMask = newMask
+    UpdateSwordMaterial()
 end
 
 States[State.DEAD] = {
@@ -742,9 +760,9 @@ States[State.ATTACK_LIGHT] = {
         end
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim and attackNum == 1 then anim:Play("Attack1", 0.3) end
-        if anim and attackNum == 2 then anim:Play("Attack2", 0.3) end
-        if anim and attackNum == 3 then anim:Play("Attack3", 0.3) end
+        if anim and attackNum == 1 then anim:Play("Attack1", 0.0) end
+        if anim and attackNum == 2 then anim:Play("Attack2", 0.0) end
+        if anim and attackNum == 3 then anim:Play("Attack3", 0.0) end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -960,6 +978,8 @@ function Start(self)
     Mask.HERMES = "None"
     Mask.ARES   = "None"
 
+    maskAnimTimer = 0.0
+
     Player.currentState = State.IDLE
     ChangeState(self, State.IDLE, true)
     EquipMask(self, Mask.NONE)
@@ -969,9 +989,15 @@ function Start(self)
     maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
+    swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
+
     if maskApolo then maskApolo:SetActive(false) end
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
+
+    if swordGameObject then
+        swordMat = swordGameObject:GetComponent("Material")
+    end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
@@ -1074,6 +1100,20 @@ function Update(self, dt)
         end
     end
 
+    if Player.maskAnimTimer > 0 then
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        Player.maskAnimTimer = Player.maskAnimTimer - dt
+        if Player.maskAnimTimer <= 0 then
+            Player.maskAnimTimer = 0
+            self.public.canMove = true
+            ChangeState(self, State.IDLE)
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
+            ChangeState(self, State.IDLE, true)  -- force = true
+        end
+    end
+
     if attackBuffer == true and Player.currentState ~= State.ATTACK_LIGHT then
         self.public.attackBufferDuration = self.public.attackBufferDuration - dt
         if self.public.attackBufferDuration < 0 then
@@ -1115,9 +1155,37 @@ function Update(self, dt)
         end
     end
 
-    if Input.GetKeyDown("P") then
-        self.public.health = math.min(100, self.public.health + self.public.hpRecover)
-        Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) and Player.healAnimTimer <= 0 and self.public.health ~= 100 and Player.maskAnimTimer <= 0 then
+        ChangeState(self, State.IDLE)
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Idle", 0.0) end)
+            pcall(function() anim:Play("Potion", 0.2) end) 
+        end
+        Player.healAnimTimer = Player.healAnimDuration
+        Player.healPending = true
+        self.public.canMove = false
+    end
+
+    if Player.healAnimTimer > 0 then
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        Player.healAnimTimer = Player.healAnimTimer - dt
+        if Player.healAnimTimer <= 0 then
+            Player.healAnimTimer = 0
+            if Player.healPending then
+                Player.healPending = false
+                    self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+                    Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+                end
+            self.public.canMove = true
+
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
+        end
     end
 
     if not (Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5) then
@@ -1189,8 +1257,10 @@ function Update(self, dt)
 end
 
 function MaskScroll(self)
-    local anim = self.gameObject:GetComponent("Animation")
-    if anim then anim:Play("Mask", 1.0) end
+    oldMask = Player.currentMask
+    if Player.maskAnimTimer > 0 then return end
+    if Player.healAnimTimer > 0 then return end
+
     if Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.NONE then 
         if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
@@ -1209,6 +1279,19 @@ function MaskScroll(self)
         elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
         elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
     end  
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    if oldMask ~= Player.currentMask then
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then
+            anim:Play("Idle", 0.0)
+            anim:Play("Mask", 0.2) 
+        end
+        Player.maskAnimTimer = Player.maskAnimDuration
+        self.public.canMove = false
+    end
 end
 
 function ObtainMask(self)
@@ -1307,5 +1390,18 @@ function OnCollisionExit(self, other)
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false
+    end
+end
+
+function UpdateSwordMaterial()
+    if not swordMat then return end
+    if Player.currentMask == Mask.APOLLO then
+        swordMat.SetTexture("6751651313279286071")
+    elseif Player.currentMask == Mask.HERMES then
+        swordMat.SetTexture("17992362804328357788")
+    elseif Player.currentMask == Mask.ARES then
+        swordMat.SetTexture("13408905279443529047")
+    else
+        swordMat.SetTexture("2897285206442267137")
     end
 end

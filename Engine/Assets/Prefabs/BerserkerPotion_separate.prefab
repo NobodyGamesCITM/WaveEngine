@@ -1,0 +1,259 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.14946751296520233,
+                            1.3012340068817139,
+                            -0.0004312946693971753
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 18220039704759182743,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 2171321285278049955,
+                        "type": 3
+                    }
+                ],
+                "name": "Athena",
+                "tag": "",
+                "uid": 13138883932100961475
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.09564018249511719,
+                            -0.548547089099884,
+                            -0.0002033039490925148
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 11094858094342721602,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 2171321285278049955,
+                        "type": 3
+                    }
+                ],
+                "name": "Bottle",
+                "tag": "",
+                "uid": 13892117210803363077
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.49951171875,
+                            0.8953452110290527,
+                            -0.5684051513671875
+                        ],
+                        "rotation": [
+                            0.0,
+                            -1.7075473124350538e-06,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 10581273232316146325,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 2171321285278049955,
+                        "type": 3
+                    }
+                ],
+                "name": "EyeL",
+                "tag": "",
+                "uid": 6702842189061957514
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.49957275390625,
+                            0.8953452110290527,
+                            0.567535400390625
+                        ],
+                        "rotation": [
+                            0.0,
+                            -1.7075473124350538e-06,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 12546819551009682497,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 2171321285278049955,
+                        "type": 3
+                    }
+                ],
+                "name": "EyeR",
+                "tag": "",
+                "uid": 14324310569463850612
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.095947265625,
+                            -1.0452704429626465,
+                            0.0208587646484375
+                        ],
+                        "rotation": [
+                            0.0,
+                            -1.7075473124350538e-06,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 11801631662228368842,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 1915442699102437216,
+                        "type": 3
+                    }
+                ],
+                "name": "Liquid",
+                "tag": "",
+                "uid": 17777784537282413493
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.09381788223981857,
+                            2.2413547039031982,
+                            -0.00043704285053536296
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 2520324054744891238,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 2171321285278049955,
+                        "type": 3
+                    }
+                ],
+                "name": "cork",
+                "tag": "",
+                "uid": 17940495979549183790
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -16.0,
+                    -3.0,
+                    -337.0
+                ],
+                "rotation": [
+                    0.0,
+                    -74.9720230102539,
+                    0.0
+                ],
+                "scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "type": 0
+            }
+        ],
+        "name": "BerserkerPotion_separate",
+        "tag": "",
+        "uid": 3166614131551905312
+    }
+]

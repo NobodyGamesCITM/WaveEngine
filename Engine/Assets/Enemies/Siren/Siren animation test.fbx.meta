@@ -1,4 +1,7 @@
 {
+    "animations": {
+        "Take 001": 12412797791536047029
+    },
     "importSettings": {
         "flipUVs": true,
         "frontAxis": 0,
@@ -8,8 +11,8 @@
         "upAxis": 0
     },
     "meshes": {
-        "FloweGroup": 9665647270058204794
+        "SirenMesh": 54552519495725428
     },
     "type": 1,
-    "uid": 3563202802662967630
+    "uid": 4646008005089215094
 }

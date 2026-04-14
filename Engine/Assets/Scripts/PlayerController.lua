@@ -290,17 +290,29 @@ local function EquipMask(self, newMask)
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
+        if vfxAres then vfxAres:SetActive(false)end
+        if vfxApolo then vfxApolo:SetActive(true)end
+        if vfxHermes then vfxHermes:SetActive(false)end
     elseif newMask == Mask.HERMES then 
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
+        if vfxAres then vfxAres:SetActive(false)end
+        if vfxApolo then vfxApolo:SetActive(false)end
+        if vfxHermes then vfxHermes:SetActive(true)end
     elseif newMask == Mask.ARES then 
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        if vfxAres then vfxAres:SetActive(true)end
+        if vfxApolo then vfxApolo:SetActive(false)end
+        if vfxHermes then vfxHermes:SetActive(false)end
     elseif newMask == Mask.NONE then 
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
+        if vfxAres then vfxAres:SetActive(false)end
+        if vfxApolo then vfxApolo:SetActive(false)end
+        if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
     end
 
@@ -989,11 +1001,19 @@ function Start(self)
     maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
+    vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
+    vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
+    vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
+
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
     if maskApolo then maskApolo:SetActive(false) end
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
+
+    if vfxApolo then vfxApolo:SetActive(false) end
+    if vfxHermes then vfxHermes:SetActive(false) end
+    if vfxAres then vfxAres:SetActive(false) end
 
     if swordGameObject then
         swordMat = swordGameObject:GetComponent("Material")
@@ -1162,7 +1182,7 @@ function Update(self, dt)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.0) end)
-            pcall(function() anim:Play("Potion", 0.2) end) 
+            pcall(function() anim:Play("Drink", 0.2) end) 
         end
         Player.healAnimTimer = Player.healAnimDuration
         Player.healPending = true

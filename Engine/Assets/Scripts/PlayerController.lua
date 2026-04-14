@@ -65,6 +65,9 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
+	aresPs         = nil,
+	apoloPs         = nil,
+	hermesPs         = nil,
     attackDelay     = 0.1,
     -- Audio
     stepSFX 		= nil,
@@ -293,6 +296,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(true)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Play() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
     elseif newMask == Mask.HERMES then 
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
@@ -300,6 +306,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(true)end
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Play() end
     elseif newMask == Mask.ARES then 
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
@@ -307,6 +316,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(true)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        if Player.aresPs then Player.aresPs:Play() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
     elseif newMask == Mask.NONE then 
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
@@ -314,6 +326,9 @@ local function EquipMask(self, newMask)
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -1005,15 +1020,37 @@ function Start(self)
     vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
     vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
 
+    Player.hermesPs = nil
+    Player.aresPs = nil
+    Player.apoloPs = nil
+
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
     if maskApolo then maskApolo:SetActive(false) end
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
 
-    if vfxApolo then vfxApolo:SetActive(false) end
-    if vfxHermes then vfxHermes:SetActive(false) end
-    if vfxAres then vfxAres:SetActive(false) end
+    if vfxApolo then 
+        Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
+        if Player.apoloPs then
+            Player.apoloPs:Stop()
+        end
+        vfxApolo:SetActive(false) 
+    end
+    if vfxHermes then 
+        Player.hermesPs = vfxHermes:GetComponent("ParticleSystem")
+        if Player.hermesPs then
+            Player.hermesPs:Stop()
+        end
+        vfxHermes:SetActive(false) 
+    end
+    if vfxAres then 
+        Player.aresPs = vfxAres:GetComponent("ParticleSystem")
+        if Player.aresPs then
+            Player.aresPs:Stop()
+        end
+        vfxAres:SetActive(false)   
+    end
 
     if swordGameObject then
         swordMat = swordGameObject:GetComponent("Material")
@@ -1182,7 +1219,7 @@ function Update(self, dt)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.0) end)
-            pcall(function() anim:Play("Drink", 0.2) end) 
+            pcall(function() anim:Play("Drink", 0.4) end) 
         end
         Player.healAnimTimer = Player.healAnimDuration
         Player.healPending = true

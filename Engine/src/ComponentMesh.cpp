@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "Log.h"
 #include <glad/glad.h>
+#include "LightManager.h"
 #include "Application.h"
 
 ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
@@ -322,6 +323,7 @@ void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* componen
         break;
     case GameObjectEvent::TRANSFORM_CHANGED:  
         aabbDirty = true;
+        if (lightManager) lightManager->MarkShadowsDirty();
         break;
     }
 }

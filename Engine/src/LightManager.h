@@ -39,6 +39,8 @@ public:
 
     bool shadowsEnabled = true;
 
+    void MarkShadowsDirty() { shadowsDirty = true; }
+
 private:
     void InitSSBOs();
     void InitShadowMap();
@@ -60,4 +62,7 @@ private:
 
     static constexpr int SHADOW_WIDTH = 8192;
     static constexpr int SHADOW_HEIGHT = 8192;
+
+    bool shadowsDirty = true;
+    glm::mat4 cachedLightDir = glm::mat4(0.0f);
 };

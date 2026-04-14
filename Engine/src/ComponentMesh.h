@@ -9,6 +9,7 @@
 
 class ComponentMaterial;
 class AABB;
+class LightManager;
 
 class ComponentMesh : public Component {
 public:
@@ -114,6 +115,8 @@ protected:
 
     //ANIMATION
     bool cachedBones = false;   
+
+    LightManager* lightManager = nullptr;
 
     //DEBUG
     bool drawMesh = false;

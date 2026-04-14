@@ -309,6 +309,7 @@ void Renderer::DrawMesh(const ComponentMesh* meshComp)
 
 void Renderer::AddMesh(ComponentMesh* mesh) {
     meshes.push_back(mesh);
+    if (lightManager) lightManager->MarkShadowsDirty();
 }
 
 void Renderer::RemoveMesh(ComponentMesh* mesh) {
@@ -317,6 +318,7 @@ void Renderer::RemoveMesh(ComponentMesh* mesh) {
         *it = meshes.back();
         meshes.pop_back();
     }
+    if (lightManager) lightManager->MarkShadowsDirty();
 }
 
 void Renderer::AddParticle(ComponentParticleSystem* particle) {

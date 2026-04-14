@@ -542,7 +542,7 @@ function Update(self, dt)
 
     local dist = Dist(myPos, pp)
 
-    -- Instanciar/destruir feedback ANTES de llamar al estado
+-- Instantiate/destroy feedback BEFORE calling the state
     if currentState == State.ANTICIPATION then
         if not self.chargeFeedbackGO then
             self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")

@@ -215,11 +215,9 @@ local function FireShell(self, tx, ty, tz)
 
     if bulletAsset then
         local shell = Prefab.Instantiate("Sirena_Bullet")
-        local FeedbackAsset = Prefab.Instantiate("Sirenfeedback")
 
         table.insert(self.activeShells, {
             go         = shell,
-            shadowGo = FeedbackAsset,
             age        = 0,
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
@@ -424,32 +422,54 @@ end
 function UpdateWindUp(self, pp, dist, dt)
 
     FacePlayer(self, pp, dt)
-        self.windUpTimer = self.windUpTimer + dt
+    self.windUpTimer = self.windUpTimer + dt
 
-        if dist > self.public.detectRange or dist < self.public.minRange then
-            self.currentState = State.COOLDOWN
-            self.cooldownTimer       = self.public.cooldownTime * 0.4
-            Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
-            return
+    if not self.windupFeedback then
+        Prefab.Load("Sirenfeedback", finalPath_Feedback)
+        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
+        self.windupFeedbackSet = false
+    end
+
+    if self.windupFeedback then
+        pcall(function()
+            local scale = self.public.blastRadius * 2
+            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.05, pp.z)
+            self.windupFeedback.transform:SetScale(scale, 0.03, scale)
+            self.windupFeedbackSet = true
+        end)
+    end
+
+
+    if dist > self.public.detectRange or dist < self.public.minRange then
+        if self.windupFeedback then
+            pcall(function() GameObject.Destroy(self.windupFeedback) end)
+            self.windupFeedback = nil
+            self.windupFeedbackSet = false
         end
 
-        --NOTE: no charging animation for siren
-        -- if self.anim and not self.anim:IsPlayingAnimation("Charge") then
-        --     self.anim:Play("Charge")
-        -- end
+        self.currentState = State.COOLDOWN
+        self.cooldownTimer       = self.public.cooldownTime * 0.4
+        Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
+        return
+    end
 
-        if self.windUpTimer >= self.public.windUpTime then
-            FireShell(self, pp.x, pp.y, pp.z)
-            if self.anim then self.anim:Play("Fire") end
-            self.currentState = State.COOLDOWN
-            self.cooldownTimer       = self.public.cooldownTime
-            if self.anim then 
-                self.anim:Play("Hide") 
-                if self.dipSFX then self.dipSFX:PlayAudioEvent() end
-            end
-            Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
-            ChangeState(self, State.COOLDOWN)
+    --NOTE: no charging animation for siren
+    -- if self.anim and not self.anim:IsPlayingAnimation("Charge") then
+    --     self.anim:Play("Charge")
+    -- end
+
+    if self.windUpTimer >= self.public.windUpTime then
+        FireShell(self, pp.x, pp.y, pp.z)
+        if self.anim then self.anim:Play("Fire") end
+        self.currentState = State.COOLDOWN
+        self.cooldownTimer       = self.public.cooldownTime
+        if self.anim then 
+            self.anim:Play("Hide") 
+            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
+        Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
+        ChangeState(self, State.COOLDOWN)
+    end
 
 
 end
@@ -564,6 +584,9 @@ function Start(self)
     self.isSinging = false
     self.isShowing = false
 
+    self.windupFeedback = nil
+    self.windupFeedbackSet = false
+
     Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
 
@@ -573,6 +596,9 @@ function Start(self)
 
     Engine.Log("[Mortar] Initialized. HP=" .. self.hp
              .. " detectRange=" .. self.public.detectRange)
+    
+   self.anim:Play("Hide")
+
 end
 
 -- Update

@@ -25,8 +25,8 @@ public = {
     -- Ranges
     detectRange     = 15.0,
     Lance360Range   = 3.5,
-    chargeRange     = 12.0,
-
+    chargeRange     = 15.0,
+    dashApproachRange = 7.0,
     --Movement
     moveSpeed       = 10.0,
     rotationSpeed   = 3.0,
@@ -34,7 +34,7 @@ public = {
 
     --Lace 360
     lanceDuration       = 0.5, 
-    lanceCooldown       = 0.5,
+    lanceCooldown       = 1.5,
     lanceDamage         = 15,
 
     --tooCloseRange   = 3.5,
@@ -44,22 +44,25 @@ public = {
     chargeDuration  = 0.8,
     wallStunTime    = 5.0,
     wallSpeedThresh = 1.5,
-    afterStunTime   = 2.2,
-    chargeCooldown  = 2.0,  -- cooldown entre embestidas
+    afterStunTime   = 3.0,
+    chargeCooldown  = 3.5,  -- cooldown entre embestidas
     chargeDamage    = 30,
 
     -- Receive damage
     knockbackForce  = 8.0,
 
 
-    stunDuration        = 4.0, 
+    stunDuration        = 8.0, 
 
-    hurtStunTime = 0.8,
+    hurtStunTime = 0.6,
     
 
     predictionTime = 0.4, 
 
     opportunityDamageMultiplier = 1.0,
+
+    recoveryLance = 1.0,
+    recoveryCharge = 1.8,
 }
 
 -- Internal variables
@@ -102,6 +105,9 @@ local hurtTimer = 0
 
 local inOpportunity = false
 
+
+local DAMAGE_LIGHT = 10
+local DAMAGE_HEAVY = 25
 
 -- Helpers
 local function lerp(a, b, t)
@@ -151,6 +157,14 @@ local function ChangeState(newState)
         if attackCol then attackCol:Disable() end
     end
 
+    if attackCol then
+        if newState == State.IDLE or newState == State.DEAD then
+            attackCol:Disable()
+        else
+            attackCol:Enable()
+        end
+    end
+
     inOpportunity = (newState == State.WALL or newState == State.STUN)
 
 end
@@ -173,9 +187,10 @@ local function TakeDamage(self, amount, attackerPos)
     -- Damge Oportunity
     if inOpportunity then
         hp = hp - amount
-        Engine.Log("[Aquiles] HP: " .. hp .. "/" .. self.public.maxHp)
+        Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
         if hp <= 0 then
             ChangeState(State.DEAD)
+            if anim then anim:Play("Death") end
             return
         end
     else
@@ -215,43 +230,60 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
         return
     end
 
-    -- Cooldown lance 360
-    if lanceTimer>0 then
-        lanceCDTimer=lanceCDTimer-dt
-    end
+    if lanceCDTimer > 0 then lanceCDTimer = lanceCDTimer - dt end
+    if chargeCDTimer > 0 then chargeCDTimer = chargeCDTimer - dt end
 
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
-    
-    --Player muy cerca → Lance360
-    if dist < self.public.Lance360Range and lanceCDTimer <= 0 then
-        StopMovement()
-        lanceTimer = 0
-        ChangeState(State.LANCE_360)
-    
-    elseif dist <= self.public.chargeRange then --Preparar embestida
-        chargeDirX       = dx
-        chargeDirZ       = dz
-        preparationTimer = 0
-        chargeCDTimer    = self.public.chargeCooldown
-        StopMovement()
-        ChangeState(State.ANTICIPATION)
-    
-    else --walk
-        local vel = self.public.moveSpeed
-        local cv = rb:GetLinearVelocity()
-        RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
 
-        rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
 
+    if dist < self.public.Lance360Range then -- Lance
+        if lanceCDTimer <= 0 then
+            StopMovement()
+            lanceTimer = 0
+            ChangeState(State.LANCE_360)
+            return
+        else
+           
+            StopMovement()
+            if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
+        end
+    
+    elseif dist < self.public.dashApproachRange then --dash
+        MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5)
+
+    elseif dist <= self.public.chargeRange then --Charge
+        if chargeCDTimer <= 0 then
+            StopMovement()
+            chargeDirX = dx
+            chargeDirZ = dz
+            preparationTimer = 0
+            chargeCDTimer = self.public.chargeCooldown
+            ChangeState(State.ANTICIPATION)
+            return 
+        else
+            MovementWalk(self, dx, dz, dt)
+        end
+
+    else
+        MovementWalk(self, dx, dz, dt)
     end
+end
+
+function MovementWalk(self, dx, dz, dt, speedOverride)
+    if anim and not anim:IsPlayingAnimation("Walk") then 
+        anim:Play("Walk", 0.2) 
+    end
+    local vel = speedOverride or self.public.moveSpeed
+    local cv = rb:GetLinearVelocity()
+    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
 end
 
 function UpdateLance360(self, myPos, pp, dt)
 
-    -- Gira sobre si mismo a gran velocidad (ataque 360)
     currentYaw = currentYaw + 720.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
@@ -260,7 +292,8 @@ function UpdateLance360(self, myPos, pp, dt)
     if lanceTimer >= self.public.lanceDuration then
         if attackCol then attackCol:Disable() end
         lanceCDTimer = self.public.lanceCooldown
-        ChangeState(State.COMBAT_MOVE)
+        wallStunTimer = self.public.recoveryLance
+        ChangeState(State.RECOVERY)
     end
 end
 
@@ -270,6 +303,43 @@ function UpdateAnticipation(self, pp, dt)
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
    
+    if anim and not anim:IsPlayingAnimation("PreCharge") then
+        anim:Play("PreCharge", 0.2) 
+    end
+
+     if self.chargeFeedbackGO then
+        --Maximum possible distance
+        local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
+        
+        -- Vcetor distance player
+        local vectorToPlayerX = pp.x - myPos.x
+        local vectorToPlayerZ = pp.z - myPos.z
+        local currentDistToPlayer = sqrt(vectorToPlayerX * vectorToPlayerX + vectorToPlayerZ * vectorToPlayerZ)
+
+        -- Trim the indicator if the player is closer than the max range
+        local indicatorLength = maxChargeDistance
+        if currentDistToPlayer < maxChargeDistance then
+            indicatorLength = currentDistToPlayer
+        end
+
+        local distance = sqrt(dx*dx + dz*dz)
+        local directionX, directionZ = dx, dz
+        if distance > 0.001 then 
+            directionX = dx / distance 
+            directionZ = dz / distance 
+        end
+
+        -- Calculate the center position
+        local positionX = myPos.x + directionX * (indicatorLength * 0.5)
+        local positionY = myPos.y +0.15
+        local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
+
+        local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
+
+        self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
+        self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
+        self.chargeFeedbackGO.transform:SetScale(0.4, 0.05, indicatorLength)
+    end
 
     preparationTimer = preparationTimer + dt
 
@@ -279,7 +349,7 @@ function UpdateAnticipation(self, pp, dt)
             local backDx = -(dx / len)
             local backDz = -(dz / len)
             local vel = rb:GetLinearVelocity()
-            rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
+            rb:SetLinearVelocity(backDx * 5.0, vel.y, backDz * 5.0)
         end
     else
         StopMovement()
@@ -312,19 +382,7 @@ function UpdateCharge(self, dt)
     chargeTimer = chargeTimer + dt
 
     if rb then
-        local vel = rb:GetLinearVelocity()
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
-
-        if chargeTimer > 0.2 then
-            local actualSpeed = sqrt(vel.x*vel.x + vel.z*vel.z)
-            if actualSpeed < self.public.wallSpeedThresh then
-                alreadyHit = false
-                StopMovement()
-                wallStunTimer = self.public.wallStunTime
-                ChangeState(State.WALL)
-                return
-            end
-        end
     end
 
     if not attackCol then attackCol = self.gameObject:GetComponent("Box Collider") end
@@ -335,14 +393,17 @@ function UpdateCharge(self, dt)
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
-        
-        wallStunTimer = self.public.afterStunTime
-
+        wallStunTimer = self.public.recoveryCharge
         ChangeState(State.RECOVERY)
     end
 end
 
 function UpdateWall(self, dt)
+    if anim then anim:Play("Wall") end
+    if rb then
+        local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(0, vel.y, 0)
+    end
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
@@ -356,14 +417,6 @@ end
 
 function UpdateRecovery(self, dt)
 
-    if playerGO and not cameFromWall then
-        local myPos = self.transform.worldPosition
-        local pp = playerGO.transform.worldPosition
-        local dx = pp.x - myPos.x
-        local dz = pp.z - myPos.z
-        RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    end
-
     local friction = self.public.stopSmoothing
     slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
     slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
@@ -374,7 +427,14 @@ function UpdateRecovery(self, dt)
     end
 
     wallStunTimer = wallStunTimer - dt
+    
+    if anim and not anim:IsPlayingAnimation("Idle") then
+        anim:Play("Idle", 0.2)
+    end
+
     if wallStunTimer <= 0 then
+        lanceCDTimer=self.public.lanceCooldown
+        chargeCDTimer=self.public.chargeCooldown
         cameFromWall = false
         ChangeState(State.COMBAT_MOVE)
     end
@@ -432,6 +492,13 @@ function Start(self)
 
     if anim then anim:Play("Idle") end
     Engine.Log("[Minocabro] Start OK  HP=" .. hp)
+    
+    lanceCDTimer    =   0
+    chargeCDTimer   =   0
+
+    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    self.chargeFeedbackGO = nil
+
 end
 
 function Update(self, dt)
@@ -481,6 +548,18 @@ function Update(self, dt)
 
     local dist = Dist(myPos, pp)
 
+      -- Instantiate/destroy feedback BEFORE calling the state
+    if currentState == State.ANTICIPATION then
+        if not self.chargeFeedbackGO then
+            self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+        end
+    elseif currentState == State.RECOVERY then
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+    end
+
     -- State machine
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
     elseif currentState == State.COMBAT_MOVE       then UpdateCombatMove(self, myPos, pp, dist, dt)
@@ -496,6 +575,24 @@ end
 
 function OnTriggerEnter(self, other)
     if isDead then return end
+
+    if other:CompareTag("Wall") then
+        if currentState == State.WALL or currentState == State.RECOVERY then 
+            return 
+        end
+
+        StopMovement()
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
+        wallStunTimer = self.public.wallStunTime
+        ChangeState(State.WALL)
+        Engine.Log("[Aquiles] Chocó con pared por TAG")
+        return 
+    end
+
     if other:CompareTag("Player") then
         -- The player hits the enemy
         if not alreadyHit then
@@ -530,7 +627,14 @@ function OnTriggerEnter(self, other)
             StopMovement()
             slideVelX = 0
             slideVelZ = 0
+
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
+
             ChangeState(State.RECOVERY)
+            wallStunTimer = self.public.recoveryCharge
             Engine.Log("[Aquiles] Impacto " .. currentState .. ". Daño: " .. (finalDamage or 0))
         end
     end

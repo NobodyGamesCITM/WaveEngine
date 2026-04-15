@@ -612,6 +612,10 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     glBindTexture(GL_TEXTURE_2D, postProcessTexture);
     postProcessShader->SetInt("sceneTexture", 0);
 
+    // Global Uniforms for animated effects
+    postProcessShader->SetFloat("uTime", Application::GetInstance().time->GetTotalTime());
+    postProcessShader->SetVec2("uResolution", glm::vec2((float)camera->textureWidth, (float)camera->textureHeight));
+
     // Color Grading
     postProcessShader->SetBool("gradingEnabled", activePP->colorGrading.enabled);
     postProcessShader->SetFloat("exposure", activePP->colorGrading.exposure);
@@ -634,12 +638,37 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     postProcessShader->SetBool("caEnabled", activePP->lens.chromaticAberrationEnabled);
     postProcessShader->SetFloat("caIntensity", activePP->lens.chromaticAberrationIntensity);
 
+    // Lens Distortion
+    postProcessShader->SetBool("distortionEnabled", activePP->lens.distortionEnabled);
+    postProcessShader->SetFloat("distortionIntensity", activePP->lens.distortionIntensity);
+
     // Vignette
     postProcessShader->SetBool("vignetteEnabled", activePP->lens.vignetteEnabled);
     postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
     postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
     postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
     postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+
+    // Depth of Field
+    postProcessShader->SetBool("dofEnabled", activePP->depthOfField.enabled);
+    postProcessShader->SetFloat("dofDistance", activePP->depthOfField.focusDistance);
+    postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
+    postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
+    postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
+
+    // Motion Blur / Radial Blur / Grain / Sharpen
+    postProcessShader->SetBool("motionBlurEnabled", activePP->motionBlur.enabled);
+    postProcessShader->SetFloat("motionBlurIntensity", activePP->motionBlur.intensity);
+    postProcessShader->SetBool("autoExposureEnabled", activePP->autoExposure.enabled);
+    postProcessShader->SetFloat("exposureMin", activePP->autoExposure.minBrightness);
+    postProcessShader->SetFloat("exposureMax", activePP->autoExposure.maxBrightness);
+    postProcessShader->SetBool("grainEnabled", activePP->grain.enabled);
+    postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
+    postProcessShader->SetBool("radialBlurEnabled", activePP->radialBlur.enabled);
+    postProcessShader->SetFloat("radialBlurIntensity", activePP->radialBlur.intensity);
+    postProcessShader->SetVec2("radialBlurCenter", activePP->radialBlur.center);
+    postProcessShader->SetBool("sharpenEnabled", activePP->sharpen.enabled);
+    postProcessShader->SetFloat("sharpenIntensity", activePP->sharpen.intensity);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);

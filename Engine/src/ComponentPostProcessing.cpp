@@ -90,6 +90,12 @@ void ComponentPostProcessing::OnEditor()
             ImGui::SliderFloat("Intensity##CA", &lens.chromaticAberrationIntensity, 0.0f, 5.0f);
 
         ImGui::Separator();
+        ImGui::Text("Distortion");
+        ImGui::Checkbox("Enable##Distortion", &lens.distortionEnabled);
+        if (lens.distortionEnabled)
+            ImGui::SliderFloat("Intensity##Distortion", &lens.distortionIntensity, -1.0f, 1.0f);
+
+        ImGui::Separator();
         ImGui::Text("Vignette");
         ImGui::Checkbox("Enable##Vignette", &lens.vignetteEnabled);
         if (lens.vignetteEnabled)
@@ -99,6 +105,63 @@ void ComponentPostProcessing::OnEditor()
             ImGui::SliderFloat("Roundness##Vignette", &lens.vignetteRoundness, 0.0f, 1.0f);
             ImGui::ColorEdit4("Color##Vignette", &lens.vignetteColor.x);
         }
+    }
+
+    if (ImGui::CollapsingHeader("Depth Of Field", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##DoF", &depthOfField.enabled);
+        if (depthOfField.enabled)
+        {
+            ImGui::Checkbox("Tilt-Shift Mode", &depthOfField.tiltShift);
+            ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.1f, 0.0f, 1000.0f);
+            ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.0f, 100.0f);
+            ImGui::SliderFloat("Blur Strength", &depthOfField.blurStrength, 0.0f, 5.0f);
+        }
+    }
+
+    if (ImGui::CollapsingHeader("Motion Blur", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##MB", &motionBlur.enabled);
+        if (motionBlur.enabled)
+            ImGui::SliderFloat("Intensity##MB", &motionBlur.intensity, 0.0f, 1.0f);
+    }
+
+    if (ImGui::CollapsingHeader("Auto Exposure", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##Exposure", &autoExposure.enabled);
+        if (autoExposure.enabled)
+        {
+            ImGui::DragFloat("Min Brightness", &autoExposure.minBrightness, 0.01f, 0.0f, 10.0f);
+            ImGui::DragFloat("Max Brightness", &autoExposure.maxBrightness, 0.01f, 0.0f, 10.0f);
+            ImGui::SliderFloat("Adaptation Speed", &autoExposure.speed, 0.1f, 10.0f);
+        }
+    }
+
+    if (ImGui::CollapsingHeader("Film Grain", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##Grain", &grain.enabled);
+        if (grain.enabled)
+        {
+            ImGui::SliderFloat("Intensity##Grain", &grain.intensity, 0.0f, 1.0f);
+            ImGui::SliderFloat("Size##Grain", &grain.size, 0.1f, 5.0f);
+        }
+    }
+
+    if (ImGui::CollapsingHeader("Radial Blur", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##Radial", &radialBlur.enabled);
+        if (radialBlur.enabled)
+        {
+            ImGui::SliderFloat("Intensity##Radial", &radialBlur.intensity, 0.0f, 1.0f);
+            ImGui::DragFloat2("Center##Radial", &radialBlur.center.x, 0.01f, 0.0f, 1.0f);
+        }
+    }
+
+    if (ImGui::CollapsingHeader("Sharpen", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Enable##Sharpen", &sharpen.enabled);
+        if (sharpen.enabled)
+            ImGui::SliderFloat("Intensity##Sharpen", &sharpen.intensity, 0.0f, 2.0f);
     }
 }
 
@@ -129,11 +192,39 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
     o["lens"] = {
         {"caEnabled",    lens.chromaticAberrationEnabled},
         {"caIntensity",  lens.chromaticAberrationIntensity},
+        {"distEnabled",  lens.distortionEnabled},
+        {"distIntensity",lens.distortionIntensity},
         {"vigEnabled",   lens.vignetteEnabled},
         {"vigIntensity", lens.vignetteIntensity},
         {"vigSmoothness",lens.vignetteSmoothness},
         {"vigRoundness", lens.vignetteRoundness},
         {"vigColor",     {lens.vignetteColor.x, lens.vignetteColor.y, lens.vignetteColor.z, lens.vignetteColor.w}}
+    };
+
+    o["depthOfField"] = {
+        {"enabled", depthOfField.enabled},
+        {"distance", depthOfField.focusDistance},
+        {"range", depthOfField.focusRange},
+        {"strength", depthOfField.blurStrength},
+        {"tiltShift", depthOfField.tiltShift}
+    };
+
+    o["motionBlur"] = { {"enabled", motionBlur.enabled}, {"intensity", motionBlur.intensity} };
+    o["autoExposure"] = {
+        {"enabled", autoExposure.enabled},
+        {"min", autoExposure.minBrightness},
+        {"max", autoExposure.maxBrightness},
+        {"speed", autoExposure.speed}
+    };
+    o["grain"] = { {"enabled", grain.enabled}, {"intensity", grain.intensity}, {"size", grain.size} };
+    o["radialBlur"] = {
+        {"enabled", radialBlur.enabled},
+        {"intensity", radialBlur.intensity},
+        {"center", {radialBlur.center.x, radialBlur.center.y}}
+    };
+    o["sharpen"] = {
+        {"enabled", sharpen.enabled},
+        {"intensity", sharpen.intensity}
     };
 }
 
@@ -167,6 +258,8 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         const auto& l = o["lens"];
         lens.chromaticAberrationEnabled = l.value("caEnabled", false);
         lens.chromaticAberrationIntensity = l.value("caIntensity", 0.0f);
+        lens.distortionEnabled = l.value("distEnabled", false);
+        lens.distortionIntensity = l.value("distIntensity", 0.0f);
         lens.vignetteEnabled = l.value("vigEnabled", false);
         lens.vignetteIntensity = l.value("vigIntensity", 0.4f);
         lens.vignetteSmoothness = l.value("vigSmoothness", 0.2f);
@@ -175,6 +268,49 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
             auto c = l["vigColor"];
             lens.vignetteColor = glm::vec4(c[0], c[1], c[2], (c.size() > 3 ? c[3] : 1.0f));
         }
+    }
+
+    if (o.contains("depthOfField")) {
+        const auto& d = o["depthOfField"];
+        depthOfField.enabled = d.value("enabled", false);
+        depthOfField.focusDistance = d.value("distance", 10.0f);
+        depthOfField.focusRange = d.value("range", 3.0f);
+        depthOfField.blurStrength = d.value("strength", 1.0f);
+        depthOfField.tiltShift = d.value("tiltShift", false);
+    }
+
+    if (o.contains("motionBlur")) {
+        const auto& m = o["motionBlur"];
+        motionBlur.enabled = m.value("enabled", false);
+        motionBlur.intensity = m.value("intensity", 0.5f);
+    }
+
+    if (o.contains("autoExposure")) {
+        const auto& e = o["autoExposure"];
+        autoExposure.enabled = e.value("enabled", false);
+        autoExposure.minBrightness = e.value("min", 0.1f);
+        autoExposure.maxBrightness = e.value("max", 2.0f);
+        autoExposure.speed = e.value("speed", 1.0f);
+    }
+
+    if (o.contains("grain")) {
+        const auto& g = o["grain"];
+        grain.enabled = g.value("enabled", false);
+        grain.intensity = g.value("intensity", 0.1f);
+        grain.size = g.value("size", 1.6f);
+    }
+
+    if (o.contains("radialBlur")) {
+        const auto& r = o["radialBlur"];
+        radialBlur.enabled = r.value("enabled", false);
+        radialBlur.intensity = r.value("intensity", 0.1f);
+        if (r.contains("center")) radialBlur.center = glm::vec2(r["center"][0], r["center"][1]);
+    }
+
+    if (o.contains("sharpen")) {
+        const auto& s = o["sharpen"];
+        sharpen.enabled = s.value("enabled", false);
+        sharpen.intensity = s.value("intensity", 0.5f);
     }
 }
 

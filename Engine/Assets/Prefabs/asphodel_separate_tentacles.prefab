@@ -1,0 +1,259 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            9.5367431640625e-07,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 668313798440749101,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "Tentacle2",
+                "tag": "",
+                "uid": 8764615329575566873
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 196579878120458168,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "Tentacle1",
+                "tag": "",
+                "uid": 2468586396341148957
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 7254335659465812028,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "Tentacle5",
+                "tag": "",
+                "uid": 17669671170572238919
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 3241265497196587613,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "Tentacle4",
+                "tag": "",
+                "uid": 3985945821857390693
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 17399791581715762641,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "Tentacle3",
+                "tag": "",
+                "uid": 17700840187871146468
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            9.5367431640625e-07,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 13722711348068155326,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18424432969465569349,
+                        "type": 3
+                    }
+                ],
+                "name": "FlowerTentacle",
+                "tag": "",
+                "uid": 15158829673361947092
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    23.600000381469727,
+                    26.700000762939453,
+                    -7.700000286102295
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.773620843887329,
+                    1.773620843887329,
+                    1.773620843887329
+                ],
+                "type": 0
+            }
+        ],
+        "name": "asphodel_separate_tentacles",
+        "tag": "",
+        "uid": 5577527714993262605
+    }
+]

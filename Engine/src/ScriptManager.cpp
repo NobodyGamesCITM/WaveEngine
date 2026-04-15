@@ -37,6 +37,8 @@
 #include "UIManager.h"
 #include "LibraryManager.h"
 #include "ResourceScript.h"
+#include "ComponentLight.h"
+#include "LightManager.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -1904,6 +1906,42 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
         luaL_getmetatable(L, "ParticleSystem");
         lua_setmetatable(L, -2);
+
+        return 1;
+    }
+
+    if (strcmp(componentType, "Light") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::LIGHT);
+        ComponentLight* light = static_cast<ComponentLight*>(comp);
+        if (!light) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        // light:SetEnabled(bool)
+        lua_pushlightuserdata(L, light);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentLight* light = static_cast<ComponentLight*>(lua_touserdata(L, lua_upvalueindex(1)));
+            bool enabled = lua_toboolean(L, 2) != 0;
+            if (light)
+                Application::GetInstance().scripts->EnqueueOperation([light, enabled]() {
+                light->SetActive(enabled);
+                Application::GetInstance().renderer->GetLightManager()->MarkShadowsDirty();
+                    });
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "SetEnabled");
+
+        // light:IsEnabled() -> bool
+        lua_pushlightuserdata(L, light);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentLight* light = static_cast<ComponentLight*>(lua_touserdata(L, lua_upvalueindex(1)));
+            lua_pushboolean(L, light ? light->IsActive() : false);
+            return 1;
+            }, 1);
+        lua_setfield(L, -2, "IsEnabled");
 
         return 1;
     }

@@ -167,8 +167,10 @@ void LightManager::InitShadowMap()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
         SHADOW_WIDTH, SHADOW_HEIGHT, 0,
         GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -192,44 +194,74 @@ void LightManager::InitShadowMap()
 
 void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
 {
-
     if (!shadowsEnabled) return;
-    // Buscar la primera luz direccional activa
+
     ComponentLight* dirLight = nullptr;
     for (ComponentLight* l : lights)
-    {
         if (l && l->IsActive() && l->GetLightType() == LightType::DIRECTIONAL)
         {
-            dirLight = l;
-            break;
+            dirLight = l; break;
         }
-    }
     if (!dirLight) return;
 
-    // Guardar estado GL actual
-    GLint prevViewport[4];
-    glGetIntegerv(GL_VIEWPORT, prevViewport);
-    GLint prevFBO;
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
+    glm::vec3 currentDir = glm::normalize(dirLight->GetDirectionalData().direction);
+    glm::mat4 dirAsMatrix = glm::mat4(glm::vec4(currentDir, 0), {}, {}, {});
+    if (dirAsMatrix != cachedLightDir) {
+        cachedLightDir = dirAsMatrix;
+        shadowsDirty = true;
+    }
 
-    // Construir lightSpaceMatrix
+    if (!shadowsDirty) return;
+    shadowsDirty = false;
+
+    GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
+    GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
+
     glm::vec3 lightDir = glm::normalize(dirLight->GetDirectionalData().direction);
-
-    // Evitar up vector degenerado cuando la luz es casi vertical (paralela a Y)
-    glm::vec3 upVector = (glm::abs(glm::dot(lightDir, glm::vec3(0.0f, 1.0f, 0.0f))) > 0.99f)
-        ? glm::vec3(0.0f, 0.0f, 1.0f)
-        : glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 upVector = (glm::abs(glm::dot(lightDir, glm::vec3(0, 1, 0))) > 0.99f)
+        ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
 
     glm::vec3 lightPos = -lightDir * 200.0f;
     glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), upVector);
-    glm::mat4 lightProj = glm::ortho(-300.0f, 300.0f, -300.0f, 300.0f, 1.0f, 600.0f);
+
+    glm::vec3 minLS(1e9f), maxLS(-1e9f);
+    bool anyMesh = false;
+
+    for (ComponentMesh* mesh : meshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+
+        const AABB& aabb = mesh->GetGlobalAABB();
+        glm::vec3 corners[8] = {
+            {aabb.min.x, aabb.min.y, aabb.min.z},
+            {aabb.max.x, aabb.min.y, aabb.min.z},
+            {aabb.min.x, aabb.max.y, aabb.min.z},
+            {aabb.max.x, aabb.max.y, aabb.min.z},
+            {aabb.min.x, aabb.min.y, aabb.max.z},
+            {aabb.max.x, aabb.min.y, aabb.max.z},
+            {aabb.min.x, aabb.max.y, aabb.max.z},
+            {aabb.max.x, aabb.max.y, aabb.max.z},
+        };
+        for (auto& c : corners)
+        {
+            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
+            minLS = glm::min(minLS, ls);
+            maxLS = glm::max(maxLS, ls);
+        }
+        anyMesh = true;
+    }
+
+    if (!anyMesh) return;
+
+    float zNear = -maxLS.z - 50.0f;   
+    float zFar = -minLS.z + 10.0f;
+
+    glm::mat4 lightProj = glm::ortho(minLS.x, maxLS.x, minLS.y, maxLS.y, zNear, zFar);
     lightSpaceMatrix = lightProj * lightView;
 
-    // Validar que la matriz no sea NaN/Inf (direccion de luz degenerada)
     if (std::isnan(lightSpaceMatrix[0][0]) || std::isinf(lightSpaceMatrix[0][0]))
     {
-        LOG_DEBUG("WARNING: lightSpaceMatrix degenerada, shadow pass abortado");
-        return;
     }
 
     // Shadow pass

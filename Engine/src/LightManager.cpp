@@ -243,6 +243,7 @@ void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
             {aabb.min.x, aabb.max.y, aabb.max.z},
             {aabb.max.x, aabb.max.y, aabb.max.z},
         };
+
         for (auto& c : corners)
         {
             glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
@@ -274,6 +275,106 @@ void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
     shadowDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
     for (ComponentMesh* mesh : meshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+
+        shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
+        glBindVertexArray(mesh->GetMesh().VAO);
+        glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
+
+    glCullFace(GL_BACK);
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
+
+    // Restaurar viewport
+    glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
+}
+
+void LightManager::BuildShadowMapSkinned(const std::vector<ComponentSkinnedMesh*>& skinnedMeshes)
+{
+    if (!shadowsEnabled) return;
+
+    ComponentLight* dirLight = nullptr;
+    for (ComponentLight* l : lights)
+        if (l && l->IsActive() && l->GetLightType() == LightType::DIRECTIONAL)
+        {
+            dirLight = l; break;
+        }
+    if (!dirLight) return;
+
+    glm::vec3 currentDir = glm::normalize(dirLight->GetDirectionalData().direction);
+    glm::mat4 dirAsMatrix = glm::mat4(glm::vec4(currentDir, 0), {}, {}, {});
+    if (dirAsMatrix != cachedLightDir) {
+        cachedLightDir = dirAsMatrix;
+        shadowsDirty = true;
+    }
+
+    if (!shadowsDirty) return;
+    shadowsDirty = false;
+
+    GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
+    GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
+
+    glm::vec3 lightDir = glm::normalize(dirLight->GetDirectionalData().direction);
+    glm::vec3 upVector = (glm::abs(glm::dot(lightDir, glm::vec3(0, 1, 0))) > 0.99f)
+        ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
+
+    glm::vec3 lightPos = -lightDir * 200.0f;
+    glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), upVector);
+
+    glm::vec3 minLS(1e9f), maxLS(-1e9f);
+    bool anyMesh = false;
+
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+
+        const AABB& aabb = mesh->GetGlobalAABB();
+        glm::vec3 corners[8] = {
+            {aabb.min.x, aabb.min.y, aabb.min.z},
+            {aabb.max.x, aabb.min.y, aabb.min.z},
+            {aabb.min.x, aabb.max.y, aabb.min.z},
+            {aabb.max.x, aabb.max.y, aabb.min.z},
+            {aabb.min.x, aabb.min.y, aabb.max.z},
+            {aabb.max.x, aabb.min.y, aabb.max.z},
+            {aabb.min.x, aabb.max.y, aabb.max.z},
+            {aabb.max.x, aabb.max.y, aabb.max.z},
+        };
+
+        for (auto& c : corners)
+        {
+            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
+            minLS = glm::min(minLS, ls);
+            maxLS = glm::max(maxLS, ls);
+        }
+        anyMesh = true;
+    }
+
+    if (!anyMesh) return;
+
+    float zNear = -maxLS.z - 50.0f;
+    float zFar = -minLS.z + 10.0f;
+
+    glm::mat4 lightProj = glm::ortho(minLS.x, maxLS.x, minLS.y, maxLS.y, zNear, zFar);
+    lightSpaceMatrix = lightProj * lightView;
+
+    if (std::isnan(lightSpaceMatrix[0][0]) || std::isinf(lightSpaceMatrix[0][0]))
+    {
+    }
+
+    // Shadow pass
+    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+    glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glCullFace(GL_FRONT);
+
+    shadowDepthShader->Use();
+    shadowDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
     {
         if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
         if (!mesh->GetMesh().IsValid()) continue;

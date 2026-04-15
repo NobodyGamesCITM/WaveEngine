@@ -445,6 +445,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     // Shadow pass
     if (lightManager)
         lightManager->BuildShadowMap(meshes);
+        lightManager->BuildShadowMapSkinned(skinnedMeshes);
 
     //Build Render List
     opaqueList.clear();

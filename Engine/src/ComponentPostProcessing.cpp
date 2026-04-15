@@ -133,7 +133,7 @@ void ComponentPostProcessing::OnEditor()
         {
             ImGui::DragFloat("Min Brightness", &autoExposure.minBrightness, 0.01f, 0.0f, 10.0f);
             ImGui::DragFloat("Max Brightness", &autoExposure.maxBrightness, 0.01f, 0.0f, 10.0f);
-            ImGui::SliderFloat("Adaptation Speed", &autoExposure.speed, 0.1f, 10.0f);
+            ImGui::DragFloat("Adaptation Speed", &autoExposure.speed, 0.01f, 0.01f, 10.0f);
         }
     }
 
@@ -161,7 +161,7 @@ void ComponentPostProcessing::OnEditor()
     {
         ImGui::Checkbox("Enable##Sharpen", &sharpen.enabled);
         if (sharpen.enabled)
-            ImGui::SliderFloat("Intensity##Sharpen", &sharpen.intensity, 0.0f, 2.0f);
+            ImGui::SliderFloat("Intensity##Sharpen", &sharpen.intensity, 0.0f, 5.0f);
     }
 }
 

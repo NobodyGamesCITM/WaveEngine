@@ -51,7 +51,12 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  grainEnabled;
         uniform float grainIntensity;
         uniform float grainScale;
-        uniform float grainTime;
+        uniform float uTime;
+
+        // Sharpen
+        uniform bool  sharpenEnabled;
+        uniform float sharpenIntensity;
+        uniform vec2  uResolution;
 
         vec3 ACESFilm(vec3 x) {
             const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
@@ -85,6 +90,18 @@ bool ShaderPostPorcessing::CreateShader()
                 color = texture(sceneTexture, uv).rgb;
             }
 
+            // --- Sharpen ---
+            if (sharpenEnabled) {
+                vec2 texel = 1.0 / uResolution;
+                vec3 center = color;
+                vec3 left   = texture(sceneTexture, uv + vec2(-texel.x, 0.0)).rgb;
+                vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
+                vec3 up     = texture(sceneTexture, uv + vec2(0.0, texel.y)).rgb;
+                vec3 down   = texture(sceneTexture, uv + vec2(0.0, -texel.y)).rgb;
+                
+                color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
+            }
+
             // --- Bloom (box-blur with soft-knee + tint) ---
             if (bloomEnabled) {
                 vec2 texel = 1.0 / textureSize(sceneTexture, 0);
@@ -116,7 +133,7 @@ bool ShaderPostPorcessing::CreateShader()
             // --- Grain ---
             if (grainEnabled) {
                 vec2  res  = textureSize(sceneTexture, 0);
-                float noise = random(floor(uv * res / grainScale) + grainTime);
+                float noise = random(floor(uv * res / (grainScale + 0.001)) + uTime);
                 color += (noise - 0.5) * grainIntensity;
             }
 

@@ -662,8 +662,10 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     postProcessShader->SetBool("autoExposureEnabled", activePP->autoExposure.enabled);
     postProcessShader->SetFloat("exposureMin", activePP->autoExposure.minBrightness);
     postProcessShader->SetFloat("exposureMax", activePP->autoExposure.maxBrightness);
+    postProcessShader->SetFloat("exposureSpeed", activePP->autoExposure.speed);
     postProcessShader->SetBool("grainEnabled", activePP->grain.enabled);
     postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
+    postProcessShader->SetFloat("grainScale", activePP->grain.size);
     postProcessShader->SetBool("radialBlurEnabled", activePP->radialBlur.enabled);
     postProcessShader->SetFloat("radialBlurIntensity", activePP->radialBlur.intensity);
     postProcessShader->SetVec2("radialBlurCenter", activePP->radialBlur.center);

@@ -104,7 +104,7 @@ local stunTimer     = 0
 local hurtTimer = 0
 
 local inOpportunity = false
-
+local pendingWallHit = false
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -151,17 +151,11 @@ local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Minocabro] -> " .. newState)
 
-    if newState == State.CHARGE or newState == State.LANCE_360 then
-        if attackCol then attackCol:Enable() end
-    else
-        if attackCol then attackCol:Disable() end
-    end
-
     if attackCol then
-        if newState == State.IDLE or newState == State.DEAD then
-            attackCol:Disable()
-        else
+        if newState == State.CHARGE or newState == State.LANCE_360 then
             attackCol:Enable()
+        else
+            attackCol:Disable()
         end
     end
 
@@ -385,11 +379,8 @@ function UpdateCharge(self, dt)
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
 
-    if not attackCol then attackCol = self.gameObject:GetComponent("Box Collider") end
-    if attackCol then attackCol:Enable() end
 
     if chargeTimer >= self.public.chargeDuration then
-        if attackCol then attackCol:Disable() end
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
@@ -399,11 +390,17 @@ function UpdateCharge(self, dt)
 end
 
 function UpdateWall(self, dt)
-    if anim then anim:Play("Wall") end
+
     if rb then
         local vel = rb:GetLinearVelocity()
         rb:SetLinearVelocity(0, vel.y, 0)
+        rb:SetRotation(0, currentYaw, 0)
     end
+
+    if anim and not anim:IsPlayingAnimation("Wall") then
+        anim:Play("Wall")
+    end
+ 
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
@@ -442,8 +439,13 @@ end
 
 function UpdateStun(self, dt)
 
+    if anim and not anim:IsPlayingAnimation("Stun") then
+        anim:Play("Stun")
+    end
+
     stunTimer = stunTimer - dt
     if stunTimer <= 0 then
+        posture = 0
         ChangeState(State.COMBAT_MOVE)
     end
 end
@@ -462,7 +464,7 @@ function UpdateDeath(self,dt)
             local vel = _rb:GetLinearVelocity()
             _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
         end
-        Engine.Log("[Minocabro] DEAD")
+        Engine.Log("[Aquiles] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
         isDead = true
@@ -487,11 +489,11 @@ function Start(self)
     if attackCol then
         attackCol:Disable()
     else
-        Engine.Log("[Minocabro] ERROR: no se encontró Box Collider")
+        Engine.Log("[Aquiles] ERROR: no se encontró Box Collider")
     end
 
     if anim then anim:Play("Idle") end
-    Engine.Log("[Minocabro] Start OK  HP=" .. hp)
+    Engine.Log("[Aquiles] Start OK  HP=" .. hp)
     
     lanceCDTimer    =   0
     chargeCDTimer   =   0
@@ -505,11 +507,25 @@ function Update(self, dt)
     if not self.gameObject or isDead then return end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
-    if not anim then anim = self.gameObject:GetComponent("Animation")  end
+    if not anim then anim = self.gameObject:GetComponent("Animation")  end 
 
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
         return
+    end
+
+    -- Trigger Wall
+    if pendingWallHit then
+        pendingWallHit = false
+        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
+            StopMovement()
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
+            wallStunTimer = self.public.wallStunTime
+            ChangeState(State.WALL)
+        end
     end
 
     -- Receive Damage
@@ -548,12 +564,12 @@ function Update(self, dt)
 
     local dist = Dist(myPos, pp)
 
-      -- Instantiate/destroy feedback BEFORE calling the state
+      -- Instantiate/destroy feedback
     if currentState == State.ANTICIPATION then
         if not self.chargeFeedbackGO then
             self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
         end
-    elseif currentState == State.RECOVERY then
+    elseif currentState == State.RECOVERY or currentState == State.WALL then
         if self.chargeFeedbackGO then
             GameObject.Destroy(self.chargeFeedbackGO)
             self.chargeFeedbackGO = nil
@@ -581,14 +597,13 @@ function OnTriggerEnter(self, other)
             return 
         end
 
-        StopMovement()
         if self.chargeFeedbackGO then
             GameObject.Destroy(self.chargeFeedbackGO)
             self.chargeFeedbackGO = nil
         end
 
-        wallStunTimer = self.public.wallStunTime
-        ChangeState(State.WALL)
+        pendingWallHit = true
+
         Engine.Log("[Aquiles] Chocó con pared por TAG")
         return 
     end

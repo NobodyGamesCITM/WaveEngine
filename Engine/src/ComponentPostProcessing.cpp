@@ -100,7 +100,7 @@ void ComponentPostProcessing::OnEditor()
         ImGui::Checkbox("Enable##Vignette", &lens.vignetteEnabled);
         if (lens.vignetteEnabled)
         {
-            ImGui::SliderFloat("Intensity##Vignette", &lens.vignetteIntensity, 0.0f, 1.0f);
+            ImGui::SliderFloat("Intensity##Vignette", &lens.vignetteIntensity, 0.0f, 1.5f);
             ImGui::SliderFloat("Smoothness##Vignette", &lens.vignetteSmoothness, 0.0f, 1.0f);
             ImGui::SliderFloat("Roundness##Vignette", &lens.vignetteRoundness, 0.0f, 1.0f);
             ImGui::ColorEdit4("Color##Vignette", &lens.vignetteColor.x);

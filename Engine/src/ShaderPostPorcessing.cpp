@@ -135,7 +135,7 @@ bool ShaderPostPorcessing::CreateShader()
                 float boxDist = max(d.x, d.y);
                 float cirDist = length(d);
                 float dist    = mix(boxDist, cirDist, vignetteRoundness);
-                float radius  = 1.0 - vignetteIntensity;
+                float radius  = 1.5 - vignetteIntensity;
                 float soft    = vignetteSmoothness + 0.05;
                 float vig     = smoothstep(radius, radius - soft, dist);
                 color = mix(vignetteColor, color, vig);

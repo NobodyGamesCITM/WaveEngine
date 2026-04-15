@@ -16,50 +16,10 @@ local State = {
     DEAD     = "Dead",
 }
 
--- -- Internal state
--- local Mortar = {
---     currentState = nil,
---     rb           = nil,
---     anim         = nil,
---     playerGO     = nil,
---     currentY     = 0,    -- ángulo Y actual (para rotación suave hacia el player)
---     targetY      = 0,    -- ángulo Y deseado
--- }
-
--- -- Variables de vida y daño
--- local isDead         = false
--- local pendingDestroy = false
--- local alreadyHit     = false
--- local hp
-
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
 _EnemyDamage_mortar = 30
-
--- -- Internal timers
--- local windUpTimer   = 0
--- local cooldownTimer = 0
-
-
--- local activeShells = {}
-
--- -- gameobjects containing audiosources
--- local singSource 
--- local dieSource 
--- local hurtSource 
--- local dipSource 
-
--- -- audio source components
--- local singSFX = nil
--- local deathSFX = nil
--- local hurtSFX = nil
--- local dipSFX = nil
-
--- local hasDeathPlayed = false
--- local hasHurtPlayed = false
--- local isSinging = false
-
 
 local HIDE_MAX_DURATION = 1.0
 local HIDE_COOLDOWN     = 2.5  

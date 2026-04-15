@@ -1056,6 +1056,7 @@ bool Renderer::CleanUp()
     if (postProcessShader) postProcessShader->Delete();
 
     meshes.clear();
+    skinnedMeshes.clear();
     activeCameras.clear();
     postProcessingComponents.clear();
     opaqueList.clear();

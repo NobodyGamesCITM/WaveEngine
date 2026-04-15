@@ -68,6 +68,9 @@ local Player = {
 	aresPs         = nil,
 	apoloPs         = nil,
 	hermesPs         = nil,
+    aresLight         = nil,
+	apoloLight         = nil,
+	hermesLight         = nil,
     attackDelay     = 0.1,
     -- Audio
     stepSFX 		= nil,
@@ -290,45 +293,73 @@ local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
     if newMask == Mask.APOLLO then 
+        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
+        --vfx
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(true)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Play() end
         if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(true) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.HERMES then 
+        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
+        --vfx
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(true)end
+        --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
         if Player.hermesPs then Player.hermesPs:Play() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(true) end
     elseif newMask == Mask.ARES then 
+        --masks
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        --vfx
         if vfxAres then vfxAres:SetActive(true)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        --ps
         if Player.aresPs then Player.aresPs:Play() end
         if Player.apoloPs then Player.apoloPs:Stop() end
         if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(true) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.NONE then 
+        --masks
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
         if vfxAres then vfxAres:SetActive(false)end
+        --vfx
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
         if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -1024,6 +1055,10 @@ function Start(self)
     Player.aresPs = nil
     Player.apoloPs = nil
 
+    Player.hermesLight = nil
+    Player.aresLight = nil
+    Player.apoloLight = nil
+
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
     if maskApolo then maskApolo:SetActive(false) end
@@ -1035,6 +1070,10 @@ function Start(self)
         if Player.apoloPs then
             Player.apoloPs:Stop()
         end
+        Player.apoloLight = vfxApolo:GetComponent("Light")
+        if Player.apoloLight then
+            Player.apoloLight:SetEnabled(false)
+        end
         vfxApolo:SetActive(false) 
     end
     if vfxHermes then 
@@ -1042,12 +1081,20 @@ function Start(self)
         if Player.hermesPs then
             Player.hermesPs:Stop()
         end
+        Player.hermesLight = vfxHermes:GetComponent("Light")
+        if Player.hermesLight then
+            Player.hermesLight:SetEnabled(false)
+        end
         vfxHermes:SetActive(false) 
     end
     if vfxAres then 
         Player.aresPs = vfxAres:GetComponent("ParticleSystem")
         if Player.aresPs then
             Player.aresPs:Stop()
+        end
+        Player.aresLight = vfxAres:GetComponent("Light")
+        if Player.aresLight then
+            Player.aresLight:SetEnabled(false)
         end
         vfxAres:SetActive(false)   
     end

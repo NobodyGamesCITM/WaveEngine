@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{D8F4AAF9-CA25-A970-8295-950D8F762C9D}",
+    "Hash": "{7B15CC83-0FB3-1D62-3C96-4C505D1E6A27}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -22,6 +22,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_precharge_04.wav",
       "CachePath": "A3/{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem"
+     },
+     {
+      "Id": "16598906",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-5-382405.wav",
+      "CachePath": "35/{35F9AD34-65EE-7863-7AA8-1E6A8F8474B3}.wem"
      },
      {
       "Id": "44994569",
@@ -72,6 +80,14 @@
       "CachePath": "8C/{8CB2A334-8F2D-D73A-DFF4-ED095CC5A732}.wem"
      },
      {
+      "Id": "94067801",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-2-382404.wav",
+      "CachePath": "B7/{B7BE4C46-60B4-1A03-3C67-70949A737EF3}.wem"
+     },
+     {
       "Id": "96160614",
       "Language": "SFX",
       "Streaming": "false",
@@ -86,6 +102,14 @@
       "Location": "Memory",
       "ShortName": "In The Blood Hades.wav",
       "CachePath": "77/{77DC3B2C-C429-11E2-762E-359D20698C41}.wem"
+     },
+     {
+      "Id": "119259710",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_04.wav",
+      "CachePath": "40/{40F9D7FF-CFD4-EED1-17E6-16EFEA0CC7E9}.wem"
      },
      {
       "Id": "124812761",
@@ -176,6 +200,14 @@
       "CachePath": "E8/{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem"
      },
      {
+      "Id": "207196639",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_02.wav",
+      "CachePath": "A2/{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem"
+     },
+     {
       "Id": "208970398",
       "Language": "SFX",
       "Streaming": "false",
@@ -206,6 +238,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_walk_03.wav",
       "CachePath": "D0/{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem"
+     },
+     {
+      "Id": "248587822",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-1-382402.wav",
+      "CachePath": "B4/{B4A5313B-78DE-D74B-866C-3E6BE6B8E460}.wem"
      },
      {
       "Id": "250874789",
@@ -408,6 +448,14 @@
       "CachePath": "3D/{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem"
      },
      {
+      "Id": "512620298",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_03.wav",
+      "CachePath": "97/{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem"
+     },
+     {
       "Id": "520645407",
       "Language": "SFX",
       "Streaming": "false",
@@ -432,12 +480,28 @@
       "CachePath": "D4/{D4E93A81-F944-4B21-5B4F-14741401597B}.wem"
      },
      {
+      "Id": "540918898",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_07.wav",
+      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+     },
+     {
       "Id": "558767652",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_03.wav",
       "CachePath": "FB/{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem"
+     },
+     {
+      "Id": "565089324",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-4-382401.wav",
+      "CachePath": "D6/{D665DE27-FACF-46A2-1D7A-D3C12ED43C3A}.wem"
      },
      {
       "Id": "578288656",
@@ -576,6 +640,14 @@
       "CachePath": "5C/{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem"
      },
      {
+      "Id": "717026493",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_06.wav",
+      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+     },
+     {
       "Id": "726491942",
       "Language": "SFX",
       "Streaming": "false",
@@ -624,6 +696,14 @@
       "CachePath": "D0/{D08E576C-107D-5583-50CF-0F7F7379C941}.wem"
      },
      {
+      "Id": "804853606",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_05.wav",
+      "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
+     },
+     {
       "Id": "822076345",
       "Language": "SFX",
       "Streaming": "false",
@@ -637,7 +717,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "siren_death.wav",
-      "CachePath": "52/{52C32870-3D04-4FDF-5ADA-BDF6F5382FBA}.wem"
+      "CachePath": "1D/{1D84FF26-D8E8-BF3C-F81F-14FB856761DF}.wem"
      },
      {
       "Id": "827699159",
@@ -656,6 +736,14 @@
       "CachePath": "04/{0415CD86-202A-8E4B-D891-641347BBD750}.wem"
      },
      {
+      "Id": "841807102",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-3-382407.wav",
+      "CachePath": "52/{523162B3-720B-AB25-F0ED-AE5465573462}.wem"
+     },
+     {
       "Id": "850788590",
       "Language": "SFX",
       "Streaming": "false",
@@ -672,12 +760,28 @@
       "CachePath": "DF/{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem"
      },
      {
+      "Id": "861888802",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_08.wav",
+      "CachePath": "FB/{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem"
+     },
+     {
       "Id": "864759864",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hurt_04.wav",
       "CachePath": "60/{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem"
+     },
+     {
+      "Id": "864792433",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_step_01.wav",
+      "CachePath": "85/{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem"
      },
      {
       "Id": "872826203",
@@ -816,6 +920,14 @@
       "CachePath": "2B/{2B630395-DE9C-A067-BC08-8E1921E200EA}.wem"
      },
      {
+      "Id": "1055980740",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yodguard-spear_thrust-6-382403.wav",
+      "CachePath": "68/{680238FE-5EBB-F386-8A76-F9B773F98FCF}.wem"
+     },
+     {
       "Id": "1065543167",
       "Language": "SFX",
       "Streaming": "false",
@@ -829,19 +941,11 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "siren_hurt.wav",
-      "CachePath": "0E/{0E099494-E65B-B322-26E1-9C07531BA8FD}.wem"
+      "CachePath": "9F/{9F780056-22BE-15FA-B38E-A4EB69E14754}.wem"
      }
     ],
     "Plugins": {
      "Custom": [
-      {
-       "Id": "1710998",
-       "Name": "Matrix Reverb (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_die\\[Effect Slot [0]: (Matrix Reverb)]\\Matrix Reverb (Custom)",
-       "GUID": "{51AF08FB-4626-41F4-B6BF-9791386BA3F5}",
-       "LibName": "Wwise Matrix Reverb",
-       "LibId": "7536643"
-      },
       {
        "Id": "215501508",
        "Name": "Time Stretch (Custom)",
@@ -865,14 +969,6 @@
        "GUID": "{3E106FDF-014E-4E3A-9BC9-6AE678D9DB8B}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
-      },
-      {
-       "Id": "1043131862",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_hurt\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{D974B4CE-964F-4D5F-9896-23DFAC73A0E1}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
       }
      ],
      "ShareSets": [
@@ -891,14 +987,6 @@
        "GUID": "{62CB7384-421D-4F9A-9CF1-E90F7336A07B}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
-      },
-      {
-       "Id": "2394809124",
-       "Name": "Very_Slow_Modulation",
-       "ObjectPath": "\\Effects\\Factory Effects\\Tremolo\\Very_Slow_Modulation",
-       "GUID": "{6082F901-3CE1-4D78-8F2D-B2B72CF28085}",
-       "LibName": "Wwise Tremolo",
-       "LibId": "8585219"
       },
       {
        "Id": "2891462749",
@@ -1022,6 +1110,72 @@
           "Id": "146545938"
          }
         ]
+       }
+      ]
+     },
+     {
+      "Id": "953159674",
+      "Name": "SFX_AquilesSpear",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSpear",
+      "GUID": "{458B2546-C1CC-46FD-867E-195D90C88CC9}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "8.04",
+      "DurationMax": "8.04",
+      "MediaRefs": [
+       {
+        "Id": "16598906"
+       },
+       {
+        "Id": "94067801"
+       },
+       {
+        "Id": "248587822"
+       },
+       {
+        "Id": "565089324"
+       },
+       {
+        "Id": "841807102"
+       },
+       {
+        "Id": "1055980740"
+       }
+      ]
+     },
+     {
+      "Id": "3602580268",
+      "Name": "SFX_AquilesSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSteps",
+      "GUID": "{277F7057-B177-4CE2-BE5F-B45532FA2A5A}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.8301875",
+      "DurationMax": "1.1984583",
+      "MediaRefs": [
+       {
+        "Id": "119259710"
+       },
+       {
+        "Id": "207196639"
+       },
+       {
+        "Id": "512620298"
+       },
+       {
+        "Id": "540918898"
+       },
+       {
+        "Id": "717026493"
+       },
+       {
+        "Id": "804853606"
+       },
+       {
+        "Id": "861888802"
+       },
+       {
+        "Id": "864792433"
        }
       ]
      },
@@ -1595,14 +1749,7 @@
        {
         "Id": "823794324"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "1710998"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "4188719407",
@@ -1639,19 +1786,7 @@
        {
         "Id": "1068516576"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "1043131862"
-        }
-       ],
-       "ShareSets": [
-        {
-         "Id": "2394809124"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "2050401325",
@@ -2071,6 +2206,6 @@
     ]
    }
   ],
-  "FileHash": "{490E6955-149C-A464-61E6-C905702DF531}"
+  "FileHash": "{78E53E16-6767-6FA1-2065-43EEB60778A4}"
  }
 }

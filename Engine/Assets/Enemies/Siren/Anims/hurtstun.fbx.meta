@@ -1,4 +1,7 @@
 {
+    "animations": {
+        "Take 001": 10905693133216767332
+    },
     "importSettings": {
         "flipUVs": true,
         "frontAxis": 0,
@@ -6,6 +9,9 @@
         "importScale": 1.0,
         "optimizeMeshes": true,
         "upAxis": 0
+    },
+    "meshes": {
+        "SirenMesh": 1495975935725936261
     },
     "type": 1,
     "uid": 10041586714871225801

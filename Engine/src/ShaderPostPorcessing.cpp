@@ -40,6 +40,10 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  caEnabled;
         uniform float caIntensity;
 
+        // Distortion
+        uniform bool  distortionEnabled;
+        uniform float distortionIntensity;
+
         // Bloom
         uniform bool  bloomEnabled;
         uniform float bloomIntensity;
@@ -76,6 +80,14 @@ bool ShaderPostPorcessing::CreateShader()
 
         void main() {
             vec2 uv = TexCoords;
+
+            // --- Distortion ---
+            if (distortionEnabled) {
+                vec2 centeredUV = uv - 0.5;
+                float r = length(centeredUV);
+                float distortionFactor = 1.0 + distortionIntensity * r * r; // Distorsión radial cuadrática
+                uv = centeredUV * distortionFactor + 0.5;
+            }
 
             // --- Chromatic Aberration ---
             vec3 color;

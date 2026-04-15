@@ -14,8 +14,14 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_AQUILESSPEAR = 953159674U;
+        static const AkUniqueID SFX_AQUILESDASH = 161972871U;
+        static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;
+        static const AkUniqueID SFX_AQUILESHURT = 565814488U;
+        static const AkUniqueID SFX_AQUILESSHIELD = 2261003392U;
+        static const AkUniqueID SFX_AQUILESSPEARHIT = 2157393365U;
+        static const AkUniqueID SFX_AQUILESSPEARSWING = 276386536U;
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
+        static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;

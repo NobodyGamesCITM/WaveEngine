@@ -31,6 +31,7 @@ public = {
     moveSpeed       = 10.0,
     rotationSpeed   = 3.0,
     stopSmoothing   = 8.0,
+    
 
     --Lace 360
     lanceDuration       = 0.5, 
@@ -47,6 +48,7 @@ public = {
     afterStunTime   = 3.0,
     chargeCooldown  = 3.5,  -- cooldown entre embestidas
     chargeDamage    = 30,
+    stepInterval    = 0.75,
 
     -- Receive damage
     knockbackForce  = 8.0,

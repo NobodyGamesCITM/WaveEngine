@@ -353,7 +353,7 @@ function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(0.4, 0.05, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
     end
 
     preparationTimer = preparationTimer + dt
@@ -645,7 +645,7 @@ function OnTriggerEnter(self, other)
 
         pendingWallHit = true
 
-        Engine.Log("[Aquiles] Chocó con pared por TAG")
+        Engine.Log("[Aquiles] Choco con la pared")
         return 
     end
 

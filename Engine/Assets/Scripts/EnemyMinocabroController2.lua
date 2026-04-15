@@ -80,7 +80,8 @@ _EnemyDamage_minocabro = 35
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
-local cameFromWall =false 
+local cameFromWall   = false
+local pendingWallHit = false
 
 -- Sounds
 local voiceSFX = nil
@@ -290,7 +291,7 @@ function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(0.4, 0.05, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
     end
 
 
@@ -388,10 +389,15 @@ function UpdateCharge(self, dt)
 end
 
 function UpdateWall(self, dt)
+    if rb then
+        local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(0, vel.y, 0)
+        rb:SetRotation(0, currentYaw, 0)
+    end
+
     if anim and not anim:IsPlayingAnimation("Wall") then
         PlayAnim("Wall")
     end
-    Engine.Log("Wallll")
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
@@ -505,6 +511,20 @@ function Update(self, dt)
         return
     end
 
+        -- Trigger Wall
+    if pendingWallHit then
+        pendingWallHit = false
+        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
+            StopMovement()
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
+            wallStunTimer = self.public.wallStunTime
+            ChangeState(State.WALL)
+        end
+    end
+
     -- Receive Damage
     if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
         if not playerAttackHandled and playerGO and not isDead then
@@ -568,6 +588,23 @@ end
 
 function OnTriggerEnter(self, other)
     if isDead then return end
+
+    if other:CompareTag("Wall") then
+        if currentState == State.WALL or currentState == State.RECOVERY then 
+            return 
+        end
+
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
+        pendingWallHit = true
+        Engine.Log("[Minocabro] Chocó con la pared")
+        return 
+    end
+
+
     if other:CompareTag("Player") then
         -- The player hits the enemy
         if not alreadyHit then

@@ -909,6 +909,18 @@ local function TakeDamage(self, amount, attackerPos)
         Player.rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
     end
 
+    if Player.healAnimTimer > 0 then
+        Player.healAnimTimer = 0
+        Player.healPending = false
+
+        self.public.canMove = true
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Idle", 0.5) end)
+        end
+    end
+
     if self.public.health <= 0 then
         Engine.Log("[Player] DEAD")
         Game.SetTimeScale(0.2)

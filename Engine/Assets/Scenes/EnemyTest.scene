@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 0.46311476826667786,
+                    "aspectRatio": 0.25872689485549927,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -14122,144 +14122,7 @@
                 },
                 {
                     "active": true,
-                    "publicVariables": [
-                        {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 300.0
-                        },
-                        {
-                            "name": "wallSpeedThresh",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "afterStunTime",
-                            "type": 0,
-                            "value": 2.200000047683716
-                        },
-                        {
-                            "name": "stopSmoothing",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "chargeDamage",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.800000011920929
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "recoveryCharge",
-                            "type": 0,
-                            "value": 1.7999999523162842
-                        },
-                        {
-                            "name": "Lance360Range",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "recoveryLance",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "detectRange",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "dashApproachRange",
-                            "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "opportunityDamageMultiplier",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "preparationTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "chargeCooldown",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "predictionTime",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 18.0
-                        },
-                        {
-                            "name": "hurtStunTime",
-                            "type": 0,
-                            "value": 0.800000011920929
-                        },
-                        {
-                            "name": "stunDuration",
-                            "type": 0,
-                            "value": 4.0
-                        },
-                        {
-                            "name": "chargeRange",
-                            "type": 0,
-                            "value": 12.0
-                        },
-                        {
-                            "name": "lanceDamage",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "lanceCooldown",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "maxPosture",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "lanceDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "wallStunTime",
-                            "type": 0,
-                            "value": 5.0
-                        }
-                    ],
-                    "scriptUID": 2892393956142374010,
+                    "scriptUID": 0,
                     "type": 6
                 }
             ],

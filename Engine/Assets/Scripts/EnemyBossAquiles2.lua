@@ -79,6 +79,10 @@ local anim     = nil
 local playerGO = nil
 local attackCol    = nil
 
+--local audioSources = {voiceSource = nil, stepSource = nil, spearSource = nil, dashSource = nil, armorSource = nil}
+local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
+local audioComps = {voiceSFX = nil, stepSFX = nil, spearSFX = nil, dashSFX = nil, armorSource = nil}
+
 local alreadyHit   = false
 local playerAttackHandled = false
 
@@ -104,6 +108,7 @@ local lanceCDTimer  = 0
 local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
+local stepTimer = 0
 
 local inOpportunity = false
 local pendingWallHit = false
@@ -126,6 +131,20 @@ end
 
 local function PlayAnim(name, blend)
     if anim then anim:Play(name, blend or 0.15) end
+end
+
+local function PlaySFX(audioComp)
+    if audioComp then audioComp:PlayAudioEvent()    
+    else 
+        Engine.Log("Could not play configured event in Audio Source ".. tostring(audioComp).. ", component not found")
+    end
+end
+
+local function SelectPlaySFX(audioComp, eventName)
+    if audioComp then audioComp:SelectPlayAudioEvent(eventName)
+    else 
+        Engine.Log("Could not play " .. eventName ..", Audio Source component".. tostring(audioComp).. " not found")
+    end
 end
 
 local function Dist(a, b)
@@ -151,7 +170,7 @@ end
 
 local function ChangeState(newState)
     currentState = newState
-    Engine.Log("[Minocabro] -> " .. newState)
+    Engine.Log("[Aquiles] -> " .. newState)
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
@@ -476,6 +495,24 @@ function UpdateDeath(self,dt)
     end
 end
 
+local function FindAquilesAudioComponents()
+
+    if audioComps.length == sourceNames.length then
+        for(let i = 0; i < audioComps.length; ++i)
+            local audioGO = GameObject.FindInChildren(self.gameObject, tostring(sourceNames[i]))
+            if not audioGO then
+                Engine.Log("Could not find GameObject " .. tostring(audioGO).. " containing ".. tostring(audioComp).. "Audio Source")
+            else
+                audioComps[i] = audioGO:GetComponent("Audio Source")
+                if not audioComps[i] then
+                    Engine.Log("Could not retrieve" .. tostring(audioComps[i]).. "Audio Source")
+                else
+                    Engine.Log("Found " tostring(audioComps[i]))
+            end
+        end
+    end
+end
+
           
 function Start(self)
     hp           = self.public.maxHp
@@ -485,6 +522,8 @@ function Start(self)
 
     rb   = self.gameObject:GetComponent("Rigidbody")
     anim = self.gameObject:GetComponent("Animation")
+
+    FindAquilesAudioComponents()
 
 
     attackCol = self.gameObject:GetComponent("Box Collider")

@@ -17,6 +17,7 @@ bool ShaderPostPorcessing::CreateShader()
         out vec4 FragColor;
         in vec2 TexCoords;
         uniform sampler2D sceneTexture;
+        uniform vec2 uTexelSize;
 
         // Color grading
         uniform bool  gradingEnabled;
@@ -25,8 +26,7 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float saturation;
         uniform int   toneMapper;
         uniform float gamma;
-        uniform float temperature;
-        uniform float tint;
+        uniform vec3  whiteBalance;
         uniform vec3  colorFilter;
 
         // Vignette
@@ -44,8 +44,8 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  bloomEnabled;
         uniform float bloomIntensity;
         uniform float bloomThreshold;
-        uniform float bloomSoftKnee;   // NEW
-        uniform vec3  bloomTint;       // NEW
+        uniform float bloomSoftKnee;
+        uniform vec3  bloomTint;
 
         // Grain
         uniform bool  grainEnabled;
@@ -67,9 +67,7 @@ bool ShaderPostPorcessing::CreateShader()
             return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
         }
 
-        // Soft-knee bloom contribution for a single sample
-        float bloomWeight(float brightness) {
-            float knee = bloomThreshold * bloomSoftKnee;
+        float bloomWeight(float brightness, float knee) {
             float soft  = brightness - bloomThreshold + knee;
             soft = clamp(soft, 0.0, 2.0 * knee);
             soft = (soft * soft) / (4.0 * knee + 0.00001);
@@ -92,7 +90,7 @@ bool ShaderPostPorcessing::CreateShader()
 
             // --- Sharpen ---
             if (sharpenEnabled) {
-                vec2 texel = 1.0 / uResolution;
+                vec2 texel = uTexelSize;
                 vec3 center = color;
                 vec3 left   = texture(sceneTexture, uv + vec2(-texel.x, 0.0)).rgb;
                 vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
@@ -104,14 +102,15 @@ bool ShaderPostPorcessing::CreateShader()
 
             // --- Bloom (box-blur with soft-knee + tint) ---
             if (bloomEnabled) {
-                vec2 texel = 1.0 / textureSize(sceneTexture, 0);
+                vec2 texel = uTexelSize;
                 vec3 bloomAccum = vec3(0.0);
+                float knee = bloomThreshold * bloomSoftKnee;
                 const int range = 3;
                 for (int x = -range; x <= range; ++x) {
                     for (int y = -range; y <= range; ++y) {
                         vec3  s   = texture(sceneTexture, uv + vec2(x, y) * texel * 2.5).rgb;
                         float lum = dot(s, vec3(0.2126, 0.7152, 0.0722));
-                        bloomAccum += s * bloomWeight(lum);
+                        bloomAccum += s * bloomWeight(lum, knee);
                     }
                 }
                 bloomAccum /= float((range*2+1) * (range*2+1));
@@ -132,21 +131,15 @@ bool ShaderPostPorcessing::CreateShader()
 
             // --- Grain ---
             if (grainEnabled) {
-                vec2  res  = textureSize(sceneTexture, 0);
-                float noise = random(floor(uv * res / (grainScale + 0.001)) + uTime);
+                float noise = random(floor(uv * (uResolution / (grainScale + 0.001))) + uTime);
                 color += (noise - 0.5) * grainIntensity;
             }
 
             // --- Color Grading ---
             if (gradingEnabled) {
-                // White balance
-                float temp = temperature / 10000.0;
-                float tnt  = tint / 100.0;
-                color *= vec3(1.0 + temp, 1.0 + tnt, 1.0 - temp);
-
+                color *= whiteBalance;
                 // Color filter, exposure, contrast, saturation
-                color *= colorFilter;
-                color *= exposure;
+                color *= (colorFilter * exposure);
                 color  = (color - 0.5) * contrast + 0.5;
                 color  = mix(vec3(dot(color, vec3(0.2126, 0.7152, 0.0722))), color, saturation);
 

@@ -12,29 +12,29 @@
 #include "Application.h"
 
 ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
-    : Component(owner, type),
-    meshUID(0),
-    hasDirectMesh(false), aabbDirty(true)
+    : Component(owner, type), meshUID(0), hasDirectMesh(false), aabbDirty(true)
 {
     attachedMaterial = (ComponentMaterial*)owner->GetComponent(ComponentType::MATERIAL);
     name = "Mesh";
-    Application::GetInstance().renderer->AddMesh(this);
+
+    if (type == ComponentType::MESH)  // no registrar subclases aquí
+        Application::GetInstance().renderer->AddMesh(this);
 }
 
 ComponentMesh::~ComponentMesh()
 {
     attachedMaterial = nullptr;
     ReleaseCurrentMesh();
-    Application::GetInstance().renderer->RemoveMesh(this);
+
+    if (GetType() == ComponentType::MESH)  // solo desregistrar si es mesh puro
+        Application::GetInstance().renderer->RemoveMesh(this);
 
     if (hasDirectMesh && directMesh.VAO != 0) {
         glDeleteVertexArrays(1, &directMesh.VAO);
         glDeleteBuffers(1, &directMesh.VBO);
         glDeleteBuffers(1, &directMesh.EBO);
     }
-
 }
-
 void ComponentMesh::ReleaseCurrentMesh()
 {
     if (meshUID != 0) {

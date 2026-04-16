@@ -307,22 +307,52 @@ void Renderer::DrawMesh(const ComponentMesh* meshComp)
     }
 }
 
-void Renderer::AddMesh(ComponentMesh* mesh) {
-    meshes.push_back(mesh);
-    if (lightManager) lightManager->MarkShadowsDirty();
-}
+// Renderer.cpp
 
-void Renderer::RemoveMesh(ComponentMesh* mesh) {
-    auto it = std::find(meshes.begin(), meshes.end(), mesh);
-    if (it != meshes.end()) {
-        *it = meshes.back();
-        meshes.pop_back();
+void Renderer::AddMesh(ComponentMesh* mesh) {
+    if (mesh->HasSkinning()) {
+        skinnedMeshes.push_back(static_cast<ComponentSkinnedMesh*>(mesh));
+    }
+    else {
+        meshes.push_back(mesh);
     }
     if (lightManager) lightManager->MarkShadowsDirty();
 }
 
+void Renderer::RemoveMesh(ComponentMesh* mesh) {
+    if (mesh->HasSkinning()) {
+        auto* skinned = static_cast<ComponentSkinnedMesh*>(mesh);
+        auto it = std::find(skinnedMeshes.begin(), skinnedMeshes.end(), skinned);
+        if (it != skinnedMeshes.end()) {
+            *it = skinnedMeshes.back();
+            skinnedMeshes.pop_back();
+        }
+    }
+    else {
+        auto it = std::find(meshes.begin(), meshes.end(), mesh);
+        if (it != meshes.end()) {
+            *it = meshes.back();
+            meshes.pop_back();
+        }
+    }
+    if (lightManager) lightManager->MarkShadowsDirty();
+}
 void Renderer::AddParticle(ComponentParticleSystem* particle) {
     particles.push_back(particle);
+}
+
+void Renderer::AddSkinnedMesh(ComponentSkinnedMesh* mesh) {
+    skinnedMeshes.push_back(mesh);
+    if (lightManager) lightManager->MarkShadowsDirty();
+}
+
+void Renderer::RemoveSkinnedMesh(ComponentSkinnedMesh* mesh) {
+    auto it = std::find(skinnedMeshes.begin(), skinnedMeshes.end(), mesh);
+    if (it != skinnedMeshes.end()) {
+        *it = skinnedMeshes.back();
+        skinnedMeshes.pop_back();
+    }
+    if (lightManager) lightManager->MarkShadowsDirty();
 }
 
 void Renderer::RemoveParticle(ComponentParticleSystem* particle) {
@@ -442,10 +472,16 @@ bool Renderer::RenderScene(CameraLens* camera)
     UpdateProjectionMatrix(camera->GetProjectionMatrix());
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboMatrices);
 
-    // Shadow pass
+    // Primero actualizar las matrices de skinning
+    /*for (ComponentMesh* mesh : meshes)
+        mesh->UpdateSkinningMatrices();
+
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+        mesh->UpdateSkinningMatrices();*/
+
+    // Ahora el shadow pass tiene los SSBOs actualizados
     if (lightManager)
-        lightManager->BuildShadowMap(meshes);
-        lightManager->BuildShadowMapSkinned(skinnedMeshes);
+        lightManager->BuildShadowMap(meshes, skinnedMeshes);
 
     //Build Render List
     opaqueList.clear();
@@ -543,6 +579,33 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             {
                 opaqueList.push_back(renderObject);
             }
+        }
+    }
+
+    // Al final de BuildRenderLists, después del loop de meshes:
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->transform) continue;
+        if (!mesh->owner->IsActive()) continue;
+
+        const Mesh& resMesh = mesh->GetMesh();
+        if (!resMesh.IsValid()) continue;
+
+        glm::mat4 globalModelMatrix = mesh->owner->transform->GetGlobalMatrix();
+        const AABB& globalAABB = mesh->GetGlobalAABB();
+
+        if (camera->GetFrustum()->InFrustum(globalAABB))
+        {
+            RenderObject renderObject = { mesh, globalModelMatrix };
+
+            glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
+            float distanceToCamera = glm::distance(aabbCenter, camera->position);
+
+            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive()
+                && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+                transparentList.emplace(distanceToCamera, renderObject);
+            else
+                opaqueList.push_back(renderObject);
         }
     }
 

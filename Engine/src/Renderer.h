@@ -139,6 +139,9 @@ public:
     void RemoveLight(ComponentLight* light);
     LightManager* GetLightManager() const { return lightManager.get(); }
 
+    void AddSkinnedMesh(ComponentSkinnedMesh* mesh);
+    void RemoveSkinnedMesh(ComponentSkinnedMesh* mesh);
+
 private:
 
     void ApplyRenderSettings();

@@ -10,21 +10,22 @@
 #include <glad/glad.h>
 #include "Application.h"
 
-ComponentSkinnedMesh::ComponentSkinnedMesh(GameObject* owner) : ComponentMesh (owner, ComponentType::SKINNED_MESH)
+ComponentSkinnedMesh::ComponentSkinnedMesh(GameObject* owner) 
+    : ComponentMesh(owner, ComponentType::SKINNED_MESH)
 {
     name = "Skinned Mesh";
     bonesLinked = false;
+    Application::GetInstance().renderer->AddSkinnedMesh(this);
     Application::GetInstance().events->Subscribe(Event::Type::GameObjectDestroyed, this);
 }
 
 ComponentSkinnedMesh::~ComponentSkinnedMesh()
 {
-    ComponentMesh::~ComponentMesh();
+    Application::GetInstance().renderer->RemoveSkinnedMesh(this);
     Application::GetInstance().renderer->DeleteSSBO(ssboGlobalMatrices);
     Application::GetInstance().renderer->DeleteSSBO(ssboOffsetMatrices);
     Application::GetInstance().events->UnsubscribeAll(this);
 }
-
 
 void ComponentSkinnedMesh::SetMesh(const Mesh& meshData)
 {

@@ -83,6 +83,7 @@ Component* GameObject::CreateComponent(ComponentType type) {
         break;
     case ComponentType::SKINNED_MESH:
         newComponent = new ComponentSkinnedMesh(this);
+        Application::GetInstance().renderer->AddSkinnedMesh((ComponentSkinnedMesh*)newComponent);
         break;
     case ComponentType::MATERIAL:
         newComponent = new ComponentMaterial(this);

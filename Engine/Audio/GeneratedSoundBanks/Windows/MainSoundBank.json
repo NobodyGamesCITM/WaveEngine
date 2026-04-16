@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{C914EC73-0432-DDFB-A613-488D9814E1DC}",
+    "Hash": "{059BBF56-108F-EF47-55CE-A7F7120A8AB5}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -54,6 +54,14 @@
       "Location": "Memory",
       "ShortName": "player_death.wav",
       "CachePath": "4F/{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem"
+     },
+     {
+      "Id": "62622933",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "metal-rock_impact_01.wav",
+      "CachePath": "2C/{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem"
      },
      {
       "Id": "71226100",
@@ -1208,8 +1216,8 @@
       "GUID": "{25DD6384-4AC8-4561-816E-4FECEC968FE7}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "1.5814795",
-      "DurationMax": "2.111022",
+      "DurationMin": "0.58558136",
+      "DurationMax": "0.7816574",
       "MediaRefs": [
        {
         "Id": "857628780"
@@ -1277,9 +1285,12 @@
       "GUID": "{2C188969-1DDA-429F-B4C1-44482CAD51F0}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.64916664",
+      "DurationMin": "0.5290309",
       "DurationMax": "1.1840833",
       "MediaRefs": [
+       {
+        "Id": "62622933"
+       },
        {
         "Id": "119201350"
        },
@@ -2405,6 +2416,6 @@
     ]
    }
   ],
-  "FileHash": "{E492505D-9451-B77E-9B05-88F48294571E}"
+  "FileHash": "{CC4020AA-D5EC-6B7C-F55E-EDC7D6B6107D}"
  }
 }

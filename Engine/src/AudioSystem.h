@@ -98,6 +98,8 @@ public:
 		}
 	}
 
+	void ReloadSoundBanks();
+
 	std::vector<AudioEvent*> GetAudioEvents() { return audioEvents; }
 
 	// Reverb zone registration

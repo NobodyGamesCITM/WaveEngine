@@ -25,45 +25,47 @@ public = {
     maxPosture      = 100,
 
     -- Ranges
-    detectRange     = 15.0,
-    Lance360Range   = 3.5,
-    chargeRange     = 15.0,
-    dashApproachRange = 7.0,
+    detectRange     = 20.0,
+    Lance360Range   = 2.0,
+    chargeRange     = 18.0,
+    dashApproachRange = 9.0,
     --Movement
-    moveSpeed       = 10.0,
-    rotationSpeed   = 3.0,
-    stopSmoothing   = 8.0,
+    moveSpeed       = 6.5,
+    rotationSpeed   = 1.8,
+    stopSmoothing   = 6.0,
     
 
     --Lace 360
-    lanceDuration       = 0.5, 
-    lanceCooldown       = 1.5,
-    lanceDamage         = 15,
+    lanceDuration       = 0.8, 
+    lanceCooldown       = 2.5,
+    lanceDamage         = 20,
 
     --tooCloseRange   = 3.5,
 
-    preparationTime = 1.5,
-    chargeSpeed     = 18.0,
-    chargeDuration  = 0.8,
-    wallStunTime    = 5.0,
+    preparationTime = 2.0,
+    chargeSpeed     = 22.0,
+    chargeDuration  = 1.0,
+    wallStunTime    = 6.0,
+
     wallSpeedThresh = 1.5,
+
     afterStunTime   = 3.0,
-    chargeCooldown  = 3.5,  -- cooldown entre embestidas
-    chargeDamage    = 30,
-    stepInterval    = 0.5,
+    chargeCooldown  = 4.0,  -- cooldown entre embestidas
+    chargeDamage    = 35,
+    stepInterval    = 0.6,
 
     -- Receive damage
-    knockbackForce  = 8.0,
+    knockbackForce  = 10.0,
 
 
     stunDuration        = 8.0, 
 
-    hurtStunTime = 0.6,
+    hurtStunTime = 0.4,
     
 
     predictionTime = 0.4, 
 
-    opportunityDamageMultiplier = 1.0,
+    opportunityDamageMultiplier = 3.0,
 
     recoveryLance = 1.0,
     recoveryCharge = 1.8,
@@ -89,16 +91,6 @@ local armorSFX = nil
 
 
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
--- local audioComps = {}
--- local nameToKey = {
---     AQ_VoiceSource = "voiceSFX",
---     AQ_StepSource  = "stepSFX",
---     AQ_SpearSource = "spearSFX",
---     AQ_DashSource  = "dashSFX",
---     AQ_ArmorSource = "armorSFX"
--- }
-
---local audioSources = {voiceSource = nil, stepSource = nil, spearSource = nil, dashSource = nil, armorSource = nil}
 
 local alreadyHit   = false
 local playerAttackHandled = false
@@ -131,9 +123,13 @@ local inOpportunity = false
 local pendingWallHit = false
 local hasDashed = false
 
+local pressureTimer = 0
+local PRESSURE_THRESHOLD = 0.5
+
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
+local ActiveDodge=false
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -185,6 +181,12 @@ local function StopMovement()
     smoothDx, smoothDz = 0, 0
 end
 
+local function DestroyChargeFeedback(self)
+    if self.chargeFeedbackGO then
+        GameObject.Destroy(self.chargeFeedbackGO)
+        self.chargeFeedbackGO = nil
+    end
+end
 
 local function ChangeState(newState)
     currentState = newState
@@ -219,7 +221,8 @@ local function TakeDamage(self, amount, attackerPos)
 
     -- Damge Oportunity
     if inOpportunity then
-        hp = hp - amount
+        local totalDamage = amount * self.public.opportunityDamageMultiplier
+        hp = hp - totalDamage
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
         Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
         if hp <= 0 then
@@ -249,6 +252,72 @@ local function TakeDamage(self, amount, attackerPos)
             hurtTimer = self.public.hurtStunTime
         end
     end
+
+    if not inOpportunity and currentState == State.COMBAT_MOVE then
+        hitsReceivedCounter = hitsReceivedCounter + 1
+        
+        local myPos = self.transform.worldPosition
+        local dist = Dist(myPos, attackerPos)
+        
+        if hitsReceivedCounter >= 3 and dist < 4.0 then
+            hitsReceivedCounter = 0
+            StopMovement()
+            
+            local dx = myPos.x - attackerPos.x
+            local dz = myPos.z - attackerPos.z
+            local len = sqrt(dx*dx + dz*dz)
+            if len > 0.001 then
+                slideVelX = (dx/len) * 15.0
+                slideVelZ = (dz/len) * 15.0
+            end
+            
+            wallStunTimer = 0.8 
+            ChangeState(State.RECOVERY)
+            PlaySFX(dashSFX)
+            Engine.Log("[Aquiles] Dash de alejamiento: Demasiada presión")
+        end
+    end
+end
+
+-- Dodge player
+function dodgePlayer(self, dist, dt)
+
+    if dist < 4.5 then
+        pressureTimer = pressureTimer + dt
+    else
+        pressureTimer = pressureTimer - dt * 1.5
+    end
+    pressureTimer = math.max(0, pressureTimer)
+
+    if pressureTimer >= PRESSURE_THRESHOLD then
+        pressureTimer = 0
+        StopMovement()
+
+        local myPos = self.transform.worldPosition 
+
+        local dx = myPos.x - pp.x   
+        local dz = myPos.z - pp.z
+        local len = sqrt(dx*dx + dz*dz)
+
+        if len > 0.001 then
+            
+            local perpX =  dz / len  
+            local perpZ = -dx / len
+
+            slideVelX = perpX * 5.0
+            slideVelZ = perpZ * 5.0
+
+        end
+
+        wallStunTimer = 0.8
+        ChangeState(State.RECOVERY)
+        PlaySFX(dashSFX)
+        if anim then anim:Play("Dash", 0.1) end
+        ActiveDodge = true
+        return
+    else
+        ActiveDodge = false
+    end
 end
 
 -- State functions
@@ -275,8 +344,9 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
+    dodgePlayer(self,dist,dt)
 
-    if dist < self.public.Lance360Range then -- Lance
+    if dist < self.public.Lance360Range and ActiveDodge == false then -- Lance
         if lanceCDTimer <= 0 then
             StopMovement()
             lanceTimer = 0
@@ -347,7 +417,7 @@ end
 
 function UpdateLance360(self, myPos, pp, dt)
 
-    currentYaw = currentYaw + 720.0 * dt
+    currentYaw = currentYaw + 500.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
 
@@ -356,11 +426,19 @@ function UpdateLance360(self, myPos, pp, dt)
         if attackCol then attackCol:Disable() end
         lanceCDTimer = self.public.lanceCooldown
         wallStunTimer = self.public.recoveryLance
+        StopMovement()
         ChangeState(State.RECOVERY)
     end
+
 end
 
 function UpdateAnticipation(self, pp, dt)
+    
+    if not self.chargeFeedbackGO then
+        self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+        SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
+    end
+    
     local myPos = self.transform.worldPosition
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
@@ -370,7 +448,7 @@ function UpdateAnticipation(self, pp, dt)
         anim:Play("PreCharge", 0.2) 
     end
 
-     if self.chargeFeedbackGO then
+    if self.chargeFeedbackGO then
         --Maximum possible distance
         local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
         
@@ -394,7 +472,7 @@ function UpdateAnticipation(self, pp, dt)
 
         -- Calculate the center position
         local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = myPos.y +0.15
+        local positionY = pp.y + 0.1
         local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
 
         local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
@@ -453,6 +531,7 @@ function UpdateCharge(self, dt)
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
+        DestroyChargeFeedback(self)
         wallStunTimer = self.public.recoveryCharge
         ChangeState(State.RECOVERY)
     end
@@ -620,6 +699,7 @@ function Start(self)
 
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
+    self.chargeFeedbackActive = false 
 
 end
 
@@ -680,26 +760,13 @@ function Update(self, dt)
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
-    if not playerGO then return end
+    if not playerGO or _G._PlayerController_isDead then return end
 
     local myPos = self.transform.worldPosition
     local pp    = playerGO.transform.worldPosition
     if not pp then return end
 
-    local dist = Dist(myPos, pp)
-
-      -- Instantiate/destroy feedback
-    if currentState == State.ANTICIPATION then
-        if not self.chargeFeedbackGO then
-            self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
-            SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
-        end
-    elseif currentState == State.RECOVERY or currentState == State.WALL then
-        if self.chargeFeedbackGO then
-            GameObject.Destroy(self.chargeFeedbackGO)
-            self.chargeFeedbackGO = nil
-        end
-    end
+    local dist = Dist(myPos, pp)   
 
     -- State machine
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
@@ -722,10 +789,6 @@ function OnTriggerEnter(self, other)
             return 
         end
 
-        if self.chargeFeedbackGO then
-            GameObject.Destroy(self.chargeFeedbackGO)
-            self.chargeFeedbackGO = nil
-        end
 
         pendingWallHit = true
 
@@ -766,17 +829,16 @@ function OnTriggerEnter(self, other)
             _PlayerController_triggerCameraShake = true
             
             if attackCol then attackCol:Disable() end
-            StopMovement()
-            slideVelX = 0
-            slideVelZ = 0
+            wallStunTimer = self.public.recoveryCharge
 
-            if self.chargeFeedbackGO then
-                GameObject.Destroy(self.chargeFeedbackGO)
-                self.chargeFeedbackGO = nil
+            if currentState == State.CHARGE then 
+                StopMovement()
+                slideVelX = 0
+                slideVelZ = 0
+                DestroyChargeFeedback(self)
+                ChangeState(State.RECOVERY)
             end
 
-            ChangeState(State.RECOVERY)
-            wallStunTimer = self.public.recoveryCharge
             Engine.Log("[Aquiles] Impacto " .. currentState .. ". Daño: " .. (finalDamage or 0))
         end
     end

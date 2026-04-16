@@ -39,7 +39,7 @@ public = {
     flightTime       = 4.0,    -- duración del arco en el aire
     cooldownTime     = 4.5,    -- espera entre disparos
 
-    blastRadius      = 3.5,    -- radio de daño en el impacto
+    blastRadius      = 1.75,    -- radio de daño en el impacto
     attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
 
     barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
@@ -277,18 +277,19 @@ local function UpdateShells(self, dt)
                     if impDist <= self.public.blastRadius then
                         local factor = 1.0 - (impDist / self.public.blastRadius) * 0.5
                         local dmg    = math.max(math.floor(self.public.attackDamage * factor), 1)
-
-                        if (_PlayerController_pendingDamage or 0) == 0 then
-                            _PlayerController_pendingDamage    = dmg
-                            _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
-                            Engine.Log("[Mortar] HIT PLAYER for " .. dmg
-                                     .. " (dist=" .. string.format("%.2f", impDist) .. ")")
-                            Engine.Log("[Mortar] targetX=" .. string.format("%.2f", s.targetX) 
-                            .. " x=" .. string.format("%.2f", x)
-                            .. " targetZ=" .. string.format("%.2f", s.targetZ)
-                            .. " z=" .. string.format("%.2f", z)
-                            .. " playerDist=" .. string.format("%.2f", impDist)
-                            .. " blastRadius=" .. string.format("%.2f", self.public.blastRadius))
+                        if not _G._PlayerController_isDead then
+                            if (_PlayerController_pendingDamage or 0) == 0 then
+                                _PlayerController_pendingDamage    = dmg
+                                _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
+                                Engine.Log("[Mortar] HIT PLAYER for " .. dmg
+                                        .. " (dist=" .. string.format("%.2f", impDist) .. ")")
+                                Engine.Log("[Mortar] targetX=" .. string.format("%.2f", s.targetX) 
+                                .. " x=" .. string.format("%.2f", x)
+                                .. " targetZ=" .. string.format("%.2f", s.targetZ)
+                                .. " z=" .. string.format("%.2f", z)
+                                .. " playerDist=" .. string.format("%.2f", impDist)
+                                .. " blastRadius=" .. string.format("%.2f", self.public.blastRadius))
+                            end
                         end
                     end
                 end
@@ -582,6 +583,11 @@ function Update(self, dt)
 
     if _PlayerController_lastAttack == nil or _PlayerController_lastAttack == "" then
         self.alreadyHit = false
+    end
+
+    if _G._PlayerController_isDead then
+        UpdateShells(self, dt)
+        return
     end
 
     -- Simular proyectiles en vuelo

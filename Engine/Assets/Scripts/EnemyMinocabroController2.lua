@@ -553,7 +553,7 @@ function Update(self, dt)
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
-    if not playerGO then return end
+    if not playerGO or _G._PlayerController_isDead then return end
 
     stepTimer = stepTimer + dt
     local myPos = self.transform.worldPosition

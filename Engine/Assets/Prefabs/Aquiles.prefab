@@ -3246,6 +3246,76 @@
                         "name": "AQ_VoiceSource",
                         "tag": "",
                         "uid": 18410332965769747442
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    6.5982794761657715,
+                                    -2.1524534225463867
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesDash",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_DashSource",
+                        "tag": "",
+                        "uid": 13886070096927998657
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    6.5982794761657715,
+                                    -2.1524534225463867
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesShield",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_ArmorSource",
+                        "tag": "",
+                        "uid": 17679083703521303931
                     }
                 ],
                 "components": [
@@ -3277,6 +3347,24 @@
                         "active": true,
                         "materialUID": 18385834806947720505,
                         "type": 3
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            0.699999988079071,
+                            -0.20000000298023224
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            7.0,
+                            13.5,
+                            5.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
                     }
                 ],
                 "name": "aquilesMesh",
@@ -3289,7 +3377,7 @@
                 "active": true,
                 "position": [
                     0.0,
-                    0.0,
+                    3.0,
                     0.0
                 ],
                 "rotation": [
@@ -3333,17 +3421,17 @@
                 "Center": [
                     0.0,
                     40.0,
-                    0.0
+                    10.0
                 ],
                 "DynamicFriction": 0.5,
                 "Restitution": 0.6000000238418579,
                 "Size": [
+                    25.0,
                     50.0,
-                    75.0,
-                    30.0
+                    15.0
                 ],
                 "StaticFriction": 0.5,
-                "Trigger": false,
+                "Trigger": true,
                 "active": true,
                 "type": 10
             },
@@ -3351,14 +3439,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "rotationSpeed",
+                        "name": "moveSpeed",
                         "type": 0,
-                        "value": 3.0
-                    },
-                    {
-                        "name": "maxHp",
-                        "type": 0,
-                        "value": 300.0
+                        "value": 10.0
                     },
                     {
                         "name": "wallSpeedThresh",
@@ -3366,19 +3449,69 @@
                         "value": 1.5
                     },
                     {
-                        "name": "afterStunTime",
+                        "name": "hurtStunTime",
                         "type": 0,
-                        "value": 2.200000047683716
+                        "value": 0.6000000238418579
                     },
                     {
-                        "name": "stopSmoothing",
+                        "name": "detectRange",
                         "type": 0,
-                        "value": 8.0
+                        "value": 15.0
+                    },
+                    {
+                        "name": "recoveryCharge",
+                        "type": 0,
+                        "value": 1.7999999523162842
+                    },
+                    {
+                        "name": "maxPosture",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "lanceDamage",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
+                        "name": "chargeSpeed",
+                        "type": 0,
+                        "value": 18.0
+                    },
+                    {
+                        "name": "lanceCooldown",
+                        "type": 0,
+                        "value": 1.5
                     },
                     {
                         "name": "chargeDamage",
                         "type": 0,
                         "value": 30.0
+                    },
+                    {
+                        "name": "preparationTime",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "opportunityDamageMultiplier",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "stepInterval",
+                        "type": 0,
+                        "value": 0.75
+                    },
+                    {
+                        "name": "predictionTime",
+                        "type": 0,
+                        "value": 0.4000000059604645
                     },
                     {
                         "name": "chargeDuration",
@@ -3391,29 +3524,19 @@
                         "value": 8.0
                     },
                     {
-                        "name": "recoveryCharge",
+                        "name": "stunDuration",
                         "type": 0,
-                        "value": 1.7999999523162842
+                        "value": 8.0
                     },
                     {
-                        "name": "Lance360Range",
+                        "name": "afterStunTime",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "chargeCooldown",
                         "type": 0,
                         "value": 3.5
-                    },
-                    {
-                        "name": "moveSpeed",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
-                        "name": "recoveryLance",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "detectRange",
-                        "type": 0,
-                        "value": 15.0
                     },
                     {
                         "name": "dashApproachRange",
@@ -3421,59 +3544,29 @@
                         "value": 7.0
                     },
                     {
-                        "name": "opportunityDamageMultiplier",
+                        "name": "wallStunTime",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "recoveryLance",
                         "type": 0,
                         "value": 1.0
                     },
                     {
-                        "name": "preparationTime",
+                        "name": "stopSmoothing",
                         "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "chargeCooldown",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "predictionTime",
-                        "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
-                        "name": "chargeSpeed",
-                        "type": 0,
-                        "value": 18.0
-                    },
-                    {
-                        "name": "hurtStunTime",
-                        "type": 0,
-                        "value": 0.800000011920929
-                    },
-                    {
-                        "name": "stunDuration",
-                        "type": 0,
-                        "value": 4.0
+                        "value": 8.0
                     },
                     {
                         "name": "chargeRange",
                         "type": 0,
-                        "value": 12.0
-                    },
-                    {
-                        "name": "lanceDamage",
-                        "type": 0,
                         "value": 15.0
                     },
                     {
-                        "name": "lanceCooldown",
+                        "name": "Lance360Range",
                         "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "maxPosture",
-                        "type": 0,
-                        "value": 100.0
+                        "value": 3.5
                     },
                     {
                         "name": "lanceDuration",
@@ -3481,9 +3574,9 @@
                         "value": 0.5
                     },
                     {
-                        "name": "wallStunTime",
+                        "name": "maxHp",
                         "type": 0,
-                        "value": 5.0
+                        "value": 300.0
                     }
                 ],
                 "scriptUID": 2892393956142374010,

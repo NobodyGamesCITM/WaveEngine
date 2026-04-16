@@ -398,6 +398,12 @@
         "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
        },
        {
+        "Id": "2087559222",
+        "Name": "Bones",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Bones",
+        "GUID": "{424CF152-1AA3-4172-99AF-D7CB94A49893}"
+       },
+       {
         "Id": "2195636714",
         "Name": "Dirt",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Dirt",
@@ -897,6 +903,6 @@
     ]
    }
   ],
-  "FileHash": "{15E9F83E-6819-0290-56B0-14055188A5FD}"
+  "FileHash": "{4608538F-E280-A7C6-2B48-74BD47E1CD40}"
  }
 }

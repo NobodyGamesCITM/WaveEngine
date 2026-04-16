@@ -1,3 +1,5 @@
+---AQUILES CONTROLLER SCRIPT
+
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -48,7 +50,7 @@ public = {
     afterStunTime   = 3.0,
     chargeCooldown  = 3.5,  -- cooldown entre embestidas
     chargeDamage    = 30,
-    stepInterval    = 0.75,
+    stepInterval    = 0.5,
 
     -- Receive damage
     knockbackForce  = 8.0,
@@ -79,9 +81,24 @@ local anim     = nil
 local playerGO = nil
 local attackCol    = nil
 
---local audioSources = {voiceSource = nil, stepSource = nil, spearSource = nil, dashSource = nil, armorSource = nil}
+local voiceSFX = nil
+local stepSFX = nil
+local spearSFX = nil
+local dashSFX = nil
+local armorSFX = nil
+
+
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
-local audioComps = {voiceSFX = nil, stepSFX = nil, spearSFX = nil, dashSFX = nil, armorSource = nil}
+-- local audioComps = {}
+-- local nameToKey = {
+--     AQ_VoiceSource = "voiceSFX",
+--     AQ_StepSource  = "stepSFX",
+--     AQ_SpearSource = "spearSFX",
+--     AQ_DashSource  = "dashSFX",
+--     AQ_ArmorSource = "armorSFX"
+-- }
+
+--local audioSources = {voiceSource = nil, stepSource = nil, spearSource = nil, dashSource = nil, armorSource = nil}
 
 local alreadyHit   = false
 local playerAttackHandled = false
@@ -112,6 +129,7 @@ local stepTimer = 0
 
 local inOpportunity = false
 local pendingWallHit = false
+local hasDashed = false
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -202,10 +220,12 @@ local function TakeDamage(self, amount, attackerPos)
     -- Damge Oportunity
     if inOpportunity then
         hp = hp - amount
+        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
         Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
         if hp <= 0 then
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
+            SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
             return
         end
     else
@@ -214,10 +234,12 @@ local function TakeDamage(self, amount, attackerPos)
         Engine.Log("[Aquiles] Postura: " .. posture .. "/" .. self.public.maxPosture)
         if posture >= self.public.maxPosture then
             posture = 0
+
             StopMovement()
             stunTimer = self.public.stunDuration
             ChangeState(State.STUN)
             if anim then anim:Play("Stun") end
+            PlaySFX(armorSFX)
             return
         end
  
@@ -259,7 +281,8 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
             StopMovement()
             lanceTimer = 0
             ChangeState(State.LANCE_360)
-            return
+            SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
+            return 
         else
            
             StopMovement()
@@ -267,7 +290,8 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
         end
     
     elseif dist < self.public.dashApproachRange then --dash
-        MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5)
+        MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, true)
+        
 
     elseif dist <= self.public.chargeRange then --Charge
         if chargeCDTimer <= 0 then
@@ -287,10 +311,34 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
     end
 end
 
-function MovementWalk(self, dx, dz, dt, speedOverride)
-    if anim and not anim:IsPlayingAnimation("Walk") then 
-        anim:Play("Walk", 0.2) 
+function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+
+    local isDashing = isDashing or false
+    local speedOverride = speedOverride or self.public.moveSpeed
+
+    if not isDashing then
+        hasDashed = false
+
+        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
+
+        stepTimer = stepTimer + dt
+        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
+            PlaySFX(stepSFX)
+            stepTimer = 0
+        end
+
+    else
+        if anim and not anim:IsPlayingAnimation("Dash") then 
+            anim:Play("Dash", 0.2) 
+           
+        end
+
+        if not hasDashed then
+            PlaySFX(dashSFX)
+            hasDashed = true
+        end
     end
+
     local vel = speedOverride or self.public.moveSpeed
     local cv = rb:GetLinearVelocity()
     RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
@@ -495,26 +543,57 @@ function UpdateDeath(self,dt)
     end
 end
 
-local function FindAquilesAudioComponents()
-
-    if audioComps.length == sourceNames.length then
-        for(let i = 0; i < audioComps.length; ++i)
-            local audioGO = GameObject.FindInChildren(self.gameObject, tostring(sourceNames[i]))
-            if not audioGO then
-                Engine.Log("Could not find GameObject " .. tostring(audioGO).. " containing ".. tostring(audioComp).. "Audio Source")
+--attempting to automize the audiosource retrieval (WIP)
+local function AutoFindAquilesAudioComponents(self)
+    Engine.Log("Getting AQUILES AUDIOsource components... AudioComps size: " ..tostring(#audioComps).." vs. SourceNames size: "..tostring(#sourceNames))
+    -- Note to self: # gets the length of an array in Lua
+    -- Note to self 2: Lua arrays start at 1, not 0
+    for i = 1, #audioComps do
+        local audioGO = GameObject.FindInChildren(self.gameObject, tostring(sourceNames[i]))
+        if not audioGO then
+            Engine.Log("[AQUILES AUDIO] Could not find GameObject " .. tostring(sourceNames[i]))
+        else
+            local key = nameToKey[tostring(sourceNames[i])]
+            audioComps[key] = audioGO:GetComponent("Audio Source")
+            if not audioComps[key] then
+                Engine.Log("[AQUILES AUDIO] Could not retrieve Audio Source from " .. tostring(sourceNames[i]))
             else
-                audioComps[i] = audioGO:GetComponent("Audio Source")
-                if not audioComps[i] then
-                    Engine.Log("Could not retrieve" .. tostring(audioComps[i]).. "Audio Source")
-                else
-                    Engine.Log("Found " tostring(audioComps[i]))
+                Engine.Log("[AQUILES AUDIO] Found ".. tostring(audioComps[key]))
             end
         end
     end
 end
 
+
+local function FindAquilesAudioComponents(self)
+    local stepSource = GameObject.FindInChildren(self.gameObject, "AQ_StepsSource")
+    if stepSource then
+       stepSFX = stepSource:GetComponent("Audio Source")
+    else Engine.Log("[AQUILES] WARNING: Audio Source for steps SFX not found") end
+
+    local voiceSource = GameObject.FindInChildren(self.gameObject, "AQ_VoiceSource")
+    if voiceSource then
+       voiceSFX = voiceSource:GetComponent("Audio Source")
+    else Engine.Log("[AQUILES] WARNING: Audio Source for voice SFX not found") end
+
+    local spearSource = GameObject.FindInChildren(self.gameObject, "AQ_SpearSource")
+    if spearSource then
+       spearSFX = spearSource:GetComponent("Audio Source")
+    else Engine.Log("[AQUILES] WARNING: Audio Source for spear SFX not found") end
+
+    local dashSource = GameObject.FindInChildren(self.gameObject, "AQ_DashSource")
+    if dashSource then
+       dashSFX = dashSource:GetComponent("Audio Source")
+    else Engine.Log("[AQUILES] WARNING: Audio Source for dash SFX not found") end
+
+    local armorSource = GameObject.FindInChildren(self.gameObject, "AQ_ArmorSource")
+    if armorSource then
+       armorSFX = armorSource:GetComponent("Audio Source")
+    else Engine.Log("[AQUILES] WARNING: Audio Source for armor SFX not found") end
+end
           
 function Start(self)
+
     hp           = self.public.maxHp
     posture = self.public.maxPosture
     isDead       = false
@@ -523,7 +602,7 @@ function Start(self)
     rb   = self.gameObject:GetComponent("Rigidbody")
     anim = self.gameObject:GetComponent("Animation")
 
-    FindAquilesAudioComponents()
+    FindAquilesAudioComponents(self)
 
 
     attackCol = self.gameObject:GetComponent("Box Collider")
@@ -549,6 +628,10 @@ function Update(self, dt)
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
+
+    if not stepSFX or not voiceSFX or not spearSFX or not dashSFX or not armorSFX then
+        FindAquilesAudioComponents(self)
+    end
 
     if Input.GetKey("0") then
         TakeDamage(self, hp, self.transform.worldPosition)
@@ -609,6 +692,7 @@ function Update(self, dt)
     if currentState == State.ANTICIPATION then
         if not self.chargeFeedbackGO then
             self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+            SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
         end
     elseif currentState == State.RECOVERY or currentState == State.WALL then
         if self.chargeFeedbackGO then
@@ -666,9 +750,11 @@ function OnTriggerEnter(self, other)
 
         -- The enemy hits the player
         if (currentState == State.CHARGE or currentState == State.LANCE_360) and not alreadyHit and _PlayerController_pendingDamage == 0 then
-            alreadyHit  = true
-            local finalDamage
 
+            SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
+            alreadyHit  = true
+
+            local finalDamage
             if currentState == State.CHARGE then
                 finalDamage = self.public.chargeDamage
             elseif currentState == State.LANCE_360 then
@@ -701,3 +787,5 @@ function OnTriggerExit(self, other)
         alreadyHit = false 
     end
 end
+
+

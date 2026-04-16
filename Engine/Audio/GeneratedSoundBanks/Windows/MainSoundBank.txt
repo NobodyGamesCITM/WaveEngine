@@ -45,6 +45,7 @@ Switch	ID	Name	Switch Group			Notes
 	712161704	Run	Player_Speed			
 	2108779966	Walk	Player_Speed			
 	1216965916	Stone	Surface_Type			
+	2087559222	Bones	Surface_Type			
 	2195636714	Dirt	Surface_Type			
 	2654748154	Water	Surface_Type			
 	4248645337	Grass	Surface_Type			
@@ -100,7 +101,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	44994569	siren_water	.cache\50\{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		46376
 	55975540	shield_dmg_01	.cache\35\{35A0F70F-10EC-36AE-4D47-E8D760DB2617}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_01		57176
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
-	62622933	metal-rock_impact_01	.cache\2C\{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_01		26360
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
 	84435203	minocabro_footstep_01	.cache\12\{125C6D41-DD53-0963-EE50-561DAFAFB7B7}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_01		30392
@@ -215,7 +215,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	981963331	dirt_run_05	.cache\52\{5287170D-9AC5-9A3B-8AC3-3CA4B46F2E45}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_05		6632
 	986604710	water_walk_05	.cache\B9\{B98C69CB-B7F6-3901-EA36-46D287CD99B5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_05		13400
 	994023216	mansionAmbience	.cache\68\{6897335D-343C-DA09-0C5A-B425F621D239}.wem		\Containers\Default Work Unit\Objects\mansionAmbience		2415248
-	996911178	shield_dmg_04	.cache\B6\{B6DCDFA4-0429-210F-5FAC-C616D6AFE596}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_04		44000
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
 	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496

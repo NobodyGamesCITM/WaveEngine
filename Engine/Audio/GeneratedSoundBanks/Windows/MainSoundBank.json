@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{60AD15CF-D25E-A9D9-7F43-4FF74CB10031}",
+    "Hash": "{C914EC73-0432-DDFB-A613-488D9814E1DC}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -54,14 +54,6 @@
       "Location": "Memory",
       "ShortName": "player_death.wav",
       "CachePath": "4F/{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem"
-     },
-     {
-      "Id": "62622933",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "metal-rock_impact_01.wav",
-      "CachePath": "2C/{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem"
      },
      {
       "Id": "71226100",
@@ -976,14 +968,6 @@
       "CachePath": "68/{6897335D-343C-DA09-0C5A-B425F621D239}.wem"
      },
      {
-      "Id": "996911178",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "shield_dmg_04.wav",
-      "CachePath": "B6/{B6DCDFA4-0429-210F-5FAC-C616D6AFE596}.wem"
-     },
-     {
       "Id": "1000988990",
       "Language": "SFX",
       "Streaming": "false",
@@ -1237,10 +1221,10 @@
       "Name": "SFX_AquilesDeath",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesDeath",
       "GUID": "{BA867AD9-D7D5-4777-BC99-21D40C9472E0}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
-      "DurationMin": "4.8483377",
-      "DurationMax": "5.683016",
+      "DurationMin": "3.9608872",
+      "DurationMax": "4.642784",
       "MediaRefs": [
        {
         "Id": "369878516"
@@ -1272,7 +1256,7 @@
       "GUID": "{B33E9F00-8627-4A23-A54D-B16E09F44577}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.693255",
+      "DurationMin": "0.7800074",
       "DurationMax": "1.3099153",
       "MediaRefs": [
        {
@@ -1283,9 +1267,6 @@
        },
        {
         "Id": "653184964"
-       },
-       {
-        "Id": "996911178"
        }
       ]
      },
@@ -1296,12 +1277,9 @@
       "GUID": "{2C188969-1DDA-429F-B4C1-44482CAD51F0}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.5290309",
+      "DurationMin": "0.64916664",
       "DurationMax": "1.1840833",
       "MediaRefs": [
-       {
-        "Id": "62622933"
-       },
        {
         "Id": "119201350"
        },
@@ -1315,7 +1293,7 @@
       "Name": "SFX_AquilesSpearSwing",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSpearSwing",
       "GUID": "{458B2546-C1CC-46FD-867E-195D90C88CC9}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "6.760807",
       "DurationMax": "9.024594",
@@ -1345,7 +1323,7 @@
       "Name": "SFX_AquilesSteps",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSteps",
       "GUID": "{277F7057-B177-4CE2-BE5F-B45532FA2A5A}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "0.66850454",
       "DurationMax": "1.4883147",
@@ -1381,7 +1359,7 @@
       "Name": "SFX_AquilesWarcry",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesWarcry",
       "GUID": "{216A9658-2893-45D3-98A2-4A7A58622BB0}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "1.7057285",
       "DurationMax": "2.7201464",
@@ -2399,6 +2377,12 @@
         "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
        },
        {
+        "Id": "2087559222",
+        "Name": "Bones",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Bones",
+        "GUID": "{424CF152-1AA3-4172-99AF-D7CB94A49893}"
+       },
+       {
         "Id": "2195636714",
         "Name": "Dirt",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Dirt",
@@ -2421,6 +2405,6 @@
     ]
    }
   ],
-  "FileHash": "{95BA376C-BFAA-0E3E-3ADB-02B246BB26A1}"
+  "FileHash": "{E492505D-9451-B77E-9B05-88F48294571E}"
  }
 }

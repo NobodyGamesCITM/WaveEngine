@@ -310,7 +310,7 @@ void Renderer::DrawMesh(const ComponentMesh* meshComp)
 // Renderer.cpp
 
 void Renderer::AddMesh(ComponentMesh* mesh) {
-    if (mesh->HasSkinning()) {
+    if (mesh->IsType(ComponentType::SKINNED_MESH)) {
         skinnedMeshes.push_back(static_cast<ComponentSkinnedMesh*>(mesh));
     }
     else {
@@ -564,7 +564,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         if (camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB()))
         {
-            mesh->UpdateSkinningMatrices();
+            //mesh->UpdateSkinningMatrices();
 
             RenderObject renderObject = { mesh, globalModelMatrix };
 

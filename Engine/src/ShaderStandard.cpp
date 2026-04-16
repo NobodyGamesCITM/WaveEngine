@@ -136,7 +136,7 @@ bool ShaderStandard::CreateShader()
         "    float spread = 2.0;\n"
         "    for (int i = 0; i < 16; ++i) {\n"
         "        float pcfDepth = texture(uShadowMap, projCoords.xy + poissonDisk[i] * texelSize * spread).r;\n"
-        "        shadow += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;\n"
+        "        shadow += projCoords.z - bias > pcfDepth ? 1.0 : 0.0;\n"
         "    }\n"
         "    return shadow / 16.0;\n"
         "}\n"

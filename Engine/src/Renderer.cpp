@@ -473,11 +473,11 @@ bool Renderer::RenderScene(CameraLens* camera)
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboMatrices);
 
     // Primero actualizar las matrices de skinning
-    /*for (ComponentMesh* mesh : meshes)
+    for (ComponentMesh* mesh : meshes)
         mesh->UpdateSkinningMatrices();
 
     for (ComponentSkinnedMesh* mesh : skinnedMeshes)
-        mesh->UpdateSkinningMatrices();*/
+        mesh->UpdateSkinningMatrices();
 
     // Ahora el shadow pass tiene los SSBOs actualizados
     if (lightManager)

@@ -1,0 +1,541 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            2.3283064365386963e-10,
+                                                                                            0.0,
+                                                                                            9.313225746154785e-10
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            -8.110850103548728e-06,
+                                                                                            3.4150946248701075e-06,
+                                                                                            8.53773599374108e-07
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 17012328042422930792,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 1627584858079614175,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "bottle",
+                                                                                "tag": "",
+                                                                                "uid": 3753807369560977745
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            -8.614733815193176e-09,
+                                                                                            1.5285226106643677,
+                                                                                            9.313225746154785e-09
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            -8.110850103548728e-06,
+                                                                                            3.4150946248701075e-06,
+                                                                                            8.53773599374108e-07
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 10631934952419687674,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 18336018432099735750,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "cap",
+                                                                                "tag": "",
+                                                                                "uid": 3396598809287020250
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0004318542778491974,
+                                                                                            -0.46167653799057007,
+                                                                                            -0.0005343463271856308
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            -27.891889572143555,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            0.9900000691413879,
+                                                                                            0.9900000691413879,
+                                                                                            0.9900000691413879
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 16732987619119363959,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 18336018432099735750,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "decor",
+                                                                                "tag": "",
+                                                                                "uid": 2906324978367838901
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            -0.00010172643669648096,
+                                                                                            8.584906396880143e-11,
+                                                                                            0.004552608355879784
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 1964338728983549316,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 1627584858079614175,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "handles",
+                                                                                "tag": "",
+                                                                                "uid": 8091795637865920632
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0005720022600144148,
+                                                                                            -0.790256142616272,
+                                                                                            -0.019097043201327324
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            -1.014263375509472e-06,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            0.8417672514915466,
+                                                                                            0.8417672514915466,
+                                                                                            0.8417672514915466
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 18377794706254852235,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 18021257080287948194,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "liquid",
+                                                                                "tag": "",
+                                                                                "uid": 6220549113185395225
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 4615559380556813179,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 18336018432099735750,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "lower metal rim",
+                                                                                "tag": "",
+                                                                                "uid": 14703610506178336238
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0004320207517594099,
+                                                                                            -0.4616765081882477,
+                                                                                            -0.0005344320088624954
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            -8.110850103548728e-06,
+                                                                                            3.4150946248701075e-06,
+                                                                                            8.53773599374108e-07
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "meshUID": 2462481813048653572,
+                                                                                        "type": 1
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "materialUID": 18336018432099735750,
+                                                                                        "type": 3
+                                                                                    }
+                                                                                ],
+                                                                                "name": "upper metal rim",
+                                                                                "tag": "",
+                                                                                "uid": 12478273005287236062
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "group",
+                                                                        "tag": "",
+                                                                        "uid": 6063755068846827391
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            0.015590368770062923,
+                                                                            -0.027699172496795654,
+                                                                            -0.0003825663588941097
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "group_$AssimpFbx$_ScalingPivotInverse",
+                                                                "tag": "",
+                                                                "uid": 12864451456940571927
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "group_$AssimpFbx$_Scaling",
+                                                        "tag": "",
+                                                        "uid": 3807535138777325080
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -0.015590368770062923,
+                                                            0.027699172496795654,
+                                                            0.0003825663588941097
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "group_$AssimpFbx$_ScalingPivot",
+                                                "tag": "",
+                                                "uid": 5976289795213816782
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.015590368770062923,
+                                                    -0.027699172496795654,
+                                                    -0.0003825663588941097
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "group_$AssimpFbx$_RotationPivotInverse",
+                                        "tag": "",
+                                        "uid": 6976857816152325362
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            6.004391670227051,
+                                            25.442081451416016,
+                                            -11.896368026733398
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            0.9999999403953552,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "group_$AssimpFbx$_Rotation",
+                                "tag": "",
+                                "uid": 15297671219783219753
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.015590368770062923,
+                                    0.027699172496795654,
+                                    0.0003825663588941097
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "group_$AssimpFbx$_RotationPivot",
+                        "tag": "",
+                        "uid": 16257710133294874119
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "group_$AssimpFbx$_Translation",
+                "tag": "",
+                "uid": 3620933653592526739
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -90.0,
+                    0.0
+                ],
+                "scale": [
+                    1.3066786527633667,
+                    1.3066786527633667,
+                    1.3066786527633667
+                ],
+                "type": 0
+            },
+            {
+                "Animations": [
+                    {
+                        "UID": 9573275481791922053,
+                        "loop": true,
+                        "name": "Showcase",
+                        "speed": 1.0
+                    }
+                ],
+                "active": true,
+                "type": 28
+            }
+        ],
+        "name": "HealingPotion_anim",
+        "tag": "",
+        "uid": 1939483405877748500
+    }
+]

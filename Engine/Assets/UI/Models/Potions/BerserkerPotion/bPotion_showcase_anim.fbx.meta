@@ -1,0 +1,23 @@
+{
+    "animations": {
+        "Take 001": 3024440229544137548
+    },
+    "importSettings": {
+        "flipUVs": true,
+        "frontAxis": 0,
+        "generateNormals": true,
+        "importScale": 1.0,
+        "optimizeMeshes": true,
+        "upAxis": 0
+    },
+    "meshes": {
+        "Athena": 14865176008387914389,
+        "Bottle": 10621911749135066328,
+        "EyeL": 15605133215574782161,
+        "EyeR": 4424605226931542074,
+        "Liquid1": 15451761848670984546,
+        "cork": 5572367950924963449
+    },
+    "type": 1,
+    "uid": 9669089390448366727
+}

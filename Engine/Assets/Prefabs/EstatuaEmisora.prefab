@@ -1,0 +1,185 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -1.5244284868240356,
+                                                            0.0,
+                                                            -0.00052642822265625
+                                                        ],
+                                                        "rotation": [
+                                                            0.01978233829140663,
+                                                            -3.431688987499227e-20,
+                                                            1.987846699118444e-16
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "meshUID": 16696289650418082518,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 5608036254016945494,
+                                                        "type": 3
+                                                    }
+                                                ],
+                                                "name": "EstatuaEmisora",
+                                                "tag": "",
+                                                "uid": 8063358673865746519
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -3.5762786865234375e-07,
+                                                    -0.9261746406555176,
+                                                    -0.007044090423732996
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "EstatuaEmisora_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 12267475426878654345
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            3.5762786865234375e-07,
+                                            0.9261746406555176,
+                                            0.007044090423732996
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "EstatuaEmisora_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 6895021772209270653
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -3.5762786865234375e-07,
+                                    -0.9261746406555176,
+                                    -0.007044090423732996
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "EstatuaEmisora_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 10579538774661023610
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            3.5762786865234375e-07,
+                            0.9261746406555176,
+                            0.007044090423732996
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "EstatuaEmisora_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 14490630898144990523
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    60.0,
+                    8.0,
+                    -86.0
+                ],
+                "rotation": [
+                    180.0,
+                    89.98021697998047,
+                    180.0
+                ],
+                "scale": [
+                    2.6239380836486816,
+                    2.6239380836486816,
+                    2.6239380836486816
+                ],
+                "type": 0
+            }
+        ],
+        "name": "EstatuaEmisora",
+        "tag": "",
+        "uid": 13254426746278310212
+    }
+]

@@ -583,7 +583,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
         });
 }
 
-void Renderer::DrawPostProcessing(const CameraLens* camera)
+void Renderer::DrawPostProcessing(CameraLens* camera)
 {
     if (!camera->IsUsingPostProcessing()) return;
 
@@ -663,6 +663,8 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
         postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
         postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
         postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
+        postProcessShader->SetFloat("nearPlane", camera->GetNearPlane());
+        postProcessShader->SetFloat("farPlane", camera->GetFarPlane());
     }
 
     postProcessShader->SetBool("motionBlurEnabled", activePP->motionBlur.enabled);

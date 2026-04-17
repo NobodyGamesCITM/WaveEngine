@@ -17,6 +17,7 @@ bool ShaderPostPorcessing::CreateShader()
         out vec4 FragColor;
         in vec2 TexCoords;
         uniform sampler2D sceneTexture;
+        uniform sampler2D depthTexture;
         uniform vec2 uTexelSize;
 
         // Color grading
@@ -40,6 +41,15 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  caEnabled;
         uniform float caIntensity;
 
+        // Depth of Field
+        uniform bool  dofEnabled;
+        uniform float dofDistance;
+        uniform float dofRange;
+        uniform float dofStrength;
+        uniform bool  dofTiltShift;
+        uniform float nearPlane;
+        uniform float farPlane;
+
         // Distortion
         uniform bool  distortionEnabled;
         uniform float distortionIntensity;
@@ -62,9 +72,19 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float sharpenIntensity;
         uniform vec2  uResolution;
 
+        // Radial Blur
+        uniform bool  radialBlurEnabled;
+        uniform float radialBlurIntensity;
+        uniform vec2  radialBlurCenter;
+
         vec3 ACESFilm(vec3 x) {
             const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
             return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0.0, 1.0);
+        }
+
+        float LinearizeDepth(float depth) {
+            float z = depth * 2.0 - 1.0;
+            return (2.0 * nearPlane * farPlane) / (farPlane + nearPlane - z * (farPlane - nearPlane));
         }
 
         float random(vec2 st) {
@@ -110,6 +130,45 @@ bool ShaderPostPorcessing::CreateShader()
                 vec3 down   = texture(sceneTexture, uv + vec2(0.0, -texel.y)).rgb;
                 
                 color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
+            }
+
+            // --- Radial Blur ---
+            if (radialBlurEnabled) {
+                vec2 dir = uv - radialBlurCenter;
+                vec3 blurAccum = vec3(0.0);
+                const int samples = 10;
+                for (int i = 0; i < samples; i++) {
+                    float f = float(i) / float(samples - 1);
+                    blurAccum += texture(sceneTexture, uv - dir * f * radialBlurIntensity * 0.1).rgb;
+                }
+                color = blurAccum / float(samples);
+            }
+
+            // --- Depth of Field ---
+            if (dofEnabled) {
+                float blurFactor = 0.0;
+                if (dofTiltShift) {
+                    // Modo Tilt-Shift: desenfoque basado en la distancia vertical al centro
+                    float center = dofDistance / 100.0; // Mapeo simple para el editor
+                    float dist = abs(uv.y - 0.5); 
+                    blurFactor = smoothstep(dofRange * 0.01, dofRange * 0.5, dist);
+                } else {
+                    // Modo Estándar: desenfoque basado en profundidad real
+                    float depth = LinearizeDepth(texture(depthTexture, uv).r);
+                    blurFactor = clamp(abs(depth - dofDistance) / max(dofRange, 0.001), 0.0, 1.0);
+                }
+
+                if (blurFactor > 0.01) {
+                    vec3 dofAccum = vec3(0.0);
+                    float totalWeight = 0.0;
+                    const int samples = 8;
+                    for (int i = -samples/2; i < samples/2; i++) {
+                        float weight = 1.0;
+                        dofAccum += texture(sceneTexture, uv + vec2(0.0, float(i) * uTexelSize.y * blurFactor * dofStrength * 2.0)).rgb * weight;
+                        totalWeight += weight;
+                    }
+                    color = mix(color, dofAccum / totalWeight, blurFactor);
+                }
             }
 
             // --- Bloom (box-blur with soft-knee + tint) ---

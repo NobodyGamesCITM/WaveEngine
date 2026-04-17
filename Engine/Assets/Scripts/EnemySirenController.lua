@@ -25,7 +25,7 @@ local HIDE_MAX_DURATION = 1.0
 local HIDE_COOLDOWN     = 2.5  
 local EVADE_CHANCE      = 0.6  
 
-
+local BaseMat = nil
 
 -- Public
 public = {
@@ -559,7 +559,9 @@ function Start(self)
              .. " detectRange=" .. self.public.detectRange)
     
    self.anim:Play("Hide")
-
+    --SirenMesh
+    sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+    BaseMat = sirenMesh:GetComponent("Material")
 end
 
 -- Update
@@ -692,6 +694,7 @@ function OnTriggerEnter(self, other)
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
                 self.alreadyHit = true
+                BaseMat.SetTexture("146995762458507062")
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -709,6 +712,7 @@ function OnTriggerExit(self, other)
 
     if other:CompareTag("Player") or other:CompareTag("Bullet") then
         self.alreadyHit = false
+        --WBaseMat.SetTexture("8896541361096085563")
     end
 end
 

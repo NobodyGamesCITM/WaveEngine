@@ -2,8 +2,8 @@
     "AlbedoMapUID": 15980254724233355725,
     "Color": [
         1.0,
-        1.0,
-        1.0,
+        0.0,
+        0.0,
         1.0
     ],
     "EmissiveColor": [
@@ -24,7 +24,7 @@
     ],
     "Opacity": 1.0,
     "Roughness": 0.5,
-    "RoughnessMapUID": 0,
+    "RoughnessMapUID": 9907496693592636832,
     "Tiling": [
         1.0,
         1.0

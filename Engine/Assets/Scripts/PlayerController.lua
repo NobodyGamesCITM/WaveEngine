@@ -68,6 +68,9 @@ local Player = {
 	aresPs         = nil,
 	apoloPs         = nil,
 	hermesPs         = nil,
+	hermesAttackPs         = nil,
+	aresAttackPs         = nil,
+	apoloAttackPs         = nil,
     aresLight         = nil,
 	apoloLight         = nil,
 	hermesLight         = nil,
@@ -770,6 +773,22 @@ States[State.ATTACK_HEAVY] = {
             local velocity = Player.rb:GetLinearVelocity()
             Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
         end
+
+        if Player.currentMask == Mask.HERMES then
+            if Player.hermesAttackPs then
+                Player.hermesAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.APOLLO then
+            if Player.apoloAttackPs then
+                Player.apoloAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.ARES then
+            if Player.aresAttackPs then
+                Player.aresAttackPs:Play()
+            end
+        end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -800,6 +819,16 @@ States[State.ATTACK_HEAVY] = {
         if heavyCol then heavyCol:Disable() end
         States[State.ATTACK_HEAVY].colliderActive = false
         _PlayerController_lastAttack = ""
+
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
     end
 }
 
@@ -815,6 +844,22 @@ States[State.ATTACK_LIGHT] = {
             attackBuffer = false
         else
             attackNum = 1
+        end
+
+        if Player.currentMask == Mask.HERMES then
+            if Player.hermesAttackPs then
+                Player.hermesAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.APOLLO then
+            if Player.apoloAttackPs then
+                Player.apoloAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.ARES then
+            if Player.aresAttackPs then
+                Player.aresAttackPs:Play()
+            end
         end
 
         local anim = self.gameObject:GetComponent("Animation")
@@ -885,6 +930,16 @@ States[State.ATTACK_LIGHT] = {
     Exit = function(self)
         if attackCol then attackCol:Disable() end
         _PlayerController_lastAttack = ""
+
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
     end
 }
 
@@ -1060,12 +1115,18 @@ function Start(self)
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
     vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
+    vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
     vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
+    vfxHermesAttack = GameObject.FindInChildren(self.gameObject,"VFXhermesAttack")
     vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
+    vfxAresAttack = GameObject.FindInChildren(self.gameObject,"VFXaresAttack")
 
     Player.hermesPs = nil
+    Player.hermesAttackPs = nil
     Player.aresPs = nil
+    Player.aresAttackPs = nil
     Player.apoloPs = nil
+    Player.apoloAttackPs = nil
 
     Player.hermesLight = nil
     Player.aresLight = nil
@@ -1098,6 +1159,24 @@ function Start(self)
             Player.hermesLight:SetEnabled(false)
         end
         vfxHermes:SetActive(false) 
+    end
+    if vfxHermesAttack then
+        Player.hermesAttackPs = vfxHermesAttack:GetComponent("ParticleSystem")
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+    end
+    if vfxApoloAttack then
+        Player.apoloAttackPs = vfxApoloAttack:GetComponent("ParticleSystem")
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+    end
+    if vfxAresAttack then
+        Player.aresAttackPs = vfxAresAttack:GetComponent("ParticleSystem")
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
     end
     if vfxAres then 
         Player.aresPs = vfxAres:GetComponent("ParticleSystem")

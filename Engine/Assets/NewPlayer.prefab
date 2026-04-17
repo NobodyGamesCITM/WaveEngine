@@ -3073,7 +3073,7 @@
                                                                                     1.0
                                                                                 ],
                                                                                 "emissionRadius": 1.0,
-                                                                                "emissionRate": 20.0,
+                                                                                "emissionRate": 2.0,
                                                                                 "emissionRateDist": 0.0,
                                                                                 "emitFromShell": false,
                                                                                 "gravity": [
@@ -3250,7 +3250,7 @@
                                                                                     1.0
                                                                                 ],
                                                                                 "emissionRadius": 1.0,
-                                                                                "emissionRate": 20.0,
+                                                                                "emissionRate": 2.0,
                                                                                 "emissionRateDist": 0.0,
                                                                                 "emitFromShell": false,
                                                                                 "gravity": [
@@ -3427,7 +3427,7 @@
                                                                                     1.0
                                                                                 ],
                                                                                 "emissionRadius": 1.0,
-                                                                                "emissionRate": 20.0,
+                                                                                "emissionRate": 2.0,
                                                                                 "emissionRateDist": 0.0,
                                                                                 "emitFromShell": false,
                                                                                 "gravity": [
@@ -3550,6 +3550,285 @@
                                                                         "name": "VFXhermes",
                                                                         "tag": "",
                                                                         "uid": 13169129295298238503
+                                                                    },
+                                                                    {
+                                                                        "active": false,
+                                                                        "children": [],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            },
+                                                                            {
+                                                                                "activationRadius": 15.0,
+                                                                                "active": false,
+                                                                                "additive": true,
+                                                                                "animLoop": false,
+                                                                                "animSpeed": 1.0,
+                                                                                "bursts": [],
+                                                                                "circleRadius": 1.0,
+                                                                                "colorEnd": [
+                                                                                    0.8176795244216919,
+                                                                                    0.8133116960525513,
+                                                                                    0.7860565185546875,
+                                                                                    1.0
+                                                                                ],
+                                                                                "colorGradient": [],
+                                                                                "colorStart": [
+                                                                                    0.529411792755127,
+                                                                                    0.5026969313621521,
+                                                                                    0.46453291177749634,
+                                                                                    1.0
+                                                                                ],
+                                                                                "coneAngle": 30.18199920654297,
+                                                                                "coneRadius": 0.30000001192092896,
+                                                                                "duration": 5.0,
+                                                                                "emissionArea": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "emissionRadius": 1.0,
+                                                                                "emissionRate": 20.0,
+                                                                                "emissionRateDist": 0.0,
+                                                                                "emitFromShell": false,
+                                                                                "gravity": [
+                                                                                    0.0,
+                                                                                    -1.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "lifetimeMax": 0.6000000238418579,
+                                                                                "lifetimeMin": 0.10000000149011612,
+                                                                                "looping": true,
+                                                                                "luminance": false,
+                                                                                "maxParticles": 500,
+                                                                                "noiseActive": false,
+                                                                                "noiseFreq": 0.5,
+                                                                                "noiseStrength": 1.0,
+                                                                                "oneShot": false,
+                                                                                "oneShotCount": 30,
+                                                                                "prewarm": false,
+                                                                                "proximityActivation": false,
+                                                                                "proximityTarget": "Player",
+                                                                                "rotSpeedMax": 0.0,
+                                                                                "rotSpeedMin": 0.0,
+                                                                                "shape": 2,
+                                                                                "simulationSpace": 1,
+                                                                                "sizeCurve": [],
+                                                                                "sizeEnd": 0.0,
+                                                                                "sizeStart": 0.15000000596046448,
+                                                                                "speedMax": 1.7000000476837158,
+                                                                                "speedMin": 0.30000001192092896,
+                                                                                "textureCols": 1,
+                                                                                "texturePath": "",
+                                                                                "textureRows": 1,
+                                                                                "type": 7
+                                                                            }
+                                                                        ],
+                                                                        "name": "VFXhermesAttack",
+                                                                        "tag": "",
+                                                                        "uid": 2910749092106559173
+                                                                    },
+                                                                    {
+                                                                        "active": false,
+                                                                        "children": [],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    -37.6480712890625,
+                                                                                    38.06573486328125,
+                                                                                    6.3895263671875
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    -3.735259781478817e-07,
+                                                                                    1.327351469626592e-06,
+                                                                                    -4.3266735172116464e-15
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            },
+                                                                            {
+                                                                                "activationRadius": 15.0,
+                                                                                "active": false,
+                                                                                "additive": false,
+                                                                                "animLoop": false,
+                                                                                "animSpeed": 1.0,
+                                                                                "bursts": [],
+                                                                                "circleRadius": 1.0,
+                                                                                "colorEnd": [
+                                                                                    1.0,
+                                                                                    0.5205579996109009,
+                                                                                    0.3756905794143677,
+                                                                                    1.0
+                                                                                ],
+                                                                                "colorGradient": [],
+                                                                                "colorStart": [
+                                                                                    1.0,
+                                                                                    0.12254899740219116,
+                                                                                    0.12254899740219116,
+                                                                                    1.0
+                                                                                ],
+                                                                                "coneAngle": 30.18199920654297,
+                                                                                "coneRadius": 0.30000001192092896,
+                                                                                "duration": 5.0,
+                                                                                "emissionArea": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "emissionRadius": 1.0,
+                                                                                "emissionRate": 20.0,
+                                                                                "emissionRateDist": 0.0,
+                                                                                "emitFromShell": false,
+                                                                                "gravity": [
+                                                                                    0.0,
+                                                                                    -1.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "lifetimeMax": 0.6000000238418579,
+                                                                                "lifetimeMin": 0.10000000149011612,
+                                                                                "looping": true,
+                                                                                "luminance": false,
+                                                                                "maxParticles": 500,
+                                                                                "noiseActive": false,
+                                                                                "noiseFreq": 0.5,
+                                                                                "noiseStrength": 1.0,
+                                                                                "oneShot": false,
+                                                                                "oneShotCount": 30,
+                                                                                "prewarm": false,
+                                                                                "proximityActivation": false,
+                                                                                "proximityTarget": "Player",
+                                                                                "rotSpeedMax": 0.0,
+                                                                                "rotSpeedMin": 0.0,
+                                                                                "shape": 2,
+                                                                                "simulationSpace": 1,
+                                                                                "sizeCurve": [],
+                                                                                "sizeEnd": 0.0,
+                                                                                "sizeStart": 0.15000000596046448,
+                                                                                "speedMax": 1.7000000476837158,
+                                                                                "speedMin": 0.30000001192092896,
+                                                                                "textureCols": 1,
+                                                                                "texturePath": "",
+                                                                                "textureRows": 1,
+                                                                                "type": 7
+                                                                            }
+                                                                        ],
+                                                                        "name": "VFXaresAttack",
+                                                                        "tag": "",
+                                                                        "uid": 5991823400898354707
+                                                                    },
+                                                                    {
+                                                                        "active": false,
+                                                                        "children": [],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    -37.6480712890625,
+                                                                                    38.06573486328125,
+                                                                                    6.3895263671875
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    -3.735259781478817e-07,
+                                                                                    1.327351469626592e-06,
+                                                                                    -4.3266735172116464e-15
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            },
+                                                                            {
+                                                                                "activationRadius": 15.0,
+                                                                                "active": false,
+                                                                                "additive": true,
+                                                                                "animLoop": false,
+                                                                                "animSpeed": 1.0,
+                                                                                "bursts": [],
+                                                                                "circleRadius": 1.0,
+                                                                                "colorEnd": [
+                                                                                    1.0,
+                                                                                    0.9351362586021423,
+                                                                                    0.530386745929718,
+                                                                                    1.0
+                                                                                ],
+                                                                                "colorGradient": [],
+                                                                                "colorStart": [
+                                                                                    1.0,
+                                                                                    0.745674729347229,
+                                                                                    0.38235294818878174,
+                                                                                    1.0
+                                                                                ],
+                                                                                "coneAngle": 30.18199920654297,
+                                                                                "coneRadius": 0.30000001192092896,
+                                                                                "duration": 5.0,
+                                                                                "emissionArea": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "emissionRadius": 1.0,
+                                                                                "emissionRate": 20.0,
+                                                                                "emissionRateDist": 0.0,
+                                                                                "emitFromShell": false,
+                                                                                "gravity": [
+                                                                                    0.0,
+                                                                                    -1.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "lifetimeMax": 0.6000000238418579,
+                                                                                "lifetimeMin": 0.10000000149011612,
+                                                                                "looping": true,
+                                                                                "luminance": false,
+                                                                                "maxParticles": 500,
+                                                                                "noiseActive": false,
+                                                                                "noiseFreq": 0.5,
+                                                                                "noiseStrength": 1.0,
+                                                                                "oneShot": false,
+                                                                                "oneShotCount": 30,
+                                                                                "prewarm": false,
+                                                                                "proximityActivation": false,
+                                                                                "proximityTarget": "Player",
+                                                                                "rotSpeedMax": 0.0,
+                                                                                "rotSpeedMin": 0.0,
+                                                                                "shape": 2,
+                                                                                "simulationSpace": 1,
+                                                                                "sizeCurve": [],
+                                                                                "sizeEnd": 0.0,
+                                                                                "sizeStart": 0.15000000596046448,
+                                                                                "speedMax": 1.7000000476837158,
+                                                                                "speedMin": 0.30000001192092896,
+                                                                                "textureCols": 1,
+                                                                                "texturePath": "",
+                                                                                "textureRows": 1,
+                                                                                "type": 7
+                                                                            }
+                                                                        ],
+                                                                        "name": "VFXapoloAttack",
+                                                                        "tag": "",
+                                                                        "uid": 7104395574775859696
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -4118,44 +4397,29 @@
                 "active": true,
                 "publicVariables": [
                     {
+                        "name": "speedHermesBonus",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
                         "name": "hermesWaterMax",
                         "type": 0,
                         "value": 2.0
                     },
                     {
-                        "name": "bulletPrefab",
-                        "type": 1,
-                        "value": "Prefabs/Bullet.prefab"
+                        "name": "triggerCameraShake",
+                        "type": 2,
+                        "value": false
                     },
                     {
-                        "name": "staminaCost",
+                        "name": "staminaRecover",
                         "type": 0,
-                        "value": 80.0
+                        "value": 50.0
                     },
                     {
-                        "name": "stamina",
+                        "name": "sprintMultiplier",
                         "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "flySpeed",
-                        "type": 0,
-                        "value": 20.0
-                    },
-                    {
-                        "name": "attackDuration",
-                        "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
-                        "name": "hitShakeDuration",
-                        "type": 0,
-                        "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "rollStaminaCost",
-                        "type": 0,
-                        "value": 25.0
+                        "value": 1.5
                     },
                     {
                         "name": "speed",
@@ -4168,29 +4432,19 @@
                         "value": 30.0
                     },
                     {
-                        "name": "staminaRecover",
+                        "name": "chargeSpeed",
                         "type": 0,
-                        "value": 50.0
+                        "value": 30.0
                     },
                     {
-                        "name": "speedIncrease",
+                        "name": "stamina",
                         "type": 0,
-                        "value": 10.0
+                        "value": 100.0
                     },
                     {
-                        "name": "rollSpeed",
-                        "type": 0,
-                        "value": 12.0
-                    },
-                    {
-                        "name": "chargeDuration",
+                        "name": "hitShakeDuration",
                         "type": 0,
                         "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "attackImpulseForce",
-                        "type": 0,
-                        "value": 8.0
                     },
                     {
                         "name": "comboCooldown",
@@ -4198,9 +4452,39 @@
                         "value": 1.0
                     },
                     {
-                        "name": "health",
+                        "name": "rollDuration",
                         "type": 0,
-                        "value": 100.0
+                        "value": 0.5
+                    },
+                    {
+                        "name": "interact",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "attackCooldown",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "heavyDuration",
+                        "type": 0,
+                        "value": 0.699999988079071
+                    },
+                    {
+                        "name": "rollStaminaCost",
+                        "type": 0,
+                        "value": 25.0
+                    },
+                    {
+                        "name": "flySpeed",
+                        "type": 0,
+                        "value": 20.0
+                    },
+                    {
+                        "name": "ROTATION_SPEED",
+                        "type": 0,
+                        "value": 780.0
                     },
                     {
                         "name": "canMove",
@@ -4208,19 +4492,14 @@
                         "value": true
                     },
                     {
-                        "name": "attackBufferDuration",
+                        "name": "hpRecover",
                         "type": 0,
-                        "value": 0.6000000238418579
+                        "value": 30.0
                     },
                     {
-                        "name": "triggerCameraShake",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "usingStamina",
-                        "type": 2,
-                        "value": false
+                        "name": "rollCooldownMax",
+                        "type": 0,
+                        "value": 0.5
                     },
                     {
                         "name": "heavyUpImpulse",
@@ -4228,19 +4507,19 @@
                         "value": 2.0
                     },
                     {
+                        "name": "attackDuration",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "attackBufferDuration",
+                        "type": 0,
+                        "value": 0.6000000238418579
+                    },
+                    {
                         "name": "heavyAttackDelay",
                         "type": 0,
                         "value": 0.3499999940395355
-                    },
-                    {
-                        "name": "sprintMultiplier",
-                        "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "knockbackForce",
-                        "type": 0,
-                        "value": 14.0
                     },
                     {
                         "name": "attackImpulseWindow",
@@ -4248,9 +4527,19 @@
                         "value": 0.15000000596046448
                     },
                     {
+                        "name": "health",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
                         "name": "giveAresMask",
                         "type": 2,
                         "value": false
+                    },
+                    {
+                        "name": "attackImpulseForce",
+                        "type": 0,
+                        "value": 8.0
                     },
                     {
                         "name": "giveHermesMask",
@@ -4268,29 +4557,14 @@
                         "value": 1.0
                     },
                     {
-                        "name": "hpRecover",
+                        "name": "bulletBarrel",
                         "type": 0,
-                        "value": 30.0
+                        "value": 1.5
                     },
                     {
-                        "name": "ROTATION_SPEED",
+                        "name": "rollSpeed",
                         "type": 0,
-                        "value": 780.0
-                    },
-                    {
-                        "name": "rollDuration",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "tiredMultiplier",
-                        "type": 0,
-                        "value": 0.699999988079071
-                    },
-                    {
-                        "name": "rollCooldownMax",
-                        "type": 0,
-                        "value": 0.5
+                        "value": 12.0
                     },
                     {
                         "name": "bulletScale",
@@ -4298,9 +4572,9 @@
                         "value": 1.0
                     },
                     {
-                        "name": "interact",
-                        "type": 2,
-                        "value": false
+                        "name": "bulletPrefab",
+                        "type": 1,
+                        "value": "Prefabs/Bullet.prefab"
                     },
                     {
                         "name": "hitShakeMagnitude",
@@ -4308,14 +4582,9 @@
                         "value": 6.0
                     },
                     {
-                        "name": "bulletBarrel",
+                        "name": "knockbackForce",
                         "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "speedHermesBonus",
-                        "type": 0,
-                        "value": 15.0
+                        "value": 14.0
                     },
                     {
                         "name": "shootDuration",
@@ -4323,9 +4592,24 @@
                         "value": 0.5
                     },
                     {
-                        "name": "heavyDuration",
+                        "name": "chargeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "tiredMultiplier",
                         "type": 0,
                         "value": 0.699999988079071
+                    },
+                    {
+                        "name": "speedIncrease",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "usingStamina",
+                        "type": 2,
+                        "value": false
                     },
                     {
                         "name": "heavyStaminaCost",
@@ -4333,14 +4617,9 @@
                         "value": 25.0
                     },
                     {
-                        "name": "attackCooldown",
+                        "name": "staminaCost",
                         "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
-                        "name": "chargeSpeed",
-                        "type": 0,
-                        "value": 30.0
+                        "value": 80.0
                     }
                 ],
                 "scriptUID": 8002383071243665151,
@@ -4474,7 +4753,12 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "offsetY",
+                        "name": "offsetZ",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "offsetX",
                         "type": 0,
                         "value": 0.0
                     },
@@ -4484,12 +4768,7 @@
                         "value": 8.0
                     },
                     {
-                        "name": "offsetX",
-                        "type": 0,
-                        "value": 0.0
-                    },
-                    {
-                        "name": "offsetZ",
+                        "name": "offsetY",
                         "type": 0,
                         "value": 0.0
                     }

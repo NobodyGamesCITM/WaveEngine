@@ -3122,9 +3122,9 @@
                                                                                         0.800000011920929
                                                                                     ],
                                                                                     "direction": [
-                                                                                        0.4962112009525299,
+                                                                                        0.4962114989757538,
                                                                                         -0.8681963086128235,
-                                                                                        0.003075838088989258
+                                                                                        0.0030393600463867188
                                                                                     ],
                                                                                     "specular": [
                                                                                         0.5,
@@ -3142,20 +3142,20 @@
                                                                                     "constant": 1.0,
                                                                                     "diffuse": [
                                                                                         1.0,
-                                                                                        0.9247404932975769,
-                                                                                        0.14705884456634521
+                                                                                        0.8760092258453369,
+                                                                                        0.15686273574829102
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        28.942808151245117,
-                                                                                        1.4614334106445313,
-                                                                                        9.466570854187012
+                                                                                        -16.057218551635742,
+                                                                                        -3.538566827774048,
+                                                                                        -333.5334167480469
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
                                                                                         1.0,
-                                                                                        0.764994204044342,
-                                                                                        0.20098036527633667
+                                                                                        0.8839389085769653,
+                                                                                        0.21078431606292725
                                                                                     ]
                                                                                 },
                                                                                 "spot": {
@@ -3299,9 +3299,9 @@
                                                                                         0.800000011920929
                                                                                     ],
                                                                                     "direction": [
-                                                                                        0.4962112009525299,
+                                                                                        0.4962114989757538,
                                                                                         -0.8681963086128235,
-                                                                                        0.003075838088989258
+                                                                                        0.0030393600463867188
                                                                                     ],
                                                                                     "specular": [
                                                                                         0.5,
@@ -3319,20 +3319,20 @@
                                                                                     "constant": 1.0,
                                                                                     "diffuse": [
                                                                                         1.0,
-                                                                                        0.14705884456634521,
-                                                                                        0.14705884456634521
+                                                                                        0.15686273574829102,
+                                                                                        0.15686273574829102
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        28.942808151245117,
-                                                                                        1.4614334106445313,
-                                                                                        9.466570854187012
+                                                                                        -16.057218551635742,
+                                                                                        -3.538566827774048,
+                                                                                        -333.5334167480469
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
                                                                                         1.0,
-                                                                                        0.36548441648483276,
-                                                                                        0.20098036527633667
+                                                                                        0.1568627506494522,
+                                                                                        0.1568627506494522
                                                                                     ]
                                                                                 },
                                                                                 "spot": {
@@ -3476,9 +3476,9 @@
                                                                                         0.800000011920929
                                                                                     ],
                                                                                     "direction": [
-                                                                                        0.4962112009525299,
+                                                                                        0.4962114989757538,
                                                                                         -0.8681963086128235,
-                                                                                        0.003075838088989258
+                                                                                        0.0030393600463867188
                                                                                     ],
                                                                                     "specular": [
                                                                                         0.5,
@@ -3495,21 +3495,21 @@
                                                                                     ],
                                                                                     "constant": 1.0,
                                                                                     "diffuse": [
-                                                                                        0.5686274766921997,
-                                                                                        1.0,
-                                                                                        0.8985005617141724
+                                                                                        0.5647059082984924,
+                                                                                        0.7019608020782471,
+                                                                                        0.729411780834198
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        28.942808151245117,
-                                                                                        1.4614334106445313,
-                                                                                        9.466570854187012
+                                                                                        -16.057218551635742,
+                                                                                        -3.538566827774048,
+                                                                                        -333.5334167480469
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
-                                                                                        0.6770954132080078,
-                                                                                        0.8669657707214355,
-                                                                                        0.9460784196853638
+                                                                                        0.5647059082984924,
+                                                                                        0.7019608020782471,
+                                                                                        0.729411780834198
                                                                                     ]
                                                                                 },
                                                                                 "spot": {
@@ -3855,7 +3855,7 @@
                         "speedMax": 0.30000001192092896,
                         "speedMin": 0.05000000074505806,
                         "textureCols": 1,
-                        "texturePath": "C:\\Users\\clara\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                        "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                         "textureRows": 1,
                         "textureUID": 17065513980760032408,
                         "type": 7
@@ -4078,13 +4078,13 @@
             {
                 "active": true,
                 "position": [
-                    29.326866149902344,
-                    0.5400924682617188,
-                    9.860122680664063
+                    -15.673133850097656,
+                    -4.459907531738281,
+                    -333.139892578125
                 ],
                 "rotation": [
                     0.0,
-                    -89.95576477050781,
+                    -89.95154571533203,
                     0.0
                 ],
                 "scale": [
@@ -4118,29 +4118,39 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "giveAresMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "attackImpulseForce",
+                        "name": "hermesWaterMax",
                         "type": 0,
-                        "value": 8.0
+                        "value": 2.0
                     },
                     {
-                        "name": "health",
+                        "name": "bulletPrefab",
+                        "type": 1,
+                        "value": "Prefabs/Bullet.prefab"
+                    },
+                    {
+                        "name": "staminaCost",
+                        "type": 0,
+                        "value": 80.0
+                    },
+                    {
+                        "name": "stamina",
                         "type": 0,
                         "value": 100.0
                     },
                     {
-                        "name": "bulletScale",
+                        "name": "flySpeed",
                         "type": 0,
-                        "value": 1.0
+                        "value": 20.0
                     },
                     {
-                        "name": "bulletSpawnY",
+                        "name": "attackDuration",
                         "type": 0,
-                        "value": 1.0
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "hitShakeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
                     },
                     {
                         "name": "rollStaminaCost",
@@ -4148,22 +4158,12 @@
                         "value": 25.0
                     },
                     {
-                        "name": "triggerCameraShake",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "giveApoloMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "knockbackForce",
+                        "name": "speed",
                         "type": 0,
-                        "value": 14.0
+                        "value": 15.0
                     },
                     {
-                        "name": "hpRecover",
+                        "name": "hpLossCost",
                         "type": 0,
                         "value": 30.0
                     },
@@ -4173,79 +4173,54 @@
                         "value": 50.0
                     },
                     {
-                        "name": "speed",
-                        "type": 0,
-                        "value": 15.0
-                    },
-                    {
-                        "name": "stamina",
-                        "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "hermesWaterMax",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "hitShakeMagnitude",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "hpLossCost",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "attackDuration",
-                        "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
                         "name": "speedIncrease",
                         "type": 0,
                         "value": 10.0
                     },
                     {
-                        "name": "usingStamina",
+                        "name": "rollSpeed",
+                        "type": 0,
+                        "value": 12.0
+                    },
+                    {
+                        "name": "chargeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "attackImpulseForce",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "comboCooldown",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "health",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "canMove",
                         "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "rollDuration",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "rollCooldownMax",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "interact",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "staminaCost",
-                        "type": 0,
-                        "value": 80.0
-                    },
-                    {
-                        "name": "shootDuration",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "bulletPrefab",
-                        "type": 1,
-                        "value": "Prefabs/Bullet.prefab"
+                        "value": true
                     },
                     {
                         "name": "attackBufferDuration",
                         "type": 0,
                         "value": 0.6000000238418579
+                    },
+                    {
+                        "name": "triggerCameraShake",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "usingStamina",
+                        "type": 2,
+                        "value": false
                     },
                     {
                         "name": "heavyUpImpulse",
@@ -4258,19 +4233,14 @@
                         "value": 0.3499999940395355
                     },
                     {
-                        "name": "canMove",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "rollSpeed",
-                        "type": 0,
-                        "value": 12.0
-                    },
-                    {
                         "name": "sprintMultiplier",
                         "type": 0,
                         "value": 1.5
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 14.0
                     },
                     {
                         "name": "attackImpulseWindow",
@@ -4278,9 +4248,29 @@
                         "value": 0.15000000596046448
                     },
                     {
+                        "name": "giveAresMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
                         "name": "giveHermesMask",
                         "type": 2,
                         "value": false
+                    },
+                    {
+                        "name": "giveApoloMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "bulletSpawnY",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "hpRecover",
+                        "type": 0,
+                        "value": 30.0
                     },
                     {
                         "name": "ROTATION_SPEED",
@@ -4288,29 +4278,34 @@
                         "value": 780.0
                     },
                     {
+                        "name": "rollDuration",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
                         "name": "tiredMultiplier",
                         "type": 0,
                         "value": 0.699999988079071
                     },
                     {
-                        "name": "heavyDuration",
+                        "name": "rollCooldownMax",
                         "type": 0,
-                        "value": 0.699999988079071
+                        "value": 0.5
                     },
                     {
-                        "name": "flySpeed",
+                        "name": "bulletScale",
                         "type": 0,
-                        "value": 20.0
+                        "value": 1.0
                     },
                     {
-                        "name": "chargeSpeed",
-                        "type": 0,
-                        "value": 30.0
+                        "name": "interact",
+                        "type": 2,
+                        "value": false
                     },
                     {
-                        "name": "chargeDuration",
+                        "name": "hitShakeMagnitude",
                         "type": 0,
-                        "value": 0.30000001192092896
+                        "value": 6.0
                     },
                     {
                         "name": "bulletBarrel",
@@ -4318,19 +4313,19 @@
                         "value": 1.5
                     },
                     {
-                        "name": "attackCooldown",
+                        "name": "speedHermesBonus",
                         "type": 0,
-                        "value": 0.4000000059604645
+                        "value": 15.0
                     },
                     {
-                        "name": "hitShakeDuration",
+                        "name": "shootDuration",
                         "type": 0,
-                        "value": 0.30000001192092896
+                        "value": 0.5
                     },
                     {
-                        "name": "comboCooldown",
+                        "name": "heavyDuration",
                         "type": 0,
-                        "value": 1.0
+                        "value": 0.699999988079071
                     },
                     {
                         "name": "heavyStaminaCost",
@@ -4338,9 +4333,14 @@
                         "value": 25.0
                     },
                     {
-                        "name": "speedHermesBonus",
+                        "name": "attackCooldown",
                         "type": 0,
-                        "value": 15.0
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "chargeSpeed",
+                        "type": 0,
+                        "value": 30.0
                     }
                 ],
                 "scriptUID": 8002383071243665151,
@@ -4474,22 +4474,22 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "near",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "offsetZ",
-                        "type": 0,
-                        "value": 0.0
-                    },
-                    {
                         "name": "offsetY",
                         "type": 0,
                         "value": 0.0
                     },
                     {
+                        "name": "near",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
                         "name": "offsetX",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "offsetZ",
                         "type": 0,
                         "value": 0.0
                     }

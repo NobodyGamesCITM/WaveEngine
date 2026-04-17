@@ -474,10 +474,13 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     // Primero actualizar las matrices de skinning
     for (ComponentMesh* mesh : meshes)
-        mesh->UpdateSkinningMatrices();
+        if(mesh) mesh->UpdateSkinningMatrices();
 
     for (ComponentSkinnedMesh* mesh : skinnedMeshes)
-        mesh->UpdateSkinningMatrices();
+    {
+        if (mesh && mesh->owner && mesh->owner->IsActive())
+            mesh->UpdateSkinningMatrices();
+    }
 
     // Ahora el shadow pass tiene los SSBOs actualizados
     if (lightManager)
@@ -721,7 +724,7 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
         standardShader->Use();
         lightManager->UploadToShader(standardShader.get());
         standardShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
-        standardShader->SetInt("uShadowMap", 5);
+        standardShader->SetInt("uShadowMap", 7);
     }
 
     Shader* lastShader = nullptr;
@@ -773,13 +776,15 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
         if (currentMaterial != lastMaterial) {
             if (currentMaterial)
                 currentMaterial->Bind(currentShader);
-            else {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
-            }
+            else { /* default texture */ }
             lastMaterial = currentMaterial;
-        }
 
+            // Re-bind shadow map DESPUÉS del material, siempre
+            if (currentShader == standardShader.get()) {
+                glActiveTexture(GL_TEXTURE7);
+                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+            }
+        }
         DrawMesh(meshComp);
     }
 }
@@ -792,7 +797,7 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         standardShader->Use();
         lightManager->UploadToShader(standardShader.get());
         standardShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
-        standardShader->SetInt("uShadowMap", 5);
+        standardShader->SetInt("uShadowMap", 7);
     }
 
     Shader* lastShader = nullptr;

@@ -2483,24 +2483,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "flightTime",
+                        "name": "rotationSpeed",
                         "type": 0,
-                        "value": 4.0
-                    },
-                    {
-                        "name": "minRange",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "blastRadius",
-                        "type": 0,
-                        "value": 1.75
-                    },
-                    {
-                        "name": "windUpTime",
-                        "type": 0,
-                        "value": 1.600000023841858
+                        "value": 6.0
                     },
                     {
                         "name": "knockbackForce",
@@ -2508,29 +2493,14 @@
                         "value": 3.0
                     },
                     {
-                        "name": "maxLifetime",
+                        "name": "blastRadius",
                         "type": 0,
-                        "value": 10.0
+                        "value": 3.5
                     },
                     {
-                        "name": "projectilePrefab",
-                        "type": 1,
-                        "value": "Sirena_Bullet"
-                    },
-                    {
-                        "name": "detectRange",
+                        "name": "attackDamage",
                         "type": 0,
-                        "value": 22.0
-                    },
-                    {
-                        "name": "rotationSpeed",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "barrelOffsetY",
-                        "type": 0,
-                        "value": 1.7999999523162842
+                        "value": 30.0
                     },
                     {
                         "name": "maxHp",
@@ -2538,9 +2508,39 @@
                         "value": 50.0
                     },
                     {
-                        "name": "attackDamage",
+                        "name": "flightTime",
                         "type": 0,
-                        "value": 30.0
+                        "value": 4.0
+                    },
+                    {
+                        "name": "projectilePrefab",
+                        "type": 1,
+                        "value": "Sirena_Bullet"
+                    },
+                    {
+                        "name": "windUpTime",
+                        "type": 0,
+                        "value": 1.600000023841858
+                    },
+                    {
+                        "name": "maxLifetime",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "minRange",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "barrelOffsetY",
+                        "type": 0,
+                        "value": 1.7999999523162842
+                    },
+                    {
+                        "name": "detectRange",
+                        "type": 0,
+                        "value": 22.0
                     },
                     {
                         "name": "cooldownTime",
@@ -2577,8 +2577,14 @@
                         "speed": 1.0
                     },
                     {
+                        "UID": 11040156998005112653,
+                        "loop": true,
+                        "name": "Shoot",
+                        "speed": 0.75
+                    },
+                    {
                         "UID": 6729198245658455764,
-                        "loop": false,
+                        "loop": true,
                         "name": "Show",
                         "speed": 1.0
                     }

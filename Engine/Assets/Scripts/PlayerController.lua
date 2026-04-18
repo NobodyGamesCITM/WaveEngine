@@ -586,7 +586,7 @@ States[State.RUNNING] = {
             self.public.speed = self.public.speed + self.public.speedHermesBonus
         end		
 
-        if Player.isDrowning and Player.currentMask == Mask.Hermes then
+        if Player.isDrowning and Player.currentMask == Mask.HERMES then
             if Player.bubblesPS then Player.bubblesPS:Play() end
         elseif Player.smokePS then Player.smokePS:Play() end
     end,
@@ -1601,6 +1601,10 @@ function OnCollisionEnter(self, other)
         Player.isDrowning            = true
         Player.hermesGraceTimer      = HERMES_GRACE_TIME
         Engine.Log("[Player] Hermes on water")
+        if Player.currentState == State.RUNNING then
+            if Player.smokePS then Player.smokePS:Stop() end
+            if Player.bubblesPS then Player.bubblesPS:Play() end
+        end
     end
 
 	for i, surface in ipairs(surfaces) do
@@ -1620,6 +1624,10 @@ function OnCollisionExit(self, other)
         _PlayerController_isDrowning = false
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
+        if Player.currentState == State.RUNNING then
+            if Player.smokePS then Player.smokePS:Play() end
+            if Player.bubblesPS then Player.bubblesPS:Stop() end
+        end
     end
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition

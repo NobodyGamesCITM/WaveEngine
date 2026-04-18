@@ -28,17 +28,18 @@ local Skeleton = {
 }
 public = {
     maxHp           = 30,
-    
     patrolSpeed     = 1.5,
     chaseSpeed      = 3.5,
     navRefreshRate  = 0.18,
-
     attackDur       = 1.0,
     attackColDelay  = 0.8,
+    nearDist        = 2
 }
-local playerHitThisAttack = false
-local isAttacking         = false
-local attackTimer         = 0
+
+local hitRecieved = false
+local alreadyHit = false
+local isAttacking = false
+local attackTimer = 0
 local pendingDeath = false
 local  currentYaw = 0 
 
@@ -61,11 +62,6 @@ local function CheckDistance(self, dist, near)
     else
         return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist
     end
-end
-
-local function SetTargetVelocity(dx, dz, speed)
-    targetVelX = dx * speed
-    targetVelZ = dz * speed
 end
 
 local function ApplyMoveVelocity(dt, accelRate)
@@ -102,9 +98,8 @@ local function TakeDamage(self, amount, attackerPos)
         pendingDeath = true
     else
         isAttacking         = false
-        playerHitThisAttack = false
-
-        if  Skeleton.nav       then  Skeleton.nav:StopMovement()  end
+        hitGiven = false
+        if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         --if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
@@ -181,7 +176,7 @@ States[State.CHASE] = {
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
         
-        if CheckDistance(self,4,true) then
+        if CheckDistance(self,self.public.nearDist,true) then
             ChangeState(self, State.ATTACK)
             return
         end
@@ -196,7 +191,8 @@ States[State.CHASE] = {
         end
 
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
-        SetTargetVelocity(dx, dz, self.public.chaseSpeed)
+        targetVelX = dx * self.public.chaseSpeed
+        targetVelZ = dz * self.public.chaseSpeed
         ApplyMoveVelocity(dt, 18.0)
         FaceTargetSmooth(self, plPos, dt)
     end
@@ -215,7 +211,7 @@ States[State.ATTACK] = {
         local plPos = playerGO.transform.worldPosition
         attackTimer    = attackTimer    + dt
 
-        if attackTimer >= self.public.attackColDelay - 0.3 and not playerHitThisAttack and playerGO then
+        if attackTimer >= self.public.attackColDelay - 0.3 and not hitGiven and not alreadyHit and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 local anim = self.gameObject:GetComponent("Animation")
@@ -225,30 +221,30 @@ States[State.ATTACK] = {
             end
         end
 
-        if attackTimer >= self.public.attackColDelay and not playerHitThisAttack and playerGO then
+        if attackTimer >= self.public.attackColDelay and not hitGiven and not alreadyHit and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
-                playerHitThisAttack                = true
-                _PlayerController_pendingDamage    = 20
+                hitGiven = true
+                _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
             end
         end
 
-        if attackTimer >= self.public.attackDur then
+        if attackTimer >= self.public.attackDur or hitRecieved then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
             isAttacking         = false
-            playerHitThisAttack = false
+            hitGiven = false
             attackTimer   = 0
             cooldownTimer = self.public.cooldown 
         end
-        if CheckDistance(self,4, false) then
+        if CheckDistance(self,self.public.nearDist, false) then
             ChangeState(self, State.CHASE)
             isAttacking         = false
-            playerHitThisAttack = false
-            attackTimer   = 0
+            hitGiven = false
+            attackTimer = 0
             cooldownTimer = self.public.cooldown 
             return
         end

@@ -54,8 +54,10 @@ State Group	ID	Name			Wwise Object Path	Notes
 	3086301423	BGM_State			\Default Work Unit\BGM_State	
 
 State	ID	Name	State Group			Notes
+	447801688	Level2_Combat	BGM_State			
 	748895195	None	BGM_State			
 	1499148877	Level1_Combat	BGM_State			
+	1560169506	Boss	BGM_State			
 	2678230381	Level2	BGM_State			
 	2678230382	Level1	BGM_State			
 	3604647259	MainMenu	BGM_State			
@@ -122,6 +124,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	186892897	Item_PickUp	.cache\E8\{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem		\Containers\Default Work Unit\Objects\Player\Item_PickUp		17432
+	193895961	yokai watch combat terror time	.cache\95\{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Combat_Playlist\Level2_AltCombat\yokai watch combat terror time		2240720
 	207196639	aquiles_step_02	.cache\A2\{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		59552
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
@@ -196,9 +199,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	827699159	minocabro_hurt_01	.cache\D8\{D8995B34-25F3-316D-91E2-3BE003579390}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	841807102	yodguard-spear_thrust-3-382407	.cache\52\{523162B3-720B-AB25-F0ED-AE5465573462}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-3-382407		434240
+	847806272	yokai watch terror time	.cache\30\{3057A7AC-2287-5B4B-4775-0D8A86539F76}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2_Alt\yokai watch terror time		2240720
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	857628780	aquiles_dash_01	.cache\64\{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_dash_01		90800
-	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
 	861888802	aquiles_step_08	.cache\FB\{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		46808
 	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	864792433	aquiles_step_01	.cache\85\{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		57176
@@ -224,4 +227,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1055980740	yodguard-spear_thrust-6-382403	.cache\68\{680238FE-5EBB-F386-8A76-F9B773F98FCF}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-6-382403		399032
 	1065543167	stone_walk_04	.cache\52\{528ACFC3-714E-8661-0F67-11DFD83C846C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_04		12824
 	1068516576	siren_hurt	.cache\9F\{9F780056-22BE-15FA-B38E-A4EB69E14754}.wem		\Containers\Default Work Unit\Objects\Siren\siren_hurt		33200
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	355732203	Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)	.cache\E7\{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem	355732203.wem	\Containers\Default Work Unit\BGM_Switch\LevelBoss_Playlist\DarkLordGanon_TLOZ_TwilightPrincess\Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)	
 

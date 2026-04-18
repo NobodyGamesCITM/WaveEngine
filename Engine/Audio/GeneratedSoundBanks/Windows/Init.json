@@ -332,6 +332,12 @@
       "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
+        "Id": "447801688",
+        "Name": "Level2_Combat",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2_Combat",
+        "GUID": "{DEE1C10A-D68A-4CFD-B0B2-0E081685019A}"
+       },
+       {
         "Id": "748895195",
         "Name": "None",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\None",
@@ -342,6 +348,12 @@
         "Name": "Level1_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
         "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
+       },
+       {
+        "Id": "1560169506",
+        "Name": "Boss",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Boss",
+        "GUID": "{D981B171-4E5B-4D03-865D-96211F0A656A}"
        },
        {
         "Id": "2678230381",
@@ -903,6 +915,6 @@
     ]
    }
   ],
-  "FileHash": "{4608538F-E280-A7C6-2B48-74BD47E1CD40}"
+  "FileHash": "{9D1CA58A-1232-FD59-229C-620E8580E52F}"
  }
 }

@@ -3,7 +3,7 @@
     "active": true,
     "additive": true,
     "animLoop": true,
-    "animSpeed": 1.0,
+    "animSpeed": 4.400000095367432,
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
@@ -28,7 +28,7 @@
         1.0
     ],
     "emissionRadius": 1.0,
-    "emissionRate": 1.0,
+    "emissionRate": 2.0,
     "emissionRateDist": 0.0,
     "emitFromShell": false,
     "gravity": [
@@ -36,13 +36,13 @@
         0.0,
         0.0
     ],
-    "initRotMax": 0.0,
-    "initRotMin": 0.0,
+    "initRotMax": 180.0,
+    "initRotMin": 180.0,
     "lifetimeMax": 5.0,
     "lifetimeMin": 5.0,
     "looping": true,
     "luminance": false,
-    "maxParticles": 1,
+    "maxParticles": 2,
     "noiseActive": false,
     "noiseFreq": 0.5,
     "noiseStrength": 1.0,
@@ -63,5 +63,6 @@
     "textureCols": 9,
     "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Engines\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\FireAresSword_Hard_00_TEST.png",
     "textureRows": 1,
+    "textureUID": 3311442359370931205,
     "type": 7
 }

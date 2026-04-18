@@ -31,7 +31,7 @@ public = {
     chaseSpeed      = 3.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
-    attackColDelay  = 1.4,
+    attackColDelay  = 1.5,
     attackAnimaAnticip  = 0.3,
     nearDist        = 2,
     patrolWaitMin   = 1.0,
@@ -246,7 +246,7 @@ States[State.ATTACK] = {
         local plPos = playerGO.transform.worldPosition
         attackTimer    = attackTimer    + dt
 
-        if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and not alreadyHit and playerGO then
+        if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 local anim = self.gameObject:GetComponent("Animation")
@@ -256,7 +256,7 @@ States[State.ATTACK] = {
             end
         end
 
-        if attackTimer >= self.public.attackColDelay and not hitGiven and not alreadyHit and playerGO then
+        if attackTimer >= self.public.attackColDelay and not hitGiven and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 hitGiven = true
@@ -265,7 +265,7 @@ States[State.ATTACK] = {
             end
         end
 
-        if attackTimer >= self.public.attackDur then
+        if attackTimer >= self.public.attackDur or alreadyHit then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)

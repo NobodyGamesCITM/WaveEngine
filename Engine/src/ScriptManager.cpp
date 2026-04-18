@@ -1848,6 +1848,44 @@ static int Lua_ParticleSystem_SetOneShotMode(lua_State* L) {
     return 0;
 }
 
+//edit start color (rgb)
+static int Lua_ParticleSystem_SetStartColor(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float r = (float)luaL_checknumber(L, 2);
+    float g = (float)luaL_checknumber(L, 3);
+    float b = (float)luaL_checknumber(L, 4);
+    float a = (float)luaL_optnumber(L, 5, 1.0);
+
+    EmitterInstance* emitter = ps->GetEmitter();
+    for (auto* m : emitter->modules) {
+        if (m->type == ParticleModuleType::SPAWNER) {
+            static_cast<ModuleEmitterSpawn*>(m)->colorStart = glm::vec4(r, g, b, a);
+            break;
+        }
+    }
+    return 0;
+}
+
+//edit end color (rgb)
+static int Lua_ParticleSystem_SetEndColor(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float r = (float)luaL_checknumber(L, 2);
+    float g = (float)luaL_checknumber(L, 3);
+    float b = (float)luaL_checknumber(L, 4);
+    float a = (float)luaL_optnumber(L, 5, 1.0);
+
+    EmitterInstance* emitter = ps->GetEmitter();
+    for (auto* m : emitter->modules) {
+        if (m->type == ParticleModuleType::SPAWNER) {
+            static_cast<ModuleEmitterSpawn*>(m)->colorEnd = glm::vec4(r, g, b, a);
+            break;
+        }
+    }
+    return 0;
+}
+
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
 
@@ -2572,6 +2610,10 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetDuration");
     lua_pushcfunction(L, Lua_ParticleSystem_SetOneShotMode);
     lua_setfield(L, -2, "SetOneShotMode");
+    lua_pushcfunction(L, Lua_ParticleSystem_SetStartColor);
+    lua_setfield(L, -2, "SetStartColor");
+    lua_pushcfunction(L, Lua_ParticleSystem_SetEndColor);
+    lua_setfield(L, -2, "SetEndColor");
     lua_pop(L, 1);
 }
 

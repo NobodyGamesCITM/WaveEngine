@@ -33,12 +33,13 @@ public = {
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
     attackColDelay  = 0.8,
-    nearDist        = 2
+    nearDist        = 2,
+    patrolWaitMin   = 1.0,
+    patrolWaitMax   = 2.8,
 }
-
+local patrolWait = 0
 local hitRecieved = false
 local alreadyHit = false
-local isAttacking = false
 local attackTimer = 0
 local pendingDeath = false
 local  currentYaw = 0 
@@ -97,7 +98,6 @@ local function TakeDamage(self, amount, attackerPos)
         --if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
         pendingDeath = true
     else
-        isAttacking         = false
         hitGiven = false
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         --if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
@@ -157,15 +157,49 @@ States[State.IDLE] = {
         end
     end,
     Update = function(self, dt)
-        
+        local px, py, pz = Skeleton.nav:GetRandomPoint()
+        if px then
+            Skeleton.nav:SetDestination(px, py, pz)
+            ChangeState(self, State.PATROL)
+        else
+            patrolWait = self.public.patrolWaitMin
+        end
         if CheckDistance(self,30.0,true) then
-            Skeleton.nav:StopMovement()
             ChangeState(self, State.CHASE)
             return
         end
     end
 }
+States[State.PATROL] = {
+    Enter = function(self)
+        playerGO = GameObject.Find("Player")
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Walk", 0.5) end)
+        end
+    end,
+    Update = function(self, dt)
+        local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
+        targetVelX = dx * self.public.patrolSpeed
+        targetVelZ = dz * self.public.patrolSpeed
+        ApplyMoveVelocity(dt, 18.0)
+        if abs(dx) > 0.001 or abs(dz) > 0.001 then
+            local p = self.transform.worldPosition
+            FaceTargetSmooth(self, {x=p.x+dx, y=p.y, z=p.z+dz}, dt)
+        end
 
+        if not Skeleton.nav:IsMoving() then
+            patrolWait   = self.public.patrolWaitMin
+                + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
+            ChangeState(self, State.IDLE)
+            return
+        end
+        if CheckDistance(self,30.0,true) then
+            ChangeState(self, State.CHASE)
+            return
+        end
+    end
+}
 States[State.CHASE] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
@@ -235,17 +269,13 @@ States[State.ATTACK] = {
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
-            isAttacking         = false
             hitGiven = false
             attackTimer   = 0
-            cooldownTimer = self.public.cooldown 
         end
         if CheckDistance(self,self.public.nearDist, false) then
             ChangeState(self, State.CHASE)
-            isAttacking         = false
             hitGiven = false
             attackTimer = 0
-            cooldownTimer = self.public.cooldown 
             return
         end
         FaceTargetSmooth(self, plPos, dt)
@@ -264,13 +294,11 @@ function Update(self, dt)
         Skeleton.currentState = nil
         ChangeState(self, State.IDLE, true)
     end
-
     if Skeleton.currentState and States[Skeleton.currentState] then
         States[Skeleton.currentState].Update(self, dt)
     end
 
     if pendingDeath then
-        isAttacking = false
         if Skeleton.nav then Skeleton.nav:StopMovement() end
         Skeleton.isDead       = true
         Engine.Log("[Skeleton] MUERTO")

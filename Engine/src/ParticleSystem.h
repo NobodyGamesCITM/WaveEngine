@@ -129,6 +129,8 @@ public:
     std::vector<ColorKey> colorGradient;
 
     // Rotation
+    float initialRotationMin = 0.0f;
+    float initialRotationMax = 360.0f;
     float rotationSpeedMin = 0.0f;
     float rotationSpeedMax = 0.0f;
 

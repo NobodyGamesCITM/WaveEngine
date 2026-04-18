@@ -32,6 +32,7 @@ void ModuleEmitterSpawn::ResetDefaults() {
     colorEnd = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     colorGradient.clear();
 
+    initialRotationMin = 0.0f; initialRotationMax = 360.0f;
     rotationSpeedMin = 0.0f; rotationSpeedMax = 0.0f;
 }
 
@@ -135,7 +136,7 @@ void ModuleEmitterSpawn::Spawn(EmitterInstance* emitter, Particle* particle) {
     }
 
     // Spin
-    particle->rotation = RandomFloat(0.0f, 360.0f);
+    particle->rotation = RandomFloat(initialRotationMin, initialRotationMax);
     particle->angularVelocity = RandomFloat(rotationSpeedMin, rotationSpeedMax);
 
     // Animation

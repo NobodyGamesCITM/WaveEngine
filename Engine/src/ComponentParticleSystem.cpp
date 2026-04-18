@@ -373,6 +373,7 @@ void ComponentParticleSystem::OnEditor() {
         ImGui::DragFloat2("Speed (Min/Max)", &spawner->speedMin, 0.1f, 0.0f, 50.0f);
         ImGui::DragFloat("Size Start", &spawner->sizeStart, 0.01f, 0.0f, 10.0f);
         ImGui::DragFloat("Size End", &spawner->sizeEnd, 0.01f, 0.0f, 10.0f);
+        ImGui::DragFloat2("Initial Rot (Min/Max)", &spawner->initialRotationMin, 1.0f, -360.0f, 360.0f);
         ImGui::DragFloat2("Spin Speed (Min/Max)", &spawner->rotationSpeedMin, 1.0f, -360.0f, 360.0f);
 
         // The size curve settings overrides Start/End when is not empty
@@ -635,6 +636,8 @@ void ComponentParticleSystem::Serialize(nlohmann::json& componentObj) const {
 
             componentObj["sizeStart"] = s->sizeStart;
             componentObj["sizeEnd"] = s->sizeEnd;
+            componentObj["initRotMin"] = s->initialRotationMin;
+            componentObj["initRotMax"] = s->initialRotationMax;
             componentObj["rotSpeedMin"] = s->rotationSpeedMin;
             componentObj["rotSpeedMax"] = s->rotationSpeedMax;
             componentObj["lifetimeMin"] = s->lifetimeMin;
@@ -742,6 +745,8 @@ void ComponentParticleSystem::Deserialize(const nlohmann::json& componentObj) {
 
             if (componentObj.contains("sizeStart")) s->sizeStart = componentObj["sizeStart"];
             if (componentObj.contains("sizeEnd")) s->sizeEnd = componentObj["sizeEnd"];
+            s->initialRotationMin = componentObj.value("initRotMin", 0.0f);
+            s->initialRotationMax = componentObj.value("initRotMax", 360.0f);
             if (componentObj.contains("rotSpeedMin")) s->rotationSpeedMin = componentObj["rotSpeedMin"];
             if (componentObj.contains("rotSpeedMax")) s->rotationSpeedMax = componentObj["rotSpeedMax"];
             if (componentObj.contains("lifetimeMin")) s->lifetimeMin = componentObj["lifetimeMin"];

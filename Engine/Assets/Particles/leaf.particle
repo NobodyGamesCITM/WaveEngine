@@ -36,6 +36,8 @@
         -0.3499999940395355,
         0.0
     ],
+    "initRotMax": 0.0,
+    "initRotMin": 0.0,
     "lifetimeMax": 3.5,
     "lifetimeMin": 2.5,
     "looping": true,
@@ -59,7 +61,7 @@
     "speedMax": 0.07999999821186066,
     "speedMin": 0.009999999776482582,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
+    "texturePath": "C:\\Users\\pablo\\Desktop\\repos\\WaveEngine\\Engine\\Assets\\Environment\\Trees_Leafs.png",
     "textureRows": 1,
     "textureUID": 11107368379844993512,
     "type": 7

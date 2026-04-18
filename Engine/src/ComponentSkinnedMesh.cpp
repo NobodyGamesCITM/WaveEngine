@@ -130,3 +130,22 @@ void ComponentSkinnedMesh::OnEvent(const Event& event)
     }
 }
 
+const AABB& ComponentSkinnedMesh::GetGlobalAABB()
+{
+    if (!bonesLinked || boneGameObjects.empty())
+        return ComponentMesh::GetGlobalAABB();
+
+    skinnedAABB.SetNegativeInfinity();
+
+    for (GameObject* bone : boneGameObjects)
+    {
+        if (!bone) continue;
+        skinnedAABB.Enclose(bone->transform->GetGlobalPosition());
+    }
+
+    skinnedAABB.min -= glm::vec3(0.5f);
+    skinnedAABB.max += glm::vec3(0.5f);
+
+    cachedGlobalAABB = skinnedAABB;
+    return cachedGlobalAABB;
+}

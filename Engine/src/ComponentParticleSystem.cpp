@@ -136,21 +136,17 @@ void ComponentParticleSystem::Draw(ComponentCamera* camera) {
     glLoadMatrixf(glm::value_ptr(viewMatrix));
 
     // Simulation space logic in render
+    glm::mat4 modelMat = glm::mat4(1.0f);
     if (emitter->simulationSpace == SimulationSpace::LOCAL) {
         // In LOCAL, we apply the object's matrix. Particles move with it
         Transform* trans = dynamic_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
         if (trans) {
-            glm::mat4 globalMat = trans->GetGlobalMatrix();
-            glMultMatrixf(glm::value_ptr(globalMat));
-            glm::mat4 invGlobal = glm::inverse(globalMat);
-            glm::vec3 camWorld = camera->owner->transform->GetGlobalPosition();
-            glm::vec3 camLocal = glm::vec3(invGlobal * glm::vec4(camWorld, 1.0f));
-            emitter->Draw(camLocal);
-            return;
+            modelMat = trans->GetGlobalMatrix();
         }
     }
+
     // WORLD space: camera and particle positions are both world-space, pass directly
-    emitter->Draw(camera->owner->transform->GetGlobalPosition());
+    emitter->Draw(camera->owner->transform->GetGlobalPosition(), modelMat);
 }
 
 // Scripting

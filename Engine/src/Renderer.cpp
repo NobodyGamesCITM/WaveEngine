@@ -819,20 +819,8 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
-
-        glm::vec3 cameraPosToPass = billboardPos;
-
-        if (pair.second.system->GetEmitter()->simulationSpace == SimulationSpace::LOCAL) {
-            glm::mat4 invModel = glm::inverse(pair.second.modelMatrix);
-            cameraPosToPass = glm::vec3(invModel * glm::vec4(billboardPos, 1.0f));
-        }
-
-        pair.second.system->GetEmitter()->Draw(cameraPosToPass);
-
-        glPopMatrix();
+        // Render directly in World Space
+        pair.second.system->GetEmitter()->Draw(billboardPos, pair.second.modelMatrix);
     }
 
     glMatrixMode(GL_PROJECTION);

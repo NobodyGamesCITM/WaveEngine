@@ -232,7 +232,7 @@ struct EmitterInstance {
 
     void Init();
     void Update(float dt);
-    void Draw(glm::vec3 cameraPosition);
+    void Draw(glm::vec3 cameraPosition, const glm::mat4& modelMatrix = glm::mat4(1.0f));
     void Reset();
     void ResetValues();
     void KillDeadParticles();

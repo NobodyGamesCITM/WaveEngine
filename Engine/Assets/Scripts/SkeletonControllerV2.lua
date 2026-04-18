@@ -1,4 +1,3 @@
-
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -32,17 +31,19 @@ public = {
     chaseSpeed      = 3.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
-    attackColDelay  = 0.8,
+    attackColDelay  = 1.4,
+    attackAnimaAnticip  = 0.3,
     nearDist        = 2,
     patrolWaitMin   = 1.0,
     patrolWaitMax   = 2.8,
 }
 local patrolWait = 0
-local hitRecieved = false
 local alreadyHit = false
 local attackTimer = 0
 local pendingDeath = false
-local  currentYaw = 0 
+local currentYaw = 0 
+
+local BaseMat = nil
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
@@ -245,12 +246,12 @@ States[State.ATTACK] = {
         local plPos = playerGO.transform.worldPosition
         attackTimer    = attackTimer    + dt
 
-        if attackTimer >= self.public.attackColDelay - 0.3 and not hitGiven and not alreadyHit and playerGO then
+        if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and not alreadyHit and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then 
-                    pcall(function() anim:Play("Attack", 0.5) end)
+                    pcall(function() anim:Play("Attack", 0.0) end)
                 end
             end
         end
@@ -264,7 +265,7 @@ States[State.ATTACK] = {
             end
         end
 
-        if attackTimer >= self.public.attackDur or hitRecieved then
+        if attackTimer >= self.public.attackDur then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)

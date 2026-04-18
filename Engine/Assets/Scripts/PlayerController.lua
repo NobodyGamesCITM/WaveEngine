@@ -65,12 +65,14 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
+	bubblesPS         = nil,
 	aresPs         = nil,
 	apoloPs         = nil,
 	hermesPs         = nil,
 	hermesAttackPs         = nil,
 	aresAttackPs         = nil,
 	apoloAttackPs         = nil,
+	trailPs         = nil,
     aresLight         = nil,
 	apoloLight         = nil,
 	hermesLight         = nil,
@@ -584,12 +586,15 @@ States[State.RUNNING] = {
             self.public.speed = self.public.speed + self.public.speedHermesBonus
         end		
 
-		if Player.smokePS then Player.smokePS:Play() end 
+        if Player.isDrowning and Player.currentMask == Mask.Hermes then
+            if Player.bubblesPS then Player.bubblesPS:Play() end
+        elseif Player.smokePS then Player.smokePS:Play() end
     end,
     Exit = function(self)
         self.public.speed = Player.baseSpeed
         self.public.usingStamina = false
 		if Player.smokePS then Player.smokePS:Stop() end
+		if Player.bubblesPS then Player.bubblesPS:Stop() end
     end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput(self)
@@ -689,12 +694,19 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 1.0) end
+        if anim then anim:Play("Ares", 0.5) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
             _PlayerController_lastAttack = "charge"
         end
+        if Player.currentMask == Mask.ARES then
+            if Player.aresAttackPs then
+                Player.aresAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -711,6 +723,10 @@ States[State.CHARGING] = {
     Exit = function(self)
         if chargeCol then chargeCol:Disable() end
         _PlayerController_lastAttack = ""
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -722,7 +738,7 @@ States[State.SHOOTING] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 2.0) 
+            anim:Play("Apolo", 0.3) 
         end
         attackTimer = 0
 
@@ -730,6 +746,14 @@ States[State.SHOOTING] = {
         local radians  = math.rad(Player.lastAngle)
         local fwdX     = math.sin(radians)
         local fwdZ     = math.cos(radians)
+
+        if Player.currentMask == Mask.APOLLO then
+            if Player.apoloAttackPs then
+                Player.apoloAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
 
         _G.nextBulletData = {
             x     = worldPos.x + fwdX * self.public.bulletBarrel,
@@ -755,6 +779,10 @@ States[State.SHOOTING] = {
     end,
     Exit = function(self)
         _PlayerController_lastAttack = ""
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -779,16 +807,8 @@ States[State.ATTACK_HEAVY] = {
                 Player.hermesAttackPs:Play()
             end
         end
-        if Player.currentMask == Mask.APOLLO then
-            if Player.apoloAttackPs then
-                Player.apoloAttackPs:Play()
-            end
-        end
-        if Player.currentMask == Mask.ARES then
-            if Player.aresAttackPs then
-                Player.aresAttackPs:Play()
-            end
-        end
+
+        ActivateTrail(self)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -823,12 +843,8 @@ States[State.ATTACK_HEAVY] = {
         if Player.hermesAttackPs then
             Player.hermesAttackPs:Stop()
         end
-        if Player.apoloAttackPs then
-            Player.apoloAttackPs:Stop()
-        end
-        if Player.aresAttackPs then
-            Player.aresAttackPs:Stop()
-        end
+
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -861,6 +877,8 @@ States[State.ATTACK_LIGHT] = {
                 Player.aresAttackPs:Play()
             end
         end
+
+        ActivateTrail(self)
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim and attackNum == 1 then anim:Play("Attack1", 0.0) end
@@ -940,6 +958,8 @@ States[State.ATTACK_LIGHT] = {
         if Player.aresAttackPs then
             Player.aresAttackPs:Stop()
         end
+
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -1093,6 +1113,16 @@ function Start(self)
         Engine.Log("[Player] No SmokeTrail child found in hierarchy")
     end
 
+    local bubblesObj = GameObject.FindInChildren(self.gameObject, "WaterTrail")
+    if bubblesObj then
+        Player.bubblesPS = bubblesObj:GetComponent("ParticleSystem")
+        if Player.bubblesPS then
+            Player.bubblesPS:Stop()
+        end
+    else
+        Engine.Log("[Player] No WaterTrail child found in hierarchy")
+    end
+
     _G._PlayerController_isDead = false
 
     giveApoloMask       = false
@@ -1120,6 +1150,7 @@ function Start(self)
     vfxHermesAttack = GameObject.FindInChildren(self.gameObject,"VFXhermesAttack")
     vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
     vfxAresAttack = GameObject.FindInChildren(self.gameObject,"VFXaresAttack")
+    vfxTrail = GameObject.FindInChildren(self.gameObject,"VFXtrail")
 
     Player.hermesPs = nil
     Player.hermesAttackPs = nil
@@ -1127,6 +1158,7 @@ function Start(self)
     Player.aresAttackPs = nil
     Player.apoloPs = nil
     Player.apoloAttackPs = nil
+    Player.trailPs = nil
 
     Player.hermesLight = nil
     Player.aresLight = nil
@@ -1192,6 +1224,13 @@ function Start(self)
 
     if swordGameObject then
         swordMat = swordGameObject:GetComponent("Material")
+    end
+
+    if vfxTrail then
+        Player.trailPs = vfxTrail:GetComponent("ParticleSystem")
+        if Player.trailPs then
+            Player.trailPs:Stop()
+        end
     end
 
     if Player.rb then
@@ -1599,4 +1638,24 @@ function UpdateSwordMaterial()
     else
         swordMat.SetTexture("2897285206442267137")
     end
+end
+
+function ActivateTrail()
+    if not Player.trailPs then return end
+
+    if Player.currentMask == Mask.HERMES then
+        Player.trailPs:SetStartColor(0.4, 0.8, 1.0)
+        Player.trailPs:SetEndColor(0.4, 0.8, 1.0, 0.0)
+    elseif Player.currentMask == Mask.APOLLO then
+        Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
+        Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
+    elseif Player.currentMask == Mask.ARES then
+        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
+    else
+        Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
+        Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)
+    end
+
+    Player.trailPs:Play()
 end

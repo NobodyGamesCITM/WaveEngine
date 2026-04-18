@@ -823,7 +823,14 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
         glPushMatrix();
         glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
 
-        pair.second.system->GetEmitter()->Draw(billboardPos);
+        glm::vec3 cameraPosToPass = billboardPos;
+
+        if (pair.second.system->GetEmitter()->simulationSpace == SimulationSpace::LOCAL) {
+            glm::mat4 invModel = glm::inverse(pair.second.modelMatrix);
+            cameraPosToPass = glm::vec3(invModel * glm::vec4(billboardPos, 1.0f));
+        }
+
+        pair.second.system->GetEmitter()->Draw(cameraPosToPass);
 
         glPopMatrix();
     }

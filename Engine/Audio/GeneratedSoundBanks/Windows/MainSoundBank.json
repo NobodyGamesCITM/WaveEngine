@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{407EB261-0C40-42BA-A786-7B91C776BC10}",
+    "Hash": "{08C40739-7274-B17F-8EC5-5A504AE51CA8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -386,8 +386,8 @@
      {
       "Id": "355732203",
       "Language": "SFX",
-      "Streaming": "true",
-      "Location": "Loose",
+      "Streaming": "false",
+      "Location": "Memory",
       "ShortName": "Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂).wav",
       "CachePath": "E7/{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem"
      },
@@ -2470,6 +2470,6 @@
     ]
    }
   ],
-  "FileHash": "{5273AA77-865A-BD3D-A412-231925E91C39}"
+  "FileHash": "{AF6112C1-210D-CC6D-5EEF-69F72C5E4F81}"
  }
 }

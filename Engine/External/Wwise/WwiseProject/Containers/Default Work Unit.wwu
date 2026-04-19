@@ -1013,6 +1013,9 @@
 								<Reference Name="PlaylistRoot">
 									<Custom>
 										<MusicPlaylistItem Name="" ID="{9DDEB093-0186-4EFE-A916-8B0AD7E09518}" ShortID="597991970">
+											<PropertyList>
+												<Property Name="LoopCount" Type="int16" Value="0"/>
+											</PropertyList>
 											<ChildrenList>
 												<MusicPlaylistItem Name="" ID="{710737DA-5949-477F-B29D-6E2FC059C453}" ShortID="539058708">
 													<PropertyList>
@@ -1083,13 +1086,6 @@
 									</ReferenceList>
 									<ChildrenList>
 										<MusicTrack Name="Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)" ID="{A983D6DB-CBC7-495B-9923-D317454566F6}" ShortID="1073122595">
-											<PropertyList>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>

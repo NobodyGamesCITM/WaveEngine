@@ -3,7 +3,7 @@
     "active": true,
     "additive": true,
     "animLoop": true,
-    "animSpeed": 4.400000095367432,
+    "animSpeed": 6.150000095367432,
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
@@ -20,7 +20,7 @@
         1.0
     ],
     "coneAngle": 0.0,
-    "coneRadius": 0.10000000149011612,
+    "coneRadius": 0.0010000000474974513,
     "duration": 5.0,
     "emissionArea": [
         1.0,
@@ -56,8 +56,8 @@
     "shape": 2,
     "simulationSpace": 0,
     "sizeCurve": [],
-    "sizeEnd": 5.0,
-    "sizeStart": 5.0,
+    "sizeEnd": 1.399999976158142,
+    "sizeStart": 1.399999976158142,
     "speedMax": 0.0,
     "speedMin": 0.0,
     "textureCols": 9,

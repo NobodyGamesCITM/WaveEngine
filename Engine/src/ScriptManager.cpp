@@ -837,7 +837,10 @@ static int Lua_Audio_SetSwitch(lua_State* L) {
     const char* switchGroupName = luaL_checkstring(L, 1);
     const char* switchStateName = luaL_checkstring(L, 2);
     lua_getfield(L, 3, "ptr");                             // slot 3: the table (component)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     Application::GetInstance().audio.get()->audioSystem->SetSwitch(switchGroupName, switchStateName, source->goID);
     AK::SoundEngine::RenderAudio();
@@ -846,7 +849,10 @@ static int Lua_Audio_SetSwitch(lua_State* L) {
 
 static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
 
@@ -857,7 +863,10 @@ static int Lua_Audio_PlayAudioEvent(lua_State* L) {
 
 static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
     std::string eventName(luaL_checkstring(L, 2));
     std::wstring wEventName(eventName.begin(), eventName.end());
 
@@ -871,7 +880,10 @@ static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
 
 static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
     Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
@@ -881,7 +893,10 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     float volume = luaL_checknumber(L, 2);
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
     Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, source->goID);
 
     AK::SoundEngine::RenderAudio();

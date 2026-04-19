@@ -452,6 +452,11 @@ function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
         local _rb  = rb
 
         rb       = nil

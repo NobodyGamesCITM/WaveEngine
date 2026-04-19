@@ -602,6 +602,7 @@ function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
+        DestroyChargeFeedback(self)
         local _rb  = rb
 
         rb       = nil

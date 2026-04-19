@@ -40,6 +40,8 @@ enum class ComponentType {
     POSTPROCESSING,
     CANVAS,
     LIGHT,
+    CAMERA_ZONE,
+    CINEMATIC_CAMERA,
     UNKNOWN,
 };
 

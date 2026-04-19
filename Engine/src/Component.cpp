@@ -34,6 +34,8 @@ Component::Component(GameObject* owner, ComponentType type) : owner(owner), type
     case ComponentType::REVERBZONE:              name = "Reverb Zone";              break;
     case ComponentType::NAVIGATION:              name = "Navigation";               break;
     case ComponentType::LIGHT:                   name = "Light";                    break;
+    case ComponentType::CAMERA_ZONE:             name = "Camera Zone";              break;
+    case ComponentType::CINEMATIC_CAMERA:        name = "Cinematic Camera";         break;
     default:                                     name = "Unknown Component";        break;
     }
 }

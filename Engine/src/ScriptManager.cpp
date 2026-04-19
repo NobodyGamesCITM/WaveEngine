@@ -34,6 +34,8 @@
 #include "Application.h"
 #include "ComponentAnimation.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentCinematicCamera.h"
+#include "ComponentCameraZone.h"
 #include "UIManager.h"
 #include "LibraryManager.h"
 #include "ResourceScript.h"
@@ -2216,6 +2218,77 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             lua_pushnil(L);
             return 1;
         }
+    }
+
+    if (strcmp(componentType, "CinematicCamera") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::CINEMATIC_CAMERA);
+        ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(comp);
+        if (!cam) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        // AddTarget(gameObject, weight)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            GameObject** targetObj = static_cast<GameObject**>(luaL_checkudata(L, 2, "GameObject"));
+            float weight = static_cast<float>(luaL_checknumber(L, 3));
+            if (cam && targetObj && *targetObj) {
+                Application::GetInstance().scripts->EnqueueOperation([cam, targetObj, weight]() {
+                    cam->AddTarget(*targetObj, weight);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "AddTarget");
+
+        // RemoveTarget(gameObject)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            GameObject** targetObj = static_cast<GameObject**>(luaL_checkudata(L, 2, "GameObject"));
+            if (cam && targetObj && *targetObj) {
+                Application::GetInstance().scripts->EnqueueOperation([cam, targetObj]() {
+                    cam->RemoveTarget(*targetObj);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "RemoveTarget");
+
+        // ClearTargets()
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            if (cam) {
+                Application::GetInstance().scripts->EnqueueOperation([cam]() {
+                    cam->ClearTargets();
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "ClearTargets");
+
+        // Shake(duration, magnitude, frequency)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            float duration = static_cast<float>(luaL_checknumber(L, 2));
+            float magnitude = static_cast<float>(luaL_checknumber(L, 3));
+            float frequency = static_cast<float>(luaL_optnumber(L, 4, 25.0));
+            if (cam) {
+                Application::GetInstance().scripts->EnqueueOperation([cam, duration, magnitude, frequency]() {
+                    cam->TriggerShake(duration, magnitude, frequency);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "Shake");
+
+        return 1;
     }
 
     lua_pushnil(L);

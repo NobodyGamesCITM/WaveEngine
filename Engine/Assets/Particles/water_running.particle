@@ -10,7 +10,7 @@
         0.0,
         0.7647058963775635,
         1.0,
-        1.0
+        0.0
     ],
     "colorGradient": [
         {
@@ -64,6 +64,8 @@
         0.07999999821186066,
         0.0
     ],
+    "initRotMax": 360.0,
+    "initRotMin": 0.0,
     "lifetimeMax": 0.699999988079071,
     "lifetimeMin": 0.30000001192092896,
     "looping": true,
@@ -82,8 +84,8 @@
     "shape": 3,
     "simulationSpace": 1,
     "sizeCurve": [],
-    "sizeEnd": 3.359999895095825,
-    "sizeStart": 2.299999952316284,
+    "sizeEnd": 4.690000057220459,
+    "sizeStart": 3.4600000381469727,
     "speedMax": 0.30000001192092896,
     "speedMin": 0.05000000074505806,
     "textureCols": 6,

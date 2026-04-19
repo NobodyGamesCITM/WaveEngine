@@ -632,7 +632,7 @@ States[State.RUNNING] = {
                 return
             end
         end
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and rollCooldown <= 0 then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
         end
@@ -967,6 +967,7 @@ States[State.ATTACK_LIGHT] = {
 -- Toda la lógica de vida usa exclusivamente self.public.health como única fuente de verdad.
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
+    if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
 
     self.public.health = math.max(0, self.public.health - amount)

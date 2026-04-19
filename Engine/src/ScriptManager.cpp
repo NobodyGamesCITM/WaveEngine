@@ -2195,7 +2195,7 @@ static int Lua_GameObject_Index(lua_State* L) {
     GameObject* obj = *objPtr;
 
     if (obj->IsMarkedForDeletion()) {
-        LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion: %s", obj->GetName().c_str());
+        LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion");
         lua_pushnil(L);
         return 1;
     }

@@ -667,7 +667,7 @@ States[State.ROLL] = {
         States[State.ROLL].timer = self.public.rollDuration
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Roll", 1.0) end
+        if anim then anim:Play("Roll", 0) end
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax

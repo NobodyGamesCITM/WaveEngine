@@ -27,7 +27,6 @@
 #include "HingeJoint.h"
 #include "ComponentParticleSystem.h"
 #include "ComponentNavigation.h"
-#include "ComponentRotate.h"
 #include "ComponentAnimation.h"
 #include "AudioComponent.h"
 #include "AudioSource.h"
@@ -36,6 +35,7 @@
 #include "ComponentPostProcessing.h"
 #include "ComponentLight.h"
 #include "LightManager.h"
+#include "Renderer.h"
 #include <nlohmann/json.hpp>
 
 GameObject::GameObject(const std::string& name) : name(name), active(true), parent(nullptr) {
@@ -44,22 +44,17 @@ GameObject::GameObject(const std::string& name) : name(name), active(true), pare
 }
 
 GameObject::~GameObject() {
-    
     MarkCleaning();
 
-    for (auto* component : components) {
-        componentOwners.clear();
-        component = nullptr;
-    }
-
     components.clear();
+
+    componentOwners.clear();
+
     for (auto* child : children) {
         delete child;
-        child = nullptr;
     }
     children.clear();
 }
-
 Component* GameObject::CreateComponent(ComponentType type) {
     
     for (Component* component : components)
@@ -83,6 +78,7 @@ Component* GameObject::CreateComponent(ComponentType type) {
         break;
     case ComponentType::SKINNED_MESH:
         newComponent = new ComponentSkinnedMesh(this);
+        //Application::GetInstance().renderer->AddSkinnedMesh((ComponentSkinnedMesh*)newComponent);
         break;
     case ComponentType::MATERIAL:
         newComponent = new ComponentMaterial(this);

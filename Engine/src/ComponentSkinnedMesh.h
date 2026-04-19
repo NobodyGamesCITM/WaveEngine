@@ -5,7 +5,7 @@
 #include "EventListener.h"
 #include "ModuleLoader.h"  
 #include "ModuleResources.h"  
-#include "AABB.h"
+#include "ComponentMesh.h"  
 #include <glm/glm.hpp>
 
 class ComponentSkinnedMesh : public ComponentMesh , public EventListener{
@@ -33,19 +33,21 @@ public:
 
     void OnEvent(const Event& event);
 
+    //const AABB& GetGlobalAABB() override;
+
 protected:
 
-    UID meshUID = 0;
+    //UID meshUID = 0;
     void ReleaseCurrentMesh();
 
 private:
 
+    AABB skinnedAABB;
+    
     struct BoneInfo {
         const glm::mat4* globalMatrixPtr;
         glm::mat4 offsetMatrix;
     };
-
-    AABB skinnedAABB; 
 
     std::vector<BoneInfo> fastBones;
     std::vector<GameObject*> boneGameObjects;

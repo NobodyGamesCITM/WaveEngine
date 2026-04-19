@@ -307,6 +307,8 @@ void Renderer::DrawMesh(const ComponentMesh* meshComp)
     }
 }
 
+// Renderer.cpp
+
 void Renderer::AddMesh(ComponentMesh* mesh) {
     if (mesh->IsType(ComponentType::SKINNED_MESH)) {
         skinnedMeshes.push_back(static_cast<ComponentSkinnedMesh*>(mesh));
@@ -335,9 +337,22 @@ void Renderer::RemoveMesh(ComponentMesh* mesh) {
     }
     if (lightManager) lightManager->MarkShadowsDirty();
 }
-
 void Renderer::AddParticle(ComponentParticleSystem* particle) {
     particles.push_back(particle);
+}
+
+void Renderer::AddSkinnedMesh(ComponentSkinnedMesh* mesh) {
+    skinnedMeshes.push_back(mesh);
+    if (lightManager) lightManager->MarkShadowsDirty();
+}
+
+void Renderer::RemoveSkinnedMesh(ComponentSkinnedMesh* mesh) {
+    auto it = std::find(skinnedMeshes.begin(), skinnedMeshes.end(), mesh);
+    if (it != skinnedMeshes.end()) {
+        *it = skinnedMeshes.back();
+        skinnedMeshes.pop_back();
+    }
+    if (lightManager) lightManager->MarkShadowsDirty();
 }
 
 void Renderer::RemoveParticle(ComponentParticleSystem* particle) {
@@ -458,7 +473,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboMatrices);
 
     for (ComponentMesh* mesh : meshes)
-        if (mesh) mesh->UpdateSkinningMatrices();
+        if(mesh) mesh->UpdateSkinningMatrices();
 
     for (ComponentSkinnedMesh* mesh : skinnedMeshes)
     {
@@ -468,7 +483,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     // Shadow pass
     if (lightManager)
-        lightManager->BuildShadowMap(meshes, skinnedMeshes); 
+        lightManager->BuildShadowMap(meshes, skinnedMeshes);
 
     //Build Render List
     opaqueList.clear();
@@ -551,7 +566,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         if (camera->GetFrustum()->InFrustum(mesh->GetGlobalAABB()))
         {
-            mesh->UpdateSkinningMatrices();
+            //mesh->UpdateSkinningMatrices();
 
             RenderObject renderObject = { mesh, globalModelMatrix };
 
@@ -715,6 +730,9 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
 
     for (const RenderObject& renderObject : list)
     {
+        if (!renderObject.mesh) continue;
+        if (!renderObject.mesh->owner) continue;
+
         ComponentMesh* meshComp = renderObject.mesh;
         ComponentMaterial* materialComp = meshComp->GetAttachedMaterial();
 
@@ -759,13 +777,14 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
         if (currentMaterial != lastMaterial) {
             if (currentMaterial)
                 currentMaterial->Bind(currentShader);
-            else {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, defaultTexture->GetID());
-            }
+            else { /* default texture */ }
             lastMaterial = currentMaterial;
-        }
 
+            if (currentShader == standardShader.get()) {
+                glActiveTexture(GL_TEXTURE7);
+                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+            }
+        }
         DrawMesh(meshComp);
     }
 }
@@ -778,7 +797,7 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         standardShader->Use();
         lightManager->UploadToShader(standardShader.get());
         standardShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
-        standardShader->SetInt("uShadowMap", 5);
+        standardShader->SetInt("uShadowMap", 7);
     }
 
     Shader* lastShader = nullptr;
@@ -869,8 +888,13 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        // Render directly in World Space
-        pair.second.system->GetEmitter()->Draw(billboardPos, pair.second.modelMatrix);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
+
+        pair.second.system->GetEmitter()->Draw(billboardPos);
+
+        glPopMatrix();
     }
 
     glMatrixMode(GL_PROJECTION);

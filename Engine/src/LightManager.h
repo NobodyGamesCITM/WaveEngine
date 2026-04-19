@@ -4,9 +4,9 @@
 #include <vector>
 #include <memory>
 #include "ComponentMesh.h"
+#include "ComponentSkinnedMesh.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "ComponentSkinnedMesh.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 class Shader;
@@ -34,7 +34,8 @@ public:
     void UploadToShader(Shader* shader);
 
     void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
-        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);    
+    //void BuildShadowMapSkinned(const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
@@ -67,4 +68,6 @@ private:
 
     bool shadowsDirty = true;
     glm::mat4 cachedLightDir = glm::mat4(0.0f);
+
+    //ComponentSkinnedMesh* skinnedMesh;
 };

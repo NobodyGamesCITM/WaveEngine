@@ -12,39 +12,33 @@
 #include "Application.h"
 
 ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
-    : Component(owner, type),
-    meshUID(0),
-    hasDirectMesh(false), aabbDirty(true)
+    : Component(owner, type), meshUID(0), hasDirectMesh(false), aabbDirty(true)
 {
     attachedMaterial = (ComponentMaterial*)owner->GetComponent(ComponentType::MATERIAL);
     name = "Mesh";
-    Application::GetInstance().renderer->AddMesh(this);
+
+    if (type == ComponentType::MESH)  
+        Application::GetInstance().renderer->AddMesh(this);
 }
 
 ComponentMesh::~ComponentMesh()
 {
     attachedMaterial = nullptr;
-    ReleaseCurrentMesh();
-    Application::GetInstance().renderer->RemoveMesh(this);
+
+    if (meshUID != 0) {
+        Application::GetInstance().resources->ReleaseResource(meshUID);
+        meshUID = 0;
+    }
+
+    if (Application::GetInstance().renderer && GetType() == ComponentType::MESH)
+        Application::GetInstance().renderer->RemoveMesh(this);
 
     if (hasDirectMesh && directMesh.VAO != 0) {
         glDeleteVertexArrays(1, &directMesh.VAO);
         glDeleteBuffers(1, &directMesh.VBO);
         glDeleteBuffers(1, &directMesh.EBO);
     }
-
 }
-
-void ComponentMesh::ReleaseCurrentMesh()
-{
-    if (meshUID != 0) {
-        Application::GetInstance().resources->ReleaseResource(meshUID);
-        meshUID = 0;
-    }
-
-    hasDirectMesh = false;
-}
-
 bool ComponentMesh::LoadMeshByUID(UID meshUID)
 {
     if (meshUID == 0)
@@ -326,4 +320,13 @@ void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* componen
         if (lightManager) lightManager->MarkShadowsDirty();
         break;
     }
+}
+
+void ComponentMesh::ReleaseCurrentMesh()
+{
+    if (meshUID != 0) {
+        Application::GetInstance().resources->ReleaseResource(meshUID);
+        meshUID = 0;
+    }
+    hasDirectMesh = false;
 }

@@ -10,6 +10,7 @@
 
 class GameObject;
 class ComponentMesh;
+class ComponentSkinnedMesh;
 class ComponentParticleSystem;
 class CameraLens;
 class ComponentCanvas;
@@ -19,7 +20,6 @@ class Shader;
 class Texture;
 class ComponentLight;
 class LightManager;
-class ComponentSkinnedMesh;
 
 class Renderer : public Module
 {
@@ -139,6 +139,9 @@ public:
     void RemoveLight(ComponentLight* light);
     LightManager* GetLightManager() const { return lightManager.get(); }
 
+    void AddSkinnedMesh(ComponentSkinnedMesh* mesh);
+    void RemoveSkinnedMesh(ComponentSkinnedMesh* mesh);
+
 private:
 
     void ApplyRenderSettings();
@@ -245,5 +248,7 @@ private:
     unsigned int msaaDepthStencilRBO = 0;
 
     std::unique_ptr<LightManager> lightManager;
+
+    ComponentSkinnedMesh* skinnedMesh;
 
 };

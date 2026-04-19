@@ -1,0 +1,199 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        1.5,
+                        10.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 2.361445665359497,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": false
+                }
+            ],
+            "name": "Camera",
+            "tag": "",
+            "uid": 9216359926180134797
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        74.52001190185547,
+                        1.0,
+                        71.27999877929688
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "fadeSpeed",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "targetScene",
+                            "type": 1,
+                            "value": "Level1.scene"
+                        }
+                    ],
+                    "scriptUID": 7045512815554282410,
+                    "type": 6
+                },
+                {
+                    "active": true,
+                    "opacity": 0.0,
+                    "type": 30,
+                    "uiLayer": 0,
+                    "xamlPath": "FadePanel.xaml"
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": true,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                }
+            ],
+            "name": "GameObject",
+            "tag": "",
+            "uid": 5090120372212433606
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 1,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "Center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                }
+            ],
+            "name": "GameObject",
+            "tag": "Player",
+            "uid": 3877975214965360131
+        }
+    ],
+    "version": 1
+}

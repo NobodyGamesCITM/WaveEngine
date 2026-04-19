@@ -48,7 +48,6 @@ static int LuaCustomRequire(lua_State* L) {
     const char* moduleName = luaL_checkstring(L, 1);
     std::string fileName = std::string(moduleName) + ".lua";
 
-    // replace the dots for / because in lua is inverse
     std::replace(fileName.begin(), fileName.end(), '.', '/');
 
     auto& resources = Application::GetInstance().resources->GetAllResources();
@@ -57,7 +56,7 @@ static int LuaCustomRequire(lua_State* L) {
     for (const auto& pair : resources) {
         if (pair.second->GetType() == Resource::SCRIPT) {
             std::string path = pair.second->GetAssetFile();
-            // Check path of the resource ends with the filename
+
             if (path.length() >= fileName.length() &&
                 path.compare(path.length() - fileName.length(), fileName.length(), fileName) == 0)
             {
@@ -68,17 +67,15 @@ static int LuaCustomRequire(lua_State* L) {
     }
 
     if (foundUID != 0) {
-        // RequestResource loads and unlocks the script with the ScriptImporter
         ResourceScript* scriptRes = (ResourceScript*)Application::GetInstance().resources->RequestResource(foundUID);
         if (scriptRes) {
             const std::string& content = scriptRes->GetScriptContent();
 
-            // Compile the text of the script
             if (luaL_loadbuffer(L, content.c_str(), content.size(), moduleName) != LUA_OK) {
                 LOG_CONSOLE("[Lua] ERROR compiling module '%s': %s", moduleName, lua_tostring(L, -1));
                 return 1;
             }
-            return 1; // Sucess then return the chunk compiled
+            return 1;
         }
     }
 
@@ -312,22 +309,23 @@ static int Lua_Input_GetKey(lua_State* L) {
 }
 
 static int Lua_Engine_LoadScene(lua_State* L) {
-    const char* scenesPath = luaL_checkstring(L, 1);
-    const char* relativePath = luaL_checkstring(L, 2);
+    const char* relativePath = luaL_checkstring(L, 1);
     std::string normalizedPath = relativePath;
-    
+
+    if (normalizedPath.find(".scene") == std::string::npos) {
+        normalizedPath += ".scene";
+    }
+
     std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
-  
 
-    //while (normalizedPath.rfind("../", 0) == 0)
-    //    normalizedPath.erase(0, 2);
+    std::string scenesPath = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\").string();
 
-    //std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
-
-    std::string absolutePath = std::string(scenesPath).append(normalizedPath);
-
+    std::string absolutePath = scenesPath + normalizedPath;
     
+    LOG(LogType::LOG_ERROR, "%s", absolutePath.c_str());
+
     Application::GetInstance().scripts->pendingSceneLoad = absolutePath;
+
     return 0;
 }
 

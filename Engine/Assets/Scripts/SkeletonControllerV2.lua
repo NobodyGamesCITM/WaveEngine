@@ -92,7 +92,7 @@ local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.isDead or not Skeleton.hp then return end
 
     Skeleton.hp = Skeleton.hp - amount
-    Engine.Log("[Skeleton] HP: " .. Skeleton.hp .. "/" .. self.public.maxHp)
+    --Engine.Log("[Skeleton] HP: " .. Skeleton.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
 
     if  Skeleton.hp <= 0 and not pendingDeath then
@@ -106,12 +106,11 @@ local function TakeDamage(self, amount, attackerPos)
         if anim then 
           --  pcall(function() anim:Play("Hit", 0.5) end)
         end
-        Engine.Log("[Skeleton] STUN " .. self.public.stunDuration .. "s")
     end
 end
 
 local function ChangeState(self, newState)
-    Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
+    --Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
     
     if Skeleton.currentState and States[Skeleton.currentState].Exit then
         States[Skeleton.currentState].Exit(self)
@@ -284,7 +283,6 @@ States[State.ATTACK] = {
 }
 
 function Update(self, dt)
-    
     if not Skeleton.nav then
         Skeleton.nav = self.gameObject:GetComponent("Navigation")
     end
@@ -302,7 +300,7 @@ function Update(self, dt)
     if pendingDeath then
         if Skeleton.nav then Skeleton.nav:StopMovement() end
         Skeleton.isDead       = true
-        Engine.Log("[Skeleton] MUERTO")
+        --Engine.Log("[Skeleton] MUERTO")
         --Enemy.dieSFX:PlayAudioEvent()
         self:Destroy()
         return

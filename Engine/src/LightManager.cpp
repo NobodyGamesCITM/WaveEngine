@@ -15,6 +15,20 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 
+static bool IsVec3Finite(const glm::vec3& v)
+{
+    return std::isfinite(v.x) && std::isfinite(v.y) && std::isfinite(v.z);
+}
+
+static bool IsAABBValid(const AABB& aabb, float maxExtent = 50000.f)
+{
+    if (!IsVec3Finite(aabb.min) || !IsVec3Finite(aabb.max)) return false;
+    if (aabb.min.x > aabb.max.x || aabb.min.y > aabb.max.y || aabb.min.z > aabb.max.z) return false;
+    if (glm::any(glm::greaterThan(glm::abs(aabb.min), glm::vec3(maxExtent)))) return false;
+    if (glm::any(glm::greaterThan(glm::abs(aabb.max), glm::vec3(maxExtent)))) return false;
+    return true;
+}
+
 LightManager::LightManager()
 {
     InitSSBOs();
@@ -192,7 +206,9 @@ void LightManager::InitShadowMap()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
+void LightManager::BuildShadowMap(
+    const std::vector<ComponentMesh*>& meshes,
+    const std::vector<ComponentSkinnedMesh*>& skinnedMeshes)
 {
     if (!shadowsEnabled) return;
 
@@ -208,11 +224,7 @@ void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
     glm::mat4 dirAsMatrix = glm::mat4(glm::vec4(currentDir, 0), {}, {}, {});
     if (dirAsMatrix != cachedLightDir) {
         cachedLightDir = dirAsMatrix;
-        shadowsDirty = true;
     }
-
-    if (!shadowsDirty) return;
-    shadowsDirty = false;
 
     GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
     GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
@@ -221,50 +233,96 @@ void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
     glm::vec3 upVector = (glm::abs(glm::dot(lightDir, glm::vec3(0, 1, 0))) > 0.99f)
         ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
 
-    glm::vec3 lightPos = -lightDir * 200.0f;
-    glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), upVector);
-
-    glm::vec3 minLS(1e9f), maxLS(-1e9f);
+    glm::vec3 worldMin(1e9f), worldMax(-1e9f);
     bool anyMesh = false;
 
     for (ComponentMesh* mesh : meshes)
     {
         if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
         if (!mesh->GetMesh().IsValid()) continue;
-
         const AABB& aabb = mesh->GetGlobalAABB();
-        glm::vec3 corners[8] = {
-            {aabb.min.x, aabb.min.y, aabb.min.z},
-            {aabb.max.x, aabb.min.y, aabb.min.z},
-            {aabb.min.x, aabb.max.y, aabb.min.z},
-            {aabb.max.x, aabb.max.y, aabb.min.z},
-            {aabb.min.x, aabb.min.y, aabb.max.z},
-            {aabb.max.x, aabb.min.y, aabb.max.z},
-            {aabb.min.x, aabb.max.y, aabb.max.z},
-            {aabb.max.x, aabb.max.y, aabb.max.z},
-        };
-        for (auto& c : corners)
-        {
-            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
-            minLS = glm::min(minLS, ls);
-            maxLS = glm::max(maxLS, ls);
-        }
+        if (!IsAABBValid(aabb)) continue;
+        worldMin = glm::min(worldMin, aabb.min);
+        worldMax = glm::max(worldMax, aabb.max);
+        anyMesh = true;
+    }
+
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+        if (!mesh->HasSkinningData()) continue;
+        const AABB& aabb = mesh->GetGlobalAABB();
+        if (!IsAABBValid(aabb)) continue;
+        worldMin = glm::min(worldMin, aabb.min);
+        worldMax = glm::max(worldMax, aabb.max);
         anyMesh = true;
     }
 
     if (!anyMesh) return;
 
-    float zNear = -maxLS.z - 50.0f;   
-    float zFar = -minLS.z + 10.0f;
+    glm::vec3 sceneCenter = (worldMin + worldMax) * 0.5f;
+    glm::vec3 lightPos = sceneCenter - lightDir * 200.0f;
+    glm::mat4 lightView = glm::lookAt(lightPos, sceneCenter, upVector);
+
+    glm::vec3 minLS(1e9f), maxLS(-1e9f);
+
+    for (ComponentMesh* mesh : meshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+        const AABB& aabb = mesh->GetGlobalAABB();
+        if (!IsAABBValid(aabb)) continue;
+        glm::vec3 corners[8] = {
+            {aabb.min.x, aabb.min.y, aabb.min.z}, {aabb.max.x, aabb.min.y, aabb.min.z},
+            {aabb.min.x, aabb.max.y, aabb.min.z}, {aabb.max.x, aabb.max.y, aabb.min.z},
+            {aabb.min.x, aabb.min.y, aabb.max.z}, {aabb.max.x, aabb.min.y, aabb.max.z},
+            {aabb.min.x, aabb.max.y, aabb.max.z}, {aabb.max.x, aabb.max.y, aabb.max.z},
+        };
+        for (auto& c : corners) {
+            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
+            minLS = glm::min(minLS, ls);
+            maxLS = glm::max(maxLS, ls);
+        }
+    }
+
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+        if (!mesh->HasSkinningData()) continue;
+        const AABB& aabb = mesh->GetGlobalAABB();
+        if (!IsAABBValid(aabb)) continue;
+        glm::vec3 corners[8] = {
+            {aabb.min.x, aabb.min.y, aabb.min.z}, {aabb.max.x, aabb.min.y, aabb.min.z},
+            {aabb.min.x, aabb.max.y, aabb.min.z}, {aabb.max.x, aabb.max.y, aabb.min.z},
+            {aabb.min.x, aabb.min.y, aabb.max.z}, {aabb.max.x, aabb.min.y, aabb.max.z},
+            {aabb.min.x, aabb.max.y, aabb.max.z}, {aabb.max.x, aabb.max.y, aabb.max.z},
+        };
+        for (auto& c : corners) {
+            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
+            minLS = glm::min(minLS, ls);
+            maxLS = glm::max(maxLS, ls);
+        }
+    }
+
+    float zNear = -maxLS.z - 50.0f;
+    float zFar = -minLS.z + 50.0f;
+
+    if (minLS.x >= maxLS.x || minLS.y >= maxLS.y) {
+        glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
+        glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
+        return;
+    }
+
+    if (zNear >= zFar) {
+        zNear = 0.1f;
+        zFar = 500.0f;
+    }
 
     glm::mat4 lightProj = glm::ortho(minLS.x, maxLS.x, minLS.y, maxLS.y, zNear, zFar);
     lightSpaceMatrix = lightProj * lightView;
 
-    if (std::isnan(lightSpaceMatrix[0][0]) || std::isinf(lightSpaceMatrix[0][0]))
-    {
-    }
-
-    // Shadow pass
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -273,20 +331,37 @@ void LightManager::BuildShadowMap(const std::vector<ComponentMesh*>& meshes)
     shadowDepthShader->Use();
     shadowDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
+    shadowDepthShader->SetBool("hasBones", false);
     for (ComponentMesh* mesh : meshes)
     {
         if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
         if (!mesh->GetMesh().IsValid()) continue;
-
         shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
         glBindVertexArray(mesh->GetMesh().VAO);
         glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 
+    shadowDepthShader->SetBool("hasBones", true);
+    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+    {
+        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+        if (!mesh->GetMesh().IsValid()) continue;
+        if (!mesh->HasSkinningData()) continue;
+
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, mesh->GetSSBOGlobal());
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, mesh->GetSSBOOffset());
+        shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
+
+        glBindVertexArray(mesh->GetMesh().VAO);
+        glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
+    }
+
     glCullFace(GL_BACK);
     glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
-
-    // Restaurar viewport
     glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
 }

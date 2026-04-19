@@ -19,6 +19,7 @@ class Shader;
 class Texture;
 class ComponentLight;
 class LightManager;
+class ComponentSkinnedMesh;
 
 class Renderer : public Module
 {
@@ -212,6 +213,7 @@ private:
 
     // LISTS
     std::vector<ComponentMesh*> meshes;
+    std::vector<ComponentSkinnedMesh*> skinnedMeshes;
     std::vector<ComponentParticleSystem*> particles;
     std::vector<ComponentCanvas*> activeCanvas;
     std::vector<CameraLens*> activeCameras;

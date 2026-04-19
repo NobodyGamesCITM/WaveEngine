@@ -6,6 +6,7 @@
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "ComponentSkinnedMesh.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 class Shader;
@@ -32,7 +33,8 @@ public:
     // Also sets numDirLights / numPointLights / numSpotLights uniforms.
     void UploadToShader(Shader* shader);
 
-    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes);
+    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }

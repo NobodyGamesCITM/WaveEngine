@@ -1,4 +1,3 @@
--- SceneTransition.lua
 
 local State = {
     FADE_OUT = 0,
@@ -26,6 +25,8 @@ function Start(self)
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
     end
+
+    self.StartTransition = StartTransition
 end
 
 function Update(self, dt)
@@ -58,9 +59,15 @@ function Update(self, dt)
     end
 end
 
-function OnTriggerEnter(self, other)
-    if currentState == State.IDLE and other:CompareTag("Player") then
+function StartTransition(self, sceneName)
 
+    if currentState == State.IDLE or currentState == State.FADE_OUT then
+        Engine.Log("[SceneTransition] Transición iniciada por script hacia: " .. tostring(sceneName))
+        
+        if sceneName then
+            self.public.targetScene = sceneName
+        end
+        
         currentState = State.FADE_IN
         
         if _G.PlayerInstance then

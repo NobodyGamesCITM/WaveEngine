@@ -7,16 +7,16 @@
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
-        0.3075259327888489,
-        0.6080681681632996,
-        0.7941176295280457,
+        1.0,
+        0.5663206577301025,
+        0.07843136787414551,
         0.0
     ],
     "colorGradient": [],
     "colorStart": [
-        0.4264705777168274,
         1.0,
-        0.966262936592102,
+        0.0,
+        0.0,
         1.0
     ],
     "coneAngle": 30.18199920654297,
@@ -27,7 +27,7 @@
         1.0,
         1.0
     ],
-    "emissionRadius": 0.5,
+    "emissionRadius": 1.0,
     "emissionRate": 20.0,
     "emissionRateDist": 0.0,
     "emitFromShell": false,
@@ -36,8 +36,8 @@
         -1.0,
         0.0
     ],
-    "initRotMax": 360.0,
-    "initRotMin": 0.0,
+    "initRotMax": 207.0,
+    "initRotMin": 152.0,
     "lifetimeMax": 0.6000000238418579,
     "lifetimeMin": 0.10000000149011612,
     "looping": true,
@@ -53,16 +53,16 @@
     "proximityTarget": "Player",
     "rotSpeedMax": 0.0,
     "rotSpeedMin": 0.0,
-    "shape": 1,
+    "shape": 2,
     "simulationSpace": 1,
     "sizeCurve": [],
-    "sizeEnd": 0.0,
-    "sizeStart": 0.8100000023841858,
+    "sizeEnd": 0.5,
+    "sizeStart": 1.25,
     "speedMax": 1.7000000476837158,
     "speedMin": 0.30000001192092896,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Dandelion_Test.png",
+    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\FireAres_Hard_00_TEST.png",
     "textureRows": 1,
-    "textureUID": 15267441489436861790,
+    "textureUID": 2144330817358336872,
     "type": 7
 }

@@ -8,15 +8,15 @@
     "circleRadius": 1.0,
     "colorEnd": [
         1.0,
-        0.8999999761581421,
-        0.20000000298023224,
+        0.15000000596046448,
+        0.15000000596046448,
         0.0
     ],
     "colorGradient": [],
     "colorStart": [
         1.0,
-        0.8999999761581421,
-        0.20000000298023224,
+        0.15000000596046448,
+        0.15000000596046448,
         1.0
     ],
     "coneAngle": 30.18199920654297,
@@ -27,10 +27,10 @@
         1.0,
         1.0
     ],
-    "emissionRadius": 0.004999999888241291,
-    "emissionRate": 3.9000000953674316,
-    "emissionRateDist": 7.400000095367432,
-    "emitFromShell": false,
+    "emissionRadius": 0.05000000074505806,
+    "emissionRate": 0.0,
+    "emissionRateDist": 30.0,
+    "emitFromShell": true,
     "gravity": [
         0.0,
         0.0,
@@ -47,8 +47,8 @@
     "noiseFreq": 0.5,
     "noiseStrength": 1.0,
     "oneShot": false,
-    "oneShotCount": 30,
-    "prewarm": false,
+    "oneShotCount": 486,
+    "prewarm": true,
     "proximityActivation": false,
     "proximityTarget": "Player",
     "rotSpeedMax": 0.0,

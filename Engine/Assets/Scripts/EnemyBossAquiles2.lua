@@ -130,6 +130,9 @@ local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
 local ActiveDodge=false
+
+local BaseMat = nil
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -331,6 +334,12 @@ function UpdateIdle(self, dist)
 end
 
 function UpdateCombatMove(self, myPos, pp, dist, dt)
+    if dist > self.public.detectRange then
+        StopMovement()
+        ChangeState(State.IDLE)
+        return
+    end
+
     if hurtTimer > 0 then
         hurtTimer = hurtTimer - dt
         return
@@ -702,6 +711,10 @@ function Start(self)
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
 
+    --AquilesMesh
+    aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
+    BaseMat = aquilesMesh:GetComponent("Material")
+
 end
 
 function Update(self, dt)
@@ -803,6 +816,7 @@ function OnTriggerEnter(self, other)
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
                 alreadyHit = true
+                BaseMat.SetTexture("6600101727014948682")
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -848,6 +862,7 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
+        BaseMat.SetTexture("18385834806947720505")
     end
 end
 

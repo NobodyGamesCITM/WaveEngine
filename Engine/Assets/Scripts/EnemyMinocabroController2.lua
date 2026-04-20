@@ -23,7 +23,7 @@ public = {
     tooCloseRange   = 3.5,
     chargeRange     = 12.0,
 
-    preparationTime = 1.5,
+    preparationTime = 3.0,
     chargeSpeed     = 18.0,
     chargeDuration  = 0.8,
     knockbackForce  = 8.0,
@@ -165,7 +165,8 @@ local function TakeDamage(self, amount, attackerPos)
     else
         
         if voiceSFX then voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
-        anim:Play("Hurt")
+        
+        if anim then anim:Play("Hurt") end
         StopMovement()
 
         wallStunTimer = self.public.hurtStunTime
@@ -179,12 +180,12 @@ end
 
 -- State functions
 function UpdateIdle(self, dist)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle")
-    end
     if dist <= self.public.detectRange then
         ChangeState(State.CHASE)
     end
+    --if anim and not anim:IsPlayingAnimation("Idle") then
+        --anim:Play("Idle")
+    --end
 end
 
 function UpdateChase(self, myPos, pp, dist, dt)
@@ -257,6 +258,10 @@ function UpdateAnticipation(self, pp, dt)
 
     if anim and not anim:IsPlayingAnimation("PreCharge") then
         PlayAnim("PreCharge")
+        if voiceSFX then 
+            voiceSFX:StopAudioEvent()
+            voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge") 
+        end
 
     end
 
@@ -384,6 +389,10 @@ function UpdateCharge(self, dt)
         
         wallStunTimer = self.public.afterStunTime
 
+        if anim and not anim:IsPlayingAnimation("Idle") then
+            anim:Play("Idle", 0.3)
+        end
+
         ChangeState(State.RECOVERY)
     end
 end
@@ -405,15 +414,16 @@ function UpdateWall(self, dt)
         slideVelZ = 0
         wallStunTimer = self.public.afterStunTime
         cameFromWall = true
+        
+        if anim and not anim:IsPlayingAnimation("Idle") then
+            anim:Play("Idle", 0.3)
+        end
         ChangeState(State.RECOVERY)
     end
 end
 
 function UpdateRecovery(self, dt)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.3)
-    end
-
+  
     if playerGO and not cameFromWall then
         local myPos = self.transform.worldPosition
         local pp = playerGO.transform.worldPosition
@@ -442,6 +452,11 @@ function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
         local _rb  = rb
 
         rb       = nil

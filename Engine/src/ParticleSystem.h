@@ -129,6 +129,8 @@ public:
     std::vector<ColorKey> colorGradient;
 
     // Rotation
+    float initialRotationMin = 0.0f;
+    float initialRotationMax = 360.0f;
     float rotationSpeedMin = 0.0f;
     float rotationSpeedMax = 0.0f;
 
@@ -230,7 +232,7 @@ struct EmitterInstance {
 
     void Init();
     void Update(float dt);
-    void Draw(glm::vec3 cameraPosition);
+    void Draw(glm::vec3 cameraPosition, const glm::mat4& modelMatrix = glm::mat4(1.0f));
     void Reset();
     void ResetValues();
     void KillDeadParticles();

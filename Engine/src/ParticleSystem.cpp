@@ -32,6 +32,7 @@ void ModuleEmitterSpawn::ResetDefaults() {
     colorEnd = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     colorGradient.clear();
 
+    initialRotationMin = 0.0f; initialRotationMax = 360.0f;
     rotationSpeedMin = 0.0f; rotationSpeedMax = 0.0f;
 }
 
@@ -135,7 +136,7 @@ void ModuleEmitterSpawn::Spawn(EmitterInstance* emitter, Particle* particle) {
     }
 
     // Spin
-    particle->rotation = RandomFloat(0.0f, 360.0f);
+    particle->rotation = RandomFloat(initialRotationMin, initialRotationMax);
     particle->angularVelocity = RandomFloat(rotationSpeedMin, rotationSpeedMax);
 
     // Animation
@@ -446,13 +447,50 @@ void EmitterInstance::Burst(int count) {
     }
 }
 
-void EmitterInstance::Draw(glm::vec3 cameraPos) {
+void EmitterInstance::Draw(glm::vec3 cameraPos, const glm::mat4& modelMatrix) {
     if (particles.empty()) return;
 
-    // Draw far to near (Z-Sorting for transparency)
-    for (auto& p : particles) p.distanceToCamera = glm::distance(p.position, cameraPos);
-    std::sort(particles.begin(), particles.end(), [](const Particle& a, const Particle& b) {
-        return a.distanceToCamera > b.distanceToCamera;
+    struct WorldParticle {
+        Particle* p;
+        glm::vec3 worldPos;
+        float dist;
+    };
+
+    std::vector<WorldParticle> worldParticles;
+    worldParticles.reserve(particles.size());
+
+    // Extract the matrix without the scale, only translation and rotation of the object or object
+    glm::mat4 unscaledModel = modelMatrix;
+    if (simulationSpace == SimulationSpace::LOCAL) {
+        glm::vec3 right = glm::vec3(unscaledModel[0]);
+        glm::vec3 up = glm::vec3(unscaledModel[1]);
+        glm::vec3 fwd = glm::vec3(unscaledModel[2]);
+
+        if (glm::length(right) > 0.0001f) right = glm::normalize(right);
+        if (glm::length(up) > 0.0001f)    up = glm::normalize(up);
+        if (glm::length(fwd) > 0.0001f)   fwd = glm::normalize(fwd);
+
+        unscaledModel[0] = glm::vec4(right, 0.0f);
+        unscaledModel[1] = glm::vec4(up, 0.0f);
+        unscaledModel[2] = glm::vec4(fwd, 0.0f);
+    }
+
+    for (auto& p : particles) {
+        glm::vec3 wPos = p.position;
+
+        // Transform the position local using the matrix without scale
+        if (simulationSpace == SimulationSpace::LOCAL) {
+            wPos = glm::vec3(unscaledModel * glm::vec4(p.position, 1.0f));
+        }
+
+        float d = glm::distance(wPos, cameraPos);
+        p.distanceToCamera = d;
+        worldParticles.push_back({ &p, wPos, d });
+    }
+
+    // Z-Sorting
+    std::sort(worldParticles.begin(), worldParticles.end(), [](const WorldParticle& a, const WorldParticle& b) {
+        return a.dist > b.dist;
         });
 
     // Render state
@@ -490,9 +528,19 @@ void EmitterInstance::Draw(glm::vec3 cameraPos) {
     float frameWidth = 1.0f / (float)textureCols;
     float frameHeight = 1.0f / (float)textureRows;
 
-    for (const auto& p : particles) {
+    for (const auto& wp : worldParticles) {
         // BILLBOARDING
-        glm::vec3 direction = glm::normalize(cameraPos - p.position);
+        const Particle& p = *wp.p;
+        glm::vec3 wPos = wp.worldPos;
+
+        glm::vec3 direction = cameraPos - wPos;
+        if (glm::length(direction) > 0.0001f) {
+            direction = glm::normalize(direction);
+        }
+        else {
+            direction = glm::vec3(0, 0, 1);
+        }
+
         glm::vec3 worldUp = (glm::abs(direction.y) > 0.99f) ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
         glm::vec3 baseRight = glm::normalize(glm::cross(worldUp, direction));
         glm::vec3 baseUp = glm::normalize(glm::cross(direction, baseRight));
@@ -505,12 +553,13 @@ void EmitterInstance::Draw(glm::vec3 cameraPos) {
         glm::vec3 right = baseRight * c + baseUp * s;
         glm::vec3 up = baseRight * -s + baseUp * c;
 
+        // Use the original size of the particle, without multiplying to the scale of the parent
         float halfSize = p.size * 0.5f;
 
-        glm::vec3 v1 = p.position - (right * halfSize) + (up * halfSize);
-        glm::vec3 v2 = p.position + (right * halfSize) + (up * halfSize);
-        glm::vec3 v3 = p.position + (right * halfSize) - (up * halfSize);
-        glm::vec3 v4 = p.position - (right * halfSize) - (up * halfSize);
+        glm::vec3 v1 = wPos - (right * halfSize) + (up * halfSize);
+        glm::vec3 v2 = wPos + (right * halfSize) + (up * halfSize);
+        glm::vec3 v3 = wPos + (right * halfSize) - (up * halfSize);
+        glm::vec3 v4 = wPos - (right * halfSize) - (up * halfSize);
 
         // UV animation
         int currentFrame = 0;

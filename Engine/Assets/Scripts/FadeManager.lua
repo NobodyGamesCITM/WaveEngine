@@ -63,7 +63,7 @@ function Update(self, dt)
                 -- Directly use the string since we simplified the public table format
                 
                 Engine.Log("[FadeManager] Setting music state to: " .. tostring(track))
-                --Audio.SetMusicState(track)
+                Audio.SetMusicState(track)
                 musicComp:PlayAudioEvent()
                 
                 -- Reposition to player to avoid 3D attenuation

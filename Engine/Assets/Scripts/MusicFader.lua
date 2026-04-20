@@ -22,7 +22,7 @@ function Update(self, dt)
             musicComp = musicSource:GetComponent("Audio Source")
             if musicComp then
                 Engine.Log("[MusicFader] Success: Found MusicSource and Audio Source. Starting audio...")
-                musicComp:PlayAudioEvent()
+                -- musicComp:PlayAudioEvent()
                 
                 -- BGM trick: move the source to the player to ensure it's heard (avoids 3D attenuation)
                 local ply = GameObject.Find("Player")

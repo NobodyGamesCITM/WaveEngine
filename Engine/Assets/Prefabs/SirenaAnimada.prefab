@@ -2483,34 +2483,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "flightTime",
-                        "type": 0,
-                        "value": 4.0
-                    },
-                    {
-                        "name": "minRange",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "blastRadius",
-                        "type": 0,
-                        "value": 1.75
-                    },
-                    {
-                        "name": "windUpTime",
-                        "type": 0,
-                        "value": 1.600000023841858
-                    },
-                    {
                         "name": "knockbackForce",
                         "type": 0,
                         "value": 3.0
                     },
                     {
-                        "name": "maxLifetime",
+                        "name": "cooldownTime",
                         "type": 0,
-                        "value": 10.0
+                        "value": 4.5
                     },
                     {
                         "name": "projectilePrefab",
@@ -2518,9 +2498,9 @@
                         "value": "Sirena_Bullet"
                     },
                     {
-                        "name": "detectRange",
+                        "name": "barrelOffsetY",
                         "type": 0,
-                        "value": 22.0
+                        "value": 1.7999999523162842
                     },
                     {
                         "name": "rotationSpeed",
@@ -2528,14 +2508,19 @@
                         "value": 6.0
                     },
                     {
-                        "name": "barrelOffsetY",
+                        "name": "flightTime",
                         "type": 0,
-                        "value": 1.7999999523162842
+                        "value": 4.0
                     },
                     {
-                        "name": "maxHp",
+                        "name": "maxLifetime",
                         "type": 0,
-                        "value": 50.0
+                        "value": 10.0
+                    },
+                    {
+                        "name": "detectRange",
+                        "type": 0,
+                        "value": 22.0
                     },
                     {
                         "name": "attackDamage",
@@ -2543,9 +2528,24 @@
                         "value": 30.0
                     },
                     {
-                        "name": "cooldownTime",
+                        "name": "blastRadius",
                         "type": 0,
-                        "value": 4.5
+                        "value": 3.5
+                    },
+                    {
+                        "name": "windUpTime",
+                        "type": 0,
+                        "value": 1.600000023841858
+                    },
+                    {
+                        "name": "maxHp",
+                        "type": 0,
+                        "value": 50.0
+                    },
+                    {
+                        "name": "minRange",
+                        "type": 0,
+                        "value": 5.0
                     }
                 ],
                 "scriptUID": 2835141273378409201,
@@ -2558,6 +2558,12 @@
             },
             {
                 "Animations": [
+                    {
+                        "UID": 9051663765795213640,
+                        "loop": true,
+                        "name": "Die",
+                        "speed": 0.5
+                    },
                     {
                         "UID": 6424668421855948082,
                         "loop": false,
@@ -2577,8 +2583,14 @@
                         "speed": 1.0
                     },
                     {
+                        "UID": 11040156998005112653,
+                        "loop": true,
+                        "name": "Shoot",
+                        "speed": 0.75
+                    },
+                    {
                         "UID": 6729198245658455764,
-                        "loop": false,
+                        "loop": true,
                         "name": "Show",
                         "speed": 1.0
                     }

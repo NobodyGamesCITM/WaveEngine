@@ -6,8 +6,8 @@
 
 void LogExternal(const char file[], int line, const char* format, ...)
 {
-    static char tmpString1[4096];
-    static va_list ap;
+    char tmpString1[4096];
+    va_list ap;
 
     va_start(ap, format);
     vsnprintf(tmpString1, 4096, format, ap);
@@ -20,8 +20,8 @@ void LogExternal(const char file[], int line, const char* format, ...)
 
 void LogInternal(LogType type, const char file[], int line, const char* format, ...)
 {
-    static char tmpString[4096];
-    static va_list ap;
+    char tmpString[4096];
+    va_list ap;
 
     va_start(ap, format);
     vsnprintf(tmpString, 4096, format, ap);

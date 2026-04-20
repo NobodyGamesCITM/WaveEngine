@@ -512,7 +512,7 @@ States[State.WALK] = {
         if anim then 
             local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
             if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1) end)
+                pcall(function() anim:SetSpeed("Walk", 1.0) end)
             else
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
@@ -577,7 +577,7 @@ States[State.RUNNING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 2.0)
+            anim:SetSpeed("Running", 1.5)
         end
 
         self.public.usingStamina = true
@@ -694,7 +694,7 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 0.5) end
+        if anim then anim:Play("Ares", 0) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -738,7 +738,7 @@ States[State.SHOOTING] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 0.3) 
+            anim:Play("Apolo", 0.1) 
         end
         attackTimer = 0
 
@@ -793,7 +793,7 @@ States[State.ATTACK_HEAVY] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 1.0) end
+        if anim then anim:Play("Hermes", 0.3) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end

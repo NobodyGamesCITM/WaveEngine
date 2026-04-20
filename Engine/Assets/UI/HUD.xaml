@@ -138,6 +138,17 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
+                <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
+                    <Viewbox x:Name="Mask_1">
+                        <Image x:Name="Mask_1_Image" Source="Textures/Hermes.PNG" Width="47" Height="46" Margin="23,18,31,36"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Mask_2" Margin="13,96,170,21">
+                        <Image x:Name="Mask_2_Image" Source="Textures/Ares.PNG" Width="100" Height="100"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Mask_3" Margin="163,92,14,19">
+                        <Image x:Name="Mask_3_Image" Source="Textures/Apolo.PNG" Width="100" Height="100"/>
+                    </Viewbox>
+                </Grid>
 
             </Grid>
 

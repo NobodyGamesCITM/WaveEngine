@@ -1,0 +1,112 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            3.0,
+                            9.0,
+                            -131.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -45.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Camara Tripode Puente",
+                "tag": "",
+                "uid": 9181977789684876260
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            6.0,
+                            9.0,
+                            -135.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -44.980247497558594,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "blendTime": 1.5,
+                        "cameraEulerAngles": [
+                            -45.0,
+                            0.0,
+                            0.0
+                        ],
+                        "cameraLocationUID": 9181977789684876260,
+                        "cameraMode": 1,
+                        "cameraOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "fov": 45.0,
+                        "priority": 0,
+                        "showDebug": true,
+                        "type": 32,
+                        "zoneSize": [
+                            46.0,
+                            25.0,
+                            30.0
+                        ]
+                    }
+                ],
+                "name": "Camera Zone",
+                "tag": "",
+                "uid": 2010808649827989438
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    6.0,
+                    9.0,
+                    -135.0
+                ],
+                "rotation": [
+                    0.0,
+                    -44.980247497558594,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "CameraPanMovementFixed",
+        "tag": "",
+        "uid": 4384872245488799985
+    }
+]

@@ -1,0 +1,55 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    97.0,
+                    70.0,
+                    -179.0
+                ],
+                "rotation": [
+                    0.0,
+                    -44.97203063964844,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "blendTime": 1.5,
+                "cameraEulerAngles": [
+                    -90.0,
+                    0.0,
+                    0.0
+                ],
+                "cameraLocationUID": 0,
+                "cameraMode": 0,
+                "cameraOffset": [
+                    0.0,
+                    50.0,
+                    8.0
+                ],
+                "fov": 45.0,
+                "priority": 0,
+                "showDebug": true,
+                "type": 32,
+                "zoneSize": [
+                    59.900001525878906,
+                    200.0,
+                    59.599998474121094
+                ]
+            }
+        ],
+        "name": "CameraZone90Isometric",
+        "tag": "",
+        "uid": 10708624187775810839
+    }
+]

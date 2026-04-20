@@ -1,0 +1,112 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            41.5,
+                            18.799999237060547,
+                            -111.0
+                        ],
+                        "rotation": [
+                            179.0,
+                            -90.0,
+                            140.8000030517578
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Camara Tripode Fija",
+                "tag": "",
+                "uid": 14490781773663355704
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            62.0,
+                            6.0,
+                            -111.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "blendTime": 1.5,
+                        "cameraEulerAngles": [
+                            -45.0,
+                            0.0,
+                            0.0
+                        ],
+                        "cameraLocationUID": 14490781773663355704,
+                        "cameraMode": 2,
+                        "cameraOffset": [
+                            0.0,
+                            8.0,
+                            8.0
+                        ],
+                        "fov": 60.0,
+                        "priority": 0,
+                        "showDebug": true,
+                        "type": 32,
+                        "zoneSize": [
+                            30.0,
+                            30.0,
+                            20.0
+                        ]
+                    }
+                ],
+                "name": "Camara Zona Fija",
+                "tag": "",
+                "uid": 13147143258016975126
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    62.0,
+                    6.0,
+                    -111.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "CameraFixedViewRotation",
+        "tag": "",
+        "uid": 16772647741799712976
+    }
+]

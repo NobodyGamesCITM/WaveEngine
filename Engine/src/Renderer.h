@@ -152,7 +152,7 @@ private:
     void DrawNormalsList(const CameraLens* camera);
     void DrawMeshLinesList(const CameraLens* camera);
     void DrawCanvasList(const CameraLens* camera);
-    void DrawPostProcessing(const CameraLens* camera);
+    void DrawPostProcessing(CameraLens* camera);
     void BuildRenderLists(const CameraLens* camera);
 
     // Shaders

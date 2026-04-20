@@ -203,3 +203,24 @@ void CameraLens::SetDebugCamera(bool b)
 {
     debugCamera = b;
 }
+glm::vec2 CameraLens::WorldToScreen(const glm::vec3& worldPos, int screenWidth, int screenHeight, bool& outBehindCamera) const
+{
+    // Transform to clip space
+    glm::vec4 clipPos = projectionMatrix * viewMatrix * glm::vec4(worldPos, 1.0f);
+
+    // Si w <= 0 el punto está detrás de la cámara
+    if (clipPos.w <= 0.0f) {
+        outBehindCamera = true;
+        return glm::vec2(0.0f);
+    }
+    outBehindCamera = false;
+
+    // NDC [-1, 1]
+    glm::vec3 ndc = glm::vec3(clipPos) / clipPos.w;
+
+    // Pixels to camera
+    float sx = (ndc.x * 0.5f + 0.5f) * screenWidth;
+    float sy = (1.0f - (ndc.y * 0.5f + 0.5f)) * screenHeight;  
+
+    return glm::vec2(sx, sy);
+}

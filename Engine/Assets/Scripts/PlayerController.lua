@@ -65,6 +65,17 @@ local Player = {
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
+	bubblesPS         = nil,
+	aresPs         = nil,
+	apoloPs         = nil,
+	hermesPs         = nil,
+	hermesAttackPs         = nil,
+	aresAttackPs         = nil,
+	apoloAttackPs         = nil,
+	trailPs         = nil,
+    aresLight         = nil,
+	apoloLight         = nil,
+	hermesLight         = nil,
     attackDelay     = 0.1,
     -- Audio
     stepSFX 		= nil,
@@ -287,33 +298,73 @@ local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
     if newMask == Mask.APOLLO then 
+        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
+        --vfx
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(true)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        --ps
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Play() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(true) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.HERMES then 
+        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
+        --vfx
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(true)end
+        --ps
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Play() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(true) end
     elseif newMask == Mask.ARES then 
+        --masks
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        --vfx
         if vfxAres then vfxAres:SetActive(true)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        --ps
+        if Player.aresPs then Player.aresPs:Play() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(true) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.NONE then 
+        --masks
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
         if vfxAres then vfxAres:SetActive(false)end
+        --vfx
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        --ps
+        if Player.aresPs then Player.aresPs:Stop() end
+        if Player.apoloPs then Player.apoloPs:Stop() end
+        if Player.hermesPs then Player.hermesPs:Stop() end
+        --light
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -535,12 +586,15 @@ States[State.RUNNING] = {
             self.public.speed = self.public.speed + self.public.speedHermesBonus
         end		
 
-		if Player.smokePS then Player.smokePS:Play() end 
+        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+            if Player.bubblesPS then Player.bubblesPS:Play() end
+        elseif Player.smokePS then Player.smokePS:Play() end
     end,
     Exit = function(self)
         self.public.speed = Player.baseSpeed
         self.public.usingStamina = false
 		if Player.smokePS then Player.smokePS:Stop() end
+		if Player.bubblesPS then Player.bubblesPS:Stop() end
     end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput(self)
@@ -578,7 +632,7 @@ States[State.RUNNING] = {
                 return
             end
         end
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and rollCooldown <= 0 then
+        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
             ChangeState(self, State.ROLL)
             return
         end
@@ -613,7 +667,7 @@ States[State.ROLL] = {
         States[State.ROLL].timer = self.public.rollDuration
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Roll", 1.0) end
+        if anim then anim:Play("Roll", 0) end
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax
@@ -640,12 +694,19 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 1.0) end
+        if anim then anim:Play("Ares", 0.5) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
             _PlayerController_lastAttack = "charge"
         end
+        if Player.currentMask == Mask.ARES then
+            if Player.aresAttackPs then
+                Player.aresAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -662,6 +723,10 @@ States[State.CHARGING] = {
     Exit = function(self)
         if chargeCol then chargeCol:Disable() end
         _PlayerController_lastAttack = ""
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -673,7 +738,7 @@ States[State.SHOOTING] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 2.0) 
+            anim:Play("Apolo", 0.3) 
         end
         attackTimer = 0
 
@@ -681,6 +746,14 @@ States[State.SHOOTING] = {
         local radians  = math.rad(Player.lastAngle)
         local fwdX     = math.sin(radians)
         local fwdZ     = math.cos(radians)
+
+        if Player.currentMask == Mask.APOLLO then
+            if Player.apoloAttackPs then
+                Player.apoloAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
 
         _G.nextBulletData = {
             x     = worldPos.x + fwdX * self.public.bulletBarrel,
@@ -706,6 +779,10 @@ States[State.SHOOTING] = {
     end,
     Exit = function(self)
         _PlayerController_lastAttack = ""
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -724,6 +801,14 @@ States[State.ATTACK_HEAVY] = {
             local velocity = Player.rb:GetLinearVelocity()
             Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
         end
+
+        if Player.currentMask == Mask.HERMES then
+            if Player.hermesAttackPs then
+                Player.hermesAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -754,6 +839,12 @@ States[State.ATTACK_HEAVY] = {
         if heavyCol then heavyCol:Disable() end
         States[State.ATTACK_HEAVY].colliderActive = false
         _PlayerController_lastAttack = ""
+
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -770,6 +861,24 @@ States[State.ATTACK_LIGHT] = {
         else
             attackNum = 1
         end
+
+        if Player.currentMask == Mask.HERMES then
+            if Player.hermesAttackPs then
+                Player.hermesAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.APOLLO then
+            if Player.apoloAttackPs then
+                Player.apoloAttackPs:Play()
+            end
+        end
+        if Player.currentMask == Mask.ARES then
+            if Player.aresAttackPs then
+                Player.aresAttackPs:Play()
+            end
+        end
+
+        ActivateTrail(self)
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim and attackNum == 1 then anim:Play("Attack1", 0.0) end
@@ -839,6 +948,18 @@ States[State.ATTACK_LIGHT] = {
     Exit = function(self)
         if attackCol then attackCol:Disable() end
         _PlayerController_lastAttack = ""
+
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
+
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 }
 
@@ -846,6 +967,7 @@ States[State.ATTACK_LIGHT] = {
 -- Toda la lógica de vida usa exclusivamente self.public.health como única fuente de verdad.
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
+    if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
 
     self.public.health = math.max(0, self.public.health - amount)
@@ -861,6 +983,18 @@ local function TakeDamage(self, amount, attackerPos)
         local len = sqrt(dx*dx + dz*dz)
         if len > 0.001 then dx = dx / len; dz = dz / len end
         Player.rb:AddForce(dx * self.public.knockbackForce, 0, dz * self.public.knockbackForce, 2)
+    end
+
+    if Player.healAnimTimer > 0 then
+        Player.healAnimTimer = 0
+        Player.healPending = false
+
+        self.public.canMove = true
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Idle", 0.5) end)
+        end
     end
 
     if self.public.health <= 0 then
@@ -980,6 +1114,16 @@ function Start(self)
         Engine.Log("[Player] No SmokeTrail child found in hierarchy")
     end
 
+    local bubblesObj = GameObject.FindInChildren(self.gameObject, "WaterTrail")
+    if bubblesObj then
+        Player.bubblesPS = bubblesObj:GetComponent("ParticleSystem")
+        if Player.bubblesPS then
+            Player.bubblesPS:Stop()
+        end
+    else
+        Engine.Log("[Player] No WaterTrail child found in hierarchy")
+    end
+
     _G._PlayerController_isDead = false
 
     giveApoloMask       = false
@@ -1002,8 +1146,24 @@ function Start(self)
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
     vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
+    vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
     vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
+    vfxHermesAttack = GameObject.FindInChildren(self.gameObject,"VFXhermesAttack")
     vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
+    vfxAresAttack = GameObject.FindInChildren(self.gameObject,"VFXaresAttack")
+    vfxTrail = GameObject.FindInChildren(self.gameObject,"VFXtrail")
+
+    Player.hermesPs = nil
+    Player.hermesAttackPs = nil
+    Player.aresPs = nil
+    Player.aresAttackPs = nil
+    Player.apoloPs = nil
+    Player.apoloAttackPs = nil
+    Player.trailPs = nil
+
+    Player.hermesLight = nil
+    Player.aresLight = nil
+    Player.apoloLight = nil
 
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
@@ -1011,12 +1171,67 @@ function Start(self)
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
 
-    if vfxApolo then vfxApolo:SetActive(false) end
-    if vfxHermes then vfxHermes:SetActive(false) end
-    if vfxAres then vfxAres:SetActive(false) end
+    if vfxApolo then 
+        Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
+        if Player.apoloPs then
+            Player.apoloPs:Stop()
+        end
+        Player.apoloLight = vfxApolo:GetComponent("Light")
+        if Player.apoloLight then
+            Player.apoloLight:SetEnabled(false)
+        end
+        vfxApolo:SetActive(false) 
+    end
+    if vfxHermes then 
+        Player.hermesPs = vfxHermes:GetComponent("ParticleSystem")
+        if Player.hermesPs then
+            Player.hermesPs:Stop()
+        end
+        Player.hermesLight = vfxHermes:GetComponent("Light")
+        if Player.hermesLight then
+            Player.hermesLight:SetEnabled(false)
+        end
+        vfxHermes:SetActive(false) 
+    end
+    if vfxHermesAttack then
+        Player.hermesAttackPs = vfxHermesAttack:GetComponent("ParticleSystem")
+        if Player.hermesAttackPs then
+            Player.hermesAttackPs:Stop()
+        end
+    end
+    if vfxApoloAttack then
+        Player.apoloAttackPs = vfxApoloAttack:GetComponent("ParticleSystem")
+        if Player.apoloAttackPs then
+            Player.apoloAttackPs:Stop()
+        end
+    end
+    if vfxAresAttack then
+        Player.aresAttackPs = vfxAresAttack:GetComponent("ParticleSystem")
+        if Player.aresAttackPs then
+            Player.aresAttackPs:Stop()
+        end
+    end
+    if vfxAres then 
+        Player.aresPs = vfxAres:GetComponent("ParticleSystem")
+        if Player.aresPs then
+            Player.aresPs:Stop()
+        end
+        Player.aresLight = vfxAres:GetComponent("Light")
+        if Player.aresLight then
+            Player.aresLight:SetEnabled(false)
+        end
+        vfxAres:SetActive(false)   
+    end
 
     if swordGameObject then
         swordMat = swordGameObject:GetComponent("Material")
+    end
+
+    if vfxTrail then
+        Player.trailPs = vfxTrail:GetComponent("ParticleSystem")
+        if Player.trailPs then
+            Player.trailPs:Stop()
+        end
     end
 
     if Player.rb then
@@ -1082,6 +1297,7 @@ function Update(self, dt)
         
         Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
+        Audio.SetMusicVolume(100.0)
         local mGo = GameObject.Find("MusicSource")
         if mGo then
             local musicComp = mGo:GetComponent("Audio Source")
@@ -1103,6 +1319,7 @@ function Update(self, dt)
     if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
         Player.masterAudioTimer = Player.masterAudioTimer - dt
         Audio.SetGlobalVolume(100.0)
+        Audio.SetMusicVolume(100.0)
     end
 
     if Player.restoreListenerFrames then
@@ -1182,7 +1399,7 @@ function Update(self, dt)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.0) end)
-            pcall(function() anim:Play("Drink", 0.2) end) 
+            pcall(function() anim:Play("Drink", 0.4) end) 
         end
         Player.healAnimTimer = Player.healAnimDuration
         Player.healPending = true
@@ -1387,6 +1604,10 @@ function OnCollisionEnter(self, other)
         Player.isDrowning            = true
         Player.hermesGraceTimer      = HERMES_GRACE_TIME
         Engine.Log("[Player] Hermes on water")
+        if Player.currentState == State.RUNNING then
+            if Player.smokePS then Player.smokePS:Stop() end
+            if Player.bubblesPS then Player.bubblesPS:Play() end
+        end
     end
 
 	for i, surface in ipairs(surfaces) do
@@ -1406,6 +1627,10 @@ function OnCollisionExit(self, other)
         _PlayerController_isDrowning = false
         Player.hermesGraceTimer      = 0
         Engine.Log("[Player] Player out of water")
+        if Player.currentState == State.RUNNING then
+            if Player.smokePS then Player.smokePS:Play() end
+            if Player.bubblesPS then Player.bubblesPS:Stop() end
+        end
     end
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition
@@ -1424,4 +1649,24 @@ function UpdateSwordMaterial()
     else
         swordMat.SetTexture("2897285206442267137")
     end
+end
+
+function ActivateTrail()
+    if not Player.trailPs then return end
+
+    if Player.currentMask == Mask.HERMES then
+        Player.trailPs:SetStartColor(0.4, 0.8, 1.0)
+        Player.trailPs:SetEndColor(0.4, 0.8, 1.0, 0.0)
+    elseif Player.currentMask == Mask.APOLLO then
+        Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
+        Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
+    elseif Player.currentMask == Mask.ARES then
+        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
+    else
+        Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
+        Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)
+    end
+
+    Player.trailPs:Play()
 end

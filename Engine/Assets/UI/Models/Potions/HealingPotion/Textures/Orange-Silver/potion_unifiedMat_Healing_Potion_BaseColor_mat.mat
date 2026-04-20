@@ -6,19 +6,28 @@
         1.0,
         1.0
     ],
-    "HeightMapUID": 0,
+    "EmissiveColor": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "EmissiveMapUID": 503367492880699155,
+    "HeightMapUID": 6337581587373499520,
     "HeightScale": 0.05000000074505806,
     "Metallic": 0.0,
-    "MetallicMapUID": 0,
-    "NormalMapUID": 0,
-    "OcclusionMapUID": 0,
+    "MetallicMapUID": 935647343064165415,
+    "NormalMapUID": 5371788762519218546,
+    "OcclusionMapUID": 591799059766683178,
     "Offset": [
         0.0,
         0.0
     ],
+    "Opacity": 1.0,
     "Roughness": 0.5,
+    "RoughnessMapUID": 0,
     "Tiling": [
         1.0,
         1.0
-    ]
+    ],
+    "Type": 0
 }

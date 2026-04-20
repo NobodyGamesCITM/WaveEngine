@@ -1,0 +1,24 @@
+{
+    "animations": {
+        "Take 001": 9573275481791922053
+    },
+    "importSettings": {
+        "flipUVs": true,
+        "frontAxis": 0,
+        "generateNormals": true,
+        "importScale": 1.0,
+        "optimizeMeshes": true,
+        "upAxis": 0
+    },
+    "meshes": {
+        "bottle": 17012328042422930792,
+        "cap": 10631934952419687674,
+        "decor": 16732987619119363959,
+        "handles": 1964338728983549316,
+        "liquid": 18377794706254852235,
+        "lower metal rim": 4615559380556813179,
+        "upper metal rim": 2462481813048653572
+    },
+    "type": 1,
+    "uid": 14141299901945298681
+}

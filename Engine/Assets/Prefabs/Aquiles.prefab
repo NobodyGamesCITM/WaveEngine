@@ -25,7 +25,43 @@
                                                                 "children": [
                                                                     {
                                                                         "active": true,
-                                                                        "children": [],
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            -53.65686798095703,
+                                                                                            38.6541862487793,
+                                                                                            34.524147033691406
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            2.401238532456773e-07,
+                                                                                            3.2016512818699994e-07,
+                                                                                            -1.0245284101983998e-05
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "eventName": "SFX_AquilesSpearSwing",
+                                                                                        "playOnAwake": false,
+                                                                                        "type": 26,
+                                                                                        "volume": 100.0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "AQ_SpearSource",
+                                                                                "tag": "",
+                                                                                "uid": 15128668190189153828
+                                                                            }
+                                                                        ],
                                                                         "components": [
                                                                             {
                                                                                 "active": true,
@@ -59,7 +95,7 @@
                                                                         ],
                                                                         "name": "spear",
                                                                         "tag": "",
-                                                                        "uid": 7706279937673172125
+                                                                        "uid": 3319008590159943776
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -85,7 +121,7 @@
                                                                 ],
                                                                 "name": "spear_$AssimpFbx$_ScalingPivotInverse",
                                                                 "tag": "",
-                                                                "uid": 12782751492888530699
+                                                                "uid": 5802019392605071111
                                                             }
                                                         ],
                                                         "components": [
@@ -111,7 +147,7 @@
                                                         ],
                                                         "name": "spear_$AssimpFbx$_Scaling",
                                                         "tag": "",
-                                                        "uid": 6870056594012569149
+                                                        "uid": 13339697808558356598
                                                     }
                                                 ],
                                                 "components": [
@@ -137,7 +173,7 @@
                                                 ],
                                                 "name": "spear_$AssimpFbx$_ScalingPivot",
                                                 "tag": "",
-                                                "uid": 9656445928987021051
+                                                "uid": 9406570747732430761
                                             }
                                         ],
                                         "components": [
@@ -163,7 +199,7 @@
                                         ],
                                         "name": "spear_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 8303424511188174918
+                                        "uid": 12681640570532736378
                                     }
                                 ],
                                 "components": [
@@ -189,7 +225,7 @@
                                 ],
                                 "name": "spear_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 6178640464493500484
+                                "uid": 3144795558438260821
                             }
                         ],
                         "components": [
@@ -215,7 +251,7 @@
                         ],
                         "name": "spear_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 1910081670198851770
+                        "uid": 1856436699375361509
                     }
                 ],
                 "components": [
@@ -241,7 +277,7 @@
                 ],
                 "name": "spear_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 7532545352833770422
+                "uid": 8733022599714840277
             },
             {
                 "active": true,
@@ -356,7 +392,7 @@
                                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                                         "name": "RightToe",
                                                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                                                        "uid": 17632486930510678649
+                                                                                                                                                                                                                                                        "uid": 643187930097489716
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                                 "components": [
@@ -382,7 +418,7 @@
                                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                                 "name": "RightToe_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                                                "uid": 7653865218734944404
+                                                                                                                                                                                                                                                "uid": 2291778236256165645
                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                         "components": [
@@ -408,7 +444,7 @@
                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                         "name": "RightToe_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                                        "uid": 18002436111423922147
+                                                                                                                                                                                                                                        "uid": 8448312802322080927
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                 "components": [
@@ -434,7 +470,7 @@
                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                 "name": "RightToe_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                                "uid": 13478405528646260454
+                                                                                                                                                                                                                                "uid": 14431490643936253805
                                                                                                                                                                                                                             }
                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                         "components": [
@@ -460,7 +496,7 @@
                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                         "name": "RightToe_$AssimpFbx$_Translation",
                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                        "uid": 3295712717319289634
+                                                                                                                                                                                                                        "uid": 12791097408608037394
                                                                                                                                                                                                                     }
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "components": [
@@ -486,7 +522,7 @@
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "name": "RightFoot",
                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                "uid": 15455584753363929150
+                                                                                                                                                                                                                "uid": 15209029840994980512
                                                                                                                                                                                                             }
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "components": [
@@ -512,7 +548,7 @@
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "name": "RightFoot_$AssimpFbx$_Scaling",
                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                        "uid": 17257407490425059386
+                                                                                                                                                                                                        "uid": 757582659903490166
                                                                                                                                                                                                     }
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "components": [
@@ -538,7 +574,7 @@
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "name": "RightFoot_$AssimpFbx$_Rotation",
                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                "uid": 12845285343114085914
+                                                                                                                                                                                                "uid": 1099702868669258225
                                                                                                                                                                                             }
                                                                                                                                                                                         ],
                                                                                                                                                                                         "components": [
@@ -564,7 +600,7 @@
                                                                                                                                                                                         ],
                                                                                                                                                                                         "name": "RightFoot_$AssimpFbx$_PreRotation",
                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                        "uid": 7846531176059383471
+                                                                                                                                                                                        "uid": 5512097379836333964
                                                                                                                                                                                     }
                                                                                                                                                                                 ],
                                                                                                                                                                                 "components": [
@@ -590,7 +626,7 @@
                                                                                                                                                                                 ],
                                                                                                                                                                                 "name": "RightFoot_$AssimpFbx$_Translation",
                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                "uid": 10768201517956338054
+                                                                                                                                                                                "uid": 9358664991423819735
                                                                                                                                                                             }
                                                                                                                                                                         ],
                                                                                                                                                                         "components": [
@@ -616,7 +652,7 @@
                                                                                                                                                                         ],
                                                                                                                                                                         "name": "RightKnee",
                                                                                                                                                                         "tag": "",
-                                                                                                                                                                        "uid": 10813792892760444215
+                                                                                                                                                                        "uid": 13014320464771827757
                                                                                                                                                                     }
                                                                                                                                                                 ],
                                                                                                                                                                 "components": [
@@ -642,7 +678,7 @@
                                                                                                                                                                 ],
                                                                                                                                                                 "name": "RightKnee_$AssimpFbx$_Scaling",
                                                                                                                                                                 "tag": "",
-                                                                                                                                                                "uid": 384025754077693943
+                                                                                                                                                                "uid": 18374761448180839662
                                                                                                                                                             }
                                                                                                                                                         ],
                                                                                                                                                         "components": [
@@ -668,7 +704,7 @@
                                                                                                                                                         ],
                                                                                                                                                         "name": "RightKnee_$AssimpFbx$_Rotation",
                                                                                                                                                         "tag": "",
-                                                                                                                                                        "uid": 4347900839808921926
+                                                                                                                                                        "uid": 12369798923980086576
                                                                                                                                                     }
                                                                                                                                                 ],
                                                                                                                                                 "components": [
@@ -694,7 +730,7 @@
                                                                                                                                                 ],
                                                                                                                                                 "name": "RightKnee_$AssimpFbx$_PreRotation",
                                                                                                                                                 "tag": "",
-                                                                                                                                                "uid": 13199109613614069973
+                                                                                                                                                "uid": 9891370238965310200
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "components": [
@@ -720,7 +756,7 @@
                                                                                                                                         ],
                                                                                                                                         "name": "RightKnee_$AssimpFbx$_Translation",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 8758008581211821153
+                                                                                                                                        "uid": 3151973603448148318
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -746,7 +782,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "RightHip",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 6375344211808515551
+                                                                                                                                "uid": 12688141099918323447
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -772,7 +808,7 @@
                                                                                                                         ],
                                                                                                                         "name": "RightHip_$AssimpFbx$_Scaling",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 16925480579400760906
+                                                                                                                        "uid": 6978989705588095883
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -798,7 +834,7 @@
                                                                                                                 ],
                                                                                                                 "name": "RightHip_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 1150639225714915905
+                                                                                                                "uid": 15995320234317027335
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -824,7 +860,7 @@
                                                                                                         ],
                                                                                                         "name": "RightHip_$AssimpFbx$_PreRotation",
                                                                                                         "tag": "",
-                                                                                                        "uid": 4185755362429158718
+                                                                                                        "uid": 300199860082372530
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -850,7 +886,7 @@
                                                                                                 ],
                                                                                                 "name": "RightHip_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 18187206511407267631
+                                                                                                "uid": 12995067889651913906
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
@@ -935,7 +971,7 @@
                                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                                         "name": "LeftToe",
                                                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                                                        "uid": 8437150460195800229
+                                                                                                                                                                                                                                                        "uid": 18327982127693687355
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                                 "components": [
@@ -961,7 +997,7 @@
                                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                                 "name": "LeftToe_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                                                "uid": 2431320347018368976
+                                                                                                                                                                                                                                                "uid": 6054867450718436801
                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                         "components": [
@@ -987,7 +1023,7 @@
                                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                                         "name": "LeftToe_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                                        "uid": 9054980724959695721
+                                                                                                                                                                                                                                        "uid": 17412057647205918071
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                 "components": [
@@ -1013,7 +1049,7 @@
                                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                                 "name": "LeftToe_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                                "uid": 9535902728490429022
+                                                                                                                                                                                                                                "uid": 506321535969854148
                                                                                                                                                                                                                             }
                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                         "components": [
@@ -1039,7 +1075,7 @@
                                                                                                                                                                                                                         ],
                                                                                                                                                                                                                         "name": "LeftToe_$AssimpFbx$_Translation",
                                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                                        "uid": 17916041719656847765
+                                                                                                                                                                                                                        "uid": 13216479931283115412
                                                                                                                                                                                                                     }
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "components": [
@@ -1065,7 +1101,7 @@
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "name": "LeftFoot",
                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                "uid": 8786747589913520338
+                                                                                                                                                                                                                "uid": 11560175860430221105
                                                                                                                                                                                                             }
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "components": [
@@ -1091,7 +1127,7 @@
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "name": "LeftFoot_$AssimpFbx$_Scaling",
                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                        "uid": 11943050481478481525
+                                                                                                                                                                                                        "uid": 15361371695858229708
                                                                                                                                                                                                     }
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "components": [
@@ -1117,7 +1153,7 @@
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "name": "LeftFoot_$AssimpFbx$_Rotation",
                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                "uid": 17345103520176301703
+                                                                                                                                                                                                "uid": 17683631091235392765
                                                                                                                                                                                             }
                                                                                                                                                                                         ],
                                                                                                                                                                                         "components": [
@@ -1143,7 +1179,7 @@
                                                                                                                                                                                         ],
                                                                                                                                                                                         "name": "LeftFoot_$AssimpFbx$_PreRotation",
                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                        "uid": 10193463667166633116
+                                                                                                                                                                                        "uid": 2764205276305683868
                                                                                                                                                                                     }
                                                                                                                                                                                 ],
                                                                                                                                                                                 "components": [
@@ -1169,7 +1205,7 @@
                                                                                                                                                                                 ],
                                                                                                                                                                                 "name": "LeftFoot_$AssimpFbx$_Translation",
                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                "uid": 5682629083326173611
+                                                                                                                                                                                "uid": 9178570105574485766
                                                                                                                                                                             }
                                                                                                                                                                         ],
                                                                                                                                                                         "components": [
@@ -1195,7 +1231,7 @@
                                                                                                                                                                         ],
                                                                                                                                                                         "name": "LeftKnee",
                                                                                                                                                                         "tag": "",
-                                                                                                                                                                        "uid": 14715520150292379186
+                                                                                                                                                                        "uid": 14831478584458510500
                                                                                                                                                                     }
                                                                                                                                                                 ],
                                                                                                                                                                 "components": [
@@ -1221,7 +1257,7 @@
                                                                                                                                                                 ],
                                                                                                                                                                 "name": "LeftKnee_$AssimpFbx$_Scaling",
                                                                                                                                                                 "tag": "",
-                                                                                                                                                                "uid": 7469775608922927096
+                                                                                                                                                                "uid": 7578497307240845543
                                                                                                                                                             }
                                                                                                                                                         ],
                                                                                                                                                         "components": [
@@ -1247,7 +1283,7 @@
                                                                                                                                                         ],
                                                                                                                                                         "name": "LeftKnee_$AssimpFbx$_Rotation",
                                                                                                                                                         "tag": "",
-                                                                                                                                                        "uid": 15416450039089428769
+                                                                                                                                                        "uid": 2992574733654094578
                                                                                                                                                     }
                                                                                                                                                 ],
                                                                                                                                                 "components": [
@@ -1273,7 +1309,7 @@
                                                                                                                                                 ],
                                                                                                                                                 "name": "LeftKnee_$AssimpFbx$_PreRotation",
                                                                                                                                                 "tag": "",
-                                                                                                                                                "uid": 11890789118702470748
+                                                                                                                                                "uid": 10338931036569485440
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "components": [
@@ -1299,7 +1335,7 @@
                                                                                                                                         ],
                                                                                                                                         "name": "LeftKnee_$AssimpFbx$_Translation",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 7631052253092946934
+                                                                                                                                        "uid": 13388301542549451680
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -1325,7 +1361,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "LeftHip",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 17251014622889948579
+                                                                                                                                "uid": 13372588469100751642
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -1351,7 +1387,7 @@
                                                                                                                         ],
                                                                                                                         "name": "LeftHip_$AssimpFbx$_Scaling",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 8882643480276561188
+                                                                                                                        "uid": 5547738131805485347
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -1377,7 +1413,7 @@
                                                                                                                 ],
                                                                                                                 "name": "LeftHip_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 8757209823163560460
+                                                                                                                "uid": 16728312590282832611
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -1403,7 +1439,7 @@
                                                                                                         ],
                                                                                                         "name": "LeftHip_$AssimpFbx$_PreRotation",
                                                                                                         "tag": "",
-                                                                                                        "uid": 15377174476082536730
+                                                                                                        "uid": 4077266772987640340
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -1429,7 +1465,7 @@
                                                                                                 ],
                                                                                                 "name": "LeftHip_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 17804806633028220152
+                                                                                                "uid": 4655193537103578116
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -1455,7 +1491,7 @@
                                                                                         ],
                                                                                         "name": "CenterSpine",
                                                                                         "tag": "",
-                                                                                        "uid": 13440232759492636734
+                                                                                        "uid": 4169807783778725078
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -1481,7 +1517,7 @@
                                                                                 ],
                                                                                 "name": "CenterSpine_$AssimpFbx$_Scaling",
                                                                                 "tag": "",
-                                                                                "uid": 3976019701269527630
+                                                                                "uid": 9447817765487965775
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -1507,7 +1543,7 @@
                                                                         ],
                                                                         "name": "CenterSpine_$AssimpFbx$_Rotation",
                                                                         "tag": "",
-                                                                        "uid": 10988284943502838731
+                                                                        "uid": 3698695003300874669
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -1533,7 +1569,7 @@
                                                                 ],
                                                                 "name": "CenterSpine_$AssimpFbx$_PreRotation",
                                                                 "tag": "",
-                                                                "uid": 15098175843967150056
+                                                                "uid": 6117783392295540271
                                                             }
                                                         ],
                                                         "components": [
@@ -1559,7 +1595,7 @@
                                                         ],
                                                         "name": "CenterSpine_$AssimpFbx$_Translation",
                                                         "tag": "",
-                                                        "uid": 12737241322923891598
+                                                        "uid": 7194300687132066387
                                                     },
                                                     {
                                                         "active": true,
@@ -1614,7 +1650,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "CenterHead",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 2955850469523297697
+                                                                                                                                "uid": 3896891467499706198
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -1640,7 +1676,7 @@
                                                                                                                         ],
                                                                                                                         "name": "CenterHead_$AssimpFbx$_Scaling",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 10724378946794707142
+                                                                                                                        "uid": 8773764880611554803
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -1666,7 +1702,7 @@
                                                                                                                 ],
                                                                                                                 "name": "CenterHead_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 11108266202769216707
+                                                                                                                "uid": 5094500973823932740
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -1692,7 +1728,7 @@
                                                                                                         ],
                                                                                                         "name": "CenterHead_$AssimpFbx$_PreRotation",
                                                                                                         "tag": "",
-                                                                                                        "uid": 11580113384029167774
+                                                                                                        "uid": 3486829830356482328
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -1718,7 +1754,7 @@
                                                                                                 ],
                                                                                                 "name": "CenterHead_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 493778404196559290
+                                                                                                "uid": 17943982011897186934
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -1744,7 +1780,7 @@
                                                                                         ],
                                                                                         "name": "CenterNeck",
                                                                                         "tag": "",
-                                                                                        "uid": 1518777805506098241
+                                                                                        "uid": 13736902802733248990
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -1770,7 +1806,7 @@
                                                                                 ],
                                                                                 "name": "CenterNeck_$AssimpFbx$_Scaling",
                                                                                 "tag": "",
-                                                                                "uid": 12975689496633694725
+                                                                                "uid": 15221671414343241425
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -1796,7 +1832,7 @@
                                                                         ],
                                                                         "name": "CenterNeck_$AssimpFbx$_Rotation",
                                                                         "tag": "",
-                                                                        "uid": 15289476531655057600
+                                                                        "uid": 16664551578112881678
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -1822,7 +1858,7 @@
                                                                 ],
                                                                 "name": "CenterNeck_$AssimpFbx$_PreRotation",
                                                                 "tag": "",
-                                                                "uid": 7356337121213076340
+                                                                "uid": 10595242471163001056
                                                             }
                                                         ],
                                                         "components": [
@@ -1848,7 +1884,7 @@
                                                         ],
                                                         "name": "CenterNeck_$AssimpFbx$_Translation",
                                                         "tag": "",
-                                                        "uid": 6850836563642695646
+                                                        "uid": 13012281441688993957
                                                     },
                                                     {
                                                         "active": true,
@@ -1933,7 +1969,7 @@
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "name": "RightFinger",
                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                "uid": 2704259091916694156
+                                                                                                                                                                                                                "uid": 7162107761287630066
                                                                                                                                                                                                             }
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "components": [
@@ -1959,7 +1995,7 @@
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "name": "RightFinger_$AssimpFbx$_Scaling",
                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                        "uid": 18298282336762303135
+                                                                                                                                                                                                        "uid": 10760366097879635690
                                                                                                                                                                                                     }
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "components": [
@@ -1985,7 +2021,7 @@
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "name": "RightFinger_$AssimpFbx$_Rotation",
                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                "uid": 17217457431032446358
+                                                                                                                                                                                                "uid": 13850489892490414443
                                                                                                                                                                                             }
                                                                                                                                                                                         ],
                                                                                                                                                                                         "components": [
@@ -2011,7 +2047,7 @@
                                                                                                                                                                                         ],
                                                                                                                                                                                         "name": "RightFinger_$AssimpFbx$_PreRotation",
                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                        "uid": 14743757707842767063
+                                                                                                                                                                                        "uid": 704599239298092001
                                                                                                                                                                                     }
                                                                                                                                                                                 ],
                                                                                                                                                                                 "components": [
@@ -2037,7 +2073,7 @@
                                                                                                                                                                                 ],
                                                                                                                                                                                 "name": "RightFinger_$AssimpFbx$_Translation",
                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                "uid": 14986476810928189659
+                                                                                                                                                                                "uid": 1261072786354895205
                                                                                                                                                                             }
                                                                                                                                                                         ],
                                                                                                                                                                         "components": [
@@ -2063,7 +2099,7 @@
                                                                                                                                                                         ],
                                                                                                                                                                         "name": "RightHand",
                                                                                                                                                                         "tag": "",
-                                                                                                                                                                        "uid": 17878672595527296139
+                                                                                                                                                                        "uid": 207542803012489947
                                                                                                                                                                     }
                                                                                                                                                                 ],
                                                                                                                                                                 "components": [
@@ -2089,7 +2125,7 @@
                                                                                                                                                                 ],
                                                                                                                                                                 "name": "RightHand_$AssimpFbx$_Scaling",
                                                                                                                                                                 "tag": "",
-                                                                                                                                                                "uid": 1681301969318520877
+                                                                                                                                                                "uid": 16304423683606393855
                                                                                                                                                             }
                                                                                                                                                         ],
                                                                                                                                                         "components": [
@@ -2115,7 +2151,7 @@
                                                                                                                                                         ],
                                                                                                                                                         "name": "RightHand_$AssimpFbx$_Rotation",
                                                                                                                                                         "tag": "",
-                                                                                                                                                        "uid": 7026394834259312447
+                                                                                                                                                        "uid": 2028070553378970075
                                                                                                                                                     }
                                                                                                                                                 ],
                                                                                                                                                 "components": [
@@ -2141,7 +2177,7 @@
                                                                                                                                                 ],
                                                                                                                                                 "name": "RightHand_$AssimpFbx$_PreRotation",
                                                                                                                                                 "tag": "",
-                                                                                                                                                "uid": 12613779692513263010
+                                                                                                                                                "uid": 12760728825069901177
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "components": [
@@ -2167,7 +2203,7 @@
                                                                                                                                         ],
                                                                                                                                         "name": "RightHand_$AssimpFbx$_Translation",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 8371233280943760097
+                                                                                                                                        "uid": 17589889272459823735
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -2193,7 +2229,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "RightElbow",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 6037229118707109526
+                                                                                                                                "uid": 16679109258343189466
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -2219,7 +2255,7 @@
                                                                                                                         ],
                                                                                                                         "name": "RightElbow_$AssimpFbx$_Scaling",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 9268475813197245920
+                                                                                                                        "uid": 18118187534711494320
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -2245,7 +2281,7 @@
                                                                                                                 ],
                                                                                                                 "name": "RightElbow_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 14757353305166601982
+                                                                                                                "uid": 16844287623871448698
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -2271,7 +2307,7 @@
                                                                                                         ],
                                                                                                         "name": "RightElbow_$AssimpFbx$_PreRotation",
                                                                                                         "tag": "",
-                                                                                                        "uid": 9306905548592443482
+                                                                                                        "uid": 6891401532123038872
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -2297,7 +2333,7 @@
                                                                                                 ],
                                                                                                 "name": "RightElbow_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 15820029825707867208
+                                                                                                "uid": 14676252090493386219
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -2323,7 +2359,7 @@
                                                                                         ],
                                                                                         "name": "RightShoulder",
                                                                                         "tag": "",
-                                                                                        "uid": 4115341263306133109
+                                                                                        "uid": 8544756636984480511
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -2349,7 +2385,7 @@
                                                                                 ],
                                                                                 "name": "RightShoulder_$AssimpFbx$_Scaling",
                                                                                 "tag": "",
-                                                                                "uid": 6704459686048212493
+                                                                                "uid": 17957226826830779621
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -2375,7 +2411,7 @@
                                                                         ],
                                                                         "name": "RightShoulder_$AssimpFbx$_Rotation",
                                                                         "tag": "",
-                                                                        "uid": 10601911777428449143
+                                                                        "uid": 2030935822109436623
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -2401,7 +2437,7 @@
                                                                 ],
                                                                 "name": "RightShoulder_$AssimpFbx$_PreRotation",
                                                                 "tag": "",
-                                                                "uid": 10639527742112583294
+                                                                "uid": 13788755486346376377
                                                             }
                                                         ],
                                                         "components": [
@@ -2427,7 +2463,7 @@
                                                         ],
                                                         "name": "RightShoulder_$AssimpFbx$_Translation",
                                                         "tag": "",
-                                                        "uid": 11748627101613458219
+                                                        "uid": 18036532667942292764
                                                     },
                                                     {
                                                         "active": true,
@@ -2512,7 +2548,7 @@
                                                                                                                                                                                                                 ],
                                                                                                                                                                                                                 "name": "LeftFinger",
                                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                                "uid": 13404153174610159198
+                                                                                                                                                                                                                "uid": 13349750582706434506
                                                                                                                                                                                                             }
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "components": [
@@ -2538,7 +2574,7 @@
                                                                                                                                                                                                         ],
                                                                                                                                                                                                         "name": "LeftFinger_$AssimpFbx$_Scaling",
                                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                                        "uid": 13612106026594444999
+                                                                                                                                                                                                        "uid": 3564837046731841858
                                                                                                                                                                                                     }
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "components": [
@@ -2564,7 +2600,7 @@
                                                                                                                                                                                                 ],
                                                                                                                                                                                                 "name": "LeftFinger_$AssimpFbx$_Rotation",
                                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                                "uid": 15624786677093281275
+                                                                                                                                                                                                "uid": 14225450218046132660
                                                                                                                                                                                             }
                                                                                                                                                                                         ],
                                                                                                                                                                                         "components": [
@@ -2590,7 +2626,7 @@
                                                                                                                                                                                         ],
                                                                                                                                                                                         "name": "LeftFinger_$AssimpFbx$_PreRotation",
                                                                                                                                                                                         "tag": "",
-                                                                                                                                                                                        "uid": 15443997417930435261
+                                                                                                                                                                                        "uid": 3893259046131588756
                                                                                                                                                                                     }
                                                                                                                                                                                 ],
                                                                                                                                                                                 "components": [
@@ -2616,7 +2652,7 @@
                                                                                                                                                                                 ],
                                                                                                                                                                                 "name": "LeftFinger_$AssimpFbx$_Translation",
                                                                                                                                                                                 "tag": "",
-                                                                                                                                                                                "uid": 7299755988381585670
+                                                                                                                                                                                "uid": 2665718034302819457
                                                                                                                                                                             }
                                                                                                                                                                         ],
                                                                                                                                                                         "components": [
@@ -2642,7 +2678,7 @@
                                                                                                                                                                         ],
                                                                                                                                                                         "name": "LeftHand",
                                                                                                                                                                         "tag": "",
-                                                                                                                                                                        "uid": 15456977440914941837
+                                                                                                                                                                        "uid": 15724633759069325582
                                                                                                                                                                     }
                                                                                                                                                                 ],
                                                                                                                                                                 "components": [
@@ -2668,7 +2704,7 @@
                                                                                                                                                                 ],
                                                                                                                                                                 "name": "LeftHand_$AssimpFbx$_Scaling",
                                                                                                                                                                 "tag": "",
-                                                                                                                                                                "uid": 1115509815989626159
+                                                                                                                                                                "uid": 16397759382376441060
                                                                                                                                                             }
                                                                                                                                                         ],
                                                                                                                                                         "components": [
@@ -2694,7 +2730,7 @@
                                                                                                                                                         ],
                                                                                                                                                         "name": "LeftHand_$AssimpFbx$_Rotation",
                                                                                                                                                         "tag": "",
-                                                                                                                                                        "uid": 10577777924964055085
+                                                                                                                                                        "uid": 12207623695583309167
                                                                                                                                                     }
                                                                                                                                                 ],
                                                                                                                                                 "components": [
@@ -2720,7 +2756,7 @@
                                                                                                                                                 ],
                                                                                                                                                 "name": "LeftHand_$AssimpFbx$_PreRotation",
                                                                                                                                                 "tag": "",
-                                                                                                                                                "uid": 8553227158717111819
+                                                                                                                                                "uid": 524031925812935896
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "components": [
@@ -2746,7 +2782,7 @@
                                                                                                                                         ],
                                                                                                                                         "name": "LeftHand_$AssimpFbx$_Translation",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 5651395571227458865
+                                                                                                                                        "uid": 10911802323451045388
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -2772,7 +2808,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "LeftElbow",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 4783729430782074054
+                                                                                                                                "uid": 11716410598611552546
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -2798,7 +2834,7 @@
                                                                                                                         ],
                                                                                                                         "name": "LeftElbow_$AssimpFbx$_Scaling",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 13295705183639722148
+                                                                                                                        "uid": 4600240369824748361
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -2824,7 +2860,7 @@
                                                                                                                 ],
                                                                                                                 "name": "LeftElbow_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 11816871584376492054
+                                                                                                                "uid": 9700036893299555447
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -2850,7 +2886,7 @@
                                                                                                         ],
                                                                                                         "name": "LeftElbow_$AssimpFbx$_PreRotation",
                                                                                                         "tag": "",
-                                                                                                        "uid": 7513010058343069765
+                                                                                                        "uid": 17203741594639329521
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -2876,7 +2912,7 @@
                                                                                                 ],
                                                                                                 "name": "LeftElbow_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 3477613261943611809
+                                                                                                "uid": 7237633101933747489
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -2902,7 +2938,7 @@
                                                                                         ],
                                                                                         "name": "LeftShoulder",
                                                                                         "tag": "",
-                                                                                        "uid": 11200024013868343557
+                                                                                        "uid": 6533351291456632267
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -2928,7 +2964,7 @@
                                                                                 ],
                                                                                 "name": "LeftShoulder_$AssimpFbx$_Scaling",
                                                                                 "tag": "",
-                                                                                "uid": 6156196118742693370
+                                                                                "uid": 765539438900084948
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -2954,7 +2990,7 @@
                                                                         ],
                                                                         "name": "LeftShoulder_$AssimpFbx$_Rotation",
                                                                         "tag": "",
-                                                                        "uid": 11137424095486200129
+                                                                        "uid": 16896076893231870564
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -2980,7 +3016,7 @@
                                                                 ],
                                                                 "name": "LeftShoulder_$AssimpFbx$_PreRotation",
                                                                 "tag": "",
-                                                                "uid": 14542072230481761889
+                                                                "uid": 6733765414332549821
                                                             }
                                                         ],
                                                         "components": [
@@ -3006,7 +3042,7 @@
                                                         ],
                                                         "name": "LeftShoulder_$AssimpFbx$_Translation",
                                                         "tag": "",
-                                                        "uid": 8499437399903662778
+                                                        "uid": 4578477599762037846
                                                     }
                                                 ],
                                                 "components": [
@@ -3032,7 +3068,7 @@
                                                 ],
                                                 "name": "MainJoint",
                                                 "tag": "",
-                                                "uid": 16661176567052937499
+                                                "uid": 8374388712115851117
                                             }
                                         ],
                                         "components": [
@@ -3058,7 +3094,7 @@
                                         ],
                                         "name": "MainJoint_$AssimpFbx$_Scaling",
                                         "tag": "",
-                                        "uid": 14298484477233587940
+                                        "uid": 9571379507317381688
                                     }
                                 ],
                                 "components": [
@@ -3084,7 +3120,7 @@
                                 ],
                                 "name": "MainJoint_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 9309520926772480557
+                                "uid": 13929816279237311746
                             }
                         ],
                         "components": [
@@ -3110,7 +3146,7 @@
                         ],
                         "name": "MainJoint_$AssimpFbx$_PreRotation",
                         "tag": "",
-                        "uid": 16453588201351139574
+                        "uid": 4700659577334473482
                     }
                 ],
                 "components": [
@@ -3136,11 +3172,152 @@
                 ],
                 "name": "MainJoint_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 13776334893539699207
+                "uid": 2025960170248532317
             },
             {
                 "active": true,
-                "children": [],
+                "children": [
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    0.0,
+                                    -1.9701670408248901
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesSteps",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_StepsSource",
+                        "tag": "",
+                        "uid": 17171438769404129421
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    11.036916732788086,
+                                    0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesWarcry",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_VoiceSource",
+                        "tag": "",
+                        "uid": 18410332965769747442
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    6.5982794761657715,
+                                    -2.1524534225463867
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesDash",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_DashSource",
+                        "tag": "",
+                        "uid": 13886070096927998657
+                    },
+                    {
+                        "active": true,
+                        "children": [],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0,
+                                    6.5982794761657715,
+                                    -2.1524534225463867
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            },
+                            {
+                                "active": true,
+                                "eventName": "SFX_AquilesShield",
+                                "playOnAwake": false,
+                                "type": 26,
+                                "volume": 100.0
+                            }
+                        ],
+                        "name": "AQ_ArmorSource",
+                        "tag": "",
+                        "uid": 17679083703521303931
+                    }
+                ],
                 "components": [
                     {
                         "active": true,
@@ -3170,11 +3347,29 @@
                         "active": true,
                         "materialUID": 18385834806947720505,
                         "type": 3
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            4.0,
+                            -0.20000000298023224
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            25.0,
+                            75.0,
+                            30.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
                     }
                 ],
                 "name": "aquilesMesh",
                 "tag": "",
-                "uid": 14676383741079299736
+                "uid": 2206373979871770344
             }
         ],
         "components": [
@@ -3182,7 +3377,7 @@
                 "active": true,
                 "position": [
                     0.0,
-                    0.0,
+                    3.0,
                     0.0
                 ],
                 "rotation": [
@@ -3198,14 +3393,7 @@
                 "type": 0
             },
             {
-                "Animations": [
-                    {
-                        "UID": 5498224376618570761,
-                        "loop": true,
-                        "name": "Test_Anim",
-                        "speed": 1.0
-                    }
-                ],
+                "Animations": [],
                 "active": true,
                 "type": 28
             },
@@ -3217,9 +3405,9 @@
                     false
                 ],
                 "FreezeRot": [
-                    false,
-                    false,
-                    false
+                    true,
+                    true,
+                    true
                 ],
                 "LinearDamping": 0.0,
                 "Mass": 1.0,
@@ -3233,17 +3421,17 @@
                 "Center": [
                     0.0,
                     40.0,
-                    0.0
+                    11.0
                 ],
                 "DynamicFriction": 0.5,
                 "Restitution": 0.6000000238418579,
                 "Size": [
-                    50.0,
+                    30.0,
                     75.0,
-                    30.0
+                    20.0
                 ],
                 "StaticFriction": 0.5,
-                "Trigger": false,
+                "Trigger": true,
                 "active": true,
                 "type": 10
             },
@@ -3251,24 +3439,19 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "stopSmoothing",
+                        "name": "detectRange",
+                        "type": 0,
+                        "value": 20.0
+                    },
+                    {
+                        "name": "lanceCooldown",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
+                        "name": "stunDuration",
                         "type": 0,
                         "value": 8.0
-                    },
-                    {
-                        "name": "Lance360Range",
-                        "type": 0,
-                        "value": 3.5
-                    },
-                    {
-                        "name": "chargeDamage",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "preparationTime",
-                        "type": 0,
-                        "value": 1.5
                     },
                     {
                         "name": "wallSpeedThresh",
@@ -3276,44 +3459,34 @@
                         "value": 1.5
                     },
                     {
+                        "name": "stopSmoothing",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "recoveryLance",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
                         "name": "hurtStunTime",
                         "type": 0,
-                        "value": 0.800000011920929
+                        "value": 0.4000000059604645
                     },
                     {
-                        "name": "detectRange",
+                        "name": "recoveryCharge",
                         "type": 0,
-                        "value": 15.0
-                    },
-                    {
-                        "name": "wallStunTime",
-                        "type": 0,
-                        "value": 5.0
-                    },
-                    {
-                        "name": "chargeRange",
-                        "type": 0,
-                        "value": 12.0
+                        "value": 1.7999999523162842
                     },
                     {
                         "name": "chargeSpeed",
                         "type": 0,
-                        "value": 18.0
-                    },
-                    {
-                        "name": "chargeCooldown",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "rotationSpeed",
-                        "type": 0,
-                        "value": 3.0
+                        "value": 22.0
                     },
                     {
                         "name": "opportunityDamageMultiplier",
                         "type": 0,
-                        "value": 1.0
+                        "value": 3.0
                     },
                     {
                         "name": "predictionTime",
@@ -3321,12 +3494,17 @@
                         "value": 0.4000000059604645
                     },
                     {
-                        "name": "lanceDamage",
+                        "name": "Lance360Range",
                         "type": 0,
-                        "value": 15.0
+                        "value": 2.0
                     },
                     {
-                        "name": "stunDuration",
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "chargeCooldown",
                         "type": 0,
                         "value": 4.0
                     },
@@ -3336,14 +3514,54 @@
                         "value": 100.0
                     },
                     {
-                        "name": "knockbackForce",
+                        "name": "lanceDamage",
                         "type": 0,
-                        "value": 8.0
+                        "value": 20.0
+                    },
+                    {
+                        "name": "stepInterval",
+                        "type": 0,
+                        "value": 0.6000000238418579
+                    },
+                    {
+                        "name": "wallStunTime",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "preparationTime",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "moveSpeed",
+                        "type": 0,
+                        "value": 6.5
+                    },
+                    {
+                        "name": "chargeDamage",
+                        "type": 0,
+                        "value": 35.0
+                    },
+                    {
+                        "name": "chargeDuration",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "chargeRange",
+                        "type": 0,
+                        "value": 18.0
                     },
                     {
                         "name": "lanceDuration",
                         "type": 0,
-                        "value": 0.5
+                        "value": 0.800000011920929
+                    },
+                    {
+                        "name": "afterStunTime",
+                        "type": 0,
+                        "value": 3.0
                     },
                     {
                         "name": "maxHp",
@@ -3351,24 +3569,14 @@
                         "value": 300.0
                     },
                     {
-                        "name": "afterStunTime",
+                        "name": "dashApproachRange",
                         "type": 0,
-                        "value": 2.200000047683716
+                        "value": 9.0
                     },
                     {
-                        "name": "chargeDuration",
+                        "name": "rotationSpeed",
                         "type": 0,
-                        "value": 0.800000011920929
-                    },
-                    {
-                        "name": "lanceCooldown",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "moveSpeed",
-                        "type": 0,
-                        "value": 10.0
+                        "value": 1.7999999523162842
                     }
                 ],
                 "scriptUID": 2892393956142374010,
@@ -3377,6 +3585,6 @@
         ],
         "name": "Aquiles_Rigged",
         "tag": "",
-        "uid": 5549445480866952937
+        "uid": 5153066989176626618
     }
 ]

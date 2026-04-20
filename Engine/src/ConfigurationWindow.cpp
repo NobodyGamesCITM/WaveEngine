@@ -247,6 +247,13 @@ void ConfigurationWindow::DrawAudioVolumeSettings() {
 
     ImGui::Spacing();
 
+
+    if (ImGui::Button("Reload Soundbanks"))
+    {
+        if (Application::GetInstance().audio)
+            Application::GetInstance().audio.get()->audioSystem->ReloadSoundBanks();
+    }
+
     
 }
 

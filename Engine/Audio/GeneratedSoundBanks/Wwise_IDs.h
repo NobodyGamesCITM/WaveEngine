@@ -14,8 +14,14 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_AQUILESSPEAR = 953159674U;
+        static const AkUniqueID SFX_AQUILESDASH = 161972871U;
+        static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;
+        static const AkUniqueID SFX_AQUILESHURT = 565814488U;
+        static const AkUniqueID SFX_AQUILESSHIELD = 2261003392U;
+        static const AkUniqueID SFX_AQUILESSPEARHIT = 2157393365U;
+        static const AkUniqueID SFX_AQUILESSPEARSWING = 276386536U;
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
+        static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
@@ -54,9 +60,11 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID BOSS = 1560169506U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
+                static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
@@ -83,6 +91,7 @@ namespace AK
 
             namespace SWITCH
             {
+                static const AkUniqueID BONES = 2087559222U;
                 static const AkUniqueID DIRT = 2195636714U;
                 static const AkUniqueID GRASS = 4248645337U;
                 static const AkUniqueID STONE = 1216965916U;

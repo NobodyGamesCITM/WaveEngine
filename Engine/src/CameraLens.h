@@ -68,6 +68,7 @@ public:
     glm::vec3 position;
     glm::vec3 reference;
     glm::vec3 up;
+    glm::vec2 WorldToScreen(const glm::vec3& worldPos, int screenWidth, int screenHeight, bool& outBehindCamera) const;
     
 private:
     glm::mat4 viewMatrix;

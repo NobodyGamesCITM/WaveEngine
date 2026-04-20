@@ -10,6 +10,7 @@
 #include "Time.h" 
 #include "FileSystem.h"
 #include "ModuleScene.h"
+#include "AssetsWindow.h"
 #include <fstream>
 #include <iomanip> 
 #include <imgui.h>
@@ -135,21 +136,17 @@ void ComponentParticleSystem::Draw(ComponentCamera* camera) {
     glLoadMatrixf(glm::value_ptr(viewMatrix));
 
     // Simulation space logic in render
+    glm::mat4 modelMat = glm::mat4(1.0f);
     if (emitter->simulationSpace == SimulationSpace::LOCAL) {
         // In LOCAL, we apply the object's matrix. Particles move with it
         Transform* trans = dynamic_cast<Transform*>(owner->GetComponent(ComponentType::TRANSFORM));
         if (trans) {
-            glm::mat4 globalMat = trans->GetGlobalMatrix();
-            glMultMatrixf(glm::value_ptr(globalMat));
-            glm::mat4 invGlobal = glm::inverse(globalMat);
-            glm::vec3 camWorld = camera->owner->transform->GetGlobalPosition();
-            glm::vec3 camLocal = glm::vec3(invGlobal * glm::vec4(camWorld, 1.0f));
-            emitter->Draw(camLocal);
-            return;
+            modelMat = trans->GetGlobalMatrix();
         }
     }
+
     // WORLD space: camera and particle positions are both world-space, pass directly
-    emitter->Draw(camera->owner->transform->GetGlobalPosition());
+    emitter->Draw(camera->owner->transform->GetGlobalPosition(), modelMat);
 }
 
 // Scripting
@@ -217,27 +214,28 @@ void ComponentParticleSystem::OnEditor() {
     // Selector Texture
     ImGui::Separator();
     ImGui::Text("Texture & Animation");
-    std::string currentTexName = emitter->texturePath.empty() ? "None" : emitter->texturePath;
-    // Strip path to show only filename
+
+    std::string currentTexName = emitter->texturePath.empty() ? "None (Drop Texture Here)" : emitter->texturePath;
     size_t lastSlash = currentTexName.find_last_of("/\\");
     if (lastSlash != std::string::npos) currentTexName = currentTexName.substr(lastSlash + 1);
 
-    if (ImGui::BeginCombo("Texture", currentTexName.c_str())) {
-        const auto& allResources = Application::GetInstance().resources->GetAllResources();
-        if (ImGui::Selectable("None", emitter->texturePath.empty())) SetTexture("");
-        for (const auto& pair : allResources) {
-            Resource* res = pair.second;
-            if (res->GetType() == Resource::TEXTURE) {
-                std::string path = res->GetAssetFile();
-                std::string name = path;
-                size_t slash = name.find_last_of("/\\");
-                if (slash != std::string::npos) name = name.substr(slash + 1);
-                bool isSelected = (emitter->texturePath == path);
-                if (ImGui::Selectable(name.c_str(), isSelected)) SetTexture(path);
-                if (isSelected) ImGui::SetItemDefaultFocus();
+    // Clear texture button
+    if (ImGui::Button("X##ClearTex")) {
+        SetTexture("");
+    }
+    ImGui::SameLine();
+
+    // Drop button zone
+    ImGui::Button(currentTexName.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20));
+
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_ITEM")) {
+            DragDropPayload* dropData = (DragDropPayload*)payload->Data;
+            if (dropData->assetType == DragDropAssetType::TEXTURE) {
+                SetTexture(dropData->assetPath);
             }
         }
-        ImGui::EndCombo();
+        ImGui::EndDragDropTarget();
     }
 
     // Animation Settings
@@ -371,6 +369,7 @@ void ComponentParticleSystem::OnEditor() {
         ImGui::DragFloat2("Speed (Min/Max)", &spawner->speedMin, 0.1f, 0.0f, 50.0f);
         ImGui::DragFloat("Size Start", &spawner->sizeStart, 0.01f, 0.0f, 10.0f);
         ImGui::DragFloat("Size End", &spawner->sizeEnd, 0.01f, 0.0f, 10.0f);
+        ImGui::DragFloat2("Initial Rot (Min/Max)", &spawner->initialRotationMin, 1.0f, -360.0f, 360.0f);
         ImGui::DragFloat2("Spin Speed (Min/Max)", &spawner->rotationSpeedMin, 1.0f, -360.0f, 360.0f);
 
         // The size curve settings overrides Start/End when is not empty
@@ -428,9 +427,13 @@ void ComponentParticleSystem::OnEditor() {
         ImGui::Separator();
         ImGui::Text("Color over Lifetime");
 
-        ImGui::ColorEdit4("Start Color", &spawner->colorStart.r);
-        ImGui::ColorEdit4("End Color", &spawner->colorEnd.r,
-            ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview);
+        ImGui::ColorEdit3("Start Color", &spawner->colorStart.r);
+        ImGui::DragFloat("Start Alpha", &spawner->colorStart.a, 0.01f, 0.0f, 1.0f);
+
+        ImGui::Spacing();
+
+        ImGui::ColorEdit3("End Color", &spawner->colorEnd.r);
+        ImGui::DragFloat("End Alpha", &spawner->colorEnd.a, 0.01f, 0.0f, 1.0f);
 
         if (ImGui::TreeNode("Advanced Gradient Editor")) {
             if (ImGui::Button("Add Color Key")) {
@@ -448,15 +451,24 @@ void ComponentParticleSystem::OnEditor() {
             for (int i = 0; i < (int)spawner->colorGradient.size(); i++) {
                 ImGui::PushID(i + 100);
 
+                ImGui::BeginGroup();
+
                 if (ImGui::SliderFloat("Time", &spawner->colorGradient[i].time, 0.0f, 1.0f))
                     gradientChanged = true;
-                ImGui::ColorEdit4("Color", &spawner->colorGradient[i].color.r);
 
-                if (ImGui::Button("Remove")) {
+                ImGui::ColorEdit3("Color", &spawner->colorGradient[i].color.r);
+                ImGui::DragFloat("Alpha", &spawner->colorGradient[i].color.a, 0.01f, 0.0f, 1.0f);
+
+                if (ImGui::Button("Remove Key", ImVec2(120, 0))) {
                     spawner->colorGradient.erase(spawner->colorGradient.begin() + i);
+                    ImGui::EndGroup();
                     ImGui::PopID();
                     continue;
                 }
+
+                ImGui::EndGroup();
+                ImGui::Separator();
+
                 ImGui::PopID();
             }
 
@@ -620,6 +632,8 @@ void ComponentParticleSystem::Serialize(nlohmann::json& componentObj) const {
 
             componentObj["sizeStart"] = s->sizeStart;
             componentObj["sizeEnd"] = s->sizeEnd;
+            componentObj["initRotMin"] = s->initialRotationMin;
+            componentObj["initRotMax"] = s->initialRotationMax;
             componentObj["rotSpeedMin"] = s->rotationSpeedMin;
             componentObj["rotSpeedMax"] = s->rotationSpeedMax;
             componentObj["lifetimeMin"] = s->lifetimeMin;
@@ -727,6 +741,8 @@ void ComponentParticleSystem::Deserialize(const nlohmann::json& componentObj) {
 
             if (componentObj.contains("sizeStart")) s->sizeStart = componentObj["sizeStart"];
             if (componentObj.contains("sizeEnd")) s->sizeEnd = componentObj["sizeEnd"];
+            s->initialRotationMin = componentObj.value("initRotMin", 0.0f);
+            s->initialRotationMax = componentObj.value("initRotMax", 360.0f);
             if (componentObj.contains("rotSpeedMin")) s->rotationSpeedMin = componentObj["rotSpeedMin"];
             if (componentObj.contains("rotSpeedMax")) s->rotationSpeedMax = componentObj["rotSpeedMax"];
             if (componentObj.contains("lifetimeMin")) s->lifetimeMin = componentObj["lifetimeMin"];

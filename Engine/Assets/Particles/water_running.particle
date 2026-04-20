@@ -1,0 +1,96 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": true,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 0.25,
+    "colorEnd": [
+        0.0,
+        0.7647058963775635,
+        1.0,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.8119999766349792,
+                0.7450000047683716,
+                0.675000011920929,
+                0.8500000238418579
+            ],
+            "time": 0.0
+        },
+        {
+            "color": [
+                0.7490000128746033,
+                0.6349999904632568,
+                0.5569999814033508,
+                0.550000011920929
+            ],
+            "time": 0.4000000059604645
+        },
+        {
+            "color": [
+                0.6859999895095825,
+                0.5249999761581421,
+                0.4390000104904175,
+                0.0
+            ],
+            "time": 1.0
+        }
+    ],
+    "colorStart": [
+        0.0,
+        0.8607267737388611,
+        0.9754902124404907,
+        1.0
+    ],
+    "coneAngle": 25.0,
+    "coneRadius": 0.5,
+    "duration": 5.0,
+    "emissionArea": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 18.0,
+    "emissionRateDist": 0.0,
+    "emitFromShell": false,
+    "gravity": [
+        0.0,
+        0.07999999821186066,
+        0.0
+    ],
+    "initRotMax": 360.0,
+    "initRotMin": 0.0,
+    "lifetimeMax": 0.699999988079071,
+    "lifetimeMin": 0.30000001192092896,
+    "looping": true,
+    "luminance": false,
+    "maxParticles": 30,
+    "noiseActive": true,
+    "noiseFreq": 0.6000000238418579,
+    "noiseStrength": 0.4000000059604645,
+    "oneShot": false,
+    "oneShotCount": 30,
+    "prewarm": false,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 80.0,
+    "rotSpeedMin": -80.0,
+    "shape": 3,
+    "simulationSpace": 1,
+    "sizeCurve": [],
+    "sizeEnd": 4.690000057220459,
+    "sizeStart": 3.4600000381469727,
+    "speedMax": 0.30000001192092896,
+    "speedMin": 0.05000000074505806,
+    "textureCols": 6,
+    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Water_Steps_Animation_Sprite_Sheet_Test.png",
+    "textureRows": 1,
+    "textureUID": 2754969798124442883,
+    "type": 7
+}

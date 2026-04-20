@@ -1,0 +1,473 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "transform33",
+                                                                "tag": "",
+                                                                "uid": 13487526800132737721
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -1.420432686805725
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "polySurface47",
+                                                        "tag": "",
+                                                        "uid": 16318777813151970290
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "transform32",
+                                                                "tag": "",
+                                                                "uid": 17652098208839571735
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    -1.420432686805725
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "polySurface48",
+                                                        "tag": "",
+                                                        "uid": 17146088731155587154
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "EstatuaReflectora",
+                                                "tag": "",
+                                                "uid": 839579683963643339
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.06838417053222656,
+                                                    -0.8605677485466003,
+                                                    0.24236620962619781
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "EstatuaReflectora_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 6092247216918162839
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -0.06838417053222656,
+                                            0.8605677485466003,
+                                            -0.24236620962619781
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "EstatuaReflectora_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 14650525590965106242
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.06838417053222656,
+                                    -0.8605677485466003,
+                                    0.24236620962619781
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "EstatuaReflectora_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 6109337773833075181
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -0.06838417053222656,
+                            0.8605677485466003,
+                            -2.507690191268921
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "EstatuaReflectora_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 10281927563292587771
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    -1.0678834915161133,
+                                                                    9.5367431640625e-07,
+                                                                    1.0678825378417969
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "meshUID": 10921041275691745163,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 10970523609565912009,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "EstatuaReflectora1",
+                                                        "tag": "",
+                                                        "uid": 11248785193993525215
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.02415139228105545,
+                                                            -0.9172931909561157,
+                                                            0.24626943469047546
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "EstatuaReflectora1_$AssimpFbx$_ScalingPivotInverse",
+                                                "tag": "",
+                                                "uid": 5986444211154767687
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.02415139228105545,
+                                                    0.9172931909561157,
+                                                    -0.24626943469047546
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "EstatuaReflectora1_$AssimpFbx$_ScalingPivot",
+                                        "tag": "",
+                                        "uid": 1386103547496804009
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.02415139228105545,
+                                            -0.9172931909561157,
+                                            0.24626943469047546
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "EstatuaReflectora1_$AssimpFbx$_RotationPivotInverse",
+                                "tag": "",
+                                "uid": 2296684768682785693
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.02415139228105545,
+                                    0.9172931909561157,
+                                    -0.24626943469047546
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "EstatuaReflectora1_$AssimpFbx$_RotationPivot",
+                        "tag": "",
+                        "uid": 7402744450334727428
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            -2.4087908267974854
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "EstatuaReflectora1_$AssimpFbx$_Translation",
+                "tag": "",
+                "uid": 4404363521587525594
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    61.0,
+                    8.0,
+                    -72.0
+                ],
+                "rotation": [
+                    0.0,
+                    45.000003814697266,
+                    0.0
+                ],
+                "scale": [
+                    2.648627758026123,
+                    2.648627758026123,
+                    2.648627758026123
+                ],
+                "type": 0
+            }
+        ],
+        "name": "EstatuaReflectora",
+        "tag": "",
+        "uid": 6638044944486687968
+    }
+]

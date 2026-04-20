@@ -750,6 +750,30 @@ void AudioSystem::DiscoverAuxBuses()
     }
 }
 
+
+void AudioSystem::ReloadSoundBanks() {
+   
+    
+    AK::SoundEngine::StopAll();
+    AK::SoundEngine::UnloadBank(AK::BANKS::MAINSOUNDBANK, nullptr);
+    AK::SoundEngine::RenderAudio();
+
+   
+    AkBankID bankID = AK_INVALID_BANK_ID;
+    AKRESULT result = AK::SoundEngine::LoadBank(BANKNAME_MUSIC, bankID);
+
+    if (result == AK_Success) {
+        LOG_CONSOLE("[Audio] MainSoundBank reloaded successfully");
+        DiscoverEvents();
+        DiscoverAuxBuses();
+    }
+    else {
+        LOG_CONSOLE("[Audio] Failed to reload MainSoundBank: %d", result);
+    }
+
+    AK::SoundEngine::RenderAudio();
+}
+
 void AudioSystem::EventCallBack(AkCallbackType in_eType, AkEventCallbackInfo* in_pEventInfo, void* in_pCallbackInfo, void* in_pCookie)
 {
     // in this version of Wwise, the 'cookie' is passed as the 4th parameter

@@ -140,6 +140,7 @@ local currentYaw = 0
 local Enemy = { attackSFX=nil, dieSFX=nil, hurtSFX=nil, dodgeSFX=nil, stepSFX=nil }
 
 local stepTimer = 0.5
+local BaseMat = nil
 
 -- ─────────────────────────────────────────────────────────────────────────
 -- HELPERS
@@ -677,9 +678,10 @@ function Start(self)
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Enable() end
 
-
     FindAudioComponents(self)
-    
+
+    squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
+    BaseMat = squeletonMesh:GetComponent("Material")
 
     PlayAnim(self.public.animIdle, 0.0)
     Engine.Log("[Skeleton] Start OK  HP=" .. hp)
@@ -882,6 +884,7 @@ function OnTriggerEnter(self, other)
                 end
                 if dmg > 0 then
                     alreadyHit = true
+                    BaseMat.SetTexture("17109277834976977864")
                     QueuePlayerDamage(self, dmg, ap)
                 end
             end
@@ -895,7 +898,6 @@ function OnTriggerEnter(self, other)
                 _PlayerController_pendingDamage    = _EnemyDamage_skeleton
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
                 alreadyHit = false
-
             end
         end
     end
@@ -909,6 +911,7 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then
         alreadyHit = false
+        BaseMat.SetTexture("13296577326446124640")
     end
 end
 

@@ -874,13 +874,8 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
-
-        pair.second.system->GetEmitter()->Draw(billboardPos);
-
-        glPopMatrix();
+        // Render directly in World Space
+        pair.second.system->GetEmitter()->Draw(billboardPos, pair.second.modelMatrix);
     }
 
     glMatrixMode(GL_PROJECTION);

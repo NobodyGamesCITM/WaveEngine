@@ -685,6 +685,50 @@ static int Lua_Time_GetRealDeltaTime(lua_State* L) {
     lua_pushnumber(L, Time::GetRealDeltaTimeStatic());
     return 1;
 }
+static int Lua_Camera_WorldToScreen(lua_State* L) {
+    float wx = (float)luaL_checknumber(L, 1);
+    float wy = (float)luaL_checknumber(L, 2);
+    float wz = (float)luaL_checknumber(L, 3);
+
+    auto& app = Application::GetInstance();
+    ComponentCamera* camera = app.camera->GetMainCamera();
+    if (!camera) {
+        LOG_DEBUG("WorldToScreen: GetMainCamera() returned nullptr!");
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    int screenWidth = 800, screenHeight = 600;
+#ifndef WAVE_GAME
+    GameWindow* gameWindow = app.editor->GetGameWindow();
+    if (gameWindow) {
+        ImVec2 size = gameWindow->GetViewportSize();
+        screenWidth = (int)size.x;
+        screenHeight = (int)size.y;
+    }
+#else
+    app.window->GetWindowSize(screenWidth, screenHeight);
+#endif
+
+    const glm::mat4& view = camera->GetViewMatrix();
+    const glm::mat4& proj = camera->GetProjectionMatrix();
+    glm::vec4 clip = proj * view * glm::vec4(wx, wy, wz, 1.0f);
+
+    if (clip.w <= 0.0f) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    glm::vec3 ndc = glm::vec3(clip) / clip.w;
+    float sx = (ndc.x * 0.5f + 0.5f) * screenWidth;
+    float sy = (1.0f - (ndc.y * 0.5f + 0.5f)) * screenHeight;
+
+    lua_pushnumber(L, sx);
+    lua_pushnumber(L, sy);
+    return 2;
+}
 
 static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     int mouseX = static_cast<int>(luaL_checknumber(L, 1));
@@ -755,8 +799,25 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     lua_pushnumber(L, intersection.x);
     lua_pushnumber(L, intersection.z);
     return 2;
-}
 
+}
+static int Lua_Camera_GetViewportSize(lua_State* L) {
+    auto& app = Application::GetInstance();
+    int w = 800, h = 600;
+#ifndef WAVE_GAME
+    GameWindow* gameWindow = app.editor->GetGameWindow();
+    if (gameWindow) {
+        ImVec2 size = gameWindow->GetViewportSize();
+        w = (int)size.x;
+        h = (int)size.y;
+    }
+#else
+    app.window->GetWindowSize(w, h);
+#endif
+    lua_pushnumber(L, w);
+    lua_pushnumber(L, h);
+    return 2;
+}
 
 //Audio
 //BGM Transitions
@@ -776,7 +837,10 @@ static int Lua_Audio_SetSwitch(lua_State* L) {
     const char* switchGroupName = luaL_checkstring(L, 1);
     const char* switchStateName = luaL_checkstring(L, 2);
     lua_getfield(L, 3, "ptr");                             // slot 3: the table (component)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     Application::GetInstance().audio.get()->audioSystem->SetSwitch(switchGroupName, switchStateName, source->goID);
     AK::SoundEngine::RenderAudio();
@@ -785,7 +849,10 @@ static int Lua_Audio_SetSwitch(lua_State* L) {
 
 static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
 
@@ -796,7 +863,10 @@ static int Lua_Audio_PlayAudioEvent(lua_State* L) {
 
 static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
     std::string eventName(luaL_checkstring(L, 2));
     std::wstring wEventName(eventName.begin(), eventName.end());
 
@@ -810,7 +880,10 @@ static int Lua_Audio_SelectPlayAudioEvent(lua_State* L) {
 
 static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
 
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
     Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
@@ -820,7 +893,10 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     float volume = luaL_checknumber(L, 2);
-    AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
     Application::GetInstance().audio.get()->audioSystem->SetAudioSourceVolume(volume, source->goID);
 
     AK::SoundEngine::RenderAudio();
@@ -831,11 +907,33 @@ static int Lua_Audio_SetGlobalVolume(lua_State* L) {
     //lua_getfield(L, 1, "ptr");  
     float volume = static_cast<float>(luaL_checknumber(L, 1));
     //AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
-    Application::GetInstance().audio.get()->audioSystem->SetGlobalVolume(volume);
+    auto* audio = Application::GetInstance().audio.get();
+    if (!audio || !audio->audioSystem) {
+        LOG_CONSOLE("[Audio] ERROR: SetGlobalVolume called with null audio system");
+        return 0;
+    }
+    audio->audioSystem->SetGlobalVolume(volume);
 
     AK::SoundEngine::RenderAudio();
     return 0;
 }
+
+static int Lua_Audio_SetMusicVolume(lua_State* L) {
+    //lua_getfield(L, 1, "ptr");  
+    float volume = static_cast<float>(luaL_checknumber(L, 1));
+    //AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+    auto* audio = Application::GetInstance().audio.get();
+    if (!audio || !audio->audioSystem) {
+        LOG_CONSOLE("[Audio] ERROR: SetMusicVolume called with null audio system");
+        return 0;
+    }
+    audio->audioSystem->SetMusicVolume(volume);
+
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
+
 
 static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
@@ -875,7 +973,14 @@ static int Lua_UI_GetCanvasButtons(lua_State* L) {
     }
     return 1;
 }
-
+static int Lua_UI_SetElementText(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    std::string text(luaL_checkstring(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, text]() {
+        UIManager::GetInstance().SetElementText(name, text);
+        });
+    return 0;
+}
 // UI.SetElementHeight("GridName", 42.0)
 static int Lua_UI_SetElementHeight(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
@@ -893,11 +998,14 @@ static int Lua_UI_SetElementWidth(lua_State* L) {
 }
 
 // UI.SetElementText("TextBlockName", "Hello")
-static int Lua_UI_SetElementText(lua_State* L) {
+static int Lua_UI_SetElementMargin(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
-    std::string text(luaL_checkstring(L, 2));
-    Application::GetInstance().scripts->EnqueueOperation([name, text]() {
-        UIManager::GetInstance().SetElementText(name, text);
+    float left = (float)luaL_checknumber(L, 2);
+    float top = (float)luaL_checknumber(L, 3);
+    float right = (float)luaL_checknumber(L, 4);
+    float bottom = (float)luaL_checknumber(L, 5);
+    Application::GetInstance().scripts->EnqueueOperation([name, left, top, right, bottom]() {
+        UIManager::GetInstance().SetElementMargin(name, left, top, right, bottom);
         });
     return 0;
 }
@@ -995,6 +1103,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Camera_GetScreenToWorldPlane);
     lua_setfield(L, -2, "GetScreenToWorldPlane");
+    lua_pushcfunction(L, Lua_Camera_WorldToScreen);
+    lua_setfield(L, -2, "WorldToScreen");
+    lua_pushcfunction(L, Lua_Camera_GetViewportSize);
+    lua_setfield(L, -2, "GetViewportSize");
     lua_setglobal(L, "Camera");
 
 
@@ -1014,6 +1126,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetSourceVolume");
     lua_pushcfunction(L, Lua_Audio_SetGlobalVolume);
     lua_setfield(L, -2, "SetGlobalVolume");
+    lua_pushcfunction(L, Lua_Audio_SetMusicVolume);
+    lua_setfield(L, -2, "SetMusicVolume");
     lua_setglobal(L, "Audio");
 
     
@@ -1051,8 +1165,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_GetCanvasButtons);      lua_setfield(L, -2, "GetCanvasButtons");
     lua_pushcfunction(L, Lua_UI_SetElementHeight);      lua_setfield(L, -2, "SetElementHeight");
     lua_pushcfunction(L, Lua_UI_SetElementWidth);       lua_setfield(L, -2, "SetElementWidth");
-    lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
     lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
+    lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
+    lua_pushcfunction(L, Lua_UI_SetElementMargin);      lua_setfield(L, -2, "SetElementMargin");
+
     lua_setglobal(L, "UI");
 
 
@@ -1771,6 +1887,45 @@ static int Lua_ParticleSystem_SetOneShotMode(lua_State* L) {
     return 0;
 }
 
+//edit start color (rgb)
+static int Lua_ParticleSystem_SetStartColor(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float r = (float)luaL_checknumber(L, 2);
+    float g = (float)luaL_checknumber(L, 3);
+    float b = (float)luaL_checknumber(L, 4);
+    float a = (float)luaL_optnumber(L, 5, 1.0);
+
+    EmitterInstance* emitter = ps->GetEmitter();
+    for (auto* m : emitter->modules) {
+        if (m->type == ParticleModuleType::SPAWNER) {
+            static_cast<ModuleEmitterSpawn*>(m)->colorStart = glm::vec4(r, g, b, a);
+            break;
+        }
+    }
+    return 0;
+}
+
+//edit end color (rgb)
+static int Lua_ParticleSystem_SetEndColor(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float r = (float)luaL_checknumber(L, 2);
+    float g = (float)luaL_checknumber(L, 3);
+    float b = (float)luaL_checknumber(L, 4);
+    float a = (float)luaL_optnumber(L, 5, 1.0);
+
+    EmitterInstance* emitter = ps->GetEmitter();
+    for (auto* m : emitter->modules) {
+        if (m->type == ParticleModuleType::SPAWNER) {
+            static_cast<ModuleEmitterSpawn*>(m)->colorEnd = glm::vec4(r, g, b, a);
+            break;
+        }
+    }
+    return 0;
+}
+
+
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
 
@@ -2079,7 +2234,7 @@ static int Lua_GameObject_Index(lua_State* L) {
     GameObject* obj = *objPtr;
 
     if (obj->IsMarkedForDeletion()) {
-        LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion: %s", obj->GetName().c_str());
+        LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion");
         lua_pushnil(L);
         return 1;
     }
@@ -2495,6 +2650,10 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetDuration");
     lua_pushcfunction(L, Lua_ParticleSystem_SetOneShotMode);
     lua_setfield(L, -2, "SetOneShotMode");
+    lua_pushcfunction(L, Lua_ParticleSystem_SetStartColor);
+    lua_setfield(L, -2, "SetStartColor");
+    lua_pushcfunction(L, Lua_ParticleSystem_SetEndColor);
+    lua_setfield(L, -2, "SetEndColor");
     lua_pop(L, 1);
 }
 

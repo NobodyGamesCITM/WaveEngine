@@ -44,13 +44,13 @@
                                                     },
                                                     {
                                                         "active": true,
-                                                        "materialUID": 8607355584542906511,
+                                                        "materialUID": 4562079033302835717,
                                                         "type": 3
                                                     }
                                                 ],
                                                 "name": "PiedraMovible",
                                                 "tag": "",
-                                                "uid": 10533348179338103492
+                                                "uid": 15031429209279680719
                                             }
                                         ],
                                         "components": [
@@ -76,7 +76,7 @@
                                         ],
                                         "name": "PiedraMovible_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 12047875177741694589
+                                        "uid": 9830398269460435816
                                     }
                                 ],
                                 "components": [
@@ -102,7 +102,7 @@
                                 ],
                                 "name": "PiedraMovible_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 11889178471708937568
+                                "uid": 14495328062990150583
                             }
                         ],
                         "components": [
@@ -128,7 +128,7 @@
                         ],
                         "name": "PiedraMovible_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 15500399413981156798
+                        "uid": 15873052278321186176
                     }
                 ],
                 "components": [
@@ -154,16 +154,16 @@
                 ],
                 "name": "PiedraMovible_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 6130701417460481171
+                "uid": 1144961152316221682
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    67.0,
+                    79.0,
                     8.0,
-                    -95.0
+                    -77.0
                 ],
                 "rotation": [
                     0.0,
@@ -181,14 +181,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "entityType",
-                        "type": 1,
-                        "value": "Rock"
-                    },
-                    {
-                        "name": "gridR",
+                        "name": "moveSpeed",
                         "type": 0,
-                        "value": 2.0
+                        "value": 8.0
                     },
                     {
                         "name": "hitDistance",
@@ -196,19 +191,24 @@
                         "value": 3.5
                     },
                     {
-                        "name": "managerName",
-                        "type": 1,
-                        "value": "Manager_Sala_1"
+                        "name": "gridR",
+                        "type": 0,
+                        "value": 4.0
                     },
                     {
-                        "name": "moveSpeed",
-                        "type": 0,
-                        "value": 8.0
+                        "name": "managerName",
+                        "type": 1,
+                        "value": "ManagerPuzzleApolo"
+                    },
+                    {
+                        "name": "entityType",
+                        "type": 1,
+                        "value": "Rock"
                     },
                     {
                         "name": "gridC",
                         "type": 0,
-                        "value": 2.0
+                        "value": 5.0
                     }
                 ],
                 "scriptUID": 13152586541649841119,
@@ -255,6 +255,6 @@
         ],
         "name": "Piedra_Movible",
         "tag": "",
-        "uid": 14979506851675904709
+        "uid": 10394539347139952267
     }
 ]

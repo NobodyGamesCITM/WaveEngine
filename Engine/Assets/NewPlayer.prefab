@@ -3297,7 +3297,7 @@
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\RayApolo_Hard_01_TEST.png",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\RayApolo_Hard_01_TEST.png",
                                                                                 "textureRows": 1,
                                                                                 "textureUID": 6767919616050918030,
                                                                                 "type": 7
@@ -3398,14 +3398,14 @@
                                                                             {
                                                                                 "active": true,
                                                                                 "position": [
-                                                                                    -29.0,
-                                                                                    46.0,
-                                                                                    30.0
+                                                                                    -37.6480712890625,
+                                                                                    38.06573486328125,
+                                                                                    6.3895263671875
                                                                                 ],
                                                                                 "rotation": [
-                                                                                    160.49002075195313,
-                                                                                    -4.944153785705566,
-                                                                                    -143.0158233642578
+                                                                                    -3.735259781478817e-07,
+                                                                                    1.327351469626592e-06,
+                                                                                    -4.3266735172116464e-15
                                                                                 ],
                                                                                 "scale": [
                                                                                     1.0,
@@ -3418,25 +3418,25 @@
                                                                                 "activationRadius": 15.0,
                                                                                 "active": true,
                                                                                 "additive": true,
-                                                                                "animLoop": true,
-                                                                                "animSpeed": 6.150000095367432,
+                                                                                "animLoop": false,
+                                                                                "animSpeed": 1.0,
                                                                                 "bursts": [],
                                                                                 "circleRadius": 1.0,
                                                                                 "colorEnd": [
                                                                                     1.0,
-                                                                                    0.4362744688987732,
-                                                                                    0.1666666865348816,
-                                                                                    1.0
+                                                                                    0.5663206577301025,
+                                                                                    0.07843136787414551,
+                                                                                    0.0
                                                                                 ],
                                                                                 "colorGradient": [],
                                                                                 "colorStart": [
                                                                                     1.0,
-                                                                                    0.43529412150382996,
-                                                                                    0.16862745583057404,
+                                                                                    0.0,
+                                                                                    0.0,
                                                                                     1.0
                                                                                 ],
-                                                                                "coneAngle": 0.0,
-                                                                                "coneRadius": 0.0010000000474974513,
+                                                                                "coneAngle": 30.18199920654297,
+                                                                                "coneRadius": 0.30000001192092896,
                                                                                 "duration": 5.0,
                                                                                 "emissionArea": [
                                                                                     1.0,
@@ -3444,42 +3444,42 @@
                                                                                     1.0
                                                                                 ],
                                                                                 "emissionRadius": 1.0,
-                                                                                "emissionRate": 2.299999952316284,
+                                                                                "emissionRate": 3.299999952316284,
                                                                                 "emissionRateDist": 0.0,
                                                                                 "emitFromShell": false,
                                                                                 "gravity": [
                                                                                     0.0,
-                                                                                    0.0,
+                                                                                    -1.0,
                                                                                     0.0
                                                                                 ],
-                                                                                "initRotMax": 180.0,
-                                                                                "initRotMin": 180.0,
-                                                                                "lifetimeMax": 5.0,
-                                                                                "lifetimeMin": 5.0,
+                                                                                "initRotMax": 207.0,
+                                                                                "initRotMin": 152.0,
+                                                                                "lifetimeMax": 0.6000000238418579,
+                                                                                "lifetimeMin": 0.10000000149011612,
                                                                                 "looping": true,
                                                                                 "luminance": false,
-                                                                                "maxParticles": 2,
+                                                                                "maxParticles": 500,
                                                                                 "noiseActive": false,
                                                                                 "noiseFreq": 0.5,
                                                                                 "noiseStrength": 1.0,
                                                                                 "oneShot": false,
                                                                                 "oneShotCount": 30,
-                                                                                "prewarm": true,
+                                                                                "prewarm": false,
                                                                                 "proximityActivation": false,
                                                                                 "proximityTarget": "Player",
                                                                                 "rotSpeedMax": 0.0,
                                                                                 "rotSpeedMin": 0.0,
                                                                                 "shape": 2,
-                                                                                "simulationSpace": 0,
+                                                                                "simulationSpace": 1,
                                                                                 "sizeCurve": [],
-                                                                                "sizeEnd": 1.0,
-                                                                                "sizeStart": 1.0,
-                                                                                "speedMax": 0.0,
-                                                                                "speedMin": 0.0,
-                                                                                "textureCols": 9,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\FireAresSword_Hard_00_TEST.png",
+                                                                                "sizeEnd": 0.5,
+                                                                                "sizeStart": 1.25,
+                                                                                "speedMax": 1.7000000476837158,
+                                                                                "speedMin": 0.30000001192092896,
+                                                                                "textureCols": 1,
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\FireAres_Hard_00_TEST.png",
                                                                                 "textureRows": 1,
-                                                                                "textureUID": 3311442359370931205,
+                                                                                "textureUID": 2144330817358336872,
                                                                                 "type": 7
                                                                             },
                                                                             {
@@ -3521,9 +3521,9 @@
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        36.14760971069336,
-                                                                                        10.522298812866211,
-                                                                                        -125.44522857666016
+                                                                                        36.2107048034668,
+                                                                                        9.529499053955078,
+                                                                                        -125.36812591552734
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
@@ -3657,7 +3657,7 @@
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Dandelion_Test.png",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Dandelion_Test.png",
                                                                                 "textureRows": 1,
                                                                                 "textureUID": 15267441489436861790,
                                                                                 "type": 7
@@ -3837,7 +3837,7 @@
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Dandelion_Test.png",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Dandelion_Test.png",
                                                                                 "textureRows": 1,
                                                                                 "textureUID": 15267441489436861790,
                                                                                 "type": 7
@@ -3886,9 +3886,9 @@
                                                                                 ],
                                                                                 "colorGradient": [],
                                                                                 "colorStart": [
-                                                                                    1.0,
-                                                                                    0.0,
-                                                                                    0.0,
+                                                                                    0.8725489974021912,
+                                                                                    0.32531893253326416,
+                                                                                    0.12831604480743408,
                                                                                     1.0
                                                                                 ],
                                                                                 "coneAngle": 30.18199920654297,
@@ -3928,12 +3928,12 @@
                                                                                 "shape": 2,
                                                                                 "simulationSpace": 1,
                                                                                 "sizeCurve": [],
-                                                                                "sizeEnd": 0.5,
-                                                                                "sizeStart": 1.25,
+                                                                                "sizeEnd": 0.3100000023841858,
+                                                                                "sizeStart": 0.8399999737739563,
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\FireAres_Hard_00_TEST.png",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\FireAres_Hard_00_TEST.png",
                                                                                 "textureRows": 1,
                                                                                 "textureUID": 2144330817358336872,
                                                                                 "type": 7
@@ -4029,7 +4029,7 @@
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\RayApolo_Hard_01_TEST.png",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\RayApolo_Hard_01_TEST.png",
                                                                                 "textureRows": 1,
                                                                                 "textureUID": 6767919616050918030,
                                                                                 "type": 7
@@ -4093,7 +4093,7 @@
                                                                                 ],
                                                                                 "emissionRadius": 0.05000000074505806,
                                                                                 "emissionRate": 0.0,
-                                                                                "emissionRateDist": 30.0,
+                                                                                "emissionRateDist": 19.799999237060547,
                                                                                 "emitFromShell": true,
                                                                                 "gravity": [
                                                                                     0.0,
@@ -4440,7 +4440,7 @@
                         "speedMax": 0.30000001192092896,
                         "speedMin": 0.05000000074505806,
                         "textureCols": 1,
-                        "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
+                        "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\Player\\MainCharacter_Smoke_Running_Trail.png",
                         "textureRows": 1,
                         "textureUID": 17065513980760032408,
                         "type": 7
@@ -4564,7 +4564,7 @@
                         "speedMax": 0.30000001192092896,
                         "speedMin": 0.05000000074505806,
                         "textureCols": 6,
-                        "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Water_Steps_Animation_Sprite_Sheet_Test.png",
+                        "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Water_Steps_Animation_Sprite_Sheet_Test.png",
                         "textureRows": 1,
                         "textureUID": 2754969798124442883,
                         "type": 7
@@ -4713,214 +4713,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "heavyStaminaCost",
-                        "type": 0,
-                        "value": 25.0
-                    },
-                    {
-                        "name": "health",
-                        "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "speedIncrease",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "comboCooldown",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
                         "name": "bulletBarrel",
                         "type": 0,
                         "value": 1.5
-                    },
-                    {
-                        "name": "giveApoloMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "chargeDuration",
-                        "type": 0,
-                        "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "knockbackForce",
-                        "type": 0,
-                        "value": 14.0
-                    },
-                    {
-                        "name": "staminaRecover",
-                        "type": 0,
-                        "value": 50.0
-                    },
-                    {
-                        "name": "hermesWaterMax",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "attackBufferDuration",
-                        "type": 0,
-                        "value": 0.6000000238418579
-                    },
-                    {
-                        "name": "rollDuration",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "ROTATION_SPEED",
-                        "type": 0,
-                        "value": 780.0
-                    },
-                    {
-                        "name": "speed",
-                        "type": 0,
-                        "value": 7.0
-                    },
-                    {
-                        "name": "chargeSpeed",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "rollSpeed",
-                        "type": 0,
-                        "value": 15.0
-                    },
-                    {
-                        "name": "attackImpulseWindow",
-                        "type": 0,
-                        "value": 0.15000000596046448
-                    },
-                    {
-                        "name": "staminaCost",
-                        "type": 0,
-                        "value": 80.0
-                    },
-                    {
-                        "name": "heavyAttackDelay",
-                        "type": 0,
-                        "value": 0.3499999940395355
-                    },
-                    {
-                        "name": "tiredMultiplier",
-                        "type": 0,
-                        "value": 0.699999988079071
-                    },
-                    {
-                        "name": "bulletSpawnY",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "attackCooldown",
-                        "type": 0,
-                        "value": 0.4000000059604645
-                    },
-                    {
-                        "name": "rollStaminaCost",
-                        "type": 0,
-                        "value": 25.0
-                    },
-                    {
-                        "name": "triggerCameraShake",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "canMove",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "bulletPrefab",
-                        "type": 1,
-                        "value": "Prefabs/Bullet.prefab"
-                    },
-                    {
-                        "name": "heavyDuration",
-                        "type": 0,
-                        "value": 0.699999988079071
-                    },
-                    {
-                        "name": "attackImpulseForce",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "stamina",
-                        "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "giveAresMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "sprintMultiplier",
-                        "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "shootDuration",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "hpLossCost",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "giveHermesMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "interact",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "bulletScale",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "heavyUpImpulse",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "rollCooldownMax",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "hitShakeMagnitude",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "hpRecover",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "usingStamina",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "flySpeed",
-                        "type": 0,
-                        "value": 20.0
                     },
                     {
                         "name": "speedHermesBonus",
@@ -4928,14 +4723,219 @@
                         "value": 15.0
                     },
                     {
+                        "name": "chargeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "canMove",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "heavyDuration",
+                        "type": 0,
+                        "value": 0.699999988079071
+                    },
+                    {
+                        "name": "hpLossCost",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "heavyUpImpulse",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "shootDuration",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "health",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "bulletScale",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "bulletSpawnY",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "hpRecover",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "stamina",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "triggerCameraShake",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "staminaCost",
+                        "type": 0,
+                        "value": 80.0
+                    },
+                    {
+                        "name": "giveApoloMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "attackBufferDuration",
+                        "type": 0,
+                        "value": 0.6000000238418579
+                    },
+                    {
+                        "name": "heavyAttackDelay",
+                        "type": 0,
+                        "value": 0.3499999940395355
+                    },
+                    {
+                        "name": "hitShakeMagnitude",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "interact",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "attackImpulseWindow",
+                        "type": 0,
+                        "value": 0.15000000596046448
+                    },
+                    {
+                        "name": "rollDuration",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "rollStaminaCost",
+                        "type": 0,
+                        "value": 25.0
+                    },
+                    {
+                        "name": "attackImpulseForce",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "tiredMultiplier",
+                        "type": 0,
+                        "value": 0.699999988079071
+                    },
+                    {
+                        "name": "giveAresMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "speedIncrease",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "giveHermesMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "bulletPrefab",
+                        "type": 1,
+                        "value": "Prefabs/Bullet.prefab"
+                    },
+                    {
+                        "name": "flySpeed",
+                        "type": 0,
+                        "value": 20.0
+                    },
+                    {
+                        "name": "sprintMultiplier",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 14.0
+                    },
+                    {
+                        "name": "rollCooldownMax",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "chargeSpeed",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "hermesWaterMax",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "usingStamina",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
                         "name": "attackDuration",
                         "type": 0,
                         "value": 0.4000000059604645
                     },
                     {
+                        "name": "speed",
+                        "type": 0,
+                        "value": 7.0
+                    },
+                    {
+                        "name": "ROTATION_SPEED",
+                        "type": 0,
+                        "value": 780.0
+                    },
+                    {
                         "name": "hitShakeDuration",
                         "type": 0,
                         "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "rollSpeed",
+                        "type": 0,
+                        "value": 15.0
+                    },
+                    {
+                        "name": "comboCooldown",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "heavyStaminaCost",
+                        "type": 0,
+                        "value": 25.0
+                    },
+                    {
+                        "name": "attackCooldown",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "staminaRecover",
+                        "type": 0,
+                        "value": 50.0
                     }
                 ],
                 "scriptUID": 8002383071243665151,

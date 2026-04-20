@@ -1661,8 +1661,8 @@ function ActivateTrail()
         Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
         Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
     elseif Player.currentMask == Mask.ARES then
-        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
-        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
+        Player.trailPs:SetStartColor(1.0, 0.3, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.3, 0.15, 0.0)
     else
         Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
         Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)

@@ -60,9 +60,11 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID BOSS = 1560169506U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
+                static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
@@ -89,6 +91,7 @@ namespace AK
 
             namespace SWITCH
             {
+                static const AkUniqueID BONES = 2087559222U;
                 static const AkUniqueID DIRT = 2195636714U;
                 static const AkUniqueID GRASS = 4248645337U;
                 static const AkUniqueID STONE = 1216965916U;

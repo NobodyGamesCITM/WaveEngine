@@ -17,6 +17,8 @@ bool ShaderPostPorcessing::CreateShader()
         out vec4 FragColor;
         in vec2 TexCoords;
         uniform sampler2D sceneTexture;
+        uniform sampler2D depthTexture;
+        uniform vec2 uTexelSize;
 
         // Color grading
         uniform bool  gradingEnabled;
@@ -25,8 +27,7 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float saturation;
         uniform int   toneMapper;
         uniform float gamma;
-        uniform float temperature;
-        uniform float tint;
+        uniform vec3  whiteBalance;
         uniform vec3  colorFilter;
 
         // Vignette
@@ -40,31 +41,57 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  caEnabled;
         uniform float caIntensity;
 
+        // Depth of Field
+        uniform bool  dofEnabled;
+        uniform float dofDistance;
+        uniform float dofRange;
+        uniform float dofStrength;
+        uniform bool  dofTiltShift;
+        uniform float nearPlane;
+        uniform float farPlane;
+
+        // Distortion
+        uniform bool  distortionEnabled;
+        uniform float distortionIntensity;
+
         // Bloom
         uniform bool  bloomEnabled;
         uniform float bloomIntensity;
         uniform float bloomThreshold;
-        uniform float bloomSoftKnee;   // NEW
-        uniform vec3  bloomTint;       // NEW
+        uniform float bloomSoftKnee;
+        uniform vec3  bloomTint;
 
         // Grain
         uniform bool  grainEnabled;
         uniform float grainIntensity;
         uniform float grainScale;
-        uniform float grainTime;
+        uniform float uTime;
+
+        // Sharpen
+        uniform bool  sharpenEnabled;
+        uniform float sharpenIntensity;
+        uniform vec2  uResolution;
+
+        // Radial Blur
+        uniform bool  radialBlurEnabled;
+        uniform float radialBlurIntensity;
+        uniform vec2  radialBlurCenter;
 
         vec3 ACESFilm(vec3 x) {
             const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
             return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0.0, 1.0);
         }
 
+        float LinearizeDepth(float depth) {
+            float z = depth * 2.0 - 1.0;
+            return (2.0 * nearPlane * farPlane) / (farPlane + nearPlane - z * (farPlane - nearPlane));
+        }
+
         float random(vec2 st) {
             return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
         }
 
-        // Soft-knee bloom contribution for a single sample
-        float bloomWeight(float brightness) {
-            float knee = bloomThreshold * bloomSoftKnee;
+        float bloomWeight(float brightness, float knee) {
             float soft  = brightness - bloomThreshold + knee;
             soft = clamp(soft, 0.0, 2.0 * knee);
             soft = (soft * soft) / (4.0 * knee + 0.00001);
@@ -73,6 +100,14 @@ bool ShaderPostPorcessing::CreateShader()
 
         void main() {
             vec2 uv = TexCoords;
+
+            // --- Distortion ---
+            if (distortionEnabled) {
+                vec2 centeredUV = uv - 0.5;
+                float r = length(centeredUV);
+                float distortionFactor = 1.0 + distortionIntensity * r * r; // Distorsión radial cuadrática
+                uv = centeredUV * distortionFactor + 0.5;
+            }
 
             // --- Chromatic Aberration ---
             vec3 color;
@@ -85,16 +120,68 @@ bool ShaderPostPorcessing::CreateShader()
                 color = texture(sceneTexture, uv).rgb;
             }
 
+            // --- Sharpen ---
+            if (sharpenEnabled) {
+                vec2 texel = uTexelSize;
+                vec3 center = color;
+                vec3 left   = texture(sceneTexture, uv + vec2(-texel.x, 0.0)).rgb;
+                vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
+                vec3 up     = texture(sceneTexture, uv + vec2(0.0, texel.y)).rgb;
+                vec3 down   = texture(sceneTexture, uv + vec2(0.0, -texel.y)).rgb;
+                
+                color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
+            }
+
+            // --- Radial Blur ---
+            if (radialBlurEnabled) {
+                vec2 dir = uv - radialBlurCenter;
+                vec3 blurAccum = vec3(0.0);
+                const int samples = 10;
+                for (int i = 0; i < samples; i++) {
+                    float f = float(i) / float(samples - 1);
+                    blurAccum += texture(sceneTexture, uv - dir * f * radialBlurIntensity * 0.1).rgb;
+                }
+                color = blurAccum / float(samples);
+            }
+
+            // --- Depth of Field ---
+            if (dofEnabled) {
+                float blurFactor = 0.0;
+                if (dofTiltShift) {
+                    // Modo Tilt-Shift: desenfoque basado en la distancia vertical al centro
+                    float center = dofDistance / 100.0; // Mapeo simple para el editor
+                    float dist = abs(uv.y - 0.5); 
+                    blurFactor = smoothstep(dofRange * 0.01, dofRange * 0.5, dist);
+                } else {
+                    // Modo Estándar: desenfoque basado en profundidad real
+                    float depth = LinearizeDepth(texture(depthTexture, uv).r);
+                    blurFactor = clamp(abs(depth - dofDistance) / max(dofRange, 0.001), 0.0, 1.0);
+                }
+
+                if (blurFactor > 0.01) {
+                    vec3 dofAccum = vec3(0.0);
+                    float totalWeight = 0.0;
+                    const int samples = 8;
+                    for (int i = -samples/2; i < samples/2; i++) {
+                        float weight = 1.0;
+                        dofAccum += texture(sceneTexture, uv + vec2(0.0, float(i) * uTexelSize.y * blurFactor * dofStrength * 2.0)).rgb * weight;
+                        totalWeight += weight;
+                    }
+                    color = mix(color, dofAccum / totalWeight, blurFactor);
+                }
+            }
+
             // --- Bloom (box-blur with soft-knee + tint) ---
             if (bloomEnabled) {
-                vec2 texel = 1.0 / textureSize(sceneTexture, 0);
+                vec2 texel = uTexelSize;
                 vec3 bloomAccum = vec3(0.0);
+                float knee = bloomThreshold * bloomSoftKnee;
                 const int range = 3;
                 for (int x = -range; x <= range; ++x) {
                     for (int y = -range; y <= range; ++y) {
                         vec3  s   = texture(sceneTexture, uv + vec2(x, y) * texel * 2.5).rgb;
                         float lum = dot(s, vec3(0.2126, 0.7152, 0.0722));
-                        bloomAccum += s * bloomWeight(lum);
+                        bloomAccum += s * bloomWeight(lum, knee);
                     }
                 }
                 bloomAccum /= float((range*2+1) * (range*2+1));
@@ -107,7 +194,7 @@ bool ShaderPostPorcessing::CreateShader()
                 float boxDist = max(d.x, d.y);
                 float cirDist = length(d);
                 float dist    = mix(boxDist, cirDist, vignetteRoundness);
-                float radius  = 1.0 - vignetteIntensity;
+                float radius  = 1.5 - vignetteIntensity;
                 float soft    = vignetteSmoothness + 0.05;
                 float vig     = smoothstep(radius, radius - soft, dist);
                 color = mix(vignetteColor, color, vig);
@@ -115,21 +202,15 @@ bool ShaderPostPorcessing::CreateShader()
 
             // --- Grain ---
             if (grainEnabled) {
-                vec2  res  = textureSize(sceneTexture, 0);
-                float noise = random(floor(uv * res / grainScale) + grainTime);
+                float noise = random(floor(uv * (uResolution / (grainScale + 0.001))) + uTime);
                 color += (noise - 0.5) * grainIntensity;
             }
 
             // --- Color Grading ---
             if (gradingEnabled) {
-                // White balance
-                float temp = temperature / 10000.0;
-                float tnt  = tint / 100.0;
-                color *= vec3(1.0 + temp, 1.0 + tnt, 1.0 - temp);
-
+                color *= whiteBalance;
                 // Color filter, exposure, contrast, saturation
-                color *= colorFilter;
-                color *= exposure;
+                color *= (colorFilter * exposure);
                 color  = (color - 0.5) * contrast + 0.5;
                 color  = mix(vec3(dot(color, vec3(0.2126, 0.7152, 0.0722))), color, saturation);
 

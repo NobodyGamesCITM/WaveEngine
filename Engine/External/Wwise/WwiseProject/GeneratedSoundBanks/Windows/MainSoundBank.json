@@ -1,0 +1,59 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "534561221",
+    "Type": "User",
+    "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
+    "Language": "SFX",
+    "Hash": "{5F7F005E-463E-5D03-BAA0-D49C6FD28E5C}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
+    "ShortName": "MainSoundBank",
+    "Path": "MainSoundBank.bnk",
+    "Media": [
+     {
+      "Id": "63924214",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "Lookin' Fresh (Hotlantis)_stereo.wav",
+      "Path": "Media/63924214.wem",
+      "CachePath": "EE/{EEBA906F-9817-9DC0-E2C0-B8D58079B757}.wem"
+     },
+     {
+      "Id": "1051818920",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Lookin' Fresh (Shrimp Kicks)_stereo.wav",
+      "CachePath": "D9/{D9640CFF-5305-D424-6B0B-03D6AC8E899D}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "111646406",
+      "Name": "Play_LookinFresh",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_LookinFresh",
+      "GUID": "{AA7F5DED-771C-45B7-81FB-B880BC6EC428}",
+      "DurationType": "OneShot",
+      "DurationMin": "182.20699",
+      "DurationMax": "182.20699",
+      "MediaRefs": [
+       {
+        "Id": "63924214"
+       },
+       {
+        "Id": "1051818920"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{735B99D9-32C8-46A4-1E36-7E845BF3E60A}"
+ }
+}

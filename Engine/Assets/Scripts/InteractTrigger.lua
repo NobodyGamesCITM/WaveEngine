@@ -1,12 +1,14 @@
 public = {
     radius           = 3.0,
+    promptRadius     = 6.0,
     sequenceId       = "",
     actionText       = "Interactuar",
     oneShot          = true,
     updateWhenPaused = true,
 }
 
-local inRange        = false
+local inPromptRange  = false
+local inActionRange  = false
 local lastInput      = "keyboard"
 local dialogShownMap = {}
 local inputCooldown  = 0.0
@@ -14,6 +16,11 @@ local COOLDOWN_TIME  = 0.5
 
 local KEYBOARD_ICON = "F"
 local GAMEPAD_ICON  = "ⓐ"
+
+local CANVAS_W = 1920
+local CANVAS_H = 1080
+local PROMPT_W = 220
+local PROMPT_H = 50
 
 local function onAction(self)
     Engine.Log("[InteractTrigger] Acción ejecutada: " .. tostring(self.public.sequenceId))
@@ -26,36 +33,37 @@ local function updatePrompt(self)
     UI.SetElementText("InteractText", self.public.actionText)
 end
 
-local function getScreenZone(self, player)
-    local myPos     = self.transform.worldPosition
-    local playerPos = player.transform.worldPosition
-
-    local dx = myPos.x - playerPos.x
-    local dz = myPos.z - playerPos.z
-
-    -- Normalizar a zona -1, 0, 1 en cada eje
-    local zoneX = 0
-    local zoneZ = 0
-    local threshold = 1.5  -- distancia mínima para considerar desplazamiento
-
-    if dx > threshold then zoneX = 1
-    elseif dx < -threshold then zoneX = -1 end
-
-    if dz > threshold then zoneZ = 1
-    elseif dz < -threshold then zoneZ = -1 end
-
-    return zoneX, zoneZ
-end
-
-local ZONE_MARGINS = {
-    -- {left, top, right, bottom} para VerticalAlignment/HorizontalAlignment
-    [-1] = { [-1] = "TopLeft",    [0] = "TopCenter",    [1] = "TopRight"    },
-    [0]  = { [-1] = "MiddleLeft", [0] = "Center",       [1] = "MiddleRight" },
-    [1]  = { [-1] = "BottomLeft", [0] = "BottomCenter", [1] = "BottomRight" },
-}
-
-local function showPrompt(self, player)
+local function showPrompt(self, canInteract)
     updatePrompt(self)
+
+    -- Mostrar u ocultar la tecla según si puede interactuar
+    if canInteract then
+        UI.SetElementVisibility("InputKeyBorder", true)
+    else
+        UI.SetElementVisibility("InputKeyBorder", false)
+    end
+
+    local myPos = self.transform.worldPosition
+    local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + 1.5, myPos.z)
+
+    if sx == nil or sy == nil then
+        UI.SetElementVisibility("InteractPrompt", false)
+        return
+    end
+
+    local vw, vh = Camera.GetViewportSize()
+    if not vw or vw == 0 or not vh or vh == 0 then
+        UI.SetElementVisibility("InteractPrompt", false)
+        return
+    end
+
+    local cx = (sx / vw) * CANVAS_W
+    local cy = (sy / vh) * CANVAS_H
+
+    local marginLeft = cx - PROMPT_W * 0.5
+    local marginTop  = cy - PROMPT_H
+
+    UI.SetElementMargin("InteractPrompt", marginLeft, marginTop, 0, 0)
     UI.SetElementVisibility("InteractPrompt", true)
 end
 
@@ -71,7 +79,7 @@ function Update(self, dt)
     if Input.GetKeyDown("W") or Input.GetKeyDown("A")
        or Input.GetKeyDown("S") or Input.GetKeyDown("D") then
         lastInput = "keyboard"
-        if inRange then updatePrompt(self) end
+        if inPromptRange then updatePrompt(self) end
     end
 
     local player = GameObject.Find("Player")
@@ -85,21 +93,37 @@ function Update(self, dt)
 
     local shown = dialogShownMap[self.public.sequenceId] or false
 
-    if dist < self.public.radius and not inRange then
-        inRange = true
-        showPrompt(self)
+    -- Radio prompt (lejos) - solo muestra el indicador
+    if dist < self.public.promptRadius and not inPromptRange then
+        inPromptRange = true
     end
 
-    if dist >= self.public.radius and inRange then
-        inRange = false
+    if dist >= self.public.promptRadius and inPromptRange then
+        inPromptRange = false
+        inActionRange = false
         hidePrompt()
     end
 
+    -- Radio acción (cerca) - permite interactuar
+    if dist < self.public.radius and not inActionRange then
+        inActionRange = true
+    end
+
+    if dist >= self.public.radius and inActionRange then
+        inActionRange = false
+    end
+
+    -- Actualizar prompt cada frame si está en rango
+    if inPromptRange and not _G.DialogActive then
+        showPrompt(self, inActionRange)
+    end
+
+    -- Input
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         if _G.DialogActive and inputCooldown <= 0 then
             if _G.AdvanceDialog then _G.AdvanceDialog() end
             inputCooldown = COOLDOWN_TIME
-        elseif inRange and not _G.DialogActive and inputCooldown <= 0 then
+        elseif inActionRange and not _G.DialogActive and inputCooldown <= 0 then
             if not shown then
                 if self.public.oneShot then
                     dialogShownMap[self.public.sequenceId] = true
@@ -117,7 +141,7 @@ function Update(self, dt)
         end
     end
 
-    if inRange and shown and not (_G.DialogActive) and inputCooldown <= 0 then
-        showPrompt(self)
+    if inActionRange and shown and not (_G.DialogActive) and inputCooldown <= 0 then
+        showPrompt(self, true)
     end
 end

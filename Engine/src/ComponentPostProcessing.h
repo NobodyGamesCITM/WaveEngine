@@ -29,11 +29,51 @@ struct LensSettings {
     bool chromaticAberrationEnabled = false;
     float chromaticAberrationIntensity = 0.0f;
 
+    bool distortionEnabled = false;
+    float distortionIntensity = 0.0f;
+
     bool vignetteEnabled = false;
     float vignetteIntensity = 0.4f;
     float vignetteSmoothness = 0.2f;
     float vignetteRoundness = 1.0f;
     glm::vec4 vignetteColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+};
+
+struct DepthOfFieldSettings {
+    bool enabled = false;
+    float focusDistance = 10.0f;
+    float focusRange = 3.0f;
+    float blurStrength = 1.0f;
+    bool tiltShift = false;
+};
+
+struct MotionBlurSettings {
+    bool enabled = false;
+    float intensity = 0.5f;
+};
+
+struct AutoExposureSettings {
+    bool enabled = false;
+    float minBrightness = 0.1f;
+    float maxBrightness = 2.0f;
+    float speed = 1.0f;
+};
+
+struct GrainSettings {
+    bool enabled = false;
+    float intensity = 0.1f;
+    float size = 1.6f;
+};
+
+struct RadialBlurSettings {
+    bool enabled = false;
+    float intensity = 0.1f;
+    glm::vec2 center = glm::vec2(0.5f, 0.5f);
+};
+
+struct SharpenSettings {
+    bool enabled = false;
+    float intensity = 0.5f;
 };
 
 class ComponentPostProcessing : public Component {
@@ -53,5 +93,10 @@ public:
     BloomSettings bloom;
     ColorGradingSettings colorGrading;
     LensSettings lens;
-    //GrainSettings grain;
+    DepthOfFieldSettings depthOfField;
+    MotionBlurSettings motionBlur;
+    AutoExposureSettings autoExposure;
+    GrainSettings grain;
+    RadialBlurSettings radialBlur;
+    SharpenSettings sharpen;
 };

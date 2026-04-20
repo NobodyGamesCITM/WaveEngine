@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	111646406	Play_LookinFresh			\Default Work Unit\Play_LookinFresh	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	1051818920	Lookin' Fresh (Shrimp Kicks)_stereo	.cache\D9\{D9640CFF-5305-D424-6B0B-03D6AC8E899D}.wem		\Containers\Default Work Unit\LookinFresh_Playlist\Lookin' Fresh (Shrimp Kicks)_stereo\Lookin' Fresh (Shrimp Kicks)_stereo		16162912
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	63924214	Lookin' Fresh (Hotlantis)_stereo	.cache\EE\{EEBA906F-9817-9DC0-E2C0-B8D58079B757}.wem	63924214.wem	\Containers\Default Work Unit\LookinFresh_Playlist\Lookin' Fresh (Hotlantis)_stereo\Lookin' Fresh (Hotlantis)_stereo	
+

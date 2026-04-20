@@ -55,7 +55,7 @@
         0.0,
         3.0
     ],
-    "emissionRadius": 4.0,
+    "emissionRadius": 1.0,
     "emissionRate": 12.0,
     "emissionRateDist": 0.0,
     "emitFromShell": true,
@@ -64,6 +64,8 @@
         0.0,
         0.0
     ],
+    "initRotMax": 360.0,
+    "initRotMin": 0.0,
     "lifetimeMax": 0.8999999761581421,
     "lifetimeMin": 0.4000000059604645,
     "looping": true,
@@ -87,11 +89,11 @@
             "time": 0.0
         },
         {
-            "size": 1.5,
+            "size": 0.5,
             "time": 0.3499999940395355
         },
         {
-            "size": 1.0,
+            "size": 0.10000000149011612,
             "time": 1.0
         }
     ],
@@ -100,7 +102,7 @@
     "speedMax": 0.25,
     "speedMin": 0.0,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Engines\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
     "textureRows": 1,
     "textureUID": 14600480670017023417,
     "type": 7

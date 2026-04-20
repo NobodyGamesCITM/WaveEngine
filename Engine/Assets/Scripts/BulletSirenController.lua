@@ -26,6 +26,7 @@ function Update(self, dt)
         Engine.Log("[MortarProjectile] Auto-destruyendo proyectil huérfano")
         self:Destroy()
     end
+    
 end
 
 function OnTriggerEnter(self, other)

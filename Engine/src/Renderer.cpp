@@ -650,7 +650,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
         });
 }
 
-void Renderer::DrawPostProcessing(const CameraLens* camera)
+void Renderer::DrawPostProcessing(CameraLens* camera)
 {
     if (!camera->IsUsingPostProcessing()) return;
 
@@ -678,35 +678,90 @@ void Renderer::DrawPostProcessing(const CameraLens* camera)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, postProcessTexture);
     postProcessShader->SetInt("sceneTexture", 0);
+    
+    glm::vec2 resolution = glm::vec2((float)camera->textureWidth, (float)camera->textureHeight);
+    postProcessShader->SetVec2("uResolution", resolution);
+    postProcessShader->SetVec2("uTexelSize", 1.0f / resolution);
+    postProcessShader->SetFloat("uTime", Application::GetInstance().time->GetTotalTime());
 
-    // Color Grading
     postProcessShader->SetBool("gradingEnabled", activePP->colorGrading.enabled);
-    postProcessShader->SetFloat("exposure", activePP->colorGrading.exposure);
-    postProcessShader->SetFloat("contrast", activePP->colorGrading.contrast);
-    postProcessShader->SetFloat("saturation", activePP->colorGrading.saturation);
-    postProcessShader->SetInt("toneMapper", activePP->colorGrading.toneMapper);
-    postProcessShader->SetFloat("gamma", activePP->colorGrading.gamma);
-    postProcessShader->SetFloat("temperature", activePP->colorGrading.temperature);
-    postProcessShader->SetFloat("tint", activePP->colorGrading.tint);
-    postProcessShader->SetVec3("colorFilter", activePP->colorGrading.colorFilter);
+    if (activePP->colorGrading.enabled) {
+        postProcessShader->SetFloat("exposure", activePP->colorGrading.exposure);
+        postProcessShader->SetFloat("contrast", activePP->colorGrading.contrast);
+        postProcessShader->SetFloat("saturation", activePP->colorGrading.saturation);
+        postProcessShader->SetInt("toneMapper", activePP->colorGrading.toneMapper);
+        postProcessShader->SetFloat("gamma", activePP->colorGrading.gamma);
+        postProcessShader->SetVec3("colorFilter", activePP->colorGrading.colorFilter);
+        
+        float temp = activePP->colorGrading.temperature / 10000.0f;
+        float tnt = activePP->colorGrading.tint / 100.0f;
+        postProcessShader->SetVec3("whiteBalance", glm::vec3(1.0f + temp, 1.0f + tnt, 1.0f - temp));
+    }
 
-    // Bloom
     postProcessShader->SetBool("bloomEnabled", activePP->bloom.enabled);
-    postProcessShader->SetFloat("bloomIntensity", activePP->bloom.intensity);
-    postProcessShader->SetFloat("bloomThreshold", activePP->bloom.threshold);
-    postProcessShader->SetFloat("bloomSoftKnee", activePP->bloom.softKnee);
-    postProcessShader->SetVec3("bloomTint", activePP->bloom.tint);
+    if (activePP->bloom.enabled) {
+        postProcessShader->SetFloat("bloomIntensity", activePP->bloom.intensity);
+        postProcessShader->SetFloat("bloomThreshold", activePP->bloom.threshold);
+        postProcessShader->SetFloat("bloomSoftKnee", activePP->bloom.softKnee);
+        postProcessShader->SetVec3("bloomTint", activePP->bloom.tint);
+    }
 
-    // Chromatic Aberration
     postProcessShader->SetBool("caEnabled", activePP->lens.chromaticAberrationEnabled);
-    postProcessShader->SetFloat("caIntensity", activePP->lens.chromaticAberrationIntensity);
+    if (activePP->lens.chromaticAberrationEnabled) {
+        postProcessShader->SetFloat("caIntensity", activePP->lens.chromaticAberrationIntensity);
+    }
 
-    // Vignette
+    postProcessShader->SetBool("distortionEnabled", activePP->lens.distortionEnabled);
+    if (activePP->lens.distortionEnabled) {
+        postProcessShader->SetFloat("distortionIntensity", activePP->lens.distortionIntensity);
+    }
+
     postProcessShader->SetBool("vignetteEnabled", activePP->lens.vignetteEnabled);
-    postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
-    postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
-    postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
-    postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+    if (activePP->lens.vignetteEnabled) {
+        postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
+        postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
+        postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
+        postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+    }
+
+    postProcessShader->SetBool("dofEnabled", activePP->depthOfField.enabled);
+    if (activePP->depthOfField.enabled) {
+        postProcessShader->SetFloat("dofDistance", activePP->depthOfField.focusDistance);
+        postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
+        postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
+        postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
+        postProcessShader->SetFloat("nearPlane", camera->GetNearPlane());
+        postProcessShader->SetFloat("farPlane", camera->GetFarPlane());
+    }
+
+    postProcessShader->SetBool("motionBlurEnabled", activePP->motionBlur.enabled);
+    if (activePP->motionBlur.enabled) {
+        postProcessShader->SetFloat("motionBlurIntensity", activePP->motionBlur.intensity);
+    }
+
+    postProcessShader->SetBool("autoExposureEnabled", activePP->autoExposure.enabled);
+    if (activePP->autoExposure.enabled) {
+        postProcessShader->SetFloat("exposureMin", activePP->autoExposure.minBrightness);
+        postProcessShader->SetFloat("exposureMax", activePP->autoExposure.maxBrightness);
+        postProcessShader->SetFloat("exposureSpeed", activePP->autoExposure.speed);
+    }
+
+    postProcessShader->SetBool("grainEnabled", activePP->grain.enabled);
+    if (activePP->grain.enabled) {
+        postProcessShader->SetFloat("grainIntensity", activePP->grain.intensity);
+        postProcessShader->SetFloat("grainScale", activePP->grain.size);
+    }
+
+    postProcessShader->SetBool("radialBlurEnabled", activePP->radialBlur.enabled);
+    if (activePP->radialBlur.enabled) {
+        postProcessShader->SetFloat("radialBlurIntensity", activePP->radialBlur.intensity);
+        postProcessShader->SetVec2("radialBlurCenter", activePP->radialBlur.center);
+    }
+
+    postProcessShader->SetBool("sharpenEnabled", activePP->sharpen.enabled);
+    if (activePP->sharpen.enabled) {
+        postProcessShader->SetFloat("sharpenIntensity", activePP->sharpen.intensity);
+    }
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -888,13 +943,8 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glMultMatrixf(glm::value_ptr(pair.second.modelMatrix));
-
-        pair.second.system->GetEmitter()->Draw(billboardPos);
-
-        glPopMatrix();
+        // Render directly in World Space
+        pair.second.system->GetEmitter()->Draw(billboardPos, pair.second.modelMatrix);
     }
 
     glMatrixMode(GL_PROJECTION);

@@ -23,7 +23,7 @@ public = {
     tooCloseRange   = 3.5,
     chargeRange     = 12.0,
 
-    preparationTime = 1.5,
+    preparationTime = 3.0,
     chargeSpeed     = 18.0,
     chargeDuration  = 0.8,
     knockbackForce  = 8.0,
@@ -80,7 +80,8 @@ _EnemyDamage_minocabro = 35
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
-local cameFromWall =false 
+local cameFromWall   = false
+local pendingWallHit = false
 
 -- Sounds
 local voiceSFX = nil
@@ -164,7 +165,8 @@ local function TakeDamage(self, amount, attackerPos)
     else
         
         if voiceSFX then voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
-        anim:Play("Hurt")
+        
+        if anim then anim:Play("Hurt") end
         StopMovement()
 
         wallStunTimer = self.public.hurtStunTime
@@ -178,12 +180,12 @@ end
 
 -- State functions
 function UpdateIdle(self, dist)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle")
-    end
     if dist <= self.public.detectRange then
         ChangeState(State.CHASE)
     end
+    --if anim and not anim:IsPlayingAnimation("Idle") then
+        --anim:Play("Idle")
+    --end
 end
 
 function UpdateChase(self, myPos, pp, dist, dt)
@@ -256,6 +258,10 @@ function UpdateAnticipation(self, pp, dt)
 
     if anim and not anim:IsPlayingAnimation("PreCharge") then
         PlayAnim("PreCharge")
+        if voiceSFX then 
+            voiceSFX:StopAudioEvent()
+            voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge") 
+        end
 
     end
 
@@ -290,7 +296,7 @@ function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(0.4, 0.05, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
     end
 
 
@@ -383,15 +389,24 @@ function UpdateCharge(self, dt)
         
         wallStunTimer = self.public.afterStunTime
 
+        if anim and not anim:IsPlayingAnimation("Idle") then
+            anim:Play("Idle", 0.3)
+        end
+
         ChangeState(State.RECOVERY)
     end
 end
 
 function UpdateWall(self, dt)
+    if rb then
+        local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(0, vel.y, 0)
+        rb:SetRotation(0, currentYaw, 0)
+    end
+
     if anim and not anim:IsPlayingAnimation("Wall") then
         PlayAnim("Wall")
     end
-    Engine.Log("Wallll")
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
@@ -399,15 +414,16 @@ function UpdateWall(self, dt)
         slideVelZ = 0
         wallStunTimer = self.public.afterStunTime
         cameFromWall = true
+        
+        if anim and not anim:IsPlayingAnimation("Idle") then
+            anim:Play("Idle", 0.3)
+        end
         ChangeState(State.RECOVERY)
     end
 end
 
 function UpdateRecovery(self, dt)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.3)
-    end
-
+  
     if playerGO and not cameFromWall then
         local myPos = self.transform.worldPosition
         local pp = playerGO.transform.worldPosition
@@ -436,6 +452,11 @@ function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
         local _rb  = rb
 
         rb       = nil
@@ -505,6 +526,20 @@ function Update(self, dt)
         return
     end
 
+        -- Trigger Wall
+    if pendingWallHit then
+        pendingWallHit = false
+        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
+            StopMovement()
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
+            wallStunTimer = self.public.wallStunTime
+            ChangeState(State.WALL)
+        end
+    end
+
     -- Receive Damage
     if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
         if not playerAttackHandled and playerGO and not isDead then
@@ -533,7 +568,7 @@ function Update(self, dt)
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
-    if not playerGO then return end
+    if not playerGO or _G._PlayerController_isDead then return end
 
     stepTimer = stepTimer + dt
     local myPos = self.transform.worldPosition
@@ -568,6 +603,23 @@ end
 
 function OnTriggerEnter(self, other)
     if isDead then return end
+
+    if other:CompareTag("Wall") then
+        if currentState == State.WALL or currentState == State.RECOVERY then 
+            return 
+        end
+
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+
+        pendingWallHit = true
+        Engine.Log("[Minocabro] Chocó con la pared")
+        return 
+    end
+
+
     if other:CompareTag("Player") then
         -- The player hits the enemy
         if not alreadyHit then

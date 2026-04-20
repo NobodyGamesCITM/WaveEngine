@@ -45,6 +45,7 @@ Switch	ID	Name	Switch Group			Notes
 	712161704	Run	Player_Speed			
 	2108779966	Walk	Player_Speed			
 	1216965916	Stone	Surface_Type			
+	2087559222	Bones	Surface_Type			
 	2195636714	Dirt	Surface_Type			
 	2654748154	Water	Surface_Type			
 	4248645337	Grass	Surface_Type			
@@ -53,8 +54,10 @@ State Group	ID	Name			Wwise Object Path	Notes
 	3086301423	BGM_State			\Default Work Unit\BGM_State	
 
 State	ID	Name	State Group			Notes
+	447801688	Level2_Combat	BGM_State			
 	748895195	None	BGM_State			
 	1499148877	Level1_Combat	BGM_State			
+	1560169506	Boss	BGM_State			
 	2678230381	Level2	BGM_State			
 	2678230382	Level1	BGM_State			
 	3604647259	MainMenu	BGM_State			
@@ -121,6 +124,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	186892897	Item_PickUp	.cache\E8\{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem		\Containers\Default Work Unit\Objects\Player\Item_PickUp		17432
+	193895961	yokai watch combat terror time	.cache\95\{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Combat_Playlist\Level2_AltCombat\yokai watch combat terror time		2240720
 	207196639	aquiles_step_02	.cache\A2\{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		59552
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
@@ -140,6 +144,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	333608203	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
 	334760662	Aquiles_HurtSound_02	.cache\E0\{E0CAF796-89CD-B896-F309-D2DD1000C298}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Hurt\Aquiles_HurtSound_02		58616
 	353618428	skeleton_Dodge	.cache\C8\{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Dodge		11600
+	355732203	Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)	.cache\E7\{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem		\Containers\Default Work Unit\BGM_Switch\LevelBoss_Playlist\DarkLordGanon_TLOZ_TwilightPrincess\Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)		9756872
 	362843339	stone_run_01	.cache\13\{137B0283-6182-0727-3344-3A629EB6416C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_01		7604
 	369878516	Aquiles_Death	.cache\7A\{7A38771B-445E-5F37-FA53-4AA81853351E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Death		240632
 	406806222	stone_run_04	.cache\48\{48A8D97C-15AD-8CC1-C142-56AB8B4CFCC2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_04		7424
@@ -195,9 +200,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	827699159	minocabro_hurt_01	.cache\D8\{D8995B34-25F3-316D-91E2-3BE003579390}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	841807102	yodguard-spear_thrust-3-382407	.cache\52\{523162B3-720B-AB25-F0ED-AE5465573462}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-3-382407		434240
+	847806272	yokai watch terror time	.cache\30\{3057A7AC-2287-5B4B-4775-0D8A86539F76}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2_Alt\yokai watch terror time		2240720
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	857628780	aquiles_dash_01	.cache\64\{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_dash_01		90800
-	861383735	The Underworld_EPIC The Musical	.cache\DF\{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2\The Underworld_EPIC The Musical		1431512
 	861888802	aquiles_step_08	.cache\FB\{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		46808
 	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	864792433	aquiles_step_01	.cache\85\{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		57176
@@ -215,7 +220,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	981963331	dirt_run_05	.cache\52\{5287170D-9AC5-9A3B-8AC3-3CA4B46F2E45}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_05		6632
 	986604710	water_walk_05	.cache\B9\{B98C69CB-B7F6-3901-EA36-46D287CD99B5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_05		13400
 	994023216	mansionAmbience	.cache\68\{6897335D-343C-DA09-0C5A-B425F621D239}.wem		\Containers\Default Work Unit\Objects\mansionAmbience		2415248
-	996911178	shield_dmg_04	.cache\B6\{B6DCDFA4-0429-210F-5FAC-C616D6AFE596}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_04		44000
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
 	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496

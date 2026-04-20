@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{60AD15CF-D25E-A9D9-7F43-4FF74CB10031}",
+    "Hash": "{0D8BAE8E-382F-C14D-16B4-CA2F79D72E11}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -224,6 +224,14 @@
       "CachePath": "E8/{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem"
      },
      {
+      "Id": "193895961",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yokai watch combat terror time.wav",
+      "CachePath": "95/{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem"
+     },
+     {
       "Id": "207196639",
       "Language": "SFX",
       "Streaming": "false",
@@ -374,6 +382,14 @@
       "Location": "Memory",
       "ShortName": "dodge_swoosh.wav",
       "CachePath": "C8/{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem"
+     },
+     {
+      "Id": "355732203",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂).wav",
+      "CachePath": "E7/{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem"
      },
      {
       "Id": "362843339",
@@ -816,6 +832,14 @@
       "CachePath": "52/{523162B3-720B-AB25-F0ED-AE5465573462}.wem"
      },
      {
+      "Id": "847806272",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "yokai watch terror time.wav",
+      "CachePath": "30/{3057A7AC-2287-5B4B-4775-0D8A86539F76}.wem"
+     },
+     {
       "Id": "850788590",
       "Language": "SFX",
       "Streaming": "false",
@@ -830,14 +854,6 @@
       "Location": "Memory",
       "ShortName": "aquiles_dash_01.wav",
       "CachePath": "64/{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem"
-     },
-     {
-      "Id": "861383735",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "The Underworld_EPIC The Musical.wav",
-      "CachePath": "DF/{DFE0C5F5-20FD-2365-01E7-7A5942CCD726}.wem"
      },
      {
       "Id": "861888802",
@@ -974,14 +990,6 @@
       "Location": "Memory",
       "ShortName": "mansionAmbience.wav",
       "CachePath": "68/{6897335D-343C-DA09-0C5A-B425F621D239}.wem"
-     },
-     {
-      "Id": "996911178",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "shield_dmg_04.wav",
-      "CachePath": "B6/{B6DCDFA4-0429-210F-5FAC-C616D6AFE596}.wem"
      },
      {
       "Id": "1000988990",
@@ -1185,7 +1193,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "861383735"
+          "Id": "847806272"
          }
         ]
        },
@@ -1214,6 +1222,32 @@
           "Id": "146545938"
          }
         ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "1560169506",
+         "GUID": "{D981B171-4E5B-4D03-865D-96211F0A656A}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "355732203"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "447801688",
+         "GUID": "{DEE1C10A-D68A-4CFD-B0B2-0E081685019A}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "193895961"
+         }
+        ]
        }
       ]
      },
@@ -1224,8 +1258,8 @@
       "GUID": "{25DD6384-4AC8-4561-816E-4FECEC968FE7}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "1.5814795",
-      "DurationMax": "2.111022",
+      "DurationMin": "0.58558136",
+      "DurationMax": "0.7816574",
       "MediaRefs": [
        {
         "Id": "857628780"
@@ -1237,10 +1271,10 @@
       "Name": "SFX_AquilesDeath",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesDeath",
       "GUID": "{BA867AD9-D7D5-4777-BC99-21D40C9472E0}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
-      "DurationMin": "4.8483377",
-      "DurationMax": "5.683016",
+      "DurationMin": "3.9608872",
+      "DurationMax": "4.642784",
       "MediaRefs": [
        {
         "Id": "369878516"
@@ -1272,7 +1306,7 @@
       "GUID": "{B33E9F00-8627-4A23-A54D-B16E09F44577}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.693255",
+      "DurationMin": "0.7800074",
       "DurationMax": "1.3099153",
       "MediaRefs": [
        {
@@ -1283,9 +1317,6 @@
        },
        {
         "Id": "653184964"
-       },
-       {
-        "Id": "996911178"
        }
       ]
      },
@@ -1315,7 +1346,7 @@
       "Name": "SFX_AquilesSpearSwing",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSpearSwing",
       "GUID": "{458B2546-C1CC-46FD-867E-195D90C88CC9}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "6.760807",
       "DurationMax": "9.024594",
@@ -1345,7 +1376,7 @@
       "Name": "SFX_AquilesSteps",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSteps",
       "GUID": "{277F7057-B177-4CE2-BE5F-B45532FA2A5A}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "0.66850454",
       "DurationMax": "1.4883147",
@@ -1381,7 +1412,7 @@
       "Name": "SFX_AquilesWarcry",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesWarcry",
       "GUID": "{216A9658-2893-45D3-98A2-4A7A58622BB0}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "1.7057285",
       "DurationMax": "2.7201464",
@@ -2333,6 +2364,12 @@
       "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
+        "Id": "447801688",
+        "Name": "Level2_Combat",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2_Combat",
+        "GUID": "{DEE1C10A-D68A-4CFD-B0B2-0E081685019A}"
+       },
+       {
         "Id": "748895195",
         "Name": "None",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\None",
@@ -2343,6 +2380,12 @@
         "Name": "Level1_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
         "GUID": "{65BE4417-4125-480E-851F-6D977292F3F4}"
+       },
+       {
+        "Id": "1560169506",
+        "Name": "Boss",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Boss",
+        "GUID": "{D981B171-4E5B-4D03-865D-96211F0A656A}"
        },
        {
         "Id": "2678230381",
@@ -2399,6 +2442,12 @@
         "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
        },
        {
+        "Id": "2087559222",
+        "Name": "Bones",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Bones",
+        "GUID": "{424CF152-1AA3-4172-99AF-D7CB94A49893}"
+       },
+       {
         "Id": "2195636714",
         "Name": "Dirt",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Dirt",
@@ -2421,6 +2470,6 @@
     ]
    }
   ],
-  "FileHash": "{95BA376C-BFAA-0E3E-3ADB-02B246BB26A1}"
+  "FileHash": "{81A6552A-83F4-1212-8A50-C64C7F67D529}"
  }
 }

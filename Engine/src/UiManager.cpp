@@ -5,6 +5,7 @@
 #include <NsGui/TextBlock.h>
 #include <algorithm>
 #include <functional>
+#include <NsDrawing/Thickness.h>
 
 UIManager& UIManager::GetInstance() {
     static UIManager instance;
@@ -111,4 +112,9 @@ void UIManager::SetElementVisibility(const std::string& elementName, bool visibl
 
 std::unordered_set<std::string> UIManager::GetCanvasButtons() {
     return m_canvasButtons;
+}
+void UIManager::SetElementMargin(const std::string& elementName, float left, float top, float right, float bottom) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+    fe->SetMargin(Noesis::Thickness(left, top, right, bottom));
 }

@@ -21,8 +21,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                   Height="168">
 
                 <Image x:Name="HUD_Base" Source="Textures/MainHUD.PNG"
-                       Width="500"
-                       Height="168"
+                       Width="500" Height="168"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Stretch="Fill"/>
@@ -52,90 +51,36 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Grid>
 
                 <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
-                            HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="177,59,0,0">
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Height="100" Width="200" Margin="177,59,0,0">
                     <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="UsedPotion2" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="UsedPotion3" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="UsedPotion4" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                 </StackPanel>
 
                 <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
-                            HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="177,59,0,0">
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Height="100" Width="200" Margin="177,59,0,0">
                     <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="Potion2" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="Potion3" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                     <Image x:Name="Potion4" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
+                        <Image.RenderTransform><TransformGroup><ScaleTransform/><SkewTransform/><RotateTransform Angle="25"/><TranslateTransform/></TransformGroup></Image.RenderTransform>
                     </Image>
                 </StackPanel>
 
@@ -195,6 +140,126 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </StackPanel>
             </Canvas>
+
+            <!-- Hints de controles: abajo al centro -->
+            <Border x:Name="ControlsHintPanel"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    CornerRadius="8"
+                    Padding="16,10,16,10"
+                    Margin="0,0,0,40"
+                    Visibility="Collapsed">
+                <Border.Background>
+                    <SolidColorBrush Color="#AA000000"/>
+                </Border.Background>
+                <StackPanel Orientation="Horizontal">
+
+                    <!-- Slot 1 -->
+                    <StackPanel x:Name="HintSlot1"
+                                Orientation="Horizontal"
+                                Margin="0,0,24,0"
+                                Visibility="Collapsed">
+                        <Border CornerRadius="6"
+                                Padding="10,5,10,5"
+                                Margin="0,0,10,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </Border.Background>
+                            <TextBlock x:Name="HintKey1"
+                                       Text="WASD"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       FontFamily="Arial"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF000000"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+                        <TextBlock x:Name="HintText1"
+                                   Text="Moverse"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   FontFamily="Arial"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Slot 2 -->
+                    <StackPanel x:Name="HintSlot2"
+                                Orientation="Horizontal"
+                                Margin="0,0,24,0"
+                                Visibility="Collapsed">
+                        <Border CornerRadius="6"
+                                Padding="10,5,10,5"
+                                Margin="0,0,10,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </Border.Background>
+                            <TextBlock x:Name="HintKey2"
+                                       Text="Shift"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       FontFamily="Arial"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF000000"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+                        <TextBlock x:Name="HintText2"
+                                   Text="Sprint"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   FontFamily="Arial"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Slot 3 -->
+                    <StackPanel x:Name="HintSlot3"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                        <Border CornerRadius="6"
+                                Padding="10,5,10,5"
+                                Margin="0,0,10,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </Border.Background>
+                            <TextBlock x:Name="HintKey3"
+                                       Text="Ctrl"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       FontFamily="Arial"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FF000000"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+                        <TextBlock x:Name="HintText3"
+                                   Text="Roll"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   FontFamily="Arial"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="#FFFFFFFF"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
 
         </Grid>
     </Viewbox>

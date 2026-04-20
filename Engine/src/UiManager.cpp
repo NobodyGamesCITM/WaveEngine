@@ -42,7 +42,6 @@ void UIManager::ClearFrameClicks() {
     m_justClickedButtons.clear();
 }
 
-//clears the focus CHANGE, not the state
 void UIManager::ClearFrameFocused() {
     m_justFocusedButtons.clear();
 }

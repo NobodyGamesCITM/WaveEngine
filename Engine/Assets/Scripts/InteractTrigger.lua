@@ -36,7 +36,7 @@ end
 local function showPrompt(self, canInteract)
     updatePrompt(self)
 
-    -- Mostrar u ocultar la tecla según si puede interactuar
+  
     if canInteract then
         UI.SetElementVisibility("InputKeyBorder", true)
     else
@@ -93,7 +93,7 @@ function Update(self, dt)
 
     local shown = dialogShownMap[self.public.sequenceId] or false
 
-    -- Radio prompt (lejos) - solo muestra el indicador
+ 
     if dist < self.public.promptRadius and not inPromptRange then
         inPromptRange = true
     end
@@ -104,7 +104,7 @@ function Update(self, dt)
         hidePrompt()
     end
 
-    -- Radio acción (cerca) - permite interactuar
+
     if dist < self.public.radius and not inActionRange then
         inActionRange = true
     end
@@ -113,12 +113,12 @@ function Update(self, dt)
         inActionRange = false
     end
 
-    -- Actualizar prompt cada frame si está en rango
+  
     if inPromptRange and not _G.DialogActive then
         showPrompt(self, inActionRange)
     end
 
-    -- Input
+  
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         if _G.DialogActive and inputCooldown <= 0 then
             if _G.AdvanceDialog then _G.AdvanceDialog() end

@@ -825,8 +825,17 @@ static int Lua_Audio_SetMusicState(lua_State* L) {
     /*stateName = std::toupper(stateName.c_str());*/
     
     Application::GetInstance().audio.get()->audioSystem->SetState(stateGroupName, stateName);
+    
     AK::SoundEngine::RenderAudio();
     return 0;
+}
+
+static int Lua_Audio_GetMusicState(lua_State* L) {
+    std:string stateName = Application::GetInstance().audio.get()->audioSystem->GetState("BGM_State");
+    LOG_CONSOLE("[SCRIPT MANAGER AUDIO] Current State = %s", stateName);
+    AK::SoundEngine::RenderAudio();
+    lua_pushstring(L, stateName.c_str());
+    return 1;
 }
 
 //Audio Switches
@@ -1112,6 +1121,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Audio_SetMusicState);
     lua_setfield(L, -2, "SetMusicState");
+    lua_pushcfunction(L, Lua_Audio_GetMusicState);
+    lua_setfield(L, -2, "GetMusicState");
     lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
     lua_setfield(L, -2, "PlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);

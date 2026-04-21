@@ -25,7 +25,7 @@ local swordMat = nil
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
-_PlayerController_currentMask        = "None"
+_PlayerController_currentMask        = ""
 _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
@@ -173,35 +173,84 @@ local function normalizeInput(x, z)
 end
 
 local function GetMovementInput(self)
-    local moveX, moveZ = 0, 0
-    
     if self.public.canMove == false then
         return 0, 0, 0
     end
 
+    local inputX, inputZ = 0, 0
+
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
-        moveX = gpX * INPUT_SCALE
-        moveZ = gpZ * INPUT_SCALE
+        inputX = gpX
+        inputZ = -gpZ
     end
-    if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
-    if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
-    if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
-    if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
+    
+    -- W = Avanzar (inputZ positivo), S = Retroceder (inputZ negativo)
+    if Input.GetKey("W") then inputZ = inputZ + 1 end
+    if Input.GetKey("S") then inputZ = inputZ - 1 end
+    if Input.GetKey("A") then inputX = inputX - 1 end
+    if Input.GetKey("D") then inputX = inputX + 1 end
 
     if _G.interact == true then _G.interact = false end
-
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
-        Engine.Log("interact try")
+    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
         self.public.interact = true
         _G.interact = true
     end
+
+    local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
+    if inputLen > 1.0 then
+        inputX = inputX / inputLen
+        inputZ = inputZ / inputLen
+        inputLen = 1.0
+    end
+
+    if inputLen < 0.01 then
+        return 0, 0, 0
+    end
+
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        local camFwd = camObj.transform.worldForward
+        local camRight = camObj.transform.worldRight
+        
+        camFwd.x = -camFwd.x
+        camFwd.y = -camFwd.y
+        camFwd.z = -camFwd.z
+        
+        camFwd.y = 0
+        camRight.y = 0
+        
+        local lenFwd = math.sqrt(camFwd.x*camFwd.x + camFwd.z*camFwd.z)
+        if lenFwd > 0.001 then
+            camFwd.x = camFwd.x / lenFwd
+            camFwd.z = camFwd.z / lenFwd
+        else
+            camFwd = {x=0, y=0, z=1}
+        end
+        
+        local lenRight = math.sqrt(camRight.x*camRight.x + camRight.z*camRight.z)
+        if lenRight > 0.001 then
+            camRight.x = camRight.x / lenRight
+            camRight.z = camRight.z / lenRight
+        else
+            camRight = {x=1, y=0, z=0}
+        end
+        
+        -- Multiply the input for the vectors of the camera
+        local moveX = (camRight.x * inputX) + (camFwd.x * inputZ)
+        local moveZ = (camRight.z * inputX) + (camFwd.z * inputZ)
+        
+        local finalLen = math.sqrt(moveX*moveX + moveZ*moveZ)
+        if finalLen > 0.001 then
+            moveX = (moveX / finalLen) * inputLen * INPUT_SCALE
+            moveZ = (moveZ / finalLen) * inputLen * INPUT_SCALE
+        end
+        
+        return moveX, moveZ, inputLen * INPUT_SCALE
+    end
     
-    moveX, moveZ = normalizeInput(moveX, moveZ)
-    local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
-    
-    return moveX, moveZ, inputLen
+    return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
 end
 
 local function GetAttackInput(self)
@@ -392,7 +441,16 @@ local function EquipMask(self, newMask)
     end
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
-    _PlayerController_currentMask = newMask
+    -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
+    if newMask == Mask.HERMES then
+        _PlayerController_currentMask = "Hermes"
+    elseif newMask == Mask.APOLLO then
+        _PlayerController_currentMask = "Apolo"
+    elseif newMask == Mask.ARES then
+        _PlayerController_currentMask = "Ares"
+    else
+        _PlayerController_currentMask = ""
+    end
     UpdateSwordMaterial()
 end
 
@@ -426,7 +484,7 @@ States[State.DEAD] = {
                 self.transform:SetPosition(rp.x, rp.y, rp.z)
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 if Player.hermesPendingUnequip then
-                    _PlayerController_currentMask = "None" 
+                    _PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
                 Player.hermesRespawnCooldown = 1.5
@@ -513,7 +571,7 @@ States[State.WALK] = {
         if anim then 
             local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
             if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1) end)
+                pcall(function() anim:SetSpeed("Walk", 1.0) end)
             else
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
@@ -578,7 +636,7 @@ States[State.RUNNING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 2.0)
+            anim:SetSpeed("Running", 1.5)
         end
 
         self.public.usingStamina = true
@@ -694,8 +752,10 @@ States[State.CHARGING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 0.5) end
+        if anim then anim:Play("Ares", 0) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -737,9 +797,11 @@ States[State.SHOOTING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 0.3) 
+            anim:Play("Apolo", 0.1) 
         end
         attackTimer = 0
 
@@ -793,8 +855,10 @@ States[State.ATTACK_HEAVY] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 1.0) end
+        if anim then anim:Play("Hermes", 0.3) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end
@@ -853,6 +917,7 @@ States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         attackTimer = 0
         if attackCol then attackCol:Disable() end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.5, 0.5, 200) end
 
         if attackBuffer == true then
             if attackNum ~= 3 then
@@ -964,8 +1029,6 @@ States[State.ATTACK_LIGHT] = {
     end
 }
 
--- FIX: eliminada la variable local "health" suelta.
--- Toda la lógica de vida usa exclusivamente self.public.health como única fuente de verdad.
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
     if Player.currentState == State.ROLL then return end
@@ -975,6 +1038,7 @@ local function TakeDamage(self, amount, attackerPos)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
+    if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 150) end
 
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:SelectPlayAudioEvent("SFX_PlayerHit") end
@@ -989,9 +1053,7 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.healAnimTimer > 0 then
         Player.healAnimTimer = 0
         Player.healPending = false
-
         self.public.canMove = true
-
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.5) end)
@@ -1052,9 +1114,9 @@ function Start(self)
     Player.hitSFX          = nil
 
     _G.PlayerInstance = self
-    
-    Game.Resume()
+
     Game.SetTimeScale(1.0)
+
     _G._PlayerController_isDead = false
 
     self.public.staminaCost    = 20.0   
@@ -1073,7 +1135,6 @@ function Start(self)
     attackNum = 0
     attackBufferPending = false
 
-    -- FIX: stamina y health inicializados correctamente en la misma línea
     self.public.stamina = 100
     self.public.health  = 100
 
@@ -1103,7 +1164,7 @@ function Start(self)
     
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
-    _PlayerController_currentMask = "None"
+    _PlayerController_currentMask = ""
 	
     local smokeObj = GameObject.FindInChildren(self.gameObject, "SmokeTrail")
     if smokeObj then
@@ -1134,6 +1195,10 @@ function Start(self)
     Mask.APOLLO = "None"
     Mask.HERMES = "None"
     Mask.ARES   = "None"
+
+    _G._MaskState_Hermes = false
+    _G._MaskState_Apolo  = false
+    _G._MaskState_Ares   = false
 
     maskAnimTimer = 0.0
 
@@ -1174,53 +1239,35 @@ function Start(self)
 
     if vfxApolo then 
         Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
-        if Player.apoloPs then
-            Player.apoloPs:Stop()
-        end
+        if Player.apoloPs then Player.apoloPs:Stop() end
         Player.apoloLight = vfxApolo:GetComponent("Light")
-        if Player.apoloLight then
-            Player.apoloLight:SetEnabled(false)
-        end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
         vfxApolo:SetActive(false) 
     end
     if vfxHermes then 
         Player.hermesPs = vfxHermes:GetComponent("ParticleSystem")
-        if Player.hermesPs then
-            Player.hermesPs:Stop()
-        end
+        if Player.hermesPs then Player.hermesPs:Stop() end
         Player.hermesLight = vfxHermes:GetComponent("Light")
-        if Player.hermesLight then
-            Player.hermesLight:SetEnabled(false)
-        end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
         vfxHermes:SetActive(false) 
     end
     if vfxHermesAttack then
         Player.hermesAttackPs = vfxHermesAttack:GetComponent("ParticleSystem")
-        if Player.hermesAttackPs then
-            Player.hermesAttackPs:Stop()
-        end
+        if Player.hermesAttackPs then Player.hermesAttackPs:Stop() end
     end
     if vfxApoloAttack then
         Player.apoloAttackPs = vfxApoloAttack:GetComponent("ParticleSystem")
-        if Player.apoloAttackPs then
-            Player.apoloAttackPs:Stop()
-        end
+        if Player.apoloAttackPs then Player.apoloAttackPs:Stop() end
     end
     if vfxAresAttack then
         Player.aresAttackPs = vfxAresAttack:GetComponent("ParticleSystem")
-        if Player.aresAttackPs then
-            Player.aresAttackPs:Stop()
-        end
+        if Player.aresAttackPs then Player.aresAttackPs:Stop() end
     end
     if vfxAres then 
         Player.aresPs = vfxAres:GetComponent("ParticleSystem")
-        if Player.aresPs then
-            Player.aresPs:Stop()
-        end
+        if Player.aresPs then Player.aresPs:Stop() end
         Player.aresLight = vfxAres:GetComponent("Light")
-        if Player.aresLight then
-            Player.aresLight:SetEnabled(false)
-        end
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
         vfxAres:SetActive(false)   
     end
 
@@ -1230,9 +1277,7 @@ function Start(self)
 
     if vfxTrail then
         Player.trailPs = vfxTrail:GetComponent("ParticleSystem")
-        if Player.trailPs then
-            Player.trailPs:Stop()
-        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 
     if Player.rb then
@@ -1271,7 +1316,7 @@ function Update(self, dt)
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
         Player.lastSceneCounter = sceneLoaderCount
         Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
-        
+
         Game.Resume()
         Game.SetTimeScale(1.0)
         
@@ -1348,7 +1393,7 @@ function Update(self, dt)
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
-            ChangeState(self, State.IDLE, true)  -- force = true
+            ChangeState(self, State.IDLE, true)
         end
     end
 
@@ -1375,13 +1420,12 @@ function Update(self, dt)
         end
     end
 
-    -- FIX: tecla 7 ahora usa self.public.health directamente (igual que TakeDamage)
     if Input.GetKeyDown("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
-    if Input.GetKey("G") then
+    if Input.GetKeyDown("G") then
         Player.godMode = not Player.godMode
         Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
         if Player.rb then
@@ -1414,9 +1458,9 @@ function Update(self, dt)
             Player.healAnimTimer = 0
             if Player.healPending then
                 Player.healPending = false
-                    self.public.health = math.min(100, self.public.health + self.public.hpRecover)
-                    Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
-                end
+                self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+                Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+            end
             self.public.canMove = true
 
             local anim = self.gameObject:GetComponent("Animation")
@@ -1533,21 +1577,42 @@ function MaskScroll(self)
 end
 
 function ObtainMask(self)
-    if giveApoloMask and Mask.APOLLO == "None" then 
+    if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
         _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.APOLLO)
+        end
     end
-    if giveHermesMask and Mask.HERMES == "None" then 
+    giveApoloMask = false
+
+    if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
+
         _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Hermes = true
+
         Engine.Log("Hermes Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.HERMES)
+        end
     end
+    giveHermesMask = false
+
     if giveAresMask and Mask.ARES == "None" then
         Mask.ARES = "Ares"
+
         _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Ares = true
+
         Engine.Log("Ares Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.ARES)
+        end
     end
+    giveAresMask = false
 end
 
 function ResetPlayer(self)
@@ -1665,8 +1730,8 @@ function ActivateTrail()
         Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
         Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
     elseif Player.currentMask == Mask.ARES then
-        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
-        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
+        Player.trailPs:SetStartColor(1.0, 0.3, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.3, 0.15, 0.0)
     else
         Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
         Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)

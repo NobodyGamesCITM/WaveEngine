@@ -512,7 +512,21 @@ void ModuleEditor::ShowMenuBar()
         ImGui::SameLine();
         ImGui::DragFloat("Scale", &sceneWindow.get()->scaleSnap, 0.1f, 0.0f, 100.0f, "%.3fx");
         ImGui::SameLine();
-        
+
+        ImGui::Separator();
+        ImGui::PopItemWidth();
+
+        bool& pivotMode = sceneWindow.get()->pivotEditMode;
+        bool pivotActive = pivotMode;
+        if (pivotActive)
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.85f, 0.45f, 0.05f, 1.0f));
+        if (ImGui::Button("Edit Pivot"))
+            pivotMode = !pivotMode;
+        if (pivotActive)
+            ImGui::PopStyleColor();
+        ImGui::SameLine();
+
+        ImGui::PushItemWidth(80);
         ImGui::Separator();
         ImGui::Checkbox("Center On Paste", &centerOnPaste);
         ImGui::SameLine();

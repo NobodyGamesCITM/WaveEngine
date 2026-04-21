@@ -53,7 +53,7 @@ public:
 
     void Update();
     void FixedUpdate();
-
+                
     const std::string& GetName() const { return name; }
     void SetName(const std::string& newName) { name = newName; }
     bool IsActive() const { return active; }
@@ -74,7 +74,7 @@ public:
 
     // Serialization
     void Serialize(nlohmann::json& gameObjectArray) const;
-    static GameObject* Deserialize(const nlohmann::json& gameObjectObj, GameObject* parent = nullptr);
+    static GameObject* Deserialize(const nlohmann:: json& gameObjectObj, GameObject* parent = nullptr);
     void SolveReferences();
 
     //INTERNAL EVENTS

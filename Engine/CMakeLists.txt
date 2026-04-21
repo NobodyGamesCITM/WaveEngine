@@ -186,6 +186,10 @@ set(COMPONENTS_SRC
     src/ComponentRotate.h
     src/ComponentParticleSystem.h
     src/ComponentParticleSystem.cpp
+    src/ComponentCinematicCamera.h
+    src/ComponentCinematicCamera.cpp
+    src/ComponentCameraZone.h
+    src/ComponentCameraZone.cpp
     src/ComponentCanvas.h
     src/ComponentCanvas.cpp
     src/AudioComponent.h

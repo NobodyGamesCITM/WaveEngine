@@ -1,0 +1,1441 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            -0.5,
+                            3.200000047683716
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Height": 250.0,
+                        "Radius": 30.0,
+                        "Restitution": 0.6000000238418579,
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 12
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
+                    }
+                ],
+                "name": "Collision",
+                "tag": "",
+                "uid": 14167417070620672761
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "M1",
+                                                                                                "tag": "",
+                                                                                                "uid": 16190954068919978114
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "M1_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 12094121424675108448
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "M1_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 4097780217632581876
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    180.0,
+                                                                                    -55.49538803100586,
+                                                                                    180.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "M1_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 16676552907432149513
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            32.241294860839844,
+                                                                            0.7651134729385376,
+                                                                            0.36857277154922485
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "M1_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 11010268847997751437
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "M2",
+                                                                                                "tag": "",
+                                                                                                "uid": 13833070405780519693
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "M2_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 5177307499455480349
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "M2_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 14006182650444929883
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    180.0,
+                                                                                    -89.47288513183594,
+                                                                                    180.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    0.9999999403953552,
+                                                                                    1.0,
+                                                                                    0.9999999403953552
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "M2_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 6116576327953558273
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            -0.9933559894561768,
+                                                                            0.0,
+                                                                            -34.01210021972656
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "M2_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 10767689387532403303
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "M3",
+                                                                                                "tag": "",
+                                                                                                "uid": 16244779606157732400
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "M3_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 14624381056373292177
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "M3_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 4458921878574975957
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    180.0,
+                                                                                    -89.47288513183594,
+                                                                                    180.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    0.9999999403953552,
+                                                                                    1.0,
+                                                                                    0.9999999403953552
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "M3_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 6523146145709770069
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            -33.856136322021484,
+                                                                            0.0,
+                                                                            -0.43088966608047485
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "M3_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 7450482038766691730
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "M4",
+                                                                                                "tag": "",
+                                                                                                "uid": 11194934669264425540
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "M4_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 16203864838707184543
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "M4_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 4607257640703822201
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    180.0,
+                                                                                    -89.47288513183594,
+                                                                                    180.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    0.9999999403953552,
+                                                                                    1.0,
+                                                                                    0.9999999403953552
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "M4_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 13704031998183671002
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            -1.301793098449707,
+                                                                            0.0,
+                                                                            32.99296569824219
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "M4_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 6993309485304469347
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "mascaras",
+                                                        "tag": "",
+                                                        "uid": 15900539710659042725
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "mascaras_$AssimpFbx$_Scaling",
+                                                "tag": "",
+                                                "uid": 12878651662727453143
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "mascaras_$AssimpFbx$_Rotation",
+                                        "tag": "",
+                                        "uid": 10332473172791335995
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            180.0,
+                                            89.47288513183594,
+                                            180.0
+                                        ],
+                                        "scale": [
+                                            0.9999999403953552,
+                                            1.0,
+                                            0.9999999403953552
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "mascaras_$AssimpFbx$_PreRotation",
+                                "tag": "",
+                                "uid": 17020619170145404647
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    1.3073114156723022,
+                                    -32.53733825683594,
+                                    -5.702463150024414
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "mascaras_$AssimpFbx$_Translation",
+                        "tag": "",
+                        "uid": 7104537191240603504
+                    },
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "izq",
+                                                                                                "tag": "",
+                                                                                                "uid": 12273770584219983647
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "izq_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 12437716200332030281
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "izq_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 15934547936116495903
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    0.5728403925895691,
+                                                                                    -37.04669952392578,
+                                                                                    3.4035377502441406
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    0.9999999403953552,
+                                                                                    0.9999999403953552
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "izq_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 15529787494921499713
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            11.915874481201172,
+                                                                            -1.2147401140527592e-15,
+                                                                            5.662137425588298e-15
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "izq_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 16155183524191409706
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "children": [],
+                                                                                                "components": [
+                                                                                                    {
+                                                                                                        "active": true,
+                                                                                                        "position": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "rotation": [
+                                                                                                            0.0,
+                                                                                                            0.0,
+                                                                                                            0.0
+                                                                                                        ],
+                                                                                                        "scale": [
+                                                                                                            1.0,
+                                                                                                            1.0,
+                                                                                                            1.0
+                                                                                                        ],
+                                                                                                        "type": 0
+                                                                                                    }
+                                                                                                ],
+                                                                                                "name": "der",
+                                                                                                "tag": "",
+                                                                                                "uid": 4786973278275392839
+                                                                                            }
+                                                                                        ],
+                                                                                        "components": [
+                                                                                            {
+                                                                                                "active": true,
+                                                                                                "position": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "rotation": [
+                                                                                                    0.0,
+                                                                                                    0.0,
+                                                                                                    0.0
+                                                                                                ],
+                                                                                                "scale": [
+                                                                                                    1.0,
+                                                                                                    1.0,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "type": 0
+                                                                                            }
+                                                                                        ],
+                                                                                        "name": "der_$AssimpFbx$_Scaling",
+                                                                                        "tag": "",
+                                                                                        "uid": 13913660334227926162
+                                                                                    }
+                                                                                ],
+                                                                                "components": [
+                                                                                    {
+                                                                                        "active": true,
+                                                                                        "position": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "rotation": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "scale": [
+                                                                                            1.0,
+                                                                                            1.0,
+                                                                                            1.0
+                                                                                        ],
+                                                                                        "type": 0
+                                                                                    }
+                                                                                ],
+                                                                                "name": "der_$AssimpFbx$_Rotation",
+                                                                                "tag": "",
+                                                                                "uid": 13208150142906024181
+                                                                            }
+                                                                        ],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    -0.5728405714035034,
+                                                                                    37.04669952392578,
+                                                                                    -176.59646606445313
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    0.9999999403953552,
+                                                                                    0.9999999403953552
+                                                                                ],
+                                                                                "type": 0
+                                                                            }
+                                                                        ],
+                                                                        "name": "der_$AssimpFbx$_PreRotation",
+                                                                        "tag": "",
+                                                                        "uid": 11457844147383750725
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            4.991929531097412,
+                                                                            -0.3631910979747772,
+                                                                            11.730020523071289
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "der_$AssimpFbx$_Translation",
+                                                                "tag": "",
+                                                                "uid": 4561190425733269845
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "ojos",
+                                                        "tag": "",
+                                                        "uid": 1219200755698258892
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "ojos_$AssimpFbx$_Scaling",
+                                                "tag": "",
+                                                "uid": 10138507067214432602
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "ojos_$AssimpFbx$_Rotation",
+                                        "tag": "",
+                                        "uid": 15666753518911815155
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            -174.257080078125,
+                                            52.731014251708984,
+                                            -172.79739379882813
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            0.9999999403953552,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "ojos_$AssimpFbx$_PreRotation",
+                                "tag": "",
+                                "uid": 12531788484076065856
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    1.4798792600631714,
+                                    53.802085876464844,
+                                    -6.684637069702148
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "ojos_$AssimpFbx$_Translation",
+                        "tag": "",
+                        "uid": 7058003914431403078
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            10.00634765625,
+                            77.72291564941406,
+                            80.2431640625
+                        ],
+                        "rotation": [
+                            1.5266663801194458e-12,
+                            -1.2379718100419268e-05,
+                            3.4986106351407587e-14
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "huesos_estatua",
+                "tag": "",
+                "uid": 10174885686488439169
+            },
+            {
+                "active": false,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 3548752822037584955,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 7651176501379225794,
+                        "type": 3
+                    }
+                ],
+                "name": "hermes1",
+                "tag": "",
+                "uid": 13403515003128395114
+            },
+            {
+                "active": false,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 15774671451995678167,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 16687702633390673003,
+                        "type": 3
+                    }
+                ],
+                "name": "ares1",
+                "tag": "",
+                "uid": 846901201525752614
+            },
+            {
+                "active": false,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            1.4014892578125,
+                            134.99685668945313,
+                            62.13720703125
+                        ],
+                        "rotation": [
+                            -180.0,
+                            88.81782531738281,
+                            -180.0
+                        ],
+                        "scale": [
+                            0.35551193356513977,
+                            0.35551193356513977,
+                            0.35551193356513977
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 15208311241642760908,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 4064250623251869865,
+                        "type": 3
+                    }
+                ],
+                "name": "apolo1",
+                "tag": "",
+                "uid": 2224938893182795371
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            -1.0177776454739149e-13
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 13809897948727375400,
+                        "type": 2
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 16679556794755767834,
+                        "type": 3
+                    }
+                ],
+                "name": "estatua",
+                "tag": "",
+                "uid": 17329083507611361423
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -51.0869140625,
+                    -1.4419910907745361,
+                    -337.246826171875
+                ],
+                "rotation": [
+                    -180.0,
+                    4.948916435241699,
+                    -180.0
+                ],
+                "scale": [
+                    0.04270476847887039,
+                    0.04270476847887039,
+                    0.04270476847887039
+                ],
+                "type": 0
+            },
+            {
+                "Animations": [
+                    {
+                        "UID": 10932276683818629598,
+                        "loop": true,
+                        "name": "Awake",
+                        "speed": 1.0
+                    }
+                ],
+                "active": true,
+                "type": 28
+            }
+        ],
+        "name": "BustStatue",
+        "tag": "",
+        "uid": 7708302436377653577
+    }
+]

@@ -341,15 +341,32 @@ AudioComponent* AudioSystem::GetAudioCompByID(AkGameObjectID goID) {
 void AudioSystem::SetState(AkStateGroupID stateGroup, AkStateID state)
 {
     AK::SoundEngine::SetState(stateGroup, state);
+    
+
     if (enableDebugLogs) LOG_DEBUG("Setting wWise state through ID");
 }
 
 void AudioSystem::SetState(const char* stateGroup, const char* state)
-{
+{   
     AK::SoundEngine::SetState(stateGroup, state);
+
+    std::string stateGroupName = stateGroup;
+    std::string stateName = state;
+    std::wstring wStateGroupName(stateGroupName.begin(), stateGroupName.end());
+    std::wstring wStateName(stateName.begin(), stateName.end());
+
+    AkStateID stateID = AK::SoundEngine::GetIDFromString(wStateName.c_str());
+    AkStateGroupID stateGroupID = AK::SoundEngine::GetIDFromString(wStateGroupName.c_str());
+
+    currentState = state;
+    currentStateGroup = stateGroup;
     if (enableDebugLogs) LOG_DEBUG("Setting wWise state through name");
 }
 
+//get state from given stategroup (for Lua)
+std::string AudioSystem::GetState(const char* stateGroup) {
+    return currentState;
+}
 
 void AudioSystem::SetSwitch(AkSwitchGroupID switchGroup, AkSwitchStateID switchState, AkGameObjectID goID)
 {
@@ -832,7 +849,7 @@ void AudioSystem::StopAllAudio() {
     AK::SoundEngine::RenderAudio();
 }
 
-void AudioSystem::LoadBank(const wchar_t* bankName)
+void AudioSystem::LoadBank(const wchar_t * bankName)
 {
     if (!bankName) {
         LOG_CONSOLE("AudioSystem::LoadBank called with null bankName");

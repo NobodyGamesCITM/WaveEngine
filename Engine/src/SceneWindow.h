@@ -28,6 +28,8 @@ public:
     float rotationSnap = 15.0f;
     float scaleSnap = 0.1f;
 
+    bool pivotEditMode = false;
+
 private:
     void SelectObject();
     void HandleGizmoInput();

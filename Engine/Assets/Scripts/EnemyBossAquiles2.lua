@@ -130,6 +130,19 @@ local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
 local ActiveDodge=false
+
+local BaseMat = nil
+
+local hitsReceivedCounter = 0
+
+local wallAnimStarted = false
+local stunAnimStarted = false
+local opportunityHitTimer = 0 
+local chargeAnimStarted = false
+local lanceAnimStarted = false
+local anticipationAnimStarted = false
+local recoveryAnimStarted = false
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -191,6 +204,11 @@ end
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Aquiles] -> " .. newState)
+    pressureTimer = 0 
+    chargeAnimStarted = false
+    lanceAnimStarted = false
+    anticipationAnimStarted = false
+    recoveryAnimStarted = false
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
@@ -225,6 +243,13 @@ local function TakeDamage(self, amount, attackerPos)
         hp = hp - totalDamage
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
         Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
+        if currentState == State.WALL then
+            if anim then anim:Play("Stuck_Hit", 0.1) end
+        elseif currentState == State.STUN then
+            if anim then anim:Play("Stun_Hit", 0.1) end
+        end
+        opportunityHitTimer = 0.4
+
         if hp <= 0 then
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
@@ -250,6 +275,7 @@ local function TakeDamage(self, amount, attackerPos)
         if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
             StopMovement()
             hurtTimer = self.public.hurtStunTime
+            if anim then anim:Play("Hit", 0.1) end
         end
     end
 
@@ -331,6 +357,12 @@ function UpdateIdle(self, dist)
 end
 
 function UpdateCombatMove(self, myPos, pp, dist, dt)
+    if dist > self.public.detectRange then
+        StopMovement()
+        ChangeState(State.IDLE)
+        return
+    end
+
     if hurtTimer > 0 then
         hurtTimer = hurtTimer - dt
         return
@@ -417,6 +449,12 @@ end
 
 function UpdateLance360(self, myPos, pp, dt)
 
+    
+    if not lanceAnimStarted then
+        lanceAnimStarted = true
+        anim:Play("360Attack", 0.15)
+    end
+
     currentYaw = currentYaw + 500.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
@@ -433,8 +471,9 @@ function UpdateLance360(self, myPos, pp, dt)
 end
 
 function UpdateAnticipation(self, pp, dt)
-    
+
     if not self.chargeFeedbackGO then
+   
         self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
         SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
     end
@@ -444,8 +483,9 @@ function UpdateAnticipation(self, pp, dt)
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
    
-    if anim and not anim:IsPlayingAnimation("PreCharge") then
-        anim:Play("PreCharge", 0.2) 
+    anticipationAnimStarted = true
+    if anim and not anim:IsPlayingAnimation("Charge_Start") then
+        anim:Play("Charge_Start", 0.2)
     end
 
     if self.chargeFeedbackGO then
@@ -522,6 +562,11 @@ function UpdateCharge(self, dt)
 
     chargeTimer = chargeTimer + dt
 
+    if not chargeAnimStarted then
+        chargeAnimStarted = true
+        anim:Play("Charge_Loop ", 0.0)
+    end
+    
     if rb then
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
@@ -545,13 +590,24 @@ function UpdateWall(self, dt)
         rb:SetRotation(0, currentYaw, 0)
     end
 
-    if anim and not anim:IsPlayingAnimation("Wall") then
-        anim:Play("Wall")
+    if opportunityHitTimer > 0 then
+        opportunityHitTimer = opportunityHitTimer - dt
+        return  -- no sobreescribir Stuck_Hit hasta que termine
+    end
+
+    if not wallAnimStarted then
+        anim:Play("Stuck_Start", 0.15)
+        wallAnimStarted = true
+        
+    elseif anim and not anim:IsPlayingAnimation("Stuck_Start") and not anim:IsPlayingAnimation("Stuck_Loop") then
+        anim:Play("Stuck_Loop", 0.1)
     end
  
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
+        wallAnimStarted = false
+        anim:Play("Stuck_End", 0.15)
         slideVelX = 0
         slideVelZ = 0
         wallStunTimer = self.public.afterStunTime
@@ -561,6 +617,15 @@ function UpdateWall(self, dt)
 end
 
 function UpdateRecovery(self, dt)
+
+    if not recoveryAnimStarted then
+        recoveryAnimStarted = true
+        if cameFromWall then
+            anim:Play("Idle", 0.2)
+        else
+            anim:Play("Charge_End", 0.15)
+        end
+    end
 
     local friction = self.public.stopSmoothing
     slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
@@ -573,8 +638,8 @@ function UpdateRecovery(self, dt)
 
     wallStunTimer = wallStunTimer - dt
     
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.2)
+    if anim and not anim:IsPlayingAnimation("Charge_End") and not anim:IsPlayingAnimation("Idle") then
+        anim:Play("Charge_End", 0.15)
     end
 
     if wallStunTimer <= 0 then
@@ -586,9 +651,16 @@ function UpdateRecovery(self, dt)
 end
 
 function UpdateStun(self, dt)
+    if opportunityHitTimer > 0 then
+        opportunityHitTimer = opportunityHitTimer - dt
+        return
+    end
 
-    if anim and not anim:IsPlayingAnimation("Stun") then
-        anim:Play("Stun")
+    if not stunAnimStarted then
+        anim:Play("Stun_Start", 0.15)
+        stunAnimStarted = true
+    elseif anim and not anim:IsPlayingAnimation("Stun_Start") and not anim:IsPlayingAnimation("Stun_Loop") then
+        anim:Play("Stun_Loop", 0.1)
     end
 
     stunTimer = stunTimer - dt
@@ -702,6 +774,10 @@ function Start(self)
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
 
+    --AquilesMesh
+    aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
+    BaseMat = aquilesMesh:GetComponent("Material")
+
 end
 
 function Update(self, dt)
@@ -728,6 +804,7 @@ function Update(self, dt)
                 GameObject.Destroy(self.chargeFeedbackGO)
                 self.chargeFeedbackGO = nil
             end
+            wallAnimStarted = false 
             wallStunTimer = self.public.wallStunTime
             ChangeState(State.WALL)
         end
@@ -803,6 +880,7 @@ function OnTriggerEnter(self, other)
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
                 alreadyHit = true
+                BaseMat.SetTexture("6600101727014948682")
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -848,6 +926,7 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
+        BaseMat.SetTexture("18385834806947720505")
     end
 end
 

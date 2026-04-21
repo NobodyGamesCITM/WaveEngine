@@ -87,6 +87,10 @@ public:
     virtual bool HasSkinning() const { return false; }
     virtual const std::vector<glm::mat4>& GetBoneMatrices() const { static std::vector<glm::mat4> empty; return empty; }
 
+    // Pivot offset
+    const glm::vec3& GetPivotLocalOffset() const { return pivotLocalOffset; }
+    void SetPivotLocalOffset(const glm::vec3& v) { pivotLocalOffset = v; }
+
     //DEBUG
     void SetDrawMesh(bool b) { drawMesh = b; };
     bool GetDrawMesh() { return drawMesh; }
@@ -117,6 +121,8 @@ protected:
     bool cachedBones = false;   
 
     LightManager* lightManager = nullptr;
+
+    glm::vec3 pivotLocalOffset = glm::vec3(0.0f);
 
     //DEBUG
     bool drawMesh = false;

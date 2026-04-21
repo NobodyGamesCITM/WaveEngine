@@ -9,6 +9,7 @@
 #include "ModuleEditor.h"
 #include "ResourceShader.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentCameraZone.h"
 #include "ComponentCamera.h"
 #include "CameraLens.h"
 #include "ComponentPostProcessing.h"
@@ -518,6 +519,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     if (camera->GetDebugCamera()) {
         Application::GetInstance().physics->DrawDebug();
+        ComponentCameraZone::DrawAllDebug();
         DrawStencilList(camera);
         DrawNormalsList(camera);
         DrawMeshLinesList(camera);

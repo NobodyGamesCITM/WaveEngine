@@ -34,6 +34,8 @@
 #include "Application.h"
 #include "ComponentAnimation.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentCinematicCamera.h"
+#include "ComponentCameraZone.h"
 #include "UIManager.h"
 #include "LibraryManager.h"
 #include "ResourceScript.h"
@@ -48,7 +50,6 @@ static int LuaCustomRequire(lua_State* L) {
     const char* moduleName = luaL_checkstring(L, 1);
     std::string fileName = std::string(moduleName) + ".lua";
 
-    // replace the dots for / because in lua is inverse
     std::replace(fileName.begin(), fileName.end(), '.', '/');
 
     auto& resources = Application::GetInstance().resources->GetAllResources();
@@ -57,7 +58,7 @@ static int LuaCustomRequire(lua_State* L) {
     for (const auto& pair : resources) {
         if (pair.second->GetType() == Resource::SCRIPT) {
             std::string path = pair.second->GetAssetFile();
-            // Check path of the resource ends with the filename
+
             if (path.length() >= fileName.length() &&
                 path.compare(path.length() - fileName.length(), fileName.length(), fileName) == 0)
             {
@@ -68,17 +69,15 @@ static int LuaCustomRequire(lua_State* L) {
     }
 
     if (foundUID != 0) {
-        // RequestResource loads and unlocks the script with the ScriptImporter
         ResourceScript* scriptRes = (ResourceScript*)Application::GetInstance().resources->RequestResource(foundUID);
         if (scriptRes) {
             const std::string& content = scriptRes->GetScriptContent();
 
-            // Compile the text of the script
             if (luaL_loadbuffer(L, content.c_str(), content.size(), moduleName) != LUA_OK) {
                 LOG_CONSOLE("[Lua] ERROR compiling module '%s': %s", moduleName, lua_tostring(L, -1));
                 return 1;
             }
-            return 1; // Sucess then return the chunk compiled
+            return 1;
         }
     }
 
@@ -312,22 +311,23 @@ static int Lua_Input_GetKey(lua_State* L) {
 }
 
 static int Lua_Engine_LoadScene(lua_State* L) {
-    const char* scenesPath = luaL_checkstring(L, 1);
-    const char* relativePath = luaL_checkstring(L, 2);
+    const char* relativePath = luaL_checkstring(L, 1);
     std::string normalizedPath = relativePath;
-    
+
+    if (normalizedPath.find(".scene") == std::string::npos) {
+        normalizedPath += ".scene";
+    }
+
     std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
-  
 
-    //while (normalizedPath.rfind("../", 0) == 0)
-    //    normalizedPath.erase(0, 2);
+    std::string scenesPath = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\").string();
 
-    //std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
-
-    std::string absolutePath = std::string(scenesPath).append(normalizedPath);
-
+    std::string absolutePath = scenesPath + normalizedPath;
     
+    LOG(LogType::LOG_ERROR, "%s", absolutePath.c_str());
+
     Application::GetInstance().scripts->pendingSceneLoad = absolutePath;
+
     return 0;
 }
 
@@ -827,8 +827,17 @@ static int Lua_Audio_SetMusicState(lua_State* L) {
     /*stateName = std::toupper(stateName.c_str());*/
     
     Application::GetInstance().audio.get()->audioSystem->SetState(stateGroupName, stateName);
+    
     AK::SoundEngine::RenderAudio();
     return 0;
+}
+
+static int Lua_Audio_GetMusicState(lua_State* L) {
+    std:string stateName = Application::GetInstance().audio.get()->audioSystem->GetState("BGM_State");
+    LOG_CONSOLE("[SCRIPT MANAGER AUDIO] Current State = %s", stateName);
+    AK::SoundEngine::RenderAudio();
+    lua_pushstring(L, stateName.c_str());
+    return 1;
 }
 
 //Audio Switches
@@ -1114,6 +1123,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_newtable(L);
     lua_pushcfunction(L, Lua_Audio_SetMusicState);
     lua_setfield(L, -2, "SetMusicState");
+    lua_pushcfunction(L, Lua_Audio_GetMusicState);
+    lua_setfield(L, -2, "GetMusicState");
     lua_pushcfunction(L, Lua_Audio_PlayAudioEvent);
     lua_setfield(L, -2, "PlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_SelectPlayAudioEvent);
@@ -2218,6 +2229,81 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         }
     }
 
+    if (strcmp(componentType, "CinematicCamera") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::CINEMATIC_CAMERA);
+        ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(comp);
+        if (!cam) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        lua_newtable(L);
+
+        // AddTarget(gameObject, weight)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            GameObject** targetObj = static_cast<GameObject**>(luaL_checkudata(L, 2, "GameObject"));
+            float weight = static_cast<float>(luaL_checknumber(L, 3));
+
+            if (cam && targetObj && *targetObj) {
+                UID safeUID = (*targetObj)->GetUID();
+                Application::GetInstance().scripts->EnqueueOperation([cam, safeUID, weight]() {
+                    cam->AddTarget(safeUID, weight);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "AddTarget");
+
+        // RemoveTarget(gameObject)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            GameObject** targetObj = static_cast<GameObject**>(luaL_checkudata(L, 2, "GameObject"));
+
+            if (cam && targetObj && *targetObj) {
+                UID safeUID = (*targetObj)->GetUID();
+                Application::GetInstance().scripts->EnqueueOperation([cam, safeUID]() {
+                    cam->RemoveTarget(safeUID);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "RemoveTarget");
+
+        // ClearTargets()
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            if (cam) {
+                Application::GetInstance().scripts->EnqueueOperation([cam]() {
+                    cam->ClearTargets();
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "ClearTargets");
+
+        // Shake(duration, magnitude, frequency)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            float duration = static_cast<float>(luaL_checknumber(L, 2));
+            float magnitude = static_cast<float>(luaL_checknumber(L, 3));
+            float frequency = static_cast<float>(luaL_optnumber(L, 4, 25.0));
+            if (cam) {
+                Application::GetInstance().scripts->EnqueueOperation([cam, duration, magnitude, frequency]() {
+                    cam->TriggerShake(duration, magnitude, frequency);
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "Shake");
+
+        return 1;
+    }
+
     lua_pushnil(L);
     return 1;
 }
@@ -2480,8 +2566,7 @@ static int Lua_Transform_Index(lua_State* L) {
 
     // Verificar si el GameObject propietario está marcado para eliminación
     GameObject* owner = t->GetOwner();
-    if (owner && owner->IsMarkedForDeletion()) {
-        LOG_CONSOLE("[Lua] WARNING: Accessing Transform of deleted GameObject");
+    if (!owner || owner->IsMarkedForDeletion()) {
         lua_pushnil(L);
         return 1;
     }
@@ -2491,80 +2576,62 @@ static int Lua_Transform_Index(lua_State* L) {
     // LOCAL POSITION
     if (strcmp(key, "position") == 0) {
         const glm::vec3& pos = t->GetPosition();
-
         lua_newtable(L);
-        lua_pushnumber(L, pos.x);
-        lua_setfield(L, -2, "x");
-        lua_pushnumber(L, pos.y);
-        lua_setfield(L, -2, "y");
-        lua_pushnumber(L, pos.z);
-        lua_setfield(L, -2, "z");
-
+        lua_pushnumber(L, pos.x); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, pos.y); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, pos.z); lua_setfield(L, -2, "z");
         return 1;
     }
 
+    // WORLD POSITION
     if (strcmp(key, "worldPosition") == 0) {
-        try {
-            // Intentar obtener la matriz global
-            const glm::mat4& worldMatrix = t->GetGlobalMatrix();
+        const glm::mat4& worldMatrix = t->GetGlobalMatrix();
+        lua_newtable(L);
+        lua_pushnumber(L, worldMatrix[3][0]); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, worldMatrix[3][1]); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, worldMatrix[3][2]); lua_setfield(L, -2, "z");
+        return 1;
+    }
 
-            // Extraer posición mundial - GLM matrices son column-major
-            // La última columna (índice 3) contiene la posición
-            float worldX = worldMatrix[3][0];
-            float worldY = worldMatrix[3][1];
-            float worldZ = worldMatrix[3][2];
+    // WORLD FORWARD
+    if (strcmp(key, "worldForward") == 0) {
+        const glm::mat4& m = t->GetGlobalMatrix();
+        glm::vec3 fwd = glm::normalize(glm::vec3(m[2][0], m[2][1], m[2][2]));
+        lua_newtable(L);
+        lua_pushnumber(L, fwd.x); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, fwd.y); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, fwd.z); lua_setfield(L, -2, "z");
+        return 1;
+    }
 
-
-            // Crear tabla Lua
-            lua_newtable(L);
-            lua_pushnumber(L, worldX);
-            lua_setfield(L, -2, "x");
-            lua_pushnumber(L, worldY);
-            lua_setfield(L, -2, "y");
-            lua_pushnumber(L, worldZ);
-            lua_setfield(L, -2, "z");
-
-            return 1;
-        }
-        catch (const std::exception& e) {
-            LOG_CONSOLE("[Lua] ERROR getting worldPosition: %s", e.what());
-            lua_pushnil(L);
-            return 1;
-        }
-        catch (...) {
-            LOG_CONSOLE("[Lua] ERROR: Unknown exception getting worldPosition");
-            lua_pushnil(L);
-            return 1;
-        }
+    // WORLD RIGHT
+    if (strcmp(key, "worldRight") == 0) {
+        const glm::mat4& m = t->GetGlobalMatrix();
+        glm::vec3 right = glm::normalize(glm::vec3(m[0][0], m[0][1], m[0][2]));
+        lua_newtable(L);
+        lua_pushnumber(L, right.x); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, right.y); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, right.z); lua_setfield(L, -2, "z");
+        return 1;
     }
 
     // ROTATION
     if (strcmp(key, "rotation") == 0) {
         const glm::vec3& rot = t->GetRotation();
-
         lua_newtable(L);
-        lua_pushnumber(L, rot.x);
-        lua_setfield(L, -2, "x");
-        lua_pushnumber(L, rot.y);
-        lua_setfield(L, -2, "y");
-        lua_pushnumber(L, rot.z);
-        lua_setfield(L, -2, "z");
-
+        lua_pushnumber(L, rot.x); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, rot.y); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, rot.z); lua_setfield(L, -2, "z");
         return 1;
     }
 
     // SCALE
     if (strcmp(key, "scale") == 0) {
         const glm::vec3& scl = t->GetScale();
-
         lua_newtable(L);
-        lua_pushnumber(L, scl.x);
-        lua_setfield(L, -2, "x");
-        lua_pushnumber(L, scl.y);
-        lua_setfield(L, -2, "y");
-        lua_pushnumber(L, scl.z);
-        lua_setfield(L, -2, "z");
-
+        lua_pushnumber(L, scl.x); lua_setfield(L, -2, "x");
+        lua_pushnumber(L, scl.y); lua_setfield(L, -2, "y");
+        lua_pushnumber(L, scl.z); lua_setfield(L, -2, "z");
         return 1;
     }
 
@@ -2573,21 +2640,19 @@ static int Lua_Transform_Index(lua_State* L) {
         lua_pushcfunction(L, Lua_Transform_SetPosition);
         return 1;
     }
-
     if (strcmp(key, "SetRotation") == 0) {
         lua_pushcfunction(L, Lua_Transform_SetRotation);
         return 1;
     }
-
     if (strcmp(key, "SetScale") == 0) {
         lua_pushcfunction(L, Lua_Transform_SetScale);
         return 1;
     }
 
-    // Si la clave no se encuentra, retornar nil
     lua_pushnil(L);
     return 1;
 }
+
 void ScriptManager::RegisterComponentAPI() {
     // Transform metatable
     luaL_newmetatable(L, "Transform");

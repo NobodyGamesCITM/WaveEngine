@@ -4338,12 +4338,14 @@
 							<ChildrenList>
 								<RandomSequenceContainer Name="Mino_FootSteps" ID="{4886B236-538F-4607-843A-9A55427119FB}" ShortID="927457115">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>2</Value>
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -4372,6 +4374,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -4580,6 +4585,7 @@
 								</RandomSequenceContainer>
 								<Sound Name="Mino_Collapse" ID="{1385364D-6475-4BED-9722-EC3509285157}" ShortID="67036486">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>5</Value>
@@ -4587,6 +4593,7 @@
 										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
@@ -4600,6 +4607,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -4622,6 +4632,7 @@
 								</Sound>
 								<RandomSequenceContainer Name="Mino_WallCrash" ID="{7871F727-FB7F-447B-958D-8C07696F3972}" ShortID="731691622">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>20</Value>
@@ -4640,6 +4651,7 @@
 										</Property>
 										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -4654,9 +4666,6 @@
 											</ModifierList>
 										</Property>
 										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-5</Value>
-											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{4BB42E4B-5805-4B24-8183-018D45B69836}">
@@ -4671,6 +4680,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -4754,6 +4766,8 @@
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Mino_PreCharge" ID="{BBE34175-5817-47E1-80CF-8C1FDDFB5DFC}" ShortID="843950907">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>1</Value>
@@ -4766,6 +4780,7 @@
 										</Property>
 										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -4781,7 +4796,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-5</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -4797,6 +4812,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -5043,6 +5061,7 @@
 								<Sound Name="Mino_Charge" ID="{BF91D9C4-C939-45EF-B123-1EC307622584}" ShortID="304186652">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>11</Value>
@@ -5065,6 +5084,7 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
@@ -5119,6 +5139,7 @@
 								</Sound>
 								<RandomSequenceContainer Name="Mino_Idle" ID="{3920C546-63E8-4113-AEE3-C4FE184105EA}" ShortID="854158079">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>20</Value>
@@ -5136,6 +5157,7 @@
 										</Property>
 										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -5150,7 +5172,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>6</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -5166,6 +5188,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -5266,11 +5291,21 @@
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Mino_Hurt" ID="{1D17D4E3-3DE7-4EF4-8B23-AFC4605711A6}" ShortID="1003512016">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="1.95"/>
 										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -5442,7 +5477,9 @@
 								</RandomSequenceContainer>
 								<Sound Name="Mino_DeathGrowl" ID="{DF3E9ACA-3C0F-42F8-BBF4-EC4F82FA2C36}" ShortID="1006053367">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
@@ -5459,11 +5496,14 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -5491,6 +5531,7 @@
 								</Sound>
 								<RandomSequenceContainer Name="Mino_HoofScrape" ID="{223300F0-0BB5-48DD-A70E-9F2DE950D98B}" ShortID="286071209">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -5505,6 +5546,7 @@
 										</Property>
 										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -5519,9 +5561,6 @@
 											</ModifierList>
 										</Property>
 										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-10</Value>
-											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{1D326AB5-950F-4BB4-AC26-35672BB399F1}">
@@ -5536,6 +5575,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -5636,6 +5678,7 @@
 								</RandomSequenceContainer>
 								<Sound Name="Mino_StunnedGrowl" ID="{61AF9C9E-A568-4A09-91C1-6FF2D970B70A}" ShortID="658459635">
 									<PropertyList>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -5649,6 +5692,7 @@
 											</ModifierList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
@@ -5665,7 +5709,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>12</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -5681,6 +5725,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>

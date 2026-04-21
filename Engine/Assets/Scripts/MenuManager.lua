@@ -81,11 +81,16 @@ function Initialize(self)
 
     self.current = self.canvas:GetCurrentXAML()
     
-    -- Detectamos si estamos en una escena de gameplay real
+    -- Detectamos si estamos en una escena de gameplay real (evitar auto-pause residual)
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
     local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene")
 
-    -- Si el canvas no tiene nada o tiene el MainMenu por defecto pero estamos en un nivel, cargamos el HUD
+    if isGameplayScene and self.current == "MainMenu.xaml" then
+        Engine.Log("[MenuManager] Limpiando MainMenu residual en escena de juego para evitar auto-pause.")
+        self.canvas:LoadXAML("HUD.xaml")
+        self.current = "HUD.xaml"
+    end
+
     if not self.current or self.current == "" or (self.current == "MainMenu.xaml" and isGameplayScene) then
         if isGameplayScene then
             self.current = "HUD.xaml"
@@ -105,6 +110,7 @@ function Initialize(self)
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
         elseif sceneVal == "Blockout2.scene" then Audio.SetMusicState("Level2") end
         Game.Resume()
+        Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
     end
     

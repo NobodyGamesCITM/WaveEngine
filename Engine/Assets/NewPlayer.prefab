@@ -3341,9 +3341,9 @@
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        36.2107048034668,
-                                                                                        9.529499053955078,
-                                                                                        -125.36812591552734
+                                                                                        147.04905700683594,
+                                                                                        36.11183547973633,
+                                                                                        -181.9481964111328
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
@@ -3398,14 +3398,14 @@
                                                                             {
                                                                                 "active": true,
                                                                                 "position": [
-                                                                                    -37.6480712890625,
-                                                                                    38.06573486328125,
-                                                                                    6.3895263671875
+                                                                                    -29.0,
+                                                                                    46.0,
+                                                                                    30.0
                                                                                 ],
                                                                                 "rotation": [
-                                                                                    -3.735259781478817e-07,
-                                                                                    1.327351469626592e-06,
-                                                                                    -4.3266735172116464e-15
+                                                                                    160.49002075195313,
+                                                                                    -4.944153785705566,
+                                                                                    -143.0158233642578
                                                                                 ],
                                                                                 "scale": [
                                                                                     1.0,
@@ -3444,7 +3444,7 @@
                                                                                     1.0
                                                                                 ],
                                                                                 "emissionRadius": 1.0,
-                                                                                "emissionRate": 3.299999952316284,
+                                                                                "emissionRate": 2.0,
                                                                                 "emissionRateDist": 0.0,
                                                                                 "emitFromShell": false,
                                                                                 "gravity": [
@@ -3521,9 +3521,9 @@
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        36.2107048034668,
-                                                                                        9.529499053955078,
-                                                                                        -125.36812591552734
+                                                                                        146.9859619140625,
+                                                                                        37.104637145996094,
+                                                                                        -182.02529907226563
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
@@ -3701,9 +3701,9 @@
                                                                                     ],
                                                                                     "linear": 0.09000000357627869,
                                                                                     "position": [
-                                                                                        36.2107048034668,
-                                                                                        9.529499053955078,
-                                                                                        -125.36812591552734
+                                                                                        147.04905700683594,
+                                                                                        36.11183547973633,
+                                                                                        -181.9481964111328
                                                                                     ],
                                                                                     "quadratic": 0.03200000151991844,
                                                                                     "specular": [
@@ -3886,9 +3886,9 @@
                                                                                 ],
                                                                                 "colorGradient": [],
                                                                                 "colorStart": [
-                                                                                    0.8725489974021912,
-                                                                                    0.32531893253326416,
-                                                                                    0.12831604480743408,
+                                                                                    1.0,
+                                                                                    0.0,
+                                                                                    0.0,
                                                                                     1.0
                                                                                 ],
                                                                                 "coneAngle": 30.18199920654297,
@@ -3928,8 +3928,8 @@
                                                                                 "shape": 2,
                                                                                 "simulationSpace": 1,
                                                                                 "sizeCurve": [],
-                                                                                "sizeEnd": 0.3100000023841858,
-                                                                                "sizeStart": 0.8399999737739563,
+                                                                                "sizeEnd": 0.5,
+                                                                                "sizeStart": 1.25,
                                                                                 "speedMax": 1.7000000476837158,
                                                                                 "speedMin": 0.30000001192092896,
                                                                                 "textureCols": 1,
@@ -4046,14 +4046,14 @@
                                                                             {
                                                                                 "active": true,
                                                                                 "position": [
-                                                                                    -37.6480712890625,
-                                                                                    38.06573486328125,
-                                                                                    6.3895263671875
+                                                                                    -37.65948486328125,
+                                                                                    37.484375,
+                                                                                    23.9664306640625
                                                                                 ],
                                                                                 "rotation": [
-                                                                                    -3.735259781478817e-07,
-                                                                                    1.327351469626592e-06,
-                                                                                    -4.3266735172116464e-15
+                                                                                    -3.6018568039253296e-07,
+                                                                                    1.1939490605072933e-06,
+                                                                                    -6.830189249740215e-06
                                                                                 ],
                                                                                 "scale": [
                                                                                     1.0,
@@ -4072,15 +4072,15 @@
                                                                                 "circleRadius": 1.0,
                                                                                 "colorEnd": [
                                                                                     1.0,
-                                                                                    0.15000000596046448,
-                                                                                    0.15000000596046448,
+                                                                                    1.0,
+                                                                                    1.0,
                                                                                     0.0
                                                                                 ],
                                                                                 "colorGradient": [],
                                                                                 "colorStart": [
                                                                                     1.0,
-                                                                                    0.15000000596046448,
-                                                                                    0.15000000596046448,
+                                                                                    1.0,
+                                                                                    1.0,
                                                                                     1.0
                                                                                 ],
                                                                                 "coneAngle": 30.18199920654297,
@@ -4093,7 +4093,7 @@
                                                                                 ],
                                                                                 "emissionRadius": 0.05000000074505806,
                                                                                 "emissionRate": 0.0,
-                                                                                "emissionRateDist": 19.799999237060547,
+                                                                                "emissionRateDist": 20.600000381469727,
                                                                                 "emitFromShell": true,
                                                                                 "gravity": [
                                                                                     0.0,
@@ -4102,8 +4102,8 @@
                                                                                 ],
                                                                                 "initRotMax": 360.0,
                                                                                 "initRotMin": 0.0,
-                                                                                "lifetimeMax": 0.8999999761581421,
-                                                                                "lifetimeMin": 0.4000000059604645,
+                                                                                "lifetimeMax": 1.399999976158142,
+                                                                                "lifetimeMin": 1.100000023841858,
                                                                                 "looping": true,
                                                                                 "luminance": false,
                                                                                 "maxParticles": 500,
@@ -4119,14 +4119,24 @@
                                                                                 "rotSpeedMin": 0.0,
                                                                                 "shape": 1,
                                                                                 "simulationSpace": 1,
-                                                                                "sizeCurve": [],
+                                                                                "sizeCurve": [
+                                                                                    {
+                                                                                        "size": 0.25,
+                                                                                        "time": 0.0
+                                                                                    },
+                                                                                    {
+                                                                                        "size": 0.0,
+                                                                                        "time": 0.1720000058412552
+                                                                                    }
+                                                                                ],
                                                                                 "sizeEnd": 0.0,
-                                                                                "sizeStart": 0.15000000596046448,
+                                                                                "sizeStart": 0.1599999964237213,
                                                                                 "speedMax": 0.0,
                                                                                 "speedMin": 0.0,
                                                                                 "textureCols": 1,
-                                                                                "texturePath": "",
+                                                                                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\Redonda.png",
                                                                                 "textureRows": 1,
+                                                                                "textureUID": 12446931050770746590,
                                                                                 "type": 7
                                                                             }
                                                                         ],
@@ -4673,9 +4683,9 @@
             {
                 "active": true,
                 "position": [
-                    36.8759765625,
-                    7.9336395263671875,
-                    -124.68649291992188
+                    147.71432495117188,
+                    34.5159797668457,
+                    -181.26657104492188
                 ],
                 "rotation": [
                     0.0,
@@ -4713,39 +4723,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "bulletBarrel",
+                        "name": "flySpeed",
                         "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "speedHermesBonus",
-                        "type": 0,
-                        "value": 15.0
-                    },
-                    {
-                        "name": "chargeDuration",
-                        "type": 0,
-                        "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "canMove",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "heavyDuration",
-                        "type": 0,
-                        "value": 0.699999988079071
-                    },
-                    {
-                        "name": "hpLossCost",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "heavyUpImpulse",
-                        "type": 0,
-                        "value": 2.0
+                        "value": 20.0
                     },
                     {
                         "name": "shootDuration",
@@ -4753,54 +4733,9 @@
                         "value": 0.5
                     },
                     {
-                        "name": "health",
+                        "name": "staminaRecover",
                         "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "bulletScale",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "bulletSpawnY",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "hpRecover",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "stamina",
-                        "type": 0,
-                        "value": 100.0
-                    },
-                    {
-                        "name": "triggerCameraShake",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "staminaCost",
-                        "type": 0,
-                        "value": 80.0
-                    },
-                    {
-                        "name": "giveApoloMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "attackBufferDuration",
-                        "type": 0,
-                        "value": 0.6000000238418579
-                    },
-                    {
-                        "name": "heavyAttackDelay",
-                        "type": 0,
-                        "value": 0.3499999940395355
+                        "value": 50.0
                     },
                     {
                         "name": "hitShakeMagnitude",
@@ -4808,9 +4743,104 @@
                         "value": 6.0
                     },
                     {
+                        "name": "hpLossCost",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "knockbackForce",
+                        "type": 0,
+                        "value": 14.0
+                    },
+                    {
+                        "name": "staminaCost",
+                        "type": 0,
+                        "value": 80.0
+                    },
+                    {
+                        "name": "attackCooldown",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "health",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "stamina",
+                        "type": 0,
+                        "value": 100.0
+                    },
+                    {
+                        "name": "giveHermesMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "chargeSpeed",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
                         "name": "interact",
                         "type": 2,
                         "value": false
+                    },
+                    {
+                        "name": "canMove",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "comboCooldown",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "attackBufferDuration",
+                        "type": 0,
+                        "value": 0.6000000238418579
+                    },
+                    {
+                        "name": "rollCooldownMax",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "heavyUpImpulse",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "bulletSpawnY",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "attackDuration",
+                        "type": 0,
+                        "value": 0.4000000059604645
+                    },
+                    {
+                        "name": "bulletScale",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "bulletBarrel",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "heavyDuration",
+                        "type": 0,
+                        "value": 0.699999988079071
+                    },
+                    {
+                        "name": "hitShakeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
                     },
                     {
                         "name": "attackImpulseWindow",
@@ -4823,9 +4853,9 @@
                         "value": 0.5
                     },
                     {
-                        "name": "rollStaminaCost",
+                        "name": "speed",
                         "type": 0,
-                        "value": 25.0
+                        "value": 7.0
                     },
                     {
                         "name": "attackImpulseForce",
@@ -4833,94 +4863,29 @@
                         "value": 8.0
                     },
                     {
-                        "name": "tiredMultiplier",
-                        "type": 0,
-                        "value": 0.699999988079071
-                    },
-                    {
                         "name": "giveAresMask",
                         "type": 2,
                         "value": false
                     },
                     {
-                        "name": "speedIncrease",
-                        "type": 0,
-                        "value": 8.0
-                    },
-                    {
-                        "name": "giveHermesMask",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "bulletPrefab",
-                        "type": 1,
-                        "value": "Prefabs/Bullet.prefab"
-                    },
-                    {
-                        "name": "flySpeed",
-                        "type": 0,
-                        "value": 20.0
-                    },
-                    {
-                        "name": "sprintMultiplier",
-                        "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "knockbackForce",
-                        "type": 0,
-                        "value": 14.0
-                    },
-                    {
-                        "name": "rollCooldownMax",
-                        "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "chargeSpeed",
+                        "name": "hpRecover",
                         "type": 0,
                         "value": 30.0
                     },
                     {
-                        "name": "hermesWaterMax",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "usingStamina",
+                        "name": "giveApoloMask",
                         "type": 2,
                         "value": false
                     },
                     {
-                        "name": "attackDuration",
+                        "name": "heavyAttackDelay",
                         "type": 0,
-                        "value": 0.4000000059604645
+                        "value": 0.3499999940395355
                     },
                     {
-                        "name": "speed",
-                        "type": 0,
-                        "value": 7.0
-                    },
-                    {
-                        "name": "ROTATION_SPEED",
-                        "type": 0,
-                        "value": 780.0
-                    },
-                    {
-                        "name": "hitShakeDuration",
-                        "type": 0,
-                        "value": 0.30000001192092896
-                    },
-                    {
-                        "name": "rollSpeed",
-                        "type": 0,
-                        "value": 15.0
-                    },
-                    {
-                        "name": "comboCooldown",
-                        "type": 0,
-                        "value": 1.0
+                        "name": "triggerCameraShake",
+                        "type": 2,
+                        "value": false
                     },
                     {
                         "name": "heavyStaminaCost",
@@ -4928,14 +4893,59 @@
                         "value": 25.0
                     },
                     {
-                        "name": "attackCooldown",
+                        "name": "rollSpeed",
                         "type": 0,
-                        "value": 0.4000000059604645
+                        "value": 15.0
                     },
                     {
-                        "name": "staminaRecover",
+                        "name": "speedHermesBonus",
                         "type": 0,
-                        "value": 50.0
+                        "value": 15.0
+                    },
+                    {
+                        "name": "usingStamina",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "rollStaminaCost",
+                        "type": 0,
+                        "value": 25.0
+                    },
+                    {
+                        "name": "hermesWaterMax",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "ROTATION_SPEED",
+                        "type": 0,
+                        "value": 780.0
+                    },
+                    {
+                        "name": "speedIncrease",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "bulletPrefab",
+                        "type": 1,
+                        "value": "Prefabs/Bullet.prefab"
+                    },
+                    {
+                        "name": "chargeDuration",
+                        "type": 0,
+                        "value": 0.30000001192092896
+                    },
+                    {
+                        "name": "sprintMultiplier",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "tiredMultiplier",
+                        "type": 0,
+                        "value": 0.699999988079071
                     }
                 ],
                 "scriptUID": 8002383071243665151,
@@ -5069,12 +5079,7 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "offsetZ",
-                        "type": 0,
-                        "value": 0.0
-                    },
-                    {
-                        "name": "offsetX",
+                        "name": "offsetY",
                         "type": 0,
                         "value": 0.0
                     },
@@ -5084,7 +5089,12 @@
                         "value": 8.0
                     },
                     {
-                        "name": "offsetY",
+                        "name": "offsetX",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "offsetZ",
                         "type": 0,
                         "value": 0.0
                     }

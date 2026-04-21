@@ -1429,7 +1429,7 @@ function Update(self, dt)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
-    if Input.GetKey("G") then
+    if Input.GetKeyDown("G") then
         Player.godMode = not Player.godMode
         Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
         if Player.rb then

@@ -172,35 +172,84 @@ local function normalizeInput(x, z)
 end
 
 local function GetMovementInput(self)
-    local moveX, moveZ = 0, 0
-    
     if self.public.canMove == false then
         return 0, 0, 0
     end
 
+    local inputX, inputZ = 0, 0
+
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
-        moveX = gpX * INPUT_SCALE
-        moveZ = gpZ * INPUT_SCALE
+        inputX = gpX
+        inputZ = -gpZ
     end
-    if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
-    if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
-    if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
-    if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
+    
+    -- W = Avanzar (inputZ positivo), S = Retroceder (inputZ negativo)
+    if Input.GetKey("W") then inputZ = inputZ + 1 end
+    if Input.GetKey("S") then inputZ = inputZ - 1 end
+    if Input.GetKey("A") then inputX = inputX - 1 end
+    if Input.GetKey("D") then inputX = inputX + 1 end
 
     if _G.interact == true then _G.interact = false end
-
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
-        Engine.Log("interact try")
+    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
         self.public.interact = true
         _G.interact = true
     end
+
+    local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
+    if inputLen > 1.0 then
+        inputX = inputX / inputLen
+        inputZ = inputZ / inputLen
+        inputLen = 1.0
+    end
+
+    if inputLen < 0.01 then
+        return 0, 0, 0
+    end
+
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        local camFwd = camObj.transform.worldForward
+        local camRight = camObj.transform.worldRight
+        
+        camFwd.x = -camFwd.x
+        camFwd.y = -camFwd.y
+        camFwd.z = -camFwd.z
+        
+        camFwd.y = 0
+        camRight.y = 0
+        
+        local lenFwd = math.sqrt(camFwd.x*camFwd.x + camFwd.z*camFwd.z)
+        if lenFwd > 0.001 then
+            camFwd.x = camFwd.x / lenFwd
+            camFwd.z = camFwd.z / lenFwd
+        else
+            camFwd = {x=0, y=0, z=1}
+        end
+        
+        local lenRight = math.sqrt(camRight.x*camRight.x + camRight.z*camRight.z)
+        if lenRight > 0.001 then
+            camRight.x = camRight.x / lenRight
+            camRight.z = camRight.z / lenRight
+        else
+            camRight = {x=1, y=0, z=0}
+        end
+        
+        -- Multiply the input for the vectors of the camera
+        local moveX = (camRight.x * inputX) + (camFwd.x * inputZ)
+        local moveZ = (camRight.z * inputX) + (camFwd.z * inputZ)
+        
+        local finalLen = math.sqrt(moveX*moveX + moveZ*moveZ)
+        if finalLen > 0.001 then
+            moveX = (moveX / finalLen) * inputLen * INPUT_SCALE
+            moveZ = (moveZ / finalLen) * inputLen * INPUT_SCALE
+        end
+        
+        return moveX, moveZ, inputLen * INPUT_SCALE
+    end
     
-    moveX, moveZ = normalizeInput(moveX, moveZ)
-    local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
-    
-    return moveX, moveZ, inputLen
+    return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
 end
 
 local function GetAttackInput(self)
@@ -521,7 +570,7 @@ States[State.WALK] = {
         if anim then 
             local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
             if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1) end)
+                pcall(function() anim:SetSpeed("Walk", 1.0) end)
             else
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
@@ -586,7 +635,7 @@ States[State.RUNNING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 2.0)
+            anim:SetSpeed("Running", 1.5)
         end
 
         self.public.usingStamina = true
@@ -703,7 +752,7 @@ States[State.CHARGING] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 0.5) end
+        if anim then anim:Play("Ares", 0) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -747,7 +796,7 @@ States[State.SHOOTING] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 0.3) 
+            anim:Play("Apolo", 0.1) 
         end
         attackTimer = 0
 
@@ -802,7 +851,7 @@ States[State.ATTACK_HEAVY] = {
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 1.0) end
+        if anim then anim:Play("Hermes", 0.3) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end
@@ -1665,8 +1714,8 @@ function ActivateTrail()
         Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
         Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
     elseif Player.currentMask == Mask.ARES then
-        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
-        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
+        Player.trailPs:SetStartColor(1.0, 0.3, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.3, 0.15, 0.0)
     else
         Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
         Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)

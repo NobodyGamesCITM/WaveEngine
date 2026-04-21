@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{0D8BAE8E-382F-C14D-16B4-CA2F79D72E11}",
+    "Hash": "{CC03018C-F5CE-2855-C5CF-98593978681F}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1488,7 +1488,7 @@
       "Name": "SFX_MinoCharge",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoCharge",
       "GUID": "{9C238639-0895-4F1D-A576-C0A266052C5A}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "1.5935537",
       "DurationMax": "2.6800272",
@@ -1503,7 +1503,7 @@
       "Name": "SFX_MinoCrash",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoCrash",
       "GUID": "{CF6CBB00-EC82-40C7-8F29-32C4484F102A}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "2.898929",
       "DurationMax": "3.457481",
@@ -1524,7 +1524,7 @@
       "Name": "SFX_MinoDie",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoDie",
       "GUID": "{527F17F1-9C7A-456D-8822-3CB81C90A7E8}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "2.46259",
       "DurationMax": "3.46259",
@@ -1542,7 +1542,7 @@
       "Name": "SFX_MinoHurt",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoHurt",
       "GUID": "{C937AFA1-0B7A-4E9B-941E-15541FAAABB1}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "39",
       "DurationType": "OneShot",
       "DurationMin": "0.91873324",
       "DurationMax": "1.4545414",
@@ -1566,7 +1566,7 @@
       "Name": "SFX_MinoIdle",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoIdle",
       "GUID": "{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "2.628038",
       "DurationMax": "4.3457294",
@@ -1590,7 +1590,6 @@
       "Name": "SFX_MinoPrecharge",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoPrecharge",
       "GUID": "{87F93940-23E6-4308-8CC3-1107DAB901AC}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "2.5642729",
       "DurationMax": "3.4981484",
@@ -1626,7 +1625,7 @@
       "Name": "SFX_MinoSteps",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoSteps",
       "GUID": "{BF9B421B-E71B-44A0-AF1A-E7BCED648445}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "0.5102746",
       "DurationMax": "0.7340707",
@@ -2470,6 +2469,6 @@
     ]
    }
   ],
-  "FileHash": "{81A6552A-83F4-1212-8A50-C64C7F67D529}"
+  "FileHash": "{AC6599B9-79E5-A010-F1E3-012AA69B7BBE}"
  }
 }

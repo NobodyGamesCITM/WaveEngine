@@ -329,6 +329,18 @@ void InspectorWindow::Draw()
         case ComponentType::LIGHT:
             DrawLightComponent(component);
             break;
+        case ComponentType::CAMERA_ZONE:
+            if (ImGui::CollapsingHeader("Camera Zone", ImGuiTreeNodeFlags_DefaultOpen)) {
+                DrawComponentContextMenu(component, true);
+                component->OnEditor();
+            }
+            break;
+        case ComponentType::CINEMATIC_CAMERA:
+            if (ImGui::CollapsingHeader("Cinematic Camera", ImGuiTreeNodeFlags_DefaultOpen)) {
+                DrawComponentContextMenu(component, true);
+                component->OnEditor();
+            }
+            break;
 		case ComponentType::UNKNOWN:
             break;
         default:
@@ -2443,6 +2455,29 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
             ImGui::BeginTooltip();
             ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Already has a Light component");
             ImGui::EndTooltip();
+        }
+
+        // Cinematic Camera
+        if (ImGui::Selectable("Camera Zone", false))
+        {
+            Component* newComp = selectedObject->CreateComponent(ComponentType::CAMERA_ZONE);
+            if (newComp)
+                Application::GetInstance().editor->GetCommandHistory()->PushWithoutExecute(
+                    std::make_unique<AddComponentCommand>(selectedObject, newComp)
+                );
+            LOG_CONSOLE("[Inspector] Camera Zone component added to: %s", selectedObject->GetName().c_str());
+            ImGui::CloseCurrentPopup();
+        }
+
+        if (ImGui::Selectable("Cinematic Camera", false))
+        {
+            Component* newComp = selectedObject->CreateComponent(ComponentType::CINEMATIC_CAMERA);
+            if (newComp)
+                Application::GetInstance().editor->GetCommandHistory()->PushWithoutExecute(
+                    std::make_unique<AddComponentCommand>(selectedObject, newComp)
+                );
+            LOG_CONSOLE("[Inspector] Cinematic Camera component added to: %s", selectedObject->GetName().c_str());
+            ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();
     }

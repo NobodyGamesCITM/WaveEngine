@@ -1,0 +1,33 @@
+{
+    "AlbedoMapUID": 11226867719009363397,
+    "Color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "EmissiveColor": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "EmissiveMapUID": 927971946746314364,
+    "HeightMapUID": 5520634730268417631,
+    "HeightScale": 0.05000000074505806,
+    "Metallic": 0.0,
+    "MetallicMapUID": 10840024160303021895,
+    "NormalMapUID": 12808560555060882196,
+    "OcclusionMapUID": 0,
+    "Offset": [
+        0.0,
+        0.0
+    ],
+    "Opacity": 1.0,
+    "Roughness": 0.5,
+    "RoughnessMapUID": 12916339677998595940,
+    "Tiling": [
+        1.0,
+        1.0
+    ],
+    "Type": 0
+}

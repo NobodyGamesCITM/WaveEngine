@@ -1,0 +1,107 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -6.103515625e-05,
+                            11.117795944213867,
+                            0.3119247555732727
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 4294973526671203370,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 18050566891708886555,
+                        "type": 3
+                    }
+                ],
+                "name": "Cap_Low",
+                "tag": "",
+                "uid": 17417557082667412992
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            4.066290378570557,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            0.6000000238418579,
+                            0.6000000238418579,
+                            0.6000000238418579
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 4812159235884713464,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 407406147226328101,
+                        "type": 3
+                    }
+                ],
+                "name": "pedestal",
+                "tag": "",
+                "uid": 15787414293447290228
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            }
+        ],
+        "name": "Estatua llave",
+        "tag": "",
+        "uid": 12159267887939441831
+    }
+]

@@ -46,10 +46,13 @@ public:
 	// ----------------------- STATES ---------------------- //
 	void SetState(AkStateGroupID stateGroup, AkStateID state);
 	void SetState(const char* stateGroup, const char* state);
+	std::string GetState(const char* stateGroup);
+
 
 	// ---------------------- SWITCHES ---------------------- //
 	void SetSwitch(AkSwitchGroupID switchGroup, AkSwitchStateID switchState, AkGameObjectID goID);
 	void SetSwitch(const char* switchGroup, const char* switchState, AkGameObjectID goID);
+	
 
 	// ------------------------ RTPC ------------------------ //
 	void SetRTPCValue(const char* name, int value);
@@ -187,6 +190,10 @@ private:
 
 	// Toggle to reduce log noise (default: false)
 	bool enableDebugLogs = false;
+
+	// To track current state group and current state being set
+	std::string currentState = "";
+	std::string currentStateGroup = "";
 
 public:
     const std::vector<AudioComponent*>& GetAudioComponents() const { return audioComponents; }

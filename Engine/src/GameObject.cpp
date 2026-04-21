@@ -26,6 +26,8 @@
 #include "D6Joint.h"
 #include "HingeJoint.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentCameraZone.h"
+#include "ComponentCinematicCamera.h"
 #include "ComponentNavigation.h"
 #include "ComponentRotate.h"
 #include "ComponentAnimation.h"
@@ -169,6 +171,12 @@ Component* GameObject::CreateComponent(ComponentType type) {
     case ComponentType::LIGHT:
         newComponent = new ComponentLight(this);
         Application::GetInstance().renderer->GetLightManager()->RegisterLight((ComponentLight*)newComponent);
+        break;
+    case ComponentType::CAMERA_ZONE:
+        newComponent = new ComponentCameraZone(this);
+        break;
+    case ComponentType::CINEMATIC_CAMERA:
+        newComponent = new ComponentCinematicCamera(this);
         break;
     default:
         LOG_DEBUG("ERROR: Unknown component type requested for GameObject '%s'", name.c_str());

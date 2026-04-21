@@ -742,6 +742,8 @@ States[State.CHARGING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Ares", 0) end
         attackTimer = 0
@@ -785,6 +787,8 @@ States[State.SHOOTING] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Apolo", 0.1) 
@@ -841,6 +845,8 @@ States[State.ATTACK_HEAVY] = {
         if not Player.godMode then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Hermes", 0.3) end
         attackTimer = 0
@@ -901,6 +907,7 @@ States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         attackTimer = 0
         if attackCol then attackCol:Disable() end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.5, 0.5, 200) end
 
         if attackBuffer == true then
             if attackNum ~= 3 then
@@ -1023,6 +1030,7 @@ local function TakeDamage(self, amount, attackerPos)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
+    if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 150) end
 
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:SelectPlayAudioEvent("SFX_PlayerHit") end

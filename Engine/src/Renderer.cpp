@@ -524,6 +524,9 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
         if (!resMesh.IsValid()) continue;
 
         glm::mat4 globalModelMatrix = mesh->owner->transform->GetGlobalMatrix();
+        const glm::vec3& pivOff = mesh->GetPivotLocalOffset();
+        if (pivOff.x != 0.0f || pivOff.y != 0.0f || pivOff.z != 0.0f) 
+            globalModelMatrix = globalModelMatrix * glm::translate(glm::mat4(1.0f), pivOff);
 
         const AABB& globalAABB = mesh->GetGlobalAABB();
 
@@ -1431,6 +1434,9 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         pickingShader->SetVec4("pickingColor", pickingColor);
 
         glm::mat4 model = meshComponent->owner->transform->GetGlobalMatrix();
+        const glm::vec3& pickPivOff = meshComponent->GetPivotLocalOffset();
+        if (pickPivOff.x != 0.0f || pickPivOff.y != 0.0f || pickPivOff.z != 0.0f)
+            model = model * glm::translate(glm::mat4(1.0f), pickPivOff);
         pickingShader->SetMat4("model", model);
 
 

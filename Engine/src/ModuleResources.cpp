@@ -417,6 +417,9 @@ Resource* ModuleResources::CreateNewResourceWithUID(const char* assetsFile, Reso
         else if (type == Resource::MESH) {
             resource->SetLibraryFile(LibraryManager::GetLibraryPath(uid));
         }
+        else if (type == Resource::MODEL) {
+            resource->SetLibraryFile(LibraryManager::GetLibraryPath(uid));
+        }
 
         resources[uid] = resource;
     }

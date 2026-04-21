@@ -162,6 +162,13 @@ void HierarchyWindow::Draw()
 
     HandleAutoScroll();
 
+    GameObject* currentSelection = Application::GetInstance().selectionManager->GetSelectedObject();
+    if (currentSelection != lastKnownSelection)
+    {
+        lastKnownSelection = currentSelection;
+        if (currentSelection) scrollToTarget = currentSelection;
+    }
+
     GameObject* root = Application::GetInstance().scene->GetRoot();
 
     if (root)
@@ -279,7 +286,17 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
 
     ImGui::SameLine();
 
+    // Expand
+    if (scrollToTarget && hasChildren && IsDescendantOf(scrollToTarget, gameObject))
+        ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+
     bool nodeOpen = ImGui::TreeNodeEx(gameObject, nodeFlags, "%s", gameObject->GetName().c_str());
+
+    if (scrollToTarget == gameObject)
+    {
+        ImGui::SetScrollHereY(0.5f);
+        scrollToTarget = nullptr;
+    }
 
     // Selection on click
   /*  if (ImGui::IsItemClicked())

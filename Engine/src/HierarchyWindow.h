@@ -48,4 +48,8 @@ private:
     // Autoscroll
     const float AUTO_SCROLL_MARGIN = 30.0f;
     const float AUTO_SCROLL_SPEED = 5.0f;
+
+    // Scroll to selected
+    GameObject* scrollToTarget = nullptr;
+    GameObject* lastKnownSelection = nullptr;
 };

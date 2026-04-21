@@ -18,20 +18,21 @@ ComponentCinematicCamera::ComponentCinematicCamera(GameObject* owner) : Componen
 ComponentCinematicCamera::~ComponentCinematicCamera() {
 }
 
-void ComponentCinematicCamera::AddTarget(GameObject* obj, float weight) {
-    if (!obj) return;
+void ComponentCinematicCamera::AddTarget(UID uid, float weight) {
+    if (uid == 0) return;
     for (auto& t : targets) {
-        if (t.obj == obj) {
+        if (t.uid == uid) {
             t.weight = weight;
             return;
         }
     }
-    targets.push_back({ obj, weight });
+    targets.push_back({ uid, weight });
 }
 
-void ComponentCinematicCamera::RemoveTarget(GameObject* obj) {
+void ComponentCinematicCamera::RemoveTarget(UID uid) {
+    if (uid == 0) return;
     targets.erase(std::remove_if(targets.begin(), targets.end(),
-        [obj](const CameraTarget& t) { return t.obj == obj; }), targets.end());
+        [uid](const CameraTarget& t) { return t.uid == uid; }), targets.end());
 }
 
 void ComponentCinematicCamera::ClearTargets() {
@@ -136,10 +137,22 @@ bool ComponentCinematicCamera::CalculateWeightedTarget(glm::vec3& outPos) {
     glm::vec3 center(0.0f);
     float totalWeight = 0.0f;
 
-    for (auto& t : targets) {
-        if (!t.obj || !t.obj->IsActive()) continue;
-        center += t.obj->transform->GetGlobalPosition() * t.weight;
-        totalWeight += t.weight;
+    for (auto it = targets.begin(); it != targets.end(); ) {
+        GameObject* obj = Application::GetInstance().scene->FindObject(it->uid);
+
+        if (!obj || obj->IsMarkedForDeletion()) {
+            it = targets.erase(it);
+            continue;
+        }
+
+        if (!obj->IsActive()) {
+            ++it;
+            continue;
+        }
+
+        center += obj->transform->GetGlobalPosition() * it->weight;
+        totalWeight += it->weight;
+        ++it;
     }
 
     if (totalWeight > 0.0f) {

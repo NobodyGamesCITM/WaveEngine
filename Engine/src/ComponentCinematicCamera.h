@@ -3,12 +3,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
+#include "Globals.h"
 
 class CameraLens;
 class ComponentCameraZone;
 
 struct CameraTarget {
-    GameObject* obj;
+    UID uid;
     float weight;
 };
 
@@ -26,8 +27,8 @@ public:
     bool IsIncompatible(ComponentType type) override { return type == ComponentType::CAMERA; }
 
     // Lua
-    void AddTarget(GameObject* obj, float weight);
-    void RemoveTarget(GameObject* obj);
+    void AddTarget(UID uid, float weight);
+    void RemoveTarget(UID uid);
     void ClearTargets();
     void TriggerShake(float duration, float magnitude, float frequency);
 

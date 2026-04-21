@@ -661,7 +661,7 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
         postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
         postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
-        postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+        postProcessShader->SetVec3("vignetteColor", glm::vec3(activePP->lens.vignetteColor));
     }
 
     // --- Global Depth Uniforms ---

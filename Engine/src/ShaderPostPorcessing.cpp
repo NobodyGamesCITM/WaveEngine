@@ -135,10 +135,10 @@ bool ShaderPostPorcessing::CreateShader()
             // --- Chromatic Aberration ---
             vec3 color;
             if (caEnabled) {
-                vec2 offset = (uv - 0.5) * (caIntensity * 0.01);
-                color.r = texture(sceneTexture, uv - offset).r;
+                vec2 offset = (uv - 0.5) * (caIntensity * 0.02);
+                color.r = texture(sceneTexture, uv + offset).r;
                 color.g = texture(sceneTexture, uv).g;
-                color.b = texture(sceneTexture, uv + offset).b;
+                color.b = texture(sceneTexture, uv - offset).b;
             } else {
                 color = texture(sceneTexture, uv).rgb;
             }
@@ -147,10 +147,10 @@ bool ShaderPostPorcessing::CreateShader()
             if (sharpenEnabled) {
                 vec2 texel = uTexelSize;
                 vec3 center = color;
-                vec3 left   = texture(sceneTexture, uv + vec2(-texel.x, 0.0)).rgb;
+                vec3 left   = texture(sceneTexture, uv - vec2(texel.x, 0.0)).rgb;
                 vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
                 vec3 up     = texture(sceneTexture, uv + vec2(0.0, texel.y)).rgb;
-                vec3 down   = texture(sceneTexture, uv + vec2(0.0, -texel.y)).rgb;
+                vec3 down   = texture(sceneTexture, uv - vec2(0.0, texel.y)).rgb;
                 
                 color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
             }
@@ -158,9 +158,9 @@ bool ShaderPostPorcessing::CreateShader()
             // --- Radial Blur ---
             if (radialBlurEnabled) {
                 vec2 dir = uv - radialBlurCenter;
-                vec3 blurAccum = vec3(0.0);
+                vec3 blurAccum = color;
                 const int samples = 10;
-                for (int i = 0; i < samples; i++) {
+                for (int i = 1; i < samples; i++) {
                     float f = float(i) / float(samples - 1);
                     blurAccum += texture(sceneTexture, uv - dir * f * radialBlurIntensity * 0.1).rgb;
                 }

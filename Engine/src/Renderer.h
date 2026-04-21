@@ -233,6 +233,11 @@ private:
     GLuint postProcessFBO = 0;
     GLuint postProcessTexture = 0;
     GLuint postProcessRBO = 0;
+    
+    GLuint blurFBO = 0;
+    GLuint blurTexture = 0;
+    GLuint finalBlurFBO = 0;
+    GLuint finalBlurTexture = 0;
 
     void ResizePostProcessingBuffer(int width, int height);
     

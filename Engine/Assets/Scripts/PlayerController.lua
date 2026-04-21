@@ -25,7 +25,7 @@ local swordMat = nil
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
-_PlayerController_currentMask        = "None"
+_PlayerController_currentMask        = ""
 _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
@@ -391,7 +391,16 @@ local function EquipMask(self, newMask)
     end
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
-    _PlayerController_currentMask = newMask
+    -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
+    if newMask == Mask.HERMES then
+        _PlayerController_currentMask = "Hermes"
+    elseif newMask == Mask.APOLLO then
+        _PlayerController_currentMask = "Apolo"
+    elseif newMask == Mask.ARES then
+        _PlayerController_currentMask = "Ares"
+    else
+        _PlayerController_currentMask = ""
+    end
     UpdateSwordMaterial()
 end
 
@@ -425,7 +434,7 @@ States[State.DEAD] = {
                 self.transform:SetPosition(rp.x, rp.y, rp.z)
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 if Player.hermesPendingUnequip then
-                    _PlayerController_currentMask = "None" 
+                    _PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
                 Player.hermesRespawnCooldown = 1.5
@@ -1102,7 +1111,7 @@ function Start(self)
     
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
-    _PlayerController_currentMask = "None"
+    _PlayerController_currentMask = ""
 	
     local smokeObj = GameObject.FindInChildren(self.gameObject, "SmokeTrail")
     if smokeObj then
@@ -1133,6 +1142,11 @@ function Start(self)
     Mask.APOLLO = "None"
     Mask.HERMES = "None"
     Mask.ARES   = "None"
+
+    -- Estado global de máscaras obtenidas (leído por HUDController)
+    _G._MaskState_Hermes = false
+    _G._MaskState_Apolo  = false
+    _G._MaskState_Ares   = false
 
     maskAnimTimer = 0.0
 
@@ -1532,18 +1546,36 @@ function MaskScroll(self)
 end
 
 function ObtainMask(self)
-    if giveApoloMask and Mask.APOLLO == "None" then 
+    if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
+        _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
+        -- Si no hay ninguna máscara equipada, equipar ésta automáticamente
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.APOLLO)
+        end
     end
-    if giveHermesMask and Mask.HERMES == "None" then 
+    giveApoloMask = false
+
+    if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
+        _G._MaskState_Hermes = true
         Engine.Log("Hermes Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.HERMES)
+        end
     end
+    giveHermesMask = false
+
     if giveAresMask and Mask.ARES == "None" then
-        Mask.ARES = "Ares" 
+        Mask.ARES = "Ares"
+        _G._MaskState_Ares = true
         Engine.Log("Ares Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.ARES)
+        end
     end
+    giveAresMask = false
 end
 
 function ResetPlayer(self)

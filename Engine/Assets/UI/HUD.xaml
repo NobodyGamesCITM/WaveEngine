@@ -86,7 +86,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
             </Grid>
 
-            <!-- Prompt de interacción: posición absoluta sobre el objeto -->
+            <!-- Prompt de interacción -->
             <Canvas Width="1920" Height="1080"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top">
@@ -95,33 +95,27 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             Orientation="Horizontal"
                             Canvas.Left="0"
                             Canvas.Top="0">
-                    <Border CornerRadius="6" Padding="20,8,20,8">
+                    <Border CornerRadius="6" Padding="16,8,16,8">
                         <Border.Background>
                             <SolidColorBrush Color="#CC000000"/>
                         </Border.Background>
                         <StackPanel Orientation="Horizontal">
                             <Border x:Name="InputKeyBorder"
                                     CornerRadius="4"
-                                    Padding="8,4,8,4"
+                                    Padding="4,4,4,4"
                                     Margin="0,0,10,0">
                                 <Border.Background>
-                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                    <SolidColorBrush Color="#22FFFFFF"/>
                                 </Border.Background>
                                 <Grid>
-                                    <TextBlock x:Name="InputKeyText"
-                                               Text="F"
-                                               FontSize="22"
-                                               FontWeight="Bold"
-                                               FontFamily="Arial"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center">
-                                        <TextBlock.Foreground>
-                                            <SolidColorBrush Color="#FF000000"/>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
+                                    <Image x:Name="InputKeyText"
+                                           Source="Textures/F.PNG"
+                                           Width="40" Height="40"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
                                     <Image x:Name="InputGamepadIcon"
-                                           Source="Textures/inputA.png"
-                                           Width="28" Height="28"
+                                           Source="Textures/A.PNG"
+                                           Width="40" Height="40"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Visibility="Collapsed"/>
@@ -141,125 +135,68 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </StackPanel>
             </Canvas>
 
-            <!-- Hints de controles: abajo al centro -->
-            <Border x:Name="ControlsHintPanel"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Center"
-                    CornerRadius="8"
-                    Padding="16,10,16,10"
-                    Margin="0,0,0,40"
-                    Visibility="Collapsed">
-                <Border.Background>
-                    <SolidColorBrush Color="#AA000000"/>
-                </Border.Background>
-                <StackPanel Orientation="Horizontal">
+            <!-- Hints de controles -->
+            <Grid VerticalAlignment="Bottom"
+                  HorizontalAlignment="Center"
+                  Margin="0,0,0,40"
+                  Width="600">
+                <Border x:Name="ControlsHintPanel"
+                        CornerRadius="8"
+                        Padding="12,8,12,8"
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed">
+                    <Border.Background>
+                        <SolidColorBrush Color="#AA000000"/>
+                    </Border.Background>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="200,0,0,0">
 
-                    <!-- Slot 1 -->
-                    <StackPanel x:Name="HintSlot1"
-                                Orientation="Horizontal"
-                                Margin="0,0,24,0"
-                                Visibility="Collapsed">
-                        <Border CornerRadius="6"
-                                Padding="10,5,10,5"
-                                Margin="0,0,10,0">
-                            <Border.Background>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </Border.Background>
-                            <TextBlock x:Name="HintKey1"
-                                       Text="WASD"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       FontFamily="Arial"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FF000000"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </Border>
-                        <TextBlock x:Name="HintText1"
-                                   Text="Moverse"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   FontFamily="Arial"
-                                   VerticalAlignment="Center">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
+                        <StackPanel x:Name="HintSlot1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,16,0"
+                                    Visibility="Collapsed">
+                            <Grid Margin="0,0,6,0">
+                                <Image x:Name="HintImg_Caminar"         Source="Textures/Caminar.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_AtaqueNormal"    Source="Textures/AtaqueNormal.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_AtaqueFuerte"    Source="Textures/AtaqueFuerte.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Correr"          Source="Textures/Correr.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_CambiarMascaras" Source="Textures/CanviarMascaras.PNG" Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Health"          Source="Textures/Health.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Berserk"         Source="Textures/Berserk.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                            </Grid>
+                            <Grid>
+                                <Image x:Name="HintKey_WASD"  Source="Textures/wasd.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_E"     Source="Textures/E.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Q"     Source="Textures/Q.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Ctrl"  Source="Textures/Ctrl.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Shift" Source="Textures/Shift.PNG" Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_R"     Source="Textures/R.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_F"     Source="Textures/F.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_8"     Source="Textures/8.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="HintSlot2"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Visibility="Collapsed">
+                            <Grid Margin="0,0,6,0">
+                                <Image x:Name="HintImg2_Roll"         Source="Textures/Roll.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="150" Height="150" Visibility="Collapsed"/>
+                            </Grid>
+                            <Grid>
+                                <Image x:Name="HintKey2_Ctrl" Source="Textures/Ctrl.PNG" Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey2_E"    Source="Textures/E.PNG"    Width="120" Height="120" Visibility="Collapsed"/>
+                            </Grid>
+                        </StackPanel>
+
                     </StackPanel>
-
-                    <!-- Slot 2 -->
-                    <StackPanel x:Name="HintSlot2"
-                                Orientation="Horizontal"
-                                Margin="0,0,24,0"
-                                Visibility="Collapsed">
-                        <Border CornerRadius="6"
-                                Padding="10,5,10,5"
-                                Margin="0,0,10,0">
-                            <Border.Background>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </Border.Background>
-                            <TextBlock x:Name="HintKey2"
-                                       Text="Shift"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       FontFamily="Arial"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FF000000"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </Border>
-                        <TextBlock x:Name="HintText2"
-                                   Text="Sprint"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   FontFamily="Arial"
-                                   VerticalAlignment="Center">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <!-- Slot 3 -->
-                    <StackPanel x:Name="HintSlot3"
-                                Orientation="Horizontal"
-                                Visibility="Collapsed">
-                        <Border CornerRadius="6"
-                                Padding="10,5,10,5"
-                                Margin="0,0,10,0">
-                            <Border.Background>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </Border.Background>
-                            <TextBlock x:Name="HintKey3"
-                                       Text="Ctrl"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       FontFamily="Arial"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FF000000"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </Border>
-                        <TextBlock x:Name="HintText3"
-                                   Text="Roll"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   FontFamily="Arial"
-                                   VerticalAlignment="Center">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-                    </StackPanel>
-
-                </StackPanel>
-            </Border>
+                </Border>
+            </Grid>
 
         </Grid>
     </Viewbox>

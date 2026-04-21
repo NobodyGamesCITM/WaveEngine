@@ -4,80 +4,147 @@ public = {
 
 PRESETS = {
     intro = {
-        { keyboard = "WASD",  gamepad = "LS",  text = "Moverse"  },
-        { keyboard = "Shift", gamepad = "LB",  text = "Sprint"   },
-        { keyboard = "Ctrl",  gamepad = "B",   text = "Roll"     },
+        duration = 6.0,
+        slots = {
+            { img = "HintImg_Caminar",       key = "HintKey_WASD"  },
+        },
+    },
+    run = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_Correr",        key = "HintKey_Shift" },
+        },
     },
     combat = {
-        { keyboard = "E",     gamepad = "X",   text = "Ataque"        },
-        { keyboard = "Q",     gamepad = "Y",   text = "Ataque Pesado" },
-        { keyboard = "Ctrl",  gamepad = "B",   text = "Roll"          },
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_AtaqueNormal",  key = "HintKey_E"    },
+            { img = "HintImg2_Roll",         key = "HintKey2_Ctrl" },
+        },
     },
-    interaction = {
-        { keyboard = "R",     gamepad = "A",   text = "Interactuar"   },
-        { keyboard = "F",     gamepad = "A",   text = "Pasar diálogo" },
+    heavy_attack = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_AtaqueFuerte",  key = "HintKey_Q"    },
+        },
     },
-    mask = {
-        { keyboard = "8",     gamepad = "R1",  text = "Equipar máscara" },
-        { keyboard = "8",     gamepad = "L1",  text = "Cambiar máscara" },
+    change_mask = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_CambiarMascaras", key = "HintKey_8"  },
+        },
+    },
+    potion_health = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_Health",        key = "HintKey_R"    },
+        },
+    },
+    potion_berserk = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_Berserk",       key = "HintKey_8"    },
+        },
     },
 }
 
+local ONCE_ONLY = {
+    intro          = true,
+    run            = true,
+    combat         = true,
+    heavy_attack   = true,
+    change_mask    = true,
+    potion_health  = true,
+    potion_berserk = true,
+}
+
+local ALL_IMGS = {
+    "HintImg_Caminar",
+    "HintImg_AtaqueNormal",
+    "HintImg_AtaqueFuerte",
+    "HintImg_Correr",
+    "HintImg_CambiarMascaras",
+    "HintImg_Health",
+    "HintImg_Berserk",
+    "HintImg2_Roll",
+    "HintImg2_AtaqueNormal",
+}
+
+local ALL_KEYS = {
+    "HintKey_WASD",
+    "HintKey_E",
+    "HintKey_Q",
+    "HintKey_Ctrl",
+    "HintKey_Shift",
+    "HintKey_R",
+    "HintKey_F",
+    "HintKey_8",
+    "HintKey2_Ctrl",
+    "HintKey2_E",
+}
+
+local SLOTS = { "HintSlot1", "HintSlot2" }
+
+local seenPresets   = {}
 local currentPreset = nil
+local timer         = 0.0
+local duration      = nil
+local lastMaskCount = 0
 
-local function getHintElements()
-    return {
-        { panel = "HintSlot1", key = "HintKey1", text = "HintText1" },
-        { panel = "HintSlot2", key = "HintKey2", text = "HintText2" },
-        { panel = "HintSlot3", key = "HintKey3", text = "HintText3" },
-    }
-end
-
-local function hideAllSlots()
-    local slots = getHintElements()
-    for _, slot in ipairs(slots) do
-        UI.SetElementVisibility(slot.panel, false)
+local function hideAll()
+    for _, img in ipairs(ALL_IMGS) do
+        UI.SetElementVisibility(img, false)
     end
-end
-
-local function showPreset(presetName)
-       Engine.Log("[ControlsHint] Keys en PRESETS:")
-    for k, v in pairs(PRESETS) do
-        Engine.Log("  key: '" .. tostring(k) .. "'")
+    for _, key in ipairs(ALL_KEYS) do
+        UI.SetElementVisibility(key, false)
     end
-    local preset = PRESETS[presetName]
-    if not preset then
-        Engine.Log("[ControlsHint] Preset no encontrado: " .. tostring(presetName))
-        hideAllSlots()
-        return
+    for _, slot in ipairs(SLOTS) do
+        UI.SetElementVisibility(slot, false)
     end
-
-    currentPreset = presetName
-    local inputType = _G.LastInputType or "keyboard"
-    local slots = getHintElements()
-
-    for i, slot in ipairs(slots) do
-        local hint = preset[i]
-        if hint and hint.text ~= "" then
-            local keyLabel = inputType == "gamepad" and hint.gamepad or hint.keyboard
-            UI.SetElementText(slot.key, keyLabel)
-            UI.SetElementText(slot.text, hint.text)
-            UI.SetElementVisibility(slot.panel, true)
-        else
-            UI.SetElementVisibility(slot.panel, false)
-        end
-    end
-
-    UI.SetElementVisibility("ControlsHintPanel", true)
 end
 
 local function hideHints()
     UI.SetElementVisibility("ControlsHintPanel", false)
+    hideAll()
     currentPreset = nil
+    timer         = 0.0
+    duration      = nil
+end
+
+local function showPreset(presetName)
+    if ONCE_ONLY[presetName] and seenPresets[presetName] then
+        Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
+        return
+    end
+
+    local preset = PRESETS[presetName]
+    if not preset then
+        Engine.Log("[ControlsHint] Preset no encontrado: " .. presetName)
+        return
+    end
+
+    if ONCE_ONLY[presetName] then
+        seenPresets[presetName] = true
+    end
+
+    currentPreset = presetName
+    timer         = 0.0
+    duration      = preset.duration
+
+    hideAll()
+
+    for i, slot in ipairs(preset.slots) do
+        UI.SetElementVisibility(SLOTS[i],    true)
+        UI.SetElementVisibility(slot.img,    true)
+        UI.SetElementVisibility(slot.key,    true)
+    end
+
+    UI.SetElementVisibility("ControlsHintPanel", true)
+    Engine.Log("[ControlsHint] Mostrando: " .. presetName)
 end
 
 function Start(self)
-    hideAllSlots()
+    hideAll()
     UI.SetElementVisibility("ControlsHintPanel", false)
 
     _G.ShowControlsHint = showPreset
@@ -87,18 +154,24 @@ function Start(self)
 end
 
 function Update(self, dt)
-    -- Refrescar si cambia el tipo de input
-    if currentPreset then
-        local inputType = _G.LastInputType or "keyboard"
-        local preset = PRESETS[currentPreset]
-        local slots = getHintElements()
+    -- detector de máscaras, siempre activo
+    local currentCount = _G._MaskCount or 0
+    if currentCount ~= lastMaskCount then
+        lastMaskCount = currentCount
+        if currentCount == 1 then
+            showPreset("heavy_attack")
+        elseif currentCount == 2 then
+            showPreset("change_mask")
+        end
+    end
 
-        for i, slot in ipairs(slots) do
-            local hint = preset[i]
-            if hint and hint.text ~= "" then
-                local keyLabel = inputType == "gamepad" and hint.gamepad or hint.keyboard
-                UI.SetElementText(slot.key, keyLabel)
-            end
+    if not currentPreset then return end
+
+    if duration then
+        timer = timer + dt
+        if timer >= duration then
+            hideHints()
+            return
         end
     end
 end

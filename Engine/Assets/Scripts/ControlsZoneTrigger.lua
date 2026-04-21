@@ -3,7 +3,7 @@ public = {
     controlsSet = "",
 }
 
-local inRange = false
+local inRange     = false
 local pendingShow = false
 
 function Update(self, dt)
@@ -17,19 +17,18 @@ function Update(self, dt)
     local dist = math.sqrt(dx * dx + dz * dz)
 
     if dist < self.public.radius and not inRange then
-        inRange = true
+        inRange     = true
         pendingShow = true
     end
 
     if dist >= self.public.radius and inRange then
-        inRange = false
+        inRange     = false
         pendingShow = false
         if _G.HideControlsHint then
             _G.HideControlsHint()
         end
     end
 
-    
     if pendingShow and _G.ShowControlsHint then
         _G.ShowControlsHint(self.public.controlsSet)
         pendingShow = false

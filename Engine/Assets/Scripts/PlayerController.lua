@@ -29,6 +29,7 @@ _PlayerController_currentMask        = "None"
 _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
+_G._MaskCount = 0
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -1534,14 +1535,17 @@ end
 function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then 
         Mask.APOLLO = "Apolo"
+        _G._MaskCount = _G._MaskCount + 1
         Engine.Log("Apolo Mask obtain")
     end
     if giveHermesMask and Mask.HERMES == "None" then 
         Mask.HERMES = "Hermes"
+        _G._MaskCount = _G._MaskCount + 1
         Engine.Log("Hermes Mask obtain")
     end
     if giveAresMask and Mask.ARES == "None" then
-        Mask.ARES = "Ares" 
+        Mask.ARES = "Ares"
+        _G._MaskCount = _G._MaskCount + 1
         Engine.Log("Ares Mask obtain")
     end
 end

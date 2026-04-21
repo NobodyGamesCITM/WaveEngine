@@ -28,8 +28,15 @@ end
 
 local function updatePrompt(self)
     local input = _G.LastInputType or "keyboard"
-    local icon = input == "gamepad" and GAMEPAD_ICON or KEYBOARD_ICON
-    UI.SetElementText("InputKeyText", icon)
+
+    if input == "gamepad" then
+        UI.SetElementVisibility("InputKeyText",     false)
+        UI.SetElementVisibility("InputGamepadIcon", true)
+    else
+        UI.SetElementVisibility("InputKeyText",     true)
+        UI.SetElementVisibility("InputGamepadIcon", false)
+    end
+
     UI.SetElementText("InteractText", self.public.actionText)
 end
 

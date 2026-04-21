@@ -34,11 +34,71 @@
                         "active": true,
                         "materialUID": 18050566891708886555,
                         "type": 3
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "varName",
+                                "type": 1,
+                                "value": "keysCollected"
+                            },
+                            {
+                                "name": "collectKey",
+                                "type": 1,
+                                "value": "E"
+                            },
+                            {
+                                "name": "amount",
+                                "type": 0,
+                                "value": 1.0
+                            }
+                        ],
+                        "scriptUID": 13949245525214036046,
+                        "type": 6
+                    },
+                    {
+                        "Center": [
+                            0.0,
+                            -4.0,
+                            2.0
+                        ],
+                        "DynamicFriction": 0.5,
+                        "Restitution": 0.6000000238418579,
+                        "Size": [
+                            5.0,
+                            5.0,
+                            5.0
+                        ],
+                        "StaticFriction": 0.5,
+                        "Trigger": false,
+                        "active": true,
+                        "type": 10
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
                     }
                 ],
                 "name": "Cap_Low",
                 "tag": "",
-                "uid": 17417557082667412992
+                "uid": 13474043450979990797
             },
             {
                 "active": true,
@@ -76,20 +136,20 @@
                 ],
                 "name": "pedestal",
                 "tag": "",
-                "uid": 15787414293447290228
+                "uid": 7292834365641935601
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    0.0,
-                    0.0,
-                    0.0
+                    113.96614837646484,
+                    38.122833251953125,
+                    -313.9541015625
                 ],
                 "rotation": [
                     0.0,
-                    0.0,
+                    60.000003814697266,
                     0.0
                 ],
                 "scale": [
@@ -102,6 +162,6 @@
         ],
         "name": "Estatua llave",
         "tag": "",
-        "uid": 12159267887939441831
+        "uid": 10107884390852258408
     }
 ]

@@ -160,6 +160,7 @@ public = {
     triggerCameraShake  = false,
     attackBufferDuration = 0.4,
     canMove             = true,
+    berserkActive       = false,
 }
 
 
@@ -173,84 +174,35 @@ local function normalizeInput(x, z)
 end
 
 local function GetMovementInput(self)
+    local moveX, moveZ = 0, 0
+    
     if self.public.canMove == false then
         return 0, 0, 0
     end
 
-    local inputX, inputZ = 0, 0
-
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
-        inputX = gpX
-        inputZ = -gpZ
+        moveX = gpX * INPUT_SCALE
+        moveZ = gpZ * INPUT_SCALE
     end
-    
-    -- W = Avanzar (inputZ positivo), S = Retroceder (inputZ negativo)
-    if Input.GetKey("W") then inputZ = inputZ + 1 end
-    if Input.GetKey("S") then inputZ = inputZ - 1 end
-    if Input.GetKey("A") then inputX = inputX - 1 end
-    if Input.GetKey("D") then inputX = inputX + 1 end
+    if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
+    if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
+    if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
+    if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
 
     if _G.interact == true then _G.interact = false end
+
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
+    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
+        Engine.Log("interact try")
         self.public.interact = true
         _G.interact = true
     end
-
-    local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
-    if inputLen > 1.0 then
-        inputX = inputX / inputLen
-        inputZ = inputZ / inputLen
-        inputLen = 1.0
-    end
-
-    if inputLen < 0.01 then
-        return 0, 0, 0
-    end
-
-    local camObj = GameObject.Find("MainCamera")
-    if camObj then
-        local camFwd = camObj.transform.worldForward
-        local camRight = camObj.transform.worldRight
-        
-        camFwd.x = -camFwd.x
-        camFwd.y = -camFwd.y
-        camFwd.z = -camFwd.z
-        
-        camFwd.y = 0
-        camRight.y = 0
-        
-        local lenFwd = math.sqrt(camFwd.x*camFwd.x + camFwd.z*camFwd.z)
-        if lenFwd > 0.001 then
-            camFwd.x = camFwd.x / lenFwd
-            camFwd.z = camFwd.z / lenFwd
-        else
-            camFwd = {x=0, y=0, z=1}
-        end
-        
-        local lenRight = math.sqrt(camRight.x*camRight.x + camRight.z*camRight.z)
-        if lenRight > 0.001 then
-            camRight.x = camRight.x / lenRight
-            camRight.z = camRight.z / lenRight
-        else
-            camRight = {x=1, y=0, z=0}
-        end
-        
-        -- Multiply the input for the vectors of the camera
-        local moveX = (camRight.x * inputX) + (camFwd.x * inputZ)
-        local moveZ = (camRight.z * inputX) + (camFwd.z * inputZ)
-        
-        local finalLen = math.sqrt(moveX*moveX + moveZ*moveZ)
-        if finalLen > 0.001 then
-            moveX = (moveX / finalLen) * inputLen * INPUT_SCALE
-            moveZ = (moveZ / finalLen) * inputLen * INPUT_SCALE
-        end
-        
-        return moveX, moveZ, inputLen * INPUT_SCALE
-    end
     
-    return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
+    moveX, moveZ = normalizeInput(moveX, moveZ)
+    local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
+    
+    return moveX, moveZ, inputLen
 end
 
 local function GetAttackInput(self)
@@ -571,7 +523,7 @@ States[State.WALK] = {
         if anim then 
             local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
             if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1.0) end)
+                pcall(function() anim:SetSpeed("Walk", 1) end)
             else
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
@@ -636,7 +588,7 @@ States[State.RUNNING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 1.5)
+            anim:SetSpeed("Running", 2.0)
         end
 
         self.public.usingStamina = true
@@ -701,7 +653,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
 
@@ -720,7 +672,7 @@ States[State.RUNNING] = {
 States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
@@ -749,13 +701,13 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 0) end
+        if anim then anim:Play("Ares", 0.5) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -794,14 +746,14 @@ States[State.CHARGING] = {
 States[State.SHOOTING] = {
     Enter = function(self)
         _PlayerController_lastAttack = ""
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 0.1) 
+            anim:Play("Apolo", 0.3) 
         end
         attackTimer = 0
 
@@ -852,13 +804,13 @@ States[State.SHOOTING] = {
 States[State.ATTACK_HEAVY] = {
     colliderActive = false,
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 0.3) end
+        if anim then anim:Play("Hermes", 1.0) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end
@@ -1115,6 +1067,9 @@ function Start(self)
 
     _G.PlayerInstance = self
 
+    -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
+    -- El estado de pausa es responsabilidad exclusiva de MenuManager.
+    -- Game.SetTimeScale solo se resetea tras cambio de escena (ver Update).
     Game.SetTimeScale(1.0)
 
     _G._PlayerController_isDead = false
@@ -1316,7 +1271,10 @@ function Update(self, dt)
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
         Player.lastSceneCounter = sceneLoaderCount
         Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
-
+        
+        -- FIX: Game.Resume() aquí sí es correcto porque es un cambio de escena
+        -- real, donde sabemos que el juego debe correr (el MenuManager
+        -- se reinicializará y tomará el control del estado de pausa).
         Game.Resume()
         Game.SetTimeScale(1.0)
         
@@ -1360,6 +1318,11 @@ function Update(self, dt)
         RefreshAudioSources(self)
         
         Player.firstFrameCheck = true
+
+        -- FIX: si el UIManager está desactivado el engine puede pausar
+        -- automáticamente por tener MainMenu.xaml en el Canvas.
+        -- Esperamos unos frames y si no hay MenuManager activo, forzamos Resume.
+        Player.forceResumeFrames = 10
     end
 
     if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
@@ -1380,6 +1343,30 @@ function Update(self, dt)
                 end
             end
             Player.restoreListenerFrames = nil
+        end
+    end
+
+    -- FIX: resume forzado si no hay MenuManager activo (UIManager desactivado)
+    if Player.forceResumeFrames and Player.forceResumeFrames > 0 then
+        Player.forceResumeFrames = Player.forceResumeFrames - 1
+        if Player.forceResumeFrames == 0 then
+            if not _G.GlobalMenuManagerInstance then
+                -- Anti-AutoPause: Si el MenuManager está desactivado pero tiene el MainMenu cargado,
+                -- el engine pausará el juego. Buscamos el Canvas y lo limpiamos.
+                local uiObj = GameObject.Find("MenuManager") or GameObject.Find("Canvas")
+                if uiObj then
+                    local canvas = uiObj:GetComponent("Canvas")
+                    if canvas and canvas:GetCurrentXAML() == "MainMenu.xaml" then
+                        Engine.Log("[Player] Anti-AutoPause: Detectado MainMenu en objeto desactivado. Forzando HUD...")
+                        canvas:LoadXAML("HUD.xaml")
+                        _G.CurrentXAML = "HUD.xaml"
+                    end
+                end
+                
+                Game.Resume()
+                Game.SetTimeScale(1.0)
+                Engine.Log("[Player] FIX: Resume forzado por ausencia de MenuManager")
+            end
         end
     end
 
@@ -1620,6 +1607,7 @@ function ResetPlayer(self)
 
     self.public.health  = 100
     self.public.stamina = 100
+    self.public.berserkActive = false
 
     attackCooldown = 0
     rollCooldown   = 0
@@ -1730,8 +1718,8 @@ function ActivateTrail()
         Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
         Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
     elseif Player.currentMask == Mask.ARES then
-        Player.trailPs:SetStartColor(1.0, 0.3, 0.15)
-        Player.trailPs:SetEndColor(1.0, 0.3, 0.15, 0.0)
+        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
     else
         Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
         Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)

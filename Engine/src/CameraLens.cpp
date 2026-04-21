@@ -144,6 +144,7 @@ void CameraLens::SetRenderTarget(int width, int height)
 
     if (fboID != 0) glDeleteFramebuffers(1, &fboID);
     if (textureID != 0) glDeleteTextures(1, &textureID);
+    if (depthTexture != 0) glDeleteTextures(1, &depthTexture);
     if (rboID != 0) glDeleteRenderbuffers(1, &rboID);
 
     if (msaaFBO != 0) glDeleteFramebuffers(1, &msaaFBO);
@@ -180,13 +181,21 @@ void CameraLens::SetRenderTarget(int width, int height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
 
+    // Creamos la textura de profundidad para Post-Processing
+    glGenTextures(1, &depthTexture);
+    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);
+
     glGenRenderbuffers(1, &rboID);
     glBindRenderbuffer(GL_RENDERBUFFER, rboID);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboID);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        LOG_DEBUG("ERROR: Framebuffer de salida no está completo.");
+        LOG_DEBUG("ERROR: Framebuffer de salida no estï¿½ completo.");
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);

@@ -183,6 +183,90 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Viewbox>
 
                 </Grid>
+                <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
+                    <Image x:Name="UsedPotion5" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion6" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion7" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion8" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+                <StackPanel x:Name="BerserkPotionStackpanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
+                    <Image x:Name="Potion5" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion6" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion7" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion8" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
 
             </Grid>
 
@@ -226,6 +310,35 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                        FontSize="22"
                                        FontFamily="Arial"
                                        VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Canvas>
+            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-38,-30">
+                <StackPanel x:Name="InputKeyText001" Visibility="Collapsed" Orientation="Horizontal" Canvas.Left="0" Canvas.Top="0">
+                    <Border CornerRadius="6" Padding="20,8,20,8">
+                        <Border.Background>
+                            <SolidColorBrush Color="#CC000000"/>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="InputKeyBorder" CornerRadius="4" Padding="8,4,8,4" Margin="0,0,10,0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                </Border.Background>
+                                <Grid>
+                                    <TextBlock x:Name="InputKeyText" Text="F" FontSize="22" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="#FF000000"/>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <Image x:Name="InputGamepadIcon" Source="Textures/inputA.png" Width="28" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                            <TextBlock x:Name="InteractText" Text="Interactuar" FontSize="22" FontFamily="Arial" VerticalAlignment="Center">
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="#FFFFFFFF"/>
                                 </TextBlock.Foreground>

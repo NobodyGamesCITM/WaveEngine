@@ -113,9 +113,11 @@ void ComponentPostProcessing::OnEditor()
         if (depthOfField.enabled)
         {
             ImGui::Checkbox("Tilt-Shift Mode", &depthOfField.tiltShift);
-            ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.1f, 0.0f, 1000.0f);
-            ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.0f, 100.0f);
-            ImGui::SliderFloat("Blur Strength", &depthOfField.blurStrength, 0.0f, 5.0f);
+            ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.5f, 0.0f, 1000.0f);
+            ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.01f, 100.0f);
+            ImGui::SliderFloat("Mix Strength", &depthOfField.blurStrength, 0.0f, 1.0f);
+            ImGui::ColorEdit3("Far Tint (Blackout)", &depthOfField.farTint.x);
+            ImGui::SliderFloat("Tint Intensity", &depthOfField.tintIntensity, 0.0f, 1.0f);
         }
     }
 
@@ -206,7 +208,9 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"distance", depthOfField.focusDistance},
         {"range", depthOfField.focusRange},
         {"strength", depthOfField.blurStrength},
-        {"tiltShift", depthOfField.tiltShift}
+        {"tiltShift", depthOfField.tiltShift},
+        {"farTint", {depthOfField.farTint.x, depthOfField.farTint.y, depthOfField.farTint.z}},
+        {"tintIntensity", depthOfField.tintIntensity}
     };
 
     o["motionBlur"] = { {"enabled", motionBlur.enabled}, {"intensity", motionBlur.intensity} };
@@ -277,6 +281,8 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         depthOfField.focusRange = d.value("range", 3.0f);
         depthOfField.blurStrength = d.value("strength", 1.0f);
         depthOfField.tiltShift = d.value("tiltShift", false);
+        if (d.contains("farTint")) depthOfField.farTint = glm::vec3(d["farTint"][0], d["farTint"][1], d["farTint"][2]);
+        depthOfField.tintIntensity = d.value("tintIntensity", 1.0f);
     }
 
     if (o.contains("motionBlur")) {

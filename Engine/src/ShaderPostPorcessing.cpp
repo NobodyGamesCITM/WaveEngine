@@ -18,7 +18,9 @@ bool ShaderPostPorcessing::CreateShader()
         in vec2 TexCoords;
         uniform sampler2D sceneTexture;
         uniform sampler2D depthTexture;
+        uniform sampler2D blurredTexture;
         uniform vec2 uTexelSize;
+        uniform int uPass; // 0: Final, 1: H-Blur, 2: V-Blur
 
         // Color grading
         uniform bool  gradingEnabled;
@@ -47,6 +49,8 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float dofRange;
         uniform float dofStrength;
         uniform bool  dofTiltShift;
+        uniform vec3  dofTint;
+        uniform float dofTintIntensity;
         uniform float nearPlane;
         uniform float farPlane;
 
@@ -101,6 +105,25 @@ bool ShaderPostPorcessing::CreateShader()
         void main() {
             vec2 uv = TexCoords;
 
+            // --- Gaussian Blur Passes ---
+            if (uPass == 1 || uPass == 2) {
+                float weight[5] = float[](0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
+                vec3 result = texture(sceneTexture, uv).rgb * weight[0];
+                if (uPass == 1) { // Horizontal
+                    for(int i = 1; i < 5; ++i) {
+                        result += texture(sceneTexture, uv + vec2(uTexelSize.x * i, 0.0)).rgb * weight[i];
+                        result += texture(sceneTexture, uv - vec2(uTexelSize.x * i, 0.0)).rgb * weight[i];
+                    }
+                } else { // Vertical
+                    for(int i = 1; i < 5; ++i) {
+                        result += texture(sceneTexture, uv + vec2(0.0, uTexelSize.y * i)).rgb * weight[i];
+                        result += texture(sceneTexture, uv - vec2(0.0, uTexelSize.y * i)).rgb * weight[i];
+                    }
+                }
+                FragColor = vec4(result, 1.0);
+                return;
+            }
+
             // --- Distortion ---
             if (distortionEnabled) {
                 vec2 centeredUV = uv - 0.5;
@@ -112,10 +135,10 @@ bool ShaderPostPorcessing::CreateShader()
             // --- Chromatic Aberration ---
             vec3 color;
             if (caEnabled) {
-                vec2 offset = (uv - 0.5) * (caIntensity * 0.01);
-                color.r = texture(sceneTexture, uv - offset).r;
+                vec2 offset = (uv - 0.5) * (caIntensity * 0.02);
+                color.r = texture(sceneTexture, uv + offset).r;
                 color.g = texture(sceneTexture, uv).g;
-                color.b = texture(sceneTexture, uv + offset).b;
+                color.b = texture(sceneTexture, uv - offset).b;
             } else {
                 color = texture(sceneTexture, uv).rgb;
             }
@@ -124,10 +147,10 @@ bool ShaderPostPorcessing::CreateShader()
             if (sharpenEnabled) {
                 vec2 texel = uTexelSize;
                 vec3 center = color;
-                vec3 left   = texture(sceneTexture, uv + vec2(-texel.x, 0.0)).rgb;
+                vec3 left   = texture(sceneTexture, uv - vec2(texel.x, 0.0)).rgb;
                 vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
                 vec3 up     = texture(sceneTexture, uv + vec2(0.0, texel.y)).rgb;
-                vec3 down   = texture(sceneTexture, uv + vec2(0.0, -texel.y)).rgb;
+                vec3 down   = texture(sceneTexture, uv - vec2(0.0, texel.y)).rgb;
                 
                 color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
             }
@@ -135,9 +158,9 @@ bool ShaderPostPorcessing::CreateShader()
             // --- Radial Blur ---
             if (radialBlurEnabled) {
                 vec2 dir = uv - radialBlurCenter;
-                vec3 blurAccum = vec3(0.0);
+                vec3 blurAccum = color;
                 const int samples = 10;
-                for (int i = 0; i < samples; i++) {
+                for (int i = 1; i < samples; i++) {
                     float f = float(i) / float(samples - 1);
                     blurAccum += texture(sceneTexture, uv - dir * f * radialBlurIntensity * 0.1).rgb;
                 }
@@ -149,26 +172,21 @@ bool ShaderPostPorcessing::CreateShader()
                 float blurFactor = 0.0;
                 if (dofTiltShift) {
                     // Modo Tilt-Shift: desenfoque basado en la distancia vertical al centro
-                    float center = dofDistance / 100.0; // Mapeo simple para el editor
-                    float dist = abs(uv.y - 0.5); 
-                    blurFactor = smoothstep(dofRange * 0.01, dofRange * 0.5, dist);
+                    float center = clamp(dofDistance / 1000.0, 0.0, 1.0); 
+                    float dist = abs(uv.y - center); 
+                    blurFactor = smoothstep(0.0, dofRange * 0.1, dist);
                 } else {
                     // Modo Estándar: desenfoque basado en profundidad real
                     float depth = LinearizeDepth(texture(depthTexture, uv).r);
-                    blurFactor = clamp(abs(depth - dofDistance) / max(dofRange, 0.001), 0.0, 1.0);
+                    // Transición suave: 0 en el foco, sube según la distancia
+                    blurFactor = smoothstep(0.0, max(dofRange, 1.0), abs(depth - dofDistance));
                 }
 
-                if (blurFactor > 0.01) {
-                    vec3 dofAccum = vec3(0.0);
-                    float totalWeight = 0.0;
-                    const int samples = 8;
-                    for (int i = -samples/2; i < samples/2; i++) {
-                        float weight = 1.0;
-                        dofAccum += texture(sceneTexture, uv + vec2(0.0, float(i) * uTexelSize.y * blurFactor * dofStrength * 2.0)).rgb * weight;
-                        totalWeight += weight;
-                    }
-                    color = mix(color, dofAccum / totalWeight, blurFactor);
-                }
+                vec3 blurredColor = texture(blurredTexture, uv).rgb;
+                // Mezclamos el desenfoque con el tinte (negro) para ese efecto "agujero"
+                vec3 dofFinal = mix(blurredColor, dofTint, blurFactor * dofTintIntensity);
+                
+                color = mix(color, dofFinal, blurFactor * dofStrength);
             }
 
             // --- Bloom (box-blur with soft-knee + tint) ---

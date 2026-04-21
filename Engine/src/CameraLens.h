@@ -55,6 +55,7 @@ public:
     unsigned int fboID = 0;
     unsigned int rboID = 0;
     unsigned int textureID = 0;
+    unsigned int depthTexture = 0; // ID de la textura de profundidad leíble
 
     unsigned int msaaFBO = 0;
     unsigned int msaaColorBuffer = 0;

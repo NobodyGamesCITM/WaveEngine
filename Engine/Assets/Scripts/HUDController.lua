@@ -47,10 +47,17 @@ local function RefreshStaminaBar(targetStamina, dt)
 end
 
 -- ─── Pociones
-local function RefreshPotionUI(potions)
+local function RefreshPotionUI(potions, berserkPotions)
     for i = 1, 4 do
         UI.SetElementVisibility("Potion" .. i,     i <= potions)
         UI.SetElementVisibility("UsedPotion" .. i, i > potions)
+    end
+
+    -- Lógica para pociones Berserk (Slots 5 al 8)
+    for i = 1, 4 do
+        local slotIndex = i + 4
+        UI.SetElementVisibility("Potion" .. slotIndex,     i <= (berserkPotions or 0))
+        UI.SetElementVisibility("UsedPotion" .. slotIndex, i > (berserkPotions or 0))
     end
 end
 
@@ -106,7 +113,10 @@ function ForceRefreshHUD()
 
     local potions = (_G.PotionSystem and _G.PotionSystem.public)
                     and _G.PotionSystem.public.potionCount or 0
-    RefreshPotionUI(potions)
+    local berserkPotions = (_G.PotionSystem and _G.PotionSystem.public)
+                    and _G.PotionSystem.public.berserkCount or 0
+
+    RefreshPotionUI(potions, berserkPotions)
 
     -- Reset completo del estado de máscaras
     obtainedOrder  = {}
@@ -133,7 +143,10 @@ function Update(self, dt)
     -- Pociones
     local potions = (_G.PotionSystem and _G.PotionSystem.public)
                     and _G.PotionSystem.public.potionCount or 0
-    RefreshPotionUI(potions)
+    local berserkPotions = (_G.PotionSystem and _G.PotionSystem.public)
+                    and _G.PotionSystem.public.berserkCount or 0
+
+    RefreshPotionUI(potions, berserkPotions)
 
     -- Máscaras
     local hasHermes  = (_G._MaskState_Hermes == true)

@@ -90,6 +90,8 @@ local stepSource        = nil
 local voiceSource       = nil
 local stepTimer = 0
 
+local BaseMat = nil
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -289,7 +291,7 @@ function UpdateAnticipation(self, pp, dt)
 
         -- Calculate the center position
         local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = myPos.y +0.15
+        local positionY = pp.y + 0.1
         local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
 
         local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
@@ -513,6 +515,10 @@ function Start(self)
 
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
+
+    --MinocabrpMesh
+    mesh = GameObject.FindInChildren(self.gameObject,"Mesh")
+    BaseMat = mesh:GetComponent("Material")
 end
 
 function Update(self, dt)
@@ -626,6 +632,7 @@ function OnTriggerEnter(self, other)
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
                 alreadyHit = true
+                BaseMat.SetTexture("12721768917354180794")
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -671,5 +678,6 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
+        BaseMat.SetTexture("15634858790036886356")
     end
 end

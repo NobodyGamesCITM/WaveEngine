@@ -1,6 +1,5 @@
 -- FadeManager.lua
 
-
 public = {
     fadeDuration = 0.8,         -- Seconds for the fade effect
     targetScene  = "Blockout2", -- The scene to load after fading out
@@ -42,15 +41,11 @@ function Update(self, dt)
             Audio.SetGlobalVolume(0.0) -- Start muted for fade in
         else
             if self.canvasComp then self.canvasComp:SetOpacity(0.0) end
-            Audio.SetGlobalVolume(100.0) -- Ensure volume is restored if no fade in
+            Audio.SetGlobalVolume(100.0)
             Engine.Log("[FadeManager] No autoFadeIn - Audio volume reset to 100")
         end
 
         _G.TransitionToScene = function(scene) self:StartFadeOut(scene) end
-        
-        -- Ensure world is moving
-        Game.Resume()
-        Game.SetTimeScale(1.0)
         
         self.initialized = true
         
@@ -60,8 +55,6 @@ function Update(self, dt)
             local musicComp = mGo:GetComponent("Audio Source")
             if musicComp then
                 local track = self.public.sceneMusic or "Level1"
-                -- Directly use the string since we simplified the public table format
-                
                 Engine.Log("[FadeManager] Setting music state to: " .. tostring(track))
                 Audio.SetMusicState(track)
                 musicComp:PlayAudioEvent()
@@ -99,8 +92,9 @@ function Update(self, dt)
         
         if t >= 1.0 then
             self.currentST = 0
-            Audio.SetGlobalVolume(100.0) -- Final safety catch
+            Audio.SetGlobalVolume(100.0)
             Engine.Log("[FadeManager] Fade IN Finished - Global Volume at 100")
+            Engine.Log("[FadeManager] Fade IN finished. Keep object alive for other scripts.")
         end
 
     elseif self.currentST == 2 then -- FADE OUT
@@ -115,20 +109,17 @@ function Update(self, dt)
             self.canvasComp:SetOpacity(alpha) 
         end
         
-        -- Forzado de Audio (Master Fallback)
-        Audio.SetGlobalVolume(100.0)
-        
         -- Optional: Music fade
         Audio.SetGlobalVolume((1.0 - alpha) * 100.0)
         
         if t >= 1.0 then
-            self.currentST = 0 -- Stop state to avoid loops
+            self.currentST = 0
             local target = self.public.targetScene or "MainMenu"
             Engine.Log("[FadeManager] Fade OUT Finished. Loading scene: " .. target)
             self.lastSceneCounter = -1
             _G._SceneCounter = (_G._SceneCounter or 0) + 1
             _G._NewSceneLoaded = true
-            _G._MenuManager_NeedReinit = true -- Specific flag for MenuManager persistence
+            _G._MenuManager_NeedReinit = true
             Engine.LoadScene(Engine.GetScenesPath(), target)
         end
     end

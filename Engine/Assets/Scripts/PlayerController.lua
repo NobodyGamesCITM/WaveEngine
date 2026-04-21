@@ -972,8 +972,6 @@ States[State.ATTACK_LIGHT] = {
     end
 }
 
--- FIX: eliminada la variable local "health" suelta.
--- Toda la lógica de vida usa exclusivamente self.public.health como única fuente de verdad.
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
     if Player.currentState == State.ROLL then return end
@@ -997,9 +995,7 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.healAnimTimer > 0 then
         Player.healAnimTimer = 0
         Player.healPending = false
-
         self.public.canMove = true
-
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.5) end)
@@ -1060,9 +1056,9 @@ function Start(self)
     Player.hitSFX          = nil
 
     _G.PlayerInstance = self
-    
-    Game.Resume()
+
     Game.SetTimeScale(1.0)
+
     _G._PlayerController_isDead = false
 
     self.public.staminaCost    = 20.0   
@@ -1081,7 +1077,6 @@ function Start(self)
     attackNum = 0
     attackBufferPending = false
 
-    -- FIX: stamina y health inicializados correctamente en la misma línea
     self.public.stamina = 100
     self.public.health  = 100
 
@@ -1143,7 +1138,6 @@ function Start(self)
     Mask.HERMES = "None"
     Mask.ARES   = "None"
 
-    -- Estado global de máscaras obtenidas (leído por HUDController)
     _G._MaskState_Hermes = false
     _G._MaskState_Apolo  = false
     _G._MaskState_Ares   = false
@@ -1187,53 +1181,35 @@ function Start(self)
 
     if vfxApolo then 
         Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
-        if Player.apoloPs then
-            Player.apoloPs:Stop()
-        end
+        if Player.apoloPs then Player.apoloPs:Stop() end
         Player.apoloLight = vfxApolo:GetComponent("Light")
-        if Player.apoloLight then
-            Player.apoloLight:SetEnabled(false)
-        end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
         vfxApolo:SetActive(false) 
     end
     if vfxHermes then 
         Player.hermesPs = vfxHermes:GetComponent("ParticleSystem")
-        if Player.hermesPs then
-            Player.hermesPs:Stop()
-        end
+        if Player.hermesPs then Player.hermesPs:Stop() end
         Player.hermesLight = vfxHermes:GetComponent("Light")
-        if Player.hermesLight then
-            Player.hermesLight:SetEnabled(false)
-        end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
         vfxHermes:SetActive(false) 
     end
     if vfxHermesAttack then
         Player.hermesAttackPs = vfxHermesAttack:GetComponent("ParticleSystem")
-        if Player.hermesAttackPs then
-            Player.hermesAttackPs:Stop()
-        end
+        if Player.hermesAttackPs then Player.hermesAttackPs:Stop() end
     end
     if vfxApoloAttack then
         Player.apoloAttackPs = vfxApoloAttack:GetComponent("ParticleSystem")
-        if Player.apoloAttackPs then
-            Player.apoloAttackPs:Stop()
-        end
+        if Player.apoloAttackPs then Player.apoloAttackPs:Stop() end
     end
     if vfxAresAttack then
         Player.aresAttackPs = vfxAresAttack:GetComponent("ParticleSystem")
-        if Player.aresAttackPs then
-            Player.aresAttackPs:Stop()
-        end
+        if Player.aresAttackPs then Player.aresAttackPs:Stop() end
     end
     if vfxAres then 
         Player.aresPs = vfxAres:GetComponent("ParticleSystem")
-        if Player.aresPs then
-            Player.aresPs:Stop()
-        end
+        if Player.aresPs then Player.aresPs:Stop() end
         Player.aresLight = vfxAres:GetComponent("Light")
-        if Player.aresLight then
-            Player.aresLight:SetEnabled(false)
-        end
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
         vfxAres:SetActive(false)   
     end
 
@@ -1243,9 +1219,7 @@ function Start(self)
 
     if vfxTrail then
         Player.trailPs = vfxTrail:GetComponent("ParticleSystem")
-        if Player.trailPs then
-            Player.trailPs:Stop()
-        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 
     if Player.rb then
@@ -1284,7 +1258,7 @@ function Update(self, dt)
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
         Player.lastSceneCounter = sceneLoaderCount
         Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
-        
+
         Game.Resume()
         Game.SetTimeScale(1.0)
         
@@ -1361,7 +1335,7 @@ function Update(self, dt)
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
-            ChangeState(self, State.IDLE, true)  -- force = true
+            ChangeState(self, State.IDLE, true)
         end
     end
 
@@ -1388,7 +1362,6 @@ function Update(self, dt)
         end
     end
 
-    -- FIX: tecla 7 ahora usa self.public.health directamente (igual que TakeDamage)
     if Input.GetKeyDown("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
@@ -1427,9 +1400,9 @@ function Update(self, dt)
             Player.healAnimTimer = 0
             if Player.healPending then
                 Player.healPending = false
-                    self.public.health = math.min(100, self.public.health + self.public.hpRecover)
-                    Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
-                end
+                self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+                Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+            end
             self.public.canMove = true
 
             local anim = self.gameObject:GetComponent("Animation")
@@ -1550,7 +1523,6 @@ function ObtainMask(self)
         Mask.APOLLO = "Apolo"
         _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
-        -- Si no hay ninguna máscara equipada, equipar ésta automáticamente
         if Player.currentMask == Mask.NONE then
             EquipMask(self, Mask.APOLLO)
         end

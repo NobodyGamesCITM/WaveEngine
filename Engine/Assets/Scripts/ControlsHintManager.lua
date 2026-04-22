@@ -134,9 +134,16 @@ local function showPreset(presetName)
     hideAll()
 
     for i, slot in ipairs(preset.slots) do
-        UI.SetElementVisibility(SLOTS[i],    true)
-        UI.SetElementVisibility(slot.img,    true)
-        UI.SetElementVisibility(slot.key,    true)
+        UI.SetElementVisibility(SLOTS[i],  true)
+        UI.SetElementVisibility(slot.img,  true)
+        UI.SetElementVisibility(slot.key,  true)
+    end
+
+    -- Margen: centrado con 1 slot, sin margen extra con 2 slots
+    if #preset.slots == 1 then
+        UI.SetElementMargin("HintSlot1", 200, 0, 0, 0)
+    else
+        UI.SetElementMargin("HintSlot1", 0, 0, 16, 0)
     end
 
     UI.SetElementVisibility("ControlsHintPanel", true)

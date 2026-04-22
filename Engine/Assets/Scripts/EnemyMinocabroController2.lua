@@ -16,36 +16,7 @@ local State = {
     DEAD        = "Dead",
 }
 
--- Public variables
-public = {
-    maxHp           = 60,
-    detectRange     = 15.0,
-    tooCloseRange   = 3.5,
-    chargeRange     = 12.0,
-
-    preparationTime = 3.0,
-    chargeSpeed     = 18.0,
-    chargeDuration  = 0.8,
-    knockbackForce  = 8.0,
-    wallStunTime    = 5.0,
-    wallSpeedThresh = 1.5,
-
-    --Movement
-    moveSpeed       = 10.0,
-    rotationSpeed   = 3.0,
-
-    stopSmoothing   = 8.0,
-
-
-    hurtStunTime = 0.8,
-    afterStunTime = 2.2,
-
-    enemyDamageMin=5,
-    enemyDamageMax=35,
-
-    predictionTime = 0.4, 
-
-}
+-- Public variables (ahora viven en self.public dentro de Start para evitar conflictos globales)
 
 -- Internal variables
 
@@ -154,7 +125,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 -- State functions
-function UpdateIdle(self, dist)
+local function UpdateIdle(self, dist)
     if dist <= self.public.detectRange then
         ChangeState(self, State.CHASE)
     end
@@ -163,7 +134,7 @@ function UpdateIdle(self, dist)
     --end
 end
 
-function UpdateChase(self, myPos, pp, dist, dt)
+local function UpdateChase(self, myPos, pp, dist, dt)
     local dx = pp.x - myPos.x
     local dy = pp.y - myPos.y
     local dz = pp.z - myPos.z
@@ -205,7 +176,7 @@ function UpdateChase(self, myPos, pp, dist, dt)
     end
 end
 
-function UpdateReposition(self, myPos, pp, dist, dt)
+local function UpdateReposition(self, myPos, pp, dist, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Idle") then self.anim:Play("Idle") end
 
     -- Opposite direction to the player
@@ -231,7 +202,7 @@ function UpdateReposition(self, myPos, pp, dist, dt)
     end
 end
 
-function UpdateAnticipation(self, pp, dt)
+local function UpdateAnticipation(self, pp, dt)
     local myPos = self.transform.worldPosition
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
@@ -328,7 +299,7 @@ function UpdateAnticipation(self, pp, dt)
     --end
 end
 
-function UpdateCharge(self, dt)
+local function UpdateCharge(self, dt)
 
     if self.stepTimer >= 0.25 then
         self.stepTimer = 0
@@ -379,7 +350,7 @@ function UpdateCharge(self, dt)
     end
 end
 
-function UpdateWall(self, dt)
+local function UpdateWall(self, dt)
     if self.rb then
         local vel = self.rb:GetLinearVelocity()
         self.rb:SetLinearVelocity(0, vel.y, 0)
@@ -404,7 +375,7 @@ function UpdateWall(self, dt)
     end
 end
 
-function UpdateRecovery(self, dt)
+local function UpdateRecovery(self, dt)
   
     if self.playerGO and not self.cameFromWall then
         local myPos = self.transform.worldPosition
@@ -430,7 +401,7 @@ function UpdateRecovery(self, dt)
     end
 end
 
-function UpdateDeath(self,dt)
+local function UpdateDeath(self,dt)
     self.deathTimer = self.deathTimer - dt
     
     if self.deathTimer <= 0 then
@@ -461,6 +432,35 @@ end
 
           
 function Start(self)
+    -- Definimos los datos SOLO para este enemigo (self.public evita conflictos globales)
+    self.public = {
+        maxHp           = 60,
+        detectRange     = 15.0,
+        tooCloseRange   = 3.5,
+        chargeRange     = 12.0,
+
+        preparationTime = 3.0,
+        chargeSpeed     = 18.0,
+        chargeDuration  = 0.8,
+        knockbackForce  = 8.0,
+        wallStunTime    = 5.0,
+        wallSpeedThresh = 1.5,
+
+        --Movement
+        moveSpeed       = 10.0,
+        rotationSpeed   = 3.0,
+
+        stopSmoothing   = 8.0,
+
+        hurtStunTime = 0.8,
+        afterStunTime = 2.2,
+
+        enemyDamageMin = 5,
+        enemyDamageMax = 35,
+
+        predictionTime = 0.4,
+    }
+
     self.hp               = self.public.maxHp
     self.isDead           = false
     self.currentState     = State.IDLE

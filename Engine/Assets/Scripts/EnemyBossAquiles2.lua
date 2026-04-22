@@ -19,57 +19,7 @@ local State = {
     DEAD        = "Dead",
 }
 
--- Public variables
-public = {
-    maxHp           = 300,
-    maxPosture      = 100,
-
-    -- Ranges
-    detectRange     = 20.0,
-    Lance360Range   = 2.0,
-    chargeRange     = 18.0,
-    dashApproachRange = 9.0,
-    --Movement
-    moveSpeed       = 6.5,
-    rotationSpeed   = 1.8,
-    stopSmoothing   = 6.0,
-    
-
-    --Lace 360
-    lanceDuration       = 0.8, 
-    lanceCooldown       = 2.5,
-    lanceDamage         = 20,
-
-    --tooCloseRange   = 3.5,
-
-    preparationTime = 2.0,
-    chargeSpeed     = 22.0,
-    chargeDuration  = 1.0,
-    wallStunTime    = 6.0,
-
-    wallSpeedThresh = 1.5,
-
-    afterStunTime   = 3.0,
-    chargeCooldown  = 4.0,  -- cooldown entre embestidas
-    chargeDamage    = 35,
-    stepInterval    = 0.6,
-
-    -- Receive damage
-    knockbackForce  = 10.0,
-
-
-    stunDuration        = 8.0, 
-
-    hurtStunTime = 0.4,
-    
-
-    predictionTime = 0.4, 
-
-    opportunityDamageMultiplier = 3.0,
-
-    recoveryLance = 1.0,
-    recoveryCharge = 1.8,
-}
+-- Public variables (ahora viven en self.public dentro de Start para evitar conflictos globales)
 
 -- Internal variables
 local currentState = State.IDLE
@@ -306,7 +256,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 -- Dodge player
-function dodgePlayer(self, dist, dt)
+local function dodgePlayer(self, dist, dt)
 
     if dist < 4.5 then
         pressureTimer = pressureTimer + dt
@@ -347,7 +297,7 @@ function dodgePlayer(self, dist, dt)
 end
 
 -- State functions
-function UpdateIdle(self, dist)
+local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle")
     end
@@ -356,7 +306,7 @@ function UpdateIdle(self, dist)
     end
 end
 
-function UpdateCombatMove(self, myPos, pp, dist, dt)
+local function UpdateCombatMove(self, myPos, pp, dist, dt)
     if dist > self.public.detectRange then
         StopMovement()
         ChangeState(State.IDLE)
@@ -413,7 +363,7 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
     end
 end
 
-function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
 
     local isDashing = isDashing or false
     local speedOverride = speedOverride or self.public.moveSpeed
@@ -447,7 +397,7 @@ function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
     rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
 end
 
-function UpdateLance360(self, myPos, pp, dt)
+local function UpdateLance360(self, myPos, pp, dt)
 
     
     if not lanceAnimStarted then
@@ -470,7 +420,7 @@ function UpdateLance360(self, myPos, pp, dt)
 
 end
 
-function UpdateAnticipation(self, pp, dt)
+local function UpdateAnticipation(self, pp, dt)
 
     if not self.chargeFeedbackGO then
    
@@ -558,7 +508,7 @@ function UpdateAnticipation(self, pp, dt)
     end
 end
 
-function UpdateCharge(self, dt)
+local function UpdateCharge(self, dt)
 
     chargeTimer = chargeTimer + dt
 
@@ -582,7 +532,7 @@ function UpdateCharge(self, dt)
     end
 end
 
-function UpdateWall(self, dt)
+local function UpdateWall(self, dt)
 
     if rb then
         local vel = rb:GetLinearVelocity()
@@ -616,7 +566,7 @@ function UpdateWall(self, dt)
     end
 end
 
-function UpdateRecovery(self, dt)
+local function UpdateRecovery(self, dt)
 
     if not recoveryAnimStarted then
         recoveryAnimStarted = true
@@ -650,7 +600,7 @@ function UpdateRecovery(self, dt)
     end
 end
 
-function UpdateStun(self, dt)
+local function UpdateStun(self, dt)
     if opportunityHitTimer > 0 then
         opportunityHitTimer = opportunityHitTimer - dt
         return
@@ -670,7 +620,7 @@ function UpdateStun(self, dt)
     end
 end
 
-function UpdateDeath(self,dt)
+local function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
@@ -745,6 +695,53 @@ local function FindAquilesAudioComponents(self)
 end
           
 function Start(self)
+
+    -- Definimos los datos SOLO para este enemigo (self.public evita conflictos globales)
+    self.public = {
+        maxHp           = 300,
+        maxPosture      = 100,
+
+        -- Ranges
+        detectRange     = 20.0,
+        Lance360Range   = 2.0,
+        chargeRange     = 18.0,
+        dashApproachRange = 9.0,
+        --Movement
+        moveSpeed       = 6.5,
+        rotationSpeed   = 1.8,
+        stopSmoothing   = 6.0,
+
+        --Lance 360
+        lanceDuration       = 0.8,
+        lanceCooldown       = 2.5,
+        lanceDamage         = 20,
+
+        preparationTime = 2.0,
+        chargeSpeed     = 22.0,
+        chargeDuration  = 1.0,
+        wallStunTime    = 6.0,
+
+        wallSpeedThresh = 1.5,
+
+        afterStunTime   = 3.0,
+        chargeCooldown  = 4.0,  -- cooldown entre embestidas
+        chargeDamage    = 35,
+        stepInterval    = 0.6,
+
+        -- Receive damage
+        knockbackForce  = 10.0,
+
+        stunDuration        = 8.0,
+
+        hurtStunTime = 0.4,
+
+        predictionTime = 0.4,
+
+        opportunityDamageMultiplier = 3.0,
+
+        recoveryLance = 1.0,
+        recoveryCharge = 1.8,
+    }
 
     hp           = self.public.maxHp
     posture = self.public.maxPosture
@@ -929,5 +926,3 @@ function OnTriggerExit(self, other)
         BaseMat.SetTexture("18385834806947720505")
     end
 end
-
-

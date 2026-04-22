@@ -27,27 +27,7 @@ local EVADE_CHANCE      = 0.6
 
 local BaseMat = nil
 
--- Public
-public = {
-    maxHp            = 50,
-    knockbackForce   = 3.0,
-
-    detectRange      = 22.0,   -- distancia máxima para disparar
-    minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
-
-    windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
-    flightTime       = 4.0,    -- duración del arco en el aire
-    cooldownTime     = 4.5,    -- espera entre disparos
-
-    blastRadius      = 1.75,    -- radio de daño en el impacto
-    attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
-
-    barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
-    rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
-
-    projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
-    maxLifetime      = 10.0,
-}
+-- Public (movido a self.public dentro de Start para evitar conflictos entre enemigos)
 
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
@@ -60,7 +40,7 @@ local function shortAngleDiff(a, b)
     return d
 end
 
-local function ChangeState(self, newState)
+local function ChangeState(self, newState)  -- local: no interfiere con otros scripts
     self.currentState = newState
     Engine.Log("[Siren State] -> " .. newState)
 end
@@ -302,7 +282,7 @@ local function UpdateShells(self, dt)
 end
 
 
-function UpdateHide(self, dt)
+local function UpdateHide(self, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
         if self.dipSFX then self.dipSFX:PlayAudioEvent() end
@@ -333,7 +313,7 @@ function UpdateHide(self, dt)
     end
 end
 
-function UpdateIdle(self, dist, dt)
+local function UpdateIdle(self, dist, dt)
     -- Caso 1: Jugador en rango de ataque
     if dist <= self.public.detectRange and dist >= self.public.minRange then
 
@@ -387,7 +367,7 @@ function UpdateIdle(self, dist, dt)
     end 
 end
 
-function UpdateWindUp(self, pp, dist, dt)
+local function UpdateWindUp(self, pp, dist, dt)
 
     FacePlayer(self, pp, dt)
     self.windUpTimer = self.windUpTimer + dt
@@ -442,7 +422,7 @@ function UpdateWindUp(self, pp, dist, dt)
 
 end
 
-function UpdateCooldown(self, dist, dt)
+local function UpdateCooldown(self, dist, dt)
 
     if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
@@ -471,7 +451,7 @@ function UpdateCooldown(self, dist, dt)
     end
 end
 
-local function FindSirenAudioComponents(self)
+local function FindSirenAudioComponents(self)  -- local: no interfiere con otros scripts
     Engine.Log("[SIREN AUDIO] Searching in: " .. tostring(self.gameObject.name))
     
     local singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
@@ -515,6 +495,28 @@ end
 -- ── Start ─────────────────────────────────────────────────────────────────
 function Start(self)
     Game.SetTimeScale(1.0)
+
+    -- Datos propios de este enemigo (self.public evita conflictos con otros scripts)
+    self.public = {
+        maxHp            = 50,
+        knockbackForce   = 3.0,
+
+        detectRange      = 22.0,   -- distancia máxima para disparar
+        minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
+
+        windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
+        flightTime       = 4.0,    -- duración del arco en el aire
+        cooldownTime     = 4.5,    -- espera entre disparos
+
+        blastRadius      = 1.75,   -- radio de daño en el impacto
+        attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
+
+        barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
+        rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
+
+        projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
+        maxLifetime      = 10.0,
+    }
 
     self.hp             = self.public.maxHp
     self.isDead         = false
@@ -722,8 +724,3 @@ function OnTriggerExit(self, other)
         --WBaseMat.SetTexture("8896541361096085563")
     end
 end
-
-
-
-
-

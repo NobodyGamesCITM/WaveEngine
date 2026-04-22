@@ -376,6 +376,13 @@ function UpdateIdle(self, dist, dt)
                 if self.singSFX then self.singSFX:StopAudioEvent() end
                 self.isSinging = false
             end
+
+            if self.windupFeedback then
+                pcall(function() GameObject.Destroy(self.windupFeedback) end)
+                self.windupFeedback = nil
+                self.windupFeedbackSet = false
+            end
+
         end
     end 
 end

@@ -21,6 +21,12 @@ bool ShaderPostPorcessing::CreateShader()
         uniform sampler2D blurredTexture;
         uniform vec2 uTexelSize;
         uniform int uPass; // 0: Final, 1: H-Blur, 2: V-Blur
+        uniform float uBlurSpread;
+
+        //Blur
+        uniform bool  blurEnabled;
+        uniform float blurIntensity;
+
 
         // Color grading
         uniform bool  gradingEnabled;
@@ -111,13 +117,13 @@ bool ShaderPostPorcessing::CreateShader()
                 vec3 result = texture(sceneTexture, uv).rgb * weight[0];
                 if (uPass == 1) { // Horizontal
                     for(int i = 1; i < 5; ++i) {
-                        result += texture(sceneTexture, uv + vec2(uTexelSize.x * i, 0.0)).rgb * weight[i];
-                        result += texture(sceneTexture, uv - vec2(uTexelSize.x * i, 0.0)).rgb * weight[i];
+                        result += texture(sceneTexture, uv + vec2(uTexelSize.x * i * uBlurSpread, 0.0)).rgb * weight[i];
+                        result += texture(sceneTexture, uv - vec2(uTexelSize.x * i * uBlurSpread, 0.0)).rgb * weight[i];
                     }
                 } else { // Vertical
                     for(int i = 1; i < 5; ++i) {
-                        result += texture(sceneTexture, uv + vec2(0.0, uTexelSize.y * i)).rgb * weight[i];
-                        result += texture(sceneTexture, uv - vec2(0.0, uTexelSize.y * i)).rgb * weight[i];
+                        result += texture(sceneTexture, uv + vec2(0.0, uTexelSize.y * i * uBlurSpread)).rgb * weight[i];
+                        result += texture(sceneTexture, uv - vec2(0.0, uTexelSize.y * i * uBlurSpread)).rgb * weight[i];
                     }
                 }
                 FragColor = vec4(result, 1.0);
@@ -183,10 +189,16 @@ bool ShaderPostPorcessing::CreateShader()
                 }
 
                 vec3 blurredColor = texture(blurredTexture, uv).rgb;
-                // Mezclamos el desenfoque con el tinte (negro) para ese efecto "agujero"
+
+                // Mezclamos el desenfoque con el tinte
                 vec3 dofFinal = mix(blurredColor, dofTint, blurFactor * dofTintIntensity);
-                
                 color = mix(color, dofFinal, blurFactor * dofStrength);
+            }
+
+            //Blur ---
+            if (blurEnabled) {
+                vec3 blurredColor = texture(blurredTexture, uv).rgb;
+                color = mix(color, blurredColor, blurIntensity);
             }
 
             // --- Bloom (box-blur with soft-knee + tint) ---

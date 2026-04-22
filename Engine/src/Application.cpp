@@ -251,22 +251,39 @@ bool Application::PreUpdate()
 // Call modules on each loop iteration
 bool Application::DoUpdate()
 {
-    //Iterates the module list and calls Update on each module
     bool result = true;
+    // --- HOT RELOAD SCRIPTS CON TECLA L (solo enemies) ---
+    if (playState == PlayState::PLAYING && input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+    {
+        LOG_CONSOLE("[HotReload] Reloading scripts on Enemy objects...");
+        std::function<void(GameObject*)> reloadScripts = [&](GameObject* obj) {
+            if (!obj) return;
+            if (obj->GetTag() == "Enemy")
+            {
+                for (Component* comp : obj->GetComponents()) {
+                    if (comp->GetType() == ComponentType::SCRIPT) {
+                        ComponentScript* scriptComp = static_cast<ComponentScript*>(comp);
+                        scriptComp->ReloadScript();
+                    }
+                }
+            }
+            for (GameObject* child : obj->GetChildren()) {
+                reloadScripts(child);
+            }
+            };
+        reloadScripts(scene->GetRoot());
+        LOG_CONSOLE("[HotReload] Done.");
+    }
+    // -------------------------------------------------------
     for (const auto& module : moduleList) {
 #ifndef WAVE_GAME
-        // Skip scene updates when in editing mode
         if (playState == PlayState::EDITING && module == scene) {
             continue;
         }
 #endif
-
         result = module.get()->Update();
-        if (!result) {
-            break;
-        }
+        if (!result) break;
     }
-
     return result;
 }
 

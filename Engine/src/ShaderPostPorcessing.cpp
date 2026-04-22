@@ -55,6 +55,8 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float dofRange;
         uniform float dofStrength;
         uniform bool  dofTiltShift;
+        uniform vec3  dofTint;
+        uniform float dofTintIntensity;
         uniform float nearPlane;
         uniform float farPlane;
 
@@ -187,8 +189,10 @@ bool ShaderPostPorcessing::CreateShader()
                 }
 
                 vec3 blurredColor = texture(blurredTexture, uv).rgb;
-                
-                color = mix(color, blurredColor, blurFactor * dofStrength);
+
+                // Mezclamos el desenfoque con el tinte
+                vec3 dofFinal = mix(blurredColor, dofTint, blurFactor * dofTintIntensity);
+                color = mix(color, dofFinal, blurFactor * dofStrength);
             }
 
             //Blur ---

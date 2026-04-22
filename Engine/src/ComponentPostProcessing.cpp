@@ -129,6 +129,8 @@ void ComponentPostProcessing::OnEditor()
                 ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.5f, 0.0f, 1000.0f);
                 ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.01f, 100.0f);
                 ImGui::SliderFloat("Mix Strength", &depthOfField.blurStrength, 0.0f, 1.0f);
+                ImGui::ColorEdit3("Far Tint##DoF", &depthOfField.farTint.x);
+                ImGui::SliderFloat("Tint Intensity##DoF", &depthOfField.tintIntensity, 0.0f, 1.0f);
             }
             ImGui::TreePop();
         }
@@ -215,7 +217,9 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"distance", depthOfField.focusDistance},
         {"range", depthOfField.focusRange},
         {"strength", depthOfField.blurStrength},
-        {"tiltShift", depthOfField.tiltShift}
+        {"tiltShift", depthOfField.tiltShift},
+        {"farTint", {depthOfField.farTint.x, depthOfField.farTint.y, depthOfField.farTint.z}},
+        {"tintIntensity", depthOfField.tintIntensity}
     };
 
     o["autoExposure"] = {
@@ -290,6 +294,8 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         depthOfField.focusRange = d.value("range", 3.0f);
         depthOfField.blurStrength = d.value("strength", 1.0f);
         depthOfField.tiltShift = d.value("tiltShift", false);
+        if (d.contains("farTint")) depthOfField.farTint = glm::vec3(d["farTint"][0], d["farTint"][1], d["farTint"][2]);
+        depthOfField.tintIntensity = d.value("tintIntensity", 0.0f);
     }
 
     if (o.contains("autoExposure")) {

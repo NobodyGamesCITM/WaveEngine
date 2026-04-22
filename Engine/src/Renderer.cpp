@@ -703,6 +703,8 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
         postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
         postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
+        postProcessShader->SetVec3("dofTint", activePP->depthOfField.farTint);
+        postProcessShader->SetFloat("dofTintIntensity", activePP->depthOfField.tintIntensity);
     }
 
     // Volvemos al buffer de la cámara para la composición final

@@ -45,6 +45,8 @@ struct DepthOfFieldSettings {
     float focusRange = 3.0f;
     float blurStrength = 1.0f;
     bool tiltShift = false;
+    glm::vec3 farTint = glm::vec3(0.0f);
+    float tintIntensity = 0.0f;
 };
 
 struct AutoExposureSettings {

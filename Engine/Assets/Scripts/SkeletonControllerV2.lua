@@ -43,8 +43,12 @@ local patrolWait = 0
 local alreadyHit = false
 local attackTimer = 0
 local pendingDeath = false
+
+local targetVelX = 0
+local targetVelZ = 0
 local currentYaw = 0 
 
+local hitGiven = false
 local BaseMat = nil
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
@@ -113,15 +117,10 @@ end
 
 local function ChangeState(self, newState)
     --Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
-    
     if Skeleton.currentState and States[Skeleton.currentState].Exit then
         States[Skeleton.currentState].Exit(self)
     end
     Skeleton.currentState = newState
-    if newState ~= State.IDLE and newState ~= State.RUNNING 
-    and newState ~= State.WALK and newState ~= State.ATTACK_LIGHT then
-        attackBuffer = false
-    end   
     if States[newState].Enter then
         States[newState].Enter(self)
     end
@@ -244,8 +243,8 @@ States[State.ATTACK] = {
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
-        attackTimer    = attackTimer    + dt
-
+        attackTimer = attackTimer + dt
+        --Engine.Log(tostring(attackTimer))
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then

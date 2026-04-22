@@ -25,13 +25,14 @@ local Skeleton = {
     hp              = 30,
     isDead          = false
 }
+
 public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
     chaseSpeed      = 3.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
-    attackColDelay  = 1.5,
+    attackColDelay  = 0.9,
     attackAnimaAnticip  = 0.3,
     nearDist        = 2,
     nearYDist       = 1.0,
@@ -43,7 +44,9 @@ local patrolWait = 0
 local alreadyHit = false
 local attackTimer = 0
 local pendingDeath = false
+
 local currentYaw = 0 
+
 
 local BaseMat = nil
 
@@ -87,7 +90,7 @@ local function FaceTargetSmooth(self, target, dt)
 
     local turn = Clamp(delta,-4.0 * dt * 60,4.0 * dt * 60)
     currentYaw = currentYaw + turn
-    Skeleton.rb:SetRotation(0, currentYaw, 0)
+    Skeleton.rb:SetRotation(0, currentYaw,0)
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -99,11 +102,13 @@ local function TakeDamage(self, amount, attackerPos)
 
     if  Skeleton.hp <= 0 and not pendingDeath then
         --if Enemy.dieSFX then Enemy.dieSFX:PlayAudioEvent() end
+
         pendingDeath = true
     else
         hitGiven = false
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         --if Enemy.hurtSFX then Enemy.hurtSFX:PlayAudioEvent() end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
           --  pcall(function() anim:Play("Hit", 0.5) end)
@@ -142,6 +147,8 @@ function Start(self)
     end
 
     Skeleton.currentState = State.IDLE
+
+
     ChangeState(self, State.IDLE)
 
     local squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
@@ -240,6 +247,7 @@ States[State.ATTACK] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Orbit", 0.5) end)
+
         end
     end,
     Update = function(self, dt)
@@ -252,6 +260,7 @@ States[State.ATTACK] = {
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then 
                     pcall(function() anim:Play("Attack", 0.0) end)
+
                 end
             end
         end
@@ -260,6 +269,7 @@ States[State.ATTACK] = {
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 hitGiven = true
+
                 _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
             end
@@ -307,6 +317,7 @@ function Update(self, dt)
         self:Destroy()
         return
     end
+
 end
 
 function OnTriggerEnter(self, other)

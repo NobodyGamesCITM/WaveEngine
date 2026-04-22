@@ -834,7 +834,7 @@ static int Lua_Audio_SetMusicState(lua_State* L) {
 
 static int Lua_Audio_GetMusicState(lua_State* L) {
     std:string stateName = Application::GetInstance().audio.get()->audioSystem->GetState("BGM_State");
-    LOG_CONSOLE("[SCRIPT MANAGER AUDIO] Current State = %s", stateName);
+    //LOG_CONSOLE("[SCRIPT MANAGER AUDIO] Current State = %s", stateName);
     AK::SoundEngine::RenderAudio();
     lua_pushstring(L, stateName.c_str());
     return 1;

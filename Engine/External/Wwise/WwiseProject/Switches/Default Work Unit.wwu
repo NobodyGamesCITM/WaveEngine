@@ -18,6 +18,14 @@
 						<Switch Name="Run" ID="{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="Player_Mask" ID="{12A4E3F4-E4EB-41D5-9517-59C6586A7F62}">
+					<ChildrenList>
+						<Switch Name="Apollo" ID="{BC966D38-909D-47C1-8910-B95DC07A2B3C}"/>
+						<Switch Name="Hermes" ID="{C3029395-B968-4EB1-B0DE-DCCE8C9BC41E}"/>
+						<Switch Name="Ares" ID="{EF79929D-8CFA-41AC-811C-863731FCCEFD}"/>
+						<Switch Name="NoMask" ID="{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

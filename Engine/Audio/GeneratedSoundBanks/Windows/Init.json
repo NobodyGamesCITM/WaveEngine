@@ -398,6 +398,38 @@
       ]
      },
      {
+      "Id": "1896747901",
+      "Name": "Player_Mask",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask",
+      "GUID": "{12A4E3F4-E4EB-41D5-9517-59C6586A7F62}",
+      "Switches": [
+       {
+        "Id": "2033570127",
+        "Name": "Hermes",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Hermes",
+        "GUID": "{C3029395-B968-4EB1-B0DE-DCCE8C9BC41E}"
+       },
+       {
+        "Id": "2941090332",
+        "Name": "NoMask",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\NoMask",
+        "GUID": "{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}"
+       },
+       {
+        "Id": "3686139476",
+        "Name": "Ares",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Ares",
+        "GUID": "{EF79929D-8CFA-41AC-811C-863731FCCEFD}"
+       },
+       {
+        "Id": "4013674636",
+        "Name": "Apollo",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Apollo",
+        "GUID": "{BC966D38-909D-47C1-8910-B95DC07A2B3C}"
+       }
+      ]
+     },
+     {
       "Id": "4064446173",
       "Name": "Surface_Type",
       "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type",
@@ -915,6 +947,6 @@
     ]
    }
   ],
-  "FileHash": "{9D1CA58A-1232-FD59-229C-620E8580E52F}"
+  "FileHash": "{A0BEB6E6-3CA1-663B-D748-5278B3F70DE0}"
  }
 }

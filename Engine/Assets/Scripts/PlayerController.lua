@@ -84,7 +84,7 @@ local Player = {
     swordSFX 		= nil,
     pickMaskSFX     = nil,
     changeMaskSFX   = nil,
-    itemPickSFX     = nil,
+    itemSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
     foundSurface    = false,
@@ -300,6 +300,8 @@ local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
     if newMask == Mask.APOLLO then 
+
+        
         --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
@@ -308,6 +310,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(true)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        -- audio
+        --Audio.SetSwitch("Player_Mask", "Apollo", Player.changeMaskSFX)
+        if Player.changeSource then Player.changeSource:SelectPlayAudioEvent("SFX_ApoloMask") end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Play() end
@@ -317,6 +322,7 @@ local function EquipMask(self, newMask)
         if Player.apoloLight then Player.apoloLight:SetEnabled(true) end
         if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.HERMES then 
+
         --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
@@ -325,6 +331,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(true)end
+        -- audio
+        --Audio.SetSwitch("Player_Mask", "Hermes", Player.changeMaskSFX)
+        if Player.changeSource then Player.changeSource:SelectPlayAudioEvent("SFX_HermesMask") end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -334,6 +343,7 @@ local function EquipMask(self, newMask)
         if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
         if Player.hermesLight then Player.hermesLight:SetEnabled(true) end
     elseif newMask == Mask.ARES then 
+        
         --masks
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
@@ -342,6 +352,9 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(true)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
+        --audio
+        --Audio.SetSwitch("Player_Mask", "Ares", Player.changeMaskSFX)
+        if Player.changeSource then Player.changeSource:SelectPlayAudioEvent("SFX_AresMask") end
         --ps
         if Player.aresPs then Player.aresPs:Play() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -359,6 +372,9 @@ local function EquipMask(self, newMask)
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        --audio
+        --Audio.SetSwitch("Player_Mask", "NoMask", Player.changeMaskSFX)
+        if Player.changeSource then Player.changeSource:SelectPlayAudioEvent("SFX_MaskChange") end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -404,6 +420,8 @@ local function EquipMask(self, newMask)
         _PlayerController_currentMask = ""
     end
     UpdateSwordMaterial()
+
+    
 end
 
 States[State.DEAD] = {
@@ -676,6 +694,9 @@ States[State.ROLL] = {
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
+
+        --temporal fix to not leave it soundless. TODO: look for a unique sound and use its own event
+        if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_SkeletonDodge") end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Roll", 0) end
@@ -1042,7 +1063,7 @@ local function RefreshAudioSources(self)
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
     Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
-    Player.itemPickSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+    Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
 
     Engine.Log("[Player] Audio Source Mapping Status:")
     Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
@@ -1062,7 +1083,7 @@ function Start(self)
     Player.swordSFX        = nil
     Player.pickMaskSFX     = nil
     Player.changeMaskSFX   = nil
-    Player.itemPickSFX     = nil
+    Player.itemSFX     = nil
     Player.hitSFX          = nil
 
     _G.PlayerInstance = self
@@ -1157,10 +1178,14 @@ function Start(self)
 
     maskAnimTimer = 0.0
 
+    
+
     Player.currentState = State.IDLE
     ChangeState(self, State.IDLE, true)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
+
+    --Audio.SetSwitch("Player_Mask", "NoMask", Player.changeMaskSFX)
 
     maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
     maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
@@ -1432,6 +1457,7 @@ function Update(self, dt)
         if anim then 
             pcall(function() anim:Play("Idle", 0.0) end)
             pcall(function() anim:Play("Drink", 0.4) end) 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
         end
         Player.healAnimTimer = Player.healAnimDuration
         Player.healPending = true
@@ -1463,7 +1489,7 @@ function Update(self, dt)
 
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
         MaskScroll(self)
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
@@ -1473,17 +1499,17 @@ function Update(self, dt)
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_ApoloMask") end
     end
 
     if Input.GetKeyDown("F2") then 
         giveHermesMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_HermesMask") end
     end
 
     if Input.GetKeyDown("F3") then 
         giveAresMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_AresMask") end
     end
 
     if Input.GetKeyDown("M") then

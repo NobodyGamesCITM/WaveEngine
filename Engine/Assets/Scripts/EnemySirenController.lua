@@ -421,7 +421,7 @@ function UpdateWindUp(self, pp, dist, dt)
 
     if self.windUpTimer >= self.public.windUpTime then
         FireShell(self, pp.x, pp.y, pp.z)
-        if self.anim then self.anim:Play("Fire") end
+        if self.anim then self.anim:Play("Shoot") end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
         if self.anim then 
@@ -715,6 +715,7 @@ function OnTriggerExit(self, other)
         --WBaseMat.SetTexture("8896541361096085563")
     end
 end
+
 
 
 

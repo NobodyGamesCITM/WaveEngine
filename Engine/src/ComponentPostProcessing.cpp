@@ -107,25 +107,42 @@ void ComponentPostProcessing::OnEditor()
         }
     }
 
-    if (ImGui::CollapsingHeader("Depth Of Field", ImGuiTreeNodeFlags_DefaultOpen))
+    if (ImGui::CollapsingHeader("Blurs", ImGuiTreeNodeFlags_DefaultOpen))
     {
-        ImGui::Checkbox("Enable##DoF", &depthOfField.enabled);
-        if (depthOfField.enabled)
+        if (ImGui::TreeNodeEx("Global Blur", ImGuiTreeNodeFlags_DefaultOpen))
         {
-            ImGui::Checkbox("Tilt-Shift Mode", &depthOfField.tiltShift);
-            ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.5f, 0.0f, 1000.0f);
-            ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.01f, 100.0f);
-            ImGui::SliderFloat("Mix Strength", &depthOfField.blurStrength, 0.0f, 1.0f);
-            ImGui::ColorEdit3("Far Tint (Blackout)", &depthOfField.farTint.x);
-            ImGui::SliderFloat("Tint Intensity", &depthOfField.tintIntensity, 0.0f, 1.0f);
+            ImGui::Checkbox("Enable Blur", &blur.enabled);
+            if (blur.enabled)
+            {
+                ImGui::SliderFloat("Intensity##GlobalBlur", &blur.intensity, 0.0f, 1.0f);
+                ImGui::SliderFloat("Spread##GlobalBlur", &blur.spread, 0.1f, 5.0f);
+            }
+            ImGui::TreePop();
         }
-    }
 
-    if (ImGui::CollapsingHeader("Motion Blur", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        ImGui::Checkbox("Enable##MB", &motionBlur.enabled);
-        if (motionBlur.enabled)
-            ImGui::SliderFloat("Intensity##MB", &motionBlur.intensity, 0.0f, 1.0f);
+        if (ImGui::TreeNodeEx("Depth Of Field", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::Checkbox("Enable##DoF", &depthOfField.enabled);
+            if (depthOfField.enabled)
+            {
+                ImGui::Checkbox("Tilt-Shift Mode", &depthOfField.tiltShift);
+                ImGui::DragFloat("Focus Distance", &depthOfField.focusDistance, 0.5f, 0.0f, 1000.0f);
+                ImGui::DragFloat("Focus Range", &depthOfField.focusRange, 0.1f, 0.01f, 100.0f);
+                ImGui::SliderFloat("Mix Strength", &depthOfField.blurStrength, 0.0f, 1.0f);
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNodeEx("Radial Blur", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::Checkbox("Enable##Radial", &radialBlur.enabled);
+            if (radialBlur.enabled)
+            {
+                ImGui::SliderFloat("Intensity##Radial", &radialBlur.intensity, 0.0f, 1.0f);
+                ImGui::DragFloat2("Center##Radial", &radialBlur.center.x, 0.01f, 0.0f, 1.0f);
+            }
+            ImGui::TreePop();
+        }
     }
 
     if (ImGui::CollapsingHeader("Auto Exposure", ImGuiTreeNodeFlags_DefaultOpen))
@@ -146,16 +163,6 @@ void ComponentPostProcessing::OnEditor()
         {
             ImGui::SliderFloat("Intensity##Grain", &grain.intensity, 0.0f, 1.0f);
             ImGui::SliderFloat("Size##Grain", &grain.size, 0.1f, 5.0f);
-        }
-    }
-
-    if (ImGui::CollapsingHeader("Radial Blur", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        ImGui::Checkbox("Enable##Radial", &radialBlur.enabled);
-        if (radialBlur.enabled)
-        {
-            ImGui::SliderFloat("Intensity##Radial", &radialBlur.intensity, 0.0f, 1.0f);
-            ImGui::DragFloat2("Center##Radial", &radialBlur.center.x, 0.01f, 0.0f, 1.0f);
         }
     }
 
@@ -208,12 +215,9 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"distance", depthOfField.focusDistance},
         {"range", depthOfField.focusRange},
         {"strength", depthOfField.blurStrength},
-        {"tiltShift", depthOfField.tiltShift},
-        {"farTint", {depthOfField.farTint.x, depthOfField.farTint.y, depthOfField.farTint.z}},
-        {"tintIntensity", depthOfField.tintIntensity}
+        {"tiltShift", depthOfField.tiltShift}
     };
 
-    o["motionBlur"] = { {"enabled", motionBlur.enabled}, {"intensity", motionBlur.intensity} };
     o["autoExposure"] = {
         {"enabled", autoExposure.enabled},
         {"min", autoExposure.minBrightness},
@@ -229,6 +233,11 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
     o["sharpen"] = {
         {"enabled", sharpen.enabled},
         {"intensity", sharpen.intensity}
+    };
+    o["blur"] = {
+        {"enabled", blur.enabled},
+        {"intensity", blur.intensity},
+        {"spread", blur.spread}
     };
 }
 
@@ -281,14 +290,6 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         depthOfField.focusRange = d.value("range", 3.0f);
         depthOfField.blurStrength = d.value("strength", 1.0f);
         depthOfField.tiltShift = d.value("tiltShift", false);
-        if (d.contains("farTint")) depthOfField.farTint = glm::vec3(d["farTint"][0], d["farTint"][1], d["farTint"][2]);
-        depthOfField.tintIntensity = d.value("tintIntensity", 1.0f);
-    }
-
-    if (o.contains("motionBlur")) {
-        const auto& m = o["motionBlur"];
-        motionBlur.enabled = m.value("enabled", false);
-        motionBlur.intensity = m.value("intensity", 0.5f);
     }
 
     if (o.contains("autoExposure")) {
@@ -317,6 +318,13 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         const auto& s = o["sharpen"];
         sharpen.enabled = s.value("enabled", false);
         sharpen.intensity = s.value("intensity", 0.5f);
+    }
+
+    if (o.contains("blur")) {
+        const auto& b = o["blur"];
+        blur.enabled = b.value("enabled", false);
+        blur.intensity = b.value("intensity", 1.0f);
+        blur.spread = b.value("spread", 1.0f);
     }
 }
 

@@ -675,6 +675,27 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_STENCIL_TEST);
 
+    bool needsBlur = activePP->depthOfField.enabled || activePP->blur.enabled;
+
+    if (needsBlur) {
+        float spread = activePP->blur.enabled ? activePP->blur.spread : 1.5f;
+        postProcessShader->SetFloat("uBlurSpread", spread);
+
+        // Paso 1: Blur Horizontal (Usamos blurFBO como destino)
+        glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
+        postProcessShader->SetInt("uPass", 1); 
+        glBindVertexArray(quadVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        // Paso 2: Blur Vertical (Usamos finalBlurFBO como destino)
+        glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
+        postProcessShader->SetInt("uPass", 2); 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, blurTexture); 
+        glBindVertexArray(quadVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+
     postProcessShader->SetBool("dofEnabled", activePP->depthOfField.enabled);
     if (activePP->depthOfField.enabled) {
         // Configuramos parámetros de DoF
@@ -682,38 +703,22 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
         postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
         postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
-        postProcessShader->SetVec3("dofTint", activePP->depthOfField.farTint);
-        postProcessShader->SetFloat("dofTintIntensity", activePP->depthOfField.tintIntensity);
+    }
 
-        // Paso 1: Blur Horizontal (Usamos blurFBO como destino)
-        glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
-        postProcessShader->SetInt("uPass", 1); // 1 = Horizontal Blur
-        glBindVertexArray(quadVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        // Paso 2: Blur Vertical (Usamos finalBlurFBO como destino)
-        glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
-        postProcessShader->SetInt("uPass", 2); // 2 = Vertical Blur
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, blurTexture); 
-        glBindVertexArray(quadVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        // Volvemos al buffer de la cámara para la composición final
-        glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
-        postProcessShader->SetInt("uPass", 0); // 0 = Final Composite
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, postProcessTexture); // Textura original
+    // Volvemos al buffer de la cámara para la composición final
+    glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
+    postProcessShader->SetInt("uPass", 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, postProcessTexture);
+    
+    if (needsBlur) {
         glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, finalBlurTexture); // Textura desenfocada
+        glBindTexture(GL_TEXTURE_2D, finalBlurTexture);
         postProcessShader->SetInt("blurredTexture", 2);
-    } else {
-        postProcessShader->SetInt("uPass", 0);
     }
 
-    if (activePP->motionBlur.enabled) {
-        postProcessShader->SetFloat("motionBlurIntensity", activePP->motionBlur.intensity);
-    }
+    postProcessShader->SetBool("blurEnabled", activePP->blur.enabled);
+    postProcessShader->SetFloat("blurIntensity", activePP->blur.intensity);
 
     postProcessShader->SetBool("autoExposureEnabled", activePP->autoExposure.enabled);
     if (activePP->autoExposure.enabled) {

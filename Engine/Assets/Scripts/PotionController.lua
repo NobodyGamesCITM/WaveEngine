@@ -37,24 +37,29 @@ function Update(self, dt)
     end
 
     -- Input para usar poción
-    if Input.GetKey("3") or Input.GetGamepadButton("DPadDown") and potionCooldown <= 0 then
+    if (Input.GetKeyDown("3") or Input.GetGamepadButtonDown("DPadDown")) and potionCooldown <= 0 then
         if self.public.potionCount > 0 and _G.PlayerInstance and _G.PlayerInstance.public.health < 100 and not potionHealing then
-            self.public.potionCount = self.public.potionCount - 1
-            potionHealing = true
-            potionHealRemaining = POTION_HEAL_TOTAL
-            potionCooldown = POTION_COOLDOWN_MAX
-            Engine.Log("[PotionSystem] Pocion usada. Restantes: " .. self.public.potionCount)
+            if _G.TriggerDrinkAnimation and _G.TriggerDrinkAnimation(_G.PlayerInstance, false) then
+                self.public.potionCount = self.public.potionCount - 1
+                potionHealing = true
+                potionHealRemaining = POTION_HEAL_TOTAL
+                potionCooldown = POTION_COOLDOWN_MAX
+                Engine.Log("[PotionSystem] Pocion usada. Restantes: " .. self.public.potionCount)
+            end
         end
     end
 
     -- Input para usar poción Berserk (Flecha Izquierda mando / Tecla 4 teclado)
-    if Input.GetGamepadButtonDown("DPadLeft") or Input.GetKeyDown("4") then
+    if (Input.GetGamepadButtonDown("DPadLeft") or Input.GetKeyDown("4")) and potionCooldown <= 0 then
         if self.public.berserkCount > 0 and berserkActiveTimer <= 0 and _G.PlayerInstance then
-            self.public.berserkCount = self.public.berserkCount - 1
-            berserkActiveTimer = BERSERK_DURATION
-            _G.PlayerInstance.public.berserkActive = true
-            _G.PlayerInstance.public.stamina = 100.0 -- Recarga la stamina al máximo inmediatamente
-            Engine.Log("[PotionSystem] Pocion Berserk usada. Restantes: " .. self.public.berserkCount)
+            if _G.TriggerDrinkAnimation and _G.TriggerDrinkAnimation(_G.PlayerInstance, false) then
+                self.public.berserkCount = self.public.berserkCount - 1
+                berserkActiveTimer = BERSERK_DURATION
+                potionCooldown = POTION_COOLDOWN_MAX
+                _G.PlayerInstance.public.berserkActive = true
+                _G.PlayerInstance.public.stamina = 100.0 -- Recarga la stamina al máximo inmediatamente
+                Engine.Log("[PotionSystem] Pocion Berserk usada. Restantes: " .. self.public.berserkCount)
+            end
         end
     end
 

@@ -163,6 +163,27 @@ public = {
     berserkActive       = false,
 }
 
+function TriggerDrinkAnimation(self, isInternalHeal)
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then 
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Drink", 0.4) end) 
+    end
+    
+    Player.healAnimTimer = Player.healAnimDuration
+    Player.healPending = isInternalHeal
+    Player.maskAnimTimer = 0 -- Reset mask timer just in case
+    self.public.canMove = false
+    return true
+end
+
 
 local function normalizeInput(x, z)
     local len = sqrt(x*x + z*z)
@@ -294,6 +315,28 @@ local function ChangeState(self, newState, force)
     if States[newState].Enter then
         States[newState].Enter(self)
     end
+end
+
+function _G.TriggerDrinkAnimation(self, isInternalHeal)
+    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then 
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Drink", 0.4) end) 
+    end
+    
+    Player.healAnimTimer = Player.healAnimDuration
+    Player.healPending = isInternalHeal
+    Player.maskAnimTimer = 0 
+    self.public.canMove = false
+    Engine.Log("[Player] Iniciando animacion de beber...")
+    return true
 end
 
 local function EquipMask(self, newMask)
@@ -1424,18 +1467,8 @@ function Update(self, dt)
         end
     end
 
-    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) and Player.healAnimTimer <= 0 and self.public.health ~= 100 and Player.maskAnimTimer <= 0 then
-        ChangeState(self, State.IDLE)
-        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then 
-            pcall(function() anim:Play("Idle", 0.0) end)
-            pcall(function() anim:Play("Drink", 0.4) end) 
-        end
-        Player.healAnimTimer = Player.healAnimDuration
-        Player.healPending = true
-        self.public.canMove = false
+    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) then
+        if self.public.health ~= 100 then _G.TriggerDrinkAnimation(self, true) end
     end
 
     if Player.healAnimTimer > 0 then

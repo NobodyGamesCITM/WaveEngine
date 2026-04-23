@@ -41,6 +41,7 @@ public = {
 }
 local patrolWait = 0
 local alreadyHit = false
+local hitCooldown = 0
 local attackTimer = 0
 local pendingDeath = false
 
@@ -297,6 +298,13 @@ function Update(self, dt)
     if Skeleton.currentState and States[Skeleton.currentState] then
         States[Skeleton.currentState].Update(self, dt)
     end
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            alreadyHit = false
+            BaseMat.SetTexture("13296577326446124640")
+        end
+    end
 
     if pendingDeath then
         if Skeleton.nav then Skeleton.nav:StopMovement() end
@@ -327,6 +335,19 @@ function OnTriggerEnter(self, other)
                     TakeDamage(self, dmg, ap)
                 end
             end
+        end
+    end
+
+    if other:CompareTag("Bullet") then
+        -- La bala golpea al esqueleto
+        if not alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("17109277834976977864")
+            TakeDamage(self, dmg, ap)
         end
     end
 end

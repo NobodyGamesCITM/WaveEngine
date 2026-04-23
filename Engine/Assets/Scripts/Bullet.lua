@@ -14,9 +14,20 @@ local hasHit = false
 local pendingDamage = false
 
 function Start(self)
-    self.initialized = false
-    self.direction   = { x = 0, y = 0, z = 1 }
-    
+    self.direction = { x = 0, y = 0, z = 1 }
+
+    local data = _G.nextBulletData
+    if data and data.x and data.y and data.z then
+        _G.nextBulletData = nil
+        self.transform:SetPosition(data.x, data.y, data.z)
+        local s = data.scale or 1.0
+        self.transform:SetScale(s, s, s)
+        self.direction.x = data.dirX or 0
+        self.direction.y = 0
+        self.direction.z = data.dirZ or 1
+    end
+
+    self.initialized = true
     rb = self.gameObject:GetComponent("Rigidbody")
     if _BulletRegistry == nil then _BulletRegistry = {} end
     bulletId = tostring(self.gameObject) .. tostring(os.clock())
@@ -82,10 +93,10 @@ function Update(self, dt)
         Engine.Log("[Bullet] Redirected at pos: " .. p.x .. ", " .. p.y .. ", " .. p.z)
     end
 
-    if rb then
-        rb:SetLinearVelocity(
+    if self.rb then
+        self.rb:SetLinearVelocity(
             self.direction.x * speed,
-            self.direction.y * speed,
+            0,
             self.direction.z * speed
         )
     else

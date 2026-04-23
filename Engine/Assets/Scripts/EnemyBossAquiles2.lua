@@ -296,6 +296,40 @@ local function dodgePlayer(self, dist, dt)
     end
 end
 
+local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+
+    local isDashing = isDashing or false
+    local speedOverride = speedOverride or self.public.moveSpeed
+
+    if not isDashing then
+        hasDashed = false
+
+        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
+
+        stepTimer = stepTimer + dt
+        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
+            PlaySFX(stepSFX)
+            stepTimer = 0
+        end
+
+    else
+        if anim and not anim:IsPlayingAnimation("Dash") then 
+            anim:Play("Dash", 0.2) 
+           
+        end
+
+        if not hasDashed then
+            PlaySFX(dashSFX)
+            hasDashed = true
+        end
+    end
+
+    local vel = speedOverride or self.public.moveSpeed
+    local cv = rb:GetLinearVelocity()
+    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+end
+
 -- State functions
 local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
@@ -361,40 +395,6 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     else
         MovementWalk(self, dx, dz, dt)
     end
-end
-
-local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
-
-    local isDashing = isDashing or false
-    local speedOverride = speedOverride or self.public.moveSpeed
-
-    if not isDashing then
-        hasDashed = false
-
-        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
-
-        stepTimer = stepTimer + dt
-        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
-            PlaySFX(stepSFX)
-            stepTimer = 0
-        end
-
-    else
-        if anim and not anim:IsPlayingAnimation("Dash") then 
-            anim:Play("Dash", 0.2) 
-           
-        end
-
-        if not hasDashed then
-            PlaySFX(dashSFX)
-            hasDashed = true
-        end
-    end
-
-    local vel = speedOverride or self.public.moveSpeed
-    local cv = rb:GetLinearVelocity()
-    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
 end
 
 local function UpdateLance360(self, myPos, pp, dt)
@@ -469,7 +469,7 @@ local function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.5, 0.1, indicatorLength)
     end
 
     preparationTimer = preparationTimer + dt

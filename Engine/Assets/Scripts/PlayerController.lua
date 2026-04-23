@@ -344,7 +344,7 @@ local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
     
-    Audio.SetSwitch("Player_Mask", tostring(player.currentMask), Player.changeMaskSFX)
+    
     if newMask == Mask.APOLLO then 
         --masks
         if maskAres then maskAres:SetActive(false)end
@@ -354,8 +354,6 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(true)end
         if vfxHermes then vfxHermes:SetActive(false)end
-        --audio
-        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_ApoloMask") end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Play() end
@@ -373,9 +371,6 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(false)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(true)end
-        --audio
-       
-        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_HermesMask") end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -393,8 +388,6 @@ local function EquipMask(self, newMask)
         if vfxAres then vfxAres:SetActive(true)end
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
-        --audio
-        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_AresMask") end
         --ps
         if Player.aresPs then Player.aresPs:Play() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -442,11 +435,6 @@ local function EquipMask(self, newMask)
 
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
-        --audio
-        Audio.SetSwitch()
-        --if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
-        
-       -- Audio.SetSwitch("Player_Mask", tostring(player.currentMask), Player.changeMaskSFX)
 
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
@@ -454,6 +442,9 @@ local function EquipMask(self, newMask)
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
     
+    Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
+    if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
+
     -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
     if newMask == Mask.HERMES then
         _PlayerController_currentMask = "Hermes"
@@ -465,8 +456,6 @@ local function EquipMask(self, newMask)
         _PlayerController_currentMask = ""
     end
     UpdateSwordMaterial()
-
-    if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
 end
 
 States[State.DEAD] = {
@@ -1227,11 +1216,13 @@ function Start(self)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
 
-    Audio.SetSwitch("Player_Mask", Player.currentMask, Player.changeMaskSFX)
+    Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
 
-    maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
-    maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
-    maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
+
+    FindMasks(self)
+    -- maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
+    -- maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
+    -- maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
     vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
     vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
@@ -1255,9 +1246,7 @@ function Start(self)
 
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
-    if maskApolo then maskApolo:SetActive(false) end
-    if maskHermes then maskHermes:SetActive(false) end
-    if maskAres then maskAres:SetActive(false) end
+
 
     if vfxApolo then 
         Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
@@ -1307,6 +1296,16 @@ function Start(self)
     end
 end
 
+local function FindMasks(self)
+    maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
+    maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
+    maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
+
+    if maskApolo then maskApolo:SetActive(false) end
+    if maskHermes then maskHermes:SetActive(false) end
+    if maskAres then maskAres:SetActive(false) end
+end
+
 
 function Update(self, dt)
     if attackCooldown > 0 then
@@ -1332,6 +1331,10 @@ function Update(self, dt)
     end
     if self.public.stamina == 100 and staminaLock == true then
         staminaLock = false
+    end
+
+    if not maskApolo or not maskAres or not maskHermes then
+        FindMasks(self)
     end
 
     local sceneLoaderCount = _G._SceneLoaderCounter or 0
@@ -1521,16 +1524,19 @@ function Update(self, dt)
 
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
 
-        Audio.SetSwitch("Player_Mask", Player.currentMask, Player.changeMaskSFX)
+        
+        
+
         MaskScroll(self)
         --if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        --Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         
-        --if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+        
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
         EquipMask(self, Mask.NONE) 
-        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+        --if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
     end
 
     if Input.GetKeyDown("F1") then 
@@ -1589,9 +1595,17 @@ function Update(self, dt)
 end
 
 function MaskScroll(self)
+    Engine.Log("old mask: "..tostring(oldMask)..", current mask: "..tostring(Player.currentMask).. ", Player state: "..tostring(Player.currentState))
     oldMask = Player.currentMask
+
+    Engine.Log("Mask Scrolling, maskAnimTimer = "..tostring(Player.maskAnimTimer)..", healAnimTimer = "..tostring(Player.healAnimTimer))
+
     if Player.maskAnimTimer > 0 then return end
     if Player.healAnimTimer > 0 then return end
+
+    if not Player.currentMask then Player.currentMask = Mask.NONE end
+
+    
 
     if Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.NONE then 
@@ -1612,18 +1626,24 @@ function MaskScroll(self)
         elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
     end  
 
+    
+
     ChangeState(self, State.IDLE)
     if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
 
     if oldMask ~= Player.currentMask then
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
             anim:Play("Idle", 0.0)
             anim:Play("Mask", 0.2) 
+        else 
+            Engine.Log("Unable to Play Mask animation")
         end
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false
     end
+
 end
 
 function ObtainMask(self)
@@ -1672,6 +1692,7 @@ function ResetPlayer(self)
     self.public.stamina = 100
     self.public.berserkActive = false
 
+
     attackCooldown = 0
     rollCooldown   = 0
 
@@ -1685,6 +1706,8 @@ function ResetPlayer(self)
     Player.isDrowning            = false
     _PlayerController_isDrowning = false
     Player.hermesGraceTimer      = 0
+
+    FindMasks(self)
     EquipMask(self, Mask.NONE)
 
     local p = Player.spawnPos
@@ -1790,3 +1813,4 @@ function ActivateTrail()
 
     Player.trailPs:Play()
 end
+

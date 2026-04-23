@@ -83,7 +83,7 @@ function Initialize(self)
     
     -- Detectamos si estamos en una escena de gameplay real (evitar auto-pause residual)
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
-    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene")
+    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2Nuevo.scene")
 
     if isGameplayScene and self.current == "MainMenu.xaml" then
         Engine.Log("[MenuManager] Limpiando MainMenu residual en escena de juego para evitar auto-pause.")
@@ -108,7 +108,7 @@ function Initialize(self)
         self.lastPauseState = "paused"
     elseif isGameplayScene then
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
-        elseif sceneVal == "Blockout2.scene" then Audio.SetMusicState("Level2") end
+        elseif sceneVal == "Blockout2Nuevo.scene" then Audio.SetMusicState("Level2") end
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"

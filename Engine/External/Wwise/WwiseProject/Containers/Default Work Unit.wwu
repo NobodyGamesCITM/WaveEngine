@@ -4176,6 +4176,9 @@
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
+										<Reference Name="DefaultSwitchOrState">
+											<ObjectRef Name="NoMask" ID="{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}" WorkUnitID="{2BEB6A99-023B-48CB-A490-0C27C5069DC6}"/>
+										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 										</Reference>
@@ -4332,7 +4335,7 @@
 										</GroupingBehaviorList>
 										<GroupingList>
 											<Grouping>
-												<SwitchRef Name="Apollo" ID="{BC966D38-909D-47C1-8910-B95DC07A2B3C}"/>
+												<SwitchRef Name="Apolo" ID="{BC966D38-909D-47C1-8910-B95DC07A2B3C}"/>
 												<ItemList>
 													<ItemRef Name="apolo_mask" ID="{A2EB0C87-13FF-41D5-897D-D636057B62AA}"/>
 												</ItemList>

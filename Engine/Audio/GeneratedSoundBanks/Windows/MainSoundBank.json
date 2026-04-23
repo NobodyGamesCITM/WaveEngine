@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{CC03018C-F5CE-2855-C5CF-98593978681F}",
+    "Hash": "{F2D53A5D-DC98-53DA-E44F-DCAA5A721574}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -112,14 +112,6 @@
       "CachePath": "2F/{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem"
      },
      {
-      "Id": "117517246",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "In The Blood Hades.wav",
-      "CachePath": "77/{77DC3B2C-C429-11E2-762E-359D20698C41}.wem"
-     },
-     {
       "Id": "119201350",
       "Language": "SFX",
       "Streaming": "false",
@@ -184,14 +176,6 @@
       "CachePath": "28/{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem"
      },
      {
-      "Id": "151597588",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "floraphonic-minimal-pop-click-ui-4-198304.wav",
-      "CachePath": "14/{145A255B-AD7B-ECC4-3142-80DA7105D668}.wem"
-     },
-     {
       "Id": "156508010",
       "Language": "SFX",
       "Streaming": "false",
@@ -214,14 +198,6 @@
       "Location": "Memory",
       "ShortName": "skeleton_hit.wav",
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
-     },
-     {
-      "Id": "186892897",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "item_pickup.wav",
-      "CachePath": "E8/{E83ECC32-6AE8-8031-C9C0-689733A2E5B0}.wem"
      },
      {
       "Id": "193895961",
@@ -254,6 +230,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_footstep_04.wav",
       "CachePath": "6F/{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem"
+     },
+     {
+      "Id": "228838431",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ares_mask.wav",
+      "CachePath": "E6/{E6CE383E-A8E4-145A-6F11-B0B37B889FC8}.wem"
      },
      {
       "Id": "232432669",
@@ -304,6 +288,14 @@
       "CachePath": "0F/{0FFCCFAF-A392-154C-EC07-070CAA1D808F}.wem"
      },
      {
+      "Id": "271606854",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "pressure_plate.wav",
+      "CachePath": "1A/{1A5E6608-A521-1F98-200C-39EF63BDEE48}.wem"
+     },
+     {
       "Id": "273412701",
       "Language": "SFX",
       "Streaming": "false",
@@ -350,6 +342,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_walk_04.wav",
       "CachePath": "52/{52E68CA0-FE03-4472-69B6-299C5EA0D69A}.wem"
+     },
+     {
+      "Id": "332618846",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Hud-hover.wav",
+      "CachePath": "E3/{E32A713B-F07A-B780-F80E-FDCB9C274B3F}.wem"
      },
      {
       "Id": "333485331",
@@ -680,6 +680,14 @@
       "CachePath": "92/{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem"
      },
      {
+      "Id": "647931888",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "apolo_mask.wav",
+      "CachePath": "01/{012C787F-05EF-E408-80AC-7AE5E5C3E018}.wem"
+     },
+     {
       "Id": "653184964",
       "Language": "SFX",
       "Streaming": "false",
@@ -720,6 +728,22 @@
       "CachePath": "29/{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem"
      },
      {
+      "Id": "698807496",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "MainMenu.wav",
+      "CachePath": "BF/{BF002955-90D4-EF90-9D18-47A78478410C}.wem"
+     },
+     {
+      "Id": "699306489",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "item_pickup.wav",
+      "CachePath": "EB/{EBA44276-58C0-7559-AFE3-4D4EC9F96AE8}.wem"
+     },
+     {
       "Id": "699991876",
       "Language": "SFX",
       "Streaming": "false",
@@ -742,6 +766,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_walk_05.wav",
       "CachePath": "47/{47B28077-6411-38F4-8407-242380E9024D}.wem"
+     },
+     {
+      "Id": "728535981",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_mask.wav",
+      "CachePath": "92/{92273ACC-C8ED-BEBC-9F3F-92BA661A1700}.wem"
      },
      {
       "Id": "752261276",
@@ -790,6 +822,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_05.wav",
       "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
+     },
+     {
+      "Id": "811278542",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ares_mask.wav",
+      "CachePath": "B3/{B348EADA-3CB9-9FF1-75D1-4389B2A253A6}.wem"
      },
      {
       "Id": "822076345",
@@ -862,6 +902,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_08.wav",
       "CachePath": "FB/{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem"
+     },
+     {
+      "Id": "863671011",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "moving_rock.wav",
+      "CachePath": "D7/{D71796B4-3470-BB8C-D3B8-470BEAC13168}.wem"
      },
      {
       "Id": "864759864",
@@ -942,6 +990,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_collapse.wav",
       "CachePath": "15/{154AA8AB-9565-0C06-32D7-8E16F5F8907C}.wem"
+     },
+     {
+      "Id": "964848831",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "potion_drink.wav",
+      "CachePath": "38/{38E8EA58-9EAD-748A-9F4D-A3523BEB9882}.wem"
      },
      {
       "Id": "966202110",
@@ -1040,6 +1096,14 @@
       "CachePath": "68/{680238FE-5EBB-F386-8A76-F9B773F98FCF}.wem"
      },
      {
+      "Id": "1064088634",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "statue_rotation.wav",
+      "CachePath": "B5/{B5C38B2B-63D7-4646-9676-65CFF7637DC7}.wem"
+     },
+     {
       "Id": "1065543167",
       "Language": "SFX",
       "Streaming": "false",
@@ -1058,6 +1122,14 @@
     ],
     "Plugins": {
      "Custom": [
+      {
+       "Id": "139464527",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\statue_rotation\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{C88A5963-FD57-4BF2-930B-F0B7B4905900}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
       {
        "Id": "215501508",
        "Name": "Time Stretch (Custom)",
@@ -1206,7 +1278,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "117517246"
+          "Id": "698807496"
          }
         ]
        },
@@ -1248,6 +1320,21 @@
           "Id": "193895961"
          }
         ]
+       }
+      ]
+     },
+     {
+      "Id": "200801602",
+      "Name": "SFX_ApoloMask",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ApoloMask",
+      "GUID": "{467B3DA6-3AD0-4E56-BE38-E5F74690B1CC}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.57341665",
+      "DurationMax": "0.57341665",
+      "MediaRefs": [
+       {
+        "Id": "647931888"
        }
       ]
      },
@@ -1426,17 +1513,47 @@
       ]
      },
      {
+      "Id": "3161303428",
+      "Name": "SFX_AresMask",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_AresMask",
+      "GUID": "{56BDF681-B2A1-4C83-8B34-FEAF64861A63}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.52244896",
+      "DurationMax": "0.52244896",
+      "MediaRefs": [
+       {
+        "Id": "228838431"
+       }
+      ]
+     },
+     {
+      "Id": "3607278939",
+      "Name": "SFX_HermesMask",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesMask",
+      "GUID": "{7A30299E-4B7A-49E3-971C-36E6298A0621}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.62693876",
+      "DurationMax": "0.62693876",
+      "MediaRefs": [
+       {
+        "Id": "728535981"
+       }
+      ]
+     },
+     {
       "Id": "1263671132",
       "Name": "SFX_ItemPickup",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ItemPickup",
       "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.3484488",
-      "DurationMax": "0.3484488",
+      "DurationMin": "2.544",
+      "DurationMax": "2.544",
       "MediaRefs": [
        {
-        "Id": "186892897"
+        "Id": "699306489"
        }
       ]
      },
@@ -1475,11 +1592,76 @@
       "GUID": "{6F7924D3-404C-4878-8045-8C6184257404}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.37730473",
-      "DurationMax": "0.37730473",
+      "DurationMin": "0.31362998",
+      "DurationMax": "0.39514902",
       "MediaRefs": [
        {
         "Id": "794836068"
+       }
+      ]
+     },
+     {
+      "Id": "2001794665",
+      "Name": "SFX_MaskSwitch",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_MaskSwitch",
+      "GUID": "{888B09A6-60B7-46C9-BEC1-ADA39DE0F851}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.31362998",
+      "DurationMax": "0.65658927",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1896747901",
+         "Id": "101172594",
+         "GUID": "{BC966D38-909D-47C1-8910-B95DC07A2B3C}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "647931888"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1896747901",
+         "Id": "2033570127",
+         "GUID": "{C3029395-B968-4EB1-B0DE-DCCE8C9BC41E}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "728535981"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1896747901",
+         "Id": "3686139476",
+         "GUID": "{EF79929D-8CFA-41AC-811C-863731FCCEFD}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "811278542"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1896747901",
+         "Id": "2941090332",
+         "GUID": "{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}",
+         "Default": "true"
+        },
+        "MediaRefs": [
+         {
+          "Id": "794836068"
+         }
+        ]
        }
       ]
      },
@@ -1982,6 +2164,51 @@
       ]
      },
      {
+      "Id": "3128226246",
+      "Name": "SFX_PotionDrink",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PotionDrink",
+      "GUID": "{69FBD98F-C3AB-4240-AF58-1326B0814BDA}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.537347",
+      "DurationMax": "1.537347",
+      "MediaRefs": [
+       {
+        "Id": "964848831"
+       }
+      ]
+     },
+     {
+      "Id": "3511972170",
+      "Name": "SFX_PressPlate",
+      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_PressPlate",
+      "GUID": "{348B4560-5EB4-42B6-82A2-C2BD590D65B7}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.47221923",
+      "DurationMax": "0.6775325",
+      "MediaRefs": [
+       {
+        "Id": "271606854"
+       }
+      ]
+     },
+     {
+      "Id": "1281281593",
+      "Name": "SFX_RockMove",
+      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_RockMove",
+      "GUID": "{3781C989-4AE3-430E-8606-1E5B0D50F2BA}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.0187755",
+      "DurationMax": "1.0187755",
+      "MediaRefs": [
+       {
+        "Id": "863671011"
+       }
+      ]
+     },
+     {
       "Id": "4188719418",
       "Name": "SFX_SirenDie",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenDie",
@@ -2141,6 +2368,28 @@
       ]
      },
      {
+      "Id": "3395391508",
+      "Name": "SFX_StatueTurn",
+      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_StatueTurn",
+      "GUID": "{676BBD1D-8F58-4B1E-BD80-B2817347EB98}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.27437082",
+      "DurationMax": "0.40519798",
+      "MediaRefs": [
+       {
+        "Id": "1064088634"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "139464527"
+        }
+       ]
+      }
+     },
+     {
       "Id": "3020549885",
       "Name": "SFX_TorchFire",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_TorchFire",
@@ -2188,11 +2437,11 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
       "DurationType": "OneShot",
-      "DurationMin": "0.1456175",
-      "DurationMax": "0.1456175",
+      "DurationMin": "0.5810417",
+      "DurationMax": "0.5810417",
       "MediaRefs": [
        {
-        "Id": "151597588"
+        "Id": "332618846"
        }
       ]
      }
@@ -2429,6 +2678,38 @@
       ]
      },
      {
+      "Id": "1896747901",
+      "Name": "Player_Mask",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask",
+      "GUID": "{12A4E3F4-E4EB-41D5-9517-59C6586A7F62}",
+      "Switches": [
+       {
+        "Id": "101172594",
+        "Name": "Apolo",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Apolo",
+        "GUID": "{BC966D38-909D-47C1-8910-B95DC07A2B3C}"
+       },
+       {
+        "Id": "2033570127",
+        "Name": "Hermes",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Hermes",
+        "GUID": "{C3029395-B968-4EB1-B0DE-DCCE8C9BC41E}"
+       },
+       {
+        "Id": "2941090332",
+        "Name": "NoMask",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\NoMask",
+        "GUID": "{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}"
+       },
+       {
+        "Id": "3686139476",
+        "Name": "Ares",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Mask\\Ares",
+        "GUID": "{EF79929D-8CFA-41AC-811C-863731FCCEFD}"
+       }
+      ]
+     },
+     {
       "Id": "4064446173",
       "Name": "Surface_Type",
       "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type",
@@ -2469,6 +2750,6 @@
     ]
    }
   ],
-  "FileHash": "{AC6599B9-79E5-A010-F1E3-012AA69B7BBE}"
+  "FileHash": "{29C999C1-C56E-A65A-DD35-4711DF5896A6}"
  }
 }

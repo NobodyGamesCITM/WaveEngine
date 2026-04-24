@@ -1545,10 +1545,6 @@ function Update(self, dt)
         end
     end
 
-    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) then
-        if self.public.health ~= 100 then _G.TriggerDrinkAnimation(self, true) end
-    end
-
     if Player.healAnimTimer > 0 then
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.healAnimTimer = Player.healAnimTimer - dt

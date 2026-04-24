@@ -37,5 +37,8 @@ function Update(self, deltaTime)
 end 
 
 function Restore(self)
-    --player lifes etc
+    if _G.PotionSystem then
+        _G.PotionSystem.public.potionCount = 4
+        _G.PotionSystem.public.berserkCount = 4
+    end
 end

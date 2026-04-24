@@ -469,7 +469,7 @@ local function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.5, 0.1, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.5, 0.15, indicatorLength)
     end
 
     preparationTimer = preparationTimer + dt

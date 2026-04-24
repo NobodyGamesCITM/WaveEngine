@@ -4203,9 +4203,33 @@
 														<MediaID ID="647931888"/>
 													</MediaIDList>
 												</AudioFileSource>
+												<AudioFileSource Name="apoloMask_02" ID="{FD825113-5F17-43D2-8125-0F44414430E3}">
+													<Language>SFX</Language>
+													<AudioFile>apoloMask_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="966255002"/>
+													</MediaIDList>
+												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{9AA4800B-0EA4-426A-959F-28806B77E994}" ShortID="861263450">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{08E0627A-7EBC-4639-8453-BC0723231960}" ShortID="447967320" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="75"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
-												<ActiveSource Name="apolo_mask" ID="{0C6D391B-A8DF-4CF3-AC76-BD84ABEB7EB8}" Platform="Linked"/>
+												<ActiveSource Name="apoloMask_02" ID="{FD825113-5F17-43D2-8125-0F44414430E3}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="ares_mask" ID="{D184606A-5621-4173-AB30-3FE9926D9F43}" ShortID="88106958">
@@ -4228,6 +4252,13 @@
 														<MediaID ID="811278542"/>
 													</MediaIDList>
 												</AudioFileSource>
+												<AudioFileSource Name="maskAres_02" ID="{D20D588A-0122-4B4F-8242-9647A8E980A4}">
+													<Language>SFX</Language>
+													<AudioFile>maskAres_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="818783277"/>
+													</MediaIDList>
+												</AudioFileSource>
 											</ChildrenList>
 											<ObjectLists>
 												<ObjectList Name="Effects">
@@ -4240,7 +4271,7 @@
 																<Custom>
 																	<Effect Name="Time Stretch (Custom)" ID="{10CC5E94-540E-4802-BA20-8F00E1DCB8A4}" ShortID="426040030" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
 																		<PropertyList>
-																			<Property Name="TimeStretch" Type="Real32" Value="173"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="75"/>
 																		</PropertyList>
 																	</Effect>
 																</Custom>
@@ -4250,10 +4281,13 @@
 												</ObjectList>
 											</ObjectLists>
 											<ActiveSourceList>
-												<ActiveSource Name="ares_mask" ID="{4B190131-DA9D-4E7F-897B-9D12E069391F}" Platform="Linked"/>
+												<ActiveSource Name="maskAres_02" ID="{D20D588A-0122-4B4F-8242-9647A8E980A4}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="hermes_mask" ID="{40C85A19-1913-422E-B567-47A3FFE966B3}" ShortID="660199191">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -4271,6 +4305,23 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{11FF273F-9968-4BBA-BFA6-2E6F1C764A08}" ShortID="400206049">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{46C66807-33B9-4504-BAEC-26C5F4B4E0A1}" ShortID="394741058" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="130"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="hermes_mask" ID="{A19B8E0D-7CDD-4851-B3D9-DD4565BCD553}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -4426,6 +4477,13 @@
 												<MediaID ID="228838431"/>
 											</MediaIDList>
 										</AudioFileSource>
+										<AudioFileSource Name="maskAres_02" ID="{BB7A5513-FB6A-437A-9868-7A2F6EFD63DF}">
+											<Language>SFX</Language>
+											<AudioFile>maskAres_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="526649077"/>
+											</MediaIDList>
+										</AudioFileSource>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Effects">
@@ -4448,13 +4506,18 @@
 										</ObjectList>
 									</ObjectLists>
 									<ActiveSourceList>
-										<ActiveSource Name="ares_mask" ID="{BC3D4EE7-5BB5-47A9-9844-89AE58D932D2}" Platform="Linked"/>
+										<ActiveSource Name="maskAres_02" ID="{BB7A5513-FB6A-437A-9868-7A2F6EFD63DF}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="apolo_mask_01" ID="{49A9D39F-266B-4148-AA2E-1663810B750A}" ShortID="651628433">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
@@ -4475,9 +4538,16 @@
 												<MediaID ID="647931888"/>
 											</MediaIDList>
 										</AudioFileSource>
+										<AudioFileSource Name="apoloMask_02" ID="{CCB26F93-38D8-4675-852B-19E503427D6D}">
+											<Language>SFX</Language>
+											<AudioFile>apoloMask_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="966255002"/>
+											</MediaIDList>
+										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="apolo_mask" ID="{566AF9A9-87AB-421E-BCF0-B1C63EDCCAF5}" Platform="Linked"/>
+										<ActiveSource Name="apoloMask_02" ID="{CCB26F93-38D8-4675-852B-19E503427D6D}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="hermes_mask_01" ID="{F5999350-27C4-4A1D-AD56-687E4065DFF3}" ShortID="816282747">
@@ -4542,7 +4612,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-10</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>

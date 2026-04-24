@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{04C6F051-DE8B-AECF-CE30-D912B7A6094D}",
+    "Hash": "{CC6C1EFF-095B-92D9-8681-6ACF177591F8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -230,14 +230,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_footstep_04.wav",
       "CachePath": "6F/{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem"
-     },
-     {
-      "Id": "228838431",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "ares_mask.wav",
-      "CachePath": "E6/{E6CE383E-A8E4-145A-6F11-B0B37B889FC8}.wem"
      },
      {
       "Id": "232432669",
@@ -536,6 +528,14 @@
       "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
      },
      {
+      "Id": "526649077",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "maskAres_02.wav",
+      "CachePath": "78/{7834B940-17B0-C512-5FA8-8FB447233987}.wem"
+     },
+     {
       "Id": "531473372",
       "Language": "SFX",
       "Streaming": "false",
@@ -688,14 +688,6 @@
       "CachePath": "92/{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem"
      },
      {
-      "Id": "647931888",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "apolo_mask.wav",
-      "CachePath": "01/{012C787F-05EF-E408-80AC-7AE5E5C3E018}.wem"
-     },
-     {
       "Id": "653184964",
       "Language": "SFX",
       "Streaming": "false",
@@ -832,12 +824,12 @@
       "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
      },
      {
-      "Id": "811278542",
+      "Id": "818783277",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "ares_mask.wav",
-      "CachePath": "B3/{B348EADA-3CB9-9FF1-75D1-4389B2A253A6}.wem"
+      "ShortName": "maskAres_02.wav",
+      "CachePath": "61/{61F6E13A-C896-C0F6-97DA-3890D666EB0F}.wem"
      },
      {
       "Id": "822076345",
@@ -1016,6 +1008,14 @@
       "CachePath": "66/{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem"
      },
      {
+      "Id": "966255002",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "apoloMask_02.wav",
+      "CachePath": "D7/{D7337D12-1B41-0377-E697-95027EB2FA51}.wem"
+     },
+     {
       "Id": "970219648",
       "Language": "SFX",
       "Streaming": "false",
@@ -1143,6 +1143,22 @@
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_water\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
        "GUID": "{C8E01705-A7B4-4146-8E37-1EDA5EB9A392}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
+       "Id": "394741058",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\hermes_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{46C66807-33B9-4504-BAEC-26C5F4B4E0A1}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
+       "Id": "447967320",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\apolo_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{08E0627A-7EBC-4639-8453-BC0723231960}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
       },
@@ -1338,11 +1354,11 @@
       "GUID": "{467B3DA6-3AD0-4E56-BE38-E5F74690B1CC}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.57341665",
-      "DurationMax": "0.57341665",
+      "DurationMin": "1.3778541",
+      "DurationMax": "1.3778541",
       "MediaRefs": [
        {
-        "Id": "647931888"
+        "Id": "966255002"
        }
       ]
      },
@@ -1527,11 +1543,11 @@
       "GUID": "{56BDF681-B2A1-4C83-8B34-FEAF64861A63}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.52244896",
-      "DurationMax": "0.52244896",
+      "DurationMin": "1.5036666",
+      "DurationMax": "1.5036666",
       "MediaRefs": [
        {
-        "Id": "228838431"
+        "Id": "526649077"
        }
       ]
      },
@@ -1616,7 +1632,7 @@
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "0.37730473",
-      "DurationMax": "0.62693876",
+      "DurationMax": "1.5036666",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1627,9 +1643,16 @@
         },
         "MediaRefs": [
          {
-          "Id": "647931888"
+          "Id": "966255002"
          }
-        ]
+        ],
+        "PluginRefs": {
+         "Custom": [
+          {
+           "Id": "447967320"
+          }
+         ]
+        }
        },
        {
         "SwitchValue": {
@@ -1642,7 +1665,14 @@
          {
           "Id": "728535981"
          }
-        ]
+        ],
+        "PluginRefs": {
+         "Custom": [
+          {
+           "Id": "394741058"
+          }
+         ]
+        }
        },
        {
         "SwitchValue": {
@@ -1653,7 +1683,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "811278542"
+          "Id": "818783277"
          }
         ]
        },
@@ -2773,6 +2803,6 @@
     ]
    }
   ],
-  "FileHash": "{DCC839F8-F7B3-7B27-7D72-56D91D705266}"
+  "FileHash": "{936A77B7-EC2A-D742-C424-DAAF4C6CBF5F}"
  }
 }

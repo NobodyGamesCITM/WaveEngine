@@ -47,6 +47,7 @@
 						<ObjectRef Name="SFX_SkeletonDie" ID="{4EBB27EA-7D02-4A1F-86B5-A61D1695B5C1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesShield" ID="{B33E9F00-8627-4A23-A54D-B16E09F44577}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_StatueTurn" ID="{676BBD1D-8F58-4B1E-BD80-B2817347EB98}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_PlayerRoll" ID="{791AC566-9B37-4B72-B77D-D35D4FB37976}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AresMask" ID="{56BDF681-B2A1-4C83-8B34-FEAF64861A63}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesSteps" ID="{277F7057-B177-4CE2-BE5F-B45532FA2A5A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonHit" ID="{A037AFEA-4E4D-4D0C-B300-90505F93E833}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

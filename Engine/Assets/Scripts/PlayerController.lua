@@ -97,7 +97,7 @@ local Player = {
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
     hermesRespawnCooldown = 0,
-    baseSpeed = 15.0,
+    baseSpeed = 0.0,
     isGrounded = false,
 
     attackBuffer = false,
@@ -287,7 +287,7 @@ local function GetAttackInput(self)
 end
 
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
-    local speed = speedOverride or self.public.speed
+    local speed = speedOverride or Player.currentSpeed
     local faceDirX = moveX / INPUT_SCALE
     local faceDirZ = moveZ / INPUT_SCALE
     local velY = 0
@@ -334,7 +334,7 @@ local function UpdateFlyingGodMode(self, dt)
         Player.rb:SetRotation(0, Player.lastAngle, 0)
     end
 
-    local hSpeed = self.public.speed
+    local hSpeed = Player.currentSpeed
     if Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5 then
         hSpeed = hSpeed + self.public.speedIncrease
     end
@@ -691,7 +691,7 @@ States[State.WALK] = {
             end
         end
         
-        ApplyMovementAndRotation(self, dt, moveX, moveZ)
+        ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.baseSpeed)
     end
 }
 
@@ -704,7 +704,7 @@ States[State.RUNNING] = {
         end
 
         self.public.usingStamina = true
-        self.public.speed = Player.baseSpeed + self.public.speedIncrease
+        Player.currentSpeed = Player.baseSpeed + self.public.speedIncrease
         if Player.currentMask == Mask.HERMES then
             self.public.speed = self.public.speed + self.public.speedHermesBonus
         end		
@@ -714,7 +714,7 @@ States[State.RUNNING] = {
         elseif Player.smokePS then Player.smokePS:Play() end
     end,
     Exit = function(self)
-        self.public.speed = Player.baseSpeed
+        Player.currentSpeed = Player.baseSpeed
         self.public.usingStamina = false
 		if Player.smokePS then Player.smokePS:Stop() end
 		if Player.bubblesPS then Player.bubblesPS:Stop() end
@@ -777,7 +777,7 @@ States[State.RUNNING] = {
                 if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
             end
         end
-        ApplyMovementAndRotation(self, dt, moveX, moveZ)
+        ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.currentSpeed)
     end
 }
 
@@ -823,6 +823,7 @@ States[State.CHARGING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Ares", 0.5) end
         attackTimer = 0
+        chargeCol = self.gameObject:GetComponent("Sphere Collider")
         if chargeCol then 
             chargeCol:Enable() 
             _PlayerController_lastAttack = "charge"
@@ -927,6 +928,7 @@ States[State.ATTACK_HEAVY] = {
         if anim then anim:Play("Hermes", 1.0) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
+        heavyCol = self.gameObject:GetComponent("Capsule Collider")
         if heavyCol then heavyCol:Disable() end
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
@@ -982,6 +984,7 @@ States[State.ATTACK_HEAVY] = {
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         attackTimer = 0
+        attackCol = self.gameObject:GetComponent("Box Collider")
         if attackCol then attackCol:Disable() end
         if Input.HasGamepad() then Input.RumbleGamepad(0.5, 0.5, 200) end
 
@@ -1192,6 +1195,16 @@ function Start(self)
 
     _G.PlayerInstance = self
 
+    --force stats
+    rollCooldown   = 0
+    attackCooldown = 0
+    impulseDone    = false
+    attackTimer    = 0
+    stepTimer      = 0
+    attackBuffer   = false
+    attackBufferPending = false
+    attackNum      = 0
+
     -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
     -- El estado de pausa es responsabilidad exclusiva de MenuManager.
     -- Game.SetTimeScale solo se resetea tras cambio de escena (ver Update).
@@ -1208,6 +1221,7 @@ function Start(self)
     Player.respawnPos = spawnPos
     lastCheckpoint = spawnPos
     Player.baseSpeed = self.public.speed
+    Player.currentSpeed = self.public.speed
     
     _impactFrameTimer = 0
     attackBuffer = false
@@ -1471,6 +1485,11 @@ function Update(self, dt)
         InitParticles(self)
         FindMasks(self)
         EquipMask(self, Player.currentMask)
+
+        self.public.staminaCost    = 20.0   
+        self.public.staminaRecover = 15.0 
+        Player.baseSpeed = self.public.speed
+        Player.currentSpeed = self.public.speed
         
         Player.firstFrameCheck = true
 

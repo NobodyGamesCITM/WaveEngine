@@ -1663,9 +1663,6 @@ void InspectorWindow::DrawScriptComponent(Component* component)
                                 {
                                     
                                     std::string fullPath = file;
-                                    
-                                    //UID sceneUID = Application::GetInstance().resources.get()->Find(fullPath.c_str(), Resource::Type::SCENE);
-                                    
                                     bool selected = (currentScene == fullPath);
                                     if (ImGui::Selectable(file.c_str(), selected))
                                     {
@@ -1732,54 +1729,83 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
         if (ImGui::BeginPopup(popupID.c_str()))
         {
+            static char scriptFilter[128] = "";
+            if (ImGui::IsWindowAppearing())
+                scriptFilter[0] = '\0';
+
             ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f), "Select Lua Script");
             ImGui::Separator();
+
+            if (ImGui::IsWindowAppearing())
+                ImGui::SetKeyboardFocusHere();
+            ImGui::SetNextItemWidth(-1);
+            ImGui::InputTextWithHint("##ScriptFilter", "Search scripts...", scriptFilter, sizeof(scriptFilter));
+            ImGui::Separator();
+
+            std::string filterStr(scriptFilter);
+            std::string filterLower = filterStr;
+            std::transform(filterLower.begin(), filterLower.end(), filterLower.begin(), ::tolower);
 
             ModuleResources* resources = Application::GetInstance().resources.get();
             const auto& allResources = resources->GetAllResources();
 
-            bool foundScripts = false;
+            bool foundAny = false;
 
             for (const auto& [uid, resource] : allResources)
             {
-                if (resource->GetType() == Resource::SCRIPT)
+                if (resource->GetType() != Resource::SCRIPT)
+                    continue;
+
+                std::string filepath = resource->GetAssetFile();
+                std::string filename = std::filesystem::path(filepath).filename().string();
+
+                if (!filterLower.empty())
                 {
-                    foundScripts = true;
+                    std::string filenameLower = filename;
+                    std::transform(filenameLower.begin(), filenameLower.end(), filenameLower.begin(), ::tolower);
+                    if (filenameLower.find(filterLower) == std::string::npos)
+                        continue;
+                }
 
-                    std::string filepath = resource->GetAssetFile();
-                    std::string filename = std::filesystem::path(filepath).filename().string();
+                foundAny = true;
 
-                    bool isSelected = (scriptComp->HasScript() && scriptComp->GetScriptUID() == uid);
+                bool isSelected = (scriptComp->HasScript() && scriptComp->GetScriptUID() == uid);
 
-                    if (ImGui::Selectable(filename.c_str(), isSelected))
-                    {
-                        if (scriptComp->LoadScriptByUID(uid))
-                            LOG_CONSOLE("[Inspector] Script '%s' assigned to '%s'",
-                                filename.c_str(), component->owner->GetName().c_str());
-                        else
-                            LOG_CONSOLE("[Inspector] Failed to load script '%s'", filename.c_str());
+                if (ImGui::Selectable(filename.c_str(), isSelected))
+                {
+                    if (scriptComp->LoadScriptByUID(uid))
+                        LOG_CONSOLE("[Inspector] Script '%s' assigned to '%s'",
+                            filename.c_str(), component->owner->GetName().c_str());
+                    else
+                        LOG_CONSOLE("[Inspector] Failed to load script '%s'", filename.c_str());
 
-                        ImGui::CloseCurrentPopup();
-                    }
+                    ImGui::CloseCurrentPopup();
+                }
 
-                    if (isSelected)
-                        ImGui::SetItemDefaultFocus();
+                if (isSelected)
+                    ImGui::SetItemDefaultFocus();
 
-                    if (ImGui::IsItemHovered())
-                    {
-                        ImGui::BeginTooltip();
-                        ImGui::Text("UID: %llu", uid);
-                        ImGui::Text("Path: %s", filepath.c_str());
-                        ImGui::EndTooltip();
-                    }
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("UID: %llu", uid);
+                    ImGui::Text("Path: %s", filepath.c_str());
+                    ImGui::EndTooltip();
                 }
             }
 
-            if (!foundScripts)
+            if (!foundAny)
             {
-                ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No .lua scripts found");
-                ImGui::Spacing();
-                ImGui::TextWrapped("Create a .lua file in Assets/Scripts/");
+                if (filterLower.empty())
+                {
+                    ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No .lua scripts found");
+                    ImGui::Spacing();
+                    ImGui::TextWrapped("Create a .lua file in Assets/Scripts/");
+                }
+                else
+                {
+                    ImGui::TextDisabled("No results for \"%s\"", scriptFilter);
+                }
             }
 
             ImGui::EndPopup();
@@ -1788,6 +1814,7 @@ void InspectorWindow::DrawScriptComponent(Component* component)
         ImGui::Unindent();
     }
 }
+
 void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
 {
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.5f, 0.8f, 1.0f));

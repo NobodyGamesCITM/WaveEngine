@@ -1050,6 +1050,12 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
 
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then
+        anim:Play("Idle", 0.0)
+        anim:Play("Hit", 0.0)
+    end
+
     self.public.health = math.max(0, self.public.health - amount)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 

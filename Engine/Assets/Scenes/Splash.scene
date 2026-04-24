@@ -1,0 +1,100 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        1.5,
+                        10.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 2.0,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": false
+                }
+            ],
+            "name": "Camera",
+            "tag": "",
+            "uid": 3923735618356656229
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "opacity": 1.0,
+                    "type": 30,
+                    "uiLayer": 0,
+                    "xamlPath": "SplashScreen.xaml"
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "totalDuration",
+                            "type": 0,
+                            "value": 6.5
+                        },
+                        {
+                            "name": "fadeSpeed",
+                            "type": 0,
+                            "value": 0.5
+                        }
+                    ],
+                    "scriptUID": 9029998064422359462,
+                    "type": 6
+                }
+            ],
+            "name": "Canvas",
+            "tag": "",
+            "uid": 14096014066874254419
+        }
+    ],
+    "version": 1
+}

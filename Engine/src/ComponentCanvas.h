@@ -20,6 +20,7 @@ public:
     bool LoadXAML(const char* filename);
     void UnloadXAML();
     void Resize(int width, int height);
+    void PlayStoryboard(const char* name);
 
     void SetOpacity(float alpha);
     float GetOpacity() const;

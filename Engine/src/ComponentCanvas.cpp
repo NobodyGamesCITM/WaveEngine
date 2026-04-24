@@ -17,6 +17,7 @@
 #include "NsGui/IView.h"
 #include "NsGui/FrameworkElement.h"
 #include "NsGui/IntegrationAPI.h"
+#include <NsGui/Storyboard.h>
 #include <NsApp/GamepadTrigger.h>
 #include "UIManager.h"
 #include <NsGui/VisualTreeHelper.h>
@@ -389,4 +390,15 @@ float ComponentCanvas::GetOpacity() const
 {
     return opacity;
 
+}
+
+void ComponentCanvas::PlayStoryboard(const char* name)
+{
+    if (!view) return;
+    Noesis::FrameworkElement* root = view->GetContent();
+    if (!root) return;
+
+    Noesis::Storyboard* sb = root->FindResource<Noesis::Storyboard>(name);
+    if (sb)
+        sb->Begin(root);
 }

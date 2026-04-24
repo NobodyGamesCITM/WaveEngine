@@ -1,5 +1,6 @@
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local FADE_DURATION      = 0.4
+local SCENE_FADE_DURATION = 1.2
 
 Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
 
@@ -53,6 +54,7 @@ function Initialize(self)
     self.fadeTimer = 0.0
     self.fading = false
     self.history = {}
+    self.pendingScene = nil
     self.loggedReady = false
     self.lastPauseState = nil 
 
@@ -85,13 +87,13 @@ function Initialize(self)
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
     local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene")
 
-    if isGameplayScene and self.current == "MainMenu.xaml" then
+    if isGameplayScene and self.current:find("MainMenu.xaml") then
         Engine.Log("[MenuManager] Limpiando MainMenu residual en escena de juego para evitar auto-pause.")
         self.canvas:LoadXAML("HUD.xaml")
         self.current = "HUD.xaml"
     end
 
-    if not self.current or self.current == "" or (self.current == "MainMenu.xaml" and isGameplayScene) then
+    if not self.current or self.current == "" or (self.current:find("MainMenu.xaml") and isGameplayScene) then
         if isGameplayScene then
             self.current = "HUD.xaml"
             self.canvas:LoadXAML("HUD.xaml")
@@ -102,7 +104,7 @@ function Initialize(self)
         _G.CurrentXAML = self.current
     end
 
-    if self.current == "MainMenu.xaml" and not isGameplayScene then
+    if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")
         Game.Pause()
         self.lastPauseState = "paused"
@@ -133,14 +135,14 @@ function Update(self, dt)
         Initialize(self)
     end
 
-    local isActualMenu = (self.current ~= "HUD.xaml" and self.current ~= "" and self.current ~= nil)
+    local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
 
     if isActualMenu then
         if self.lastPauseState ~= "paused" then
             Game.Pause()
             self.lastPauseState = "paused"
         end
-        if self.current == "MainMenu.xaml" then
+        if self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
         end
@@ -236,7 +238,12 @@ function Update(self, dt)
         end
 
         if UI.WasClicked("StartButton") then
-            NavigateTo(self, "HUD.xaml")
+            if not self.fading then
+                Engine.Log("[MenuManager] StartButton clicked: Iniciando fade out para cargar nivel...")
+                self.pendingScene = "Level1.scene"
+                self.fading = true
+                self.canvas:PlayStoryboard("FadeOut") -- Ejecutar animación de salida en el XAML
+            end
         end
         if UI.WasClicked("SettingsButton") then
             NavigateTo(self, "SettingsMenu.xaml")
@@ -284,16 +291,30 @@ function Update(self, dt)
     end
 
     if self.phase == "fadeOut" then
-        local t     = math.min(self.fadeTimer / FADE_DURATION, 1.0)
-        local alpha = 1.0 - EaseInOutQuad(t)
-        self.canvas:SetOpacity(alpha)
+        local duration = self.pendingScene and SCENE_FADE_DURATION or FADE_DURATION
+        local t     = math.min(self.fadeTimer / duration, 1.0)
+        
+        -- Solo desvanecemos el Canvas entero si NO vamos a una escena nueva.
+        -- Si vamos a una escena, el Canvas se queda al 100% (negro) y el XAML hace su propia magia.
+        if not self.pendingScene then
+            local alpha = 1.0 - EaseInOutQuad(t)
+            self.canvas:SetOpacity(alpha)
+        end
 
         if t >= 1.0 then
-            self.canvas:SetOpacity(0.0)
+            if not self.pendingScene then self.canvas:SetOpacity(0.0) end
             SetPhase(self, "swap")
         end
 
     elseif self.phase == "swap" then
+        -- Si hay una escena pendiente, la cargamos ahora que el fade out ha terminado
+        if self.pendingScene then
+            Engine.Log("[MenuManager] Swap phase: Cargando escena " .. self.pendingScene)
+            Engine.LoadScene(self.pendingScene)
+            self.pendingScene = nil
+            return -- Detenemos la ejecución aquí ya que la escena cambiará
+        end
+
         if self.nextXaml == "PauseMenu.xaml" then
             if _G.SuspendDialog then _G.SuspendDialog() end
         elseif self.nextXaml == "HUD.xaml" and self.current == "PauseMenu.xaml" then

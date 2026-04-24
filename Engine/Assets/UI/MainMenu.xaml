@@ -1,4 +1,5 @@
 <Grid
+  Background="Black"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -121,6 +122,9 @@
             </Style>
 
             <Storyboard x:Key="Intro">
+                <!-- Fade In desde negro (RootContent contiene la imagen y botones) -->
+                <DoubleAnimation Storyboard.TargetName="RootContent" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"/>
+
                 <!-- START -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="StartButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
@@ -158,6 +162,11 @@
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
 
+            <!-- Fade Out hacia negro (desvanece el contenido pero deja el Grid Background="Black" visible) -->
+            <Storyboard x:Key="FadeOut">
+                <DoubleAnimation Storyboard.TargetName="RootContent" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1.2"/>
+            </Storyboard>
+
         </ResourceDictionary>
     </Grid.Resources>
 
@@ -167,12 +176,13 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <Grid.Background>
-        <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
-    </Grid.Background>
+    <Grid x:Name="RootContent" Opacity="0">
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
+        </Grid.Background>
 
-    <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid x:Name="LayoutRoot" Width="1280" Height="720">
+        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid x:Name="LayoutRoot" Width="1280" Height="720">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="768"/>
                 <ColumnDefinition Width="512"/>
@@ -246,5 +256,5 @@
             </Grid>
         </Grid>
     </Viewbox>
-
+    </Grid>
 </Grid>

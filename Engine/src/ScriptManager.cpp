@@ -41,6 +41,7 @@
 #include "ResourceScript.h"
 #include "ComponentLight.h"
 #include "LightManager.h"
+#include "ComponentPostProcessing.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -128,6 +129,7 @@ bool ScriptManager::Start() {
     RegisterGameObjectAPI();
     RegisterComponentAPI();
     RegisterPrefabAPI();
+    RegisterPostProcessingAPI();
 
     LOG_CONSOLE("[ScriptManager] Started successfully");
     return true;
@@ -282,6 +284,7 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
     {"R", SDL_SCANCODE_R}, {"F", SDL_SCANCODE_F}, {"G", SDL_SCANCODE_G},
     {"Z", SDL_SCANCODE_Z}, {"X", SDL_SCANCODE_X}, {"C", SDL_SCANCODE_C},
+    {"Enter", SDL_SCANCODE_RETURN},
     {"V", SDL_SCANCODE_V}, {"B", SDL_SCANCODE_B}, {"N", SDL_SCANCODE_N},
     {"M", SDL_SCANCODE_M}, {"J", SDL_SCANCODE_J}, {"K", SDL_SCANCODE_K}, 
     {"L", SDL_SCANCODE_L}, {"U", SDL_SCANCODE_U}, {"I", SDL_SCANCODE_I},
@@ -1965,6 +1968,25 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         return 1;
     }
 
+    if (strcmp(componentType, "PostProcessing") == 0) {
+        Component* comp = obj->GetComponent(ComponentType::POSTPROCESSING);
+        ComponentPostProcessing* pp = static_cast<ComponentPostProcessing*>(comp);
+        if (!pp) {
+            lua_pushnil(L);
+            return 1;
+        }
+
+        ComponentPostProcessing** udata = static_cast<ComponentPostProcessing**>(
+            lua_newuserdata(L, sizeof(ComponentPostProcessing*))
+        );
+        *udata = pp;
+
+        luaL_getmetatable(L, "PostProcessing");
+        lua_setmetatable(L, -2);
+
+        return 1;
+    }
+
     if (strcmp(componentType, "Material") == 0) {
         Component* comp = obj->GetComponent(ComponentType::MATERIAL);
         ComponentMaterial* mat = static_cast<ComponentMaterial*>(comp); 
@@ -2011,13 +2033,24 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
                 lua_touserdata(L, lua_upvalueindex(1)));
             const char* xamlPath = luaL_checkstring(L, 2);
-            std::string path(xamlPath);
-            Application::GetInstance().scripts->EnqueueOperation([canvas, path]() {
-                canvas->LoadXAML(path.c_str());
-                });
+            if (canvas) {
+                canvas->LoadXAML(xamlPath);
+            }
             return 0;
             }, 1);
         lua_setfield(L, -2, "LoadXAML");
+
+        // PlayStoryboard
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            const char* sbName = luaL_checkstring(L, 2);
+            if (canvas)
+                canvas->PlayStoryboard(sbName);
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "PlayStoryboard");
 
         return 1;
     }
@@ -2413,6 +2446,110 @@ static int Lua_GameObject_Index(lua_State* L) {
     return 0;
 }
 
+// -------------------------- POST PROCESSING API -------------------------------------
+
+static int Lua_PostProcessing_SetBloomEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetBloomIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetBloomThreshold(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.threshold = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetColorGradingEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetExposure(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.exposure = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetContrast(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.contrast = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetSaturation(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.saturation = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetTemperature(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.temperature = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetVignetteEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteEnabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetVignetteIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteIntensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetCAEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.chromaticAberrationEnabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetCAIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.chromaticAberrationIntensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetDoFEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetDoFDistance(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.focusDistance = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetGrainEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->grain.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetBlurEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->blur.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetBlurIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->blur.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
 void ScriptManager::RegisterGameObjectAPI() {
     // Create metatable for GameObject
     luaL_newmetatable(L, "GameObject");
@@ -2719,6 +2856,35 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetStartColor");
     lua_pushcfunction(L, Lua_ParticleSystem_SetEndColor);
     lua_setfield(L, -2, "SetEndColor");
+    lua_pop(L, 1);
+}
+
+void ScriptManager::RegisterPostProcessingAPI() {
+    luaL_newmetatable(L, "PostProcessing");
+    lua_pushvalue(L, -1);
+    lua_setfield(L, -2, "__index");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomEnabled);      lua_setfield(L, -2, "SetBloomEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomIntensity);    lua_setfield(L, -2, "SetBloomIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomThreshold);    lua_setfield(L, -2, "SetBloomThreshold");
+    
+    lua_pushcfunction(L, Lua_PostProcessing_SetColorGradingEnabled); lua_setfield(L, -2, "SetColorGradingEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetExposure);          lua_setfield(L, -2, "SetExposure");
+    lua_pushcfunction(L, Lua_PostProcessing_SetContrast);          lua_setfield(L, -2, "SetContrast");
+    lua_pushcfunction(L, Lua_PostProcessing_SetSaturation);        lua_setfield(L, -2, "SetSaturation");
+    lua_pushcfunction(L, Lua_PostProcessing_SetTemperature);       lua_setfield(L, -2, "SetTemperature");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFEnabled);        lua_setfield(L, -2, "SetDoFEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFDistance);       lua_setfield(L, -2, "SetDoFDistance");
+    lua_pushcfunction(L, Lua_PostProcessing_SetGrainEnabled);      lua_setfield(L, -2, "SetGrainEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBlurEnabled);       lua_setfield(L, -2, "SetBlurEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBlurIntensity);     lua_setfield(L, -2, "SetBlurIntensity");
+
     lua_pop(L, 1);
 }
 

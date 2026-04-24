@@ -16,79 +16,25 @@ local State = {
     DEAD        = "Dead",
 }
 
--- Public variables
-public = {
-    maxHp           = 60,
-    detectRange     = 15.0,
-    tooCloseRange   = 3.5,
-    chargeRange     = 12.0,
-
-    preparationTime = 3.0,
-    chargeSpeed     = 18.0,
-    chargeDuration  = 0.8,
-    knockbackForce  = 8.0,
-    wallStunTime    = 5.0,
-    wallSpeedThresh = 1.5,
-
-    --Movement
-    moveSpeed       = 10.0,
-    rotationSpeed   = 3.0,
-
-    stopSmoothing   = 8.0,
-
-
-    hurtStunTime = 0.8,
-    afterStunTime = 2.2,
-
-    enemyDamageMin=5,
-    enemyDamageMax=35,
-
-    predictionTime = 0.4, 
-
-}
+-- Public variables (ahora viven en self.public dentro de Start para evitar conflictos globales)
 
 -- Internal variables
-local currentState = State.IDLE
-local hp           = 0
-local isDead       = false
-local deathTimer = 3.5
-local alreadyHit   = false
-local attackCol    = nil
-local playerAttackHandled = false
 
-local smoothDx = 0
-local smoothDz = 0
-local wallStunTimer = 0
 
-local rb       = nil
-local anim     = nil
-local playerGO = nil
 
-local preparationTimer = 0
-local chargeTimer      = 0
-local currentYaw       = 0
 
-local chargeDirX = 0
-local chargeDirZ = 1
 
 -- Inertia after charge (sliding)
-local slideVelX = 0
-local slideVelZ = 0
 
 _EnemyDamage_minocabro = 35
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
-local cameFromWall   = false
-local pendingWallHit = false
 
 -- Sounds
-local voiceSFX = nil
-local stepSFX  = nil
-local stepSource        = nil
-local voiceSource       = nil
-local stepTimer = 0
+
+local BaseMat = nil
 
 -- Helpers
 local function lerp(a, b, t)
@@ -103,8 +49,8 @@ local function shortAngleDiff(a, b)
     return d
 end
 
-local function PlayAnim(name, blend)
-    if anim then anim:Play(name, blend or 0.15) end
+local function PlayAnim(self, name, blend)
+    if self.anim then self.anim:Play(name, blend or 0.15) end
 end
 
 local function Dist(a, b)
@@ -115,116 +61,123 @@ end
 local function RotateTowards(self, dirX, dirZ, speed, dt)
     if abs(dirX) < 0.01 and abs(dirZ) < 0.01 then return end
     local targetAngle = atan2(dirX, dirZ) * (180.0 / pi)
-    local diff = shortAngleDiff(currentYaw, targetAngle)
-    currentYaw = currentYaw + diff * speed * dt
-    rb:SetRotation(0, currentYaw, 0)
+    local diff = shortAngleDiff(self.currentYaw, targetAngle)
+    self.currentYaw = self.currentYaw + diff * speed * dt
+    self.rb:SetRotation(0, self.currentYaw, 0)
 end 
 
-local function StopMovement()
-    if not rb then return end
-    local vel = rb:GetLinearVelocity()
-    rb:SetLinearVelocity(0, vel.y, 0)
-    smoothDx, smoothDz = 0, 0
+local function StopMovement(self)
+    if not self.rb then return end
+    local vel = self.rb:GetLinearVelocity()
+    self.rb:SetLinearVelocity(0, vel.y, 0)
+    self.smoothDx, self.smoothDz = 0, 0
 end
 
 
-local function ChangeState(newState)
-    currentState = newState
+local function ChangeState(self, newState)
+    self.currentState = newState
     Engine.Log("[Minocabro] -> " .. newState)
 
     if newState == State.CHARGE then
-        if voiceSFX then  voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
+        if self.voiceSFX then  self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
     elseif newState == State.WALL then
-        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoStun") end
+        if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoStun") end
     elseif newState == State.ANTICIPATION then
-        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoRoar") end
+        if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoRoar") end
     elseif newState == State.DEAD then
-        if voiceSFX then voiceSFX:StopAudioEvent() voiceSFX:SelectPlayAudioEvent("SFX_MinoDeath") end
+        if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDeath") end
     end
 end
 
 local function TakeDamage(self, amount, attackerPos)
-    if isDead then return end
+    if self.isDead then return end
 
-    hp = hp - amount
-    Engine.Log("[Minocabro] HP: " .. hp .. "/" .. self.public.maxHp)
+    self.hp = self.hp - amount
+    Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
 
-    if rb and attackerPos then
+    if self.rb and attackerPos then
         local pos = self.transform.worldPosition
         local dx  = pos.x - attackerPos.x
         local dz  = pos.z - attackerPos.z
         local len = sqrt(dx*dx + dz*dz)
         if len > 0.001 then dx = dx/len; dz = dz/len end
-        rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
+        self.rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
     end
 
-    if hp <= 0 then
-        if anim then anim:Play("Death") end
-        ChangeState(State.DEAD)
+    if self.hp <= 0 then
+        if self.anim then self.anim:Play("Death") end
+        ChangeState(self, State.DEAD)
     else
         
-        if voiceSFX then voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
+        if self.voiceSFX then self.voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
         
-        if anim then anim:Play("Hurt") end
-        StopMovement()
+        if self.anim then self.anim:Play("Hurt") end
+        StopMovement(self)
 
-        wallStunTimer = self.public.hurtStunTime
-        wallStunTimer = wallStunTimer - dt
-        if wallStunTimer <= 0 then
-            ChangeState(State.RECOVERY)
+        self.wallStunTimer = self.public.hurtStunTime
+        self.wallStunTimer = self.wallStunTimer - dt
+        if self.wallStunTimer <= 0 then
+            ChangeState(self, State.RECOVERY)
         end
 
     end
 end
 
 -- State functions
-function UpdateIdle(self, dist)
+local function UpdateIdle(self, dist)
     if dist <= self.public.detectRange then
-        ChangeState(State.CHASE)
+        ChangeState(self, State.CHASE)
     end
-    --if anim and not anim:IsPlayingAnimation("Idle") then
-        --anim:Play("Idle")
+    --if self.anim and not self.anim:IsPlayingAnimation("Idle") then
+        --self.anim:Play("Idle")
     --end
 end
 
-function UpdateChase(self, myPos, pp, dist, dt)
+local function UpdateChase(self, myPos, pp, dist, dt)
     local dx = pp.x - myPos.x
+    local dy = pp.y - myPos.y
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
-    
-    
+
+    -- Volver a IDLE si el player está muy lejos o en diferente altura (plataforma distinta)
+    if dist > self.public.detectRange or abs(dy) > 3.0 then
+        StopMovement(self)
+        ChangeState(self, State.IDLE)
+        return
+    end
+
     if dist < self.public.tooCloseRange then
-        ChangeState(State.REPOSITION)
+        ChangeState(self, State.REPOSITION)
     
     elseif dist <= self.public.chargeRange then
-        chargeDirX       = dx
-        chargeDirZ       = dz
-        preparationTimer = 0
-        StopMovement()
-        ChangeState(State.ANTICIPATION)
+        self.chargeDirX       = dx
+        self.chargeDirZ       = dz
+        self.preparationTimer = 0
+        StopMovement(self)
+        ChangeState(self, State.ANTICIPATION)
     
     else
         Engine.Log("updatecombat andar")
-        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+        if self.anim and not self.anim:IsPlayingAnimation("Walk") then self.anim:Play("Walk", 0.2) end
       
-        if stepTimer >= 0.5 then
-            stepTimer = 0
-            if stepSFX then stepSFX:PlayAudioEvent() end
+        if self.stepTimer >= 0.5 then
+            self.stepTimer = 0
+            if self.stepSFX then self.stepSFX:PlayAudioEvent() end
         end
 
         local vel = self.public.moveSpeed
-        local cv = rb:GetLinearVelocity()
+        local cv = self.rb:GetLinearVelocity()
         RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
 
-        rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+        self.rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
 
     end
 end
 
-function UpdateReposition(self, myPos, pp, dist, dt)
-    if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle") end
+local function UpdateReposition(self, myPos, pp, dist, dt)
+    if self.anim and not self.anim:IsPlayingAnimation("Idle") then self.anim:Play("Idle") end
 
     -- Opposite direction to the player
     local dx = myPos.x - pp.x
@@ -237,30 +190,30 @@ function UpdateReposition(self, myPos, pp, dist, dt)
 
     local vel = self.public.moveSpeed
 
-    local currentVel = rb:GetLinearVelocity()
-    rb:SetLinearVelocity(dx*vel,currentVel.y,dz*vel)
+    local currentVel = self.rb:GetLinearVelocity()
+    self.rb:SetLinearVelocity(dx*vel,currentVel.y,dz*vel)
 
     RotateTowards(self, lookDx, lookDz, self.public.rotationSpeed, dt)
 
 
     if dist >= self.public.tooCloseRange + 0.5 then
-        StopMovement()
-        ChangeState(State.CHASE)
+        StopMovement(self)
+        ChangeState(self, State.CHASE)
     end
 end
 
-function UpdateAnticipation(self, pp, dt)
+local function UpdateAnticipation(self, pp, dt)
     local myPos = self.transform.worldPosition
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
-    --StopMovement()
+    --StopMovement(self)
 
-    if anim and not anim:IsPlayingAnimation("PreCharge") then
-        PlayAnim("PreCharge")
-        if voiceSFX then 
-            voiceSFX:StopAudioEvent()
-            voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge") 
+    if self.anim and not self.anim:IsPlayingAnimation("PreCharge") then
+        PlayAnim(self, "PreCharge")
+        if self.voiceSFX then 
+            self.voiceSFX:StopAudioEvent()
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge") 
         end
 
     end
@@ -289,7 +242,7 @@ function UpdateAnticipation(self, pp, dt)
 
         -- Calculate the center position
         local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = myPos.y +0.15
+        local positionY = pp.y + 0.1
         local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
 
         local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
@@ -300,26 +253,26 @@ function UpdateAnticipation(self, pp, dt)
     end
 
 
-    preparationTimer = preparationTimer + dt
+    self.preparationTimer = self.preparationTimer + dt
 
-    if rb and preparationTimer < (self.public.preparationTime * 0.5) then
+    if self.rb and self.preparationTimer < (self.public.preparationTime * 0.5) then
         local len = sqrt(dx*dx + dz*dz)
         if len > 0.001 then
             local backDx = -(dx / len)
             local backDz = -(dz / len)
-            local vel = rb:GetLinearVelocity()
-            rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
+            local vel = self.rb:GetLinearVelocity()
+            self.rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
         end
     else
-        StopMovement()
+        StopMovement(self)
     end
 
-    if preparationTimer >= self.public.preparationTime then
+    if self.preparationTimer >= self.public.preparationTime then
         local predictedX = pp.x
         local predictedZ = pp.z
 
-        if rb then
-            local predictionVel = rb:GetLinearVelocity()
+        if self.rb then
+            local predictionVel = self.rb:GetLinearVelocity()
             local time = self.public.predictionTime
             predictedX = pp.x + predictionVel.x * time
             predictedZ = pp.z + predictionVel.z * time
@@ -329,139 +282,139 @@ function UpdateAnticipation(self, pp, dt)
         local predictionDz= predictedZ - myPos.z
         local len = sqrt(predictionDx*predictionDx + predictionDz*predictionDz)
         if len > 0.001 then
-            chargeDirX, chargeDirZ = predictionDx/len, predictionDz/len
+            self.chargeDirX, self.chargeDirZ = predictionDx/len, predictionDz/len
         end
-        chargeTimer = 0
-        ChangeState(State.CHARGE)
+        self.chargeTimer = 0
+        ChangeState(self, State.CHARGE)
     end
 
-    --if preparationTimer >= self.public.preparationTime then
+    --if self.preparationTimer >= self.public.preparationTime then
         -- Recalculate final direction
         --local len = sqrt(dx*dx + dz*dz)
         --if len > 0.001 then
-            --chargeDirX, chargeDirZ = dx/len, dz/len
+            --self.chargeDirX, self.chargeDirZ = dx/len, dz/len
         --end
-        --chargeTimer = 0
-        --ChangeState(State.CHARGE)
+        --self.chargeTimer = 0
+        --ChangeState(self, State.CHARGE)
     --end
 end
 
-function UpdateCharge(self, dt)
+local function UpdateCharge(self, dt)
 
-    if stepTimer >= 0.25 then
-        stepTimer = 0
-        if stepSFX then 
-            stepSFX:PlayAudioEvent() 
+    if self.stepTimer >= 0.25 then
+        self.stepTimer = 0
+        if self.stepSFX then 
+            self.stepSFX:PlayAudioEvent() 
         end
     end
 
-    if anim and not anim:IsPlayingAnimation("Charge") then
-        PlayAnim("Charge")
+    if self.anim and not self.anim:IsPlayingAnimation("Charge") then
+        PlayAnim(self, "Charge")
 
     end
 
-    chargeTimer = chargeTimer + dt
+    self.chargeTimer = self.chargeTimer + dt
 
-    if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
+    if self.rb then
+        local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(self.chargeDirX * self.public.chargeSpeed, 0, self.chargeDirZ * self.public.chargeSpeed)
 
-        if chargeTimer > 0.2 then
+        if self.chargeTimer > 0.2 then
             local actualSpeed = sqrt(vel.x*vel.x + vel.z*vel.z)
             if actualSpeed < self.public.wallSpeedThresh then
-                alreadyHit = false
-                StopMovement()
-                wallStunTimer = self.public.wallStunTime
-                ChangeState(State.WALL)
+                self.alreadyHit = false
+                StopMovement(self)
+                self.wallStunTimer = self.public.wallStunTime
+                ChangeState(self, State.WALL)
                 return
             end
         end
     end
 
-    if not attackCol then attackCol = self.gameObject:GetComponent("Box Collider") end
-    if attackCol then attackCol:Enable() end
+    if not self.attackCol then self.attackCol = self.gameObject:GetComponent("Box Collider") end
+    if self.attackCol then self.attackCol:Enable() end
 
-    if chargeTimer >= self.public.chargeDuration then
-        if attackCol then attackCol:Disable() end
+    if self.chargeTimer >= self.public.chargeDuration then
+        if self.attackCol then self.attackCol:Disable() end
         --Save direction for after
-        slideVelX = chargeDirX * 8.0
-        slideVelZ = chargeDirZ * 8.0
+        self.slideVelX = self.chargeDirX * 8.0
+        self.slideVelZ = self.chargeDirZ * 8.0
         
-        wallStunTimer = self.public.afterStunTime
+        self.wallStunTimer = self.public.afterStunTime
 
-        if anim and not anim:IsPlayingAnimation("Idle") then
-            anim:Play("Idle", 0.3)
+        if self.anim and not self.anim:IsPlayingAnimation("Idle") then
+            self.anim:Play("Idle", 0.3)
         end
 
-        ChangeState(State.RECOVERY)
+        ChangeState(self, State.RECOVERY)
     end
 end
 
-function UpdateWall(self, dt)
-    if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(0, vel.y, 0)
-        rb:SetRotation(0, currentYaw, 0)
+local function UpdateWall(self, dt)
+    if self.rb then
+        local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(0, vel.y, 0)
+        self.rb:SetRotation(0, self.currentYaw, 0)
     end
 
-    if anim and not anim:IsPlayingAnimation("Wall") then
-        PlayAnim("Wall")
+    if self.anim and not self.anim:IsPlayingAnimation("Wall") then
+        PlayAnim(self, "Wall")
     end
 
-    wallStunTimer = wallStunTimer - dt
-    if wallStunTimer <= 0 then
-        slideVelX = 0
-        slideVelZ = 0
-        wallStunTimer = self.public.afterStunTime
-        cameFromWall = true
+    self.wallStunTimer = self.wallStunTimer - dt
+    if self.wallStunTimer <= 0 then
+        self.slideVelX = 0
+        self.slideVelZ = 0
+        self.wallStunTimer = self.public.afterStunTime
+        self.cameFromWall = true
         
-        if anim and not anim:IsPlayingAnimation("Idle") then
-            anim:Play("Idle", 0.3)
+        if self.anim and not self.anim:IsPlayingAnimation("Idle") then
+            self.anim:Play("Idle", 0.3)
         end
-        ChangeState(State.RECOVERY)
+        ChangeState(self, State.RECOVERY)
     end
 end
 
-function UpdateRecovery(self, dt)
+local function UpdateRecovery(self, dt)
   
-    if playerGO and not cameFromWall then
+    if self.playerGO and not self.cameFromWall then
         local myPos = self.transform.worldPosition
-        local pp = playerGO.transform.worldPosition
+        local pp = self.playerGO.transform.worldPosition
         local dx = pp.x - myPos.x
         local dz = pp.z - myPos.z
         RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
     end
 
     local friction = self.public.stopSmoothing
-    slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
-    slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
+    self.slideVelX = self.slideVelX + (0 - self.slideVelX) * min(1.0, dt * friction)
+    self.slideVelZ = self.slideVelZ + (0 - self.slideVelZ) * min(1.0, dt * friction)
  
-    if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(slideVelX, vel.y, slideVelZ)
+    if self.rb then
+        local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(self.slideVelX, vel.y, self.slideVelZ)
     end
 
-    wallStunTimer = wallStunTimer - dt
-    if wallStunTimer <= 0 then
-        cameFromWall = false
-        ChangeState(State.CHASE)
+    self.wallStunTimer = self.wallStunTimer - dt
+    if self.wallStunTimer <= 0 then
+        self.cameFromWall = false
+        ChangeState(self, State.CHASE)
     end
 end
 
-function UpdateDeath(self,dt)
-    deathTimer = deathTimer - dt
+local function UpdateDeath(self,dt)
+    self.deathTimer = self.deathTimer - dt
     
-    if deathTimer <= 0 then
+    if self.deathTimer <= 0 then
         if self.chargeFeedbackGO then
             GameObject.Destroy(self.chargeFeedbackGO)
             self.chargeFeedbackGO = nil
         end
 
-        local _rb  = rb
+        local _rb  = self.rb
 
-        rb       = nil
-        anim     = nil
-        playerGO = nil
+        self.rb       = nil
+        self.anim     = nil
+        self.playerGO = nil
         
         if _rb  then
             local vel = _rb:GetLinearVelocity()
@@ -470,7 +423,7 @@ function UpdateDeath(self,dt)
         Engine.Log("[Minocabro] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
-        isDead = true
+        self.isDead = true
 
         self:Destroy()
   
@@ -479,78 +432,145 @@ end
 
           
 function Start(self)
-    hp           = self.public.maxHp
-    isDead       = false
-    currentState = State.IDLE
+    -- Definimos los datos SOLO para este enemigo (self.public evita conflictos globales)
+    self.public = {
+        maxHp           = 60,
+        detectRange     = 15.0,
+        tooCloseRange   = 3.5,
+        chargeRange     = 12.0,
 
-    rb   = self.gameObject:GetComponent("Rigidbody")
-    anim = self.gameObject:GetComponent("Animation")
+        preparationTime = 3.0,
+        chargeSpeed     = 18.0,
+        chargeDuration  = 0.8,
+        knockbackForce  = 8.0,
+        wallStunTime    = 5.0,
+        wallSpeedThresh = 1.5,
 
-    stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
-    voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
+        --Movement
+        moveSpeed       = 10.0,
+        rotationSpeed   = 3.0,
+
+        stopSmoothing   = 8.0,
+
+        hurtStunTime = 0.8,
+        afterStunTime = 2.2,
+
+        enemyDamageMin = 5,
+        enemyDamageMax = 35,
+
+        predictionTime = 0.4,
+    }
+
+    self.hp               = self.public.maxHp
+    self.isDead           = false
+    self.currentState     = State.IDLE
+    self.deathTimer       = 3.5
+    self.alreadyHit       = false
+    self.attackCol        = nil
+    self.playerAttackHandled = false
+    self.smoothDx         = 0
+    self.smoothDz         = 0
+    self.wallStunTimer    = 0
+    self.preparationTimer = 0
+    self.chargeTimer      = 0
+    self.currentYaw       = 0
+    self.chargeDirX       = 0
+    self.chargeDirZ       = 1
+    self.slideVelX        = 0
+    self.slideVelZ        = 0
+    self.cameFromWall     = false
+    self.pendingWallHit   = false
+    self.playerGO         = nil
+    self.chargeFeedbackGO = nil
+    self.stepTimer        = 0.5
+
+    self.rb   = self.gameObject:GetComponent("Rigidbody")
+    self.anim = self.gameObject:GetComponent("Animation")
+
+    self.stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
+    self.voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
     
    
-    if stepSource then
-        stepSFX = stepSource:GetComponent("Audio Source")
+    if self.stepSource then
+        self.stepSFX = self.stepSource:GetComponent("Audio Source")
     else Engine.Log("[Minocabro] WARNING: Audio Source for steps not found") end
 
-    if voiceSource then
-        voiceSFX = voiceSource:GetComponent("Audio Source")
+    if self.voiceSource then
+        self.voiceSFX = self.voiceSource:GetComponent("Audio Source")
     else Engine.Log("[Minocabro] WARNING: Audio Source for voice not found") end
 
-    stepTimer = 0.5
+    self.stepTimer = 0.5
 
-    if anim then anim:Play("Idle") end
+    if self.anim then self.anim:Play("Idle") end
 
-    attackCol = self.gameObject:GetComponent("Box Collider")
-    if attackCol then
-        attackCol:Disable()
+    self.attackCol = self.gameObject:GetComponent("Box Collider")
+    if self.attackCol then
+        self.attackCol:Disable()
     else
         Engine.Log("[Minocabro] ERROR: no se encontró Box Collider")
     end
 
-    Engine.Log("[Minocabro] Start OK  HP=" .. hp)
+    Engine.Log("[Minocabro] Start OK  HP=" .. self.hp)
 
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
+
+    --MinocabrpMesh
+    mesh = GameObject.FindInChildren(self.gameObject,"Mesh")
+    BaseMat = mesh:GetComponent("Material")
 end
 
 function Update(self, dt)
-    if not self.gameObject or isDead then return end
+    if not self.gameObject or self.isDead then return end
 
-    if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
-    if not anim then anim = self.gameObject:GetComponent("Animation")  end
+    -- Defensive nil checks in case Start didn't fully run
+    if self.stepTimer      == nil then self.stepTimer      = 0 end
+    if self.wallStunTimer  == nil then self.wallStunTimer  = 0 end
+    if self.currentState   == nil then self.currentState   = State.IDLE end
+    if self.chargeDirX     == nil then self.chargeDirX     = 0 end
+    if self.chargeDirZ     == nil then self.chargeDirZ     = 1 end
+    if self.slideVelX      == nil then self.slideVelX      = 0 end
+    if self.slideVelZ      == nil then self.slideVelZ      = 0 end
+    if self.preparationTimer == nil then self.preparationTimer = 0 end
+    if self.chargeTimer    == nil then self.chargeTimer    = 0 end
+    if self.currentYaw     == nil then self.currentYaw     = 0 end
+    if self.cameFromWall   == nil then self.cameFromWall   = false end
+    if self.pendingWallHit == nil then self.pendingWallHit = false end
+    if self.alreadyHit     == nil then self.alreadyHit     = false end
+
+    if not self.rb   then self.rb   = self.gameObject:GetComponent("Rigidbody")  end
+    if not self.anim then self.anim = self.gameObject:GetComponent("Animation")  end
 
     if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
+        TakeDamage(self, self.hp, self.transform.worldPosition)
         return
     end
 
         -- Trigger Wall
-    if pendingWallHit then
-        pendingWallHit = false
-        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
-            StopMovement()
+    if self.pendingWallHit then
+        self.pendingWallHit = false
+        if self.currentState ~= State.WALL and self.currentState ~= State.RECOVERY then
+            StopMovement(self)
             if self.chargeFeedbackGO then
                 GameObject.Destroy(self.chargeFeedbackGO)
                 self.chargeFeedbackGO = nil
             end
-            wallStunTimer = self.public.wallStunTime
-            ChangeState(State.WALL)
+            self.wallStunTimer = self.public.wallStunTime
+            ChangeState(self, State.WALL)
         end
     end
 
     -- Receive Damage
     if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
-        if not playerAttackHandled and playerGO and not isDead then
+        if not self.playerAttackHandled and self.playerGO and not self.isDead then
             local myPos = self.transform.position
-            local pp    = playerGO.transform.position
+            local pp    = self.playerGO.transform.position
             if pp then
                 local dx   = pp.x - myPos.x
                 local dz   = pp.z - myPos.z
                 local dist = sqrt(dx * dx + dz * dz)
                 if dist <= (self.public.chargeRange * 0.5) then
-                    playerAttackHandled = true
+                    self.playerAttackHandled = true
                     local attack = _PlayerController_lastAttack
                     if attack == "light" then
                         TakeDamage(self, DAMAGE_LIGHT, pp)
@@ -561,28 +581,28 @@ function Update(self, dt)
             end
         end
     else
-        playerAttackHandled = false
+        self.playerAttackHandled = false
     end
 
     -- Search Player
-    if not playerGO then
-        playerGO = GameObject.Find("Player")
+    if not self.playerGO then
+        self.playerGO = GameObject.Find("Player")
     end
-    if not playerGO or _G._PlayerController_isDead then return end
+    if not self.playerGO or _G._PlayerController_isDead then return end
 
-    stepTimer = stepTimer + dt
+    self.stepTimer = self.stepTimer + dt
     local myPos = self.transform.worldPosition
-    local pp    = playerGO.transform.worldPosition
+    local pp    = self.playerGO.transform.worldPosition
     if not pp then return end
 
     local dist = Dist(myPos, pp)
 
 -- Instantiate/destroy feedback BEFORE calling the state
-    if currentState == State.ANTICIPATION then
+    if self.currentState == State.ANTICIPATION then
         if not self.chargeFeedbackGO then
             self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
         end
-    elseif currentState == State.RECOVERY then
+    elseif self.currentState == State.RECOVERY then
         if self.chargeFeedbackGO then
             GameObject.Destroy(self.chargeFeedbackGO)
             self.chargeFeedbackGO = nil
@@ -590,22 +610,36 @@ function Update(self, dt)
     end
 
     -- State machine
-    if     currentState == State.IDLE         then UpdateIdle(self, dist)
-    elseif currentState == State.CHASE       then UpdateChase(self, myPos, pp, dist, dt)
-    elseif currentState == State.REPOSITION   then UpdateReposition(self, myPos, pp, dist, dt)
-    elseif currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
-    elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
-    elseif currentState == State.WALL         then UpdateWall(self, dt)
-    elseif currentState == State.RECOVERY then UpdateRecovery(self, dt)
-    elseif currentState == State.DEAD         then UpdateDeath(self, dt)
+    if     self.currentState == State.IDLE         then UpdateIdle(self, dist)
+    elseif self.currentState == State.CHASE       then UpdateChase(self, myPos, pp, dist, dt)
+    elseif self.currentState == State.REPOSITION   then UpdateReposition(self, myPos, pp, dist, dt)
+    elseif self.currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
+    elseif self.currentState == State.CHARGE       then UpdateCharge(self, dt)
+    elseif self.currentState == State.WALL         then UpdateWall(self, dt)
+    elseif self.currentState == State.RECOVERY then UpdateRecovery(self, dt)
+    elseif self.currentState == State.DEAD         then UpdateDeath(self, dt)
     end
 end
 
 function OnTriggerEnter(self, other)
-    if isDead then return end
+    if self.isDead then return end
+
+    if other:CompareTag("Ramp") then
+        if self.attackCol then self.attackCol:Disable() end
+        if self.chargeFeedbackGO then
+            GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+        end
+        self.slideVelX = 0
+        self.slideVelZ = 0
+        self.alreadyHit = false
+        StopMovement(self)
+        ChangeState(self, State.IDLE)
+        return
+    end
 
     if other:CompareTag("Wall") then
-        if currentState == State.WALL or currentState == State.RECOVERY then 
+        if self.currentState == State.WALL or self.currentState == State.RECOVERY then 
             return 
         end
 
@@ -614,7 +648,7 @@ function OnTriggerEnter(self, other)
             self.chargeFeedbackGO = nil
         end
 
-        pendingWallHit = true
+        self.pendingWallHit = true
         Engine.Log("[Minocabro] Chocó con la pared")
         return 
     end
@@ -622,10 +656,11 @@ function OnTriggerEnter(self, other)
 
     if other:CompareTag("Player") then
         -- The player hits the enemy
-        if not alreadyHit then
+        if not self.alreadyHit then
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
-                alreadyHit = true
+                self.alreadyHit = true
+                BaseMat.SetTexture("12721768917354180794")
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -636,10 +671,10 @@ function OnTriggerEnter(self, other)
         end
 
         -- The enemy hits the player
-        if currentState == State.CHARGE and not alreadyHit and _PlayerController_pendingDamage == 0 then
-            alreadyHit  = true
+        if self.currentState == State.CHARGE and not self.alreadyHit and _PlayerController_pendingDamage == 0 then
+            self.alreadyHit  = true
             
-            local timeCharge = chargeTimer
+            local timeCharge = self.chargeTimer
             local durationMax = self.public.chargeDuration
 
             local ratio = timeCharge/durationMax
@@ -654,15 +689,15 @@ function OnTriggerEnter(self, other)
             _PlayerController_pendingDamagePos = self.transform.worldPosition
             _PlayerController_triggerCameraShake = true
             
-            if attackCol then attackCol:Disable() end
-            StopMovement()
-            slideVelX=0
-            slideVelZ= 0
+            if self.attackCol then self.attackCol:Disable() end
+            StopMovement(self)
+            self.slideVelX=0
+            self.slideVelZ= 0
             if self.chargeFeedbackGO then
                 GameObject.Destroy(self.chargeFeedbackGO)
                 self.chargeFeedbackGO = nil
             end
-            ChangeState(State.RECOVERY)
+            ChangeState(self, State.RECOVERY)
             Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end
     end
@@ -670,6 +705,7 @@ end
 
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
-        alreadyHit = false 
+        self.alreadyHit = false 
+        BaseMat.SetTexture("15634858790036886356")
     end
 end

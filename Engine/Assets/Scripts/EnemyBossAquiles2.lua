@@ -19,57 +19,7 @@ local State = {
     DEAD        = "Dead",
 }
 
--- Public variables
-public = {
-    maxHp           = 300,
-    maxPosture      = 100,
-
-    -- Ranges
-    detectRange     = 20.0,
-    Lance360Range   = 2.0,
-    chargeRange     = 18.0,
-    dashApproachRange = 9.0,
-    --Movement
-    moveSpeed       = 6.5,
-    rotationSpeed   = 1.8,
-    stopSmoothing   = 6.0,
-    
-
-    --Lace 360
-    lanceDuration       = 0.8, 
-    lanceCooldown       = 2.5,
-    lanceDamage         = 20,
-
-    --tooCloseRange   = 3.5,
-
-    preparationTime = 2.0,
-    chargeSpeed     = 22.0,
-    chargeDuration  = 1.0,
-    wallStunTime    = 6.0,
-
-    wallSpeedThresh = 1.5,
-
-    afterStunTime   = 3.0,
-    chargeCooldown  = 4.0,  -- cooldown entre embestidas
-    chargeDamage    = 35,
-    stepInterval    = 0.6,
-
-    -- Receive damage
-    knockbackForce  = 10.0,
-
-
-    stunDuration        = 8.0, 
-
-    hurtStunTime = 0.4,
-    
-
-    predictionTime = 0.4, 
-
-    opportunityDamageMultiplier = 3.0,
-
-    recoveryLance = 1.0,
-    recoveryCharge = 1.8,
-}
+-- Public variables (ahora viven en self.public dentro de Start para evitar conflictos globales)
 
 -- Internal variables
 local currentState = State.IDLE
@@ -133,6 +83,16 @@ local ActiveDodge=false
 
 local BaseMat = nil
 
+local hitsReceivedCounter = 0
+
+local wallAnimStarted = false
+local stunAnimStarted = false
+local opportunityHitTimer = 0 
+local chargeAnimStarted = false
+local lanceAnimStarted = false
+local anticipationAnimStarted = false
+local recoveryAnimStarted = false
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -194,6 +154,11 @@ end
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Aquiles] -> " .. newState)
+    pressureTimer = 0 
+    chargeAnimStarted = false
+    lanceAnimStarted = false
+    anticipationAnimStarted = false
+    recoveryAnimStarted = false
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
@@ -228,6 +193,13 @@ local function TakeDamage(self, amount, attackerPos)
         hp = hp - totalDamage
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
         Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
+        if currentState == State.WALL then
+            if anim then anim:Play("Stuck_Hit", 0.1) end
+        elseif currentState == State.STUN then
+            if anim then anim:Play("Stun_Hit", 0.1) end
+        end
+        opportunityHitTimer = 0.4
+
         if hp <= 0 then
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
@@ -253,6 +225,7 @@ local function TakeDamage(self, amount, attackerPos)
         if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
             StopMovement()
             hurtTimer = self.public.hurtStunTime
+            if anim then anim:Play("Hit", 0.1) end
         end
     end
 
@@ -283,7 +256,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 -- Dodge player
-function dodgePlayer(self, dist, dt)
+local function dodgePlayer(self, dist, dt)
 
     if dist < 4.5 then
         pressureTimer = pressureTimer + dt
@@ -323,8 +296,42 @@ function dodgePlayer(self, dist, dt)
     end
 end
 
+local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+
+    local isDashing = isDashing or false
+    local speedOverride = speedOverride or self.public.moveSpeed
+
+    if not isDashing then
+        hasDashed = false
+
+        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
+
+        stepTimer = stepTimer + dt
+        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
+            PlaySFX(stepSFX)
+            stepTimer = 0
+        end
+
+    else
+        if anim and not anim:IsPlayingAnimation("Dash") then 
+            anim:Play("Dash", 0.2) 
+           
+        end
+
+        if not hasDashed then
+            PlaySFX(dashSFX)
+            hasDashed = true
+        end
+    end
+
+    local vel = speedOverride or self.public.moveSpeed
+    local cv = rb:GetLinearVelocity()
+    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+end
+
 -- State functions
-function UpdateIdle(self, dist)
+local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle")
     end
@@ -333,7 +340,7 @@ function UpdateIdle(self, dist)
     end
 end
 
-function UpdateCombatMove(self, myPos, pp, dist, dt)
+local function UpdateCombatMove(self, myPos, pp, dist, dt)
     if dist > self.public.detectRange then
         StopMovement()
         ChangeState(State.IDLE)
@@ -390,41 +397,13 @@ function UpdateCombatMove(self, myPos, pp, dist, dt)
     end
 end
 
-function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+local function UpdateLance360(self, myPos, pp, dt)
 
-    local isDashing = isDashing or false
-    local speedOverride = speedOverride or self.public.moveSpeed
-
-    if not isDashing then
-        hasDashed = false
-
-        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
-
-        stepTimer = stepTimer + dt
-        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
-            PlaySFX(stepSFX)
-            stepTimer = 0
-        end
-
-    else
-        if anim and not anim:IsPlayingAnimation("Dash") then 
-            anim:Play("Dash", 0.2) 
-           
-        end
-
-        if not hasDashed then
-            PlaySFX(dashSFX)
-            hasDashed = true
-        end
+    
+    if not lanceAnimStarted then
+        lanceAnimStarted = true
+        anim:Play("360Attack", 0.15)
     end
-
-    local vel = speedOverride or self.public.moveSpeed
-    local cv = rb:GetLinearVelocity()
-    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
-end
-
-function UpdateLance360(self, myPos, pp, dt)
 
     currentYaw = currentYaw + 500.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
@@ -441,9 +420,10 @@ function UpdateLance360(self, myPos, pp, dt)
 
 end
 
-function UpdateAnticipation(self, pp, dt)
-    
+local function UpdateAnticipation(self, pp, dt)
+
     if not self.chargeFeedbackGO then
+   
         self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
         SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
     end
@@ -453,8 +433,9 @@ function UpdateAnticipation(self, pp, dt)
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
    
-    if anim and not anim:IsPlayingAnimation("PreCharge") then
-        anim:Play("PreCharge", 0.2) 
+    anticipationAnimStarted = true
+    if anim and not anim:IsPlayingAnimation("Charge_Start") then
+        anim:Play("Charge_Start", 0.2)
     end
 
     if self.chargeFeedbackGO then
@@ -488,7 +469,7 @@ function UpdateAnticipation(self, pp, dt)
 
         self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
         self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
+        self.chargeFeedbackGO.transform:SetScale(2.5, 0.1, indicatorLength)
     end
 
     preparationTimer = preparationTimer + dt
@@ -527,10 +508,15 @@ function UpdateAnticipation(self, pp, dt)
     end
 end
 
-function UpdateCharge(self, dt)
+local function UpdateCharge(self, dt)
 
     chargeTimer = chargeTimer + dt
 
+    if not chargeAnimStarted then
+        chargeAnimStarted = true
+        anim:Play("Charge_Loop ", 0.0)
+    end
+    
     if rb then
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
@@ -546,7 +532,7 @@ function UpdateCharge(self, dt)
     end
 end
 
-function UpdateWall(self, dt)
+local function UpdateWall(self, dt)
 
     if rb then
         local vel = rb:GetLinearVelocity()
@@ -554,13 +540,24 @@ function UpdateWall(self, dt)
         rb:SetRotation(0, currentYaw, 0)
     end
 
-    if anim and not anim:IsPlayingAnimation("Wall") then
-        anim:Play("Wall")
+    if opportunityHitTimer > 0 then
+        opportunityHitTimer = opportunityHitTimer - dt
+        return  -- no sobreescribir Stuck_Hit hasta que termine
+    end
+
+    if not wallAnimStarted then
+        anim:Play("Stuck_Start", 0.15)
+        wallAnimStarted = true
+        
+    elseif anim and not anim:IsPlayingAnimation("Stuck_Start") and not anim:IsPlayingAnimation("Stuck_Loop") then
+        anim:Play("Stuck_Loop", 0.1)
     end
  
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
+        wallAnimStarted = false
+        anim:Play("Stuck_End", 0.15)
         slideVelX = 0
         slideVelZ = 0
         wallStunTimer = self.public.afterStunTime
@@ -569,7 +566,16 @@ function UpdateWall(self, dt)
     end
 end
 
-function UpdateRecovery(self, dt)
+local function UpdateRecovery(self, dt)
+
+    if not recoveryAnimStarted then
+        recoveryAnimStarted = true
+        if cameFromWall then
+            anim:Play("Idle", 0.2)
+        else
+            anim:Play("Charge_End", 0.15)
+        end
+    end
 
     local friction = self.public.stopSmoothing
     slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
@@ -582,8 +588,8 @@ function UpdateRecovery(self, dt)
 
     wallStunTimer = wallStunTimer - dt
     
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.2)
+    if anim and not anim:IsPlayingAnimation("Charge_End") and not anim:IsPlayingAnimation("Idle") then
+        anim:Play("Charge_End", 0.15)
     end
 
     if wallStunTimer <= 0 then
@@ -594,10 +600,17 @@ function UpdateRecovery(self, dt)
     end
 end
 
-function UpdateStun(self, dt)
+local function UpdateStun(self, dt)
+    if opportunityHitTimer > 0 then
+        opportunityHitTimer = opportunityHitTimer - dt
+        return
+    end
 
-    if anim and not anim:IsPlayingAnimation("Stun") then
-        anim:Play("Stun")
+    if not stunAnimStarted then
+        anim:Play("Stun_Start", 0.15)
+        stunAnimStarted = true
+    elseif anim and not anim:IsPlayingAnimation("Stun_Start") and not anim:IsPlayingAnimation("Stun_Loop") then
+        anim:Play("Stun_Loop", 0.1)
     end
 
     stunTimer = stunTimer - dt
@@ -607,7 +620,7 @@ function UpdateStun(self, dt)
     end
 end
 
-function UpdateDeath(self,dt)
+local function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
@@ -683,6 +696,53 @@ end
           
 function Start(self)
 
+    -- Definimos los datos SOLO para este enemigo (self.public evita conflictos globales)
+    self.public = {
+        maxHp           = 300,
+        maxPosture      = 100,
+
+        -- Ranges
+        detectRange     = 20.0,
+        Lance360Range   = 2.0,
+        chargeRange     = 18.0,
+        dashApproachRange = 9.0,
+        --Movement
+        moveSpeed       = 6.5,
+        rotationSpeed   = 1.8,
+        stopSmoothing   = 6.0,
+
+        --Lance 360
+        lanceDuration       = 0.8,
+        lanceCooldown       = 2.5,
+        lanceDamage         = 20,
+
+        preparationTime = 2.0,
+        chargeSpeed     = 22.0,
+        chargeDuration  = 1.0,
+        wallStunTime    = 6.0,
+
+        wallSpeedThresh = 1.5,
+
+        afterStunTime   = 3.0,
+        chargeCooldown  = 4.0,  -- cooldown entre embestidas
+        chargeDamage    = 35,
+        stepInterval    = 0.6,
+
+        -- Receive damage
+        knockbackForce  = 10.0,
+
+        stunDuration        = 8.0,
+
+        hurtStunTime = 0.4,
+
+        predictionTime = 0.4,
+
+        opportunityDamageMultiplier = 3.0,
+
+        recoveryLance = 1.0,
+        recoveryCharge = 1.8,
+    }
+
     hp           = self.public.maxHp
     posture = self.public.maxPosture
     isDead       = false
@@ -741,6 +801,7 @@ function Update(self, dt)
                 GameObject.Destroy(self.chargeFeedbackGO)
                 self.chargeFeedbackGO = nil
             end
+            wallAnimStarted = false 
             wallStunTimer = self.public.wallStunTime
             ChangeState(State.WALL)
         end
@@ -865,5 +926,3 @@ function OnTriggerExit(self, other)
         BaseMat.SetTexture("18385834806947720505")
     end
 end
-
-

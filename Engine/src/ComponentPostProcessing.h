@@ -45,11 +45,8 @@ struct DepthOfFieldSettings {
     float focusRange = 3.0f;
     float blurStrength = 1.0f;
     bool tiltShift = false;
-};
-
-struct MotionBlurSettings {
-    bool enabled = false;
-    float intensity = 0.5f;
+    glm::vec3 farTint = glm::vec3(0.0f);
+    float tintIntensity = 0.0f;
 };
 
 struct AutoExposureSettings {
@@ -76,6 +73,12 @@ struct SharpenSettings {
     float intensity = 0.5f;
 };
 
+struct BlurSettings {
+    bool enabled = false;
+    float intensity = 1.0f;
+    float spread = 1.0f;
+};
+
 class ComponentPostProcessing : public Component {
 public:
     ComponentPostProcessing(GameObject* owner);
@@ -94,9 +97,9 @@ public:
     ColorGradingSettings colorGrading;
     LensSettings lens;
     DepthOfFieldSettings depthOfField;
-    MotionBlurSettings motionBlur;
     AutoExposureSettings autoExposure;
     GrainSettings grain;
     RadialBlurSettings radialBlur;
     SharpenSettings sharpen;
+    BlurSettings blur;
 };

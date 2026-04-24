@@ -144,7 +144,7 @@ void CameraLens::SetRenderTarget(int width, int height)
 
     if (fboID != 0) glDeleteFramebuffers(1, &fboID);
     if (textureID != 0) glDeleteTextures(1, &textureID);
-    if (rboID != 0) glDeleteRenderbuffers(1, &rboID);
+    if (depthTexture != 0) glDeleteTextures(1, &depthTexture);
 
     if (msaaFBO != 0) glDeleteFramebuffers(1, &msaaFBO);
     if (msaaColorBuffer != 0) glDeleteTextures(1, &msaaColorBuffer);
@@ -180,13 +180,17 @@ void CameraLens::SetRenderTarget(int width, int height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
 
-    glGenRenderbuffers(1, &rboID);
-    glBindRenderbuffer(GL_RENDERBUFFER, rboID);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboID);
+    // Creamos la textura de profundidad para Post-Processing
+    glGenTextures(1, &depthTexture);
+    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    // Usamos DEPTH24_STENCIL8 para tener ambos en una sola textura legible
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        LOG_DEBUG("ERROR: Framebuffer de salida no está completo.");
+        LOG_DEBUG("ERROR: Framebuffer de salida no estï¿½ completo.");
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -205,20 +209,20 @@ void CameraLens::SetDebugCamera(bool b)
 }
 glm::vec2 CameraLens::WorldToScreen(const glm::vec3& worldPos, int screenWidth, int screenHeight, bool& outBehindCamera) const
 {
-    // Transform to clip space
+
     glm::vec4 clipPos = projectionMatrix * viewMatrix * glm::vec4(worldPos, 1.0f);
 
-    // Si w <= 0 el punto está detrás de la cámara
+   
     if (clipPos.w <= 0.0f) {
         outBehindCamera = true;
         return glm::vec2(0.0f);
     }
     outBehindCamera = false;
 
-    // NDC [-1, 1]
+
     glm::vec3 ndc = glm::vec3(clipPos) / clipPos.w;
 
-    // Pixels to camera
+   
     float sx = (ndc.x * 0.5f + 0.5f) * screenWidth;
     float sy = (1.0f - (ndc.y * 0.5f + 0.5f)) * screenHeight;  
 

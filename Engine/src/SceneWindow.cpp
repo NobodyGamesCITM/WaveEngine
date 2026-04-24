@@ -319,14 +319,22 @@ void SceneWindow::HandleGizmoInput()
         inspectorWindow->SetGizmoOperation(ImGuizmo::TRANSLATE);
     }
 
-    if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+    if (!pivotEditMode)
     {
-        inspectorWindow->SetGizmoOperation(ImGuizmo::ROTATE);
-    }
+        if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+        {
+            inspectorWindow->SetGizmoOperation(ImGuizmo::ROTATE);
+        }
 
-    if (input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-    {
-        inspectorWindow->SetGizmoOperation(ImGuizmo::SCALE);
+        if (input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+        {
+            inspectorWindow->SetGizmoOperation(ImGuizmo::SCALE);
+        }
+
+        if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+        {
+            inspectorWindow->SetGizmoOperation(ImGuizmo::BOUNDS);
+        }
     }
 
     if (input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
@@ -335,11 +343,6 @@ void SceneWindow::HandleGizmoInput()
         inspectorWindow->SetGizmoMode(
             (currentMode == ImGuizmo::WORLD) ? ImGuizmo::LOCAL : ImGuizmo::WORLD
         );
-    }
-
-    if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-    {
-        inspectorWindow->SetGizmoOperation(ImGuizmo::BOUNDS);
     }
 }
 
@@ -350,6 +353,9 @@ void SceneWindow::DrawGizmo()
 
     // First check if the gizmo was being used in the previous frame
     bool wasUsingGizmo = isGizmoActive;
+
+    if (pivotEditMode) inspectorWindow->SetGizmoOperation(ImGuizmo::TRANSLATE);
+
     std::vector<GameObject*> selectedObjects = Application::GetInstance().selectionManager->GetFilteredObjects();
 
     //GameObject* selectedObject = Application::GetInstance().selectionManager->GetSelectedObject();
@@ -501,7 +507,31 @@ void SceneWindow::DrawGizmo()
             else
             {
                 glm::mat4 originalGlobal = transforms[cnt]->GetGlobalMatrix();
+                glm::vec3 oldWorldPos = glm::vec3(originalGlobal[3]);
+
                 glm::mat4 newGlobal = originalPivotMatrix * deltaMatrix * glm::inverse(originalPivotMatrix) * originalGlobal;
+                glm::vec3 newWorldPos = glm::vec3(newGlobal[3]);
+
+                // pivot edit
+                ComponentMesh* meshComp = nullptr;
+                glm::vec3 meshWorldPos(0.0f);
+                std::vector<glm::vec3> childWorldPositions;
+
+                if (pivotEditMode)
+                {
+                    meshComp = static_cast<ComponentMesh*>(
+                        selectedObjects[cnt]->GetComponent(ComponentType::MESH));
+                    if (meshComp)
+                    {
+                        glm::mat3 RS = glm::mat3(originalGlobal);
+                        meshWorldPos = oldWorldPos + RS * meshComp->GetPivotLocalOffset();
+                    }
+                    for (GameObject* child : selectedObjects[cnt]->GetChildren())
+                    {
+                        Transform* ct = static_cast<Transform*>(child->GetComponent(ComponentType::TRANSFORM));
+                        childWorldPositions.push_back(ct ? ct->GetGlobalPosition() : glm::vec3(0.0f));
+                    }
+                }
 
                 GameObject* parent = selectedObjects[cnt]->GetParent();
 
@@ -520,6 +550,23 @@ void SceneWindow::DrawGizmo()
 
                 transforms[cnt]->SetPosition(position);
                 transforms[cnt]->SetRotationQuat(rotation);
+
+                if (pivotEditMode)
+                {
+                    if (meshComp)
+                    {
+                        glm::mat3 newRS = glm::mat3(transforms[cnt]->GetGlobalMatrix());
+                        glm::vec3 newPivOff = glm::inverse(newRS) * (meshWorldPos - newWorldPos);
+                        meshComp->SetPivotLocalOffset(newPivOff);
+                    }
+
+                    const auto& children = selectedObjects[cnt]->GetChildren();
+                    for (size_t i = 0; i < children.size() && i < childWorldPositions.size(); i++)
+                    {
+                        Transform* ct = static_cast<Transform*>(children[i]->GetComponent(ComponentType::TRANSFORM));
+                        if (ct) ct->SetGlobalPosition(childWorldPositions[i]);
+                    }
+                }
             }
         }
         else if (wasUsingGizmo)

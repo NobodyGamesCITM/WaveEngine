@@ -18,17 +18,18 @@ local attackSource
 local voiceSource
 local hitSource
 local itemSource
-local equipSource
+--local equipSource
 local changeSource
 local swordMat = nil
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
-_PlayerController_currentMask        = "None"
+_PlayerController_currentMask        = ""
 _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
+_G._MaskCount = 0
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -81,9 +82,9 @@ local Player = {
     stepSFX 		= nil,
     voiceSFX 		= nil,
     swordSFX 		= nil,
-    pickMaskSFX     = nil,
+    --pickMaskSFX     = nil,
     changeMaskSFX   = nil,
-    itemPickSFX     = nil,
+    itemSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
     foundSurface    = false,
@@ -112,6 +113,8 @@ local Player = {
     healAnimDuration = 1.0,
     healPending = false,
 }
+
+local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
 
 public = {
     speed               = 15.0,
@@ -159,7 +162,30 @@ public = {
     triggerCameraShake  = false,
     attackBufferDuration = 0.4,
     canMove             = true,
+    berserkActive       = false,
 }
+
+function TriggerDrinkAnimation(self, isInternalHeal)
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then 
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Drink", 0.4) end)  
+        if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
+    end
+    
+    Player.healAnimTimer = Player.healAnimDuration
+    Player.healPending = isInternalHeal
+    Player.maskAnimTimer = 0 -- Reset mask timer just in case
+    self.public.canMove = false
+    return true
+end
 
 
 local function normalizeInput(x, z)
@@ -172,84 +198,35 @@ local function normalizeInput(x, z)
 end
 
 local function GetMovementInput(self)
+    local moveX, moveZ = 0, 0
+    
     if self.public.canMove == false then
         return 0, 0, 0
     end
 
-    local inputX, inputZ = 0, 0
-
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
-        inputX = gpX
-        inputZ = -gpZ
+        moveX = gpX * INPUT_SCALE
+        moveZ = gpZ * INPUT_SCALE
     end
-    
-    -- W = Avanzar (inputZ positivo), S = Retroceder (inputZ negativo)
-    if Input.GetKey("W") then inputZ = inputZ + 1 end
-    if Input.GetKey("S") then inputZ = inputZ - 1 end
-    if Input.GetKey("A") then inputX = inputX - 1 end
-    if Input.GetKey("D") then inputX = inputX + 1 end
+    if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
+    if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
+    if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
+    if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
 
     if _G.interact == true then _G.interact = false end
+
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
+    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
+        Engine.Log("interact try")
         self.public.interact = true
         _G.interact = true
     end
-
-    local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
-    if inputLen > 1.0 then
-        inputX = inputX / inputLen
-        inputZ = inputZ / inputLen
-        inputLen = 1.0
-    end
-
-    if inputLen < 0.01 then
-        return 0, 0, 0
-    end
-
-    local camObj = GameObject.Find("MainCamera")
-    if camObj then
-        local camFwd = camObj.transform.worldForward
-        local camRight = camObj.transform.worldRight
-        
-        camFwd.x = -camFwd.x
-        camFwd.y = -camFwd.y
-        camFwd.z = -camFwd.z
-        
-        camFwd.y = 0
-        camRight.y = 0
-        
-        local lenFwd = math.sqrt(camFwd.x*camFwd.x + camFwd.z*camFwd.z)
-        if lenFwd > 0.001 then
-            camFwd.x = camFwd.x / lenFwd
-            camFwd.z = camFwd.z / lenFwd
-        else
-            camFwd = {x=0, y=0, z=1}
-        end
-        
-        local lenRight = math.sqrt(camRight.x*camRight.x + camRight.z*camRight.z)
-        if lenRight > 0.001 then
-            camRight.x = camRight.x / lenRight
-            camRight.z = camRight.z / lenRight
-        else
-            camRight = {x=1, y=0, z=0}
-        end
-        
-        -- Multiply the input for the vectors of the camera
-        local moveX = (camRight.x * inputX) + (camFwd.x * inputZ)
-        local moveZ = (camRight.z * inputX) + (camFwd.z * inputZ)
-        
-        local finalLen = math.sqrt(moveX*moveX + moveZ*moveZ)
-        if finalLen > 0.001 then
-            moveX = (moveX / finalLen) * inputLen * INPUT_SCALE
-            moveZ = (moveZ / finalLen) * inputLen * INPUT_SCALE
-        end
-        
-        return moveX, moveZ, inputLen * INPUT_SCALE
-    end
     
-    return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
+    moveX, moveZ = normalizeInput(moveX, moveZ)
+    local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
+    
+    return moveX, moveZ, inputLen
 end
 
 local function GetAttackInput(self)
@@ -343,9 +320,36 @@ local function ChangeState(self, newState, force)
     end
 end
 
+function _G.TriggerDrinkAnimation(self, isInternalHeal)
+    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then 
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Drink", 0.4) end) 
+        if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
+    end
+    
+    Player.healAnimTimer = Player.healAnimDuration
+    Player.healPending = isInternalHeal
+    Player.maskAnimTimer = 0 
+    self.public.canMove = false
+    Engine.Log("[Player] Iniciando animacion de beber...")
+    return true
+end
+
 local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
+    if not maskApolo or not maskAres or not maskHermes then
+        FindMasks(self)
+    end
+    
     if newMask == Mask.APOLLO then 
         --masks
         if maskAres then maskAres:SetActive(false)end
@@ -406,6 +410,7 @@ local function EquipMask(self, newMask)
         if vfxApolo then vfxApolo:SetActive(false)end
         if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
+        
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -435,12 +440,31 @@ local function EquipMask(self, newMask)
 
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
+        
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
+      
     end
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
-    _PlayerController_currentMask = newMask
+
+    if Player.currentMask ~= Mask.NONE then 
+        Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
+    end
+
+   
+
+    -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
+    if newMask == Mask.HERMES then
+        _PlayerController_currentMask = "Hermes"
+    elseif newMask == Mask.APOLLO then
+        _PlayerController_currentMask = "Apolo"
+    elseif newMask == Mask.ARES then
+        _PlayerController_currentMask = "Ares"
+    else
+        _PlayerController_currentMask = ""
+    end
     UpdateSwordMaterial()
 end
 
@@ -474,7 +498,7 @@ States[State.DEAD] = {
                 self.transform:SetPosition(rp.x, rp.y, rp.z)
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 if Player.hermesPendingUnequip then
-                    _PlayerController_currentMask = "None" 
+                    _PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
                 Player.hermesRespawnCooldown = 1.5
@@ -561,7 +585,7 @@ States[State.WALK] = {
         if anim then 
             local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
             if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1.0) end)
+                pcall(function() anim:SetSpeed("Walk", 1) end)
             else
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
@@ -626,7 +650,7 @@ States[State.RUNNING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 1.5)
+            anim:SetSpeed("Running", 2.0)
         end
 
         self.public.usingStamina = true
@@ -691,7 +715,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
 
@@ -710,13 +734,15 @@ States[State.RUNNING] = {
 States[State.ROLL] = {
     timer = 0,
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Roll", 0) end
+        if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerRoll") end 
+        if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_SkeletonDodge") end 
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax
@@ -739,11 +765,13 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Ares", 0) end
+        if anim then anim:Play("Ares", 0.5) end
         attackTimer = 0
         if chargeCol then 
             chargeCol:Enable() 
@@ -782,12 +810,14 @@ States[State.CHARGING] = {
 States[State.SHOOTING] = {
     Enter = function(self)
         _PlayerController_lastAttack = ""
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            anim:Play("Apolo", 0.1) 
+            anim:Play("Apolo", 0.3) 
         end
         attackTimer = 0
 
@@ -838,11 +868,13 @@ States[State.SHOOTING] = {
 States[State.ATTACK_HEAVY] = {
     colliderActive = false,
     Enter = function(self)
-        if not Player.godMode then
+        if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
+        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 0.3) end
+        if anim then anim:Play("Hermes", 1.0) end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         if heavyCol then heavyCol:Disable() end
@@ -901,6 +933,7 @@ States[State.ATTACK_LIGHT] = {
     Enter = function(self)
         attackTimer = 0
         if attackCol then attackCol:Disable() end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.5, 0.5, 200) end
 
         if attackBuffer == true then
             if attackNum ~= 3 then
@@ -1012,8 +1045,6 @@ States[State.ATTACK_LIGHT] = {
     end
 }
 
--- FIX: eliminada la variable local "health" suelta.
--- Toda la lógica de vida usa exclusivamente self.public.health como única fuente de verdad.
 local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
     if Player.currentState == State.ROLL then return end
@@ -1023,6 +1054,7 @@ local function TakeDamage(self, amount, attackerPos)
     Engine.Log("[Player] HP left: " .. tostring(self.public.health) .. "/100")
 
     _PlayerController_triggerCameraShake = true
+    if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 150) end
 
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:SelectPlayAudioEvent("SFX_PlayerHit") end
@@ -1037,9 +1069,7 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.healAnimTimer > 0 then
         Player.healAnimTimer = 0
         Player.healPending = false
-
         self.public.canMove = true
-
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Idle", 0.5) end)
@@ -1074,14 +1104,16 @@ local function RefreshAudioSources(self)
     Player.swordSFX      = (swordGo and swordGo:GetComponent("Audio Source")) or rootSource
     Player.voiceSFX      = (voiceGo and voiceGo:GetComponent("Audio Source")) or rootSource
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
-    Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
+    --Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
-    Player.itemPickSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+    Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
 
     Engine.Log("[Player] Audio Source Mapping Status:")
     Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - SwordSFX: " .. (swordGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - VoiceSFX: " .. (voiceGo and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - ItemSFX: " ..(itemGO and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - MaskSFX: " ..(maskGO and "CHILD FOUND" or "ROOT DEFAULT"))
 end
 
 function Start(self)
@@ -1094,15 +1126,18 @@ function Start(self)
     Player.stepSFX         = nil
     Player.voiceSFX        = nil
     Player.swordSFX        = nil
-    Player.pickMaskSFX     = nil
+    --Player.pickMaskSFX     = nil
     Player.changeMaskSFX   = nil
-    Player.itemPickSFX     = nil
+    Player.itemSFX     = nil
     Player.hitSFX          = nil
 
     _G.PlayerInstance = self
-    
-    Game.Resume()
+
+    -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
+    -- El estado de pausa es responsabilidad exclusiva de MenuManager.
+    -- Game.SetTimeScale solo se resetea tras cambio de escena (ver Update).
     Game.SetTimeScale(1.0)
+
     _G._PlayerController_isDead = false
 
     self.public.staminaCost    = 20.0   
@@ -1121,13 +1156,14 @@ function Start(self)
     attackNum = 0
     attackBufferPending = false
 
-    -- FIX: stamina y health inicializados correctamente en la misma línea
     self.public.stamina = 100
     self.public.health  = 100
 
     self.stepTimer = 0
 
     RefreshAudioSources(self)
+
+    
 
     Player.currentSurface = "Dirt"
 
@@ -1151,7 +1187,7 @@ function Start(self)
     
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
-    _PlayerController_currentMask = "None"
+    _PlayerController_currentMask = ""
 	
     local smokeObj = GameObject.FindInChildren(self.gameObject, "SmokeTrail")
     if smokeObj then
@@ -1183,6 +1219,10 @@ function Start(self)
     Mask.HERMES = "None"
     Mask.ARES   = "None"
 
+    _G._MaskState_Hermes = false
+    _G._MaskState_Apolo  = false
+    _G._MaskState_Ares   = false
+
     maskAnimTimer = 0.0
 
     Player.currentState = State.IDLE
@@ -1190,9 +1230,13 @@ function Start(self)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
 
-    maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
-    maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
-    maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
+    Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
+
+
+    FindMasks(self)
+    -- maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
+    -- maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
+    -- maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
 
     vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
     vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
@@ -1216,59 +1260,47 @@ function Start(self)
 
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
-    if maskApolo then maskApolo:SetActive(false) end
-    if maskHermes then maskHermes:SetActive(false) end
-    if maskAres then maskAres:SetActive(false) end
+    
+   
+
+    -- for i, particle in ipairs(playerParticles) do
+    --     if not particle then
+    --         ResetParticles(self)
+    --         break
+    --     end
+    -- end 
 
     if vfxApolo then 
         Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
-        if Player.apoloPs then
-            Player.apoloPs:Stop()
-        end
+        if Player.apoloPs then Player.apoloPs:Stop() end
         Player.apoloLight = vfxApolo:GetComponent("Light")
-        if Player.apoloLight then
-            Player.apoloLight:SetEnabled(false)
-        end
+        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
         vfxApolo:SetActive(false) 
     end
     if vfxHermes then 
         Player.hermesPs = vfxHermes:GetComponent("ParticleSystem")
-        if Player.hermesPs then
-            Player.hermesPs:Stop()
-        end
+        if Player.hermesPs then Player.hermesPs:Stop() end
         Player.hermesLight = vfxHermes:GetComponent("Light")
-        if Player.hermesLight then
-            Player.hermesLight:SetEnabled(false)
-        end
+        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
         vfxHermes:SetActive(false) 
     end
     if vfxHermesAttack then
         Player.hermesAttackPs = vfxHermesAttack:GetComponent("ParticleSystem")
-        if Player.hermesAttackPs then
-            Player.hermesAttackPs:Stop()
-        end
+        if Player.hermesAttackPs then Player.hermesAttackPs:Stop() end
     end
     if vfxApoloAttack then
         Player.apoloAttackPs = vfxApoloAttack:GetComponent("ParticleSystem")
-        if Player.apoloAttackPs then
-            Player.apoloAttackPs:Stop()
-        end
+        if Player.apoloAttackPs then Player.apoloAttackPs:Stop() end
     end
     if vfxAresAttack then
         Player.aresAttackPs = vfxAresAttack:GetComponent("ParticleSystem")
-        if Player.aresAttackPs then
-            Player.aresAttackPs:Stop()
-        end
+        if Player.aresAttackPs then Player.aresAttackPs:Stop() end
     end
     if vfxAres then 
         Player.aresPs = vfxAres:GetComponent("ParticleSystem")
-        if Player.aresPs then
-            Player.aresPs:Stop()
-        end
+        if Player.aresPs then Player.aresPs:Stop() end
         Player.aresLight = vfxAres:GetComponent("Light")
-        if Player.aresLight then
-            Player.aresLight:SetEnabled(false)
-        end
+        if Player.aresLight then Player.aresLight:SetEnabled(false) end
         vfxAres:SetActive(false)   
     end
 
@@ -1278,14 +1310,44 @@ function Start(self)
 
     if vfxTrail then
         Player.trailPs = vfxTrail:GetComponent("ParticleSystem")
-        if Player.trailPs then
-            Player.trailPs:Stop()
-        end
+        if Player.trailPs then Player.trailPs:Stop() end
     end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
     end
+end
+
+local function FindMasks(self)
+    maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
+    maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
+    maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
+
+    if maskApolo then maskApolo:SetActive(false) end
+    if maskHermes then maskHermes:SetActive(false) end
+    if maskAres then maskAres:SetActive(false) end
+end
+
+local function ResetParticles(self)
+    vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
+    vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
+    vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
+    vfxHermesAttack = GameObject.FindInChildren(self.gameObject,"VFXhermesAttack")
+    vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
+    vfxAresAttack = GameObject.FindInChildren(self.gameObject,"VFXaresAttack")
+    vfxTrail = GameObject.FindInChildren(self.gameObject,"VFXtrail")
+
+    --local playerVFX = {vfxApolo, vfxApoloAttack, vfxHermes, vfxHermesAttack, vfxAres, vfxAresAttack, vfxTrail}
+
+    for i, ps in ipairs(playerParticles) do
+        if ps then 
+            ps:GetComponent("Particle System") 
+            ps:Stop()
+        end
+
+    end
+    
+
 end
 
 
@@ -1315,11 +1377,19 @@ function Update(self, dt)
         staminaLock = false
     end
 
+    if not maskApolo or not maskAres or not maskHermes then
+        Engine.Log("Masks not found, retrieving from hierarchy...")
+        FindMasks(self)
+    end
+
     local sceneLoaderCount = _G._SceneLoaderCounter or 0
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
         Player.lastSceneCounter = sceneLoaderCount
         Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
         
+        -- FIX: Game.Resume() aquí sí es correcto porque es un cambio de escena
+        -- real, donde sabemos que el juego debe correr (el MenuManager
+        -- se reinicializará y tomará el control del estado de pausa).
         Game.Resume()
         Game.SetTimeScale(1.0)
         
@@ -1363,6 +1433,11 @@ function Update(self, dt)
         RefreshAudioSources(self)
         
         Player.firstFrameCheck = true
+
+        -- FIX: si el UIManager está desactivado el engine puede pausar
+        -- automáticamente por tener MainMenu.xaml en el Canvas.
+        -- Esperamos unos frames y si no hay MenuManager activo, forzamos Resume.
+        Player.forceResumeFrames = 10
     end
 
     if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
@@ -1386,6 +1461,30 @@ function Update(self, dt)
         end
     end
 
+    -- FIX: resume forzado si no hay MenuManager activo (UIManager desactivado)
+    if Player.forceResumeFrames and Player.forceResumeFrames > 0 then
+        Player.forceResumeFrames = Player.forceResumeFrames - 1
+        if Player.forceResumeFrames == 0 then
+            if not _G.GlobalMenuManagerInstance then
+                -- Anti-AutoPause: Si el MenuManager está desactivado pero tiene el MainMenu cargado,
+                -- el engine pausará el juego. Buscamos el Canvas y lo limpiamos.
+                local uiObj = GameObject.Find("MenuManager") or GameObject.Find("Canvas")
+                if uiObj then
+                    local canvas = uiObj:GetComponent("Canvas")
+                    if canvas and canvas:GetCurrentXAML() == "MainMenu.xaml" then
+                        Engine.Log("[Player] Anti-AutoPause: Detectado MainMenu en objeto desactivado. Forzando HUD...")
+                        canvas:LoadXAML("HUD.xaml")
+                        _G.CurrentXAML = "HUD.xaml"
+                    end
+                end
+                
+                Game.Resume()
+                Game.SetTimeScale(1.0)
+                Engine.Log("[Player] FIX: Resume forzado por ausencia de MenuManager")
+            end
+        end
+    end
+
     if Player.maskAnimTimer > 0 then
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.maskAnimTimer = Player.maskAnimTimer - dt
@@ -1396,7 +1495,7 @@ function Update(self, dt)
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
             end
-            ChangeState(self, State.IDLE, true)  -- force = true
+            ChangeState(self, State.IDLE, true)
         end
     end
 
@@ -1423,13 +1522,12 @@ function Update(self, dt)
         end
     end
 
-    -- FIX: tecla 7 ahora usa self.public.health directamente (igual que TakeDamage)
     if Input.GetKeyDown("7") and not Player.godMode then
         self.public.health = math.max(0, self.public.health - self.public.hpLossCost)
         Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
     end
 
-    if Input.GetKey("G") then
+    if Input.GetKeyDown("G") then
         Player.godMode = not Player.godMode
         Engine.Log("[Player] GOD MODE: " .. tostring(Player.godMode))
         if Player.rb then
@@ -1441,18 +1539,8 @@ function Update(self, dt)
         end
     end
 
-    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) and Player.healAnimTimer <= 0 and self.public.health ~= 100 and Player.maskAnimTimer <= 0 then
-        ChangeState(self, State.IDLE)
-        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then 
-            pcall(function() anim:Play("Idle", 0.0) end)
-            pcall(function() anim:Play("Drink", 0.4) end) 
-        end
-        Player.healAnimTimer = Player.healAnimDuration
-        Player.healPending = true
-        self.public.canMove = false
+    if (Input.GetKeyDown("P") or Input.GetGamepadButtonDown("A")) then
+        if self.public.health ~= 100 then _G.TriggerDrinkAnimation(self, true) end
     end
 
     if Player.healAnimTimer > 0 then
@@ -1462,14 +1550,15 @@ function Update(self, dt)
             Player.healAnimTimer = 0
             if Player.healPending then
                 Player.healPending = false
-                    self.public.health = math.min(100, self.public.health + self.public.hpRecover)
-                    Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
-                end
+                self.public.health = math.min(100, self.public.health + self.public.hpRecover)
+                Engine.Log("[Player] HEALTH: " .. tostring(self.public.health))
+            end
             self.public.canMove = true
 
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
+                
             end
         end
     end
@@ -1480,27 +1569,35 @@ function Update(self, dt)
 
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
         MaskScroll(self)
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
-        EquipMask(self, Mask.NONE) 
-        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+
+        if Player.maskAnimTimer > 0 then return end
+        if Player.currentMask ~= Mask.NONE then 
+            if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+            EquipMask(self, Mask.NONE) 
+        end
+
+        
+        --if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+        
     end
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        --if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_ApoloMask") end
     end
 
     if Input.GetKeyDown("F2") then 
         giveHermesMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_HermesMask") end
     end
 
     if Input.GetKeyDown("F3") then 
         giveAresMask = true
-        if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_AresMask") end
     end
 
     if Input.GetKeyDown("M") then
@@ -1543,9 +1640,17 @@ function Update(self, dt)
 end
 
 function MaskScroll(self)
+    Engine.Log("old mask: "..tostring(oldMask)..", current mask: "..tostring(Player.currentMask).. ", Player state: "..tostring(Player.currentState))
     oldMask = Player.currentMask
+
+    Engine.Log("Mask Scrolling, maskAnimTimer = "..tostring(Player.maskAnimTimer)..", healAnimTimer = "..tostring(Player.healAnimTimer))
+
     if Player.maskAnimTimer > 0 then return end
     if Player.healAnimTimer > 0 then return end
+
+    if not Player.currentMask then Player.currentMask = Mask.NONE end
+
+    
 
     if Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.NONE then 
@@ -1566,33 +1671,63 @@ function MaskScroll(self)
         elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
     end  
 
+    
+
     ChangeState(self, State.IDLE)
     if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
 
     if oldMask ~= Player.currentMask then
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
             anim:Play("Idle", 0.0)
             anim:Play("Mask", 0.2) 
+        else 
+            Engine.Log("Unable to Play Mask animation")
         end
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false
     end
+
 end
 
 function ObtainMask(self)
-    if giveApoloMask and Mask.APOLLO == "None" then 
+    if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
+        _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.APOLLO)
+        end
     end
-    if giveHermesMask and Mask.HERMES == "None" then 
+    giveApoloMask = false
+
+    if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
+
+        _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Hermes = true
+
         Engine.Log("Hermes Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.HERMES)
+        end
     end
+    giveHermesMask = false
+
     if giveAresMask and Mask.ARES == "None" then
-        Mask.ARES = "Ares" 
+        Mask.ARES = "Ares"
+
+        _G._MaskCount = _G._MaskCount + 1
+        _G._MaskState_Ares = true
+
         Engine.Log("Ares Mask obtain")
+        if Player.currentMask == Mask.NONE then
+            EquipMask(self, Mask.ARES)
+        end
     end
+    giveAresMask = false
 end
 
 function ResetPlayer(self)
@@ -1600,6 +1735,8 @@ function ResetPlayer(self)
 
     self.public.health  = 100
     self.public.stamina = 100
+    self.public.berserkActive = false
+
 
     attackCooldown = 0
     rollCooldown   = 0
@@ -1614,7 +1751,11 @@ function ResetPlayer(self)
     Player.isDrowning            = false
     _PlayerController_isDrowning = false
     Player.hermesGraceTimer      = 0
+
+    FindMasks(self)
     EquipMask(self, Mask.NONE)
+
+    Player.currentSurface = "Dirt"
 
     local p = Player.spawnPos
     if p then
@@ -1710,8 +1851,8 @@ function ActivateTrail()
         Player.trailPs:SetStartColor(1.0, 0.9, 0.2)
         Player.trailPs:SetEndColor(1.0, 0.9, 0.2, 0.0)
     elseif Player.currentMask == Mask.ARES then
-        Player.trailPs:SetStartColor(1.0, 0.3, 0.15)
-        Player.trailPs:SetEndColor(1.0, 0.3, 0.15, 0.0)
+        Player.trailPs:SetStartColor(1.0, 0.15, 0.15)
+        Player.trailPs:SetEndColor(1.0, 0.15, 0.15, 0.0)
     else
         Player.trailPs:SetStartColor(1.0, 1.0, 1.0)
         Player.trailPs:SetEndColor(1.0, 1.0, 1.0, 0.0)
@@ -1719,3 +1860,4 @@ function ActivateTrail()
 
     Player.trailPs:Play()
 end
+

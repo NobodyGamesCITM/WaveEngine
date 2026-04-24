@@ -34,15 +34,22 @@ public = {
     attackColDelay  = 1.5,
     attackAnimaAnticip  = 0.3,
     nearDist        = 2,
+    nearYDist       = 1.0,
+
     patrolWaitMin   = 1.0,
     patrolWaitMax   = 2.8,
 }
 local patrolWait = 0
 local alreadyHit = false
+local hitCooldown = 0
 local attackTimer = 0
 local pendingDeath = false
+
+local targetVelX = 0
+local targetVelZ = 0
 local currentYaw = 0 
 
+local hitGiven = false
 local BaseMat = nil
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
@@ -60,9 +67,9 @@ local function CheckDistance(self, dist, near)
     
    -- Engine.Log("[Skeleton] NOT NEAR ENOUGH: " .. tostring(dist))
     if near == true then 
-        return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist
+        return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist --and math.abs(pos.y - playerPos.y) < self.public.nearYDist
     else
-        return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist
+        return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist-- or math.abs(pos.y - playerPos.y) > self.public.nearYDist
     end
 end
 
@@ -111,15 +118,10 @@ end
 
 local function ChangeState(self, newState)
     --Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
-    
     if Skeleton.currentState and States[Skeleton.currentState].Exit then
         States[Skeleton.currentState].Exit(self)
     end
     Skeleton.currentState = newState
-    if newState ~= State.IDLE and newState ~= State.RUNNING 
-    and newState ~= State.WALK and newState ~= State.ATTACK_LIGHT then
-        attackBuffer = false
-    end   
     if States[newState].Enter then
         States[newState].Enter(self)
     end
@@ -142,7 +144,7 @@ function Start(self)
     Skeleton.currentState = State.IDLE
     ChangeState(self, State.IDLE)
 
-    squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
+    local squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
     BaseMat = squeletonMesh:GetComponent("Material")
 end
 
@@ -237,14 +239,13 @@ States[State.ATTACK] = {
         Skeleton.nav:StopMovement()
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            pcall(function() anim:Play("Idle", 0.5) end)
+            pcall(function() anim:Play("Orbit", 0.5) end)
         end
     end,
     Update = function(self, dt)
-        Skeleton.rb:SetLinearVelocity(0, 0, 0)
         local plPos = playerGO.transform.worldPosition
-        attackTimer    = attackTimer    + dt
-
+        attackTimer = attackTimer + dt
+        --Engine.Log(tostring(attackTimer))
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and playerGO then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
@@ -267,7 +268,7 @@ States[State.ATTACK] = {
         if attackTimer >= self.public.attackDur or alreadyHit then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                pcall(function() anim:Play("Idle", 0.5) end)
+                pcall(function() anim:Play("Orbit", 0.5) end)
             end
             hitGiven = false
             attackTimer   = 0
@@ -279,6 +280,7 @@ States[State.ATTACK] = {
             return
         end
         FaceTargetSmooth(self, plPos, dt)
+        Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
 }
 
@@ -295,6 +297,13 @@ function Update(self, dt)
     end
     if Skeleton.currentState and States[Skeleton.currentState] then
         States[Skeleton.currentState].Update(self, dt)
+    end
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            alreadyHit = false
+            BaseMat.SetTexture("13296577326446124640")
+        end
     end
 
     if pendingDeath then
@@ -326,6 +335,19 @@ function OnTriggerEnter(self, other)
                     TakeDamage(self, dmg, ap)
                 end
             end
+        end
+    end
+
+    if other:CompareTag("Bullet") then
+        -- La bala golpea al esqueleto
+        if not alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("17109277834976977864")
+            TakeDamage(self, dmg, ap)
         end
     end
 end

@@ -542,7 +542,8 @@ bool Renderer::RenderScene(CameraLens* camera)
         GLuint targetFBO = (camera->fboID != 0) ? camera->fboID : 0;
         glBindFramebuffer(GL_READ_FRAMEBUFFER, camera->msaaFBO);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO);
-        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        // Copiamos color y profundidad (usando NEAREST para profundidad)
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
         glDisable(GL_MULTISAMPLE);
     }
 
@@ -564,6 +565,9 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
         if (!resMesh.IsValid()) continue;
 
         glm::mat4 globalModelMatrix = mesh->owner->transform->GetGlobalMatrix();
+        const glm::vec3& pivOff = mesh->GetPivotLocalOffset();
+        if (pivOff.x != 0.0f || pivOff.y != 0.0f || pivOff.z != 0.0f) 
+            globalModelMatrix = globalModelMatrix * glm::translate(glm::mat4(1.0f), pivOff);
 
         const AABB& globalAABB = mesh->GetGlobalAABB();
 
@@ -681,6 +685,10 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
     glBindTexture(GL_TEXTURE_2D, postProcessTexture);
     postProcessShader->SetInt("sceneTexture", 0);
     
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, camera->depthTexture != 0 ? camera->depthTexture : 0); 
+    postProcessShader->SetInt("depthTexture", 1);
+    
     glm::vec2 resolution = glm::vec2((float)camera->textureWidth, (float)camera->textureHeight);
     postProcessShader->SetVec2("uResolution", resolution);
     postProcessShader->SetVec2("uTexelSize", 1.0f / resolution);
@@ -723,23 +731,63 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         postProcessShader->SetFloat("vignetteIntensity", activePP->lens.vignetteIntensity);
         postProcessShader->SetFloat("vignetteSmoothness", activePP->lens.vignetteSmoothness);
         postProcessShader->SetFloat("vignetteRoundness", activePP->lens.vignetteRoundness);
-        postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
+        postProcessShader->SetVec3("vignetteColor", glm::vec3(activePP->lens.vignetteColor));
+    }
+
+    // --- Global Depth Uniforms ---
+    postProcessShader->SetFloat("nearPlane", camera->GetNearPlane());
+    postProcessShader->SetFloat("farPlane", camera->GetFarPlane());
+
+    // --- Multi-pass Gaussian Blur for DoF (Depth Test must be DISABLED) ---
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_STENCIL_TEST);
+
+    bool needsBlur = activePP->depthOfField.enabled || activePP->blur.enabled;
+
+    if (needsBlur) {
+        float spread = activePP->blur.enabled ? activePP->blur.spread : 1.5f;
+        postProcessShader->SetFloat("uBlurSpread", spread);
+
+        // Paso 1: Blur Horizontal (Usamos blurFBO como destino)
+        glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
+        postProcessShader->SetInt("uPass", 1); 
+        glBindVertexArray(quadVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        // Paso 2: Blur Vertical (Usamos finalBlurFBO como destino)
+        glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
+        postProcessShader->SetInt("uPass", 2); 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, blurTexture); 
+        glBindVertexArray(quadVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
     postProcessShader->SetBool("dofEnabled", activePP->depthOfField.enabled);
     if (activePP->depthOfField.enabled) {
+        // Configuramos parámetros de DoF
         postProcessShader->SetFloat("dofDistance", activePP->depthOfField.focusDistance);
         postProcessShader->SetFloat("dofRange", activePP->depthOfField.focusRange);
         postProcessShader->SetFloat("dofStrength", activePP->depthOfField.blurStrength);
         postProcessShader->SetBool("dofTiltShift", activePP->depthOfField.tiltShift);
-        postProcessShader->SetFloat("nearPlane", camera->GetNearPlane());
-        postProcessShader->SetFloat("farPlane", camera->GetFarPlane());
+        postProcessShader->SetVec3("dofTint", activePP->depthOfField.farTint);
+        postProcessShader->SetFloat("dofTintIntensity", activePP->depthOfField.tintIntensity);
     }
 
-    postProcessShader->SetBool("motionBlurEnabled", activePP->motionBlur.enabled);
-    if (activePP->motionBlur.enabled) {
-        postProcessShader->SetFloat("motionBlurIntensity", activePP->motionBlur.intensity);
+    // Volvemos al buffer de la cámara para la composición final
+    glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
+    postProcessShader->SetInt("uPass", 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, postProcessTexture);
+    
+    if (needsBlur) {
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, finalBlurTexture);
+        postProcessShader->SetInt("blurredTexture", 2);
     }
+
+    postProcessShader->SetBool("blurEnabled", activePP->blur.enabled);
+    postProcessShader->SetFloat("blurIntensity", activePP->blur.intensity);
 
     postProcessShader->SetBool("autoExposureEnabled", activePP->autoExposure.enabled);
     if (activePP->autoExposure.enabled) {
@@ -1166,9 +1214,15 @@ bool Renderer::CleanUp()
     if (postProcessFBO != 0) {
         glDeleteFramebuffers(1, &postProcessFBO);
         glDeleteTextures(1, &postProcessTexture);
+        glDeleteFramebuffers(1, &blurFBO);
+        glDeleteTextures(1, &blurTexture);
+        glDeleteFramebuffers(1, &finalBlurFBO);
+        glDeleteTextures(1, &finalBlurTexture);
         glDeleteRenderbuffers(1, &postProcessRBO);
         postProcessFBO = 0;
         postProcessTexture = 0;
+        blurFBO = 0;
+        finalBlurFBO = 0;
         postProcessRBO = 0;
         postProcessCurrentW = 0;  
         postProcessCurrentH = 0;
@@ -1197,6 +1251,13 @@ void Renderer::ResizePostProcessingBuffer(int width, int height)
     if (postProcessFBO == 0) {
         glGenFramebuffers(1, &postProcessFBO);
         glGenTextures(1, &postProcessTexture);
+        
+        glGenFramebuffers(1, &blurFBO);
+        glGenTextures(1, &blurTexture);
+
+        glGenFramebuffers(1, &finalBlurFBO);
+        glGenTextures(1, &finalBlurTexture);
+
         glGenRenderbuffers(1, &postProcessRBO);
         postProcessCurrentW = 0;
         postProcessCurrentH = 0;
@@ -1210,6 +1271,27 @@ void Renderer::ResizePostProcessingBuffer(int width, int height)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postProcessTexture, 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
+        glBindTexture(GL_TEXTURE_2D, blurTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, blurTexture, 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
+        glBindTexture(GL_TEXTURE_2D, finalBlurTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, finalBlurTexture, 0);
+
+        // Aseguramos que los FBOs estén limpios para evitar basura visual
+        glClearColor(0, 0, 0, 1);
+        glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         glBindRenderbuffer(GL_RENDERBUFFER, postProcessRBO);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
@@ -1501,6 +1583,9 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
         pickingShader->SetVec4("pickingColor", pickingColor);
 
         glm::mat4 model = meshComponent->owner->transform->GetGlobalMatrix();
+        const glm::vec3& pickPivOff = meshComponent->GetPivotLocalOffset();
+        if (pickPivOff.x != 0.0f || pickPivOff.y != 0.0f || pickPivOff.z != 0.0f)
+            model = model * glm::translate(glm::mat4(1.0f), pickPivOff);
         pickingShader->SetMat4("model", model);
 
 

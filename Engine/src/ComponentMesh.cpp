@@ -234,12 +234,15 @@ void ComponentMesh::Draw()
 
 const AABB& ComponentMesh::GetGlobalAABB()
 {
-    if (aabbDirty) 
+    if (aabbDirty)
     {
-        cachedGlobalAABB = staticAABB.GetGlobalAABB(owner->transform->GetGlobalMatrix());
-		aabbDirty = false;
+        glm::mat4 mat = owner->transform->GetGlobalMatrix();
+        if (pivotLocalOffset.x != 0.0f || pivotLocalOffset.y != 0.0f || pivotLocalOffset.z != 0.0f)
+            mat = mat * glm::translate(glm::mat4(1.0f), pivotLocalOffset);
+        cachedGlobalAABB = staticAABB.GetGlobalAABB(mat);
+        aabbDirty = false;
     }
-	return cachedGlobalAABB;
+    return cachedGlobalAABB;
 }
 
 const AABB& ComponentMesh::GetAABB() const
@@ -270,6 +273,11 @@ void ComponentMesh::Serialize(nlohmann::json& componentObj) const
     if (hasDirectMesh && !primitiveType.empty()) {
         componentObj["primitiveType"] = primitiveType;
     }
+
+	// Pivot offset
+    if (pivotLocalOffset != glm::vec3(0.0f)) {
+        componentObj["pivotOffset"] = { pivotLocalOffset.x, pivotLocalOffset.y, pivotLocalOffset.z };
+    }
 }
 
 void ComponentMesh::Deserialize(const nlohmann::json& componentObj)
@@ -281,6 +289,11 @@ void ComponentMesh::Deserialize(const nlohmann::json& componentObj)
             LoadMeshByUID(uid);
             return;
         }
+    }
+
+    if (componentObj.contains("pivotOffset")) {
+        auto& p = componentObj["pivotOffset"];
+        pivotLocalOffset = glm::vec3(p[0].get<float>(), p[1].get<float>(), p[2].get<float>());
     }
 
     // Primitive Type

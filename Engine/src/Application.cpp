@@ -251,22 +251,16 @@ bool Application::PreUpdate()
 // Call modules on each loop iteration
 bool Application::DoUpdate()
 {
-    //Iterates the module list and calls Update on each module
     bool result = true;
     for (const auto& module : moduleList) {
 #ifndef WAVE_GAME
-        // Skip scene updates when in editing mode
         if (playState == PlayState::EDITING && module == scene) {
             continue;
         }
 #endif
-
         result = module.get()->Update();
-        if (!result) {
-            break;
-        }
+        if (!result) break;
     }
-
     return result;
 }
 

@@ -11,7 +11,7 @@ public = {
 	maxVolume = 100
 }
 
-function Start(self)
+local function Initialize(self)
 	enteredBossLevel = false
 	finishedTransition = false
 	fadeTimer = 0
@@ -20,12 +20,23 @@ function Start(self)
 	bgMusic = musicSource:GetComponent("Audio Source")
 
 	if not bgMusic then Engine.Log("BG Music Audio Source component not found!") end
-	
-	
+end
+
+function Start(self)
+	Initialize(self)
 end
 
 function Update(self, dt)
+
+	if not volume then 
+		Initialize(self)
+	end
+
+	
+
+
 	if enteredBossLevel and volume < (self.public.maxVolume or 100) then 
+
 		fadeTimer = fadeTimer + dt
 		local progressPercent = math.min((fadeTimer/(self.public.fadeTime or 1.5)), 1.0)
 		volume = (self.public.maxVolume or 100) * progressPercent
@@ -51,10 +62,17 @@ end
 function OnTriggerEnter(self, other)
 	 if other:CompareTag("Player") and not finishedTransition then
 		enteredBossLevel = true
+		Engine.Log("Switching to Boss Music...")
 		fadeTimer = 0
-		Audio.SetMusicState("Boss")
+		if bgMusic then bgMusic:PlayAudioEvent()
+		else Engine.Log("bgMusic not found!") 
+		end
 	end
 end
+
+
+
+
 
 
 

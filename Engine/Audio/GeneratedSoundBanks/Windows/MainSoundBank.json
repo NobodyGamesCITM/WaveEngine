@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{F2D53A5D-DC98-53DA-E44F-DCAA5A721574}",
+    "Hash": "{3D2F4156-B15E-4ED4-C3AD-CF1F5D08A53C}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1592,8 +1592,8 @@
       "GUID": "{6F7924D3-404C-4878-8045-8C6184257404}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.31362998",
-      "DurationMax": "0.39514902",
+      "DurationMin": "0.37730473",
+      "DurationMax": "0.37730473",
       "MediaRefs": [
        {
         "Id": "794836068"
@@ -1607,8 +1607,8 @@
       "GUID": "{888B09A6-60B7-46C9-BEC1-ADA39DE0F851}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.31362998",
-      "DurationMax": "0.65658927",
+      "DurationMin": "0.37730473",
+      "DurationMax": "0.62693876",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -2750,6 +2750,6 @@
     ]
    }
   ],
-  "FileHash": "{29C999C1-C56E-A65A-DD35-4711DF5896A6}"
+  "FileHash": "{A6B53C26-8CD4-C658-1078-4147255D05C8}"
  }
 }

@@ -11,7 +11,7 @@ public = {
 	maxVolume = 100
 }
 
-function Start(self)
+local function Initialize(self)
 	exitedLevel2 = false
 	finishedTransition = false
 	fadeTimer = 0
@@ -24,21 +24,35 @@ function Start(self)
 	Audio.SetMusicState("Level2")
 end
 
+function Start(self)
+	Initialize(self)
+end
+
+
 function Update(self, dt)
-	if exitedLevel2 and volume > 0 then 
+	if not volume then
+		Initialize(self)
+	end
+
+	if exitedLevel2 and volume > 0 and not finishedTransition then 
 		fadeTimer = fadeTimer + dt
 		local progressPercent = math.min((fadeTimer/(self.public.fadeTime or 1.5)), 1.0)
 		volume = (self.public.maxVolume or 100) * (1 - progressPercent)
-		Engine.Log("Setting global audio to ".. volume)
+		--Engine.Log("Setting global audio to ".. volume)
 		if volume then 
 			Audio.SetMusicVolume(volume)
 		else
 			Engine.Log("Could not set music volume!")
 		end
 
-	elseif exitedLevel2 and volume <= 0 then
+	elseif exitedLevel2 and volume <= 0 and not finishedTransition then
 		finishedTransition = true
+		if bgMusic then bgMusic:StopAudioEvent() end
+	elseif exitedLevel2 and volume <= 0 and finishedTransition then
+		Audio.SetMusicState("Boss")
 	end
+
+	
 
 	if _G._PlayerController_isDead then
 		exitedLevel2 = false
@@ -49,12 +63,15 @@ function Update(self, dt)
 end
 
 function OnTriggerEnter(self, other)
-	 if other:CompareTag("Player") and not finishedTransition then
+	if other:CompareTag("Player") and not finishedTransition then
 		exitedLevel2 = true
 		fadeTimer = 0
-		--Audio.SetMusicState("Boss")
 	end
 end
+
+
+
+
 
 
 

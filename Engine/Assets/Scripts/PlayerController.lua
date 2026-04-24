@@ -343,7 +343,9 @@ end
 local function EquipMask(self, newMask)
     if Player.maskAnimTimer > 0 then return end
 
-    
+    if not maskApolo or not maskAres or not maskHermes then
+        FindMasks(self)
+    end
     
     if newMask == Mask.APOLLO then 
         --masks
@@ -435,15 +437,20 @@ local function EquipMask(self, newMask)
 
     if newMask == Mask.NONE then
         Engine.Log("[Player] Unequipping mask")
-
+        
     else
         Engine.Log("[Player] EQUIPPING MASK: " .. tostring(newMask))
+      
     end
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
-    
-    Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
-    if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
+
+    if Player.currentMask ~= Mask.NONE then 
+        Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
+        if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
+    end
+
+   
 
     -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
     if newMask == Mask.HERMES then
@@ -1334,6 +1341,7 @@ function Update(self, dt)
     end
 
     if not maskApolo or not maskAres or not maskHermes then
+        Engine.Log("Masks not found, retrieving from hierarchy...")
         FindMasks(self)
     end
 
@@ -1523,20 +1531,20 @@ function Update(self, dt)
     end
 
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
-
-        
-        
-
         MaskScroll(self)
-        --if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
-        --Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
-        
-        
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
-        EquipMask(self, Mask.NONE) 
+
+        if Player.maskAnimTimer > 0 then return end
+        if Player.currentMask ~= Mask.NONE then 
+            if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+            EquipMask(self, Mask.NONE) 
+        end
+
+        
         --if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+        
     end
 
     if Input.GetKeyDown("F1") then 
@@ -1709,6 +1717,8 @@ function ResetPlayer(self)
 
     FindMasks(self)
     EquipMask(self, Mask.NONE)
+
+    Player.currentSurface = "Dirt"
 
     local p = Player.spawnPos
     if p then

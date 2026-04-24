@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{3D2F4156-B15E-4ED4-C3AD-CF1F5D08A53C}",
+    "Hash": "{04C6F051-DE8B-AECF-CE30-D912B7A6094D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -494,6 +494,14 @@
       "Location": "Memory",
       "ShortName": "shield_dmg_02.wav",
       "CachePath": "E2/{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem"
+     },
+     {
+      "Id": "483035979",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_roll_01.wav",
+      "CachePath": "8C/{8C12206E-98C6-A28E-30D3-2BAF38FDEDA7}.wem"
      },
      {
       "Id": "486410471",
@@ -2164,6 +2172,21 @@
       ]
      },
      {
+      "Id": "2179511499",
+      "Name": "SFX_PlayerRoll",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerRoll",
+      "GUID": "{791AC566-9B37-4B72-B77D-D35D4FB37976}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.39234555",
+      "DurationMax": "0.659844",
+      "MediaRefs": [
+       {
+        "Id": "483035979"
+       }
+      ]
+     },
+     {
       "Id": "3128226246",
       "Name": "SFX_PotionDrink",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PotionDrink",
@@ -2750,6 +2773,6 @@
     ]
    }
   ],
-  "FileHash": "{A6B53C26-8CD4-C658-1078-4147255D05C8}"
+  "FileHash": "{DCC839F8-F7B3-7B27-7D72-56D91D705266}"
  }
 }

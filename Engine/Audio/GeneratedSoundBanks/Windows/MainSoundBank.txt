@@ -22,6 +22,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2050401325	SFX_SirenSing			\Default Work Unit\Siren\SFX_SirenSing	
 	2120819887	SFX_AquilesDeath			\Default Work Unit\Aquiles\SFX_AquilesDeath	
 	2157393365	SFX_AquilesSpearHit			\Default Work Unit\Aquiles\SFX_AquilesSpearHit	
+	2179511499	SFX_PlayerRoll			\Default Work Unit\Player\SFX_PlayerRoll	
 	2261003392	SFX_AquilesShield			\Default Work Unit\Aquiles\SFX_AquilesShield	
 	2295055714	UI_ButtonSelect			\Default Work Unit\Other\UI_ButtonSelect	
 	2400499341	SFX_SkeletonDodge			\Default Work Unit\Skeleton\SFX_SkeletonDodge	
@@ -172,6 +173,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
 	480176063	shield_dmg_02	.cache\E2\{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_02		61496
+	483035979	player_roll_01	.cache\8C\{8C12206E-98C6-A28E-30D3-2BAF38FDEDA7}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		29312
 	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
 	495811719	stone_walk_03	.cache\3D\{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_03		13580
 	512620298	aquiles_step_03	.cache\97\{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_03		51488

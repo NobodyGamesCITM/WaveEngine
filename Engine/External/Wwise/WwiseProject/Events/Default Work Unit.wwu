@@ -225,6 +225,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_PlayerRoll" ID="{791AC566-9B37-4B72-B77D-D35D4FB37976}">
+							<ChildrenList>
+								<Action Name="" ID="{B7BA8F10-0EAB-449F-886B-894145611AF1}" ShortID="281768397">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_roll_01" ID="{E9A0E415-2F82-4B69-8FEB-A66ADC3380C1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">

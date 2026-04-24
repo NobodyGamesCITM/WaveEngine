@@ -18,7 +18,7 @@ local attackSource
 local voiceSource
 local hitSource
 local itemSource
-local equipSource
+--local equipSource
 local changeSource
 local swordMat = nil
 
@@ -82,9 +82,9 @@ local Player = {
     stepSFX 		= nil,
     voiceSFX 		= nil,
     swordSFX 		= nil,
-    pickMaskSFX     = nil,
+    --pickMaskSFX     = nil,
     changeMaskSFX   = nil,
-    itemPickSFX     = nil,
+    itemSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
     foundSurface    = false,
@@ -113,6 +113,8 @@ local Player = {
     healAnimDuration = 1.0,
     healPending = false,
 }
+
+local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
 
 public = {
     speed               = 15.0,
@@ -175,7 +177,7 @@ function TriggerDrinkAnimation(self, isInternalHeal)
     if anim then 
         pcall(function() anim:Play("Idle", 0.0) end)
         pcall(function() anim:Play("Drink", 0.4) end)  
-        if Player.itemPickSFX then Player.itemPickSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
+        if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
     end
     
     Player.healAnimTimer = Player.healAnimDuration
@@ -330,6 +332,7 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
     if anim then 
         pcall(function() anim:Play("Idle", 0.0) end)
         pcall(function() anim:Play("Drink", 0.4) end) 
+        if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_PotionDrink") end
     end
     
     Player.healAnimTimer = Player.healAnimDuration
@@ -447,7 +450,7 @@ local function EquipMask(self, newMask)
 
     if Player.currentMask ~= Mask.NONE then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
-        if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
     end
 
    
@@ -738,6 +741,8 @@ States[State.ROLL] = {
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Roll", 0) end
+        if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerRoll") end 
+        if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_SkeletonDodge") end 
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax
@@ -1099,14 +1104,16 @@ local function RefreshAudioSources(self)
     Player.swordSFX      = (swordGo and swordGo:GetComponent("Audio Source")) or rootSource
     Player.voiceSFX      = (voiceGo and voiceGo:GetComponent("Audio Source")) or rootSource
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
-    Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
+    --Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
-    Player.itemPickSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+    Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
 
     Engine.Log("[Player] Audio Source Mapping Status:")
     Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - SwordSFX: " .. (swordGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - VoiceSFX: " .. (voiceGo and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - ItemSFX: " ..(itemGO and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - MaskSFX: " ..(maskGO and "CHILD FOUND" or "ROOT DEFAULT"))
 end
 
 function Start(self)
@@ -1119,9 +1126,9 @@ function Start(self)
     Player.stepSFX         = nil
     Player.voiceSFX        = nil
     Player.swordSFX        = nil
-    Player.pickMaskSFX     = nil
+    --Player.pickMaskSFX     = nil
     Player.changeMaskSFX   = nil
-    Player.itemPickSFX     = nil
+    Player.itemSFX     = nil
     Player.hitSFX          = nil
 
     _G.PlayerInstance = self
@@ -1253,7 +1260,15 @@ function Start(self)
 
     swordGameObject = GameObject.FindInChildren(self.gameObject,"Xiphos")
 
+    
+   
 
+    -- for i, particle in ipairs(playerParticles) do
+    --     if not particle then
+    --         ResetParticles(self)
+    --         break
+    --     end
+    -- end 
 
     if vfxApolo then 
         Player.apoloPs = vfxApolo:GetComponent("ParticleSystem")
@@ -1311,6 +1326,28 @@ local function FindMasks(self)
     if maskApolo then maskApolo:SetActive(false) end
     if maskHermes then maskHermes:SetActive(false) end
     if maskAres then maskAres:SetActive(false) end
+end
+
+local function ResetParticles(self)
+    vfxApolo = GameObject.FindInChildren(self.gameObject,"VFXapolo")
+    vfxApoloAttack = GameObject.FindInChildren(self.gameObject,"VFXapoloAttack")
+    vfxHermes = GameObject.FindInChildren(self.gameObject,"VFXhermes")
+    vfxHermesAttack = GameObject.FindInChildren(self.gameObject,"VFXhermesAttack")
+    vfxAres = GameObject.FindInChildren(self.gameObject,"VFXares")
+    vfxAresAttack = GameObject.FindInChildren(self.gameObject,"VFXaresAttack")
+    vfxTrail = GameObject.FindInChildren(self.gameObject,"VFXtrail")
+
+    --local playerVFX = {vfxApolo, vfxApoloAttack, vfxHermes, vfxHermesAttack, vfxAres, vfxAresAttack, vfxTrail}
+
+    for i, ps in ipairs(playerParticles) do
+        if ps then 
+            ps:GetComponent("Particle System") 
+            ps:Stop()
+        end
+
+    end
+    
+
 end
 
 
@@ -1538,7 +1575,7 @@ function Update(self, dt)
 
         if Player.maskAnimTimer > 0 then return end
         if Player.currentMask ~= Mask.NONE then 
-            if Player.changeMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+            if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
             EquipMask(self, Mask.NONE) 
         end
 

@@ -198,35 +198,85 @@ local function normalizeInput(x, z)
 end
 
 local function GetMovementInput(self)
-    local moveX, moveZ = 0, 0
-    
     if self.public.canMove == false then
         return 0, 0, 0
     end
 
+    local inputX, inputZ = 0, 0
+
     if Input.HasGamepad() then
         local gpX, gpZ = Input.GetLeftStick()
-        moveX = gpX * INPUT_SCALE
-        moveZ = gpZ * INPUT_SCALE
+        inputX = gpX
+        inputZ = -gpZ
     end
-    if Input.GetKey("W") then moveZ = moveZ - INPUT_SCALE end
-    if Input.GetKey("S") then moveZ = moveZ + INPUT_SCALE end
-    if Input.GetKey("A") then moveX = moveX - INPUT_SCALE end
-    if Input.GetKey("D") then moveX = moveX + INPUT_SCALE end
+    
+    if Input.GetKey("W") then inputZ = inputZ + 1 end
+    if Input.GetKey("S") then inputZ = inputZ - 1 end
+    if Input.GetKey("A") then inputX = inputX - 1 end
+    if Input.GetKey("D") then inputX = inputX + 1 end
 
     if _G.interact == true then _G.interact = false end
 
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F")  or Input.GetGamepadButton("A") then
+    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
         Engine.Log("interact try")
         self.public.interact = true
         _G.interact = true
     end
+
+    local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
+    if inputLen > 1.0 then
+        inputX = inputX / inputLen
+        inputZ = inputZ / inputLen
+        inputLen = 1.0
+    end
+
+    if inputLen < 0.01 then
+        return 0, 0, 0
+    end
+
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        local camFwd = camObj.transform.worldForward
+        local camRight = camObj.transform.worldRight
+        
+        camFwd.x = -camFwd.x
+        camFwd.y = -camFwd.y
+        camFwd.z = -camFwd.z
+        
+        camFwd.y = 0
+        camRight.y = 0
+        
+        local lenFwd = math.sqrt(camFwd.x*camFwd.x + camFwd.z*camFwd.z)
+        if lenFwd > 0.001 then
+            camFwd.x = camFwd.x / lenFwd
+            camFwd.z = camFwd.z / lenFwd
+        else
+            camFwd = {x=0, y=0, z=1}
+        end
+        
+        local lenRight = math.sqrt(camRight.x*camRight.x + camRight.z*camRight.z)
+        if lenRight > 0.001 then
+            camRight.x = camRight.x / lenRight
+            camRight.z = camRight.z / lenRight
+        else
+            camRight = {x=1, y=0, z=0}
+        end
+        
+        local moveX = (camRight.x * inputX) + (camFwd.x * inputZ)
+        local moveZ = (camRight.z * inputX) + (camFwd.z * inputZ)
+        
+        local finalLen = math.sqrt(moveX*moveX + moveZ*moveZ)
+        if finalLen > 0.001 then
+            moveX = (moveX / finalLen) * inputLen * INPUT_SCALE
+            moveZ = (moveZ / finalLen) * inputLen * INPUT_SCALE
+        end
+        
+        return moveX, moveZ, inputLen * INPUT_SCALE
+    end
     
-    moveX, moveZ = normalizeInput(moveX, moveZ)
-    local inputLen = sqrt(moveX*moveX + moveZ*moveZ)
-    
-    return moveX, moveZ, inputLen
+    -- Fallback if cannot find object "MainCamera"
+    return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
 end
 
 local function GetAttackInput(self)

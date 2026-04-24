@@ -11,6 +11,7 @@
 
 class Shader;
 class ComponentLight;
+class CameraLens;
 
 // Collects all active ComponentLights and uploads them to the GPU via SSBOs.
 // The Renderer owns one instance. ComponentLight registers/unregisters itself.
@@ -34,7 +35,8 @@ public:
     void UploadToShader(Shader* shader);
 
     void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
-        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);    
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
+        const CameraLens* camera);
     //void BuildShadowMapSkinned(const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }

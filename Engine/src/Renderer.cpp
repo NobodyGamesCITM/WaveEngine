@@ -485,7 +485,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     // Ahora el shadow pass tiene los SSBOs actualizados
     if (lightManager)
-        lightManager->BuildShadowMap(meshes, skinnedMeshes);
+        lightManager->BuildShadowMap(meshes, skinnedMeshes, camera); 
 
     //Build Render List
     opaqueList.clear();

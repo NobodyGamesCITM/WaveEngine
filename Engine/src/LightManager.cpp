@@ -1,7 +1,7 @@
 ﻿#include "LightManager.h"
 #include "ComponentLight.h"
 #include "Shader.h"
-
+#include "CameraLens.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <algorithm>
@@ -207,9 +207,10 @@ void LightManager::InitShadowMap()
 
 void LightManager::BuildShadowMap(
     const std::vector<ComponentMesh*>& meshes,
-    const std::vector<ComponentSkinnedMesh*>& skinnedMeshes)
+    const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
+    const CameraLens* camera)
 {
-    if (!shadowsEnabled) return;
+    if (!shadowsEnabled || !camera) return;
 
     ComponentLight* dirLight = nullptr;
     for (ComponentLight* l : lights)
@@ -223,12 +224,6 @@ void LightManager::BuildShadowMap(
     ++debugFrame;
     bool shouldLog = (debugFrame % 60 == 0);
 
-    glm::vec3 currentDir = glm::normalize(dirLight->GetDirectionalData().direction);
-    glm::mat4 dirAsMatrix = glm::mat4(glm::vec4(currentDir, 0), {}, {}, {});
-    if (dirAsMatrix != cachedLightDir) {
-        cachedLightDir = dirAsMatrix;
-    }
-
     GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
     GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
 
@@ -236,121 +231,54 @@ void LightManager::BuildShadowMap(
     glm::vec3 upVector = (glm::abs(glm::dot(lightDir, glm::vec3(0, 1, 0))) > 0.99f)
         ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
 
-    if (shouldLog)
-    {
-        LOG_DEBUG("=== SHADOW DEBUG frame %d ===", debugFrame);
-        LOG_DEBUG("  lightDir: %.4f %.4f %.4f", lightDir.x, lightDir.y, lightDir.z);
-    }
+    static constexpr float SHADOW_DISTANCE = 150.0f;
 
-    glm::vec3 worldMin(1e9f), worldMax(-1e9f);
-    bool anyMesh = false;
+    glm::mat4 shadowProj = glm::perspective(
+        glm::radians(camera->GetFov()),
+        camera->GetAspectRatio(),
+        camera->GetNearPlane(),
+        SHADOW_DISTANCE);
 
-    for (ComponentMesh* mesh : meshes)
-    {
-        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
-        if (!mesh->GetMesh().IsValid()) continue;
-        const AABB& aabb = mesh->GetGlobalAABB();
-        if (!IsAABBValid(aabb)) {
-            LOG_DEBUG("  [MESH] %s  SKIPPED (invalid AABB %.2f %.2f %.2f)",
-                mesh->owner->GetName().c_str(), aabb.min.x, aabb.min.y, aabb.min.z);
-            continue;
-        }
-        if (shouldLog)
-            LOG_DEBUG("  [MESH] %s  aabb min(%.2f %.2f %.2f) max(%.2f %.2f %.2f)",
-                mesh->owner->GetName().c_str(),
-                aabb.min.x, aabb.min.y, aabb.min.z,
-                aabb.max.x, aabb.max.y, aabb.max.z);
-        worldMin = glm::min(worldMin, aabb.min);
-        worldMax = glm::max(worldMax, aabb.max);
-        anyMesh = true;
-    }
+    glm::mat4 invViewProj = glm::inverse(shadowProj * camera->GetViewMatrix());
 
-    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
-    {
-        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
-        if (!mesh->GetMesh().IsValid()) continue;
+    glm::vec3 frustumCorners[8];
+    int idx = 0;
+    for (int x = 0; x < 2; ++x)
+        for (int y = 0; y < 2; ++y)
+            for (int z = 0; z < 2; ++z)
+            {
+                glm::vec4 pt = invViewProj * glm::vec4(
+                    x ? 1.f : -1.f,
+                    y ? 1.f : -1.f,
+                    z ? 1.f : -1.f,
+                    1.0f);
+                frustumCorners[idx++] = glm::vec3(pt) / pt.w;
+            }
 
-        if (!mesh->HasSkinningData())
-        {
-            if (shouldLog)
-                LOG_DEBUG("  [SKINNED] %s  SKIPPED (no skinning data yet)",
-                    mesh->owner->GetName().c_str());
-            continue;
-        }
+    glm::vec3 sceneCenter(0.f);
+    for (auto& c : frustumCorners) sceneCenter += c;
+    sceneCenter /= 8.0f;
 
-        const AABB& aabb = mesh->GetGlobalAABB();
-        if (!IsAABBValid(aabb)) {
-            LOG_DEBUG("  [SKINNED] %s  SKIPPED (invalid AABB %.2f %.2f %.2f)",
-                mesh->owner->GetName().c_str(), aabb.min.x, aabb.min.y, aabb.min.z);
-            continue;
-        }
-        if (shouldLog)
-            LOG_DEBUG("  [SKINNED] %s  aabb min(%.2f %.2f %.2f) max(%.2f %.2f %.2f)",
-                mesh->owner->GetName().c_str(),
-                aabb.min.x, aabb.min.y, aabb.min.z,
-                aabb.max.x, aabb.max.y, aabb.max.z);
-        worldMin = glm::min(worldMin, aabb.min);
-        worldMax = glm::max(worldMax, aabb.max);
-        anyMesh = true;
-    }
-
-    if (!anyMesh) return;
-
-    glm::vec3 sceneCenter = (worldMin + worldMax) * 0.5f;
     glm::vec3 lightPos = sceneCenter - lightDir * 200.0f;
     glm::mat4 lightView = glm::lookAt(lightPos, sceneCenter, upVector);
 
     if (shouldLog)
     {
-        LOG_DEBUG("  worldMin: %.4f %.4f %.4f", worldMin.x, worldMin.y, worldMin.z);
-        LOG_DEBUG("  worldMax: %.4f %.4f %.4f", worldMax.x, worldMax.y, worldMax.z);
-        LOG_DEBUG("  sceneCenter: %.4f %.4f %.4f", sceneCenter.x, sceneCenter.y, sceneCenter.z);
+        LOG_DEBUG("  lightDir: %.4f %.4f %.4f", lightDir.x, lightDir.y, lightDir.z);
+        LOG_DEBUG("  sceneCenter (frustum): %.4f %.4f %.4f", sceneCenter.x, sceneCenter.y, sceneCenter.z);
         LOG_DEBUG("  lightPos: %.4f %.4f %.4f", lightPos.x, lightPos.y, lightPos.z);
+        LOG_DEBUG("  shadowDistance: %.1f", SHADOW_DISTANCE);
     }
 
-    // --- Calcular frustum en light space ---
     glm::vec3 minLS(1e9f), maxLS(-1e9f);
-
-    for (ComponentMesh* mesh : meshes)
+    for (auto& c : frustumCorners)
     {
-        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
-        if (!mesh->GetMesh().IsValid()) continue;
-        const AABB& aabb = mesh->GetGlobalAABB();
-        if (!IsAABBValid(aabb)) continue;
-        glm::vec3 corners[8] = {
-            {aabb.min.x, aabb.min.y, aabb.min.z}, {aabb.max.x, aabb.min.y, aabb.min.z},
-            {aabb.min.x, aabb.max.y, aabb.min.z}, {aabb.max.x, aabb.max.y, aabb.min.z},
-            {aabb.min.x, aabb.min.y, aabb.max.z}, {aabb.max.x, aabb.min.y, aabb.max.z},
-            {aabb.min.x, aabb.max.y, aabb.max.z}, {aabb.max.x, aabb.max.y, aabb.max.z},
-        };
-        for (auto& c : corners) {
-            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
-            minLS = glm::min(minLS, ls);
-            maxLS = glm::max(maxLS, ls);
-        }
+        glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
+        minLS = glm::min(minLS, ls);
+        maxLS = glm::max(maxLS, ls);
     }
 
-    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
-    {
-        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
-        if (!mesh->GetMesh().IsValid()) continue;
-        if (!mesh->HasSkinningData()) continue;
-        const AABB& aabb = mesh->GetGlobalAABB();
-        if (!IsAABBValid(aabb)) continue;
-        glm::vec3 corners[8] = {
-            {aabb.min.x, aabb.min.y, aabb.min.z}, {aabb.max.x, aabb.min.y, aabb.min.z},
-            {aabb.min.x, aabb.max.y, aabb.min.z}, {aabb.max.x, aabb.max.y, aabb.min.z},
-            {aabb.min.x, aabb.min.y, aabb.max.z}, {aabb.max.x, aabb.min.y, aabb.max.z},
-            {aabb.min.x, aabb.max.y, aabb.max.z}, {aabb.max.x, aabb.max.y, aabb.max.z},
-        };
-        for (auto& c : corners) {
-            glm::vec3 ls = glm::vec3(lightView * glm::vec4(c, 1.0f));
-            minLS = glm::min(minLS, ls);
-            maxLS = glm::max(maxLS, ls);
-        }
-    }
-
-    float zNear = -maxLS.z - 50.0f;
+    float zNear = -maxLS.z - 200.0f;
     float zFar = -minLS.z + 50.0f;
 
     if (shouldLog)
@@ -361,7 +289,6 @@ void LightManager::BuildShadowMap(
         LOG_DEBUG("  ortho L:%.2f R:%.2f B:%.2f T:%.2f", minLS.x, maxLS.x, minLS.y, maxLS.y);
     }
 
-    // --- Guardas finales antes de construir el frustum ---
     if (minLS.x >= maxLS.x || minLS.y >= maxLS.y) {
         LOG_DEBUG("  WARNING: frustum invalido (minLS >= maxLS), skip shadow map este frame.");
         glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);

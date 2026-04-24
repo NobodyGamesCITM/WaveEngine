@@ -1122,6 +1122,9 @@ local function RefreshAudioSources(self)
     Engine.Log(" - MaskSFX: " ..(maskGO and "CHILD FOUND" or "ROOT DEFAULT"))
 end
 
+local FindMasks
+local InitParticles
+
 function Start(self)
     Engine.Log("[Player] Start() called - Initializing player")
     
@@ -1246,7 +1249,7 @@ function Start(self)
     end
 end
 
-local function FindMasks(self)
+FindMasks = function(self)
     maskApolo = GameObject.FindInChildren(self.gameObject,"MaskApolo")
     maskHermes = GameObject.FindInChildren(self.gameObject,"MaskHermes")
     maskAres = GameObject.FindInChildren(self.gameObject,"MaskAres")
@@ -1256,7 +1259,7 @@ local function FindMasks(self)
     if maskAres then maskAres:SetActive(false) end
 end
 
-local function InitParticles(self)
+InitParticles = function(self)
     vfxApolo        = GameObject.FindInChildren(self.gameObject, "VFXapolo")
     vfxApoloAttack  = GameObject.FindInChildren(self.gameObject, "VFXapoloAttack")
     vfxHermes       = GameObject.FindInChildren(self.gameObject, "VFXhermes")
@@ -1414,6 +1417,10 @@ function Update(self, dt)
         end
         
         RefreshAudioSources(self)
+
+        InitParticles(self)
+        FindMasks(self)
+        EquipMask(self, Player.currentMask)
         
         Player.firstFrameCheck = true
 

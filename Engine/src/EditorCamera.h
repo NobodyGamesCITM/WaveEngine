@@ -72,6 +72,12 @@ private:
 	bool move;
 	bool zoom;
 	bool focus;
+	bool pan;
+
+	float panSpeed = 0.003f;
+
+	glm::vec3 orbitPivot;
+	bool orbitActive = false;
 
 	bool shouldBeRelative;
 	bool mouseCaptured;

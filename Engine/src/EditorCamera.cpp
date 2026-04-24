@@ -54,6 +54,7 @@ EditorCamera::EditorCamera()
 	move = false;
 	zoom = false;
 	orbit = false;
+	pan = false;
 
 	shouldBeRelative = false;
 	mouseCaptured = false;
@@ -75,10 +76,10 @@ bool EditorCamera::Update()
 #ifndef WAVE_GAME
 	lockCamera = ImGuizmo::IsUsing() || !Application::GetInstance().editor->GetSceneWindow()->IsHovered();
 
-		if (!lockCamera)
-		{
-			MoveCamera();
-		}
+	if (!lockCamera)
+	{
+		MoveCamera();
+	}
 
 	//UPDATE MATRIX
 	if (viewChanged)
@@ -110,7 +111,8 @@ void EditorCamera::MoveCamera()
 
 	bool shouldBeRelative = (
 		(Application::GetInstance().input->GetMouseButtonDown(3) == KEY_REPEAT) ||
-		(Application::GetInstance().input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && Application::GetInstance().input->GetMouseButtonDown(1) == KEY_REPEAT && !gameObjects.empty()));
+		(Application::GetInstance().input->GetMouseButtonDown(2) == KEY_REPEAT) ||
+		(Application::GetInstance().input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && Application::GetInstance().input->GetMouseButtonDown(1) == KEY_REPEAT));
 
 	if (shouldBeRelative && !mouseCaptured)
 	{
@@ -131,8 +133,11 @@ void EditorCamera::MoveCamera()
 	}
 
 
-	orbit = Application::GetInstance().input->GetMouseButtonDown(1) == KEY_REPEAT && Application::GetInstance().input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && !gameObjects.empty();
+	orbit = Application::GetInstance().input->GetMouseButtonDown(1) == KEY_REPEAT && Application::GetInstance().input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT;
+	pan = Application::GetInstance().input->GetMouseButtonDown(2) == KEY_REPEAT;
 	move = Application::GetInstance().input->GetMouseButtonDown(3) == KEY_REPEAT;
+
+	if (!orbit) orbitActive = false;
 	focus = Application::GetInstance().input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !gameObjects.empty();
 	zoom = Application::GetInstance().input->GetMouseWheelY() != 0;
 
@@ -172,30 +177,46 @@ void EditorCamera::MoveCamera()
 	//ORBIT
 	else if (orbit)
 	{
-		CalcMouseVectors();
-
-		glm::vec3 centerPosition(0.0f);
-		int validTransforms = 0;
-
-		for (GameObject* go : gameObjects)
+		if (!orbitActive)
 		{
-			Transform* transform = (Transform*)go->transform;
-			if (transform)
+			if (!gameObjects.empty())
 			{
-				centerPosition += transform->GetGlobalPosition();
-				validTransforms++;
+				glm::vec3 centerPosition(0.0f);
+				int validTransforms = 0;
+				for (GameObject* go : gameObjects)
+				{
+					Transform* transform = (Transform*)go->transform;
+					if (transform)
+					{
+						centerPosition += transform->GetGlobalPosition();
+						validTransforms++;
+					}
+				}
+				if (validTransforms > 0)
+					orbitPivot = centerPosition / (float)validTransforms;
 			}
+			else
+			{
+				orbitPivot = position + forward * orbitDistance;
+			}
+			orbitActive = true;
 		}
 
-		if (validTransforms > 0)
-		{
-			centerPosition /= (float)validTransforms;
+		orbitDistance = glm::length(orbitPivot - position);
+		CalcMouseVectors();
+		position = orbitPivot - (forward * orbitDistance);
+		viewChanged = true;
+	}
+	//PAN
+	else if (pan)
+	{
+		float mouseX, mouseY;
+		SDL_GetRelativeMouseState(&mouseX, &mouseY);
 
-			glm::vec3 vectorOrbit = centerPosition - position;
-			orbitDistance = glm::length(vectorOrbit);
-			position = centerPosition - (forward * orbitDistance);
-			viewChanged = true;
-		}
+		float panScale = panSpeed * orbitDistance;
+		position -= right * (mouseX * panScale);
+		position += up * (mouseY * panScale);
+		viewChanged = true;
 	}
 	//WASD AND MOUSE MOVEMENT
 	else if (move)
@@ -250,7 +271,7 @@ void EditorCamera::MoveCamera()
 			Application::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT ||
 			Application::GetInstance().input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT ||
 			Application::GetInstance().input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT
-		);
+			);
 
 		if (cameraMoving)
 		{

@@ -89,12 +89,13 @@ function Update(self, deltaTime)
         local playerPos = obj.transform.position
 
         for i, checkpoint in ipairs(checkpoints) do
-            StopParticles(self, checkpoint)
+            
             local pos = checkpoint.transform.worldPosition
             --Engine.Log("Checkpoint x: " ..tostring(pos.x).."  y: "..tostring(pos.y))
             if (math.abs(pos.x - playerPos.x) < self.public.near) then
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
+					
                     previousCheckpoint = currentCheckpoint
                     currentCheckpoint = checkpoint
                     
@@ -103,6 +104,7 @@ function Update(self, deltaTime)
                     pos.z = pos.z + self.public.offsetZ
 
                     lastCheckpoint = pos --current checkpoint transform, not gameobject
+					StopParticles(self, previousCheckpoint)
                     ActivateParticles(self, currentCheckpoint)
                     
                     Restore(self)

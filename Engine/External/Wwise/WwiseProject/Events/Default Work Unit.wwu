@@ -91,7 +91,7 @@
 								<Action Name="" ID="{98B1155E-083E-4AFD-B22F-448159B746CD}" ShortID="225387465">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Mask_Change" ID="{51761034-AA92-4CC0-9B3C-14D34D0086D9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="unequip_mask" ID="{51761034-AA92-4CC0-9B3C-14D34D0086D9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -136,6 +136,90 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="player_hit" ID="{184EF9CC-B5E9-4647-B1BD-651E2D0348A1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_MaskSwitch" ID="{888B09A6-60B7-46C9-BEC1-ADA39DE0F851}">
+							<ChildrenList>
+								<Action Name="" ID="{C833B5B1-5FE9-4193-8503-9EB32691EB56}" ShortID="784157814">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mask_Switch" ID="{DF28C8FE-42F4-4CCE-AF94-26AF443EF25E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}">
+							<ChildrenList>
+								<Action Name="" ID="{FF30C12C-5AFB-4B49-8867-8F2558451A42}" ShortID="688263241">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Potion_Drink" ID="{30394481-3092-4D99-A669-22F1CAE14FF8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{1CEDD368-4C49-4BEA-8FB9-3C72791C86B1}" ShortID="103107649">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.75">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{6753A9A9-54A1-4705-BCD8-1D290E6510EF}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Potion_Drink" ID="{30394481-3092-4D99-A669-22F1CAE14FF8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{DCC03457-E48B-4D6E-A2F9-5E0597557A1B}" ShortID="651494722">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="1.25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Potion_Drink" ID="{30394481-3092-4D99-A669-22F1CAE14FF8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_ApoloMask" ID="{467B3DA6-3AD0-4E56-BE38-E5F74690B1CC}">
+							<ChildrenList>
+								<Action Name="" ID="{AB0FD6D3-DB65-445C-8970-8E4ACFBC9F34}" ShortID="990930505">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="apolo_mask_01" ID="{49A9D39F-266B-4148-AA2E-1663810B750A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_HermesMask" ID="{7A30299E-4B7A-49E3-971C-36E6298A0621}">
+							<ChildrenList>
+								<Action Name="" ID="{FF2179ED-2E08-4495-961B-54597B2B61FC}" ShortID="63475623">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="hermes_mask_01" ID="{F5999350-27C4-4A1D-AD56-687E4065DFF3}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_AresMask" ID="{56BDF681-B2A1-4C83-8B34-FEAF64861A63}">
+							<ChildrenList>
+								<Action Name="" ID="{AEB31944-19DC-44C9-94E8-6F6BD9E40050}" ShortID="702425254">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="ares_mask_01" ID="{BCCE8311-4CE4-4D03-A9CD-0CA440CBFB4B}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -275,7 +359,7 @@
 								<Action Name="" ID="{4A77A8D2-1AD8-4285-AD15-AE607C2D17AD}" ShortID="491433173">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="UI_ButtonSelected" ID="{1DB1F4E1-7444-414B-B0CB-31653FB4FE1D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="UI_ButtonHoveredSFX" ID="{04F7795D-8C09-424A-BD8F-BB299AB56931}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -501,6 +585,43 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Aquiles_Warcry" ID="{78B28A37-437D-4303-8B9F-AF7B823B5562}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Puzzles" ID="{07368097-443A-4520-B328-C1C3DD52F4ED}" ShortID="226074541">
+					<ChildrenList>
+						<Event Name="SFX_RockMove" ID="{3781C989-4AE3-430E-8606-1E5B0D50F2BA}">
+							<ChildrenList>
+								<Action Name="" ID="{50C2E558-3DD7-466D-ADF0-C6097F72D40E}" ShortID="971752419">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="moving_rock" ID="{B4D8ED82-0A4F-4700-B10D-0C950DDE434A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_StatueTurn" ID="{676BBD1D-8F58-4B1E-BD80-B2817347EB98}">
+							<ChildrenList>
+								<Action Name="" ID="{6CE6F7CB-758B-4EF5-AB30-59ABCC2BE726}" ShortID="729592182">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="statue_rotation" ID="{84BCA1F7-F672-47CD-8086-EE89D4DA87D4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_PressPlate" ID="{348B4560-5EB4-42B6-82A2-C2BD590D65B7}">
+							<ChildrenList>
+								<Action Name="" ID="{F0CD36B0-3129-4810-A727-54120432A536}" ShortID="1049108072">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pressure_plate" ID="{231C8213-EA11-4E7A-A6E1-85B424DECCBF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

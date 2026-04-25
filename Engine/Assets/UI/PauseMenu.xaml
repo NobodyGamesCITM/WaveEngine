@@ -155,6 +155,10 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Storyboard x:Key="FadeOut">
+            <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"/>
+        </Storyboard>
         </ResourceDictionary>
     </Grid.Resources>
 
@@ -165,6 +169,7 @@
     </Grid.Triggers>
 
     <Grid x:Name="LayoutRoot">
+        <Grid x:Name="RootContent">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="300*"/>
@@ -185,21 +190,15 @@
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Width="445" Margin="261,2,231,2">
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="Pause_text"
-                               TextAlignment="Center"
-                               FontSize="65"
-                               Width="445"
-                               Text="PAUSE" Margin="3,0,-3,-2" FontFamily="./#ForgottenUncial">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </Grid>
+            <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform">
+                <TextBlock x:Name="Pause_text" TextAlignment="Center" FontSize="65" Text="PAUSE" FontFamily="./#ForgottenUncial" Margin="23,0,-7,0">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                            <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
             </Viewbox>
 
             <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
@@ -269,6 +268,7 @@
                 </Grid>
             </Viewbox>
         </Grid>
+        <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+        </Grid>
     </Grid>
-
 </Grid>

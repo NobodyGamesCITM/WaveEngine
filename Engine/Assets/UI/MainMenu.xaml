@@ -164,7 +164,7 @@
 
             <!-- Fade Out hacia negro (desvanece el contenido pero deja el Grid Background="Black" visible) -->
             <Storyboard x:Key="FadeOut">
-                <DoubleAnimation Storyboard.TargetName="RootContent" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1.2"/>
+                <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"/>
             </Storyboard>
 
         </ResourceDictionary>
@@ -256,5 +256,6 @@
             </Grid>
         </Grid>
     </Viewbox>
+    <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

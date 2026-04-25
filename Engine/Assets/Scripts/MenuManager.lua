@@ -1,6 +1,6 @@
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local FADE_DURATION      = 0.4
-local SCENE_FADE_DURATION = 1.2
+local SCENE_FADE_DURATION = 2.0
 
 Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
 
@@ -33,7 +33,7 @@ local function NavigateTo(self, xaml)
     if not self.history then self.history = {} end
     table.insert(self.history, self.current)
     self.nextXaml = xaml
-    self.fading   = true
+    SetPhase(self, "swap")
     Engine.Log("[MenuManager] Navigating to: " .. xaml)
 end
 
@@ -41,7 +41,7 @@ local function NavigateBack(self)
     if self.pressSFX then self.pressSFX:PlayAudioEvent() end
     if not self.history or #self.history == 0 then return end
     self.nextXaml = table.remove(self.history)
-    self.fading   = true
+    SetPhase(self, "swap")
     Engine.Log("[MenuManager] Returning back to: " .. self.nextXaml)
 end
 
@@ -203,18 +203,6 @@ function Update(self, dt)
         self.fadeTimer = self.fadeTimer + dt
     end
 
-    if self.phase == "fadeIn" then
-        local t     = math.min(self.fadeTimer / FADE_DURATION, 1.0)
-        local alpha = EaseInOutQuad(t)
-        self.canvas:SetOpacity(alpha)
-
-        if t >= 1.0 then
-            self.canvas:SetOpacity(1.0)
-            SetPhase(self, "idle")
-        end
-        return
-    end
-
     if self.phase == "idle" then
         if not self.loggedReady then
             Engine.Log("[MenuManager] READY AND WAITING FOR ESCAPE (Object: " .. self.gameObject.name .. ", XAML: " .. tostring(self.current) .. ")")
@@ -297,16 +285,16 @@ function Update(self, dt)
 
         if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] BackToMenuButton: Iniciando transición a escena Splash")
+                Engine.Log("[MenuManager] BackToMenuButton: Iniciando FadeOut y regreso a Splash")
                 _G._PlayerController_isDead = false
                 if _G.PlayerInstance then
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
                 end
-                _G.SkipSplash = true
-                self.pendingScene = "Splash.scene"
-                self.fading = true
-                self.canvas:PlayStoryboard("FadeOut")
+                _G.SkipSplash = true                -- Indica a la siguiente escena que salte la intro
+                self.pendingScene = "Splash.scene"  -- Escena a cargar tras el fade
+                self.fading = true                  -- Inicia la transición en el script
+                self.canvas:PlayStoryboard("FadeOut") -- Inicia la animación visual en el XAML
             end
         end
 
@@ -401,6 +389,7 @@ function Update(self, dt)
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
-        SetPhase(self, "fadeIn")
+        self.canvas:SetOpacity(1.0)
+        SetPhase(self, "idle")
     end
 end

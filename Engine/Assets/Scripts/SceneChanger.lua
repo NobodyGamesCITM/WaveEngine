@@ -34,6 +34,7 @@ function Update(self, dt)
 
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)
+
         
         if currentAlpha <= 0.0 then
             currentAlpha = 0.0

@@ -41,11 +41,13 @@
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="SplashImage" Source="Textures/Logo.png" Grid.Column="1" Grid.Row="1" Margin="410,182" Opacity="0" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <ScaleTransform x:Name="SplashScale" ScaleX="0.95" ScaleY="0.95"/>
-            </Image.RenderTransform>
-        </Image>
+        <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3">
+            <Image x:Name="SplashImage" Source="Textures/Logo.png" Margin="410,182" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <ScaleTransform x:Name="SplashScale" ScaleX="0.95" ScaleY="0.95"/>
+                </Image.RenderTransform>
+            </Image>
+        </Viewbox>
     </Grid>
 
 </Grid>

@@ -262,12 +262,18 @@ function Update(self, dt)
         end
 
         if UI.WasClicked("BackToMenuButton") then
-            _G._PlayerController_isDead = false
-            if _G.PlayerInstance then
-                _G.PlayerInstance.public.health = 100
-                _G.PlayerInstance.public.stamina = 100
+            if not self.fading then
+                Engine.Log("[MenuManager] BackToMenuButton: Iniciando transición a escena Splash")
+                _G._PlayerController_isDead = false
+                if _G.PlayerInstance then
+                    _G.PlayerInstance.public.health = 100
+                    _G.PlayerInstance.public.stamina = 100
+                end
+                self.pendingScene = "Splash.scene"
+                self.fading = true
+                self.canvas:PlayStoryboard("FadeOut")
+                _G.SkipSplash = true -- Flag para que la Splash sepa que debe ir directo al MainMenu
             end
-            NavigateTo(self, "MainMenu.xaml")
         end
 
         if UI.WasClicked("SoundsButton") then

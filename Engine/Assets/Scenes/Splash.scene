@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 2.0,
+                    "aspectRatio": 1.7741477489471436,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -66,7 +66,29 @@
                     "opacity": 1.0,
                     "type": 30,
                     "uiLayer": 0,
-                    "xamlPath": "SplashScreen.xaml"
+                    "xamlPath": "MainMenu.xaml"
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "fadeSpeed",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "totalDuration",
+                            "type": 0,
+                            "value": 6.5
+                        }
+                    ],
+                    "scriptUID": 9029998064422359462,
+                    "type": 6
                 },
                 {
                     "active": true,
@@ -77,17 +99,22 @@
                             "value": true
                         },
                         {
-                            "name": "totalDuration",
+                            "name": "lowerVolume",
                             "type": 0,
-                            "value": 6.5
+                            "value": 60.0
                         },
                         {
-                            "name": "fadeSpeed",
+                            "name": "currentScene",
+                            "type": 5,
+                            "value": "Splash.scene"
+                        },
+                        {
+                            "name": "fullVolume",
                             "type": 0,
-                            "value": 0.5
+                            "value": 100.0
                         }
                     ],
-                    "scriptUID": 9029998064422359462,
+                    "scriptUID": 845068803312502122,
                     "type": 6
                 }
             ],

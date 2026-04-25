@@ -13,6 +13,24 @@ local fadeOutTimer = 0 -- Temporizador para el Storyboard FadeOutBlack
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
+    
+    -- Si venimos desde el juego y queremos ir directo al menú
+    if _G.SkipSplash then
+        _G.SkipSplash = nil
+        finished = true
+        if canvas then
+            local path = self.public.nextXaml
+            if type(path) == "table" then path = path.value end
+            
+            Engine.Log("Splash Screen: Saltando intro por petición global")
+            canvas:LoadXAML(path)
+            canvas:SetOpacity(1.0)
+            _G._MenuManager_NeedReinit = true
+            _G.CurrentXAML = path
+        end
+        return
+    end
+
     if canvas then
         -- Iniciar la animación de Noesis definida en el XAML
         canvas:PlayStoryboard("Intro")

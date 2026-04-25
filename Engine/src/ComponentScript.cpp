@@ -36,13 +36,18 @@ void ComponentScript::Update()
 
     auto& app = Application::GetInstance();
     bool isPaused = (app.GetPlayState() == Application::PlayState::PAUSED);
-    
+
     // Permitir update si está marcado explícitamente O si es parte de la UI (Canvas)
     bool isPlaying = (app.GetPlayState() == Application::PlayState::PLAYING);
     bool isUIScript = (owner->GetComponentInParent(ComponentType::CANVAS) != nullptr);
     bool canUpdate  = isPlaying || updateWhenPaused || isUIScript;
 
     if (!canUpdate) return;
+
+    if (!startCalled) {
+        CallStart();
+        return;
+    }
 
     //EN GAME ESTO NO SE HA DE HACER
     if (scriptRes->NeedsReload()) {
@@ -311,14 +316,12 @@ void ComponentScript::CallStart()
             LOG_CONSOLE("[ComponentScript] ERROR in Start(): %s", error);
             lua_pop(L, 1);
         }
-        else {
-            startCalled = true;
-        }
     }
     else {
         lua_pop(L, 1);
     }
 
+    startCalled = true;
     lua_pop(L, 1);
 }
 

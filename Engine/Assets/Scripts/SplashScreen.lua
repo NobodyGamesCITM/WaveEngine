@@ -1,81 +1,98 @@
 public = {
     nextXaml = { type = "String", value = "MainMenu.xaml" }, 
-    totalDuration = 6.5, -- Duración de la animación del logo (Intro Storyboard)
-    fadeSpeed = 0.5,     -- Duración del fade a negro (FadeOutBlack Storyboard)
+    totalDuration = 6.5,
+    fadeSpeed = 0.5,    
     updateWhenPaused = true
 }
 
-local isFadingOut = false
-local canvas = nil
-local finished = false
-local splashTimer = 0 -- Temporizador para la animación Intro
-local fadeOutTimer = 0 -- Temporizador para el Storyboard FadeOutBlack
+local function InitState(self)
+    self.splashCanvas    = self.gameObject:GetComponent("Canvas")
+    self.splashFinished  = false
+    self.splashFadingOut = false
+    self.splashTimer     = 0.0
+    self.splashFadeTimer = 0.0
+    self.splashStarted   = true
+end
 
 function Start(self)
-    canvas = self.gameObject:GetComponent("Canvas")
-    
-    -- Si venimos desde el juego y queremos ir directo al menú
+    InitState(self)
+
     if _G.SkipSplash then
-        _G.SkipSplash = nil
-        finished = true
-        if canvas then
-            local path = self.public.nextXaml
-            if type(path) == "table" then path = path.value end
-            
-            Engine.Log("Splash Screen: Saltando intro por petición global")
-            canvas:LoadXAML(path)
-            canvas:SetOpacity(1.0)
-            _G._MenuManager_NeedReinit = true
-            _G.CurrentXAML = path
-        end
         return
     end
 
-    if canvas then
-        -- Iniciar la animación de Noesis definida en el XAML
-        canvas:PlayStoryboard("Intro")
+    if self.splashCanvas then
+        self.splashCanvas:PlayStoryboard("Intro")
         Engine.Log("Splash Screen: Iniciando animación Intro")
     end
 end
 
 function Update(self, dt)
-    if finished then return end
+    if not self.splashStarted then
+        InitState(self)
+    end
 
-    splashTimer = splashTimer + dt
-    
-    -- Detectar entrada para omitir (X, Espacio o Enter)
+    if self.splashFinished then return end
+
+    if _G.SkipSplash then
+        if not self.splashCanvas then self.splashCanvas = self.gameObject:GetComponent("Canvas") end
+        if self.splashCanvas then
+            local path = self.public.nextXaml
+            if type(path) == "table" then path = path.value end
+
+            Engine.Log("[SplashScreen] Skip detectado en Update. Forzando: " .. path)
+            
+            self.splashFinished = true
+            _G.ForceStartXAML = path  
+            _G._MenuManager_NeedReinit = true
+            _G.SkipSplash = nil
+
+            if self.splashCanvas:LoadXAML(path) then
+                self.splashCanvas:SetOpacity(1.0)
+                _G.CurrentXAML = path
+            else
+                Engine.Log("[SplashScreen] ERROR: No se pudo cargar " .. path .. ". Desbloqueando MenuManager de todos modos.")
+            end
+            return
+        end
+    end
+
+    self.splashTimer = self.splashTimer + dt
+
     local skipInput = Input.GetKeyDown("Space") or Input.GetKeyDown("X") or Input.GetKeyDown("Enter")
-    
-    if skipInput and not isFadingOut then
-        isFadingOut = true
-        if canvas then canvas:PlayStoryboard("FadeOutBlack") end -- Inicia el fade a negro rápido
-        fadeOutTimer = 0 -- Reiniciar el contador para el fade rápido
+
+    if skipInput and not self.splashFadingOut then
+        self.splashFadingOut = true
+        if self.splashCanvas then self.splashCanvas:PlayStoryboard("FadeOutBlack") end
+        self.splashFadeTimer = 0.0
         Engine.Log("Splash Screen: Omitido por el usuario")
     end
-    
-    -- Fin natural de la animación
-    if splashTimer >= self.public.totalDuration and not isFadingOut then
-        isFadingOut = true
-        if canvas then canvas:PlayStoryboard("FadeOutBlack") end -- Inicia el fade a negro
-        fadeOutTimer = 0 -- Reiniciar el contador para el fade a negro
+
+    if self.splashTimer >= self.public.totalDuration and not self.splashFadingOut then
+        self.splashFadingOut = true
+        if self.splashCanvas then self.splashCanvas:PlayStoryboard("FadeOutBlack") end
+        self.splashFadeTimer = 0.0
     end
-    
-    -- Lógica de desvanecimiento y transición
-    if isFadingOut then
-        fadeOutTimer = fadeOutTimer + dt
-        
-        -- Esperar a que el storyboard de fade a negro termine
-        if fadeOutTimer >= self.public.fadeSpeed then
-            finished = true
-            if canvas then
+
+    if self.splashFadingOut then
+        self.splashFadeTimer = self.splashFadeTimer + dt
+
+        if self.splashFadeTimer >= self.public.fadeSpeed then
+            self.splashFinished = true
+
+            if self.splashCanvas then
                 local path = self.public.nextXaml
                 if type(path) == "table" then path = path.value end
-                
+
                 Engine.Log("Splash Screen: Transición a " .. path)
-                canvas:LoadXAML(path)
-                canvas:SetOpacity(1.0) -- Asegurar que el nuevo XAML esté completamente visible
-                _G._MenuManager_NeedReinit = true
-                _G.CurrentXAML = path
+                if self.splashCanvas:LoadXAML(path) then
+                    self.splashCanvas:SetOpacity(1.0)
+                    _G.CurrentXAML = path
+                    _G._MenuManager_NeedReinit = true
+                    _G.SkipSplash = nil
+                else
+                    Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
+                end
             end
         end
     end

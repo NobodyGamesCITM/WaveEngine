@@ -317,17 +317,27 @@ static int Lua_Engine_LoadScene(lua_State* L) {
     const char* relativePath = luaL_checkstring(L, 1);
     std::string normalizedPath = relativePath;
 
+    // Si recibimos dos argumentos (como en SceneLoader_lvl2.lua), el segundo es el nombre real de la escena
+    if (lua_gettop(L) >= 2) {
+        const char* sceneName = luaL_checkstring(L, 2);
+        normalizedPath = sceneName;
+    }
+
     if (normalizedPath.find(".scene") == std::string::npos) {
         normalizedPath += ".scene";
     }
 
     std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
 
-    std::string scenesPath = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\").string();
+    std::string absolutePath;
+    if (std::filesystem::path(normalizedPath).is_absolute()) {
+        absolutePath = normalizedPath;
+    } else {
+        std::string scenesPath = (std::filesystem::path(FileSystem::GetAssetsRoot()) / "Scenes\\").string();
+        absolutePath = scenesPath + normalizedPath;
+    }
 
-    std::string absolutePath = scenesPath + normalizedPath;
-    
-    LOG(LogType::LOG_ERROR, "%s", absolutePath.c_str());
+    LOG_CONSOLE("[Engine] Loading Scene: %s", absolutePath.c_str());
 
     Application::GetInstance().scripts->pendingSceneLoad = absolutePath;
 

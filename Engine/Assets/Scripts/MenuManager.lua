@@ -14,7 +14,6 @@ public = {
     lowerVolume = 60.0
 }
 
--- Instance-specific state will be stored in 'self'
 local function EaseInOutQuad(t)
     if t < 0.5 then
         return 2 * t * t
@@ -56,7 +55,8 @@ function Initialize(self)
     self.history = {}
     self.pendingScene = nil
     self.loggedReady = false
-    self.lastPauseState = nil 
+    self.lastPauseState = nil
+    self.waitingForSplash = false
 
     _G.GlobalMenuManagerInstance = self
 
@@ -81,9 +81,34 @@ function Initialize(self)
         return false
     end
 
+    if _G.SkipSplash and not _G.ForceStartXAML and not self.waitingForSplash then
+        Engine.Log("[MenuManager] Esperando a que SplashScreen procese el Skip...")
+        self.waitingForSplash = true
+        return true
+    end
+
+    if _G.ForceStartXAML then
+        local path = _G.ForceStartXAML
+        _G.ForceStartXAML = nil
+        self.current = path
+        _G.CurrentXAML = path
+        _G.SkipSplash = nil
+        self.waitingForSplash = false
+        Engine.Log("[MenuManager] ForceStartXAML aplicado: " .. path)
+        
+        self.canvas:LoadXAML(path)
+        self.canvas:SetOpacity(1.0)
+        self.fading = false 
+        Audio.SetMusicState("MainMenu")
+        Game.Pause()
+        self.lastPauseState = "paused"
+        SetPhase(self, "idle")
+        Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
+        return true
+    end
+
     self.current = self.canvas:GetCurrentXAML()
     
-    -- Detectamos si estamos en una escena de gameplay real (evitar auto-pause residual)
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
     local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene")
 
@@ -118,6 +143,7 @@ function Initialize(self)
     
     Engine.Log("[MenuManager] Current XAML: " .. self.current)
     self.canvas:SetOpacity(1.0)
+    self.fading = false
     SetPhase(self, "idle")
 
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
@@ -130,9 +156,20 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if self.waitingForSplash then
+        if _G.ForceStartXAML then
+            Engine.Log("[MenuManager] ForceStartXAML disponible tras espera. Aplicando...")
+            self.waitingForSplash = false
+            Initialize(self)
+        end
+        return
+    end
+
     if not self.canvas or _G._MenuManager_NeedReinit then
         _G._MenuManager_NeedReinit = false
         Initialize(self)
+        if self.waitingForSplash then return end -- No seguir si estamos esperando al Splash
     end
 
     local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
@@ -153,7 +190,6 @@ function Update(self, dt)
         end
     end
 
-    -- Detect scene change via common global if available
     if _G._NewSceneLoaded and not self.sceneLoadedFlag then
         self.sceneLoadedFlag = true
         Initialize(self)
@@ -180,7 +216,6 @@ function Update(self, dt)
     end
 
     if self.phase == "idle" then
-        -- DEBUG: Log once when entering idle
         if not self.loggedReady then
             Engine.Log("[MenuManager] READY AND WAITING FOR ESCAPE (Object: " .. self.gameObject.name .. ", XAML: " .. tostring(self.current) .. ")")
             self.loggedReady = true
@@ -205,7 +240,6 @@ function Update(self, dt)
             NavigateTo(self, "LoseMenu.xaml")
         end
 
-        -- Check for Escape with robust logging
         if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
             Engine.Log("[MenuManager] Input detected! Current XAML: '" .. tostring(self.current) .. "'")
             
@@ -242,7 +276,7 @@ function Update(self, dt)
                 Engine.Log("[MenuManager] StartButton clicked: Iniciando fade out para cargar nivel...")
                 self.pendingScene = "Level1.scene"
                 self.fading = true
-                self.canvas:PlayStoryboard("FadeOut") -- Ejecutar animación de salida en el XAML
+                self.canvas:PlayStoryboard("FadeOut")
             end
         end
         if UI.WasClicked("SettingsButton") then
@@ -269,10 +303,10 @@ function Update(self, dt)
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
                 end
+                _G.SkipSplash = true
                 self.pendingScene = "Splash.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
-                _G.SkipSplash = true -- Flag para que la Splash sepa que debe ir directo al MainMenu
             end
         end
 
@@ -300,8 +334,6 @@ function Update(self, dt)
         local duration = self.pendingScene and SCENE_FADE_DURATION or FADE_DURATION
         local t     = math.min(self.fadeTimer / duration, 1.0)
         
-        -- Solo desvanecemos el Canvas entero si NO vamos a una escena nueva.
-        -- Si vamos a una escena, el Canvas se queda al 100% (negro) y el XAML hace su propia magia.
         if not self.pendingScene then
             local alpha = 1.0 - EaseInOutQuad(t)
             self.canvas:SetOpacity(alpha)
@@ -313,12 +345,11 @@ function Update(self, dt)
         end
 
     elseif self.phase == "swap" then
-        -- Si hay una escena pendiente, la cargamos ahora que el fade out ha terminado
         if self.pendingScene then
             Engine.Log("[MenuManager] Swap phase: Cargando escena " .. self.pendingScene)
             Engine.LoadScene(self.pendingScene)
             self.pendingScene = nil
-            return -- Detenemos la ejecución aquí ya que la escena cambiará
+            return
         end
 
         if self.nextXaml == "PauseMenu.xaml" then

@@ -33,6 +33,9 @@ local anim     = nil
 local playerGO = nil
 local attackCol    = nil
 
+local aquilesMesh =nil
+
+
 local voiceSFX = nil
 local stepSFX = nil
 local spearSFX = nil
@@ -74,7 +77,7 @@ local pendingWallHit = false
 local hasDashed = false
 
 local pressureTimer = 0
-local PRESSURE_THRESHOLD = 0.5
+local PRESSURE_THRESHOLD = 0.8
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -92,6 +95,11 @@ local chargeAnimStarted = false
 local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
+
+
+local hitCooldown = 0
+
+local TILE_SIZE = 3.744
 
 -- Helpers
 local function lerp(a, b, t)
@@ -145,10 +153,16 @@ local function StopMovement()
 end
 
 local function DestroyChargeFeedback(self)
-    if self.chargeFeedbackGO then
-        GameObject.Destroy(self.chargeFeedbackGO)
-        self.chargeFeedbackGO = nil
+    if self.chargeFeedbackTiles then
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+            if tile and type(tile) ~= "boolean" then 
+                GameObject.Destroy(tile) 
+            end
+        end
+        self.chargeFeedbackTiles = {}
     end
+
+    self.chargeFeedbackActive = false
 end
 
 local function ChangeState(newState)
@@ -296,6 +310,40 @@ local function dodgePlayer(self, dist, dt)
     end
 end
 
+local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+
+    isDashing = isDashing or false
+    local speedOverride = speedOverride or self.public.moveSpeed
+
+    if not isDashing then
+        hasDashed = false
+
+        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
+
+        stepTimer = stepTimer + dt
+        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
+            PlaySFX(stepSFX)
+            stepTimer = 0
+        end
+
+    else
+        if anim and not anim:IsPlayingAnimation("Dash") then 
+            anim:Play("Dash", 0.2) 
+           
+        end
+
+        if not hasDashed then
+            PlaySFX(dashSFX)
+            hasDashed = true
+        end
+    end
+
+    local vel = speedOverride or self.public.moveSpeed
+    local cv = rb:GetLinearVelocity()
+    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
+    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+end
+
 -- State functions
 local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
@@ -363,40 +411,6 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     end
 end
 
-local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
-
-    local isDashing = isDashing or false
-    local speedOverride = speedOverride or self.public.moveSpeed
-
-    if not isDashing then
-        hasDashed = false
-
-        if anim and not anim:IsPlayingAnimation("Walk") then  anim:Play("Walk", 0.2) end
-
-        stepTimer = stepTimer + dt
-        if stepTimer >= (self.public.stepInterval / 10* speedOverride)  then
-            PlaySFX(stepSFX)
-            stepTimer = 0
-        end
-
-    else
-        if anim and not anim:IsPlayingAnimation("Dash") then 
-            anim:Play("Dash", 0.2) 
-           
-        end
-
-        if not hasDashed then
-            PlaySFX(dashSFX)
-            hasDashed = true
-        end
-    end
-
-    local vel = speedOverride or self.public.moveSpeed
-    local cv = rb:GetLinearVelocity()
-    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
-end
-
 local function UpdateLance360(self, myPos, pp, dt)
 
     
@@ -423,8 +437,8 @@ end
 local function UpdateAnticipation(self, pp, dt)
 
     if not self.chargeFeedbackGO then
-   
-        self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+        self.chargeFeedbackTiles = {}
+        self.chargeFeedbackGO = true
         SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
     end
     
@@ -460,16 +474,40 @@ local function UpdateAnticipation(self, pp, dt)
             directionZ = dz / distance 
         end
 
-        -- Calculate the center position
-        local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = pp.y + 0.1
-        local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
+        local numTiles = math.floor(indicatorLength / TILE_SIZE)
+        numTiles = numTiles +1
+       if #self.chargeFeedbackTiles ~= numTiles then
 
-        local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
+            -- Destroy old ones
+            for _, tile in ipairs(self.chargeFeedbackTiles) do
+                if tile then GameObject.Destroy(tile) end
+            end
 
-        self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
-        self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
+            self.chargeFeedbackTiles = {}
+
+            -- Create new ones
+            for i = 1, numTiles do
+                local tile = Prefab.Instantiate("MinocabroFeedback")
+                table.insert(self.chargeFeedbackTiles, tile)
+            end
+        end
+
+        -- Place tiles
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+
+            local offset = (i - 0.5) * TILE_SIZE
+
+            local posX = myPos.x + directionX * offset
+            local posZ = myPos.z + directionZ * offset
+            local posY = pp.y + 0.2
+
+            tile.transform:SetPosition(posX, posY, posZ)
+
+            local rot = atan2(directionX, directionZ) * (180.0 / pi)
+            tile.transform:SetRotation(0, rot, 0)
+
+            tile.transform:SetScale(3.744, 0.15, 3.744)
+        end
     end
 
     preparationTimer = preparationTimer + dt
@@ -526,6 +564,7 @@ local function UpdateCharge(self, dt)
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
+        StopMovement(self)
         DestroyChargeFeedback(self)
         wallStunTimer = self.public.recoveryCharge
         ChangeState(State.RECOVERY)
@@ -713,25 +752,25 @@ function Start(self)
 
         --Lance 360
         lanceDuration       = 0.8,
-        lanceCooldown       = 2.5,
+        lanceCooldown       = 1.2,
         lanceDamage         = 20,
 
-        preparationTime = 2.0,
+        preparationTime = 1.0,
         chargeSpeed     = 22.0,
         chargeDuration  = 1.0,
-        wallStunTime    = 6.0,
+        wallStunTime    = 2.5,
 
         wallSpeedThresh = 1.5,
 
-        afterStunTime   = 3.0,
-        chargeCooldown  = 4.0,  -- cooldown entre embestidas
+        afterStunTime   = 1.2,
+        chargeCooldown  = 2.0,  -- cooldown entre embestidas
         chargeDamage    = 35,
         stepInterval    = 0.6,
 
         -- Receive damage
         knockbackForce  = 10.0,
 
-        stunDuration        = 8.0,
+        stunDuration        = 3.5,
 
         hurtStunTime = 0.4,
 
@@ -739,8 +778,8 @@ function Start(self)
 
         opportunityDamageMultiplier = 3.0,
 
-        recoveryLance = 1.0,
-        recoveryCharge = 1.8,
+        recoveryLance = 0.5,
+        recoveryCharge = 1.0,
     }
 
     hp           = self.public.maxHp
@@ -770,11 +809,15 @@ function Start(self)
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
+    self.chargeFeedbackTiles = {}
 
     --AquilesMesh
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
-    BaseMat = aquilesMesh:GetComponent("Material")
-
+    if aquilesMesh then
+        BaseMat = aquilesMesh:GetComponent("Material")
+    else
+        Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
+    end
 end
 
 function Update(self, dt)
@@ -837,6 +880,14 @@ function Update(self, dt)
     end
     if not playerGO or _G._PlayerController_isDead then return end
 
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            self.alreadyHit = false
+            BaseMat.SetTexture("18385834806947720505")
+        end
+    end
+
     local myPos = self.transform.worldPosition
     local pp    = playerGO.transform.worldPosition
     if not pp then return end
@@ -860,15 +911,37 @@ function OnTriggerEnter(self, other)
     if isDead then return end
 
     if other:CompareTag("Wall") then
-        if currentState == State.WALL or currentState == State.RECOVERY then 
+        if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE then 
             return 
         end
 
+        if rb then
+            rb:SetLinearVelocity(0, 0, 0)
+        end
+        StopMovement()
+        slideVelX = 0
+        slideVelZ = 0
+        DestroyChargeFeedback(self)
+        wallStunTimer = self.public.wallStunDuration
+        ChangeState(State.WALL)
 
         pendingWallHit = true
-
+      
         Engine.Log("[Aquiles] Choco con la pared")
         return 
+    end
+
+    if other:CompareTag("Bullet") then
+        -- La bala golpea al esqueleto
+        if not self.alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            self.alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("6600101727014948682")
+            TakeDamage(self, dmg, ap)
+        end
     end
 
     if other:CompareTag("Player") then

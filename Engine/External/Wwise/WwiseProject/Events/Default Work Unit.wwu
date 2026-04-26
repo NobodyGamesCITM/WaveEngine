@@ -225,6 +225,90 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_PlayerRoll" ID="{791AC566-9B37-4B72-B77D-D35D4FB37976}">
+							<ChildrenList>
+								<Action Name="" ID="{B7BA8F10-0EAB-449F-886B-894145611AF1}" ShortID="281768397">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_roll_01" ID="{E9A0E415-2F82-4B69-8FEB-A66ADC3380C1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_PlayerShot" ID="{F3BD7512-9ED5-40C7-B8F7-9CF0723BBA44}">
+							<ChildrenList>
+								<Action Name="" ID="{4755260A-400D-4050-AE24-540325093B46}" ShortID="795351655">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_apoloShot" ID="{2DD44F78-955F-4A52-876F-9D6CECD63075}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_OpenChest" ID="{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}">
+							<ChildrenList>
+								<Action Name="" ID="{B491DA21-0AC5-46FB-A0F3-1B532DC2E13E}" ShortID="631083595">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Open_Chest" ID="{270D2A81-9CCC-40CE-9F86-F0E22B2CFF29}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_AresCharge" ID="{C804D2B1-0E64-460D-92D0-6B978E1BF186}">
+							<ChildrenList>
+								<Action Name="" ID="{C73C270F-C385-4630-9E66-04941AABFD0E}" ShortID="528272143">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Attack_Charge" ID="{BA1897E1-006E-4454-BB7A-CBE02B8A0330}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_HermesSpin" ID="{39FB2737-DF72-4F43-A0D0-4CAF8463C7ED}">
+							<ChildrenList>
+								<Action Name="" ID="{B7D0D6BA-94F2-445B-817F-FE269D48E684}" ShortID="910521053">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Attack_Slash" ID="{2EEEA4AC-5D98-42DC-9F26-B98B28CE2F00}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{1B322296-856D-40CE-B4D6-26C48689396A}" ShortID="136411103">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Attack_Spin" ID="{D6B0F216-4028-4D02-833A-5AF4E29ADB94}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{2E950900-3B89-4CE3-B789-AC969DC23EE1}" ShortID="544808093">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.35">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{34D7469A-C6EB-4093-AFE4-6841E45D5CC5}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Attack_Spin" ID="{D6B0F216-4028-4D02-833A-5AF4E29ADB94}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">

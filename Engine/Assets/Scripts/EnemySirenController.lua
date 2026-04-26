@@ -28,6 +28,7 @@ local hitCooldown = 0
 
 local BaseMat = nil
 
+
 -- Public (movido a self.public dentro de Start para evitar conflictos entre enemigos)
 
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
@@ -48,6 +49,7 @@ end
 
 -- Calcula la velocidad inicial para un arco parabólico dado origen, destino y tiempo de vuelo.
 local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
+
     local dx = tx - sx
     local dz = tz - sz
     local dy = ty - sy
@@ -64,7 +66,6 @@ local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     local termBazada = 2 * (h - dy) / GRAVITY
     if termBazada < 0 then termBazada = 0 end
     local T = (vY / GRAVITY) + sqrt(termBazada)
-
     local vX = dx / T
     local vZ = dz / T
 
@@ -76,13 +77,6 @@ local function TakeDamage(self, amount, attackerPos)
 
     if self.isDead then return end
 
-    if self.isFullyHidden then
-        if self.currentState == State.HIDE then
-            Engine.Log("[Mortar] ¡Esquivado! La sirena está bajo el agua.")
-        end
-        self.hasDeathPlayed = true
-        return 
-    end
     self.hp = self.hp - amount
     Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
 
@@ -208,6 +202,47 @@ local function SafeDestroyShell(s)
     s.go = nil
 end
 
+local function SyncCollider(self)
+    if not self.colliderRoot then return end
+
+    local mesh = GameObject.FindInChildren(self.gameObject, "SirenMesh")
+    if not mesh then return end
+
+    local meshTr = mesh.transform
+    local colTr  = self.colliderRoot.transform
+
+    colTr:SetPosition(
+        meshTr.position.x,
+        meshTr.position.y,
+        meshTr.position.z
+    )
+
+    colTr:SetRotation(
+        meshTr.rotation.x,
+        meshTr.rotation.y,
+        meshTr.rotation.z
+    )
+end
+
+local function UpdateHeight(self, targetOffset, dt)
+    self.currentYOffset = self.currentYOffset + (targetOffset - self.currentYOffset) * dt * self.public.riseSpeed
+    
+    local pos = self.transform.position
+    pos.y = self.baseY + self.currentYOffset
+    self.transform:SetPosition(pos.x, pos.y, pos.z)
+    if self.currentYOffset < 0.2 then
+        if not self.isFullyHidden then
+            self.isFullyHidden = true
+            -- Engine.Log("[Siren] Sumergida: Invulnerable")
+        end
+    else
+        if self.isFullyHidden then
+            self.isFullyHidden = false
+            -- Engine.Log("[Siren] Visible: Vulnerable")
+        end
+    end
+end
+
 -- UpdateShells
 local function UpdateShells(self, dt)
     if not self.activeShells or #self.activeShells == 0 then return end
@@ -226,7 +261,7 @@ local function UpdateShells(self, dt)
             end
         end
         
-        s.age = s.age + dt
+        s.age = s.age + (dt*2)
 
         local t = s.age
         local x = s.sx + s.vx * t
@@ -284,15 +319,17 @@ end
 
 
 local function UpdateHide(self, dt)
+    UpdateHeight(self, 0, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
         if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         self.isFullyHidden = false
+        self.hideAnimTimer = 0
     end
 
     if not self.isFullyHidden then
         self.hideAnimTimer = (self.hideAnimTimer or 0) + dt
-        if self.hideAnimTimer >= 0.4 then
+        if self.hideAnimTimer >= 0.2 then
             self.isFullyHidden = true
             Engine.Log("[Siren] Completamente escondida. Ahora es invulnerable.")
         end
@@ -315,6 +352,7 @@ local function UpdateHide(self, dt)
 end
 
 local function UpdateIdle(self, dist, dt)
+    UpdateHeight(self, 0, dt)
     -- Caso 1: Jugador en rango de ataque
     if dist <= self.public.detectRange and dist >= self.public.minRange then
 
@@ -369,7 +407,7 @@ local function UpdateIdle(self, dist, dt)
 end
 
 local function UpdateWindUp(self, pp, dist, dt)
-
+    UpdateHeight(self, self.public.riseHeight, dt)
     FacePlayer(self, pp, dt)
     self.windUpTimer = self.windUpTimer + dt
 
@@ -382,7 +420,7 @@ local function UpdateWindUp(self, pp, dist, dt)
     if self.windupFeedback then
         pcall(function()
             local scale = self.public.blastRadius * 2
-            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.05, pp.z)
+            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.2, pp.z)
             self.windupFeedback.transform:SetScale(scale, 0.03, scale)
             self.windupFeedbackSet = true
         end)
@@ -424,7 +462,7 @@ local function UpdateWindUp(self, pp, dist, dt)
 end
 
 local function UpdateCooldown(self, dist, dt)
-
+    UpdateHeight(self, 0, dt)
     if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
@@ -517,12 +555,13 @@ function Start(self)
 
         projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
         maxLifetime      = 10.0,
+        riseHeight       = 1.0,
+        riseSpeed        = 3.0,
     }
 
     self.hp             = self.public.maxHp
     self.isDead         = false
     self.playerInRange  = false
-    self.alreadyHit     = false
     self.pendingDestroy = false
     self.deathTimer     = 2.5
 
@@ -572,6 +611,9 @@ function Start(self)
     --SirenMesh
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
     BaseMat = sirenMesh:GetComponent("Material")
+
+    self.baseY = self.transform.position.y
+    self.currentYOffset = 0
 end
 
 -- Update
@@ -584,6 +626,11 @@ function Update(self, dt)
     end
 
     if self.isDead then
+        if self.windupFeedback then
+            pcall(function() GameObject.Destroy(self.windupFeedback) end)
+            self.windupFeedback = nil
+            self.windupFeedbackSet = false
+        end
         self.deathTimer = self.deathTimer - dt
         local pos = self.transform.position
         self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
@@ -610,6 +657,7 @@ function Update(self, dt)
         end
     end
 
+    
     -- Simular proyectiles en vuelo
     UpdateShells(self, dt)
 
@@ -659,31 +707,12 @@ function Update(self, dt)
     local playerAttack = _PlayerController_lastAttack
 
     local myPos = self.transform.position
-    local pp    = self.playerGO.transform.position
+    local pp    = self.playerGO.transform.worldPosition
     if not pp then return end
 
     local distX = pp.x - myPos.x
     local distZ = pp.z - myPos.z
     local dist  = sqrt(distX * distX + distZ * distZ)
-
-    if playerAttack ~= "" and self.hideCooldownTimer <= 0 and self.currentState ~= State.HIDE then
-        local currentEvadeChance = EVADE_CHANCE
-        if dist < 5.0 then
-            currentEvadeChance = 0.9
-        end
-
-        if math.random() < currentEvadeChance then
-            self.currentState = State.HIDE
-            self.hideDurationTimer = HIDE_MAX_DURATION
-            self.hideCooldownTimer = HIDE_COOLDOWN
-            self.isFullyHidden = false 
-            self.hideAnimTimer = 0  
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
-            Engine.Log("[Siren] ¡Ataque detectado! Sumergiéndose...")
-        else
-            self.hideCooldownTimer = 0.5 
-        end
-    end
 
     -- State machine
 
@@ -703,7 +732,7 @@ end
 
 -- OnTriggerEnter
 function OnTriggerEnter(self, other)
-    if self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+    if  self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
 
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 
@@ -742,7 +771,6 @@ function OnTriggerExit(self, other)
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 
     if other:CompareTag("Player") then
-        self.alreadyHit = false
         BaseMat.SetTexture("8896541361096085563")
     end
 end

@@ -50,7 +50,7 @@
                                                 ],
                                                 "name": "Buho_copy_copy",
                                                 "tag": "",
-                                                "uid": 12949693711564325843
+                                                "uid": 1715877006768651096
                                             }
                                         ],
                                         "components": [
@@ -76,7 +76,7 @@
                                         ],
                                         "name": "Buho_$AssimpFbx$_ScalingPivotInverse_copy_copy",
                                         "tag": "",
-                                        "uid": 16360045576577298117
+                                        "uid": 15101937676191660962
                                     }
                                 ],
                                 "components": [
@@ -102,7 +102,7 @@
                                 ],
                                 "name": "Buho_$AssimpFbx$_ScalingPivot_copy_copy",
                                 "tag": "",
-                                "uid": 3258252319255248346
+                                "uid": 4487651745817288007
                             }
                         ],
                         "components": [
@@ -128,7 +128,7 @@
                         ],
                         "name": "Buho_$AssimpFbx$_RotationPivotInverse_copy_copy",
                         "tag": "",
-                        "uid": 11239355948774792904
+                        "uid": 3987972653044448623
                     }
                 ],
                 "components": [
@@ -154,7 +154,7 @@
                 ],
                 "name": "Buho_$AssimpFbx$_RotationPivot_copy_copy",
                 "tag": "",
-                "uid": 11674398390812943279
+                "uid": 1795533575353148293
             },
             {
                 "active": true,
@@ -204,7 +204,7 @@
                                                 ],
                                                 "name": "Base_copy_copy",
                                                 "tag": "",
-                                                "uid": 12469988993086743413
+                                                "uid": 16997584331106391428
                                             }
                                         ],
                                         "components": [
@@ -230,7 +230,7 @@
                                         ],
                                         "name": "Base_$AssimpFbx$_ScalingPivotInverse_copy_copy",
                                         "tag": "",
-                                        "uid": 7404279696387712035
+                                        "uid": 12779613069792630028
                                     }
                                 ],
                                 "components": [
@@ -256,7 +256,7 @@
                                 ],
                                 "name": "Base_$AssimpFbx$_ScalingPivot_copy_copy",
                                 "tag": "",
-                                "uid": 8176403467193405859
+                                "uid": 7534099093915351290
                             }
                         ],
                         "components": [
@@ -282,7 +282,7 @@
                         ],
                         "name": "Base_$AssimpFbx$_RotationPivotInverse_copy_copy",
                         "tag": "",
-                        "uid": 9795541514015503017
+                        "uid": 1701911966169900487
                     }
                 ],
                 "components": [
@@ -308,20 +308,20 @@
                 ],
                 "name": "Base_$AssimpFbx$_RotationPivot_copy_copy",
                 "tag": "",
-                "uid": 10760828361253871101
+                "uid": 10703254052951573649
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    -13.510540008544922,
-                    -7.575109481811523,
-                    -287.1278076171875
+                    133.94729614257813,
+                    42.135623931884766,
+                    -306.6872863769531
                 ],
                 "rotation": [
                     0.0,
-                    0.0,
+                    -89.98021697998047,
                     0.0
                 ],
                 "scale": [
@@ -378,9 +378,9 @@
                         "value": false
                     },
                     {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": "Puerta_Sala_1"
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": 1.0
                     },
                     {
                         "name": "dirX",
@@ -388,19 +388,19 @@
                         "value": 0.0
                     },
                     {
-                        "name": "dirY",
-                        "type": 0,
-                        "value": 0.0
-                    },
-                    {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
                         "name": "fordwardOffset",
                         "type": 0,
                         "value": 1.0
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": "Puerta_Sala_1"
+                    },
+                    {
+                        "name": "dirY",
+                        "type": 0,
+                        "value": 0.0
                     }
                 ],
                 "scriptUID": 3213472682470300881,
@@ -410,22 +410,29 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "rotationSpeed",
-                        "type": 0,
-                        "value": 180.0
-                    },
-                    {
                         "name": "targetDegrees",
                         "type": 0,
                         "value": 90.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 180.0
                     }
                 ],
                 "scriptUID": 1724783290381993592,
                 "type": 6
+            },
+            {
+                "active": true,
+                "eventName": "SFX_StatueTurn",
+                "playOnAwake": false,
+                "type": 26,
+                "volume": 100.0
             }
         ],
         "name": "Estatua_Athenea_copy_copy",
         "tag": "Statue",
-        "uid": 9099757494048477512
+        "uid": 9869932594272129474
     }
 ]

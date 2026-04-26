@@ -4637,6 +4637,425 @@
 										<ActiveSource Name="player_roll_01" ID="{C5D43672-99FE-4CF4-8664-62DA454BB88A}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<Sound Name="player_apoloShot" ID="{2DD44F78-955F-4A52-876F-9D6CECD63075}" ShortID="658371818">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>4</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{41CF4EAD-EE15-404C-A8CE-BB6736945571}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="225"/>
+															<Property Name="Min" Type="Real64" Value="-50"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="apolo_shot_00" ID="{CAFCB05B-BAD6-4C61-B34A-0F72C264EDEA}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.14742025347988"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.103194177435916"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>apolo_shot_00.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="661717650"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="apolo_shot_00" ID="{CAFCB05B-BAD6-4C61-B34A-0F72C264EDEA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<RandomSequenceContainer Name="Open_Chest" ID="{270D2A81-9CCC-40CE-9F86-F0E22B2CFF29}" ShortID="575365438">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>25</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{F9527668-6D5B-4918-8819-8F747113025B}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="100"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="open_chest_01" ID="{B39EA8B5-219A-482A-859B-F322E51420A9}" ShortID="773575672">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="open_chest_01" ID="{5476BA5E-C249-4F20-B5EC-E2B8CDEF8061}">
+													<Language>SFX</Language>
+													<AudioFile>open_chest_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="511744790"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="open_chest_01" ID="{5476BA5E-C249-4F20-B5EC-E2B8CDEF8061}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="open_chest_02" ID="{3168AD77-51FD-4F12-A1B2-B9A54C7851EA}" ShortID="396239478">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="open_chest_02" ID="{1F62DFC2-2B84-4A43-96BB-EF29A32F4481}">
+													<Language>SFX</Language>
+													<AudioFile>open_chest_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="70539538"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="open_chest_02" ID="{1F62DFC2-2B84-4A43-96BB-EF29A32F4481}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="open_chest_03" ID="{8A0B88C8-360A-4C74-9FA0-3DA73810E734}" ShortID="364063200">
+											<PropertyList>
+												<Property Name="InitialDelay" Type="Real64">
+													<ValueList>
+														<Value>0.5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="open_chest_03" ID="{53F33610-5C88-425A-8145-CC4E611BF527}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>open_chest_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="193892419"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="open_chest_03" ID="{53F33610-5C88-425A-8145-CC4E611BF527}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="Attack_Spin" ID="{D6B0F216-4028-4D02-833A-5AF4E29ADB94}" ShortID="616802499">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{A680CD09-9F3E-4E62-8B4B-83DD05658A43}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="5"/>
+															<Property Name="Min" Type="Real64" Value="-5"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{D1108176-1D9C-49C8-A12C-02611B170774}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="100"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{3BDA65F6-E5A1-418C-82AA-FA9F1482A3A4}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="2"/>
+															<Property Name="Min" Type="Real64" Value="-2"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="hermes_spin_01" ID="{D56D05DA-84A4-47AC-9ABE-4A930A3010C2}" ShortID="799584989">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="hermes_spin_01" ID="{FF92D1F3-0CB8-4D83-B664-8608E1313266}">
+													<Language>SFX</Language>
+													<AudioFile>hermes_spin_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="210183454"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="hermes_spin_01" ID="{FF92D1F3-0CB8-4D83-B664-8608E1313266}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="hermes_spin_02" ID="{5710FED5-22D9-47BB-905E-696DF2E51FF8}" ShortID="935388538">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="hermes_spin_02" ID="{9A88376D-CA9A-4F36-B87D-A82BA1043E33}">
+													<Language>SFX</Language>
+													<AudioFile>hermes_spin_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="815791911"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="hermes_spin_02" ID="{9A88376D-CA9A-4F36-B87D-A82BA1043E33}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="hermes_spin_03" ID="{1BF23029-23B9-42BB-AA24-6DD2370A8B54}" ShortID="1033147942">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="hermes_spin_03" ID="{88063B54-478C-46CD-912D-CCB382D23F0B}">
+													<Language>SFX</Language>
+													<AudioFile>hermes_spin_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="815856036"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="hermes_spin_03" ID="{88063B54-478C-46CD-912D-CCB382D23F0B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="hermes_spin_05" ID="{89ABE7B0-89BD-44BB-AA85-6E8F7A48F72D}" ShortID="296548912">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="hermes_spin_05" ID="{3BEBD69F-DDEE-42C5-B4BB-7E1B5F9AC6EE}">
+													<Language>SFX</Language>
+													<AudioFile>hermes_spin_05.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="324318935"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="hermes_spin_05" ID="{3BEBD69F-DDEE-42C5-B4BB-7E1B5F9AC6EE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="hermes_spin_04" ID="{BE2C7728-8621-44DA-BE88-26571E18E22F}" ShortID="162269532">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="hermes_spin_04" ID="{F9D998D6-F807-478B-8566-D0A763BE406D}">
+													<Language>SFX</Language>
+													<AudioFile>hermes_spin_04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="735881624"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="hermes_spin_04" ID="{F9D998D6-F807-478B-8566-D0A763BE406D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="Attack_Charge" ID="{BA1897E1-006E-4454-BB7A-CBE02B8A0330}" ShortID="361355497">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{B3B91759-17B7-485F-84C7-B0EAA266DE7A}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="29"/>
+															<Property Name="Min" Type="Real64" Value="-26"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{48759F35-ADFF-4951-A3F2-4689C6420B2E}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="100"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Wwizard_Armor" ID="{17F6FAAE-0014-4F6B-84CB-BFE1D717BD4E}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="1.28384274062956"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.51726880282595"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Wwizard_Armor.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="667551602"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Wwizard_Armor" ID="{17F6FAAE-0014-4F6B-84CB-BFE1D717BD4E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 						<Sound Name="treeAmbience" ID="{67EF3EEB-C88C-4B59-A1D5-81145EAA8FC2}" ShortID="155641734">

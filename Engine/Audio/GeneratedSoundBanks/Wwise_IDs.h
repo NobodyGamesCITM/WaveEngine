@@ -23,8 +23,10 @@ namespace AK
         static const AkUniqueID SFX_AQUILESSPEARSWING = 276386536U;
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
+        static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_ARESMASK = 3161303428U;
         static const AkUniqueID SFX_HERMESMASK = 3607278939U;
+        static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
         static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
@@ -37,11 +39,13 @@ namespace AK
         static const AkUniqueID SFX_MINOIDLE = 2971129212U;
         static const AkUniqueID SFX_MINOPRECHARGE = 1239040809U;
         static const AkUniqueID SFX_MINOSTEPS = 1248591155U;
+        static const AkUniqueID SFX_OPENCHEST = 871435336U;
         static const AkUniqueID SFX_PLAYERATTACK = 3758894654U;
         static const AkUniqueID SFX_PLAYERDEATH = 1000127844U;
         static const AkUniqueID SFX_PLAYERFOOTSTEPS = 724467519U;
         static const AkUniqueID SFX_PLAYERHIT = 515751749U;
         static const AkUniqueID SFX_PLAYERROLL = 2179511499U;
+        static const AkUniqueID SFX_PLAYERSHOT = 3486629458U;
         static const AkUniqueID SFX_POTIONDRINK = 3128226246U;
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;

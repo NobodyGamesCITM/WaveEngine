@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{CC6C1EFF-095B-92D9-8681-6ACF177591F8}",
+    "Hash": "{5EC1D647-3228-3BA3-FBCB-7A6C66B41C86}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -62,6 +62,14 @@
       "Location": "Memory",
       "ShortName": "metal-rock_impact_01.wav",
       "CachePath": "2C/{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem"
+     },
+     {
+      "Id": "70539538",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "open_chest_02.wav",
+      "CachePath": "EB/{EB79005B-A386-66B3-DA8B-BD39623EBB3C}.wem"
      },
      {
       "Id": "71226100",
@@ -200,6 +208,14 @@
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
      },
      {
+      "Id": "193892419",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "open_chest_03.wav",
+      "CachePath": "38/{38D3794C-87DD-1C75-73D7-5328ECD67FDF}.wem"
+     },
+     {
       "Id": "193895961",
       "Language": "SFX",
       "Streaming": "false",
@@ -222,6 +238,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_run_05.wav",
       "CachePath": "5C/{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem"
+     },
+     {
+      "Id": "210183454",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_spin_01.wav",
+      "CachePath": "C3/{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem"
      },
      {
       "Id": "218509929",
@@ -326,6 +350,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_walk_03.wav",
       "CachePath": "EF/{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem"
+     },
+     {
+      "Id": "324318935",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_spin_05.wav",
+      "CachePath": "B6/{B61958A6-11FD-D8BF-F218-6E7B21A885C0}.wem"
      },
      {
       "Id": "328752554",
@@ -510,6 +542,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_03.wav",
       "CachePath": "3D/{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem"
+     },
+     {
+      "Id": "511744790",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "open_chest_01.wav",
+      "CachePath": "1D/{1DBB0795-981C-6991-78BD-8D629F42B933}.wem"
      },
      {
       "Id": "512620298",
@@ -704,12 +744,28 @@
       "CachePath": "91/{91235923-528D-B681-E796-9CDE151A28A7}.wem"
      },
      {
+      "Id": "661717650",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "apolo_shot_00.wav",
+      "CachePath": "EC/{EC89D08A-32D7-7133-FA88-59C0711B392D}.wem"
+     },
+     {
       "Id": "663484052",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skeleton_walk.wav",
       "CachePath": "85/{85480C67-C83E-070A-9714-960378316322}.wem"
+     },
+     {
+      "Id": "667551602",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Wwizard_Armor.wav",
+      "CachePath": "18/{181D09EA-7238-3EC7-572F-D56872DCDDFC}.wem"
      },
      {
       "Id": "675021197",
@@ -776,6 +832,14 @@
       "CachePath": "92/{92273ACC-C8ED-BEBC-9F3F-92BA661A1700}.wem"
      },
      {
+      "Id": "735881624",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_spin_04.wav",
+      "CachePath": "4E/{4E75E11D-7074-9846-F9FA-1AD2AF279754}.wem"
+     },
+     {
       "Id": "752261276",
       "Language": "SFX",
       "Streaming": "false",
@@ -822,6 +886,22 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_05.wav",
       "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
+     },
+     {
+      "Id": "815791911",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_spin_02.wav",
+      "CachePath": "65/{6570BBC3-F597-024E-01BA-91D14878A6F3}.wem"
+     },
+     {
+      "Id": "815856036",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_spin_03.wav",
+      "CachePath": "50/{507E21FB-7A9C-8707-3FD6-2319D76E8922}.wem"
      },
      {
       "Id": "818783277",
@@ -1537,6 +1617,21 @@
       ]
      },
      {
+      "Id": "1489981256",
+      "Name": "SFX_AresCharge",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_AresCharge",
+      "GUID": "{C804D2B1-0E64-460D-92D0-6B978E1BF186}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.4321109",
+      "DurationMax": "1.6074903",
+      "MediaRefs": [
+       {
+        "Id": "667551602"
+       }
+      ]
+     },
+     {
       "Id": "3161303428",
       "Name": "SFX_AresMask",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_AresMask",
@@ -1563,6 +1658,39 @@
       "MediaRefs": [
        {
         "Id": "728535981"
+       }
+      ]
+     },
+     {
+      "Id": "4252929259",
+      "Name": "SFX_HermesSpin",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesSpin",
+      "GUID": "{39FB2737-DF72-4F43-A0D0-4CAF8463C7ED}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.49942708",
+      "DurationMax": "0.76073647",
+      "MediaRefs": [
+       {
+        "Id": "210183454"
+       },
+       {
+        "Id": "324318935"
+       },
+       {
+        "Id": "629385577"
+       },
+       {
+        "Id": "699991876"
+       },
+       {
+        "Id": "735881624"
+       },
+       {
+        "Id": "815791911"
+       },
+       {
+        "Id": "815856036"
        }
       ]
      },
@@ -1870,6 +1998,27 @@
        },
        {
         "Id": "642616489"
+       }
+      ]
+     },
+     {
+      "Id": "871435336",
+      "Name": "SFX_OpenChest",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_OpenChest",
+      "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "3.0779583",
+      "DurationMax": "3.3249376",
+      "MediaRefs": [
+       {
+        "Id": "70539538"
+       },
+       {
+        "Id": "193892419"
+       },
+       {
+        "Id": "511744790"
        }
       ]
      },
@@ -2213,6 +2362,21 @@
       "MediaRefs": [
        {
         "Id": "483035979"
+       }
+      ]
+     },
+     {
+      "Id": "3486629458",
+      "Name": "SFX_PlayerShot",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_PlayerShot",
+      "GUID": "{F3BD7512-9ED5-40C7-B8F7-9CF0723BBA44}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.2621725",
+      "DurationMax": "1.479465",
+      "MediaRefs": [
+       {
+        "Id": "661717650"
        }
       ]
      },
@@ -2803,6 +2967,6 @@
     ]
    }
   ],
-  "FileHash": "{936A77B7-EC2A-D742-C424-DAAF4C6CBF5F}"
+  "FileHash": "{5F0CF668-81F9-A57C-E2D5-768A546368B1}"
  }
 }

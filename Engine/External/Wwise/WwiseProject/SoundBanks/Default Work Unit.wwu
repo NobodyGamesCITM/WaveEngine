@@ -5,6 +5,7 @@
 			<ChildrenList>
 				<SoundBank Name="MainSoundBank" ID="{7C55CBAC-5186-4208-888F-0BCE02308A98}">
 					<ObjectInclusionList>
+						<ObjectRef Name="SFX_PlayerShot" ID="{F3BD7512-9ED5-40C7-B8F7-9CF0723BBA44}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoCrash" ID="{CF6CBB00-EC82-40C7-8F29-32C4484F102A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_LargePlate" ID="{74317D9E-E568-40FF-B6D7-3340DA2D5A61}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -23,8 +24,10 @@
 						<ObjectRef Name="Reverb_Outside" ID="{716E7EE7-E3F1-454E-B138-DDDC187F22C7}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesDash" ID="{25DD6384-4AC8-4561-816E-4FECEC968FE7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoDie" ID="{527F17F1-9C7A-456D-8822-3CB81C90A7E8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_OpenChest" ID="{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_TorchFire" ID="{D448BFDB-F7C2-4599-97EF-D05104A452FB}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesWarcry" ID="{216A9658-2893-45D3-98A2-4A7A58622BB0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_AresCharge" ID="{C804D2B1-0E64-460D-92D0-6B978E1BF186}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_Robotic" ID="{E6B61723-32EF-463C-B0F0-CEE4AE0176BE}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonSteps" ID="{24A18DDB-708D-4647-93D0-41A7F1628ED1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonSwordSlash" ID="{C82EF090-9042-46C0-BD2A-E42CC9C63497}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -61,6 +64,7 @@
 						<ObjectRef Name="SFX_MinoHurt" ID="{C937AFA1-0B7A-4E9B-941E-15541FAAABB1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MansionAmbience" ID="{D8092CF2-62B7-4F0B-B962-689E720F0947}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoCharge" ID="{9C238639-0895-4F1D-A576-C0A266052C5A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_HermesSpin" ID="{39FB2737-DF72-4F43-A0D0-4CAF8463C7ED}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

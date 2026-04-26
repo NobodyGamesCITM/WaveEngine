@@ -1,3 +1,5 @@
+--skeleton script v3 (v2 with audio and hit/death anims)
+
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -27,17 +29,18 @@ local Skeleton = {
 }
 public = {
     maxHp           = 30,
-    patrolSpeed     = 0.8,
+    patrolSpeed     = 1.5,
     chaseSpeed      = 3.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
-    attackColDelay  = 1.5,
+    attackColDelay  = 0.9,
     attackAnimaAnticip  = 0.3,
     nearDist        = 2,
     nearYDist       = 1.0,
 
     patrolWaitMin   = 1.0,
     patrolWaitMax   = 2.8,
+    deathTime       = 1.5,
 }
 local patrolWait = 0
 local alreadyHit = false
@@ -45,6 +48,7 @@ local hitCooldown = 0
 local attackTimer = 0
 local pendingDeath = false
 local stepTimer = 0.5
+local deathTimer = 0
 
 local targetVelX = 0
 local targetVelZ = 0
@@ -99,20 +103,32 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.isDead or not Skeleton.hp then return end
 
+    local anim = self.gameObject:GetComponent("Animation")
+
     Skeleton.hp = Skeleton.hp - amount
     --Engine.Log("[Skeleton] HP: " .. Skeleton.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
 
     if  Skeleton.hp <= 0 and not pendingDeath then
-        --if self.dieSFX then self.dieSFX:PlayAudioEvent() end
+        if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
+        if self.dieSFX then self.dieSFX:PlayAudioEvent() end
+        if anim then 
+           pcall(function() anim:Play("Death", 0.0) end)
+           Engine.Log("[SKELETROY] Playing Death Anim")
+        else
+            Engine.Log("[SKELETROY] Could not find anim component")
+        end
         pendingDeath = true
     else
         hitGiven = false
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
-        --if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
-        local anim = self.gameObject:GetComponent("Animation")
+        if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
+        
         if anim then 
-          --  pcall(function() anim:Play("Hit", 0.5) end)
+           pcall(function() anim:Play("Hit", 0.0) end)
+           Engine.Log("[SKELETROY] Playing Hit Anim")
+        else
+           Engine.Log("[SKELETROY] Could not find anim component")
         end
     end
 end
@@ -341,6 +357,11 @@ function Update(self, dt)
         Skeleton.rb = self.gameObject:GetComponent("Rigidbody")
     end
 
+    if not BaseMat then
+        local squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
+        BaseMat = squeletonMesh:GetComponent("Material")
+    end
+
     if not Skeleton.currentState then
         Skeleton.currentState = nil
         ChangeState(self, State.IDLE, true)
@@ -376,10 +397,14 @@ function Update(self, dt)
 
     if pendingDeath then
         if Skeleton.nav then Skeleton.nav:StopMovement() end
-        Skeleton.isDead       = true
-        --Engine.Log("[Skeleton] MUERTO")
-        --Enemy.dieSFX:PlayAudioEvent()
-        self:Destroy()
+
+        deathTimer = deathTimer + dt
+        if deathTimer >= self.public.deathTime then 
+            deathTimer = 0
+            Skeleton.isDead       = true
+            self:Destroy()
+            
+        end
         return
     end
 end

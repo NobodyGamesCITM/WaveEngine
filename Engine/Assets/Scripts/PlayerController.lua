@@ -822,6 +822,7 @@ States[State.CHARGING] = {
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Ares", 0.5) end
+        if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_AresCharge") end
         attackTimer = 0
         chargeCol = self.gameObject:GetComponent("Sphere Collider")
         if chargeCol then 
@@ -869,6 +870,7 @@ States[State.SHOOTING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Apolo", 0.3) 
+            if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerShot") end
         end
         attackTimer = 0
 
@@ -926,6 +928,7 @@ States[State.ATTACK_HEAVY] = {
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Hermes", 1.0) end
+        if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_HermesSpin") end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false
         heavyCol = self.gameObject:GetComponent("Capsule Collider")

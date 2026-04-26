@@ -1,0 +1,471 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -10.088546752929688,
+                            4.00543212890625e-05,
+                            0.122222900390625
+                        ],
+                        "rotation": [
+                            2.5240877096766035e-11,
+                            -2.241155925730709e-05,
+                            2.2720612891102832e-10
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 4156237712023692844,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 12789350073155248058,
+                        "type": 3
+                    }
+                ],
+                "name": "Buho",
+                "tag": "",
+                "uid": 10063986948642722109
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -10.4759521484375,
+                            0.0035486221313476563,
+                            -0.221771240234375
+                        ],
+                        "rotation": [
+                            2.2798212970243092e-11,
+                            -2.241155925730709e-05,
+                            2.0807192080418702e-10
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "meshUID": 7123884107561425851,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 12789350073155248058,
+                        "type": 3
+                    }
+                ],
+                "name": "Base",
+                "tag": "",
+                "uid": 17676043582024200630
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            1.5597686767578125,
+                            13.383377075195313,
+                            -0.207275390625
+                        ],
+                        "rotation": [
+                            4.233953812549096e-11,
+                            -2.241155925730709e-05,
+                            4.0511366483642064e-10
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "activationRadius": 40.0,
+                        "active": true,
+                        "additive": true,
+                        "animLoop": false,
+                        "animSpeed": 1.0,
+                        "bursts": [],
+                        "circleRadius": 1.0,
+                        "colorEnd": [
+                            0.9139999747276306,
+                            0.800000011920929,
+                            0.4819999933242798,
+                            0.0
+                        ],
+                        "colorGradient": [
+                            {
+                                "color": [
+                                    0.9139999747276306,
+                                    0.800000011920929,
+                                    0.4819999933242798,
+                                    0.0
+                                ],
+                                "time": 0.0
+                            },
+                            {
+                                "color": [
+                                    0.9139999747276306,
+                                    0.800000011920929,
+                                    0.4819999933242798,
+                                    1.0
+                                ],
+                                "time": 0.3499999940395355
+                            },
+                            {
+                                "color": [
+                                    0.27399998903274536,
+                                    0.23999999463558197,
+                                    0.14499999582767487,
+                                    0.0
+                                ],
+                                "time": 1.0
+                            }
+                        ],
+                        "colorStart": [
+                            0.9139999747276306,
+                            0.800000011920929,
+                            0.4819999933242798,
+                            1.0
+                        ],
+                        "coneAngle": 25.0,
+                        "coneRadius": 0.5,
+                        "duration": 5.0,
+                        "emissionArea": [
+                            3.0,
+                            0.0,
+                            3.0
+                        ],
+                        "emissionRadius": 1.0,
+                        "emissionRate": 12.0,
+                        "emissionRateDist": 0.0,
+                        "emitFromShell": true,
+                        "gravity": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "initRotMax": 360.0,
+                        "initRotMin": 0.0,
+                        "lifetimeMax": 0.8999999761581421,
+                        "lifetimeMin": 0.4000000059604645,
+                        "looping": true,
+                        "luminance": false,
+                        "maxParticles": 40,
+                        "noiseActive": true,
+                        "noiseFreq": 0.800000011920929,
+                        "noiseStrength": 0.30000001192092896,
+                        "oneShot": false,
+                        "oneShotCount": 30,
+                        "prewarm": false,
+                        "proximityActivation": true,
+                        "proximityTarget": "Player",
+                        "rotSpeedMax": 180.0,
+                        "rotSpeedMin": -180.0,
+                        "shape": 1,
+                        "simulationSpace": 0,
+                        "sizeCurve": [
+                            {
+                                "size": 0.0,
+                                "time": 0.0
+                            },
+                            {
+                                "size": 0.5,
+                                "time": 0.3499999940395355
+                            },
+                            {
+                                "size": 0.10000000149011612,
+                                "time": 1.0
+                            }
+                        ],
+                        "sizeEnd": 0.0,
+                        "sizeStart": 0.20000000298023224,
+                        "speedMax": 0.25,
+                        "speedMin": 0.0,
+                        "textureCols": 1,
+                        "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Environment\\Statues_Sparks.png",
+                        "textureRows": 1,
+                        "textureUID": 14600480670017023417,
+                        "type": 7
+                    }
+                ],
+                "name": "Sparkles",
+                "tag": "",
+                "uid": 13432483470321250564
+            },
+            {
+                "active": false,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -6.108642578125,
+                            3.62396240234375e-05,
+                            0.1304931640625
+                        ],
+                        "rotation": [
+                            1.9134215045735203e-11,
+                            -2.241155925730709e-05,
+                            1.9138036988497475e-10
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "activationRadius": 15.0,
+                        "active": true,
+                        "additive": true,
+                        "animLoop": false,
+                        "animSpeed": 1.0,
+                        "bursts": [],
+                        "circleRadius": 2.0,
+                        "colorEnd": [
+                            0.5098038911819458,
+                            0.9279124140739441,
+                            1.0,
+                            1.0
+                        ],
+                        "colorGradient": [
+                            {
+                                "color": [
+                                    0.0,
+                                    0.7647058963775635,
+                                    1.0,
+                                    0.0
+                                ],
+                                "time": 0.27300000190734863
+                            },
+                            {
+                                "color": [
+                                    0.36274510622024536,
+                                    0.8688005208969116,
+                                    1.0,
+                                    1.0
+                                ],
+                                "time": 0.5
+                            },
+                            {
+                                "color": [
+                                    0.8445789813995361,
+                                    0.9901960492134094,
+                                    0.9901960492134094,
+                                    0.0
+                                ],
+                                "time": 1.0
+                            }
+                        ],
+                        "colorStart": [
+                            0.2664359509944916,
+                            0.49424999952316284,
+                            0.970588207244873,
+                            0.0
+                        ],
+                        "coneAngle": 24.670000076293945,
+                        "coneRadius": 2.0999999046325684,
+                        "duration": 5.0,
+                        "emissionArea": [
+                            7.300000190734863,
+                            0.8999999761581421,
+                            0.0
+                        ],
+                        "emissionRadius": 2.4000000953674316,
+                        "emissionRate": 15.0,
+                        "emissionRateDist": 0.0,
+                        "emitFromShell": true,
+                        "gravity": [
+                            0.0,
+                            0.009999999776482582,
+                            0.0
+                        ],
+                        "initRotMax": 90.0,
+                        "initRotMin": 90.0,
+                        "lifetimeMax": 5.0,
+                        "lifetimeMin": 5.0,
+                        "looping": true,
+                        "luminance": false,
+                        "maxParticles": 51,
+                        "noiseActive": false,
+                        "noiseFreq": 0.5,
+                        "noiseStrength": 1.0,
+                        "oneShot": false,
+                        "oneShotCount": 30,
+                        "prewarm": true,
+                        "proximityActivation": false,
+                        "proximityTarget": "Player",
+                        "rotSpeedMax": 0.0,
+                        "rotSpeedMin": 0.0,
+                        "shape": 3,
+                        "simulationSpace": 0,
+                        "sizeCurve": [],
+                        "sizeEnd": 3.0399999618530273,
+                        "sizeStart": 3.0999999046325684,
+                        "speedMax": 0.0,
+                        "speedMin": 0.0,
+                        "textureCols": 1,
+                        "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Trail_Hard_02_TEST.png",
+                        "textureRows": 1,
+                        "textureUID": 17887910495030493477,
+                        "type": 7
+                    }
+                ],
+                "name": "LastCheckpointVFX",
+                "tag": "",
+                "uid": 16555016593853104919
+            },
+            {
+                "active": false,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -6.0491180419921875,
+                            3.910064697265625e-05,
+                            0.0111083984375
+                        ],
+                        "rotation": [
+                            1.7098661028724926e-11,
+                            -2.0704012058558874e-05,
+                            1.4471525366932525e-10
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "publicVariables": [
+                            {
+                                "name": "promptRadius",
+                                "type": 0,
+                                "value": 6.0
+                            },
+                            {
+                                "name": "radius",
+                                "type": 0,
+                                "value": 3.0
+                            },
+                            {
+                                "name": "updateWhenPaused",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "actionText",
+                                "type": 1,
+                                "value": "Interactuar"
+                            },
+                            {
+                                "name": "oneShot",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
+                                "name": "sequenceId",
+                                "type": 1,
+                                "value": ""
+                            }
+                        ],
+                        "scriptUID": 11869449068228775486,
+                        "type": 6
+                    }
+                ],
+                "name": "Interactive",
+                "tag": "",
+                "uid": 10825142802074106500
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    57.5379524230957,
+                    4.309569358825684,
+                    -110.51815032958984
+                ],
+                "rotation": [
+                    -180.0,
+                    -1.2945480346679688,
+                    -180.0
+                ],
+                "scale": [
+                    0.3197154700756073,
+                    0.3197154700756073,
+                    0.3197154700756073
+                ],
+                "type": 0
+            },
+            {
+                "Center": [
+                    -4.0,
+                    5.0,
+                    1.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    10.0,
+                    10.0,
+                    10.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 10
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            }
+        ],
+        "name": "Estatua_Athenea_Def",
+        "tag": "CheckPoint",
+        "uid": 12099834938995153070
+    }
+]

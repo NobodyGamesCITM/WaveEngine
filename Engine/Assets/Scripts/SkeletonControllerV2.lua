@@ -206,7 +206,7 @@ States[State.CHASE] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            pcall(function() anim:Play("Walk", 0.2) end)
+            pcall(function() anim:Play("Run", 0.2) end)
         end
     end,
     Update = function(self, dt)

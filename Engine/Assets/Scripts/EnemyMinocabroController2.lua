@@ -32,7 +32,7 @@ local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
 
--- Sounds
+local hitCooldown = 0
 
 local BaseMat = nil
 
@@ -590,6 +590,15 @@ function Update(self, dt)
     end
     if not self.playerGO or _G._PlayerController_isDead then return end
 
+    
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            self.alreadyHit = false
+            BaseMat.SetTexture("15634858790036886356")
+        end
+    end
+    
     self.stepTimer = self.stepTimer + dt
     local myPos = self.transform.worldPosition
     local pp    = self.playerGO.transform.worldPosition
@@ -622,21 +631,7 @@ function Update(self, dt)
 end
 
 function OnTriggerEnter(self, other)
-    if self.isDead then return end
-
-    if other:CompareTag("Ramp") then
-        if self.attackCol then self.attackCol:Disable() end
-        if self.chargeFeedbackGO then
-            GameObject.Destroy(self.chargeFeedbackGO)
-            self.chargeFeedbackGO = nil
-        end
-        self.slideVelX = 0
-        self.slideVelZ = 0
-        self.alreadyHit = false
-        StopMovement(self)
-        ChangeState(self, State.IDLE)
-        return
-    end
+    if self.isDead then return end         
 
     if other:CompareTag("Wall") then
         if self.currentState == State.WALL or self.currentState == State.RECOVERY then 
@@ -651,6 +646,19 @@ function OnTriggerEnter(self, other)
         self.pendingWallHit = true
         Engine.Log("[Minocabro] Chocó con la pared")
         return 
+    end
+
+    if other:CompareTag("Bullet") then
+        -- La bala golpea al esqueleto
+        if not self.alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            self.alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("12721768917354180794")
+            TakeDamage(self, dmg, ap)
+        end
     end
 
 

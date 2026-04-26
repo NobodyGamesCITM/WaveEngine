@@ -1,0 +1,96 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": true,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 2.0,
+    "colorEnd": [
+        0.5098038911819458,
+        0.9279124140739441,
+        1.0,
+        1.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.0,
+                0.7647058963775635,
+                1.0,
+                0.0
+            ],
+            "time": 0.27300000190734863
+        },
+        {
+            "color": [
+                0.36274510622024536,
+                0.8688005208969116,
+                1.0,
+                1.0
+            ],
+            "time": 0.5
+        },
+        {
+            "color": [
+                0.8445789813995361,
+                0.9901960492134094,
+                0.9901960492134094,
+                0.0
+            ],
+            "time": 1.0
+        }
+    ],
+    "colorStart": [
+        0.2664359509944916,
+        0.49424999952316284,
+        0.970588207244873,
+        0.0
+    ],
+    "coneAngle": 24.670000076293945,
+    "coneRadius": 2.0999999046325684,
+    "duration": 5.0,
+    "emissionArea": [
+        7.300000190734863,
+        0.8999999761581421,
+        0.0
+    ],
+    "emissionRadius": 2.4000000953674316,
+    "emissionRate": 15.0,
+    "emissionRateDist": 0.0,
+    "emitFromShell": true,
+    "gravity": [
+        0.0,
+        0.009999999776482582,
+        0.0
+    ],
+    "initRotMax": 90.0,
+    "initRotMin": 90.0,
+    "lifetimeMax": 5.0,
+    "lifetimeMin": 5.0,
+    "looping": true,
+    "luminance": false,
+    "maxParticles": 51,
+    "noiseActive": false,
+    "noiseFreq": 0.5,
+    "noiseStrength": 1.0,
+    "oneShot": false,
+    "oneShotCount": 30,
+    "prewarm": true,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 0.0,
+    "rotSpeedMin": 0.0,
+    "shape": 3,
+    "simulationSpace": 0,
+    "sizeCurve": [],
+    "sizeEnd": 3.0399999618530273,
+    "sizeStart": 3.0999999046325684,
+    "speedMax": 0.0,
+    "speedMin": 0.0,
+    "textureCols": 1,
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Trail_Hard_02_TEST.png",
+    "textureRows": 1,
+    "textureUID": 17887910495030493477,
+    "type": 7
+}

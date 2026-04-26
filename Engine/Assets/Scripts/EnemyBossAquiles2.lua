@@ -93,6 +93,11 @@ local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
+
+local hitCooldown = 0
+
+local TILE_SIZE = 3.744
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -145,6 +150,13 @@ local function StopMovement()
 end
 
 local function DestroyChargeFeedback(self)
+     if self.chargeFeedbackTiles then
+        for _, tile in ipairs(self.chargeFeedbackTiles) do
+            if tile then GameObject.Destroy(tile) end
+        end
+        self.chargeFeedbackTiles = {}
+    end
+
     if self.chargeFeedbackGO then
         GameObject.Destroy(self.chargeFeedbackGO)
         self.chargeFeedbackGO = nil
@@ -423,8 +435,8 @@ end
 local function UpdateAnticipation(self, pp, dt)
 
     if not self.chargeFeedbackGO then
-   
-        self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
+        self.chargeFeedbackTiles = {}
+        self.chargeFeedbackGO = true
         SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
     end
     
@@ -460,16 +472,40 @@ local function UpdateAnticipation(self, pp, dt)
             directionZ = dz / distance 
         end
 
-        -- Calculate the center position
-        local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = pp.y + 0.1
-        local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
+        local numTiles = math.floor(indicatorLength / TILE_SIZE)
+        numTiles = numTiles
+       if #self.chargeFeedbackTiles ~= numTiles then
 
-        local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
+            -- Destroy old ones
+            for _, tile in ipairs(self.chargeFeedbackTiles) do
+                if tile then GameObject.Destroy(tile) end
+            end
 
-        self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
-        self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.5, 0.1, indicatorLength)
+            self.chargeFeedbackTiles = {}
+
+            -- Create new ones
+            for i = 1, numTiles do
+                local tile = Prefab.Instantiate("MinocabroFeedback")
+                table.insert(self.chargeFeedbackTiles, tile)
+            end
+        end
+
+        -- Place tiles
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+
+            local offset = (i - 0.5) * TILE_SIZE
+
+            local posX = myPos.x + directionX * offset
+            local posZ = myPos.z + directionZ * offset
+            local posY = pp.y + 0.2
+
+            tile.transform:SetPosition(posX, posY, posZ)
+
+            local rot = atan2(directionX, directionZ) * (180.0 / pi)
+            tile.transform:SetRotation(0, rot, 0)
+
+            tile.transform:SetScale(3.744, 0.15, 3.744)
+        end
     end
 
     preparationTimer = preparationTimer + dt
@@ -770,6 +806,7 @@ function Start(self)
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
+    self.chargeFeedbackTiles = {}
 
     --AquilesMesh
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
@@ -837,6 +874,14 @@ function Update(self, dt)
     end
     if not playerGO or _G._PlayerController_isDead then return end
 
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            self.alreadyHit = false
+            BaseMat.SetTexture("18385834806947720505")
+        end
+    end
+
     local myPos = self.transform.worldPosition
     local pp    = playerGO.transform.worldPosition
     if not pp then return end
@@ -869,6 +914,19 @@ function OnTriggerEnter(self, other)
 
         Engine.Log("[Aquiles] Choco con la pared")
         return 
+    end
+
+    if other:CompareTag("Bullet") then
+        -- La bala golpea al esqueleto
+        if not self.alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            self.alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("6600101727014948682")
+            TakeDamage(self, dmg, ap)
+        end
     end
 
     if other:CompareTag("Player") then
@@ -923,6 +981,6 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        BaseMat.SetTexture("18385834806947720505")
+        BaseMat.SetTexture("6600101727014948682")
     end
 end

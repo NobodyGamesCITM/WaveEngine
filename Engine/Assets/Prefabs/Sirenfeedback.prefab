@@ -26,10 +26,15 @@
                 "active": true,
                 "primitiveType": "Cylinder",
                 "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 11225253967374889020,
+                "type": 3
             }
         ],
         "name": "Sirenfeedback",
         "tag": "",
-        "uid": 3872800122960749930
+        "uid": 7071377269824070140
     }
 ]

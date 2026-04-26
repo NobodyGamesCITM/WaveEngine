@@ -33,7 +33,7 @@
                         ],
                         "DynamicFriction": 0.5,
                         "Height": 250.0,
-                        "Radius": 30.0,
+                        "Radius": 35.0,
                         "Restitution": 0.6000000238418579,
                         "StaticFriction": 0.5,
                         "Trigger": false,
@@ -1369,12 +1369,12 @@
                     {
                         "active": true,
                         "position": [
-                            0.0,
-                            0.0,
-                            0.0
+                            -0.0001220703125,
+                            -23.416584014892578,
+                            0.00048828125
                         ],
                         "rotation": [
-                            0.0,
+                            -1.6284442327582638e-12,
                             0.0,
                             0.0
                         ],
@@ -1432,9 +1432,36 @@
                 ],
                 "active": true,
                 "type": 28
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "DropAresMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "DropApoloMask",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "DropHermesMask",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "near",
+                        "type": 0,
+                        "value": 8.0
+                    }
+                ],
+                "scriptUID": 6059332998782319931,
+                "type": 6
             }
         ],
-        "name": "BustStatue_LowGround",
+        "name": "BustStatue_Hermes",
         "tag": "",
         "uid": 13856676642713595243
     }

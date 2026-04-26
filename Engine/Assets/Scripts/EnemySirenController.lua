@@ -649,6 +649,15 @@ function Update(self, dt)
         return
     end
 
+    if hitCooldown > 0 then
+        hitCooldown = hitCooldown - dt
+        if hitCooldown <= 0 then
+            alreadyHit = false
+            BaseMat.SetTexture("8896541361096085563")
+        end
+    end
+
+    
     -- Simular proyectiles en vuelo
     UpdateShells(self, dt)
 
@@ -728,26 +737,32 @@ function OnTriggerEnter(self, other)
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 
     if other:CompareTag("Player") then
-        local attack = _PlayerController_lastAttack
-        if attack and attack ~= "" then
-            BaseMat.SetTexture("1496995762458507062")
-            local attackerPos = other.transform.worldPosition
-            if attack == "light" then
-                TakeDamage(self, DAMAGE_LIGHT, attackerPos)
-            elseif attack == "heavy" then
-                TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+        if not self.alreadyHit then
+            local attack = _PlayerController_lastAttack
+            if attack and attack ~= "" then
+                self.alreadyHit = true
+                BaseMat.SetTexture("1496995762458507062")
+                local attackerPos = other.transform.worldPosition
+                if attack == "light" then
+                    TakeDamage(self, DAMAGE_LIGHT, attackerPos)
+                elseif attack == "heavy" then
+                    TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+                end
             end
         end
     end
 
     if other:CompareTag("Bullet") then
-        local ap  = other.transform.worldPosition
-        local dmg = 0
-        dmg = 15
-        BaseMat.SetTexture("1496995762458507062")
-        TakeDamage(self, dmg, ap)
-        
-        other:Destroy()
+        -- La bala golpea al esqueleto
+        if not alreadyHit then
+            local ap  = other.transform.worldPosition
+            local dmg = 0
+            dmg = 15
+            alreadyHit = true
+            hitCooldown = 0.2
+            BaseMat.SetTexture("1496995762458507062")
+            TakeDamage(self, dmg, ap)
+        end
     end
 end
 

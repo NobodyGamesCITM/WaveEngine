@@ -92,6 +92,9 @@ private:
     };
 
     std::vector<ShadowRenderData> staticShadowCache;
+    std::vector<glm::mat4>        staticModelMatrices;
 
-    //ComponentSkinnedMesh* skinnedMesh;
+    unsigned int ssboShadowModels = 0;
+    void InitShadowModelSSBO();
+    void UploadShadowModelMatrices(const std::vector<ShadowRenderData>& cache);
 };

@@ -10,9 +10,12 @@ bool ShaderShadowDepth::CreateShader()
         "\n"
         "uniform mat4 lightSpaceMatrix;\n"
         "\n"
+        "layout(std430, binding = 5) readonly buffer ModelMatrices { mat4 gModels[]; };\n"
+        "\n"
         "void main() {\n"
+        "    mat4 m = hasBones ? model : gModels[gl_BaseInstance];\n"
         "    mat4 skinMat = GetSkinMatrix(boneIDs, weights);\n"
-        "    gl_Position = lightSpaceMatrix * model * skinMat * vec4(aPos, 1.0);\n"
+        "    gl_Position = lightSpaceMatrix * m * skinMat * vec4(aPos, 1.0);\n"
         "}\n";
 
     std::string frag =

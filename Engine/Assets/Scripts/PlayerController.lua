@@ -927,7 +927,7 @@ States[State.ATTACK_HEAVY] = {
         if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Hermes", 1.0) end
+        if anim then anim:Play("Hermes", 0.0) end
         if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_HermesSpin") end
         attackTimer = 0
         States[State.ATTACK_HEAVY].colliderActive = false

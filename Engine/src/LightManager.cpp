@@ -37,11 +37,13 @@ LightManager::LightManager()
 
 LightManager::~LightManager()
 {
-    if (ssboDir)          glDeleteBuffers(1, &ssboDir);
-    if (ssboPoint)        glDeleteBuffers(1, &ssboPoint);
-    if (ssboSpot)         glDeleteBuffers(1, &ssboSpot);
-    if (shadowMapFBO)     glDeleteFramebuffers(1, &shadowMapFBO);
-    if (shadowMapTexture) glDeleteTextures(1, &shadowMapTexture);
+    if (ssboDir)             glDeleteBuffers(1, &ssboDir);
+    if (ssboPoint)           glDeleteBuffers(1, &ssboPoint);
+    if (ssboSpot)            glDeleteBuffers(1, &ssboSpot);
+    if (shadowMapFBO)        glDeleteFramebuffers(1, &shadowMapFBO);
+    if (shadowMapTexture)    glDeleteTextures(1, &shadowMapTexture);
+    if (staticShadowFBO)     glDeleteFramebuffers(1, &staticShadowFBO);
+    if (staticShadowTexture) glDeleteTextures(1, &staticShadowTexture);
 }
 
 void LightManager::InitSSBOs()
@@ -174,37 +176,35 @@ void LightManager::InitShadowMap()
     shadowDepthShader = std::make_unique<ShaderShadowDepth>();
     shadowDepthShader->CreateShader();
 
-    glGenFramebuffers(1, &shadowMapFBO);
+    auto createDepthFBO = [&](unsigned int& fbo, unsigned int& tex) {
+        glGenFramebuffers(1, &fbo);
+        glGenTextures(1, &tex);
+        glBindTexture(GL_TEXTURE_2D, tex);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+            SHADOW_WIDTH, SHADOW_HEIGHT, 0,
+            GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float border[] = { 1, 1, 1, 1 };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, border);
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+            GL_TEXTURE_2D, tex, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
 
-    glGenTextures(1, &shadowMapTexture);
-    glBindTexture(GL_TEXTURE_2D, shadowMapTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-        SHADOW_WIDTH, SHADOW_HEIGHT, 0,
-        GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if (status != GL_FRAMEBUFFER_COMPLETE)
+            LOG_DEBUG("ERROR: FBO incompleto: 0x%x", status);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-        GL_TEXTURE_2D, shadowMapTexture, 0);
-    glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        };
 
-    glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if (status != GL_FRAMEBUFFER_COMPLETE)
-        LOG_DEBUG("ERROR: shadowMapFBO incompleto: 0x%x", status);
-    else
-        LOG_DEBUG("shadowMapFBO OK");
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    createDepthFBO(shadowMapFBO, shadowMapTexture);
+    createDepthFBO(staticShadowFBO, staticShadowTexture);
 }
-
-
 void LightManager::BuildShadowMap(
     const std::vector<ComponentMesh*>& meshes,
     const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
@@ -220,9 +220,7 @@ void LightManager::BuildShadowMap(
         }
     if (!dirLight) return;
 
-    static int debugFrame = 0;
-    ++debugFrame;
-    bool shouldLog = (debugFrame % 60 == 0);
+    bool hasSkinneds = !skinnedMeshes.empty();
 
     GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
     GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
@@ -262,14 +260,6 @@ void LightManager::BuildShadowMap(
     glm::vec3 lightPos = sceneCenter - lightDir * 200.0f;
     glm::mat4 lightView = glm::lookAt(lightPos, sceneCenter, upVector);
 
-    if (shouldLog)
-    {
-        LOG_DEBUG("  lightDir: %.4f %.4f %.4f", lightDir.x, lightDir.y, lightDir.z);
-        LOG_DEBUG("  sceneCenter (frustum): %.4f %.4f %.4f", sceneCenter.x, sceneCenter.y, sceneCenter.z);
-        LOG_DEBUG("  lightPos: %.4f %.4f %.4f", lightPos.x, lightPos.y, lightPos.z);
-        LOG_DEBUG("  shadowDistance: %.1f", SHADOW_DISTANCE);
-    }
-
     glm::vec3 minLS(1e9f), maxLS(-1e9f);
     for (auto& c : frustumCorners)
     {
@@ -278,54 +268,109 @@ void LightManager::BuildShadowMap(
         maxLS = glm::max(maxLS, ls);
     }
 
-    float zNear = -maxLS.z - 200.0f;
-    float zFar = -minLS.z + 50.0f;
-
-    if (shouldLog)
+    if (minLS.x >= maxLS.x || minLS.y >= maxLS.y)
     {
-        LOG_DEBUG("  minLS: %.4f %.4f %.4f", minLS.x, minLS.y, minLS.z);
-        LOG_DEBUG("  maxLS: %.4f %.4f %.4f", maxLS.x, maxLS.y, maxLS.z);
-        LOG_DEBUG("  zNear: %.4f  zFar: %.4f", zNear, zFar);
-        LOG_DEBUG("  ortho L:%.2f R:%.2f B:%.2f T:%.2f", minLS.x, maxLS.x, minLS.y, maxLS.y);
-    }
-
-    if (minLS.x >= maxLS.x || minLS.y >= maxLS.y) {
-        LOG_DEBUG("  WARNING: frustum invalido (minLS >= maxLS), skip shadow map este frame.");
         glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
         glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
         return;
     }
 
-    if (zNear >= zFar) {
-        LOG_DEBUG("  WARNING: zNear >= zFar! Resetting to defaults.");
-        zNear = 0.1f;
-        zFar = 500.0f;
-    }
+    float zNear = -maxLS.z - 200.0f;
+    float zFar = -minLS.z + 50.0f;
+    if (zNear >= zFar) { zNear = 0.1f; zFar = 500.0f; }
 
     glm::mat4 lightProj = glm::ortho(minLS.x, maxLS.x, minLS.y, maxLS.y, zNear, zFar);
+
+    {
+        glm::mat4 shadowMatrix = lightProj * lightView;
+        glm::vec4 shadowOrigin = shadowMatrix * glm::vec4(0.f, 0.f, 0.f, 1.f);
+        shadowOrigin *= (float)SHADOW_WIDTH / 2.0f;
+        glm::vec4 roundedOrigin = glm::round(shadowOrigin);
+        glm::vec4 roundOffset = roundedOrigin - shadowOrigin;
+        roundOffset *= 2.0f / (float)SHADOW_WIDTH;
+        roundOffset.z = 0.f;
+        roundOffset.w = 0.f;
+        lightProj[3] += roundOffset;
+    }
+
     lightSpaceMatrix = lightProj * lightView;
 
-    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-    glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glCullFace(GL_FRONT);
+    float centerDelta = glm::length(sceneCenter - lastSceneCenter);
+    if (centerDelta > 0.1f)
+    {
+        staticDirty = true;
+        lastSceneCenter = sceneCenter;
+    }
 
+    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+
+    if (staticDirty)
+    {
+        RenderShadowPass(staticShadowFBO, meshes, {}, true);
+        staticDirty = false;
+    }
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, staticShadowFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, shadowMapFBO);
+    glBlitFramebuffer(
+        0, 0, SHADOW_WIDTH, SHADOW_HEIGHT,
+        0, 0, SHADOW_WIDTH, SHADOW_HEIGHT,
+        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    if (hasSkinneds)
+        RenderShadowPass(shadowMapFBO, {}, skinnedMeshes, false);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
+    glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
+}
+
+void LightManager::RenderShadowPass(
+    unsigned int targetFBO,
+    const std::vector<ComponentMesh*>& meshes,
+    const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
+    bool rebuildStaticCache)
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, targetFBO);
+
+    if (targetFBO == staticShadowFBO)
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+    glCullFace(GL_FRONT);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(2.0f, 4.0f);
     shadowDepthShader->Use();
     shadowDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
-    // Meshes normales
-    shadowDepthShader->SetBool("hasBones", false);
-    for (ComponentMesh* mesh : meshes)
+    if (!meshes.empty())
     {
-        if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
-        if (!mesh->GetMesh().IsValid()) continue;
-        shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
-        glBindVertexArray(mesh->GetMesh().VAO);
-        glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+        if (rebuildStaticCache)
+        {
+            staticShadowCache.clear();
+            staticShadowCache.reserve(meshes.size());
+
+            for (ComponentMesh* mesh : meshes)
+            {
+                if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+                if (!mesh->GetMesh().IsValid()) continue;
+
+                ShadowRenderData data;
+                data.VAO = mesh->GetMesh().VAO;
+                data.numIndices = (GLsizei)mesh->GetNumIndices();
+                data.modelMatrix = mesh->owner->transform->GetGlobalMatrix();
+                staticShadowCache.push_back(data);
+            }
+        }
+
+        shadowDepthShader->SetBool("hasBones", false);
+        for (const ShadowRenderData& data : staticShadowCache)
+        {
+            shadowDepthShader->SetMat4("model", data.modelMatrix);
+            glBindVertexArray(data.VAO);
+            glDrawElements(GL_TRIANGLES, data.numIndices, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
     }
 
-    // Skinned meshes
     shadowDepthShader->SetBool("hasBones", true);
     for (ComponentSkinnedMesh* mesh : skinnedMeshes)
     {
@@ -337,16 +382,13 @@ void LightManager::BuildShadowMap(
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, mesh->GetSSBOOffset());
         shadowDepthShader->SetMat4("meshInverse", mesh->GetMeshInverse());
         shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
-
         glBindVertexArray(mesh->GetMesh().VAO);
         glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
-
         glBindVertexArray(0);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
     }
 
+    glDisable(GL_POLYGON_OFFSET_FILL);
     glCullFace(GL_BACK);
-    glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
-    glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);
 }

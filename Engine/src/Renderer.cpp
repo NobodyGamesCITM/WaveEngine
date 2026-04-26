@@ -316,8 +316,8 @@ void Renderer::AddMesh(ComponentMesh* mesh) {
     }
     else {
         meshes.push_back(mesh);
+        if (lightManager) lightManager->MarkStaticShadowsDirty(); 
     }
-    if (lightManager) lightManager->MarkShadowsDirty();
 }
 
 void Renderer::RemoveMesh(ComponentMesh* mesh) {
@@ -335,9 +335,10 @@ void Renderer::RemoveMesh(ComponentMesh* mesh) {
             *it = meshes.back();
             meshes.pop_back();
         }
+        if (lightManager) lightManager->MarkStaticShadowsDirty(); 
     }
-    if (lightManager) lightManager->MarkShadowsDirty();
 }
+
 void Renderer::AddParticle(ComponentParticleSystem* particle) {
     particles.push_back(particle);
 }

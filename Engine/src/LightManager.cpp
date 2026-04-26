@@ -211,8 +211,10 @@ void LightManager::InitShadowMap()
     createDepthFBO(shadowMapFBO, shadowMapTexture);
     createDepthFBO(staticShadowFBO, staticShadowTexture);
 }
+
 void LightManager::BuildShadowMap(
-    const std::vector<ComponentMesh*>& meshes,
+    const std::vector<ComponentMesh*>& staticMeshes,
+    const std::vector<ComponentMesh*>& dynamicMeshes,
     const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
     const CameraLens* camera)
 {
@@ -227,6 +229,7 @@ void LightManager::BuildShadowMap(
     if (!dirLight) return;
 
     bool hasSkinneds = !skinnedMeshes.empty();
+    bool hasDynamics = !dynamicMeshes.empty();
 
     GLint prevViewport[4]; glGetIntegerv(GL_VIEWPORT, prevViewport);
     GLint prevFBO;         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFBO);
@@ -306,14 +309,12 @@ void LightManager::BuildShadowMap(
     if (cameraMovedEnough)
         lastSceneCenter = sceneCenter;
 
-    bool needsRender = staticDirty || cameraMovedEnough;
-    bool needsRebuild = staticDirty; // solo reconstruir cache si la geometria cambio
-
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 
-    if (needsRender)
+    bool needsStaticRender = staticDirty || cameraMovedEnough;
+    if (needsStaticRender)
     {
-        RenderShadowPass(staticShadowFBO, meshes, {}, needsRebuild);
+        RenderShadowPass(staticShadowFBO, staticMeshes, {}, true);
         staticDirty = false;
     }
 
@@ -323,6 +324,9 @@ void LightManager::BuildShadowMap(
         0, 0, SHADOW_WIDTH, SHADOW_HEIGHT,
         0, 0, SHADOW_WIDTH, SHADOW_HEIGHT,
         GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    if (hasDynamics)
+        RenderShadowPass(shadowMapFBO, dynamicMeshes, {}, false);
 
     if (hasSkinneds)
         RenderShadowPass(shadowMapFBO, {}, skinnedMeshes, false);
@@ -376,19 +380,32 @@ void LightManager::RenderShadowPass(
                 staticModelMatrices.data(), GL_DYNAMIC_DRAW);
             glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, ssboShadowModels);
             glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+            shadowDepthShader->SetBool("hasBones", false);
+
+            for (int i = 0; i < (int)staticShadowCache.size(); ++i)
+            {
+                const ShadowRenderData& data = staticShadowCache[i];
+                glBindVertexArray(data.VAO);
+                glDrawElementsInstancedBaseInstance(
+                    GL_TRIANGLES, data.numIndices, GL_UNSIGNED_INT, 0, 1, i);
+                glBindVertexArray(0);
+            }
         }
-        // Si no hubo rebuild, el SSBO ya tiene las matrices correctas — no se toca
-
-        shadowDepthShader->SetBool("hasBones", false);
-
-        for (int i = 0; i < (int)staticShadowCache.size(); ++i)
+        else
         {
-            const ShadowRenderData& data = staticShadowCache[i];
-            glBindVertexArray(data.VAO);
-            glDrawElementsInstancedBaseInstance(
-                GL_TRIANGLES, data.numIndices, GL_UNSIGNED_INT, 0,
-                1, i);
-            glBindVertexArray(0);
+            shadowDepthShader->SetBool("hasBones", false);
+
+            for (ComponentMesh* mesh : meshes)
+            {
+                if (!mesh || !mesh->owner || !mesh->owner->IsActive()) continue;
+                if (!mesh->GetMesh().IsValid()) continue;
+
+                shadowDepthShader->SetMat4("model", mesh->owner->transform->GetGlobalMatrix());
+                glBindVertexArray(mesh->GetMesh().VAO);
+                glDrawElements(GL_TRIANGLES, (GLsizei)mesh->GetNumIndices(), GL_UNSIGNED_INT, 0);
+                glBindVertexArray(0);
+            }
         }
     }
 

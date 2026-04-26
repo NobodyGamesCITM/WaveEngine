@@ -34,10 +34,10 @@ public:
     // Also sets numDirLights / numPointLights / numSpotLights uniforms.
     void UploadToShader(Shader* shader);
 
-    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
+    void BuildShadowMap(const std::vector<ComponentMesh*>& staticMeshes,
+        const std::vector<ComponentMesh*>& dynamicMeshes,
         const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
-        const CameraLens* camera);
-    //void BuildShadowMapSkinned(const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
+        const CameraLens* camera);    
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
@@ -95,6 +95,5 @@ private:
     std::vector<glm::mat4>        staticModelMatrices;
 
     unsigned int ssboShadowModels = 0;
-    void InitShadowModelSSBO();
-    void UploadShadowModelMatrices(const std::vector<ShadowRenderData>& cache);
+
 };

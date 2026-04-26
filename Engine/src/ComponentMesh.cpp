@@ -274,19 +274,31 @@ void ComponentMesh::Serialize(nlohmann::json& componentObj) const
         componentObj["primitiveType"] = primitiveType;
     }
 
-	// Pivot offset
+    // Pivot offset
     if (pivotLocalOffset != glm::vec3(0.0f)) {
         componentObj["pivotOffset"] = { pivotLocalOffset.x, pivotLocalOffset.y, pivotLocalOffset.z };
     }
-}
 
+    // Shadow casting
+    componentObj["castShadows"] = castShadows;
+}
 void ComponentMesh::Deserialize(const nlohmann::json& componentObj)
 {
+    // Shadow casting
+    if (componentObj.contains("castShadows")) {
+        castShadows = componentObj["castShadows"].get<bool>();
+    }
+
     // UID
     if (componentObj.contains("meshUID")) {
         UID uid = componentObj["meshUID"].get<UID>();
         if (uid != 0) {
             LoadMeshByUID(uid);
+            // pivotOffset puede venir junto con meshUID
+            if (componentObj.contains("pivotOffset")) {
+                auto& p = componentObj["pivotOffset"];
+                pivotLocalOffset = glm::vec3(p[0].get<float>(), p[1].get<float>(), p[2].get<float>());
+            }
             return;
         }
     }
@@ -304,20 +316,23 @@ void ComponentMesh::Deserialize(const nlohmann::json& componentObj)
         Mesh recreatedMesh;
         if (primType == "Cube") {
             recreatedMesh = Primitives::CreateCube();
-        } else if (primType == "Pyramid") {
+        }
+        else if (primType == "Pyramid") {
             recreatedMesh = Primitives::CreatePyramid();
-        } else if (primType == "Plane") {
+        }
+        else if (primType == "Plane") {
             recreatedMesh = Primitives::CreatePlane();
-        } else if (primType == "Sphere") {
+        }
+        else if (primType == "Sphere") {
             recreatedMesh = Primitives::CreateSphere();
-        } else if (primType == "Cylinder") {
+        }
+        else if (primType == "Cylinder") {
             recreatedMesh = Primitives::CreateCylinder();
         }
 
         SetMesh(recreatedMesh);
     }
 }
-
 void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* component)
 {
     switch (event)
@@ -339,4 +354,10 @@ void ComponentMesh::OnGameObjectEvent(GameObjectEvent event, Component* componen
         if (lightManager) lightManager->MarkShadowsDirty();
         break;
     }
+}
+
+void ComponentMesh::SetCastShadows(bool b)
+{
+    castShadows = b;
+    Application::GetInstance().renderer->GetLightManager()->MarkStaticShadowsDirty();
 }

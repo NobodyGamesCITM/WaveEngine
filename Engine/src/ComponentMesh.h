@@ -97,11 +97,21 @@ public:
     void SetDrawNormals(bool b) { drawNormals = b; };
     bool GetDrawNormals() { return drawNormals; }
 
+    // Shadow casting
+    bool GetCastShadows() const { return castShadows; }
+    void SetCastShadows(bool b);
+
+    bool GetDynamicShadow() const { return dynamicShadow; }
+    void SetDynamicShadow(bool b) { dynamicShadow = b; }
+
 private:
     void OnGameObjectEvent(GameObjectEvent event, Component* component);
 
     bool aabbDirty = false;
 protected:
+
+    bool castShadows = true;      // todos proyectan sombra por defecto
+    bool dynamicShadow = false;   // por defecto estático
 
     UID meshUID = 0;
     void ReleaseCurrentMesh();

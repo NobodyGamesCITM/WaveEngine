@@ -721,20 +721,15 @@ void InspectorWindow::DrawMeshComponent(Component* component)
                     }
 
                     if (isSelected)
-                    {
-						ImGui::SetItemDefaultFocus(); // Highlight selected item
-                    }
+                        ImGui::SetItemDefaultFocus();
 
-                    // Show tooltip with UID and path
                     if (ImGui::IsItemHovered())
                     {
                         ImGui::BeginTooltip();
                         ImGui::Text("UID: %llu", meshUID);
                         ImGui::Text("Path: %s", res->GetAssetFile());
                         if (res->IsLoadedToMemory())
-                        {
                             ImGui::TextColored(ImVec4(0.3f, 1.0f, 0.3f, 1.0f), "Loaded in memory");
-                        }
                         ImGui::EndTooltip();
                     }
                 }
@@ -760,18 +755,39 @@ void InspectorWindow::DrawMeshComponent(Component* component)
             ImGui::Separator();
             ImGui::Spacing();
 
+            ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.3f, 1.0f), "Shadows");
+            bool castShadows = meshComp->GetCastShadows();
+            if (ImGui::Checkbox("Cast Shadows", &castShadows))
+                meshComp->SetCastShadows(castShadows);
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("This mesh contributes to the shadow map.");
+
+            if (castShadows)
+            {
+                bool dynamicShadow = meshComp->GetDynamicShadow();
+                if (ImGui::Checkbox("Dynamic Shadow", &dynamicShadow))
+                    meshComp->SetDynamicShadow(dynamicShadow);
+                if (ImGui::IsItemHovered())
+                    ImGui::SetTooltip("Static: shadow is cached and only recalculates when geometry changes.\nDynamic: shadow recalculates every frame. Use for moving objects.");
+
+                if (dynamicShadow)
+                    ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.2f, 1.0f), "  [Recalculates every frame]");
+                else
+                    ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "  [Cached - better performance]");
+            }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             ImGui::Text("Debug Visualization:");
             bool showNormals = meshComp->GetDrawNormals();
             if (ImGui::Checkbox("Show Normals", &showNormals))
-            {
                 meshComp->SetDrawNormals(showNormals);
-            }
 
             bool showMesh = meshComp->GetDrawMesh();
             if (ImGui::Checkbox("Show Mesh", &showMesh))
-            {
                 meshComp->SetDrawMesh(showMesh);
-            }
         }
     }
 }
@@ -836,9 +852,7 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
 
                     std::string displayName = meshName;
                     if (res->IsLoadedToMemory())
-                    {
                         displayName += " [Loaded]";
-                    }
 
                     if (ImGui::Selectable(displayName.c_str(), isSelected))
                     {
@@ -856,25 +870,19 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
                     }
 
                     if (isSelected)
-                    {
-						ImGui::SetItemDefaultFocus(); // Highlight selected item
-                    }
+                        ImGui::SetItemDefaultFocus();
 
-                    // Show tooltip with UID and path
                     if (ImGui::IsItemHovered())
                     {
                         ImGui::BeginTooltip();
                         ImGui::Text("UID: %llu", meshUID);
                         ImGui::Text("Path: %s", res->GetAssetFile());
                         if (res->IsLoadedToMemory())
-                        {
                             ImGui::TextColored(ImVec4(0.3f, 1.0f, 0.3f, 1.0f), "Loaded in memory");
-                        }
                         ImGui::EndTooltip();
                     }
                 }
             }
-
             ImGui::EndCombo();
         }
 
@@ -885,17 +893,43 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
             ImGui::Spacing();
 
             const Mesh& mesh = meshComp->GetMesh();
-
             ImGui::Text("Mesh Statistics:");
             ImGui::Text("Vertices: %d", (int)mesh.vertices.size());
             ImGui::Text("Indices: %d", (int)mesh.indices.size());
             ImGui::Text("Triangles: %d", (int)mesh.indices.size() / 3);
             ImGui::Text("Linked bones: %d / %d", meshComp->GetLinkedBonesNum(), (int)mesh.bones.size());
 
-            if (ImGui::Button("Link Bones"))
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            ImGui::TextColored(ImVec4(1.0f, 0.85f, 0.3f, 1.0f), "Shadows");
+            bool castShadows = meshComp->GetCastShadows();
+            if (ImGui::Checkbox("Cast Shadows##Skinned", &castShadows))
+                meshComp->SetCastShadows(castShadows);
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("This skinned mesh contributes to the shadow map.");
+
+            if (castShadows)
             {
-                meshComp->LinkBones();
+                bool dynamicShadow = meshComp->GetDynamicShadow();
+                if (ImGui::Checkbox("Dynamic Shadow##Skinned", &dynamicShadow))
+                    meshComp->SetDynamicShadow(dynamicShadow);
+                if (ImGui::IsItemHovered())
+                    ImGui::SetTooltip("Static: shadow cached, only recalculates on geometry change.\nDynamic: recalculates every frame. Recommended for animated meshes.");
+
+                if (dynamicShadow)
+                    ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.2f, 1.0f), "  [Recalculates every frame]");
+                else
+                    ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "  [Cached - better performance]");
             }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            if (ImGui::Button("Link Bones"))
+                meshComp->LinkBones();
 
             ImGui::Spacing();
             ImGui::Separator();

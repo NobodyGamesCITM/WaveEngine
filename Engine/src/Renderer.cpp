@@ -483,10 +483,28 @@ bool Renderer::RenderScene(CameraLens* camera)
         if (mesh && mesh->owner && mesh->owner->IsActive())
             mesh->UpdateSkinningMatrices();
     }
-
-    // Ahora el shadow pass tiene los SSBOs actualizados
     if (lightManager)
-        lightManager->BuildShadowMap(meshes, skinnedMeshes, camera); 
+    {
+        std::vector<ComponentMesh*> staticCasters;
+        std::vector<ComponentMesh*> dynamicCasters;
+        staticCasters.reserve(meshes.size());
+        dynamicCasters.reserve(meshes.size());
+
+        for (ComponentMesh* m : meshes)
+        {
+            if (!m || !m->GetCastShadows()) continue;
+            if (m->GetDynamicShadow()) dynamicCasters.push_back(m);
+            else staticCasters.push_back(m);
+        }
+
+        std::vector<ComponentSkinnedMesh*> skinnedDynamicCasters;
+        skinnedDynamicCasters.reserve(skinnedMeshes.size());
+        for (ComponentSkinnedMesh* m : skinnedMeshes)
+            if (m && m->GetCastShadows() && m->GetDynamicShadow())
+                skinnedDynamicCasters.push_back(m);
+
+        lightManager->BuildShadowMap(staticCasters, dynamicCasters, skinnedDynamicCasters, camera);
+    }
 
     //Build Render List
     opaqueList.clear();

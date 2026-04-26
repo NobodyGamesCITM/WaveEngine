@@ -33,6 +33,9 @@ local anim     = nil
 local playerGO = nil
 local attackCol    = nil
 
+local aquilesMesh =nil
+
+
 local voiceSFX = nil
 local stepSFX = nil
 local spearSFX = nil
@@ -74,7 +77,7 @@ local pendingWallHit = false
 local hasDashed = false
 
 local pressureTimer = 0
-local PRESSURE_THRESHOLD = 0.5
+local PRESSURE_THRESHOLD = 0.8
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -150,17 +153,16 @@ local function StopMovement()
 end
 
 local function DestroyChargeFeedback(self)
-     if self.chargeFeedbackTiles then
-        for _, tile in ipairs(self.chargeFeedbackTiles) do
-            if tile then GameObject.Destroy(tile) end
+    if self.chargeFeedbackTiles then
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+            if tile and type(tile) ~= "boolean" then 
+                GameObject.Destroy(tile) 
+            end
         end
         self.chargeFeedbackTiles = {}
     end
 
-    if self.chargeFeedbackGO then
-        GameObject.Destroy(self.chargeFeedbackGO)
-        self.chargeFeedbackGO = nil
-    end
+    self.chargeFeedbackActive = false
 end
 
 local function ChangeState(newState)
@@ -310,7 +312,7 @@ end
 
 local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
 
-    local isDashing = isDashing or false
+    isDashing = isDashing or false
     local speedOverride = speedOverride or self.public.moveSpeed
 
     if not isDashing then
@@ -473,7 +475,7 @@ local function UpdateAnticipation(self, pp, dt)
         end
 
         local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        numTiles = numTiles
+        numTiles = numTiles +1
        if #self.chargeFeedbackTiles ~= numTiles then
 
             -- Destroy old ones
@@ -562,6 +564,7 @@ local function UpdateCharge(self, dt)
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
+        StopMovement(self)
         DestroyChargeFeedback(self)
         wallStunTimer = self.public.recoveryCharge
         ChangeState(State.RECOVERY)
@@ -749,25 +752,25 @@ function Start(self)
 
         --Lance 360
         lanceDuration       = 0.8,
-        lanceCooldown       = 2.5,
+        lanceCooldown       = 1.2,
         lanceDamage         = 20,
 
-        preparationTime = 2.0,
+        preparationTime = 1.0,
         chargeSpeed     = 22.0,
         chargeDuration  = 1.0,
-        wallStunTime    = 6.0,
+        wallStunTime    = 2.5,
 
         wallSpeedThresh = 1.5,
 
-        afterStunTime   = 3.0,
-        chargeCooldown  = 4.0,  -- cooldown entre embestidas
+        afterStunTime   = 1.2,
+        chargeCooldown  = 2.0,  -- cooldown entre embestidas
         chargeDamage    = 35,
         stepInterval    = 0.6,
 
         -- Receive damage
         knockbackForce  = 10.0,
 
-        stunDuration        = 8.0,
+        stunDuration        = 3.5,
 
         hurtStunTime = 0.4,
 
@@ -775,8 +778,8 @@ function Start(self)
 
         opportunityDamageMultiplier = 3.0,
 
-        recoveryLance = 1.0,
-        recoveryCharge = 1.8,
+        recoveryLance = 0.5,
+        recoveryCharge = 1.0,
     }
 
     hp           = self.public.maxHp
@@ -810,8 +813,11 @@ function Start(self)
 
     --AquilesMesh
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
-    BaseMat = aquilesMesh:GetComponent("Material")
-
+    if aquilesMesh then
+        BaseMat = aquilesMesh:GetComponent("Material")
+    else
+        Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
+    end
 end
 
 function Update(self, dt)
@@ -905,13 +911,22 @@ function OnTriggerEnter(self, other)
     if isDead then return end
 
     if other:CompareTag("Wall") then
-        if currentState == State.WALL or currentState == State.RECOVERY then 
+        if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE then 
             return 
         end
 
+        if rb then
+            rb:SetLinearVelocity(0, 0, 0)
+        end
+        StopMovement()
+        slideVelX = 0
+        slideVelZ = 0
+        DestroyChargeFeedback(self)
+        wallStunTimer = self.public.wallStunDuration
+        ChangeState(State.WALL)
 
         pendingWallHit = true
-
+      
         Engine.Log("[Aquiles] Choco con la pared")
         return 
     end
@@ -981,6 +996,6 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        BaseMat.SetTexture("6600101727014948682")
+        BaseMat.SetTexture("18385834806947720505")
     end
 end

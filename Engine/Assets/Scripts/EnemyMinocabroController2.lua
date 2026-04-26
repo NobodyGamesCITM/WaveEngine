@@ -34,6 +34,8 @@ local DAMAGE_HEAVY = 25
 
 local hitCooldown = 0
 
+local TILE_SIZE = 3.744
+
 local BaseMat = nil
 
 -- Helpers
@@ -73,6 +75,18 @@ local function StopMovement(self)
     self.smoothDx, self.smoothDz = 0, 0
 end
 
+local function DestroyChargeFeedback(self)
+    if self.chargeFeedbackTiles then
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+            if tile and type(tile) ~= "boolean" then 
+                GameObject.Destroy(tile) 
+            end
+        end
+        self.chargeFeedbackTiles = {}
+    end
+
+    self.chargeFeedbackActive = false
+end
 
 local function ChangeState(self, newState)
     self.currentState = newState
@@ -203,6 +217,13 @@ local function UpdateReposition(self, myPos, pp, dist, dt)
 end
 
 local function UpdateAnticipation(self, pp, dt)
+    
+    if not self.chargeFeedbackGO then
+        self.chargeFeedbackTiles = {}
+        self.chargeFeedbackGO = true
+    end
+    
+
     local myPos = self.transform.worldPosition
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
@@ -240,16 +261,40 @@ local function UpdateAnticipation(self, pp, dt)
             directionZ = dz / distance 
         end
 
-        -- Calculate the center position
-        local positionX = myPos.x + directionX * (indicatorLength * 0.5)
-        local positionY = pp.y + 0.1
-        local positionZ = myPos.z + directionZ * (indicatorLength * 0.5)
+        local numTiles = math.floor(indicatorLength / TILE_SIZE)
+        numTiles = numTiles +1
+        if #self.chargeFeedbackTiles ~= numTiles then
 
-        local rotationAngle = atan2(directionX, directionZ) * (180.0 / pi)
+            -- Destroy old ones
+            for _, tile in ipairs(self.chargeFeedbackTiles) do
+                if tile then GameObject.Destroy(tile) end
+            end
 
-        self.chargeFeedbackGO.transform:SetPosition(positionX, positionY, positionZ)
-        self.chargeFeedbackGO.transform:SetRotation(0, rotationAngle, 0)
-        self.chargeFeedbackGO.transform:SetScale(2.0, 0.05, indicatorLength)
+            self.chargeFeedbackTiles = {}
+
+            -- Create new ones
+            for i = 1, numTiles do
+                local tile = Prefab.Instantiate("MinocabroFeedback")
+                table.insert(self.chargeFeedbackTiles, tile)
+            end
+        end
+
+        -- Place tiles
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+
+            local offset = (i - 0.5) * TILE_SIZE
+
+            local posX = myPos.x + directionX * offset
+            local posZ = myPos.z + directionZ * offset
+            local posY = pp.y + 0.2
+
+            tile.transform:SetPosition(posX, posY, posZ)
+
+            local rot = atan2(directionX, directionZ) * (180.0 / pi)
+            tile.transform:SetRotation(0, rot, 0)
+
+            tile.transform:SetScale(3.744, 0.15, 3.744)
+        end
     end
 
 
@@ -514,6 +559,8 @@ function Start(self)
 
     Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     self.chargeFeedbackGO = nil
+    self.chargeFeedbackActive = false 
+    self.chargeFeedbackTiles = {}
 
     --MinocabrpMesh
     mesh = GameObject.FindInChildren(self.gameObject,"Mesh")

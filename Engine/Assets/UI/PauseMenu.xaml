@@ -171,38 +171,26 @@
     </Grid.Triggers>
 
     <Grid x:Name="LayoutRoot">
-        <Viewbox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="285*"/>
+            <ColumnDefinition Width="710*"/>
+            <ColumnDefinition Width="285*"/>
+        </Grid.ColumnDefinitions>
+        <Viewbox Grid.Column="1">
             <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
         </Viewbox>
-        <Grid x:Name="RootContent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="130*"/>
-                <RowDefinition Height="488*"/>
-                <RowDefinition Height="102*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="343*"/>
-                <ColumnDefinition Width="595"/>
-                <ColumnDefinition Width="340"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid x:Name="ButtonsGrid" Grid.Column="1" Grid.Row="1" Margin="0,22,0,0">
+        <Viewbox Grid.Column="1">
+            <Grid x:Name="ButtonsGrid">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="135"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="95"/>
                     <RowDefinition Height="95"/>
                     <RowDefinition Height="95"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="95"/>
+                    <RowDefinition Height="0*"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130*"/>
-                    <ColumnDefinition Width="335*"/>
-                    <ColumnDefinition Width="130*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- PAUSE title — NOT a button -->
-                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Grid.Row="0" Grid.Column="1">
-                    <TextBlock x:Name="Pause_text" TextAlignment="Center" FontSize="65" Text="PAUSE" FontFamily="./#ForgottenUncial">
+                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Margin="353.274,0" Grid.Row="1">
+                    <TextBlock x:Name="Pause_text" Text="PAUSE" FontFamily="./#ForgottenUncial" FontSize="65" TextAlignment="Center">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -211,11 +199,7 @@
                         </TextBlock.Foreground>
                     </TextBlock>
                 </Viewbox>
-
-                <!-- RESUME -->
-                <Button x:Name="ResumeButton" Grid.Row="1" Grid.Column="1"
-                        Opacity="0" Style="{StaticResource TextButtonStyle}"
-                        Command="{Binding Path=Commands[ResumeButton]}" Content="RESUME">
+                <Button x:Name="ResumeButton" Content="RESUME" Command="{Binding Path=Commands[ResumeButton]}" Margin="250,0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
                     <Button.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Button.RenderTransform>
@@ -228,11 +212,7 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-
-                <!-- SETTINGS -->
-                <Button x:Name="SettingsButton" Grid.Row="2" Grid.Column="1"
-                        Opacity="0" Style="{StaticResource TextButtonStyle}"
-                        Command="{Binding Commands[SettingsButton]}" Content="SETTINGS">
+                <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Margin="250,0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
                     <Button.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Button.RenderTransform>
@@ -242,11 +222,7 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-
-                <!-- BACK TO MENU -->
-                <Button x:Name="BackToMenuButton" Grid.Row="3" Grid.Column="1"
-                        Opacity="0" Style="{StaticResource TextButtonStyle}"
-                        Content="BACK TO MENU" Command="{Binding Path=Commands[BackToMenuButton]}">
+                <Button x:Name="BackToMenuButton" Content="BACK TO MENU" Command="{Binding Path=Commands[BackToMenuButton]}" Margin="250,0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
                     <Button.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Button.RenderTransform>
@@ -257,8 +233,7 @@
                     </b:Interaction.Triggers>
                 </Button>
             </Grid>
-
-            <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
-        </Grid>
+        </Viewbox>
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

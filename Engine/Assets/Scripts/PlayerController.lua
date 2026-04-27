@@ -114,6 +114,8 @@ local Player = {
     healAnimTimer = 0.0,
     healAnimDuration = 1.0,
     healPending = false,
+
+    AnimTimer = 0.0,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -168,7 +170,7 @@ public = {
 }
 
 function TriggerDrinkAnimation(self, isInternalHeal)
-    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0  then
         return false
     end
 
@@ -354,6 +356,7 @@ local function ChangeState(self, newState, force)
     if newState == State.RUNNING and staminaLock == true then return end
     if Player.maskAnimTimer > 0 then return end
     if Player.healAnimTimer > 0 then return end
+    if Player.AnimTimer > 0 then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -373,7 +376,7 @@ local function ChangeState(self, newState, force)
 end
 
 function _G.TriggerDrinkAnimation(self, isInternalHeal)
-    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0 then
         return false
     end
 
@@ -1412,6 +1415,15 @@ function Update(self, dt)
         rollCooldown = rollCooldown - dt
     end
 
+    if _G._PlayerController_introAnim then
+        Player.AnimTimer = 15.0
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then
+            anim:Play("WakeUp", 0.0)
+        end
+        _G._PlayerController_introAnim = false
+    end
+
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
         TakeDamage(self, _PlayerController_pendingDamage, _PlayerController_pendingDamagePos)
         _PlayerController_pendingDamage    = 0
@@ -1552,6 +1564,20 @@ function Update(self, dt)
         Player.maskAnimTimer = Player.maskAnimTimer - dt
         if Player.maskAnimTimer <= 0 then
             Player.maskAnimTimer = 0
+            self.public.canMove = true
+            ChangeState(self, State.IDLE)
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
+            ChangeState(self, State.IDLE, true)
+        end
+    end
+
+    if Player.AnimTimer > 0 then
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        Player.AnimTimer = Player.AnimTimer - dt
+        if Player.AnimTimer <= 0 then
+            Player.AnimTimer = 0
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             if anim then 

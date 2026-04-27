@@ -52,6 +52,7 @@ function Update(self, dt)
             SetCanvasAlpha(currentAlpha)
 
             if Engine.LoadScene then
+                _G._PlayerController_introAnim = false
                 Engine.LoadScene(self.public.targetScene)
             end
         end

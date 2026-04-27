@@ -114,6 +114,8 @@ local Player = {
     healAnimTimer = 0.0,
     healAnimDuration = 1.0,
     healPending = false,
+
+    AnimTimer = 0.0,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -168,7 +170,7 @@ public = {
 }
 
 function TriggerDrinkAnimation(self, isInternalHeal)
-    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0  then
         return false
     end
 
@@ -354,6 +356,7 @@ local function ChangeState(self, newState, force)
     if newState == State.RUNNING and staminaLock == true then return end
     if Player.maskAnimTimer > 0 then return end
     if Player.healAnimTimer > 0 then return end
+    if Player.AnimTimer > 0 then return end
     
     Engine.Log("[Player] CHANGING STATE: " .. tostring(newState))
     
@@ -373,7 +376,7 @@ local function ChangeState(self, newState, force)
 end
 
 function _G.TriggerDrinkAnimation(self, isInternalHeal)
-    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD then
+    if not self or Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0 then
         return false
     end
 
@@ -1216,6 +1219,7 @@ function Start(self)
     Game.SetTimeScale(1.0)
 
     _G._PlayerController_isDead = false
+    _G._PlayerController_introAnim = true
 
     self.public.staminaCost    = 20.0   
     self.public.staminaRecover = 15.0 
@@ -1310,6 +1314,14 @@ function Start(self)
 
     FindMasks(self)
     InitParticles(self)
+
+    if _G._PlayerController_introAnim then
+        Player.AnimTimer = 15.0
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then
+            anim:Play("WakeUp", 0.0)
+        end
+    end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
@@ -1561,6 +1573,20 @@ function Update(self, dt)
         end
     end
 
+    if Player.AnimTimer > 0 then
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        Player.AnimTimer = Player.AnimTimer - dt
+        if Player.AnimTimer <= 0 then
+            Player.AnimTimer = 0
+            self.public.canMove = true
+            ChangeState(self, State.IDLE)
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.5) end)
+            end
+            ChangeState(self, State.IDLE, true)
+        end
+    end
+
     if attackBuffer == true and Player.currentState ~= State.ATTACK_LIGHT then
         self.public.attackBufferDuration = self.public.attackBufferDuration - dt
         if self.public.attackBufferDuration < 0 then
@@ -1796,6 +1822,10 @@ function ResetPlayer(self)
 
     attackCooldown = 0
     rollCooldown   = 0
+
+    if _G._PlayerController_introAnim then
+        Player.AnimTimer = 15.0
+    end 
 
     attackBufferPending = false
     attackNum = 0

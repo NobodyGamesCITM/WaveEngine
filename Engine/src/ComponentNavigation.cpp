@@ -143,7 +143,47 @@ void ComponentNavigation::OnEditor()
 
     }
 }
+bool ComponentNavigation::CheckDestination(const glm::vec3& target)
+{
+    if (!linkedSurface) { LOG_CONSOLE("Sin superficie enlazada"); return false; }
 
+    Transform* t = (Transform*)owner->GetComponent(ComponentType::TRANSFORM);
+    glm::vec3 start = t->GetGlobalPosition();
+
+    std::vector<glm::vec3> newPath;
+    bool found = false;
+
+    if (linkedSurface && Application::GetInstance().navMesh->FindPath(linkedSurface, start, target, newPath))
+    {
+        return true;
+    }
+    else
+    {
+        std::function<void(GameObject*)> collect = [&](GameObject* obj)
+            {
+                if (!obj || found) return;
+
+                ComponentNavigation* nav =
+                    (ComponentNavigation*)obj->GetComponent(ComponentType::NAVIGATION);
+
+                if (nav && nav->type == NavType::SURFACE && obj != linkedSurface)
+                {
+                    if (Application::GetInstance().navMesh->FindPath(obj, start, target, newPath))
+                    {
+                        linkedSurface = obj;
+                        found = true;
+                        return;
+                    }
+                }
+
+                for (GameObject* child : obj->GetChildren())
+                    collect(child);
+            };
+        collect(Application::GetInstance().scene->GetRoot());
+    }
+
+    if (!found) return false;
+}
 
 bool ComponentNavigation::SetDestination(const glm::vec3& target)
 {

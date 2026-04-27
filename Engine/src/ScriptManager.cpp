@@ -594,7 +594,23 @@ static int Lua_Navigation_SetDestination(lua_State* L)
     return 1;
 
 }
+static int Lua_Navigation_CheckDestination(lua_State* L)
+{
+    ComponentNavigation** navPtr =
+        static_cast<ComponentNavigation**>(luaL_checkudata(L, 1, "Navigation"));
 
+    ComponentNavigation* nav = *navPtr;
+
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    float z = (float)luaL_checknumber(L, 4);
+
+    bool ok = nav->CheckDestination(glm::vec3(x, y, z));
+
+    lua_pushboolean(L, ok);
+    return 1;
+
+}
 static int Lua_Navigation_StopMovement(lua_State* L)
 {
     ComponentNavigation** navPtr = static_cast<ComponentNavigation**>(
@@ -1162,6 +1178,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, Lua_Navigation_SetDestination);
     lua_setfield(L, -2, "SetDestination");
+	lua_pushcfunction(L, Lua_Navigation_CheckDestination);
+	lua_setfield(L, -2, "CheckDestination");
     lua_pushcfunction(L, Lua_Navigation_StopMovement);
     lua_setfield(L, -2, "StopMovement");
     lua_pushcfunction(L, Lua_Navigation_IsMoving);

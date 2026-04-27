@@ -228,9 +228,11 @@ local function TakeDamage(self, amount, attackerPos)
             posture = 0
 
             StopMovement()
-            stunTimer = self.public.stunDuration
-            ChangeState(State.STUN)
-            if anim then anim:Play("Stun") end
+            --stunTimer = self.public.stunDuration
+                        
+            ChangeState(State.IDLE)
+            --ChangeState(State.STUN)
+            --if anim then anim:Play("Stun") end
             PlaySFX(armorSFX)
             return
         end
@@ -583,12 +585,8 @@ local function UpdateWall(self, dt)
         opportunityHitTimer = opportunityHitTimer - dt
         return  -- no sobreescribir Stuck_Hit hasta que termine
     end
-
-    if not wallAnimStarted then
-        anim:Play("Stuck_Start", 0.15)
-        wallAnimStarted = true
-        
-    elseif anim and not anim:IsPlayingAnimation("Stuck_Start") and not anim:IsPlayingAnimation("Stuck_Loop") then
+    
+    if anim then
         anim:Play("Stuck_Loop", 0.1)
     end
  
@@ -758,7 +756,7 @@ function Start(self)
         preparationTime = 1.0,
         chargeSpeed     = 22.0,
         chargeDuration  = 1.0,
-        wallStunTime    = 2.5,
+        wallStunTime    = 1.5,
 
         wallSpeedThresh = 1.5,
 
@@ -770,14 +768,14 @@ function Start(self)
         -- Receive damage
         knockbackForce  = 10.0,
 
-        stunDuration        = 3.5,
+        stunDuration        = 2.0,
 
         hurtStunTime = 0.4,
 
         predictionTime = 0.4,
 
-        opportunityDamageMultiplier = 3.0,
-
+        opportunityDamageMultiplier = 1.0,
+        wallStunDuration=2.0,
         recoveryLance = 0.5,
         recoveryCharge = 1.0,
     }
@@ -922,8 +920,12 @@ function OnTriggerEnter(self, other)
         slideVelX = 0
         slideVelZ = 0
         DestroyChargeFeedback(self)
-        wallStunTimer = self.public.wallStunDuration
+        wallStunTimer = 5.0
+        
+    
+        anim:Play("Stuck_Start", 0.15)
         ChangeState(State.WALL)
+
 
         pendingWallHit = true
       

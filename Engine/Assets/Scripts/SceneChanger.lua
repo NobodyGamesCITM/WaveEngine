@@ -12,11 +12,12 @@ local canvasComponent = nil
 
 public = {
     targetScene = "Level_02",  
-    fadeSpeed   = 1.0          
+    fadeSpeed   = 1.0,
+    currentLevel = "Level_01"
 }
 
 function Start(self)
-
+    if self.public.currentLevel == "Level_01" then _G._PlayerController_introAnim = true end
     currentState = State.FADE_OUT
     currentAlpha = 1.0
     
@@ -52,7 +53,6 @@ function Update(self, dt)
             SetCanvasAlpha(currentAlpha)
 
             if Engine.LoadScene then
-                _G._PlayerController_introAnim = false
                 Engine.LoadScene(self.public.targetScene)
             end
         end

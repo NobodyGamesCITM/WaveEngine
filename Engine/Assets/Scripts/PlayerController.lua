@@ -1219,7 +1219,6 @@ function Start(self)
     Game.SetTimeScale(1.0)
 
     _G._PlayerController_isDead = false
-    _G._PlayerController_introAnim = true
 
     self.public.staminaCost    = 20.0   
     self.public.staminaRecover = 15.0 
@@ -1314,14 +1313,6 @@ function Start(self)
 
     FindMasks(self)
     InitParticles(self)
-
-    if _G._PlayerController_introAnim then
-        Player.AnimTimer = 15.0
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then
-            anim:Play("WakeUp", 0.0)
-        end
-    end
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
@@ -1422,6 +1413,15 @@ function Update(self, dt)
     end
     if rollCooldown > 0 then
         rollCooldown = rollCooldown - dt
+    end
+
+    if _G._PlayerController_introAnim then
+        Player.AnimTimer = 15.0
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then
+            anim:Play("WakeUp", 0.0)
+        end
+        _G._PlayerController_introAnim = false
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
@@ -1822,10 +1822,6 @@ function ResetPlayer(self)
 
     attackCooldown = 0
     rollCooldown   = 0
-
-    if _G._PlayerController_introAnim then
-        Player.AnimTimer = 15.0
-    end 
 
     attackBufferPending = false
     attackNum = 0

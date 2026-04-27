@@ -13,11 +13,12 @@ local canvasComponent = nil
 public = {
     targetScene = "Level_02",  
     fadeSpeed   = 1.0,
-    currentLevel = "Level_01"
+    currentLevel = "Level_01",
+    fullIntro = false
 }
 
 function Start(self)
-    if self.public.currentLevel == "Level_01" then _G._PlayerController_introAnim = true end
+    if self.public.currentLevel == "Level_01" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then _G._PlayerController_introAnim = true end
     currentState = State.FADE_OUT
     currentAlpha = 1.0
     

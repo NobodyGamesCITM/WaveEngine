@@ -4720,7 +4720,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="open_chest_01" ID="{B39EA8B5-219A-482A-859B-F322E51420A9}" ShortID="773575672">
+										<Sound Name="open_chest_01" ID="{A5586451-87DC-4ED0-8629-16E44F9F0F99}" ShortID="328716823">
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -4730,7 +4730,7 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="open_chest_01" ID="{5476BA5E-C249-4F20-B5EC-E2B8CDEF8061}">
+												<AudioFileSource Name="open_chest_01" ID="{92464EF4-FB2C-4040-97AE-3DDF8E28AD2D}">
 													<Language>SFX</Language>
 													<AudioFile>open_chest_01.wav</AudioFile>
 													<MediaIDList>
@@ -4739,10 +4739,10 @@
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
-												<ActiveSource Name="open_chest_01" ID="{5476BA5E-C249-4F20-B5EC-E2B8CDEF8061}" Platform="Linked"/>
+												<ActiveSource Name="open_chest_01" ID="{92464EF4-FB2C-4040-97AE-3DDF8E28AD2D}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="open_chest_02" ID="{3168AD77-51FD-4F12-A1B2-B9A54C7851EA}" ShortID="396239478">
+										<Sound Name="open_chest_02" ID="{C991D4D1-5A05-4579-AC59-61E13123D300}" ShortID="763246215">
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -4752,7 +4752,7 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="open_chest_02" ID="{1F62DFC2-2B84-4A43-96BB-EF29A32F4481}">
+												<AudioFileSource Name="open_chest_02" ID="{F7FF2ECA-962D-468E-B7E4-D880062755EF}">
 													<Language>SFX</Language>
 													<AudioFile>open_chest_02.wav</AudioFile>
 													<MediaIDList>
@@ -4761,17 +4761,10 @@
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
-												<ActiveSource Name="open_chest_02" ID="{1F62DFC2-2B84-4A43-96BB-EF29A32F4481}" Platform="Linked"/>
+												<ActiveSource Name="open_chest_02" ID="{F7FF2ECA-962D-468E-B7E4-D880062755EF}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="open_chest_03" ID="{8A0B88C8-360A-4C74-9FA0-3DA73810E734}" ShortID="364063200">
-											<PropertyList>
-												<Property Name="InitialDelay" Type="Real64">
-													<ValueList>
-														<Value>0.5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
+										<Sound Name="open_chest_03" ID="{FF1BF87B-BEC6-4398-A13F-1598B3F9BAA1}" ShortID="521642342">
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -4781,10 +4774,7 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="open_chest_03" ID="{53F33610-5C88-425A-8145-CC4E611BF527}">
-													<PropertyList>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-													</PropertyList>
+												<AudioFileSource Name="open_chest_03" ID="{15F0B619-0C54-4F85-BCB7-DB1A486497BE}">
 													<Language>SFX</Language>
 													<AudioFile>open_chest_03.wav</AudioFile>
 													<MediaIDList>
@@ -4793,7 +4783,7 @@
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
-												<ActiveSource Name="open_chest_03" ID="{53F33610-5C88-425A-8145-CC4E611BF527}" Platform="Linked"/>
+												<ActiveSource Name="open_chest_03" ID="{15F0B619-0C54-4F85-BCB7-DB1A486497BE}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>

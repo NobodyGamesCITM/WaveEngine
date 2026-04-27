@@ -109,6 +109,7 @@ local function TakeDamage(self, amount, attackerPos)
 
         if not self.hasDeathPlayed then
 			if self.deathSFX then self.deathSFX:PlayAudioEvent() end
+            if self.anim then self.anim:Play("Die") end
 			self.hasDeathPlayed = true
 		end
 
@@ -447,7 +448,7 @@ local function UpdateWindUp(self, pp, dist, dt)
 
     if self.windUpTimer >= self.public.windUpTime then
         FireShell(self, pp.x, pp.y, pp.z)
-        if self.anim then self.anim:Play("Fire") end
+        if self.anim then self.anim:Play("Shoot") end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
         if self.anim then 

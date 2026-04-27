@@ -29,8 +29,11 @@ local function ActivateParticles(self, checkpoint)
         lastCheckpointPs = lastCheckpointVFX:GetComponent("ParticleSystem")
         
         if lastCheckpointPs then 
-            lastCheckpointPs:Play()
-            Engine.Log("Activated CheckPoint Particle System")
+            if not lastCheckpointPs:IsPlaying() then 
+                lastCheckpointPs:Play() 
+                Engine.Log("Activated CheckPoint Particle System")
+            end
+           
         else 
             Engine.Log("Couldn't find Particle System on Last Saved CheckPoint VFX GameObject")
         end
@@ -50,8 +53,11 @@ local function StopParticles(self, checkpoint)
         
         lastCheckpointPs = lastCheckpointVFX:GetComponent("ParticleSystem")
         if lastCheckpointPs then 
-            lastCheckpointPs:Stop()
-            Engine.Log("Deactivated CheckPoint Particle System")
+            if lastCheckpointPs:IsPlaying() then 
+                lastCheckpointPs:Stop() 
+                Engine.Log("Deactivated CheckPoint Particle System")
+            end
+            
         else 
             Engine.Log("Couldn't find Particle System on Last Saved CheckPoint VFX GameObject")
         end

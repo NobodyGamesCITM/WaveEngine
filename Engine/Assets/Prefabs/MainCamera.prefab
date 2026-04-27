@@ -1,0 +1,61 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    165.61984252929688,
+                    43.932456970214844,
+                    -322.83538818359375
+                ],
+                "rotation": [
+                    -45.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "aspectRatio": 1.2266186475753784,
+                "farPlane": 1000.0,
+                "fov": 60.0,
+                "nearPlane": 0.30000001192092896,
+                "type": 4,
+                "uiCullingMask": 0,
+                "usesPostProcessing": false
+            },
+            {
+                "active": true,
+                "scriptUID": 2732507209177890155,
+                "type": 6
+            },
+            {
+                "active": true,
+                "defaultEuler": [
+                    -45.0,
+                    0.0,
+                    0.0
+                ],
+                "defaultFov": 45.0,
+                "defaultOffset": [
+                    0.0,
+                    20.0,
+                    20.0
+                ],
+                "smoothSpeed": 5.0,
+                "type": 33
+            }
+        ],
+        "name": "MainCamera",
+        "tag": "",
+        "uid": 2061439715681556818
+    }
+]

@@ -1,3 +1,5 @@
+--MenuManager Script
+
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local FADE_DURATION      = 0.4
 local SCENE_FADE_DURATION = 2.0

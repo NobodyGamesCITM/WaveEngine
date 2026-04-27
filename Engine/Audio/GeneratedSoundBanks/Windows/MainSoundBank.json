@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{710DEA3B-E6D7-7529-1CF8-9B7D591C9F83}",
+    "Hash": "{783F5666-ED97-C026-4F7E-D2282830F946}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -2430,7 +2430,7 @@
       "Name": "SFX_SirenDie",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenDie",
       "GUID": "{E791CBC6-D4D4-4D83-8063-AF76692411BA}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "0.9540625",
       "DurationMax": "0.9540625",
@@ -2467,7 +2467,7 @@
       "Name": "SFX_SirenHurt",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenHurt",
       "GUID": "{97204195-8C58-4830-AF5D-F1BD949098CC}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "0.3443986",
       "DurationMax": "0.3443986",
@@ -2967,6 +2967,6 @@
     ]
    }
   ],
-  "FileHash": "{1ED7D668-64E1-893D-93A5-1CE4187F91DC}"
+  "FileHash": "{D49C1C7B-772D-0D8A-7321-73802E9E792C}"
  }
 }

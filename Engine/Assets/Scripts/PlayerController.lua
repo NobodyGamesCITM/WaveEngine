@@ -21,6 +21,7 @@ local itemSource
 --local equipSource
 local changeSource
 local swordMat = nil
+local surfaces = {"Grass", "Water", "Dirt", "Stone"}
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
@@ -87,6 +88,7 @@ local Player = {
     itemSFX     = nil,
     hitSFX          = nil,
 	currentSurface = "",
+    lastGroundSurface = "",
     foundSurface    = false,
     
     -- Hermes mask
@@ -822,7 +824,7 @@ States[State.CHARGING] = {
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Ares", 0.5) end
-        if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_AresCharge") end
+        if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerShot") end
         attackTimer = 0
         chargeCol = self.gameObject:GetComponent("Sphere Collider")
         if chargeCol then 
@@ -870,7 +872,7 @@ States[State.SHOOTING] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             anim:Play("Apolo", 0.3) 
-            if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerShot") end
+            if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_AresCharge") end
         end
         attackTimer = 0
 
@@ -1237,9 +1239,7 @@ function Start(self)
 
     self.stepTimer = 0
 
-    RefreshAudioSources(self)
-
-    
+    RefreshAudioSources(self) 
 
     Player.currentSurface = "Dirt"
 
@@ -1692,9 +1692,7 @@ function Update(self, dt)
         end
     end
 
-    if Player.stepSFX then
-        Audio.SetSwitch("Surface_Type", Player.currentSurface, Player.stepSFX)
-    end
+   
 end
 
 function MaskScroll(self)
@@ -1814,7 +1812,8 @@ function ResetPlayer(self)
     FindMasks(self)
     EquipMask(self, Mask.NONE)
 
-    Player.currentSurface = "Dirt"
+    --Player.currentSurface = "Dirt"
+  
 
     local p = Player.spawnPos
     if p then
@@ -1830,20 +1829,20 @@ function ResetPlayer(self)
 end
 
 
-local surfaces = {"Grass", "Water", "Dirt", "Stone"}
+
 
 function OnTriggerEnter(self, other)
-    local matched = false
-    for i, surface in ipairs(surfaces) do
-        if other:CompareTag(surface) then 
-            Player.currentSurface = surface
-            Player.foundSurface = true
-        end
-    end
-    if not foundSurface then
-        Player.currentSurface = "Dirt"
-        foundSurface = true
-    end
+    -- local matched = false
+    -- for i, surface in ipairs(surfaces) do
+    --     if other:CompareTag(surface) then 
+    --         Player.currentSurface = surface
+    --         Player.foundSurface = true
+    --     end
+    -- end
+    -- if not foundSurface then
+    --     Player.currentSurface = "Dirt"
+    --     foundSurface = true
+    -- end
 end
 
 function OnTriggerExit(self, other) end
@@ -1853,6 +1852,7 @@ function OnCollisionEnter(self, other)
         Player.isDrowning            = true
         Player.hermesGraceTimer      = HERMES_GRACE_TIME
         Engine.Log("[Player] Hermes on water")
+        --Player.currentSurface = "Water"
         if Player.currentState == State.RUNNING then
             if Player.smokePS then Player.smokePS:Stop() end
             if Player.bubblesPS then Player.bubblesPS:Play() end
@@ -1860,10 +1860,20 @@ function OnCollisionEnter(self, other)
     end
 
 	for i, surface in ipairs(surfaces) do
-		if other:CompareTag(surface) then 
-			Player.currentSurface = surface
-		end
-	end
+        if other:CompareTag(surface) then
+            if Player.currentSurface ~= surface then
+                Player.currentSurface = surface
+                if surface ~= "Water" then
+                    Player.lastGroundSurface = surface
+                end
+                if Player.stepSFX then
+                    Audio.SetSwitch("Surface_Type", surface, Player.stepSFX)
+                end
+                Engine.Log("Surface changed to: " .. surface)
+            end
+        end
+    end
+
 
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.isGrounded = true
@@ -1880,7 +1890,15 @@ function OnCollisionExit(self, other)
             if Player.smokePS then Player.smokePS:Play() end
             if Player.bubblesPS then Player.bubblesPS:Stop() end
         end
+
+
+        if Player.stepSFX and Player.lastGroundSurface then
+            Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)
+            Player.currentSurface  = Player.lastGroundSurface
+        end
+        --Player.previousSurface = "Water"
     end
+
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false

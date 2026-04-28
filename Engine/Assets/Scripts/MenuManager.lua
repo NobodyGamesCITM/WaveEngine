@@ -40,7 +40,7 @@ local function NavigateTo(self, xaml)
         table.insert(self.history, self.current)
     end
     self.nextXaml = xaml
-    SetPhase(self, "swap")
+    SetPhase(self, "fadeOut")
     Engine.Log("[MenuManager] Navigating to: " .. xaml)
 end
 
@@ -48,7 +48,7 @@ local function NavigateBack(self)
     --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
     if not self.history or #self.history == 0 then return end
     self.nextXaml = table.remove(self.history)
-    SetPhase(self, "swap")
+    SetPhase(self, "fadeOut")
     Engine.Log("[MenuManager] Returning back to: " .. self.nextXaml)
 end
 

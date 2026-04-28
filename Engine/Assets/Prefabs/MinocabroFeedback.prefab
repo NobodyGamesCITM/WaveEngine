@@ -26,10 +26,15 @@
                 "active": true,
                 "primitiveType": "Cube",
                 "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 15960239173946183572,
+                "type": 3
             }
         ],
         "name": "MinocabroFeedback",
         "tag": "",
-        "uid": 11367340851372132134
+        "uid": 2693604195006688809
     }
 ]

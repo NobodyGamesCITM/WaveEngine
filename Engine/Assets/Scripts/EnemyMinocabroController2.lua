@@ -353,8 +353,6 @@ local function UpdateAnticipation(self, pp, dt)
             local vel = self.rb:GetLinearVelocity()
             self.rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
         end
-    else
-        StopMovement(self)
     end
 
     if self.preparationTimer >= self.public.preparationTime then
@@ -374,6 +372,7 @@ local function UpdateAnticipation(self, pp, dt)
         if len > 0.001 then
             self.chargeDirX, self.chargeDirZ = predictionDx/len, predictionDz/len
         end
+        if self.nav then self.nav:StopMovement() end
         self.chargeTimer = 0
         ChangeState(self, State.CHARGE)
     end
@@ -498,6 +497,7 @@ end
 
 local function UpdateRecovery(self, dt)
   
+    DestroyChargeFeedback(self)
     if self.playerGO and not self.cameFromWall then
         local myPos = self.transform.worldPosition
         local pp = self.playerGO.transform.worldPosition
@@ -734,16 +734,6 @@ function Update(self, dt)
     if not pp then return end
 
     local dist = Dist(myPos, pp)
-
--- Instantiate/destroy feedback BEFORE calling the state
-    if self.currentState == State.ANTICIPATION then
-        --if not self.chargeFeedbackGO then
-            --self.chargeFeedbackGO = Prefab.Instantiate("MinocabroFeedback")
-       --- end
-    elseif self.currentState == State.RECOVERY then
-        DestroyChargeFeedback(self)
-
-    end
 
     -- State machine
     if     self.currentState == State.IDLE         then UpdateIdle(self, dist)

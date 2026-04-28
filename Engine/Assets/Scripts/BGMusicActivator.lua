@@ -47,15 +47,8 @@ local function TryChangeMusicState(self, finalMusicState)
 	end
 end
 
-
-
-function Start(self)
-	Initialize(self)
-end
-
-function Update(self, dt)
-
-	if not volume then 
+function FadeInMusic(self, dt)
+    if not volume then 
 		Initialize(self)
 	end
     
@@ -90,6 +83,17 @@ function Update(self, dt)
 		fadeTimer = 0
 		volume = 0
 	end 
+end
+
+
+function Start(self)
+	Initialize(self)
+end
+
+
+
+function Update(self, dt)
+    FadeInMusic(self, dt)
 end
 
 function OnTriggerEnter(self, other)

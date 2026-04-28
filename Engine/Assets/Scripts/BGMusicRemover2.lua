@@ -31,29 +31,10 @@ local function Initialize(self)
 
 	if not bgMusic then Engine.Log("BG Music Audio Source component not found!") end
 	
-	--TryChangeMusicState(self, self.public.currentMusicState)
-end
-
--- local function TryChangeMusicState(self, finalMusicState)
--- 	local found = false
--- 	for i, state in ipairs(musicStates) do
--- 		if state == musicState then
--- 			found = true
--- 			break
--- 		end
--- 	end
-
--- 	if found then Audio.SetMusicState(tostring(finalMusicState)) 
--- 	else Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
--- 	end
--- end
-
-function Start(self)
-	Initialize(self)
 end
 
 
-function Update(self, dt)
+function FadeOutMusic(self, dt)
 	if not volume then
 		Initialize(self)
 	end
@@ -72,9 +53,6 @@ function Update(self, dt)
 	elseif exitedLevel and volume <= 0 and not finishedTransition then
 		finishedTransition = true
 		if bgMusic then bgMusic:StopAudioEvent() end
-	elseif exitedLevel and volume <= 0 and finishedTransition then
-		--Audio.SetMusicState(tostring(self.public.nextMusicState))
-		--TryChangeMusicState(self.public.nextMusicState)
 	end
 
 
@@ -84,6 +62,15 @@ function Update(self, dt)
 		fadeTimer = 0
 		volume = self.public.maxVolume or 100.0
 	end 
+end
+
+function Start(self)
+	Initialize(self)
+end
+
+
+function Update(self, dt)
+	
 end
 
 function OnTriggerEnter(self, other)

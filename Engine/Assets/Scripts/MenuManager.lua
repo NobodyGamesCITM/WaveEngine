@@ -66,6 +66,7 @@ function Initialize(self)
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
         self.musicComp = self.musicSource:GetComponent("Audio Source")
+        --if self.musicComp then self.musicComp:PlayAudioEvent() end
     end
 
     self.selectSource = GameObject.Find("UISelectSound")
@@ -102,6 +103,7 @@ function Initialize(self)
         self.canvas:SetOpacity(1.0)
         self.fading = false 
         Audio.SetMusicState("MainMenu")
+        
         Game.Pause()
         self.lastPauseState = "paused"
         SetPhase(self, "idle")
@@ -134,8 +136,10 @@ function Initialize(self)
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")
         Game.Pause()
+         
         self.lastPauseState = "paused"
     elseif isGameplayScene then
+        --if self.musicComp then self.musicComp:StopAudioEvent() end --TODO: Fade Out
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
         elseif sceneVal == "Blockout2Nuevo.scene" then Audio.SetMusicState("Level2") end
         Game.Resume()
@@ -164,9 +168,12 @@ function Update(self, dt)
             Engine.Log("[MenuManager] ForceStartXAML disponible tras espera. Aplicando...")
             self.waitingForSplash = false
             Initialize(self)
+            
         end
         return
     end
+
+
 
     if not self.canvas or _G._MenuManager_NeedReinit then
         _G._MenuManager_NeedReinit = false
@@ -184,6 +191,7 @@ function Update(self, dt)
         if self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+            
         end
     elseif not _G.DialogActive then
         if self.lastPauseState ~= "running" then

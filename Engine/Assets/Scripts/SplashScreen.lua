@@ -12,6 +12,15 @@ local function InitState(self)
     self.splashTimer     = 0.0
     self.splashFadeTimer = 0.0
     self.splashStarted   = true
+
+    local bgMusic = GameObject.Find("MusicSource")
+    if bgMusic then
+        self.musicComp = bgMusic:GetComponent("Audio Source")
+        if not self.musicComp then Engine.Log("Could not find BGM Audio Source Component") end
+    else 
+        Engine.Log("Could not find BGM GameObject") 
+    end
+    
 end
 
 function Start(self)
@@ -79,6 +88,7 @@ function Update(self, dt)
 
         if self.splashFadeTimer >= self.public.fadeSpeed then
             self.splashFinished = true
+            
 
             if self.splashCanvas then
                 local path = self.public.nextXaml
@@ -90,6 +100,8 @@ function Update(self, dt)
                     _G.CurrentXAML = path
                     _G._MenuManager_NeedReinit = true
                     _G.SkipSplash = nil
+                    Audio.SetMusicState("MainMenu")
+                    --if self.musicComp then self.musicComp:PlayAudioEvent() end
                 else
                     Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
                 end

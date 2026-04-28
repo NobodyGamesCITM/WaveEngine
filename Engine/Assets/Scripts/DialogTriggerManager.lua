@@ -16,35 +16,20 @@ end
 
 local function show(sequenceId, skipTime)
     if not sequenceId or sequenceId == "" then return end
-
-    -- Si ya hay uno activo lo cerramos primero
     if active then hide() end
 
-    -- Neutralizar pausa antes de llamar al sistema de diálogos
-    local originalPause  = Game.Pause
-    local originalResume = Game.Resume
-    Game.Pause  = function() end
-    Game.Resume = function() end
+    
+    _G.DialogAmbientMode = true 
 
     if _G.TriggerSequence then
         _G.TriggerSequence(sequenceId)
-    else
-        Engine.Log("[AmbientDialog] ERROR: TriggerSequence no disponible, asegurate de que DialogSystem esta en escena")
-        Game.Pause  = originalPause
-        Game.Resume = originalResume
-        return
     end
-
-    -- Restaurar inmediatamente tras mostrar
-    Game.Pause  = originalPause
-    Game.Resume = originalResume
 
     active   = true
     timer    = 0.0
     duration = skipTime or 5.0
-
-    Engine.Log("[AmbientDialog] Mostrando '" .. sequenceId .. "' durante " .. tostring(duration) .. "s")
 end
+
 
 function Start(self)
     _G.ShowAmbientDialog = show

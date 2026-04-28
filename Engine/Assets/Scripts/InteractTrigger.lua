@@ -126,29 +126,34 @@ function Update(self, dt)
     end
 
   
-    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
-        if _G.DialogActive and inputCooldown <= 0 then
-            if _G.AdvanceDialog then _G.AdvanceDialog() end
-            inputCooldown = COOLDOWN_TIME
-        elseif inActionRange and not _G.DialogActive and inputCooldown <= 0 then
-            if not shown then
-                if self.public.oneShot then
-                    dialogShownMap[self.public.sequenceId] = true
-                end
-                hidePrompt()
+   if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+   
+    if _G.DialogActive and inputCooldown <= 0 then
+        if _G.AdvanceDialog then _G.AdvanceDialog() end
+        inputCooldown = COOLDOWN_TIME
+    elseif inActionRange and not _G.DialogActive and inputCooldown <= 0 then
+            if _G.AdvanceDialog then 
+                _G.AdvanceDialog() 
                 inputCooldown = COOLDOWN_TIME
-                if _G.TriggerSequence then
-                    _G.TriggerSequence(self.public.sequenceId)
-                else
-                    TriggerSequence(self.public.sequenceId)
-                end
-            else
-                onAction(self)
             end
         end
-    end
-
-    if inActionRange and shown and not (_G.DialogActive) and inputCooldown <= 0 then
-        showPrompt(self, true)
+    
+    
+    elseif inActionRange and inputCooldown <= 0 then
+        if not shown then
+            if self.public.oneShot then
+                dialogShownMap[self.public.sequenceId] = true
+            end
+            hidePrompt()
+            inputCooldown = COOLDOWN_TIME
+            
+            if _G.TriggerSequence then
+                _G.TriggerSequence(self.public.sequenceId)
+            else
+                Engine.Log("[ERROR] DialogManager no ha registrado TriggerSequence en _G")
+            end
+        else
+            onAction(self)
+        end
     end
 end

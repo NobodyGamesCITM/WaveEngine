@@ -11,10 +11,8 @@ local State = {
     IDLE       = "Idle",
     PATROL     = "Patrol",
     CHASE      = "Chase",
-    ORBIT      = "Orbit",
-    DODGE      = "Dodge",
-    ANTICIPATE = "Anticipate",
     ATTACK     = "Attack",
+    GUARD     = "Guard",
     DEAD       = "Dead",
 }
 local States = {}
@@ -25,8 +23,10 @@ local Skeleton = {
     nav             = nil,
     navRefreshTimer = 0,
     hp              = 30,
-    isDead          = false
+    isDead          = false,
+    initPos         = nil
 }
+
 public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
@@ -41,7 +41,15 @@ public = {
     patrolWaitMin   = 1.0,
     patrolWaitMax   = 2.8,
     deathTime       = 1.5,
+    
+    activeGuard     = false,
+
+    camDuration     = 0.5,
+    camMagnitud     = 1.0,
+    camFrequency    = 20.0,
 }
+local OnStartPos = false
+
 local patrolWait = 0
 local alreadyHit = false
 local hitCooldown = 0
@@ -102,12 +110,9 @@ end
 
 local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.isDead or not Skeleton.hp then return end
-
     local anim = self.gameObject:GetComponent("Animation")
 
     Skeleton.hp = Skeleton.hp - amount
-    --Engine.Log("[Skeleton] HP: " .. Skeleton.hp .. "/" .. self.public.maxHp)
-    _PlayerController_triggerCameraShake = true
 
     if  Skeleton.hp <= 0 and not pendingDeath then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
@@ -208,6 +213,9 @@ function Start(self)
     Skeleton.currentState = State.IDLE
     ChangeState(self, State.IDLE)
 
+    Skeleton.initPos = self.transform.worldPosition   
+    OnStartPos = true
+    
     local squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
     BaseMat = squeletonMesh:GetComponent("Material")
 end
@@ -224,18 +232,56 @@ States[State.IDLE] = {
     end,
     Update = function(self, dt)
         local px, py, pz = Skeleton.nav:GetRandomPoint()
-        if px then
-            Skeleton.nav:SetDestination(px, py, pz)
-            ChangeState(self, State.PATROL)
-        else
-            patrolWait = self.public.patrolWaitMin
+        local plPos = playerGO.transform.worldPosition
+        if not self.public.activeGuard then
+            if px then
+                Skeleton.nav:SetDestination(px, py, pz)
+                ChangeState(self, State.PATROL)
+            else
+                patrolWait = self.public.patrolWaitMin
+            end
+        elseif not OnStartPos then ChangeState(self, State.GUARD)
         end
-        if CheckDistance(self,30.0,true) then
+        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
             ChangeState(self, State.CHASE)
             return
         end
     end
 }
+
+States[State.GUARD] = {
+    Enter = function(self)
+        playerGO = GameObject.Find("Player")
+
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Walk", 0.5) end)
+        end
+        Skeleton.nav:SetDestination(Skeleton.initPos.x, Skeleton.initPos.y, Skeleton.initPos.z)
+    end,
+    Update = function(self, dt)
+        local plPos = playerGO.transform.worldPosition
+        local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
+        targetVelX = dx * self.public.patrolSpeed
+        targetVelZ = dz * self.public.patrolSpeed
+        ApplyMoveVelocity(dt, 18.0)
+        
+        if abs(dx) > 0.001 or abs(dz) > 0.001 then
+            local p = self.transform.worldPosition
+            FaceTargetSmooth(self, {x=p.x+dx, y=p.y, z=p.z+dz}, dt)
+        end
+        if not Skeleton.nav:IsMoving() then
+            ChangeState(self, State.IDLE)
+            OnStartPos = true
+            return
+        end
+        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+            ChangeState(self, State.CHASE)
+            return
+        end
+    end
+}
+
 States[State.PATROL] = {
     Enter = function(self)
         playerGO = GameObject.Find("Player")
@@ -245,27 +291,29 @@ States[State.PATROL] = {
         end
     end,
     Update = function(self, dt)
+        local plPos = playerGO.transform.worldPosition
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
         targetVelX = dx * self.public.patrolSpeed
         targetVelZ = dz * self.public.patrolSpeed
         ApplyMoveVelocity(dt, 18.0)
+        
         if abs(dx) > 0.001 or abs(dz) > 0.001 then
             local p = self.transform.worldPosition
             FaceTargetSmooth(self, {x=p.x+dx, y=p.y, z=p.z+dz}, dt)
         end
-
         if not Skeleton.nav:IsMoving() then
             patrolWait   = self.public.patrolWaitMin
                 + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
             ChangeState(self, State.IDLE)
             return
         end
-        if CheckDistance(self,30.0,true) then
+        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
             ChangeState(self, State.CHASE)
             return
         end
     end
 }
+
 States[State.CHASE] = {
     Enter = function(self)
         local anim = self.gameObject:GetComponent("Animation")
@@ -275,19 +323,25 @@ States[State.CHASE] = {
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
+        local cantChase = true
         
+        Skeleton.navRefreshTimer = Skeleton.navRefreshTimer - dt
+        if Skeleton.navRefreshTimer <= 0 then
+            cantChase = Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z)
+            Skeleton.navRefreshTimer = self.public.navRefreshRate
+        end
+
         if CheckDistance(self,self.public.nearDist,true) then
             ChangeState(self, State.ATTACK)
             return
         end
-        if CheckDistance(self,31,false) then
-            ChangeState(self, State.IDLE)
+        if CheckDistance(self,31,false) or not cantChase then
+            if not self.public.activeGuard then ChangeState(self, State.IDLE)
+            else  
+                OnStartPos = false
+                ChangeState(self, State.GUARD) 
+            end
             return
-        end
-        Skeleton.navRefreshTimer = Skeleton.navRefreshTimer - dt
-        if Skeleton.navRefreshTimer <= 0 then
-            Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z)
-            Skeleton.navRefreshTimer = self.public.navRefreshRate
         end
 
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
@@ -327,6 +381,9 @@ States[State.ATTACK] = {
                 hitGiven = true
                 _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
+                if _G.TriggerCameraShake then
+                    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
+                end
             end
         end
 

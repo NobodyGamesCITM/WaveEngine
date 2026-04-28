@@ -1,5 +1,4 @@
-﻿// ScriptManager.h
-#pragma once
+﻿#pragma once
 
 #include "Module.h"
 
@@ -53,4 +52,5 @@ public:
     void RegisterGameObjectAPI();
     void RegisterComponentAPI();
     void RegisterPrefabAPI();
+    void RegisterPostProcessingAPI();
 };

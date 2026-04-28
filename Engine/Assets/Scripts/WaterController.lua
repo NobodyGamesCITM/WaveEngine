@@ -13,7 +13,7 @@ function Start(self)
     waterGroundCollider = self.gameObject:GetComponent("Convex Collider")
     if waterGroundCollider ~= nil then waterGroundCollider:Enable() end
 
-    if not waterCollider then Engine.Log("Water collider missing on water gameobject " ..tostring(self.gameObject))
+    if not waterCollider then Engine.Log("Water collider missing on water gameobject " ..tostring(self.gameObject)) end
 
     wasHermes = false
     wasDead = false

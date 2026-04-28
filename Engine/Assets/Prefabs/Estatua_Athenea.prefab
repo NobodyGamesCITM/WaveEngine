@@ -9,14 +9,14 @@
                     {
                         "active": true,
                         "position": [
-                            -10.088546752929688,
+                            -10.081710815429688,
                             4.00543212890625e-05,
-                            0.122222900390625
+                            -0.177642822265625
                         ],
                         "rotation": [
-                            2.5240877096766035e-11,
+                            3.094043424245463e-11,
                             -2.241155925730709e-05,
-                            2.2720612891102832e-10
+                            2.951936750594797e-10
                         ],
                         "scale": [
                             1.0,
@@ -366,14 +366,19 @@
                         "active": true,
                         "publicVariables": [
                             {
+                                "name": "oneShot",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
                                 "name": "promptRadius",
                                 "type": 0,
                                 "value": 6.0
                             },
                             {
-                                "name": "radius",
-                                "type": 0,
-                                "value": 3.0
+                                "name": "sequenceId",
+                                "type": 1,
+                                "value": ""
                             },
                             {
                                 "name": "updateWhenPaused",
@@ -381,19 +386,14 @@
                                 "value": true
                             },
                             {
+                                "name": "radius",
+                                "type": 0,
+                                "value": 3.0
+                            },
+                            {
                                 "name": "actionText",
                                 "type": 1,
                                 "value": "Interactuar"
-                            },
-                            {
-                                "name": "oneShot",
-                                "type": 2,
-                                "value": true
-                            },
-                            {
-                                "name": "sequenceId",
-                                "type": 1,
-                                "value": ""
                             }
                         ],
                         "scriptUID": 11869449068228775486,

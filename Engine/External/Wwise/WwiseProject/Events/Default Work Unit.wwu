@@ -449,6 +449,28 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="UI_CloseWindow" ID="{4015699C-215D-40CF-A144-54499D59F78A}">
+							<ChildrenList>
+								<Action Name="" ID="{61E92D98-FC26-4248-85A4-9A052CB433BD}" ShortID="740177326">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_CloseWindowSFX" ID="{82321192-5613-4048-98E8-8218D1053782}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_PotionGet" ID="{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}">
+							<ChildrenList>
+								<Action Name="" ID="{FBB15739-54A1-4EDB-80AF-98E7401138A4}" ShortID="309040004">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_PotionGetSFX" ID="{16D9B312-3901-42F8-9A7A-1020C5364839}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Minocabro" ID="{F66EFF77-03CF-410B-87CB-DC01709386E1}" ShortID="748498657">

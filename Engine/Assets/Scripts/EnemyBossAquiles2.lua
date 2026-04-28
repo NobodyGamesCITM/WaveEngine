@@ -33,6 +33,9 @@ local anim     = nil
 local playerGO = nil
 local attackCol    = nil
 
+local aquilesMesh =nil
+
+
 local voiceSFX = nil
 local stepSFX = nil
 local spearSFX = nil
@@ -74,7 +77,7 @@ local pendingWallHit = false
 local hasDashed = false
 
 local pressureTimer = 0
-local PRESSURE_THRESHOLD = 0.5
+local PRESSURE_THRESHOLD = 0.8
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -92,7 +95,6 @@ local chargeAnimStarted = false
 local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
-
 
 local hitCooldown = 0
 
@@ -150,17 +152,20 @@ local function StopMovement()
 end
 
 local function DestroyChargeFeedback(self)
-     if self.chargeFeedbackTiles then
-        for _, tile in ipairs(self.chargeFeedbackTiles) do
-            if tile then GameObject.Destroy(tile) end
+    if self.chargeFeedbackTiles then
+        for i, tile in ipairs(self.chargeFeedbackTiles) do
+            if tile and type(tile) ~= "boolean" then 
+                GameObject.Destroy(tile) 
+            end
         end
         self.chargeFeedbackTiles = {}
     end
 
-    if self.chargeFeedbackGO then
-        GameObject.Destroy(self.chargeFeedbackGO)
-        self.chargeFeedbackGO = nil
-    end
+    self.chargeFeedbackActive = false
+end
+
+local function FadeOutMusic()
+    local volume
 end
 
 local function ChangeState(newState)
@@ -216,6 +221,7 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+            FadeOutMusic()
             return
         end
     else
@@ -226,9 +232,11 @@ local function TakeDamage(self, amount, attackerPos)
             posture = 0
 
             StopMovement()
-            stunTimer = self.public.stunDuration
-            ChangeState(State.STUN)
-            if anim then anim:Play("Stun") end
+            --stunTimer = self.public.stunDuration
+                        
+            ChangeState(State.IDLE)
+            --ChangeState(State.STUN)
+            --if anim then anim:Play("Stun") end
             PlaySFX(armorSFX)
             return
         end
@@ -310,7 +318,7 @@ end
 
 local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
 
-    local isDashing = isDashing or false
+    isDashing = isDashing or false
     local speedOverride = speedOverride or self.public.moveSpeed
 
     if not isDashing then
@@ -473,7 +481,7 @@ local function UpdateAnticipation(self, pp, dt)
         end
 
         local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        numTiles = numTiles
+        numTiles = numTiles +1
        if #self.chargeFeedbackTiles ~= numTiles then
 
             -- Destroy old ones
@@ -504,7 +512,7 @@ local function UpdateAnticipation(self, pp, dt)
             local rot = atan2(directionX, directionZ) * (180.0 / pi)
             tile.transform:SetRotation(0, rot, 0)
 
-            tile.transform:SetScale(3.744, 0.15, 3.744)
+            tile.transform:SetScale(3.744, 0.20, 3.744)
         end
     end
 
@@ -562,6 +570,7 @@ local function UpdateCharge(self, dt)
         --Save direction for after
         slideVelX = chargeDirX * 8.0
         slideVelZ = chargeDirZ * 8.0
+        StopMovement(self)
         DestroyChargeFeedback(self)
         wallStunTimer = self.public.recoveryCharge
         ChangeState(State.RECOVERY)
@@ -580,12 +589,8 @@ local function UpdateWall(self, dt)
         opportunityHitTimer = opportunityHitTimer - dt
         return  -- no sobreescribir Stuck_Hit hasta que termine
     end
-
-    if not wallAnimStarted then
-        anim:Play("Stuck_Start", 0.15)
-        wallAnimStarted = true
-        
-    elseif anim and not anim:IsPlayingAnimation("Stuck_Start") and not anim:IsPlayingAnimation("Stuck_Loop") then
+    
+    if anim then
         anim:Play("Stuck_Loop", 0.1)
     end
  
@@ -749,34 +754,34 @@ function Start(self)
 
         --Lance 360
         lanceDuration       = 0.8,
-        lanceCooldown       = 2.5,
+        lanceCooldown       = 1.2,
         lanceDamage         = 20,
 
-        preparationTime = 2.0,
+        preparationTime = 1.0,
         chargeSpeed     = 22.0,
         chargeDuration  = 1.0,
-        wallStunTime    = 6.0,
+        wallStunTime    = 1.5,
 
         wallSpeedThresh = 1.5,
 
-        afterStunTime   = 3.0,
-        chargeCooldown  = 4.0,  -- cooldown entre embestidas
+        afterStunTime   = 1.2,
+        chargeCooldown  = 2.0,  -- cooldown entre embestidas
         chargeDamage    = 35,
         stepInterval    = 0.6,
 
         -- Receive damage
         knockbackForce  = 10.0,
 
-        stunDuration        = 8.0,
+        stunDuration        = 2.0,
 
         hurtStunTime = 0.4,
 
         predictionTime = 0.4,
 
-        opportunityDamageMultiplier = 3.0,
-
-        recoveryLance = 1.0,
-        recoveryCharge = 1.8,
+        opportunityDamageMultiplier = 1.0,
+        wallStunDuration=2.0,
+        recoveryLance = 0.5,
+        recoveryCharge = 1.0,
     }
 
     hp           = self.public.maxHp
@@ -803,15 +808,18 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}
 
     --AquilesMesh
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
-    BaseMat = aquilesMesh:GetComponent("Material")
-
+    if aquilesMesh then
+        BaseMat = aquilesMesh:GetComponent("Material")
+    else
+        Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
+    end
 end
 
 function Update(self, dt)
@@ -824,8 +832,10 @@ function Update(self, dt)
         FindAquilesAudioComponents(self)
     end
 
-    if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
+    if Input.GetKey("K") then
+        --TakeDamage(self, hp, self.transform.worldPosition)
+        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        hp = 1
         return
     end
 
@@ -878,7 +888,12 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            BaseMat.SetTexture("18385834806947720505")
+            if hp<=100 then
+                BaseMat.SetTexture("10242481670410472725")
+            else
+                BaseMat.SetTexture("18385834806947720505")
+
+            end        
         end
     end
 
@@ -905,13 +920,26 @@ function OnTriggerEnter(self, other)
     if isDead then return end
 
     if other:CompareTag("Wall") then
-        if currentState == State.WALL or currentState == State.RECOVERY then 
+        if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE then 
             return 
         end
 
+        if rb then
+            rb:SetLinearVelocity(0, 0, 0)
+        end
+        StopMovement()
+        slideVelX = 0
+        slideVelZ = 0
+        DestroyChargeFeedback(self)
+        wallStunTimer = 5.0
+        
+    
+        anim:Play("Stuck_Start", 0.15)
+        ChangeState(State.WALL)
+
 
         pendingWallHit = true
-
+      
         Engine.Log("[Aquiles] Choco con la pared")
         return 
     end
@@ -981,6 +1009,11 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        BaseMat.SetTexture("6600101727014948682")
+        if hp<=100 then
+            BaseMat.SetTexture("10242481670410472725")
+        else
+            BaseMat.SetTexture("18385834806947720505")
+
+        end
     end
 end

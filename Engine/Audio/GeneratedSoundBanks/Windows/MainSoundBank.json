@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{5EC1D647-3228-3BA3-FBCB-7A6C66B41C86}",
+    "Hash": "{783F5666-ED97-C026-4F7E-D2282830F946}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -69,7 +69,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "open_chest_02.wav",
-      "CachePath": "EB/{EB79005B-A386-66B3-DA8B-BD39623EBB3C}.wem"
+      "CachePath": "0C/{0CA53621-F469-82B3-D93D-69A6500F9511}.wem"
      },
      {
       "Id": "71226100",
@@ -213,7 +213,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "open_chest_03.wav",
-      "CachePath": "38/{38D3794C-87DD-1C75-73D7-5328ECD67FDF}.wem"
+      "CachePath": "A7/{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem"
      },
      {
       "Id": "193895961",
@@ -549,7 +549,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "open_chest_01.wav",
-      "CachePath": "1D/{1DBB0795-981C-6991-78BD-8D629F42B933}.wem"
+      "CachePath": "78/{78B5E808-D6DC-B2BD-0D8E-CE01E5E1302B}.wem"
      },
      {
       "Id": "512620298",
@@ -749,7 +749,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "apolo_shot_00.wav",
-      "CachePath": "EC/{EC89D08A-32D7-7133-FA88-59C0711B392D}.wem"
+      "CachePath": "1E/{1E58732B-E59E-5289-B6CA-510E790BA8D1}.wem"
      },
      {
       "Id": "663484052",
@@ -765,7 +765,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Wwizard_Armor.wav",
-      "CachePath": "18/{181D09EA-7238-3EC7-572F-D56872DCDDFC}.wem"
+      "CachePath": "F6/{F68F65FC-D7BA-C687-9C48-656E904E5184}.wem"
      },
      {
       "Id": "675021197",
@@ -2008,8 +2008,8 @@
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "3.0779583",
-      "DurationMax": "3.3249376",
+      "DurationMin": "2.4402916",
+      "DurationMax": "2.5313542",
       "MediaRefs": [
        {
         "Id": "70539538"
@@ -2430,7 +2430,7 @@
       "Name": "SFX_SirenDie",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenDie",
       "GUID": "{E791CBC6-D4D4-4D83-8063-AF76692411BA}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "0.9540625",
       "DurationMax": "0.9540625",
@@ -2467,7 +2467,7 @@
       "Name": "SFX_SirenHurt",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenHurt",
       "GUID": "{97204195-8C58-4830-AF5D-F1BD949098CC}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "0.3443986",
       "DurationMax": "0.3443986",
@@ -2967,6 +2967,6 @@
     ]
    }
   ],
-  "FileHash": "{5F0CF668-81F9-A57C-E2D5-768A546368B1}"
+  "FileHash": "{D49C1C7B-772D-0D8A-7321-73802E9E792C}"
  }
 }

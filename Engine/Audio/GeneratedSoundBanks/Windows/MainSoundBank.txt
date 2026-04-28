@@ -125,7 +125,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	55975540	shield_dmg_01	.cache\35\{35A0F70F-10EC-36AE-4D47-E8D760DB2617}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_01		57176
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
 	62622933	metal-rock_impact_01	.cache\2C\{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_01		26360
-	70539538	open_chest_02	.cache\EB\{EB79005B-A386-66B3-DA8B-BD39623EBB3C}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_02		165104
+	70539538	open_chest_02	.cache\0C\{0CA53621-F469-82B3-D93D-69A6500F9511}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_02		124424
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	81473091	water_walk_02	.cache\4B\{4B2AAB67-9052-A075-7272-48D5B6B9C4C7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_02		14408
 	84435203	minocabro_footstep_01	.cache\12\{125C6D41-DD53-0963-EE50-561DAFAFB7B7}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_01		30392
@@ -143,7 +143,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
-	193892419	open_chest_03	.cache\38\{38D3794C-87DD-1C75-73D7-5328ECD67FDF}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		136808
+	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
 	193895961	yokai watch combat terror time	.cache\95\{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Combat_Playlist\Level2_AltCombat\yokai watch combat terror time		2240720
 	207196639	aquiles_step_02	.cache\A2\{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		59552
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
@@ -185,7 +185,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	483035979	player_roll_01	.cache\8C\{8C12206E-98C6-A28E-30D3-2BAF38FDEDA7}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		29312
 	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
 	495811719	stone_walk_03	.cache\3D\{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_03		13580
-	511744790	open_chest_01	.cache\1D\{1DBB0795-981C-6991-78BD-8D629F42B933}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_01		152792
+	511744790	open_chest_01	.cache\78\{78B5E808-D6DC-B2BD-0D8E-CE01E5E1302B}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_01		121184
 	512620298	aquiles_step_03	.cache\97\{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_03		51488
 	520645407	Mask_PickUp	.cache\4C\{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem		\Containers\Default Work Unit\Objects\Player\Mask_PickUp		49328
 	526649077	ares_mask_01	.cache\78\{7834B940-17B0-C512-5FA8-8FB447233987}.wem		\Containers\Default Work Unit\Objects\Player\ares_mask_01		131336
@@ -210,9 +210,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	647640996	torchFire	.cache\92\{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem		\Containers\Default Work Unit\Objects\torchFire		1760264
 	653184964	shield_dmg_03	.cache\26\{26B35077-264F-A9F7-7318-C9FFFD2B8F99}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_03		49472
 	658947672	dirt_walk_01	.cache\91\{91235923-528D-B681-E796-9CDE151A28A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_01		13364
-	661717650	player_apoloShot	.cache\EC\{EC89D08A-32D7-7133-FA88-59C0711B392D}.wem		\Containers\Default Work Unit\Objects\Player\player_apoloShot		35756
+	661717650	player_apoloShot	.cache\1E\{1E58732B-E59E-5289-B6CA-510E790BA8D1}.wem		\Containers\Default Work Unit\Objects\Player\player_apoloShot		35756
 	663484052	skeleton_Step	.cache\85\{85480C67-C83E-070A-9714-960378316322}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Step		20816
-	667551602	Attack_Charge	.cache\18\{181D09EA-7238-3EC7-572F-D56872DCDDFC}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Charge		82016
+	667551602	Attack_Charge	.cache\F6\{F68F65FC-D7BA-C687-9C48-656E904E5184}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Charge		82016
 	675021197	dirt_walk_04	.cache\45\{45192596-95B5-42EA-7167-ECF418BF08A5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_04		12824
 	680497514	stone_walk_05	.cache\29\{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_05		13400
 	698807496	MainMenu	.cache\BF\{BF002955-90D4-EF90-9D18-47A78478410C}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu_Playlist\OurMainMenu\MainMenu		3894056

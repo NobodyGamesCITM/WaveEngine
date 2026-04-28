@@ -22,6 +22,8 @@
                     <Setter Property="FontSize" Value="36"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
@@ -29,7 +31,7 @@
                                     <StackPanel.RenderTransform>
                                         <ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="1"/>
                                     </StackPanel.RenderTransform>
-                                    
+
                                     <Image x:Name="ArrowL" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="0,0,15,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                                         <Image.RenderTransform>
                                             <TranslateTransform x:Name="ArrowLTrans" X="-30"/>
@@ -69,7 +71,7 @@
 
                                                     <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                     <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
-                                                    
+
                                                     <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
                                                     <DoubleAnimation Storyboard.TargetName="ArrowRTrans" Storyboard.TargetProperty="X" From="15" To="5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
                                                 </Storyboard>
@@ -155,6 +157,10 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Storyboard x:Key="FadeOut">
+            <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"/>
+        </Storyboard>
         </ResourceDictionary>
     </Grid.Resources>
 
@@ -165,33 +171,26 @@
     </Grid.Triggers>
 
     <Grid x:Name="LayoutRoot">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="300*"/>
-            <RowDefinition Height="120*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="300*"/>
-            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="285*"/>
+            <ColumnDefinition Width="710*"/>
+            <ColumnDefinition Width="285*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="Textures/Menu.PNG"/>
-        </Grid.Background>
-
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200*"/>
-                <RowDefinition Height="800*"/>
-            </Grid.RowDefinitions>
-
-            <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Width="445" Margin="261,2,231,2">
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="Pause_text"
-                               TextAlignment="Center"
-                               FontSize="65"
-                               Width="445"
-                               Text="PAUSE" Margin="3,0,-3,-2" FontFamily="./#ForgottenUncial">
+        <Viewbox Grid.Column="1">
+            <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
+        </Viewbox>
+        <Viewbox Grid.Column="1">
+            <Grid x:Name="ButtonsGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="95"/>
+                    <RowDefinition Height="95"/>
+                    <RowDefinition Height="95"/>
+                    <RowDefinition Height="95"/>
+                    <RowDefinition Height="0*"/>
+                </Grid.RowDefinitions>
+                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Margin="353.274,0" Grid.Row="1">
+                    <TextBlock x:Name="Pause_text" Text="PAUSE" FontFamily="./#ForgottenUncial" FontSize="65" TextAlignment="Center">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -199,76 +198,42 @@
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
                     </TextBlock>
-                </Grid>
-            </Viewbox>
-
-            <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
-                <Grid Height="460" Width="768">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                    </Grid.RowDefinitions>
-
-                    <Button x:Name="ResumeButton"
-                            Grid.Row="1"
-                            Opacity="0"
-                            Margin="60,0,0,0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding Path=Commands[ResumeButton]}"
-                            Content="RESUME">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="SettingsButton"
-                            Grid.Row="3"
-                            Opacity="0"
-                            Margin="60,0,0,0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding Commands[SettingsButton]}"
-                            Content="SETTINGS">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="BackToMenuButton"
-                            Grid.Row="5"
-                            Opacity="0"
-                            Margin="60,0,0,0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Content="BACK TO MENU"
-                            Command="{Binding Path=Commands[BackToMenuButton]}">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                </Grid>
-            </Viewbox>
-        </Grid>
+                </Viewbox>
+                <Button x:Name="ResumeButton" Content="RESUME" Command="{Binding Path=Commands[ResumeButton]}" Margin="250,0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
+                    <Button.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Button.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Loaded">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Margin="250,0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
+                    <Button.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Button.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                <Button x:Name="BackToMenuButton" Content="BACK TO MENU" Command="{Binding Path=Commands[BackToMenuButton]}" Margin="250,0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
+                    <Button.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Button.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Viewbox>
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
-
 </Grid>

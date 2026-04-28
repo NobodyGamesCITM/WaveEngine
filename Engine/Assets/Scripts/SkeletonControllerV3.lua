@@ -42,7 +42,11 @@ public = {
     patrolWaitMax   = 2.8,
     deathTime       = 1.5,
     
-    activeGuard     = false
+    activeGuard     = false,
+
+    camDuration     = 0.5,
+    camMagnitud     = 1.0,
+    camFrequency    = 20.0,
 }
 local OnStartPos = false
 
@@ -106,12 +110,9 @@ end
 
 local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.isDead or not Skeleton.hp then return end
-
     local anim = self.gameObject:GetComponent("Animation")
 
     Skeleton.hp = Skeleton.hp - amount
-    --Engine.Log("[Skeleton] HP: " .. Skeleton.hp .. "/" .. self.public.maxHp)
-    _PlayerController_triggerCameraShake = true
 
     if  Skeleton.hp <= 0 and not pendingDeath then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
@@ -380,6 +381,9 @@ States[State.ATTACK] = {
                 hitGiven = true
                 _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
+                if _G.TriggerCameraShake then
+                    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
+                end
             end
         end
 

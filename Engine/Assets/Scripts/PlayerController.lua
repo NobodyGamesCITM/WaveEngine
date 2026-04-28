@@ -214,6 +214,17 @@ function _G.TriggerChestAnimation()
     return true
 end
 
+function _G.TriggerCameraShake(duration, magnitude, freq)
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        Engine.Log("Entra camera")
+        local cineCam = camObj:GetComponent("CinematicCamera")
+        if cineCam then
+            -- Valores por defecto si no se pasan parámetros
+            cineCam:Shake(duration or 0.3, magnitude or 6.0, freq or 25.0)
+        end
+    end
+end
 
 local function normalizeInput(x, z)
     local len = sqrt(x*x + z*z)

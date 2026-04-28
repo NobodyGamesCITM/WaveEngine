@@ -108,7 +108,9 @@ local function TakeDamage(self, amount, attackerPos)
 
     self.hp = self.hp - amount
     Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
-    _PlayerController_triggerCameraShake = true
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
+    end
 
     if self.rb and attackerPos then
         local pos = self.transform.worldPosition
@@ -404,7 +406,9 @@ local function UpdateCharge(self, dt)
                 _EnemyDamage_minocabro = finalDamage
                 _PlayerController_pendingDamage = finalDamage
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
-                _PlayerController_triggerCameraShake = true
+                -- if _G.TriggerCameraShake then
+                --    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
+                -- end
 
                 if self.attackCol then self.attackCol:Disable() end
                 StopMovement(self)

@@ -18,7 +18,8 @@ local musicStates = {
 	"Level1_Combat",
 	"Level2",
 	"Level2_Combat",
-	"Boss"
+	"Boss",
+	"AfterBoss"
 }
 
 
@@ -80,7 +81,7 @@ function FadeInMusic(self, dt)
 		
 	elseif enteredNewLevel and volume >= (self.public.maxVolume or 100) and finishedTransition then
 		--Audio.SetMusicState(tostring(self.public.nextMusicState))
-		--TryChangeMusicState(self.public.nextMusicState)
+		TryChangeMusicState(self.public.nextMusicState)
         
 	end
 

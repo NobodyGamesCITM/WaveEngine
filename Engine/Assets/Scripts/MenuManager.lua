@@ -120,7 +120,7 @@ function Initialize(self)
     self.current = self.canvas:GetCurrentXAML()
     
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
-    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2Nuevo.scene")
+    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene" or sceneVal == "Blockout2Nuevo.scene")
 
     if isGameplayScene and self.current:find("MainMenu.xaml") then
         Engine.Log("[MenuManager] Limpiando MainMenu residual en escena de juego para evitar auto-pause.")
@@ -141,13 +141,14 @@ function Initialize(self)
 
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")
-        Game.Pause()
+        --Game.Pause()
          
         self.lastPauseState = "paused"
     elseif isGameplayScene then
-        --if self.musicComp then self.musicComp:StopAudioEvent() end --TODO: Fade Out
+        
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
         elseif sceneVal == "Blockout2Nuevo.scene" then Audio.SetMusicState("Level2") end
+            
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
@@ -259,6 +260,7 @@ function Update(self, dt)
                 Engine.Log("[MenuManager] Logic: Open PauseMenu")
                 if _G.SuspendDialog then _G.SuspendDialog() end
                 NavigateTo(self, "PauseMenu.xaml")
+                Game.Pause()
                 Audio.SetGlobalVolume(self.public.lowerVolume or 60.0)
 
             elseif isPause then
@@ -306,13 +308,14 @@ function Update(self, dt)
                 if _G.PlayerInstance then
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
-                    Audio.SetMusicVolume(self.public.fullVolume or 100)
+                   
                 end
                 _G.SkipSplash = true                -- Indica a la siguiente escena que salte la intro
                 self.pendingScene = "Splash.scene"  -- Escena a cargar tras el fade
                 self.fading = true                  -- Inicia la transición en el script
                 self.canvas:PlayStoryboard("FadeOut") -- Inicia la animación visual en el XAML
                 --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+                Audio.SetMusicVolume(self.public.fullVolume or 100)
             end
         end
 
@@ -416,8 +419,10 @@ function Update(self, dt)
             Engine.Log("[UI MENU] current scene: " .. tostring(self.public.currentScene.value))
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
-            elseif self.public.currentScene == "Blockout2.scene" then
-                Audio.SetMusicState("Level2")
+            elseif self.public.currentScene == "Blockout2.scene" or self.public.currentScene == "Blockout2Nuevo.scene"then
+                if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then 
+                    Audio.SetMusicState("Level2")
+                end
             end
 
             if previous == "PauseMenu.xaml" then

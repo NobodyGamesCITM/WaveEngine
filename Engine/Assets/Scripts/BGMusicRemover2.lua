@@ -18,7 +18,8 @@ local musicStates ={
 	"Level1_Combat",
 	"Level2",
 	"Level2_Combat",
-	"Boss"
+	"Boss",
+	"AfterBoss"
 }
 
 local function Initialize(self)

@@ -43,6 +43,7 @@ local dashSFX = nil
 local armorSFX = nil
 
 
+
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
 
 local alreadyHit   = false
@@ -71,6 +72,8 @@ local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
 local stepTimer = 0
+local fadeMusicTimer = 0
+local volume = 100
 
 local inOpportunity = false
 local pendingWallHit = false
@@ -97,6 +100,7 @@ local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
 local hitCooldown = 0
+local finishedTransition = false
 
 local TILE_SIZE = 3.744
 
@@ -164,9 +168,6 @@ local function DestroyChargeFeedback(self)
     self.chargeFeedbackActive = false
 end
 
-local function FadeOutMusic()
-    local volume
-end
 
 local function ChangeState(newState)
     currentState = newState
@@ -186,6 +187,36 @@ local function ChangeState(newState)
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
+
+end
+
+local function FadeOutBossMusic(self, dt)
+
+    if volume > 0 and not finishedTransition then 
+		fadeMusicTimer = fadeMusicTimer + dt
+		local progressPercent = math.min((fadeMusicTimer/3.5), 1.0)
+		volume = 100 * (1 - progressPercent)
+		Engine.Log("Setting music volume to ".. volume)
+		if volume then 
+			Audio.SetMusicVolume(volume)
+		else
+			Engine.Log("Could not set music volume!")
+		end
+
+	elseif volume <= 0 and not finishedTransition then
+		finishedTransition = true
+        Audio.SetMusicVolume(0)
+		--if bgMusic then bgMusic:StopAudioEvent() end
+	end
+
+
+	if _G._PlayerController_isDead then
+		--exitedLevel = false
+		--finishedTransition = false
+        Audio.SetMusicState("Level2")
+		fadeMusicTimer = 0
+		Audio.SetMusicVolume(100)
+	end 
 
 end
 
@@ -221,7 +252,7 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
-            FadeOutMusic()
+            
             return
         end
     else
@@ -667,7 +698,7 @@ local function UpdateDeath(self,dt)
     if deathTimer <= 0 then
         DestroyChargeFeedback(self)
         local _rb  = rb
-
+        Audio.SetMusicState("AfterBoss")
         rb       = nil
         anim     = nil
         playerGO = nil
@@ -823,7 +854,11 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if not self.gameObject or isDead then return end
+    if not self.gameObject then return end
+
+    if isDead then
+        return
+    end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
@@ -835,9 +870,12 @@ function Update(self, dt)
     if Input.GetKey("K") then
         --TakeDamage(self, hp, self.transform.worldPosition)
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        Engine.Log("Aquiles at 1HP!")
         hp = 1
         return
     end
+
+    
 
     -- Trigger Wall
     if pendingWallHit then
@@ -897,8 +935,16 @@ function Update(self, dt)
         end
     end
 
-    local myPos = self.transform.worldPosition
-    local pp    = playerGO.transform.worldPosition
+   
+    local myPos
+    local pp
+
+    if self.transform then 
+        myPos = self.transform.worldPosition
+        pp = playerGO.transform.worldPosition
+    else
+        Engine.Log("Could not retrieve transform value")
+    end
     if not pp then return end
 
     local dist = Dist(myPos, pp)   

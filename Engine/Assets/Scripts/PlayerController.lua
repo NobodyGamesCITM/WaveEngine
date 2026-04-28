@@ -782,7 +782,7 @@ States[State.RUNNING] = {
         end
 
         if not Player.godMode and not self.public.berserkActive then
-            self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
+            -- self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
 
         if Player.stepSFX then

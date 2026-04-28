@@ -191,29 +191,6 @@ function TriggerDrinkAnimation(self, isInternalHeal)
     return true
 end
 
-function _G.TriggerChestAnimation()
-    local self = _G.PlayerInstance
-    if not self then return false end
-
-    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.AnimTimer > 0
-       or Player.currentState == State.DEAD then
-        return false
-    end
-
-    ChangeState(self, State.IDLE)
-    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-
-    local anim = self.gameObject:GetComponent("Animation")
-    if anim then
-        pcall(function() anim:Play("Idle", 0.0) end)
-        pcall(function() anim:Play("Open", 0.4) end)
-    end
-
-    Player.AnimTimer = 3.0
-    self.public.canMove = false
-    return true
-end
-
 function _G.TriggerCameraShake(duration, magnitude, freq)
     local camObj = GameObject.Find("MainCamera")
     if camObj then
@@ -1996,3 +1973,22 @@ function ActivateTrail()
     Player.trailPs:Play()
 end
 
+function _G.TriggerChestAnimation(self)
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.AnimTimer > 0
+       or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Open", 0.4) end)
+    end
+
+    Player.AnimTimer = 4.0
+    self.public.canMove = false
+    return true
+end

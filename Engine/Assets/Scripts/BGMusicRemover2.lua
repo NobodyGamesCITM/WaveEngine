@@ -8,9 +8,9 @@ local bgMusic = nil
 
 public = {
 	fadeTime = 1.5,
-	maxVolume = 100
-	currentMusicState = ""
-	nextMusicState = ""
+	maxVolume = 100,
+	--currentMusicState = "",
+	--nextMusicState = "",
 }
 
 local musicStates ={
@@ -18,7 +18,8 @@ local musicStates ={
 	"Level1_Combat",
 	"Level2",
 	"Level2_Combat",
-	"Boss"
+	"Boss",
+	"AfterBoss"
 }
 
 local function Initialize(self)
@@ -31,29 +32,10 @@ local function Initialize(self)
 
 	if not bgMusic then Engine.Log("BG Music Audio Source component not found!") end
 	
-	TryChangeMusicState(self, self.public.currentMusicState)
-end
-
-local function TryChangeMusicState(self, finalMusicState)
-	local found = false
-	for i, state in musicStates do
-		if state == musicState then
-			found = true
-			break
-		end
-	end
-
-	if found then Audio.SetMusicState(finalMusicState) 
-	else Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
-	end
-end
-
-function Start(self)
-	Initialize(self)
 end
 
 
-function Update(self, dt)
+function FadeOutMusic(self, dt)
 	if not volume then
 		Initialize(self)
 	end
@@ -72,12 +54,8 @@ function Update(self, dt)
 	elseif exitedLevel and volume <= 0 and not finishedTransition then
 		finishedTransition = true
 		if bgMusic then bgMusic:StopAudioEvent() end
-	elseif exitedLevel and volume <= 0 and finishedTransition then
-		--Audio.SetMusicState(tostring(self.public.nextMusicState))
-		TryChangeMusicState(self.public.nextMusicState)
 	end
 
-	
 
 	if _G._PlayerController_isDead then
 		exitedLevel = false
@@ -87,12 +65,22 @@ function Update(self, dt)
 	end 
 end
 
+function Start(self)
+	Initialize(self)
+end
+
+
+function Update(self, dt)
+	FadeOutMusic(self, dt)
+end
+
 function OnTriggerEnter(self, other)
 	if other:CompareTag("Player") and not finishedTransition then
 		exitedLevel = true
 		fadeTimer = 0
 	end
 end
+
 
 
 

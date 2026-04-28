@@ -33,6 +33,7 @@ public:
 
     // API p�blica
     bool SetDestination(const glm::vec3& worldTarget);
+    bool CheckDestination(const glm::vec3& target);
     void StopMovement();
     void Update(float dt);   // ll�malo desde tu sistema de update
     bool IsMoving() const { return moving; }

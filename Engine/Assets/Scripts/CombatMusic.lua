@@ -8,8 +8,8 @@ function Start(self)
   	--Engine.Log("CombatMusic.lua script running!")
 end
 
-function Update(self)
-	
+function Update(self, dt)
+	--
 end
 
 function OnTriggerEnter(self, other)

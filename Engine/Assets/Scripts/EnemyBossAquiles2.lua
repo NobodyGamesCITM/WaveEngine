@@ -43,6 +43,7 @@ local dashSFX = nil
 local armorSFX = nil
 
 
+
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
 
 local alreadyHit   = false
@@ -71,6 +72,8 @@ local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
 local stepTimer = 0
+local fadeMusicTimer = 0
+local volume = 100
 
 local inOpportunity = false
 local pendingWallHit = false
@@ -96,8 +99,8 @@ local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
-
 local hitCooldown = 0
+local finishedTransition = false
 
 local TILE_SIZE = 3.744
 
@@ -165,6 +168,7 @@ local function DestroyChargeFeedback(self)
     self.chargeFeedbackActive = false
 end
 
+
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Aquiles] -> " .. newState)
@@ -183,6 +187,36 @@ local function ChangeState(newState)
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
+
+end
+
+local function FadeOutBossMusic(self, dt)
+
+    if volume > 0 and not finishedTransition then 
+		fadeMusicTimer = fadeMusicTimer + dt
+		local progressPercent = math.min((fadeMusicTimer/3.5), 1.0)
+		volume = 100 * (1 - progressPercent)
+		Engine.Log("Setting music volume to ".. volume)
+		if volume then 
+			Audio.SetMusicVolume(volume)
+		else
+			Engine.Log("Could not set music volume!")
+		end
+
+	elseif volume <= 0 and not finishedTransition then
+		finishedTransition = true
+        Audio.SetMusicVolume(0)
+		--if bgMusic then bgMusic:StopAudioEvent() end
+	end
+
+
+	if _G._PlayerController_isDead then
+		--exitedLevel = false
+		--finishedTransition = false
+        Audio.SetMusicState("Level2")
+		fadeMusicTimer = 0
+		Audio.SetMusicVolume(100)
+	end 
 
 end
 
@@ -218,6 +252,7 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+            
             return
         end
     else
@@ -228,9 +263,11 @@ local function TakeDamage(self, amount, attackerPos)
             posture = 0
 
             StopMovement()
-            stunTimer = self.public.stunDuration
-            ChangeState(State.STUN)
-            if anim then anim:Play("Stun") end
+            --stunTimer = self.public.stunDuration
+                        
+            ChangeState(State.IDLE)
+            --ChangeState(State.STUN)
+            --if anim then anim:Play("Stun") end
             PlaySFX(armorSFX)
             return
         end
@@ -506,7 +543,7 @@ local function UpdateAnticipation(self, pp, dt)
             local rot = atan2(directionX, directionZ) * (180.0 / pi)
             tile.transform:SetRotation(0, rot, 0)
 
-            tile.transform:SetScale(3.744, 0.15, 3.744)
+            tile.transform:SetScale(3.744, 0.20, 3.744)
         end
     end
 
@@ -583,12 +620,8 @@ local function UpdateWall(self, dt)
         opportunityHitTimer = opportunityHitTimer - dt
         return  -- no sobreescribir Stuck_Hit hasta que termine
     end
-
-    if not wallAnimStarted then
-        anim:Play("Stuck_Start", 0.15)
-        wallAnimStarted = true
-        
-    elseif anim and not anim:IsPlayingAnimation("Stuck_Start") and not anim:IsPlayingAnimation("Stuck_Loop") then
+    
+    if anim then
         anim:Play("Stuck_Loop", 0.1)
     end
  
@@ -665,7 +698,7 @@ local function UpdateDeath(self,dt)
     if deathTimer <= 0 then
         DestroyChargeFeedback(self)
         local _rb  = rb
-
+        Audio.SetMusicState("AfterBoss")
         rb       = nil
         anim     = nil
         playerGO = nil
@@ -758,7 +791,7 @@ function Start(self)
         preparationTime = 1.0,
         chargeSpeed     = 22.0,
         chargeDuration  = 1.0,
-        wallStunTime    = 2.5,
+        wallStunTime    = 1.5,
 
         wallSpeedThresh = 1.5,
 
@@ -770,14 +803,14 @@ function Start(self)
         -- Receive damage
         knockbackForce  = 10.0,
 
-        stunDuration        = 3.5,
+        stunDuration        = 2.0,
 
         hurtStunTime = 0.4,
 
         predictionTime = 0.4,
 
-        opportunityDamageMultiplier = 3.0,
-
+        opportunityDamageMultiplier = 1.0,
+        wallStunDuration=2.0,
         recoveryLance = 0.5,
         recoveryCharge = 1.0,
     }
@@ -806,7 +839,7 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}
@@ -821,7 +854,11 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if not self.gameObject or isDead then return end
+    if not self.gameObject then return end
+
+    if isDead then
+        return
+    end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
@@ -830,10 +867,15 @@ function Update(self, dt)
         FindAquilesAudioComponents(self)
     end
 
-    if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
+    if Input.GetKey("K") then
+        --TakeDamage(self, hp, self.transform.worldPosition)
+        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        Engine.Log("Aquiles at 1HP!")
+        hp = 1
         return
     end
+
+    
 
     -- Trigger Wall
     if pendingWallHit then
@@ -884,12 +926,25 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            BaseMat.SetTexture("18385834806947720505")
+            if hp<=100 then
+                BaseMat.SetTexture("10242481670410472725")
+            else
+                BaseMat.SetTexture("18385834806947720505")
+
+            end        
         end
     end
 
-    local myPos = self.transform.worldPosition
-    local pp    = playerGO.transform.worldPosition
+   
+    local myPos
+    local pp
+
+    if self.transform then 
+        myPos = self.transform.worldPosition
+        pp = playerGO.transform.worldPosition
+    else
+        Engine.Log("Could not retrieve transform value")
+    end
     if not pp then return end
 
     local dist = Dist(myPos, pp)   
@@ -922,8 +977,12 @@ function OnTriggerEnter(self, other)
         slideVelX = 0
         slideVelZ = 0
         DestroyChargeFeedback(self)
-        wallStunTimer = self.public.wallStunDuration
+        wallStunTimer = 5.0
+        
+    
+        anim:Play("Stuck_Start", 0.15)
         ChangeState(State.WALL)
+
 
         pendingWallHit = true
       
@@ -996,6 +1055,11 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        BaseMat.SetTexture("18385834806947720505")
+        if hp<=100 then
+            BaseMat.SetTexture("10242481670410472725")
+        else
+            BaseMat.SetTexture("18385834806947720505")
+
+        end
     end
 end

@@ -25,13 +25,18 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 4.5542168617248535,
+                    "aspectRatio": 0.8723021745681763,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
                     "type": 4,
                     "uiCullingMask": 0,
                     "usesPostProcessing": false
+                },
+                {
+                    "active": true,
+                    "isDefault": true,
+                    "type": 25
                 }
             ],
             "name": "Camera",
@@ -40,7 +45,78 @@
         },
         {
             "active": true,
-            "children": [],
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "eventName": "UI_ButtonSelect",
+                            "playOnAwake": false,
+                            "type": 26,
+                            "volume": 100.0
+                        }
+                    ],
+                    "name": "UISelectSound",
+                    "tag": "",
+                    "uid": 12528925533166963174
+                },
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "eventName": "UI_ButtonPress",
+                            "playOnAwake": false,
+                            "type": 26,
+                            "volume": 100.0
+                        }
+                    ],
+                    "name": "UIPressSound",
+                    "tag": "",
+                    "uid": 1459706893472361088
+                }
+            ],
             "components": [
                 {
                     "active": true,
@@ -72,6 +148,21 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "nextXaml",
+                            "type": 1,
+                            "value": "MainMenu.xaml"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "maxVolume",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
                             "name": "totalDuration",
                             "type": 0,
                             "value": 6.5
@@ -80,11 +171,6 @@
                             "name": "fadeSpeed",
                             "type": 0,
                             "value": 0.5
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
                         }
                     ],
                     "scriptUID": 9029998064422359462,
@@ -99,6 +185,11 @@
                             "value": 60.0
                         },
                         {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
                             "name": "currentScene",
                             "type": 5,
                             "value": "Splash.scene"
@@ -107,11 +198,6 @@
                             "name": "fullVolume",
                             "type": 0,
                             "value": 100.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -121,6 +207,41 @@
             "name": "Canvas",
             "tag": "",
             "uid": 14096014066874254419
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "eventName": "MUS_BGM",
+                    "playOnAwake": true,
+                    "type": 26,
+                    "volume": 40.887001037597656
+                }
+            ],
+            "name": "MusicSource",
+            "tag": "",
+            "uid": 14090687679463846520
         }
     ],
     "version": 1

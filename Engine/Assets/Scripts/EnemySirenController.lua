@@ -80,13 +80,6 @@ local function TakeDamage(self, amount, attackerPos)
     self.hp = self.hp - amount
     Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
 
-    if self.hurtSFX then 
-        if self.singSFX then self.singSFX:StopAudioEvent() end
-        self.hurtSFX:PlayAudioEvent() 
-        Engine.Log("[SIREN AUDIO] Hurt SFX Played")
-        self.isSinging = false    
-    end
-    
     _PlayerController_triggerCameraShake = true
 
     -- Knockback
@@ -103,13 +96,19 @@ local function TakeDamage(self, amount, attackerPos)
     if self.hp <= 0 then
         self.isDead              = true
         self.currentState = State.DEAD
+        self.pendingDestroy = true
 
         if self.singSFX then self.singSFX:StopAudioEvent() end
         if self.dipSFX then self.dipSFX:StopAudioEvent() end
 
-        if not self.hasDeathPlayed then
-			if self.deathSFX then self.deathSFX:PlayAudioEvent() end
-			self.hasDeathPlayed = true
+        if self.anim then
+        	if not self.anim:IsPlayingAnimation("Die") then
+				if self.deathSFX then 
+                    Engine.Log("Played Siren DeathSFX")
+                    self.deathSFX:PlayAudioEvent() 
+                end
+            	if self.anim then self.anim:Play("Die") end
+			end
 		end
 
         Game.SetTimeScale(0.2)
@@ -122,6 +121,16 @@ local function TakeDamage(self, amount, attackerPos)
         self.activeShells = {}
 
         Engine.Log("[Mortar] DEAD")
+    else
+        if self.hurtSFX then 
+            if self.singSFX then self.singSFX:StopAudioEvent() end
+            if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
+            Engine.Log("[SIREN AUDIO] Hurt SFX Played")
+            self.isSinging = false    
+            if self.anim then self.anim:Play("Hurt") end
+        end
+    
+       
     end
 end
 
@@ -151,8 +160,13 @@ local function FireShell(self, tx, ty, tz)
     if bulletAsset then
         local shell = Prefab.Instantiate("Sirena_Bullet")
 
+        local feedback = self.windupFeedback
+        self.windupFeedback = nil
+        self.windupFeedbackSet = false
+
         table.insert(self.activeShells, {
             go         = shell,
+            shadowGo         = feedback,
             age        = 0,
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
@@ -447,7 +461,7 @@ local function UpdateWindUp(self, pp, dist, dt)
 
     if self.windUpTimer >= self.public.windUpTime then
         FireShell(self, pp.x, pp.y, pp.z)
-        if self.anim then self.anim:Play("Fire") end
+        if self.anim then self.anim:Play("Shoot") end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
         if self.anim then 
@@ -505,10 +519,6 @@ local function FindSirenAudioComponents(self)  -- local: no interfiere con otros
     local dipSource = GameObject.FindInChildren(self.gameObject, "DipSource")
     Engine.Log("[SIREN AUDIO] DipSource found: " .. tostring(dipSource ~= nil))
 
-    -- singSource = GameObject.Find("SingSource")
-    -- dieSource = GameObject.Find("SirenDieSource")
-    -- hurtSource = GameObject.Find("SirenHurtSource")
-    -- dipSource = GameObject.Find("DipSource")
 
     self.singSFX  = singSource:GetComponent("Audio Source")
     self.deathSFX = dieSource:GetComponent("Audio Source")
@@ -547,7 +557,7 @@ function Start(self)
         flightTime       = 4.0,    -- duración del arco en el aire
         cooldownTime     = 4.5,    -- espera entre disparos
 
-        blastRadius      = 1.75,   -- radio de daño en el impacto
+        blastRadius      = 3.0,   -- radio de daño en el impacto
         attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
 
         barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
@@ -563,7 +573,7 @@ function Start(self)
     self.isDead         = false
     self.playerInRange  = false
     self.pendingDestroy = false
-    self.deathTimer     = 2.5
+ 
 
     self.isFullyHidden = false
     self.hideAnimTimer = 0
@@ -587,12 +597,15 @@ function Start(self)
     self.cooldownTimer = 0
     self.hideCooldownTimer = 0
     self.hideDurationTimer = 0
+    self.deathTimer     = 2.5
+    self.deathTime = 2.5
     self.activeShells  = {}
 
     self.hasDeathPlayed = false
     self.hasHurtPlayed = false
     self.isSinging = false
     self.isShowing = false
+    self.alreadyHit = false
 
     self.windupFeedback = nil
     self.windupFeedbackSet = false
@@ -620,10 +633,19 @@ end
 function Update(self, dt)
     if not self.gameObject then return end
 
+    if self.pendingDestroy and self.deathTimer <= 0 then
+        self.deathTimer = 2.5
+        Engine.Log("Destroyed Siren")
+        self:Destroy() 
+
+        return  
+    end
+
     if Input.GetKey("0") then
         TakeDamage(self, self.hp, self.transform.worldPosition)
         return
     end
+
 
     if self.isDead then
         if self.windupFeedback then
@@ -634,8 +656,11 @@ function Update(self, dt)
         self.deathTimer = self.deathTimer - dt
         local pos = self.transform.position
         self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
+
         if self.deathTimer <= 0 then
-            self:Destroy()
+            Engine.Log("Siren pending to destroy")
+            self.pendingDestroy = true
+            
         end
         return
     end
@@ -652,8 +677,10 @@ function Update(self, dt)
     if hitCooldown > 0 then
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
-            alreadyHit = false
-            BaseMat.SetTexture("8896541361096085563")
+            self.alreadyHit = false
+            
+            if BaseMat then BaseMat.SetTexture("8896541361096085563")
+            else Engine.Log("BaseMat not found in Siren") end
         end
     end
 
@@ -672,6 +699,14 @@ function Update(self, dt)
 
     if not self.dipSFX or not self.hurtSFX or not self.deathSFX or not self.singSFX then
         FindSirenAudioComponents(self)
+    end
+
+    if not sirenMesh then 
+        sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+    end
+
+    if not BaseMat then
+        if sirenMesh then BaseMat = sirenMesh:GetComponent("Material") end
     end
 
     -- Keep the mortar still
@@ -724,10 +759,7 @@ function Update(self, dt)
 
     --Engine.Log("[Siren] State: " .. tostring(self.currentState) .. " dist: " .. string.format("%.1f", dist))
 
-    if self.pendingDestroy then
-        self:Destroy()
-        self.pendingDestroy = false
-    end
+
 end
 
 -- OnTriggerEnter
@@ -741,7 +773,11 @@ function OnTriggerEnter(self, other)
             local attack = _PlayerController_lastAttack
             if attack and attack ~= "" then
                 self.alreadyHit = true
-                BaseMat.SetTexture("1496995762458507062")
+                if BaseMat then
+                    BaseMat.SetTexture("1496995762458507062")
+                else
+                    Engine.Log("BaseMat not found in Siren")
+                end
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
                     TakeDamage(self, DAMAGE_LIGHT, attackerPos)
@@ -753,14 +789,18 @@ function OnTriggerEnter(self, other)
     end
 
     if other:CompareTag("Bullet") then
-        -- La bala golpea al esqueleto
+        -- La bala golpea a la sirena
         if not alreadyHit then
             local ap  = other.transform.worldPosition
             local dmg = 0
             dmg = 15
-            alreadyHit = true
+            self.alreadyHit = true
             hitCooldown = 0.2
-            BaseMat.SetTexture("1496995762458507062")
+            if BaseMat then 
+                BaseMat.SetTexture("1496995762458507062")
+            else
+                Engine.Log("BaseMat not found in Siren")
+            end
             TakeDamage(self, dmg, ap)
         end
     end
@@ -771,6 +811,10 @@ function OnTriggerExit(self, other)
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 
     if other:CompareTag("Player") then
-        BaseMat.SetTexture("8896541361096085563")
+        if BaseMat then
+            BaseMat.SetTexture("8896541361096085563")
+        else
+            Engine.Log("BaseMat not found in Siren")
+        end
     end
 end

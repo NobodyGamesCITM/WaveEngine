@@ -68,6 +68,10 @@ function Update(self, dt)
         opened = true
         hidePrompt()
         inputCooldown = COOLDOWN_TIME
+
+        if _G.TriggerChestAnimation(_G.PlayerInstance) then
+            _G.TriggerChestAnimation(_G.PlayerInstance)
+        end
         if _G.ShowItemObtained then
             _G.ShowItemObtained(
                 self.public.itemText,

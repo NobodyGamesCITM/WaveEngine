@@ -92,6 +92,10 @@ public = {
 
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
     maxLifetime      = 10.0,
+
+    camDuration     = 0.5,
+    camMagnitud     = 1.0,
+    camFrequency    = 20.0,
 }
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 
@@ -170,7 +174,9 @@ local function TakeDamage(self, amount, attackerPos)
 
     SelectPlaySFX(voiceSFX, "SFX_SirenHurt")
     
-    _PlayerController_triggerCameraShake = true
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
+    end
 
     -- Knockback
     if Mortar.rb and attackerPos then

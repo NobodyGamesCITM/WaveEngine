@@ -64,6 +64,8 @@ function Initialize(self)
 
     _G.GlobalMenuManagerInstance = self
 
+    Audio.SetMusicState("MainMenu")
+
     self.isMusicPlaying = false
     Engine.Log("[MenuManager] isMusicPlaying reset to false")
 
@@ -106,7 +108,7 @@ function Initialize(self)
         self.canvas:LoadXAML(path)
         self.canvas:SetOpacity(1.0)
         self.fading = false 
-        Audio.SetMusicState("MainMenu")
+        --Audio.SetMusicState("MainMenu")
         
         Game.Pause()
         self.lastPauseState = "paused"

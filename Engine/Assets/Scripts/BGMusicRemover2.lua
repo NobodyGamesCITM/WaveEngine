@@ -70,7 +70,7 @@ end
 
 
 function Update(self, dt)
-	
+	FadeOutMusic(self, dt)
 end
 
 function OnTriggerEnter(self, other)

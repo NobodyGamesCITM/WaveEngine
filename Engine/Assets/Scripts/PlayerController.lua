@@ -1434,6 +1434,9 @@ function Update(self, dt)
             anim:Play("WakeUp", 0.0)
         end
         _G._PlayerController_introAnim = false
+        if _G.PlayWakeUpCinematic then 
+            _G.PlayWakeUpCinematic() 
+        end
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then

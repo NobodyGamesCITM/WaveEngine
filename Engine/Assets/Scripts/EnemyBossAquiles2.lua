@@ -96,7 +96,6 @@ local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
-
 local hitCooldown = 0
 
 local TILE_SIZE = 3.744
@@ -508,7 +507,7 @@ local function UpdateAnticipation(self, pp, dt)
             local rot = atan2(directionX, directionZ) * (180.0 / pi)
             tile.transform:SetRotation(0, rot, 0)
 
-            tile.transform:SetScale(3.744, 0.15, 3.744)
+            tile.transform:SetScale(3.744, 0.20, 3.744)
         end
     end
 
@@ -804,7 +803,7 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}
@@ -882,7 +881,12 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            BaseMat.SetTexture("18385834806947720505")
+            if hp<=100 then
+                BaseMat.SetTexture("10242481670410472725")
+            else
+                BaseMat.SetTexture("18385834806947720505")
+
+            end        
         end
     end
 
@@ -998,6 +1002,11 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        BaseMat.SetTexture("18385834806947720505")
+        if hp<=100 then
+            BaseMat.SetTexture("10242481670410472725")
+        else
+            BaseMat.SetTexture("18385834806947720505")
+
+        end
     end
 end

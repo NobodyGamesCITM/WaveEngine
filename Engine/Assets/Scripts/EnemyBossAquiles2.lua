@@ -164,6 +164,10 @@ local function DestroyChargeFeedback(self)
     self.chargeFeedbackActive = false
 end
 
+local function FadeOutMusic()
+    local volume
+end
+
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Aquiles] -> " .. newState)
@@ -217,6 +221,7 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+            FadeOutMusic()
             return
         end
     else
@@ -827,8 +832,10 @@ function Update(self, dt)
         FindAquilesAudioComponents(self)
     end
 
-    if Input.GetKey("0") then
-        TakeDamage(self, hp, self.transform.worldPosition)
+    if Input.GetKey("K") then
+        --TakeDamage(self, hp, self.transform.worldPosition)
+        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        hp = 1
         return
     end
 

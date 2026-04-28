@@ -545,6 +545,10 @@ function Start(self)
         enemyDamageMax = 35,
 
         predictionTime = 0.4,
+        
+        camDuration     = 0.5,
+        camMagnitud     = 1.0,
+        camFrequency    = 20.0,
     }
 
     self.hp               = self.public.maxHp

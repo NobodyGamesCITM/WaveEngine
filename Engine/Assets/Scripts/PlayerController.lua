@@ -21,7 +21,7 @@ local itemSource
 --local equipSource
 local changeSource
 local swordMat = nil
-local surfaces = {"Grass", "Water", "Dirt", "Stone"}
+local surfaces = {"Grass", "Water", "Dirt", "Stone", "Bones"}
 
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
@@ -1893,7 +1893,7 @@ function OnCollisionEnter(self, other)
                     Player.lastGroundSurface = surface
                 end
                 if Player.stepSFX then
-                    Audio.SetSwitch("Surface_Type", surface, Player.stepSFX)
+                    Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
                 end
                 Engine.Log("Surface changed to: " .. surface)
             end

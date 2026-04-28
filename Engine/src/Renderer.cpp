@@ -483,23 +483,22 @@ bool Renderer::RenderScene(CameraLens* camera)
         if (mesh && mesh->owner && mesh->owner->IsActive())
             mesh->UpdateSkinningMatrices();
     }
+
     if (lightManager)
     {
-        std::vector<ComponentMesh*> casters;
-        casters.reserve(meshes.size());
+        shadowCasters.clear();
         for (ComponentMesh* m : meshes)
         {
             if (!m || !m->GetCastShadows()) continue;
-            casters.push_back(m);
+            shadowCasters.push_back(m);
         }
 
-        std::vector<ComponentSkinnedMesh*> skinnedCasters;
-        skinnedCasters.reserve(skinnedMeshes.size());
+        skinnedShadowCasters.clear();
         for (ComponentSkinnedMesh* m : skinnedMeshes)
             if (m && m->GetCastShadows())
-                skinnedCasters.push_back(m);
+                skinnedShadowCasters.push_back(m);
 
-        lightManager->BuildShadowMap(casters, skinnedCasters, camera);
+        lightManager->BuildShadowMap(shadowCasters, skinnedShadowCasters, camera);
     }
 
     //Build Render List

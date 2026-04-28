@@ -144,6 +144,9 @@ public:
 
 private:
 
+    std::vector<ComponentMesh*> shadowCasters;
+    std::vector<ComponentSkinnedMesh*> skinnedShadowCasters;
+
     void ApplyRenderSettings();
 
     // Draw Functions

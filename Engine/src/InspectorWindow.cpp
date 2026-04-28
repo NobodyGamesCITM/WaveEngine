@@ -762,20 +762,6 @@ void InspectorWindow::DrawMeshComponent(Component* component)
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("This mesh contributes to the shadow map.");
 
-            if (castShadows)
-            {
-                bool dynamicShadow = meshComp->GetDynamicShadow();
-                if (ImGui::Checkbox("Dynamic Shadow", &dynamicShadow))
-                    meshComp->SetDynamicShadow(dynamicShadow);
-                if (ImGui::IsItemHovered())
-                    ImGui::SetTooltip("Static: shadow is cached and only recalculates when geometry changes.\nDynamic: shadow recalculates every frame. Use for moving objects.");
-
-                if (dynamicShadow)
-                    ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.2f, 1.0f), "  [Recalculates every frame]");
-                else
-                    ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "  [Cached - better performance]");
-            }
-
             ImGui::Spacing();
             ImGui::Separator();
             ImGui::Spacing();
@@ -910,20 +896,6 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("This skinned mesh contributes to the shadow map.");
 
-            if (castShadows)
-            {
-                bool dynamicShadow = meshComp->GetDynamicShadow();
-                if (ImGui::Checkbox("Dynamic Shadow##Skinned", &dynamicShadow))
-                    meshComp->SetDynamicShadow(dynamicShadow);
-                if (ImGui::IsItemHovered())
-                    ImGui::SetTooltip("Static: shadow cached, only recalculates on geometry change.\nDynamic: recalculates every frame. Recommended for animated meshes.");
-
-                if (dynamicShadow)
-                    ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.2f, 1.0f), "  [Recalculates every frame]");
-                else
-                    ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "  [Cached - better performance]");
-            }
-
             ImGui::Spacing();
             ImGui::Separator();
             ImGui::Spacing();
@@ -952,7 +924,6 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
         }
     }
 }
-
 void InspectorWindow::DrawMaterialComponent(Component* component)
 {
     ComponentMaterial* materialComp = static_cast<ComponentMaterial*>(component);

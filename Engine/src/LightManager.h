@@ -34,10 +34,9 @@ public:
     // Also sets numDirLights / numPointLights / numSpotLights uniforms.
     void UploadToShader(Shader* shader);
 
-    void BuildShadowMap(const std::vector<ComponentMesh*>& staticMeshes,
-        const std::vector<ComponentMesh*>& dynamicMeshes,
+    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
         const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
-        const CameraLens* camera);    
+        const CameraLens* camera);
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
@@ -79,10 +78,8 @@ private:
     glm::vec3 lastSceneCenter = glm::vec3(0.f);
 
     void RenderShadowPass(
-        unsigned int targetFBO,
         const std::vector<ComponentMesh*>& meshes,
-        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
-        bool rebuildStaticCache = false);
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
 
     struct ShadowRenderData
     {

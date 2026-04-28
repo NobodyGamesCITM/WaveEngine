@@ -485,25 +485,21 @@ bool Renderer::RenderScene(CameraLens* camera)
     }
     if (lightManager)
     {
-        std::vector<ComponentMesh*> staticCasters;
-        std::vector<ComponentMesh*> dynamicCasters;
-        staticCasters.reserve(meshes.size());
-        dynamicCasters.reserve(meshes.size());
-
+        std::vector<ComponentMesh*> casters;
+        casters.reserve(meshes.size());
         for (ComponentMesh* m : meshes)
         {
             if (!m || !m->GetCastShadows()) continue;
-            if (m->GetDynamicShadow()) dynamicCasters.push_back(m);
-            else staticCasters.push_back(m);
+            casters.push_back(m);
         }
 
-        std::vector<ComponentSkinnedMesh*> skinnedDynamicCasters;
-        skinnedDynamicCasters.reserve(skinnedMeshes.size());
+        std::vector<ComponentSkinnedMesh*> skinnedCasters;
+        skinnedCasters.reserve(skinnedMeshes.size());
         for (ComponentSkinnedMesh* m : skinnedMeshes)
-            if (m && m->GetCastShadows() && m->GetDynamicShadow())
-                skinnedDynamicCasters.push_back(m);
+            if (m && m->GetCastShadows())
+                skinnedCasters.push_back(m);
 
-        lightManager->BuildShadowMap(staticCasters, dynamicCasters, skinnedDynamicCasters, camera);
+        lightManager->BuildShadowMap(casters, skinnedCasters, camera);
     }
 
     //Build Render List

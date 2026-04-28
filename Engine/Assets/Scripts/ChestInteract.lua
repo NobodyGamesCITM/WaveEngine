@@ -25,9 +25,6 @@ local function onChestOpened(self)
             (_G.PotionSystem.public.potionCount or 0) + 1
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
     end
-    if _G.TriggerChestAnimation then
-        _G.TriggerChestAnimation()
-    end
     Engine.Log("[Chest] Poción añadida")
 end
 
@@ -71,6 +68,10 @@ function Update(self, dt)
         opened = true
         hidePrompt()
         inputCooldown = COOLDOWN_TIME
+
+        if _G.TriggerChestAnimation(_G.PlayerInstance) then
+            _G.TriggerChestAnimation(_G.PlayerInstance)
+        end
         if _G.ShowItemObtained then
             _G.ShowItemObtained(
                 self.public.itemText,

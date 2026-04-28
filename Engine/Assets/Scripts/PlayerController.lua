@@ -1101,8 +1101,9 @@ States[State.ATTACK_LIGHT] = {
         if Player.aresAttackPs then
             Player.aresAttackPs:Stop()
         end
-
-        if Player.trailPs then Player.trailPs:Stop() end
+        if Player.trailPs then 
+            Player.trailPs:Stop() 
+        end
     end
 }
 
@@ -1551,7 +1552,6 @@ function Update(self, dt)
                         _G.CurrentXAML = "HUD.xaml"
                     end
                 end
-                
                 Game.Resume()
                 Game.SetTimeScale(1.0)
                 Engine.Log("[Player] FIX: Resume forzado por ausencia de MenuManager")
@@ -1642,7 +1642,6 @@ function Update(self, dt)
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Idle", 0.5) end)
-                
             end
         end
     end
@@ -1656,21 +1655,15 @@ function Update(self, dt)
     end
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
-
         if Player.maskAnimTimer > 0 then return end
         if Player.currentMask ~= Mask.NONE then 
             if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
             EquipMask(self, Mask.NONE) 
         end
-
-        
-        --if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
-        
     end
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
-        --if Player.pickMaskSFX then Player.pickMaskSFX:SelectPlayAudioEvent("SFX_Mask_PickUp") end
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_ApoloMask") end
     end
 
@@ -1717,8 +1710,6 @@ function Update(self, dt)
             Game.SetTimeScale(1.0)
         end
     end
-
-   
 end
 
 function MaskScroll(self)
@@ -1731,8 +1722,6 @@ function MaskScroll(self)
     if Player.healAnimTimer > 0 then return end
 
     if not Player.currentMask then Player.currentMask = Mask.NONE end
-
-    
 
     if Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.NONE then 
@@ -1753,11 +1742,8 @@ function MaskScroll(self)
         elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
     end  
 
-    
-
     ChangeState(self, State.IDLE)
     if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-
 
     if oldMask ~= Player.currentMask then
         local anim = self.gameObject:GetComponent("Animation")
@@ -1770,7 +1756,6 @@ function MaskScroll(self)
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false
     end
-
 end
 
 function ObtainMask(self)
@@ -1819,7 +1804,6 @@ function ResetPlayer(self)
     self.public.stamina = 100
     self.public.berserkActive = false
 
-
     attackCooldown = 0
     rollCooldown   = 0
 
@@ -1839,7 +1823,6 @@ function ResetPlayer(self)
     EquipMask(self, Mask.NONE)
 
     --Player.currentSurface = "Dirt"
-  
 
     local p = Player.spawnPos
     if p then
@@ -1853,9 +1836,6 @@ function ResetPlayer(self)
     ChangeState(self, State.IDLE)
     Engine.Log("[Player] Reset completado")
 end
-
-
-
 
 function OnTriggerEnter(self, other)
     -- local matched = false

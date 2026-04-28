@@ -2,7 +2,8 @@ public = {
     nextXaml = "MainMenu.xaml", 
     totalDuration = 6.5,
     fadeSpeed = 0.5,    
-    updateWhenPaused = true
+    updateWhenPaused = true,
+    maxVolume = 100
 }
 
 local function InitState(self)
@@ -12,6 +13,7 @@ local function InitState(self)
     self.splashTimer     = 0.0
     self.splashFadeTimer = 0.0
     self.splashStarted   = true
+    self.musicFadeTimer  = 0.0
 
     local bgMusic = GameObject.Find("MusicSource")
     if bgMusic then
@@ -25,6 +27,8 @@ end
 
 function Start(self)
     InitState(self)
+
+    Audio.SetMusicVolume(self.public.maxVolume)
 
     if _G.SkipSplash then
         return
@@ -86,7 +90,25 @@ function Update(self, dt)
     if self.splashFadingOut then
         self.splashFadeTimer = self.splashFadeTimer + dt
 
+        self.musicFadeTimer = self.musicFadeTimer + dt
+		local progressPercent = math.min((self.musicFadeTimer/(self.public.fadeSpeed or 1.5)), 1.0)
+		local volume = (self.public.maxVolume or 100) * (progressPercent)
+		--Engine.Log("Setting global audio to ".. volume)
+		if volume then
+            if volume >= (self.public.maxVolume or 100) then volume = self.public.maxVolume or 100  end
+			Audio.SetMusicVolume(volume)
+		else
+			Engine.Log("Could not set music volume!")
+		end
+
         if self.splashFadeTimer >= self.public.fadeSpeed then
+
+            if not self.splashFinished then 
+                if self.musicComp then self.musicComp:PlayAudioEvent()
+                else Engine.Log("[SPLASH SCREEN] Couldn't play BG Music") 
+                end
+            end
+
             self.splashFinished = true
             
 
@@ -101,7 +123,7 @@ function Update(self, dt)
                     _G._MenuManager_NeedReinit = true
                     _G.SkipSplash = nil
                     Audio.SetMusicState("MainMenu")
-                    if self.musicComp then self.musicComp:PlayAudioEvent() end
+                    --if self.musicComp then self.musicComp:PlayAudioEvent() end
                 else
                     Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
                 end
@@ -109,4 +131,5 @@ function Update(self, dt)
         end
     end
 end
+
 

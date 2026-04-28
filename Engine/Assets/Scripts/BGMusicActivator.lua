@@ -10,6 +10,7 @@ public = {
 	fadeTime = 1.5,
 	maxVolume = 100,
     nextMusicState = "",
+	currentScene = {type = "Scene", value = ""}
 }
 
 local musicStates = {
@@ -20,8 +21,14 @@ local musicStates = {
 	"Boss"
 }
 
+
 local function Initialize(self)
-	enteredNewLevel = false
+
+	if self.public.currentScene == "Splash.scene" then 
+		enteredNewLevel = true
+		Game.Resume()
+	else enteredNewLevel = false end
+
 	finishedTransition = false
 	fadeTimer = 0
 	volume = 0
@@ -107,3 +114,5 @@ function OnTriggerEnter(self, other)
 		-- end
 	end
 end
+
+

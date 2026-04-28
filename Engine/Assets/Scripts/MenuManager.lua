@@ -4,6 +4,8 @@ local NEXT_XAML_DEFAULT = "HUD.xaml"
 local FADE_DURATION      = 0.4
 local SCENE_FADE_DURATION = 2.0
 
+
+
 Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
 
 local assetsPath = Engine.GetAssetsPath()
@@ -185,8 +187,12 @@ function Update(self, dt)
 
     if isActualMenu then
         if self.lastPauseState ~= "paused" then
-            Game.Pause()
-            self.lastPauseState = "paused"
+            if not self.public.currentScene == "Splash.scene" then
+                Game.Pause()
+                self.lastPauseState = "paused"
+            else
+                --Audio.SetMusicState("MainMenu")
+            end
         end
         if self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
@@ -275,6 +281,7 @@ function Update(self, dt)
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
+                
             end
         end
         if UI.WasClicked("SettingsButton") then
@@ -300,6 +307,7 @@ function Update(self, dt)
                 if _G.PlayerInstance then
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
+                    Audio.SetMusicVolume(self.public.fullVolume or 100)
                 end
                 _G.SkipSplash = true                -- Indica a la siguiente escena que salte la intro
                 self.pendingScene = "Splash.scene"  -- Escena a cargar tras el fade
@@ -331,14 +339,27 @@ function Update(self, dt)
     if self.phase == "fadeOut" then
         local duration = self.pendingScene and SCENE_FADE_DURATION or FADE_DURATION
         local t     = math.min(self.fadeTimer / duration, 1.0)
-        
+
         if not self.pendingScene then
             local alpha = 1.0 - EaseInOutQuad(t)
             self.canvas:SetOpacity(alpha)
+        else
+            local volume = (self.public.fullVolume or 100) * (1 - EaseInOutQuad(t))
+            if volume then 
+			    Audio.SetMusicVolume(volume)
+		    else
+			    Engine.Log("Could not set music volume!")
+		    end
         end
 
         if t >= 1.0 then
-            if not self.pendingScene then self.canvas:SetOpacity(0.0) end
+            if not self.pendingScene then 
+                self.canvas:SetOpacity(0.0) 
+            else
+                Audio.SetMusicVolume(0)
+                
+            end
+            
             SetPhase(self, "swap")
         end
 

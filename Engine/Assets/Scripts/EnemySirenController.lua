@@ -160,8 +160,13 @@ local function FireShell(self, tx, ty, tz)
     if bulletAsset then
         local shell = Prefab.Instantiate("Sirena_Bullet")
 
+        local feedback = self.windupFeedback
+        self.windupFeedback = nil
+        self.windupFeedbackSet = false
+
         table.insert(self.activeShells, {
             go         = shell,
+            shadowGo         = feedback,
             age        = 0,
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
@@ -552,7 +557,7 @@ function Start(self)
         flightTime       = 4.0,    -- duración del arco en el aire
         cooldownTime     = 4.5,    -- espera entre disparos
 
-        blastRadius      = 1.75,   -- radio de daño en el impacto
+        blastRadius      = 3.0,   -- radio de daño en el impacto
         attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
 
         barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot

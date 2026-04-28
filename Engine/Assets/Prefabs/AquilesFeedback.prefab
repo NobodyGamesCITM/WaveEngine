@@ -1,0 +1,41 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "primitiveType": "Cube",
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 877439296763403037,
+                "type": 3
+            }
+        ],
+        "name": "AquilesFeedback",
+        "prefabInstance": 16370346988537284279,
+        "tag": "",
+        "uid": 11953070989776308498
+    }
+]

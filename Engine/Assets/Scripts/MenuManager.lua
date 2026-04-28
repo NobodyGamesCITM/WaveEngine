@@ -33,7 +33,7 @@ local function SetPhase(self, newPhase)
 end
 
 local function NavigateTo(self, xaml)
-    if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+    --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
     if not self.history then self.history = {} end
     table.insert(self.history, self.current)
     self.nextXaml = xaml
@@ -42,7 +42,7 @@ local function NavigateTo(self, xaml)
 end
 
 local function NavigateBack(self)
-    if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+    --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
     if not self.history or #self.history == 0 then return end
     self.nextXaml = table.remove(self.history)
     SetPhase(self, "swap")
@@ -65,6 +65,8 @@ function Initialize(self)
     _G.GlobalMenuManagerInstance = self
 
     self.isMusicPlaying = false
+    Engine.Log("[MenuManager] isMusicPlaying reset to false")
+
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
         self.musicComp = self.musicSource:GetComponent("Audio Source")
@@ -188,6 +190,7 @@ function Update(self, dt)
     if isActualMenu then
         if self.lastPauseState ~= "paused" then
             if not self.public.currentScene == "Splash.scene" then
+                
                 Game.Pause()
                 self.lastPauseState = "paused"
             else
@@ -265,22 +268,15 @@ function Update(self, dt)
             end
         end
 
-        local allCanvasButtons = UI.GetCanvasButtons()
-
-        for i, button in ipairs(allCanvasButtons) do
-            if UI.WasFocused(tostring(button)) then
-                if self.selectSFX then 
-                    self.selectSFX:PlayAudioEvent() 
-                end
-            end
-        end
 
         if UI.WasClicked("StartButton") then
+            
             if not self.fading then
                 Engine.Log("[MenuManager] StartButton clicked: Iniciando fade out para cargar nivel...")
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
+                --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
                 
             end
         end
@@ -288,6 +284,7 @@ function Update(self, dt)
             NavigateTo(self, "SettingsMenu.xaml")
         end
         if UI.WasClicked("ExitButton") then
+            if self.pressSFX then self.pressSFX:PlayAudioEvent() end
             Game.Exit()
         end
 
@@ -313,6 +310,7 @@ function Update(self, dt)
                 self.pendingScene = "Splash.scene"  -- Escena a cargar tras el fade
                 self.fading = true                  -- Inicia la transición en el script
                 self.canvas:PlayStoryboard("FadeOut") -- Inicia la animación visual en el XAML
+                --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
             end
         end
 
@@ -322,6 +320,27 @@ function Update(self, dt)
         if UI.WasClicked("GraphicsButton") then
             NavigateTo(self, "GraphicsMenu.xaml")
         end
+
+        -- if UI.WasClicked("BackButton") then 
+        --     if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+        -- end
+
+        local allCanvasButtons = UI.GetCanvasButtons()
+
+        for i, button in ipairs(allCanvasButtons) do
+            if UI.WasFocused(tostring(button)) then
+                if self.selectSFX then 
+                    self.selectSFX:PlayAudioEvent() 
+                end
+            end
+
+            if UI.WasClicked(tostring(button)) then
+                if self.pressSFX then 
+                    self.pressSFX:PlayAudioEvent() 
+                end
+            end
+        end
+
 
         local isEscapeHandled = (self.current == "HUD.xaml" or self.current == "PauseMenu.xaml")
         local canGoBack = self.history and #self.history > 0 and self.current ~= "MainMenu.xaml" and self.current ~= "LoseMenu.xaml"
@@ -415,7 +434,16 @@ function Update(self, dt)
         elseif self.current == "MainMenu.xaml" then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
-            Game.Pause()
+            -- if not self.isMusicPlaying and self.musicComp then
+            --     local mGo = GameObject.Find("MusicSource")
+            --     if mGo then self.musicComp = mGo:GetComponent("Audio Source") end
+            --     if self.musicComp then self.musicComp:PlayAudioEvent() end
+            --     self.isMusicPlaying = true
+            -- end
+
+            
+            Game.Resume()
+            --Game.Pause()
             self.lastPauseState = "paused"
         end
 

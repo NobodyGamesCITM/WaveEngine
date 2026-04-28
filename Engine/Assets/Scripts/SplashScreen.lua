@@ -14,6 +14,7 @@ local function InitState(self)
     self.splashFadeTimer = 0.0
     self.splashStarted   = true
     self.musicFadeTimer  = 0.0
+    self.isMusicPlaying = false
 
     local bgMusic = GameObject.Find("MusicSource")
     if bgMusic then
@@ -104,9 +105,9 @@ function Update(self, dt)
         if self.splashFadeTimer >= self.public.fadeSpeed then
 
             if not self.splashFinished then 
-                if self.musicComp then self.musicComp:PlayAudioEvent()
-                else Engine.Log("[SPLASH SCREEN] Couldn't play BG Music") 
-                end
+                -- if self.musicComp then self.musicComp:PlayAudioEvent()
+                -- else Engine.Log("[SPLASH SCREEN] Couldn't play BG Music") 
+                -- end
             end
 
             self.splashFinished = true

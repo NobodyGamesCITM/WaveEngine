@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.4526315927505493,
+                    "aspectRatio": 1.2679855823516846,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -148,6 +148,21 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "nextXaml",
+                            "type": 1,
+                            "value": "MainMenu.xaml"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "maxVolume",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
                             "name": "totalDuration",
                             "type": 0,
                             "value": 6.5
@@ -156,11 +171,6 @@
                             "name": "fadeSpeed",
                             "type": 0,
                             "value": 0.5
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
                         }
                     ],
                     "scriptUID": 9029998064422359462,
@@ -175,6 +185,11 @@
                             "value": 60.0
                         },
                         {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
                             "name": "currentScene",
                             "type": 5,
                             "value": "Splash.scene"
@@ -183,11 +198,6 @@
                             "name": "fullVolume",
                             "type": 0,
                             "value": 100.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -224,9 +234,9 @@
                 {
                     "active": true,
                     "eventName": "MUS_BGM",
-                    "playOnAwake": true,
+                    "playOnAwake": false,
                     "type": 26,
-                    "volume": 100.0
+                    "volume": 40.887001037597656
                 }
             ],
             "name": "MusicSource",

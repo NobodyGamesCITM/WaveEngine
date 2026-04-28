@@ -1,5 +1,5 @@
 public = {
-    nextXaml = { type = "String", value = "MainMenu.xaml" }, 
+    nextXaml = "MainMenu.xaml", 
     totalDuration = 6.5,
     fadeSpeed = 0.5,    
     updateWhenPaused = true
@@ -101,7 +101,7 @@ function Update(self, dt)
                     _G._MenuManager_NeedReinit = true
                     _G.SkipSplash = nil
                     Audio.SetMusicState("MainMenu")
-                    --if self.musicComp then self.musicComp:PlayAudioEvent() end
+                    if self.musicComp then self.musicComp:PlayAudioEvent() end
                 else
                     Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
                 end
@@ -109,3 +109,4 @@ function Update(self, dt)
         end
     end
 end
+

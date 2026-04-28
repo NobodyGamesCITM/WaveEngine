@@ -191,6 +191,29 @@ function TriggerDrinkAnimation(self, isInternalHeal)
     return true
 end
 
+function _G.TriggerChestAnimation()
+    local self = _G.PlayerInstance
+    if not self then return false end
+
+    if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.AnimTimer > 0
+       or Player.currentState == State.DEAD then
+        return false
+    end
+
+    ChangeState(self, State.IDLE)
+    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+    local anim = self.gameObject:GetComponent("Animation")
+    if anim then
+        pcall(function() anim:Play("Idle", 0.0) end)
+        pcall(function() anim:Play("Open", 0.4) end)
+    end
+
+    Player.AnimTimer = 3.0
+    self.public.canMove = false
+    return true
+end
+
 
 local function normalizeInput(x, z)
     local len = sqrt(x*x + z*z)
@@ -1664,16 +1687,19 @@ function Update(self, dt)
 
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
+        debugMaskGive = true
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_ApoloMask") end
     end
 
     if Input.GetKeyDown("F2") then 
         giveHermesMask = true
+        debugMaskGive = true
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_HermesMask") end
     end
 
     if Input.GetKeyDown("F3") then 
         giveAresMask = true
+        debugMaskGive = true
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_AresMask") end
     end
 
@@ -1759,11 +1785,13 @@ function MaskScroll(self)
 end
 
 function ObtainMask(self)
+    local maskObtained = false
     if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
         _G._MaskCount = _G._MaskCount + 1
         _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
+        maskObtained = true
         if Player.currentMask == Mask.NONE then
             EquipMask(self, Mask.APOLLO)
         end
@@ -1772,11 +1800,10 @@ function ObtainMask(self)
 
     if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
-
         _G._MaskCount = _G._MaskCount + 1
         _G._MaskState_Hermes = true
-
         Engine.Log("Hermes Mask obtain")
+        maskObtained = true
         if Player.currentMask == Mask.NONE then
             EquipMask(self, Mask.HERMES)
         end
@@ -1785,16 +1812,30 @@ function ObtainMask(self)
 
     if giveAresMask and Mask.ARES == "None" then
         Mask.ARES = "Ares"
-
         _G._MaskCount = _G._MaskCount + 1
         _G._MaskState_Ares = true
-
         Engine.Log("Ares Mask obtain")
+        maskObtained = true
         if Player.currentMask == Mask.NONE then
             EquipMask(self, Mask.ARES)
         end
     end
     giveAresMask = false
+
+    if maskObtained and Player.currentState ~= State.DEAD then
+        ChangeState(self, State.IDLE)
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+        if not debugMaskGive then
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("Idle", 0.0) end)
+                pcall(function() anim:Play("GetMask", 0.4) end)
+            end
+            Player.AnimTimer = 33.0
+            self.public.canMove = false
+        end
+    end
+    debugMaskGive = false
 end
 
 function ResetPlayer(self)

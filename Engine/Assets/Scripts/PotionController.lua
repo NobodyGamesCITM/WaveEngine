@@ -12,8 +12,8 @@ local potionCooldown      = 0.0
 local berserkActiveTimer  = 0.0
 
 public = {
-    potionCount = 2,
-    berserkCount = 2
+    potionCount = 0,
+    berserkCount = 0
 }
 
 function Start(self)

@@ -35,7 +35,10 @@ end
 local function NavigateTo(self, xaml)
     --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
     if not self.history then self.history = {} end
-    table.insert(self.history, self.current)
+    -- Evitamos guardar el Splash Screen en el historial para que no se pueda "volver" a él
+    if self.current and not self.current:find("SplashScreen.xaml") then
+        table.insert(self.history, self.current)
+    end
     self.nextXaml = xaml
     SetPhase(self, "swap")
     Engine.Log("[MenuManager] Navigating to: " .. xaml)
@@ -108,10 +111,16 @@ function Initialize(self)
         self.canvas:LoadXAML(path)
         self.canvas:SetOpacity(1.0)
         self.fading = false 
-        --Audio.SetMusicState("MainMenu")
         
-        Game.Pause()
-        self.lastPauseState = "paused"
+        if path:find("MainMenu.xaml") then
+            Game.Resume()
+            self.lastPauseState = "running"
+            self.history = {}
+        else
+            Game.Pause()
+            self.lastPauseState = "paused"
+        end
+
         SetPhase(self, "idle")
         Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
         return true
@@ -142,8 +151,9 @@ function Initialize(self)
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")
         --Game.Pause()
-         
-        self.lastPauseState = "paused"
+        -- El MainMenu no pausa el juego, por lo que el estado es "running"
+        self.history = {} -- Limpiamos historial para no volver al Splash
+        self.lastPauseState = "running"
     elseif isGameplayScene then
         
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
@@ -191,13 +201,17 @@ function Update(self, dt)
     local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
 
     if isActualMenu then
-        if self.lastPauseState ~= "paused" then
-            if not self.public.currentScene == "Splash.scene" then
-                
+        -- Si es el MainMenu, nos aseguramos de que el motor SIGA CORRIENDO
+        if self.current:find("MainMenu.xaml") then
+            if self.lastPauseState ~= "running" then
+                Game.Resume()
+                self.lastPauseState = "running"
+            end
+        else
+            -- Otros menús (Settings, Pause, etc.) sí pausan el juego
+            if self.lastPauseState ~= "paused" and self.public.currentScene ~= "Splash.scene" then
                 Game.Pause()
                 self.lastPauseState = "paused"
-            else
-                --Audio.SetMusicState("MainMenu")
             end
         end
         if self.current:find("MainMenu.xaml") then
@@ -438,7 +452,7 @@ function Update(self, dt)
                 self.lastPauseState = "running"
             end
 
-        elseif self.current == "MainMenu.xaml" then
+        elseif self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
             -- if not self.isMusicPlaying and self.musicComp then
@@ -448,10 +462,11 @@ function Update(self, dt)
             --     self.isMusicPlaying = true
             -- end
 
+            self.history = {} -- Limpiamos historial al volver al menú principal
             
             Game.Resume()
             --Game.Pause()
-            self.lastPauseState = "paused"
+            self.lastPauseState = "running" -- El MainMenu no pausa el juego
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)

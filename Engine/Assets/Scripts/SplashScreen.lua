@@ -127,10 +127,9 @@ function Update(self, dt)
                     --if self.musicComp then self.musicComp:PlayAudioEvent() end
                 else
                     Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
+                    _G._MenuManager_NeedReinit = true -- Forzamos el re-inicio del Manager aunque falle la carga para limpiar el historial
                 end
             end
         end
     end
 end
-
-

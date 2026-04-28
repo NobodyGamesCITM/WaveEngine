@@ -19,6 +19,7 @@ ModuleGame::~ModuleGame()
 bool ModuleGame::Start()
 {
     Application::GetInstance().events->Subscribe(Event::Type::WindowResize, this);
+    Application::GetInstance().events->Subscribe(Event::Type::SceneLoaded, this);
     
     auto* window = Application::GetInstance().window.get();
     int width = 0, height = 0;
@@ -71,6 +72,14 @@ void ModuleGame::OnEvent(const Event& event)
     case Event::Type::WindowResize:
     {
         HandleViewportResize(event.data.point.x, event.data.point.y);
+        break;
+    }
+    case Event::Type::SceneLoaded:
+    {
+        int width = 0, height = 0;
+        Application::GetInstance().window->GetWindowSize(width, height);
+        HandleViewportResize(width, height);
+        break;
     }
     default:
         break;

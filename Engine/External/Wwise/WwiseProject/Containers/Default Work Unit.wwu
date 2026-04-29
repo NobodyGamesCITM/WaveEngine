@@ -185,7 +185,27 @@
 													<ObjectRef Name="Level2_AltCombat" ID="{F78E1836-3BFA-4FBB-B8CF-F7F538B056BA}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
-											<TransitionInfo/>
+											<TransitionInfo>
+												<SourceFadeOut>
+													<MusicFade Name="Source Fade-out" ID="{604C0827-F3AD-492C-8D00-090D41C3CD07}">
+														<PropertyList>
+															<Property Name="FadeCurve" Type="int16" Value="5"/>
+															<Property Name="FadeOffset" Type="Real64" Value="0.5"/>
+															<Property Name="FadeTime" Type="Real64" Value="1"/>
+															<Property Name="FadeType" Type="int16" Value="1"/>
+														</PropertyList>
+													</MusicFade>
+												</SourceFadeOut>
+												<DestinationFadeIn>
+													<MusicFade Name="Destination Fade-in" ID="{E3DECAB1-D4B9-42F5-9165-042B194FC8E7}">
+														<PropertyList>
+															<Property Name="FadeCurve" Type="int16" Value="5"/>
+															<Property Name="FadeOffset" Type="Real64" Value="-0.5"/>
+															<Property Name="FadeTime" Type="Real64" Value="1"/>
+														</PropertyList>
+													</MusicFade>
+												</DestinationFadeIn>
+											</TransitionInfo>
 										</MusicTransition>
 										<MusicTransition Name="Transition" ID="{6C8DA42C-4789-4717-82D3-7FD8A024DD18}">
 											<PropertyList>

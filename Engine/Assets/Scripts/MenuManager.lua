@@ -33,7 +33,9 @@ local function SetPhase(self, newPhase)
 end
 
 local function NavigateTo(self, xaml)
-    --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+    if self.pressSFX then 
+        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") 
+    end
     if not self.history then self.history = {} end
     -- Evitamos guardar el Splash Screen en el historial para que no se pueda "volver" a él
     if self.current and not self.current:find("SplashScreen.xaml") then
@@ -45,7 +47,9 @@ local function NavigateTo(self, xaml)
 end
 
 local function NavigateBack(self)
-    --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+    if self.pressSFX then 
+        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") 
+    end
     if not self.history or #self.history == 0 then return end
     self.nextXaml = table.remove(self.history)
     SetPhase(self, "swap")
@@ -302,7 +306,7 @@ function Update(self, dt)
             NavigateTo(self, "SettingsMenu.xaml")
         end
         if UI.WasClicked("ExitButton") then
-            if self.pressSFX then self.pressSFX:PlayAudioEvent() end
+            if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end
             Game.Exit()
         end
 
@@ -349,13 +353,13 @@ function Update(self, dt)
         for i, button in ipairs(allCanvasButtons) do
             if UI.WasFocused(tostring(button)) then
                 if self.selectSFX then 
-                    self.selectSFX:PlayAudioEvent() 
+                    self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect") 
                 end
             end
 
             if UI.WasClicked(tostring(button)) then
                 if self.pressSFX then 
-                    self.pressSFX:PlayAudioEvent() 
+                    self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") 
                 end
             end
         end

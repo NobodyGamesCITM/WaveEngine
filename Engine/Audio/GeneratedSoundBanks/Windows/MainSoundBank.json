@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{B08DCDD8-906A-A37B-A91E-A9E9E64E0296}",
+    "Hash": "{7C88C58B-F44A-7CE4-1556-3980EF15502A}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1013,7 +1013,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "moving_rock.wav",
-      "CachePath": "26/{265759C2-CBD9-96E2-E37F-8A92FD5E4384}.wem"
+      "CachePath": "7F/{7F462D61-3ED8-DEF5-D33E-3043B308A97D}.wem"
      },
      {
       "Id": "864759864",
@@ -1723,22 +1723,6 @@
       ]
      },
      {
-      "Id": "1739295053",
-      "Name": "SFX_Door",
-      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_Door",
-      "GUID": "{2DDA5C71-98EF-4CA4-B8D7-EE0F6D6F2359}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
-      "MediaRefs": [
-       {
-        "Id": "307199709"
-       },
-       {
-        "Id": "585854071"
-       }
-      ]
-     },
-     {
       "Id": "2318810",
       "Name": "SFX_DoorMove",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorMove",
@@ -2128,8 +2112,8 @@
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "2.4402916",
-      "DurationMax": "2.5313542",
+      "DurationMin": "2.9402916",
+      "DurationMax": "3.0313542",
       "MediaRefs": [
        {
         "Id": "70539538"
@@ -3128,6 +3112,6 @@
     ]
    }
   ],
-  "FileHash": "{6E53D214-3D54-8115-3B5A-C9BADE79BC99}"
+  "FileHash": "{06FEE5EC-999C-E8C0-52DF-8D25A3E3A06A}"
  }
 }

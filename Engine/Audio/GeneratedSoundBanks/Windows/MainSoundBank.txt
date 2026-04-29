@@ -20,7 +20,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	1281281593	SFX_RockMove			\Default Work Unit\Puzzles\SFX_RockMove	
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
-	1739295053	SFX_Door			\Default Work Unit\Puzzles\SFX_Door	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
 	2001794665	SFX_MaskSwitch			\Default Work Unit\Player\SFX_MaskSwitch	
@@ -251,7 +250,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	857628780	aquiles_dash_01	.cache\64\{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_dash_01		90800
 	861888802	aquiles_step_08	.cache\FB\{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		46808
-	863671011	moving_rock	.cache\26\{265759C2-CBD9-96E2-E37F-8A92FD5E4384}.wem		\Containers\Default Work Unit\Objects\Puzzles\moving_rock		46880
+	863671011	moving_rock	.cache\7F\{7F462D61-3ED8-DEF5-D33E-3043B308A97D}.wem		\Containers\Default Work Unit\Objects\Puzzles\moving_rock		46880
 	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	864792433	aquiles_step_01	.cache\85\{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		57176
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424

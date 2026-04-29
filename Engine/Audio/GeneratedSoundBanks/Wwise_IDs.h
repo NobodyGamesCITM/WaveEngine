@@ -25,7 +25,6 @@ namespace AK
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_ARESMASK = 3161303428U;
-        static const AkUniqueID SFX_DOOR = 1739295053U;
         static const AkUniqueID SFX_DOORMOVE = 2318810U;
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_HERMESMASK = 3607278939U;

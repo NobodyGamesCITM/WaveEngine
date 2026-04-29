@@ -17,11 +17,20 @@ local currentYaw = 0.0
 local targetYaw = 0.0
 local setupDone = false
 local playerAttackHandled = false
+local rockSFX = nil
 
 function Start(self)
     local rot = self.transform.rotation
     currentYaw = rot.y
     targetYaw = rot.y
+    --audio
+    rockSFX = self.gameObject:GetComponent("Audio Source")
+    if not rockSFX then 
+        Engine.Log("[PUZZLE ENTITY] Could not retrieve Movable Rock Audio Source")
+    else
+        Engine.Log("[PUZZLE ENTITY] Rock Audio Source found!")
+    end
+
 end
 
 -- Esta función hace la lógica del impacto con la Entity, se llama por Trigger o Distancia porque no detecta según como, pdte de mejorar la llamada
@@ -115,6 +124,7 @@ function Update(self, dt)
                 if dist <= self.public.hitDistance then
                     playerAttackHandled = true
                     ProcessHit(self, currentAttack, player)
+                    if rockSFX then rockSFX:PlayAudioEvent() end
                 end
             end
         end

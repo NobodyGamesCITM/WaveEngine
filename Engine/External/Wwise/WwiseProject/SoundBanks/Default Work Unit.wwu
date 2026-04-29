@@ -9,7 +9,9 @@
 						<ObjectRef Name="SFX_MinoCrash" ID="{CF6CBB00-EC82-40C7-8F29-32C4484F102A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_CloseWindow" ID="{4015699C-215D-40CF-A144-54499D59F78A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_LargePlate" ID="{74317D9E-E568-40FF-B6D7-3340DA2D5A61}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_DoorStop" ID="{44D2366F-762A-4133-980D-A8110E41216E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_DoorMove" ID="{9D486567-4554-4275-B8DE-2D663F79B9F8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesSpearHit" ID="{2C188969-1DDA-429F-B4C1-44482CAD51F0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PressPlate" ID="{348B4560-5EB4-42B6-82A2-C2BD590D65B7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesHurt" ID="{1F32ED38-1135-42D5-9F07-D1B4CC6C1D8C}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

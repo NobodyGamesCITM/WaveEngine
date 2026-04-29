@@ -733,6 +733,70 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_DoorMove" ID="{9D486567-4554-4275-B8DE-2D663F79B9F8}">
+							<ChildrenList>
+								<Action Name="" ID="{144732F4-6ECE-4C86-AEA9-D041B2D38A3C}" ShortID="913728156">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_move" ID="{46ABECFC-BFF7-4D4C-A945-E9E58A69E99D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_DoorStop" ID="{44D2366F-762A-4133-980D-A8110E41216E}">
+							<ChildrenList>
+								<Action Name="" ID="{543B0AB5-F17E-4E24-A10B-B9D362489BB7}" ShortID="1001560009">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_move" ID="{46ABECFC-BFF7-4D4C-A945-E9E58A69E99D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{F34DB7E7-4D48-4BDE-BD74-9785292E5719}" ShortID="941770127">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_end" ID="{6BDABF02-6382-4F63-B744-E68CD7EC0D1D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_Door" ID="{2DDA5C71-98EF-4CA4-B8D7-EE0F6D6F2359}">
+							<ChildrenList>
+								<Action Name="" ID="{0A3413B5-621D-4DD3-AB4E-3DAE883323F0}" ShortID="593056429">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_move" ID="{46ABECFC-BFF7-4D4C-A945-E9E58A69E99D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{F9F2472C-DD9D-44B6-9B53-43ED93520A19}" ShortID="149577406">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="Delay" Type="Real64" Value="4.25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_move" ID="{46ABECFC-BFF7-4D4C-A945-E9E58A69E99D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{07437268-12AB-421C-A558-0EC812EB1A9E}" ShortID="368341315">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="4"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="door_end" ID="{6BDABF02-6382-4F63-B744-E68CD7EC0D1D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

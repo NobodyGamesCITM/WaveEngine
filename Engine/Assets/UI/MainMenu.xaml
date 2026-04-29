@@ -182,36 +182,27 @@
             <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="955*"/>
-            <ColumnDefinition Width="325*"/>
+            <ColumnDefinition Width="931*"/>
+            <ColumnDefinition Width="349*"/>
         </Grid.ColumnDefinitions>
 
         <Viewbox Stretch="Uniform" Margin="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid x:Name="LayoutRoot" Height="720">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="983"/>
-                <ColumnDefinition Width="297"/>
+                <ColumnDefinition Width="971"/>
+                <ColumnDefinition Width="283"/>
+                <ColumnDefinition Width="26"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="MainMenu_text"
-                       Grid.Column="0"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       Margin="30,25,0,0"
-                       FontSize="52"
-                       FontWeight="Bold"
-                       Foreground="Black"
-                       Text="MainMenu" FontFamily="Arial"/>
-
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="223*"/>
-                    <RowDefinition Height="321*"/>
-                    <RowDefinition Height="176*"/>
+                    <RowDefinition Height="151*"/>
+                    <RowDefinition Height="489*"/>
+                    <RowDefinition Height="80*"/>
                 </Grid.RowDefinitions>
-                <Viewbox Grid.RowSpan="3">
-                    <StackPanel Margin="0">
-                        <Button x:Name="StartButton" Content="START" Command="{Binding Path=Commands[StartButton]}" Margin="0,0,0,90" Opacity="1" Style="{StaticResource TextButtonStyle}">
+                <Viewbox Grid.Row="1">
+                    <StackPanel>
+                        <Button x:Name="StartButton" Content="START" Command="{Binding Path=Commands[StartButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60">
                             <Button.RenderTransform>
                                 <TranslateTransform X="0" Y="0"/>
                             </Button.RenderTransform>
@@ -224,7 +215,20 @@
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </Button>
-                        <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Margin="0,0,0,90" Opacity="1" Style="{StaticResource TextButtonStyle}">
+                        <Button x:Name="ContinueButton" Command="{Binding Path=Commands[StartButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Content="CONTINUE" Margin="0,0,0,60">
+                            <Button.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Button.RenderTransform>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Loaded">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="MouseEnter">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                        <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60">
                             <Button.RenderTransform>
                                 <TranslateTransform X="0" Y="0"/>
                             </Button.RenderTransform>
@@ -234,7 +238,7 @@
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </Button>
-                        <Button x:Name="ExitButton" Content="EXIT" Command="{Binding Commands[ExitButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}">
+                        <Button x:Name="ExitButton" Content="EXIT" Command="{Binding Commands[ExitButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right">
                             <Button.RenderTransform>
                                 <TranslateTransform X="0" Y="0"/>
                             </Button.RenderTransform>

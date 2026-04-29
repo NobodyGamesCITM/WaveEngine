@@ -524,7 +524,7 @@ local function UpdateAnticipation(self, pp, dt)
 
             -- Create new ones
             for i = 1, numTiles do
-                local tile = Prefab.Instantiate("MinocabroFeedback")
+                local tile = Prefab.Instantiate("AquilesFeedback")
                 table.insert(self.chargeFeedbackTiles, tile)
             end
         end
@@ -839,7 +839,7 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
+    Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}

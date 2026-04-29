@@ -17,11 +17,20 @@ local currentYaw = 0.0
 local targetYaw = 0.0
 local setupDone = false
 local playerAttackHandled = false
+local puzzleEntSFX = nil
 
 function Start(self)
     local rot = self.transform.rotation
     currentYaw = rot.y
     targetYaw = rot.y
+    --audio
+    puzzleEntSFX = self.gameObject:GetComponent("Audio Source")
+    if not puzzleEntSFX then 
+        Engine.Log("[PUZZLE ENTITY] Could not retrieve Puzzle Entity Audio Source")
+    else
+        Engine.Log("[PUZZLE ENTITY] Puzzle Entity Audio Source found!")
+    end
+
 end
 
 -- Esta función hace la lógica del impacto con la Entity, se llama por Trigger o Distancia porque no detecta según como, pdte de mejorar la llamada
@@ -77,6 +86,7 @@ local function ProcessHit(self, attackType, playerObj)
                 self.public.gridC = self.public.gridC + dC
                 isMoving = true
                 Engine.Log("[PuzzleEntity] Movement is possible, no object in the way.")
+                if puzzleEntSFX then puzzleEntSFX:PlayAudioEvent() end
             end
         end
         
@@ -115,6 +125,7 @@ function Update(self, dt)
                 if dist <= self.public.hitDistance then
                     playerAttackHandled = true
                     ProcessHit(self, currentAttack, player)
+                    
                 end
             end
         end

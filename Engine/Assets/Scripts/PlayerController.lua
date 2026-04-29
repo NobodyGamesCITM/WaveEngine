@@ -782,7 +782,7 @@ States[State.RUNNING] = {
         end
 
         if not Player.godMode and not self.public.berserkActive then
-            self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
+            -- self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
 
         if Player.stepSFX then
@@ -1434,6 +1434,9 @@ function Update(self, dt)
             anim:Play("WakeUp", 0.0)
         end
         _G._PlayerController_introAnim = false
+        if _G.PlayWakeUpCinematic then 
+            _G.PlayWakeUpCinematic() 
+        end
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
@@ -1986,6 +1989,12 @@ function _G.TriggerChestAnimation(self)
     if anim then
         pcall(function() anim:Play("Idle", 0.0) end)
         pcall(function() anim:Play("Open", 0.4) end)
+        
+        if Player.itemSFX then 
+            Player.itemSFX:SelectPlayAudioEvent("SFX_OpenChest") 
+            Engine.Log("Playing Open Chest")
+        end
+        
     end
 
     Player.AnimTimer = 4.0

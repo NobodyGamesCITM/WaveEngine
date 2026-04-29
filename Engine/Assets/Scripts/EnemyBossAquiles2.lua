@@ -103,6 +103,7 @@ local hitCooldown = 0
 local finishedTransition = false
 
 local TILE_SIZE = 3.744
+local lastPPos = {x = 0, z = 0}
 
 -- Helpers
 local function lerp(a, b, t)
@@ -473,6 +474,11 @@ end
 
 local function UpdateAnticipation(self, pp, dt)
 
+    local pVelX = (pp.x - lastPPos.x) / dt
+    local pVelZ = (pp.z - lastPPos.z) / dt
+    lastPPos.x = pp.x
+    lastPPos.z = pp.z
+
     if not self.chargeFeedbackGO then
         self.chargeFeedbackTiles = {}
         self.chargeFeedbackGO = true
@@ -489,7 +495,7 @@ local function UpdateAnticipation(self, pp, dt)
         anim:Play("Charge_Start", 0.2)
     end
 
-    if self.chargeFeedbackGO then
+     if self.chargeFeedbackGO then
         --Maximum possible distance
         local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
         
@@ -512,8 +518,7 @@ local function UpdateAnticipation(self, pp, dt)
         end
 
         local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        numTiles = numTiles +1
-       if #self.chargeFeedbackTiles ~= numTiles then
+        if #self.chargeFeedbackTiles ~= numTiles then
 
             -- Destroy old ones
             for _, tile in ipairs(self.chargeFeedbackTiles) do
@@ -522,28 +527,28 @@ local function UpdateAnticipation(self, pp, dt)
 
             self.chargeFeedbackTiles = {}
 
-            -- Create new ones
             for i = 1, numTiles do
-                local tile = Prefab.Instantiate("MinocabroFeedback")
-                table.insert(self.chargeFeedbackTiles, tile)
+                local tile = Prefab.Instantiate("AquilesFeedback")
+                if tile then
+                    table.insert(self.chargeFeedbackTiles, tile)
+                end
             end
+        end
+
+        local dirX, dirZ = 0, 0
+        if distance > 0.001 then 
+            dirX = dx / distance 
+            dirZ = dz / distance 
         end
 
         -- Place tiles
         for i, tile in ipairs(self.chargeFeedbackTiles) do
-
-            local offset = (i - 0.5) * TILE_SIZE
-
-            local posX = myPos.x + directionX * offset
-            local posZ = myPos.z + directionZ * offset
-            local posY = pp.y + 0.2
-
-            tile.transform:SetPosition(posX, posY, posZ)
-
-            local rot = atan2(directionX, directionZ) * (180.0 / pi)
-            tile.transform:SetRotation(0, rot, 0)
-
-            tile.transform:SetScale(3.744, 0.20, 3.744)
+           if tile then
+                local offset = (i - 0.5) * TILE_SIZE
+                tile.transform:SetPosition(myPos.x + dirX * offset, pp.y + 0.2, myPos.z + dirZ * offset)
+                tile.transform:SetRotation(0, atan2(dirX, dirZ) * (180.0 / pi), 0)
+                tile.transform:SetScale(3.744, 0.30, 3.744)
+            end
         end
     end
 
@@ -562,21 +567,23 @@ local function UpdateAnticipation(self, pp, dt)
     end
 
     if preparationTimer >= self.public.preparationTime then
-        local predictedX = pp.x
-        local predictedZ = pp.z
+        local timeToPredict = self.public.predictionTime or 0.5
+        
+        local predictedX = pp.x + (pVelX * timeToPredict)
+        local predictedZ = pp.z + (pVelZ * timeToPredict)
 
-        if rb then
-            local predictionVel = rb:GetLinearVelocity()
-            local time = self.public.predictionTime
-            predictedX = pp.x + predictionVel.x * time
-            predictedZ = pp.z + predictionVel.z * time
-        end
+        local pDx = predictedX - myPos.x
+        local pDz = predictedZ - myPos.z
+        local len = sqrt(pDx*pDx + pDz*pDz)
 
-        local predictionDx= predictedX - myPos.x
-        local predictionDz= predictedZ - myPos.z
-        local len = sqrt(predictionDx*predictionDx + predictionDz*predictionDz)
-        if len > 0.001 then
-            chargeDirX, chargeDirZ = predictionDx/len, predictionDz/len
+
+        if len > 0.1 then
+            chargeDirX = pDx / len
+            chargeDirZ = pDz / len
+        else
+            local rotY = self.transform.worldRotation.y * (pi / 180.0)
+            chargeDirX = math.sin(rotY)
+            chargeDirZ = math.cos(rotY)
         end
         chargeTimer = 0
         ChangeState(State.CHARGE)
@@ -839,7 +846,7 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
+    Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}

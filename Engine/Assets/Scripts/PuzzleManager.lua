@@ -21,6 +21,7 @@ local gridEntities = {}
 local platesActivated = 0
 local isCompleted = false
 local initialized = false
+local plateSFX = nil
 
 local function IsPathOrPlate(r, c)
     if not gridLayout[r] then return false end
@@ -135,6 +136,7 @@ function Start(self)
 
         if gridLayout[targetR][targetC] == 2 then
             platesActivated = platesActivated + 1
+            --pressureplateSFX 
             Engine.Log("[PuzzleManager] Entity ha entrado en la placa. Placas: " .. platesActivated .. "/" .. self.public.totalPlates)
             if platesActivated >= self.public.totalPlates then
                 self:CompletePuzzle()
@@ -217,5 +219,18 @@ function Start(self)
     end
     
     initialized = true
+
+    -- local plateSource = GameObject.FindInChildren(self.gameObject, "base1")
+    -- if plateSource then 
+    --     plateSFX = plateSource:GetComponent("Audio Source") 
+    --     if not plateSFX then
+    --         Engine.Log("Could not retrieve Pressure Plate Audio Source")
+    --     else
+    --         Engine.Log("Pressure Plate Audio Source found!")
+    --     end
+    -- else 
+    --     Engine.Log("Could not find Pressure Plate GameObject")
+    -- end
+
     Engine.Log("[PuzzleManager] Ready.")
 end

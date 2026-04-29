@@ -129,7 +129,7 @@ public = {
     stamina             = 100.0,
     health              = 100.0,
     speedIncrease       = 10.0,
-    speedHermesBonus    = 15.0,
+    speedHermesBonus    = 7.0,
     staminaCost      = 80.0,
     staminaRecover   = 50.0,   
     rollStaminaCost     = 25,
@@ -422,9 +422,10 @@ local function EquipMask(self, newMask)
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
         --vfx
-        if vfxAres then vfxAres:SetActive(false)end
-        if vfxApolo then vfxApolo:SetActive(true)end
-        if vfxHermes then vfxHermes:SetActive(false)end
+        if swordAres then swordAres:SetActive(false)end
+        if swordApolo then swordApolo:SetActive(true)end
+        if swordHermes then swordHermes:SetActive(false)end
+        if swordGameObject then swordGameObject:SetActive(false)end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Play() end
@@ -439,9 +440,10 @@ local function EquipMask(self, newMask)
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
         --vfx
-        if vfxAres then vfxAres:SetActive(false)end
-        if vfxApolo then vfxApolo:SetActive(false)end
-        if vfxHermes then vfxHermes:SetActive(true)end
+        if swordAres then swordAres:SetActive(false)end
+        if swordApolo then swordApolo:SetActive(false)end
+        if swordHermes then swordHermes:SetActive(true)end
+        if swordGameObject then swordGameObject:SetActive(false)end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -456,9 +458,10 @@ local function EquipMask(self, newMask)
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
         --vfx
-        if vfxAres then vfxAres:SetActive(true)end
-        if vfxApolo then vfxApolo:SetActive(false)end
-        if vfxHermes then vfxHermes:SetActive(false)end
+        if swordAres then swordAres:SetActive(true)end
+        if swordApolo then swordApolo:SetActive(false)end
+        if swordHermes then swordHermes:SetActive(false)end
+        if swordGameObject then swordGameObject:SetActive(false)end
         --ps
         if Player.aresPs then Player.aresPs:Play() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -471,12 +474,12 @@ local function EquipMask(self, newMask)
         --masks
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
-        if vfxAres then vfxAres:SetActive(false)end
-        --vfx
-        if vfxApolo then vfxApolo:SetActive(false)end
-        if vfxHermes then vfxHermes:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
-        
+        --vfx
+        if swordAres then swordAres:SetActive(false)end
+        if swordApolo then swordApolo:SetActive(false)end
+        if swordHermes then swordHermes:SetActive(false)end    
+        if swordGameObject then swordGameObject:SetActive(true)end
         --ps
         if Player.aresPs then Player.aresPs:Stop() end
         if Player.apoloPs then Player.apoloPs:Stop() end
@@ -572,19 +575,23 @@ States[State.DEAD] = {
 
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then 
-                    pcall(function() anim:Play("Idle", 0.5) end)
+                    pcall(function() anim:Play("Idle", 0.0) end)
                 end
             end
         end
 
         if Player.hermesRespawnCooldown > 0 then
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Idle", 0.0) end)
+            end
             Player.hermesRespawnCooldown = Player.hermesRespawnCooldown - dt
             if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
             if Player.hermesRespawnCooldown <= 0 then
                 ChangeState(self, State.IDLE)
+                self.public.stamina = 50.0
+                staminaLock = false
             end
-            self.public.stamina = 50.0
-            staminaLock = true
         end
     end
 }
@@ -722,8 +729,8 @@ States[State.RUNNING] = {
         self.public.usingStamina = true
         Player.currentSpeed = Player.baseSpeed + self.public.speedIncrease
         if Player.currentMask == Mask.HERMES then
-            self.public.speed = self.public.speed + self.public.speedHermesBonus
-        end		
+            Player.currentSpeed = Player.currentSpeed + self.public.speedHermesBonus
+        end	
 
         if Player.isDrowning and Player.currentMask == Mask.HERMES then
             if Player.bubblesPS then Player.bubblesPS:Play() end
@@ -1343,10 +1350,13 @@ end
 
 InitParticles = function(self)
     vfxApolo        = GameObject.FindInChildren(self.gameObject, "VFXapolo")
+    swordApolo      = GameObject.FindInChildren(self.gameObject, "Xiphos_Apolo")
     vfxApoloAttack  = GameObject.FindInChildren(self.gameObject, "VFXapoloAttack")
     vfxHermes       = GameObject.FindInChildren(self.gameObject, "VFXhermes")
+    swordHermes     = GameObject.FindInChildren(self.gameObject, "Xiphos_Hermes")
     vfxHermesAttack = GameObject.FindInChildren(self.gameObject, "VFXhermesAttack")
     vfxAres         = GameObject.FindInChildren(self.gameObject, "VFXares")
+    swordAres       = GameObject.FindInChildren(self.gameObject, "Xiphos_Ares")
     vfxAresAttack   = GameObject.FindInChildren(self.gameObject, "VFXaresAttack")
     vfxTrail        = GameObject.FindInChildren(self.gameObject, "VFXtrail")
 
@@ -1428,7 +1438,7 @@ function Update(self, dt)
     end
 
     if _G._PlayerController_introAnim then
-        Player.AnimTimer = 15.0
+        Player.AnimTimer = 20.0
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
             anim:Play("WakeUp", 0.0)
@@ -1944,16 +1954,7 @@ function OnCollisionExit(self, other)
 end
 
 function UpdateSwordMaterial()
-    if not swordMat then return end
-    if Player.currentMask == Mask.APOLLO then
-        swordMat.SetTexture("6751651313279286071")
-    elseif Player.currentMask == Mask.HERMES then
-        swordMat.SetTexture("17992362804328357788")
-    elseif Player.currentMask == Mask.ARES then
-        swordMat.SetTexture("13408905279443529047")
-    else
-        swordMat.SetTexture("2897285206442267137")
-    end
+
 end
 
 function ActivateTrail()

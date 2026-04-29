@@ -9,6 +9,8 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 #include "ComponentNavigation.h"
+#include "ModuleEvents.h"
+#include "Event.h"
 
 #include <fstream>
 
@@ -183,6 +185,8 @@ bool ModuleScene::LoadScene(const nlohmann::json& sceneHierarchy)
 
 
     LOG_CONSOLE("Scene loaded successfully from JSON");
+
+    Application::GetInstance().events->PublishImmediate(Event(Event::Type::SceneLoaded));
 
     return true;
 }

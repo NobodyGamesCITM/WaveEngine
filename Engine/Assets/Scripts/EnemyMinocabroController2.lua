@@ -283,26 +283,18 @@ local function UpdateAnticipation(self, pp, dt)
             end
         end
 
-        local directionX, directionZ = 0, 0
-        if currentDistToPlayer > 0.001 then
-            directionX = dx / currentDistToPlayer
-            directionZ = dz / currentDistToPlayer
+        local dirX, dirZ = 0, 0
+        if distance > 0.001 then 
+            dirX = dx / distance 
+            dirZ = dz / distance 
         end
 
         -- Place tiles
         for i, tile in ipairs(self.chargeFeedbackTiles) do
-            if tile then
+           if tile then
                 local offset = (i - 0.5) * TILE_SIZE
-
-                local posX = myPos.x + directionX * offset
-                local posZ = myPos.z + directionZ * offset
-                local posY = pp.y + 0.2
-
-                tile.transform:SetPosition(posX, posY, posZ)
-
-                local rot = atan2(directionX, directionZ) * (180.0 / pi)
-                tile.transform:SetRotation(0, rot, 0)
-
+                tile.transform:SetPosition(myPos.x + dirX * offset, pp.y + 0.2, myPos.z + dirZ * offset)
+                tile.transform:SetRotation(0, atan2(dirX, dirZ) * (180.0 / pi), 0)
                 tile.transform:SetScale(3.744, 0.15, 3.744)
             end
         end
@@ -324,9 +316,8 @@ local function UpdateAnticipation(self, pp, dt)
     end
 
     if self.preparationTimer >= self.public.preparationTime then
-      local timeToPredict = self.public.predictionTime or 0.5
+        local timeToPredict = self.public.predictionTime or 0.5
         
-        -- Usamos pVelX y pVelZ que calculamos arriba
         local predictedX = pp.x + (pVelX * timeToPredict)
         local predictedZ = pp.z + (pVelZ * timeToPredict)
 

@@ -7,7 +7,7 @@
                 "active": true,
                 "position": [
                     0.0,
-                    0.0,
+                    -50.0,
                     0.0
                 ],
                 "rotation": [
@@ -35,6 +35,6 @@
         ],
         "name": "MinocabroFeedback",
         "tag": "",
-        "uid": 2693604195006688809
+        "uid": 9828290854644627830
     }
 ]

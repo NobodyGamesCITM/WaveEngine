@@ -431,7 +431,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <RowDefinition Height="68*"/>
             <RowDefinition Height="818*"/>
         </Grid.RowDefinitions>
-        <Viewbox Grid.Column="1" Grid.Row="1" Width="320" Grid.ColumnSpan="2">
+        <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
             <Path Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
                 <Path.Data>
                     <PathGeometry>
@@ -448,8 +448,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Path.Fill>
             </Path>
         </Viewbox>
-        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,16">
-            <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Statues Destroyed 0/3" Foreground="#FFFFFFFF" TextAlignment="Right"/>
+        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <Viewbox x:Name="TextViewBox" Margin="10,10,10,10">
+                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Statues Destroyed 0/3" Foreground="#FFFFFFFF" TextAlignment="Right" FontFamily="./#ForgottenUncial"/>
+            </Viewbox>
         </Viewbox>
     </Grid>
 

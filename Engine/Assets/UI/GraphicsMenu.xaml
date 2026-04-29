@@ -122,95 +122,62 @@
             </Style>
         </ResourceDictionary>
     </Grid.Resources>
-
-    <Grid.Background>
-        <ImageBrush ImageSource="Textures/Settings.PNG"/>
-    </Grid.Background>
-
-    <Grid x:Name="LayoutRoot">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250"/>
+        <ColumnDefinition Width="771*"/>
+        <ColumnDefinition Width="250"/>
+    </Grid.ColumnDefinitions>
+    <Viewbox x:Name="BackgroundViewBox" Grid.Column="1">
+        <Image Source="Textures/Menu.PNG"/>
+    </Viewbox>
+    <Grid x:Name="Menu" Grid.Column="1" Margin="69,114,69,79">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="300*"/>
-            <RowDefinition Height="120*"/>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="103*"/>
+            <RowDefinition Height="398*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="300*"/>
-            <ColumnDefinition Width="60*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200*"/>
-                <RowDefinition Height="800*"/>
-            </Grid.RowDefinitions>
-
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text"
-                               TextAlignment="Center"
-                               FontSize="65"
-                               Width="445"
-                               Text="GRAPHICS" FontFamily="Arial">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </Grid>
-            </Viewbox>
-
-            <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
-                <Grid x:Name="Buttons" Height="460" Width="768">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="100*"/>
-                    </Grid.RowDefinitions>
-
-                    <RadioButton x:Name="FullScreen"
-                                 Content="FullScreen"
-                                 FontSize="20" FontFamily="Arial" Grid.RowSpan="2" Margin="242,33,182,91"/>
-                    <RadioButton x:Name="AntiAliasing"
-                                 Grid.Row="1"
-                                 Content="AntiAliasing" FontFamily="Arial" Grid.RowSpan="2" Margin="242,33,182,21"/>
-
-                    <Button x:Name="ResolutionButton"
-                            Grid.Row="3"
-                            Margin="60,0,0,0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding Path=Commands[ResolutionButton]}"
-                            Content="RESOLUTION">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="BackButton"
-                            Grid.Row="5"
-                            Margin="60,0,0,0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Content="BACK"
-                            Command="{Binding Path=Commands[BackButton]}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                </Grid>
-            </Viewbox>
-        </Grid>
+        <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1">
+            <Grid Height="80" Width="445">
+                <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445" Text="GRAPHICS" FontFamily="Arial">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                            <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </Grid>
+        </Viewbox>
+        <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="398" Width="500">
+            <Grid Height="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="73*"/>
+                    <RowDefinition Height="107*"/>
+                    <RowDefinition Height="138*"/>
+                    <RowDefinition Height="101*"/>
+                    <RowDefinition Height="81*"/>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="FullScreen" Content="FullScreen" FontSize="20" FontFamily="Arial" Padding="0,0,0,25"/>
+                <RadioButton x:Name="AntiAliasing" Content="AntiAliasing" FontFamily="Arial" Padding="0,0,0,25" Margin="0,0,0.02,0" Grid.Row="1"/>
+                <Button x:Name="ResolutionButton" Style="{StaticResource TextButtonStyle}" Command="{Binding Path=Commands[ResolutionButton]}" Content="RESOLUTION" Padding="0,0,0,25" Margin="0" Grid.Row="2">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Loaded">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                <Button x:Name="BackButton" Style="{StaticResource TextButtonStyle}" Content="BACK" Command="{Binding Path=Commands[BackButton]}" Padding="0,0,0,25" Margin="0" Grid.Row="3">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Viewbox>
     </Grid>
 
 </Grid>

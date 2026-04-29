@@ -17,18 +17,18 @@ local currentYaw = 0.0
 local targetYaw = 0.0
 local setupDone = false
 local playerAttackHandled = false
-local rockSFX = nil
+local puzzleEntSFX = nil
 
 function Start(self)
     local rot = self.transform.rotation
     currentYaw = rot.y
     targetYaw = rot.y
     --audio
-    rockSFX = self.gameObject:GetComponent("Audio Source")
-    if not rockSFX then 
-        Engine.Log("[PUZZLE ENTITY] Could not retrieve Movable Rock Audio Source")
+    puzzleEntSFX = self.gameObject:GetComponent("Audio Source")
+    if not puzzleEntSFX then 
+        Engine.Log("[PUZZLE ENTITY] Could not retrieve Puzzle Entity Audio Source")
     else
-        Engine.Log("[PUZZLE ENTITY] Rock Audio Source found!")
+        Engine.Log("[PUZZLE ENTITY] Puzzle Entity Audio Source found!")
     end
 
 end
@@ -86,6 +86,7 @@ local function ProcessHit(self, attackType, playerObj)
                 self.public.gridC = self.public.gridC + dC
                 isMoving = true
                 Engine.Log("[PuzzleEntity] Movement is possible, no object in the way.")
+                if puzzleEntSFX then puzzleEntSFX:PlayAudioEvent() end
             end
         end
         
@@ -124,7 +125,7 @@ function Update(self, dt)
                 if dist <= self.public.hitDistance then
                     playerAttackHandled = true
                     ProcessHit(self, currentAttack, player)
-                    if rockSFX then rockSFX:PlayAudioEvent() end
+                    
                 end
             end
         end

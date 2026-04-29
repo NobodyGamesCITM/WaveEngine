@@ -487,17 +487,17 @@
                                     {
                                         "name": "myColision",
                                         "type": 1,
-                                        "value": "Puerta_Sala_1_Colision"
-                                    },
-                                    {
-                                        "name": "speed",
-                                        "type": 0,
-                                        "value": 1.0
+                                        "value": "Puerta_Sala_2_Colision"
                                     },
                                     {
                                         "name": "distance",
                                         "type": 0,
                                         "value": 10.0
+                                    },
+                                    {
+                                        "name": "speed",
+                                        "type": 0,
+                                        "value": 2.0
                                     }
                                 ],
                                 "scriptUID": 2217885483722212414,

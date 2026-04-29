@@ -1989,6 +1989,12 @@ function _G.TriggerChestAnimation(self)
     if anim then
         pcall(function() anim:Play("Idle", 0.0) end)
         pcall(function() anim:Play("Open", 0.4) end)
+        
+        if Player.itemSFX then 
+            Player.itemSFX:SelectPlayAudioEvent("SFX_OpenChest") 
+            Engine.Log("Playing Open Chest")
+        end
+        
     end
 
     Player.AnimTimer = 4.0

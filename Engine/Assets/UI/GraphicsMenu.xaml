@@ -132,9 +132,9 @@
     </Viewbox>
     <Grid x:Name="Menu" Grid.Column="1" Margin="69,114,69,79">
         <Grid.RowDefinitions>
-            <RowDefinition Height="26*"/>
-            <RowDefinition Height="103*"/>
-            <RowDefinition Height="398*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="387*"/>
         </Grid.RowDefinitions>
         <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1">
             <Grid Height="80" Width="445">
@@ -149,7 +149,7 @@
             </Grid>
         </Viewbox>
         <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="398" Width="500">
-            <Grid Height="500">
+            <Grid Height="322">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="73*"/>
                     <RowDefinition Height="107*"/>

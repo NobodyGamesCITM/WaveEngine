@@ -1,6 +1,5 @@
---MenuManager Script
-
 local NEXT_XAML_DEFAULT = "HUD.xaml"
+local MIN_LOADING_SCREEN_DURATION = 1.5 
 local FADE_DURATION      = 0.4
 local SCENE_FADE_DURATION = 2.0
 
@@ -68,6 +67,8 @@ function Initialize(self)
     self.loggedReady = false
     self.lastPauseState = nil
     self.waitingForSplash = false
+    self.loadingScreenTimer = 0.0
+    self.loadingXAMLStarted = false
 
     _G.GlobalMenuManagerInstance = self
 
@@ -154,9 +155,7 @@ function Initialize(self)
 
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")
-        --Game.Pause()
-        -- El MainMenu no pausa el juego, por lo que el estado es "running"
-        self.history = {} -- Limpiamos historial para no volver al Splash
+        self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
         
@@ -177,7 +176,6 @@ function Initialize(self)
     return true
 end
 
-
 function Start(self)
     Initialize(self)
 end
@@ -194,25 +192,21 @@ function Update(self, dt)
         return
     end
 
-
-
     if not self.canvas or _G._MenuManager_NeedReinit then
         _G._MenuManager_NeedReinit = false
         Initialize(self)
-        if self.waitingForSplash then return end -- No seguir si estamos esperando al Splash
+        if self.waitingForSplash then return end 
     end
 
     local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
 
     if isActualMenu then
-        -- Si es el MainMenu, nos aseguramos de que el motor SIGA CORRIENDO
         if self.current:find("MainMenu.xaml") then
             if self.lastPauseState ~= "running" then
                 Game.Resume()
                 self.lastPauseState = "running"
             end
         else
-            -- Otros menús (Settings, Pause, etc.) sí pausan el juego
             if self.lastPauseState ~= "paused" and self.public.currentScene ~= "Splash.scene" then
                 Game.Pause()
                 self.lastPauseState = "paused"
@@ -290,7 +284,6 @@ function Update(self, dt)
             end
         end
 
-
         if UI.WasClicked("StartButton") then
             
             if not self.fading then
@@ -299,7 +292,6 @@ function Update(self, dt)
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
                 --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
-                
             end
         end
         if UI.WasClicked("SettingsButton") then
@@ -328,10 +320,10 @@ function Update(self, dt)
                     _G.PlayerInstance.public.stamina = 100
                    
                 end
-                _G.SkipSplash = true                -- Indica a la siguiente escena que salte la intro
-                self.pendingScene = "Splash.scene"  -- Escena a cargar tras el fade
-                self.fading = true                  -- Inicia la transición en el script
-                self.canvas:PlayStoryboard("FadeOut") -- Inicia la animación visual en el XAML
+                _G.SkipSplash = true               
+                self.pendingScene = "Splash.scene"
+                self.fading = true                  
+                self.canvas:PlayStoryboard("FadeOut")
                 --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
                 Audio.SetMusicVolume(self.public.fullVolume or 100)
             end
@@ -343,7 +335,6 @@ function Update(self, dt)
         if UI.WasClicked("GraphicsButton") then
             NavigateTo(self, "GraphicsMenu.xaml")
         end
-
         -- if UI.WasClicked("BackButton") then 
         --     if self.pressSFX then self.pressSFX:PlayAudioEvent() end
         -- end
@@ -363,7 +354,6 @@ function Update(self, dt)
                 end
             end
         end
-
 
         local isEscapeHandled = (self.current == "HUD.xaml" or self.current == "PauseMenu.xaml")
         local canGoBack = self.history and #self.history > 0 and self.current ~= "MainMenu.xaml" and self.current ~= "LoseMenu.xaml"
@@ -407,10 +397,10 @@ function Update(self, dt)
 
     elseif self.phase == "swap" then
         if self.pendingScene then
-            Engine.Log("[MenuManager] Swap phase: Cargando escena " .. self.pendingScene)
-            Engine.LoadScene(self.pendingScene)
-            self.pendingScene = nil
-            return
+            SetPhase(self, "loadingScreenAnimating")
+            self.loadingScreenTimer = 0.0
+            self.loadingXAMLStarted = false 
+            return 
         end
 
         if self.nextXaml == "PauseMenu.xaml" then
@@ -466,15 +456,40 @@ function Update(self, dt)
             --     self.isMusicPlaying = true
             -- end
 
-            self.history = {} -- Limpiamos historial al volver al menú principal
+            self.history = {}
             
             Game.Resume()
-            --Game.Pause()
-            self.lastPauseState = "running" -- El MainMenu no pausa el juego
+            self.lastPauseState = "running" 
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
         self.canvas:SetOpacity(1.0)
+        SetPhase(self, "idle")
+
+    elseif self.phase == "loadingScreenAnimating" then
+        if self.pendingScene then
+            if not self.loadingXAMLStarted then
+                Engine.Log("[MenuManager] LoadingScreenAnimating phase: Mostrando LoadingScreen...")
+                if self.canvas then
+                    self.canvas:LoadXAML("LoadingScreen.xaml")
+                    self.canvas:SetOpacity(1.0)
+                end
+                self.loadingXAMLStarted = true
+            end
+
+            self.loadingScreenTimer = self.loadingScreenTimer + dt
+            if self.loadingScreenTimer < MIN_LOADING_SCREEN_DURATION then
+                return
+            end
+            Engine.Log("[MenuManager] LoadingScreenAnimating phase: Duración mínima cumplida. Procediendo a cargar la escena " .. self.pendingScene)
+            self.loadingXAMLStarted = false
+
+            Engine.LoadScene(self.pendingScene)
+            self.pendingScene = nil
+
+            return
+        end
+
         SetPhase(self, "idle")
     end
 end

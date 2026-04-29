@@ -180,12 +180,12 @@
             <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
         </Viewbox>
         <Viewbox Grid.Column="1" Margin="0,126,0,105" Width="590">
-            <Grid x:Name="ButtonsGrid">
+            <Grid x:Name="ButtonsGrid" Margin="0,0,0,21">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2"/>
-                    <RowDefinition Height="119"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="84"/>
+                    <RowDefinition Height="31"/>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="14"/>
+                    <RowDefinition Height="95"/>
                     <RowDefinition Height="95"/>
                     <RowDefinition Height="95"/>
                     <RowDefinition Height="0*"/>
@@ -200,7 +200,7 @@
                         </TextBlock.Foreground>
                     </TextBlock>
                 </Viewbox>
-                <Button x:Name="ResumeButton" Content="RESUME" Command="{Binding Path=Commands[ResumeButton]}" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}" Margin="0,4.927,0,-4.927">
+                <Button x:Name="ResumeButton" Content="RESUME" Command="{Binding Path=Commands[ResumeButton]}" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
                     <Button.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Button.RenderTransform>

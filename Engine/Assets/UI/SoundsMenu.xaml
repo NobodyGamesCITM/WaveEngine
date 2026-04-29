@@ -132,9 +132,9 @@
     </Viewbox>
     <Grid x:Name="Menu" Grid.Column="1" Margin="66,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="159*"/>
-            <RowDefinition Height="106*"/>
-            <RowDefinition Height="455*"/>
+            <RowDefinition Height="167*"/>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="468*"/>
         </Grid.RowDefinitions>
         <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1">
             <Grid Height="80" Width="445">
@@ -148,7 +148,7 @@
                 </TextBlock>
             </Grid>
         </Viewbox>
-        <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Margin="0,92" Grid.Row="1" Grid.RowSpan="2">
+        <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="277" Margin="0,0,0,79">
             <Grid x:Name="Buttons" Margin="36,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0*"/>
@@ -158,7 +158,7 @@
                     <RowDefinition Height="0*"/>
                     <RowDefinition Height="45*"/>
                 </Grid.RowDefinitions>
-                <Button x:Name="GraphicsButton" Grid.Row="1" Style="{StaticResource TextButtonStyle}" Content="SOUND EFFECTS" Command="{Binding}" Margin="0,0,0,20">
+                <Button x:Name="GraphicsButton" Grid.Row="1" Style="{StaticResource TextButtonStyle}" Content="SOUND EFFECTS" Command="{Binding}" Margin="0,0,0,30">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="Loaded">
                             <noesis:SetFocusAction/>
@@ -168,14 +168,14 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-                <Button x:Name="SoundsButton" Grid.Row="3" Style="{StaticResource TextButtonStyle}" Command="{Binding Path=Commands[SoundsButton]}" Content="MUSIC" Margin="0,0,0,20">
+                <Button x:Name="SoundsButton" Grid.Row="3" Style="{StaticResource TextButtonStyle}" Command="{Binding Path=Commands[SoundsButton]}" Content="MUSIC" Margin="0,0,0,30">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseEnter">
                             <noesis:SetFocusAction/>
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-                <Button x:Name="BackButton" Grid.Row="5" Style="{StaticResource TextButtonStyle}" Content="BACK" Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,20">
+                <Button x:Name="BackButton" Grid.Row="5" Style="{StaticResource TextButtonStyle}" Content="BACK" Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseEnter">
                             <noesis:SetFocusAction/>

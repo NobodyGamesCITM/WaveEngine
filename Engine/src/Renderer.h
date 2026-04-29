@@ -145,6 +145,7 @@ private:
     // Draw Functions
     void DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera);
     void DrawRenderList(const std::vector<RenderObject>& list, const CameraLens* camera);
+    void DrawWaterList(const std::vector<RenderObject>& list, const CameraLens* camera);
 
     void DrawParticlesList(const CameraLens* camera);
     void DrawLinesList(const CameraLens* camera);
@@ -218,6 +219,7 @@ private:
     std::vector<ComponentPostProcessing*> postProcessingComponents;
 
     std::vector<RenderObject> opaqueList;
+    std::vector<RenderObject> waterList;
     std::multimap<float, RenderObject> transparentList;
     std::multimap<float, ParticleObject> particlesList;
     std::vector<RenderObject> stencilList;

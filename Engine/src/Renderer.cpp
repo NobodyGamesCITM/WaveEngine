@@ -147,6 +147,14 @@ bool Renderer::Start()
         LOG_CONSOLE("ERROR: Failed to compile post processing shader");
         return false;
     }
+    
+    waterShader = make_unique<ShaderWater>();
+    if (!waterShader->CreateShader())
+    {
+        LOG_DEBUG("ERROR: Failed to create water shader");
+        LOG_CONSOLE("ERROR: Failed to compile water shader");
+        return false;
+    }
 
     lightManager = std::make_unique<LightManager>();
 
@@ -449,6 +457,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     //Build Render List
     opaqueList.clear();
+    waterList.clear();
     transparentList.clear();
     particlesList.clear();
     canvasList.clear();
@@ -471,6 +480,8 @@ bool Renderer::RenderScene(CameraLens* camera)
     glDisable(GL_BLEND);
     glEnable(GL_CULL_FACE);
     DrawRenderList(opaqueList, camera);
+
+    DrawWaterList(waterList, camera);
 
     glEnable(GL_BLEND);
     glDepthMask(GL_FALSE);
@@ -540,7 +551,11 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+            if (mesh->owner->CompareTag("Water"))
+            {
+                waterList.push_back(renderObject);
+            }
+            else if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
             {
                 transparentList.emplace(distanceToCamera, renderObject);
             }
@@ -818,6 +833,77 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
     }
 }
 
+void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const CameraLens* camera)
+{
+    if (list.empty() || !camera) return;
+
+    int w = camera->textureWidth;
+    int h = camera->textureHeight;
+    if (camera->fboID == 0) {
+        Application::GetInstance().window->GetWindowSize(w, h);
+    }
+
+    // --- 1. CAPTURAR PROFUNDIDAD A PRUEBA DE BALAS (Soporta MSAA) ---
+    GLuint tempDepthFBO, tempDepthTex;
+    glGenFramebuffers(1, &tempDepthFBO);
+    glGenTextures(1, &tempDepthTex);
+
+    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+    // Creamos una textura de profundidad pura
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, w, h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, tempDepthFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tempDepthTex, 0);
+
+    // Averiguamos cuál es el FBO que se está usando ahora mismo (MSAA o Normal)
+    bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
+    GLuint currentFBO = usingMSAA ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
+
+    // Blit: Copiamos la profundidad del FBO de tu escena a nuestra textura temporal
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, currentFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, tempDepthFBO);
+    glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    // --- 2. DIBUJAR EL AGUA ---
+    // Volvemos al FBO de la escena para dibujar
+    glBindFramebuffer(GL_FRAMEBUFFER, currentFBO);
+
+    glDepthMask(GL_FALSE); // Apagamos escritura de profundidad
+    waterShader->Use();
+
+    waterShader->SetMat4("view", camera->GetViewMatrix());
+    waterShader->SetMat4("projection", camera->GetProjectionMatrix());
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+    waterShader->SetInt("uSceneDepthMap", 1);
+
+    waterShader->SetFloat("uNearPlane", camera->GetNearPlane());
+    waterShader->SetFloat("uFarPlane", camera->GetFarPlane());
+
+    waterShader->SetVec3("uWaterColor", glm::vec3(0.05f, 0.45f, 0.8f));
+    waterShader->SetVec3("uFoamColor", glm::vec3(0.6f, 0.9f, 1.0f));
+
+    // VALORES EN METROS DEL MUNDO 3D:
+    // 0.2f = Deja un hueco de agua normal de 20 centímetros pegado a la pared
+    waterShader->SetFloat("uFoamOffset", 1.00f);
+
+    // 0.1f = La raya medirá 10 centímetros de ancho después del hueco
+    waterShader->SetFloat("uFoamThickness", 0.2f);
+
+    for (const RenderObject& obj : list) {
+        waterShader->SetMat4("model", obj.globalModelMatrix);
+        DrawMesh(obj.mesh);
+    }
+
+    glDepthMask(GL_TRUE); // Restauramos escritura
+
+    // 3. Limpiar la memoria
+    glDeleteTextures(1, &tempDepthTex);
+    glDeleteFramebuffers(1, &tempDepthFBO);
+}
 void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera)
 {
     // Upload luces al standardShader
@@ -1577,6 +1663,7 @@ void Renderer::DrawFullscreenTexture(unsigned int textureID)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
     uiShader->SetInt("uTexture", 0);
+
 
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);

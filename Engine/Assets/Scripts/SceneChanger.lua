@@ -28,8 +28,12 @@ function Start(self)
         Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
     else
         -- Cargamos la pantalla de carga para que sea lo que se desvanece al entrar en la escena
-        canvasComponent:LoadXAML("LoadingScreen.xaml")
+        if canvasComponent:GetCurrentXAML() ~= "LoadingScreen.xaml" then
+            canvasComponent:LoadXAML("LoadingScreen.xaml")
+        end
         canvasComponent:SetOpacity(1.0)
+        -- Registramos el estado global inmediatamente
+        _G.CurrentXAML = "LoadingScreen.xaml"
     end
 
     self.StartTransition = StartTransition

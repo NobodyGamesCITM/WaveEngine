@@ -1,9 +1,7 @@
 local NEXT_XAML_DEFAULT = "HUD.xaml"
-local MIN_LOADING_SCREEN_DURATION = 1.5 
+local MIN_LOADING_SCREEN_DURATION = 1.7
 local FADE_DURATION      = 0.4
 local SCENE_FADE_DURATION = 2.0
-
-
 
 Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
 
@@ -36,7 +34,6 @@ local function NavigateTo(self, xaml)
         self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") 
     end
     if not self.history then self.history = {} end
-    -- Evitamos guardar el Splash Screen en el historial para que no se pueda "volver" a él
     if self.current and not self.current:find("SplashScreen.xaml") then
         table.insert(self.history, self.current)
     end
@@ -80,7 +77,7 @@ function Initialize(self)
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
         self.musicComp = self.musicSource:GetComponent("Audio Source")
-        --if self.musicComp then self.musicComp:PlayAudioEvent() end
+
     end
 
     self.selectSource = GameObject.Find("UISelectSound")
@@ -131,24 +128,23 @@ function Initialize(self)
         return true
     end
 
-    self.current = self.canvas:GetCurrentXAML()
+    self.current = self.canvas:GetCurrentXAML() or ""
+    if self.current == "" and _G.CurrentXAML then
+        self.current = _G.CurrentXAML
+    end
     
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
     local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene" or sceneVal == "Blockout2Nuevo.scene")
 
-    if isGameplayScene and self.current:find("MainMenu.xaml") then
-        Engine.Log("[MenuManager] Limpiando MainMenu residual en escena de juego para evitar auto-pause.")
-        self.canvas:LoadXAML("HUD.xaml")
-        self.current = "HUD.xaml"
-    end
-
-    if not self.current or self.current == "" or (self.current:find("MainMenu.xaml") and isGameplayScene) then
-        if isGameplayScene then
+    if isGameplayScene then
+        if self.current == "" or self.current:find("MainMenu.xaml") then
+            Engine.Log("[MenuManager] Inicializando HUD en escena de juego.")
             self.current = "HUD.xaml"
             self.canvas:LoadXAML("HUD.xaml")
-        else
-            self.current = "MainMenu.xaml"
+            _G.CurrentXAML = "HUD.xaml"
         end
+    elseif self.current == "" then
+        self.current = "MainMenu.xaml"
         self.nextXaml = self.current
         _G.CurrentXAML = self.current
     end
@@ -324,7 +320,6 @@ function Update(self, dt)
                 self.pendingScene = "Splash.scene"
                 self.fading = true                  
                 self.canvas:PlayStoryboard("FadeOut")
-                --if self.pressSFX then self.pressSFX:PlayAudioEvent() end
                 Audio.SetMusicVolume(self.public.fullVolume or 100)
             end
         end
@@ -335,9 +330,6 @@ function Update(self, dt)
         if UI.WasClicked("GraphicsButton") then
             NavigateTo(self, "GraphicsMenu.xaml")
         end
-        -- if UI.WasClicked("BackButton") then 
-        --     if self.pressSFX then self.pressSFX:PlayAudioEvent() end
-        -- end
 
         local allCanvasButtons = UI.GetCanvasButtons()
 
@@ -388,10 +380,8 @@ function Update(self, dt)
             if not self.pendingScene then 
                 self.canvas:SetOpacity(0.0) 
             else
-                Audio.SetMusicVolume(0)
-                
+                Audio.SetMusicVolume(0) 
             end
-            
             SetPhase(self, "swap")
         end
 
@@ -449,12 +439,6 @@ function Update(self, dt)
         elseif self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
-            -- if not self.isMusicPlaying and self.musicComp then
-            --     local mGo = GameObject.Find("MusicSource")
-            --     if mGo then self.musicComp = mGo:GetComponent("Audio Source") end
-            --     if self.musicComp then self.musicComp:PlayAudioEvent() end
-            --     self.isMusicPlaying = true
-            -- end
 
             self.history = {}
             
@@ -472,7 +456,6 @@ function Update(self, dt)
                 Engine.Log("[MenuManager] LoadingScreenAnimating phase: Mostrando LoadingScreen...")
                 if self.canvas then
                     self.canvas:LoadXAML("LoadingScreen.xaml")
-                    self.canvas:SetOpacity(1.0)
                 end
                 self.loadingXAMLStarted = true
             end

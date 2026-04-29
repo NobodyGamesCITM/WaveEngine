@@ -162,8 +162,9 @@
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
-
-    <Image x:Name="Background" Grid.ColumnSpan="3" Grid.RowSpan="3" Source="Textures/Settings.PNG"/>
+    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image x:Name="Background" Source="Textures/Menu.PNG" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0,-6,0"/>
+    </Viewbox>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -171,38 +172,36 @@
             <RowDefinition Height="120*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="300*"/>
-            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="681*"/>
+            <ColumnDefinition Width="299*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1">
+        <Grid x:Name="Menu" Grid.Column="1" Grid.Row="1" Margin="0,0,0,64" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Width="445">
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="./#ForgottenUncial" StrokeThickness="8" Width="445" Text="SETTINGS">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                        <TextBlock.Stroke>
-                            <RadialGradientBrush>
-                                <GradientStop Offset="1" Color="#FF000000"/>
-                                <GradientStop Color="#FF505050"/>
-                            </RadialGradientBrush>
-                        </TextBlock.Stroke>
-                    </TextBlock>
-                </Grid>
+            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" FontFamily="./#ForgottenUncial" StrokeThickness="8" Text="SETTINGS" VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                            <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                    <TextBlock.Stroke>
+                        <RadialGradientBrush>
+                            <GradientStop Offset="1" Color="#FF000000"/>
+                            <GradientStop Color="#FF505050"/>
+                        </RadialGradientBrush>
+                    </TextBlock.Stroke>
+                </TextBlock>
             </Viewbox>
 
             <Viewbox x:Name="Buttons_ViewBox" Grid.Row="1" Stretch="Uniform">
-                <Grid x:Name="Buttons" Height="460" Width="768">
+                <Grid x:Name="Buttons">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100*"/>
                         <RowDefinition Height="100*"/>
@@ -212,9 +211,9 @@
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="GraphicsButton" Grid.Row="1" Margin="60,0,0,0" Opacity="0"
+                    <Button x:Name="GraphicsButton" Grid.Row="1" Opacity="0"
                             Style="{StaticResource TextButtonStyle}" Content="GRAPHICS"
-                            Command="{Binding Path=Commands[GraphicsButton]}">
+                            Command="{Binding Path=Commands[GraphicsButton]}" Margin="30,30,30,30">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>
@@ -228,9 +227,9 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <Button x:Name="SoundsButton" Grid.Row="3" Margin="60,0,0,0" Opacity="0"
+                    <Button x:Name="SoundsButton" Grid.Row="3" Opacity="0"
                             Style="{StaticResource TextButtonStyle}" Content="SOUNDS"
-                            Command="{Binding Path=Commands[SoundsButton]}">
+                            Command="{Binding Path=Commands[SoundsButton]}" Margin="30,30,30,30">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>
@@ -241,9 +240,9 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <Button x:Name="BackButton" Grid.Row="5" Margin="60,0,0,0" Opacity="0"
+                    <Button x:Name="BackButton" Grid.Row="5" Opacity="0"
                             Style="{StaticResource TextButtonStyle}" Content="BACK"
-                            Command="{Binding Path=Commands[BackButton]}">
+                            Command="{Binding Path=Commands[BackButton]}" Margin="30,30,30,30">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>

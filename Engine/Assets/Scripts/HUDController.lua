@@ -15,8 +15,18 @@ local prevHasAres    = false
 local prevHasApolo   = false
 local prevActiveMask = ""
 
--- ─── Helpers
+-- ─── Mission globals
+_G.TotalStatuesToDestroy = _G.TotalStatuesToDestroy or 0
+_G.MissionVarName        = _G.MissionVarName        or "keysCollected"
 
+local lastDisplayedCount = -1
+
+-- Mission panel animation state
+local missionVisible     = false
+local missionHideTimer   = 0.0
+local MISSION_HIDE_DELAY = 3.0  
+
+-- ─── Helpers
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
 end
@@ -29,7 +39,6 @@ local function alreadyTracked(name)
 end
 
 -- ─── Barras
-
 local function RefreshHealthBar(targetHealth, dt)
     currentDisplayHealth = dt
         and Lerp(currentDisplayHealth, targetHealth, dt * LERP_SPEED)
@@ -52,8 +61,6 @@ local function RefreshPotionUI(potions, berserkPotions)
         UI.SetElementVisibility("Potion" .. i,     i <= potions)
         UI.SetElementVisibility("UsedPotion" .. i, i > potions)
     end
-
-    -- Lógica para pociones Berserk (Slots 5 al 8)
     for i = 1, 4 do
         local slotIndex = i + 4
         UI.SetElementVisibility("Potion" .. slotIndex,     i <= (berserkPotions or 0))
@@ -61,17 +68,16 @@ local function RefreshPotionUI(potions, berserkPotions)
     end
 end
 
+-- ─── Máscaras
 local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
     local hasMap = { Hermes = hasHermes, Ares = hasAres, Apolo = hasApolo }
 
-    -- Registrar máscaras nuevas en orden de llegada
     for _, name in ipairs(MASK_NAMES) do
         if hasMap[name] and not alreadyTracked(name) then
             table.insert(obtainedOrder, name)
         end
     end
 
-    -- Construir lista de slots laterales
     local sideSlots = {}
     for _, name in ipairs(obtainedOrder) do
         if name ~= activeMask then
@@ -79,14 +85,12 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         end
     end
 
-    -- Asignación final de cada slot
     local slotAssign = {
         Active = (activeMask ~= "" and activeMask or nil),
         Left   = sideSlots[1],
         Right  = sideSlots[2],
     }
 
-    -- Actualizar visibilidad
     for _, prefix in ipairs({ "Active", "Left", "Right" }) do
         local assigned = slotAssign[prefix]
         for _, maskName in ipairs(MASK_NAMES) do
@@ -94,6 +98,34 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         end
     end
 end
+
+-- ─── Mission / Collectibles
+local function RefreshMissionUI()
+    local varName      = _G.MissionVarName or "keysCollected"
+    local currentCount = _G[varName] or 0
+    local total        = _G.TotalStatuesToDestroy or 0
+
+    Engine.Log("[HUD] Mission -> " .. tostring(currentCount) .. "/" .. tostring(total))
+
+    UI.SetElementText("MissionText", currentCount .. "/" .. total)
+
+    if total > 0 then
+        UI.SetElementVisibility("MissionViewBox", true)
+
+        if currentCount ~= lastDisplayedCount then
+            UI.PlayStoryboard("MissionExpand")
+            UI.PlayStoryboard("MissionCountBump")
+
+            missionVisible     = true
+            missionHideTimer   = MISSION_HIDE_DELAY
+            lastDisplayedCount = currentCount
+        end
+    else
+        -- Misión aún no activa: mantener oculto
+        UI.SetElementVisibility("MissionViewBox", false)
+    end
+end
+_G.HUD_RefreshStatuesDestroyed = RefreshMissionUI
 
 -- ─── API pública
 
@@ -118,7 +150,6 @@ function ForceRefreshHUD()
 
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Reset completo del estado de máscaras
     obtainedOrder  = {}
     prevHasHermes  = false
     prevHasAres    = false
@@ -130,6 +161,11 @@ _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
     ForceRefreshHUD()
+    -- Panel de misión empieza oculto
+    UI.SetElementVisibility("MissionViewBox", false)
+    lastDisplayedCount = -1
+    missionVisible     = false
+    missionHideTimer   = 0.0
 end
 
 function Update(self, dt)
@@ -145,7 +181,6 @@ function Update(self, dt)
                     and _G.PotionSystem.public.potionCount or 0
     local berserkPotions = (_G.PotionSystem and _G.PotionSystem.public)
                     and _G.PotionSystem.public.berserkCount or 0
-
     RefreshPotionUI(potions, berserkPotions)
 
     -- Máscaras
@@ -161,5 +196,15 @@ function Update(self, dt)
         prevHasAres    = hasAres
         prevHasApolo   = hasApolo
         prevActiveMask = activeMask
+    end
+
+    -- Timer de colapso del panel de misión
+    if missionVisible and missionHideTimer > 0 then
+        missionHideTimer = missionHideTimer - dt
+        if missionHideTimer <= 0 then
+            missionHideTimer = 0
+            missionVisible   = false
+            UI.PlayStoryboard("MissionCollapse")
+        end
     end
 end

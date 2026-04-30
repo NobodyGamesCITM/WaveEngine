@@ -95,7 +95,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                 <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
-
                     </Image>
                 </StackPanel>
 
@@ -134,7 +133,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                 <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
-
                     </Image>
                 </StackPanel>
 
@@ -191,6 +189,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Viewbox>
 
                 </Grid>
+
                 <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
                     <Image x:Name="UsedPotion5" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
                         <Image.RenderTransform>
@@ -233,6 +232,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
+
                 <StackPanel x:Name="BerserkPotionStackpanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
                     <Image x:Name="Potion5" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
                         <Image.RenderTransform>
@@ -326,6 +326,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </StackPanel>
             </Canvas>
+
             <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869">
                 <StackPanel x:Name="InputKeyText001" Visibility="Collapsed" Orientation="Horizontal" Canvas.Left="0" Canvas.Top="0">
                     <Border CornerRadius="6" Padding="20,8,20,8">
@@ -420,7 +421,112 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
         </Grid>
     </Viewbox>
+
+    <!--
+    ═══════════════════════════════════════════════════════════════════════════
+    MissionGrid — contador de estatuas destruidas
+    ═══════════════════════════════════════════════════════════════════════════
+
+    Comportamiento:
+      · Empieza oculto (Visibility="Collapsed" en MissionViewBox).
+      · Lua llama a HUD_RefreshStatuesDestroyed() cuando TotalStatuesToDestroy > 0.
+      · Al recoger un coleccionable: MissionExpand + MissionCountBump → visible 3 s
+        → MissionCollapse → queda encogido/tenue (solo se ve "N/Total").
+
+    Storyboards:
+      MissionExpand   — ScaleX 0.55→1, ScaleY 0.7→1, Opacity 0.35→1  (0.35 s)
+      MissionCollapse — ScaleX 1→0.55, ScaleY 1→0.7,  Opacity 1→0.35 (0.5 s)
+      MissionCountBump— ScaleX 1.15→1, ScaleY 1.15→1                  (0.4 s)
+
+    RenderTransformOrigin="1,0.5" ancla desde la derecha, así el número
+    queda visible aunque el texto de la izquierda desaparezca al colapsar.
+    ═══════════════════════════════════════════════════════════════════════════
+    -->
     <Grid x:Name="MissionGrid">
+        <Grid.Resources>
+
+            <!-- ── Expand: aparece tras recoger un coleccionable ── -->
+            <Storyboard x:Name="MissionExpand">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    From="0.55" To="1.0"
+                    Duration="0:0:0.35">
+                    <DoubleAnimation.EasingFunction>
+                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    From="0.7" To="1.0"
+                    Duration="0:0:0.35">
+                    <DoubleAnimation.EasingFunction>
+                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="TextViewBox"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0.35" To="1.0"
+                    Duration="0:0:0.3"/>
+            </Storyboard>
+
+            <!-- ── Collapse: se contrae tras 3 s, solo queda el número tenue ── -->
+            <Storyboard x:Name="MissionCollapse">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    To="0.55"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    To="0.7"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="TextViewBox"
+                    Storyboard.TargetProperty="Opacity"
+                    To="0.35"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+            <!-- ── CountBump: rebote elástico del número al actualizarse ── -->
+            <Storyboard x:Name="MissionCountBump">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    From="1.18" To="1.0"
+                    Duration="0:0:0.45">
+                    <DoubleAnimation.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    From="1.18" To="1.0"
+                    Duration="0:0:0.45">
+                    <DoubleAnimation.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+        </Grid.Resources>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1599*"/>
             <ColumnDefinition Width="288*"/>
@@ -431,8 +537,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <RowDefinition Height="68*"/>
             <RowDefinition Height="818*"/>
         </Grid.RowDefinitions>
+
+        <!-- Fondo decorativo del panel de misión -->
         <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-            <Path Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
+            <Path x:Name="MissionBackground" Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
                 <Path.Data>
                     <PathGeometry>
                         <PathFigure IsClosed="True" StartPoint="0.45,0">
@@ -448,11 +556,32 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Path.Fill>
             </Path>
         </Viewbox>
-        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-            <Viewbox x:Name="TextViewBox" Margin="10,10,10,10">
-                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Statues Destroyed 0/3" Foreground="#FFFFFFFF" TextAlignment="Right" FontFamily="./#ForgottenUncial"/>
+
+        <!--
+            MissionViewBox — controlado por Lua (Visibility, Storyboards).
+            Empieza Collapsed; Lua lo hace Visible cuando TotalStatuesToDestroy > 0.
+
+            RenderTransformOrigin="1,0.5" → el colapso encoge hacia la derecha,
+            manteniendo el contador (N/Total) siempre visible en la esquina.
+        -->
+        <Viewbox x:Name="MissionViewBox"
+                 Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                 Visibility="Collapsed"
+                 RenderTransformOrigin="1,0.5">
+            <Viewbox.RenderTransform>
+                <ScaleTransform x:Name="MissionScaleTransform" ScaleX="0.55" ScaleY="0.7"/>
+            </Viewbox.RenderTransform>
+
+            <Viewbox x:Name="TextViewBox" Margin="10,10,10,10" Opacity="0.35">
+                <TextBlock x:Name="MissionText"
+                           TextWrapping="Wrap"
+                           Text="0/3"
+                           Foreground="#FFFFFFFF"
+                           TextAlignment="Right"
+                           FontFamily="./#ForgottenUncial"/>
             </Viewbox>
         </Viewbox>
+
     </Grid>
 
 </Grid>

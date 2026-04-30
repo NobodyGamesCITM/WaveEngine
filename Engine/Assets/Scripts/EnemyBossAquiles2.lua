@@ -1,5 +1,3 @@
----AQUILES CONTROLLER SCRIPT
-
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -18,8 +16,6 @@ local State = {
     STUN        = "Stun", 
     DEAD        = "Dead",
 }
-
--- Public variables (ahora viven en self.public dentro de Start para evitar conflictos globales)
 
 -- Internal variables
 local currentState = State.IDLE
@@ -42,8 +38,6 @@ local spearSFX = nil
 local dashSFX = nil
 local armorSFX = nil
 
-
-
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
 
 local alreadyHit   = false
@@ -58,8 +52,6 @@ local chargeTimer      = 0
 local chargeDirX = 0
 local chargeDirZ = 1
 
-
--- Inertia after charge (sliding)
 local slideVelX = 0
 local slideVelZ = 0
 local wallStunTimer = 0
@@ -169,7 +161,6 @@ local function DestroyChargeFeedback(self)
     self.chargeFeedbackActive = false
 end
 
-
 local function ChangeState(newState)
     currentState = newState
     Engine.Log("[Aquiles] -> " .. newState)
@@ -188,7 +179,6 @@ local function ChangeState(newState)
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
-
 end
 
 local function FadeOutBossMusic(self, dt)
@@ -210,7 +200,6 @@ local function FadeOutBossMusic(self, dt)
 		--if bgMusic then bgMusic:StopAudioEvent() end
 	end
 
-
 	if _G._PlayerController_isDead then
 		--exitedLevel = false
 		--finishedTransition = false
@@ -223,7 +212,6 @@ end
 
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
-
 
     _PlayerController_triggerCameraShake = true
 
@@ -254,6 +242,10 @@ local function TakeDamage(self, amount, attackerPos)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
             
+        -- Hide boss bar when Aquiles dies
+        if _G.BossBar_SetVisibility then
+            _G.BossBar_SetVisibility(false)
+        end
             return
         end
     else
@@ -279,6 +271,10 @@ local function TakeDamage(self, amount, attackerPos)
             hurtTimer = self.public.hurtStunTime
             if anim then anim:Play("Hit", 0.1) end
         end
+    end
+    -- Refresh boss bar health after taking damage
+    if _G.BossBar_RefreshHealth then
+        _G.BossBar_RefreshHealth(hp, self.public.maxHp)
     end
 
     if not inOpportunity and currentState == State.COMBAT_MOVE then
@@ -386,6 +382,11 @@ end
 local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle")
+    end
+    -- If player detected and boss bar functions are available, show the bar and update health
+    if dist <= self.public.detectRange and _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+        _G.BossBar_SetVisibility(true)
+        _G.BossBar_RefreshHealth(hp, self.public.maxHp)
     end
     if dist <= self.public.detectRange then
         ChangeState(State.COMBAT_MOVE)
@@ -960,6 +961,7 @@ function Update(self, dt)
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
     elseif currentState == State.COMBAT_MOVE       then UpdateCombatMove(self, myPos, pp, dist, dt)
     elseif currentState == State.LANCE_360       then UpdateLance360(self, myPos, pp, dt)
+    -- Health updates are handled in TakeDamage, no need for redundant calls here.
     elseif currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
     elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
     elseif currentState == State.WALL         then UpdateWall(self, dt)

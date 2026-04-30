@@ -556,6 +556,9 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Path.Fill>
             </Path>
         </Viewbox>
+        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas Destruidas 0/3" FontFamily="Arial" TextAlignment="Center"/>
+        </Viewbox>
 
         <!--
             MissionViewBox — controlado por Lua (Visibility, Storyboards).
@@ -564,23 +567,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             RenderTransformOrigin="1,0.5" → el colapso encoge hacia la derecha,
             manteniendo el contador (N/Total) siempre visible en la esquina.
         -->
-        <Viewbox x:Name="MissionViewBox"
-                 Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                 Visibility="Collapsed"
-                 RenderTransformOrigin="1,0.5">
-            <Viewbox.RenderTransform>
-                <ScaleTransform x:Name="MissionScaleTransform" ScaleX="0.55" ScaleY="0.7"/>
-            </Viewbox.RenderTransform>
-
-            <Viewbox x:Name="TextViewBox" Margin="10,10,10,10" Opacity="0.35">
-                <TextBlock x:Name="MissionText"
-                           TextWrapping="Wrap"
-                           Text="0/3"
-                           Foreground="#FFFFFFFF"
-                           TextAlignment="Right"
-                           FontFamily="./#ForgottenUncial"/>
-            </Viewbox>
-        </Viewbox>
 
     </Grid>
 

@@ -20,6 +20,7 @@ _G.TotalStatuesToDestroy = _G.TotalStatuesToDestroy or 0
 _G.MissionVarName        = _G.MissionVarName        or "keysCollected"
 
 local lastDisplayedCount = -1
+local lastDisplayedTotal = -1
 
 -- Mission panel animation state
 local missionVisible     = false
@@ -105,30 +106,31 @@ local function RefreshMissionUI()
     local currentCount = _G[varName] or 0
     local total        = _G.TotalStatuesToDestroy or 0
 
-    Engine.Log("[HUD] Mission -> " .. tostring(currentCount) .. "/" .. tostring(total))
+    local countInt = math.floor(currentCount)
+    local totalInt = math.floor(total)
 
-    UI.SetElementText("MissionText", currentCount .. "/" .. total)
+    UI.SetElementText("MissionText", "Estatuas Destruidas " .. countInt .. "/" .. totalInt)
+    
+    UI.SetElementVisibility("MissionViewBox", true)
 
-    if total > 0 then
-        UI.SetElementVisibility("MissionViewBox", true)
+    if totalInt > 0 then
+        if countInt ~= lastDisplayedCount then
 
-        if currentCount ~= lastDisplayedCount then
-            UI.PlayStoryboard("MissionExpand")
-            UI.PlayStoryboard("MissionCountBump")
+            if lastDisplayedCount ~= -1 then
+                UI.PlayStoryboard("MissionExpand")
+                UI.PlayStoryboard("MissionCountBump")
 
-            missionVisible     = true
-            missionHideTimer   = MISSION_HIDE_DELAY
-            lastDisplayedCount = currentCount
+                missionVisible     = true
+                missionHideTimer   = MISSION_HIDE_DELAY
+            end
         end
-    else
-        -- Misión aún no activa: mantener oculto
-        UI.SetElementVisibility("MissionViewBox", false)
+        lastDisplayedCount = countInt
+        lastDisplayedTotal = totalInt
     end
 end
 _G.HUD_RefreshStatuesDestroyed = RefreshMissionUI
 
 -- ─── API pública
-
 function ForceRefreshHUD()
     if _G.PlayerInstance and _G.PlayerInstance.public then
         local p = _G.PlayerInstance.public
@@ -161,11 +163,12 @@ _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
     ForceRefreshHUD()
-    -- Panel de misión empieza oculto
-    UI.SetElementVisibility("MissionViewBox", false)
     lastDisplayedCount = -1
+    lastDisplayedTotal = -1
     missionVisible     = false
     missionHideTimer   = 0.0
+    
+    RefreshMissionUI()
 end
 
 function Update(self, dt)
@@ -183,6 +186,15 @@ function Update(self, dt)
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
 
+    -- Sincronización continua de la misión para capturar cambios en variables globales
+    local missionVar = _G.MissionVarName or "keysCollected"
+    local cur = math.floor(_G[missionVar] or 0)
+    local tot = math.floor(_G.TotalStatuesToDestroy or 0)
+
+    if cur ~= lastDisplayedCount or tot ~= lastDisplayedTotal then
+        RefreshMissionUI()
+    end
+
     -- Máscaras
     local hasHermes  = (_G._MaskState_Hermes == true)
     local hasAres    = (_G._MaskState_Ares   == true)
@@ -198,7 +210,6 @@ function Update(self, dt)
         prevActiveMask = activeMask
     end
 
-    -- Timer de colapso del panel de misión
     if missionVisible and missionHideTimer > 0 then
         missionHideTimer = missionHideTimer - dt
         if missionHideTimer <= 0 then

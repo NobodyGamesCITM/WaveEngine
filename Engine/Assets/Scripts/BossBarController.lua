@@ -1,23 +1,14 @@
--- BossBarController.lua
---
--- This script manages the BossBar.xaml UI.
--- Attach this script to a Canvas GameObject in your scene.
-
--- Define the maximum width of the health bar fill in pixels.
--- This value might need adjustment based on the actual UI scaling and asset size in BossBar.xaml.
 local BOSS_BAR_MAX_WIDTH = 500.0
 
 local canvasComponent = nil
-local bossName = "Aquiles" -- Default boss name, can be overridden by public.bossName
+local bossName = "Aquiles" 
 
 public = {
-    xamlPath = "UI/BossBar.xaml", -- Path to the XAML file
-    bossName = "Aquiles",         -- Name of the boss to display on the bar
-    barMaxWidth = BOSS_BAR_MAX_WIDTH, -- Max width for the health fill (can be adjusted in inspector)
+    xamlPath = "UI/BossBar.xaml", 
+    bossName = "Aquiles",         
+    barMaxWidth = BOSS_BAR_MAX_WIDTH, 
 }
 
--- Global functions that other scripts (like EnemyBossAquiles2.lua) will call.
--- Initialized to dummy functions to prevent errors if this script loads later.
 _G.BossBar_SetVisibility = _G.BossBar_SetVisibility or function() end
 _G.BossBar_RefreshHealth = _G.BossBar_RefreshHealth or function() end
 
@@ -32,7 +23,6 @@ function Start(self)
         return
     end
 
-    -- Expose the control functions globally
     _G.BossBar_SetVisibility = function(isVisible)
         self:SetVisibility(isVisible)
     end
@@ -40,8 +30,7 @@ function Start(self)
         self:RefreshHealth(currentHp, maxHp)
     end
 
-    -- Set initial state
-    self:SetVisibility(false) -- Start hidden
+    self:SetVisibility(false) 
     bossName = self.public.bossName
     BOSS_BAR_MAX_WIDTH = self.public.barMaxWidth
     Engine.Log("[BossBarController] Initialized. Boss: " .. bossName .. ", Max Bar Width: " .. BOSS_BAR_MAX_WIDTH)

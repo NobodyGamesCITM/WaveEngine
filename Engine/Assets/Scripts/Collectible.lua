@@ -39,9 +39,7 @@ function Update(self, dt)
             _G.HUD_RefreshStatuesDestroyed()
         end
 
-        if GameObject.Destroy then
-            GameObject.Destroy(self.gameObject)
-        end
+        self:Destroy()
     end
 end
 

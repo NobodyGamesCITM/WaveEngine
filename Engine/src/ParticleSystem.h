@@ -205,6 +205,7 @@ struct EmitterInstance {
     // Rendering Options
     bool additiveBlending = false; // Used for Fire or glowing items
     bool luminanceBlending = false; // RGB brightness
+    bool alignToVelocity = false;
 
     // Texture Resources
     unsigned int textureID = 0; // OpenGL Texture ID

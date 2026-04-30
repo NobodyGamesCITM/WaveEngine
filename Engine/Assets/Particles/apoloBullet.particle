@@ -2,21 +2,22 @@
     "activationRadius": 15.0,
     "active": true,
     "additive": true,
+    "alignToVelocity": true,
     "animLoop": false,
     "animSpeed": 1.0,
     "bursts": [],
-    "circleRadius": 1.0,
+    "circleRadius": 0.6499999761581421,
     "colorEnd": [
         1.0,
-        0.9048442840576172,
-        0.46078431606292725,
-        0.3499999940395355
+        0.5,
+        0.0,
+        0.0
     ],
     "colorGradient": [],
     "colorStart": [
         1.0,
-        0.7352941036224365,
-        0.0,
+        0.8999999761581421,
+        0.20000000298023224,
         1.0
     ],
     "coneAngle": 25.0,
@@ -28,7 +29,7 @@
         1.0
     ],
     "emissionRadius": 0.800000011920929,
-    "emissionRate": 8.699999809265137,
+    "emissionRate": 15.0,
     "emissionRateDist": 0.0,
     "emitFromShell": true,
     "gravity": [
@@ -36,7 +37,7 @@
         0.0,
         0.0
     ],
-    "initRotMax": 360.0,
+    "initRotMax": 0.0,
     "initRotMin": 0.0,
     "lifetimeMax": 1.2000000476837158,
     "lifetimeMin": 0.699999988079071,
@@ -53,15 +54,15 @@
     "proximityTarget": "Player",
     "rotSpeedMax": 0.0,
     "rotSpeedMin": 0.0,
-    "shape": 1,
+    "shape": 3,
     "simulationSpace": 0,
     "sizeCurve": [],
     "sizeEnd": 0.0,
     "sizeStart": 0.5,
-    "speedMax": 0.800000011920929,
-    "speedMin": 0.6000000238418579,
+    "speedMax": 0.0010000000474974513,
+    "speedMin": 0.0010000000474974513,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
+    "texturePath": "C:\\Users\\pablo\\Desktop\\repos\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
     "textureRows": 1,
     "textureUID": 14131276021326959926,
     "type": 7

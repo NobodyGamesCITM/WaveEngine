@@ -327,6 +327,7 @@ void ComponentParticleSystem::OnEditor() {
     ImGui::Checkbox("Additive Blending (Glow)", &emitter->additiveBlending);
     ImGui::SameLine();
     ImGui::Checkbox("Luminance Blending (Black&White texture)", &emitter->luminanceBlending);
+    ImGui::Checkbox("Align to Velocity (Trails/Rays)", &emitter->alignToVelocity);
 
     // Module settings
     ModuleEmitterSpawn* spawner = nullptr;
@@ -577,6 +578,7 @@ void ComponentParticleSystem::Serialize(nlohmann::json& componentObj) const {
     if (textureResourceUID != 0) componentObj["textureUID"] = textureResourceUID;
     componentObj["additive"] = emitter->additiveBlending;
     componentObj["luminance"] = emitter->luminanceBlending;
+    componentObj["alignToVelocity"] = emitter->alignToVelocity;
     componentObj["textureRows"] = emitter->textureRows;
     componentObj["textureCols"] = emitter->textureCols;
     componentObj["animSpeed"] = emitter->animationSpeed;
@@ -675,6 +677,7 @@ void ComponentParticleSystem::Deserialize(const nlohmann::json& componentObj) {
 
     if (componentObj.contains("additive")) emitter->additiveBlending = componentObj["additive"];
     if (componentObj.contains("luminance")) emitter->luminanceBlending = componentObj["luminance"];
+    if (componentObj.contains("alignToVelocity")) emitter->alignToVelocity = componentObj["alignToVelocity"];
     if (componentObj.contains("textureRows")) emitter->textureRows = componentObj["textureRows"];
     if (componentObj.contains("textureCols")) emitter->textureCols = componentObj["textureCols"];
     if (componentObj.contains("animSpeed")) emitter->animationSpeed = componentObj["animSpeed"];

@@ -37,8 +37,9 @@ public = {
     attackAnimaAnticip  = 0.3,
 
     detectDist      = 10.0,
-    nearDist        = 3,
+    nearDist        = 3.0,
     nearYDist       = 1.0,
+    offset          = 1.0,
 
     patrolWaitMin   = 2.0,
     patrolWaitMax   = 2.8,
@@ -294,7 +295,7 @@ States[State.PATROL] = {
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
-        local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
+        local dx, dz = Skeleton.nav:GetMoveDirection(self.public.offset)
         targetVelX = dx * self.public.patrolSpeed
         targetVelZ = dz * self.public.patrolSpeed
         ApplyMoveVelocity(dt, 18.0)

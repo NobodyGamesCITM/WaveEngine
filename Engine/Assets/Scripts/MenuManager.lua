@@ -70,6 +70,7 @@ function Initialize(self)
     _G.GlobalMenuManagerInstance = self
 
     Audio.SetMusicState("MainMenu")
+    
 
     self.isMusicPlaying = false
     Engine.Log("[MenuManager] isMusicPlaying reset to false")
@@ -177,6 +178,18 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if not Audio.IsEventPlaying("MUS_BGM") then 
+        local sceneVal = self.public.currentScene
+        if sceneVal == "Level1.scene" then 
+            Audio.SetMusicState("Level1")
+        elseif sceneVal == "Blockout2Nuevo.scene" then 
+            Audio.SetMusicState("Level2")
+        else
+            Engine.Log("[Menu Manager] Current Scene = "..tostring(sceneVal))
+        end
+        self.musicComp:PlayAudioEvent() 
+    end
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then

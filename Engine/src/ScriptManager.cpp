@@ -928,6 +928,18 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     return 0;
 }
 
+static int Lua_Audio_IsEventPlaying(lua_State* L) {
+    
+    std::string eventName = luaL_checkstring(L, 1);
+    std::wstring wEventName(eventName.begin(), eventName.end());
+
+    bool isPlaying = Application::GetInstance().audio.get()->audioSystem->IsEventPlaying(wEventName.c_str());
+
+    lua_pushboolean(L, isPlaying);
+
+    return 1;
+}
+
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     float volume = luaL_checknumber(L, 2);
@@ -981,6 +993,8 @@ static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     }
     return 0;
 }
+
+
 
 // UI
 // UI.WasClicked("ButtonName") → bool
@@ -1160,6 +1174,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SelectPlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
     lua_setfield(L, -2, "StopAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_IsEventPlaying);
+    lua_setfield(L, -2, "IsEventPlaying");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
     lua_pushcfunction(L, Lua_Audio_SetSourceVolume);

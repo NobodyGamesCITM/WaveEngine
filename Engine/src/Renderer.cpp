@@ -1576,7 +1576,7 @@ UID Renderer::GetObjectInPixel(const CameraLens* camera, int x, int y)
 
     for (ComponentMesh* meshComponent : meshes)
     {
-        if (!meshComponent || !meshComponent->owner->IsActive()) continue;
+        if (!meshComponent || !meshComponent->owner || !meshComponent->owner->IsActive()) continue;
 
         Mesh& mesh = meshComponent->GetMesh();
         if (mesh.VAO == 0) continue;

@@ -46,18 +46,11 @@ GameObject::GameObject(const std::string& name) : name(name), active(true), pare
 }
 
 GameObject::~GameObject() {
-    
     MarkCleaning();
-
-    for (auto* component : components) {
-        componentOwners.clear();
-        component = nullptr;
-    }
-
+    componentOwners.clear();
     components.clear();
     for (auto* child : children) {
         delete child;
-        child = nullptr;
     }
     children.clear();
 }
@@ -85,7 +78,6 @@ Component* GameObject::CreateComponent(ComponentType type) {
         break;
     case ComponentType::SKINNED_MESH:
         newComponent = new ComponentSkinnedMesh(this);
-        Application::GetInstance().renderer->AddSkinnedMesh((ComponentSkinnedMesh*)newComponent);
         break;
     case ComponentType::MATERIAL:
         newComponent = new ComponentMaterial(this);

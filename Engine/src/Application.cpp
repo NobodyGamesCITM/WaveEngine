@@ -270,8 +270,10 @@ bool Application::PostUpdate()
     //Iterates the module list and calls PostUpdate on each module
     bool result = true;
 
+    if (scripts) scripts->PostUpdate();
+
     for (const auto& module : moduleList) {
-        if (module == window) {
+        if (module == window || module == scripts) {
             continue;
         }
 

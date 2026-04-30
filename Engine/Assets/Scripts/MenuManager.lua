@@ -69,7 +69,7 @@ function Initialize(self)
 
     _G.GlobalMenuManagerInstance = self
 
-    Audio.SetMusicState("MainMenu")
+    --Audio.SetMusicState("MainMenu")
     
 
     self.isMusicPlaying = false
@@ -179,16 +179,24 @@ end
 
 function Update(self, dt)
 
+    local sceneVal = self.public.currentScene
+    local musicState = "None"
     if not Audio.IsEventPlaying("MUS_BGM") then 
-        local sceneVal = self.public.currentScene
+        
         if sceneVal == "Level1.scene" then 
-            Audio.SetMusicState("Level1")
+           musicState = "Level1"
         elseif sceneVal == "Blockout2Nuevo.scene" then 
-            Audio.SetMusicState("Level2")
+           musicState = "Level2"
+        elseif sceneVal == "Splash.scene" and _G.SkipSplash then
+            musicState = "MainMenu"
         else
             Engine.Log("[Menu Manager] Current Scene = "..tostring(sceneVal))
         end
+        
+        
+        Audio.SetMusicState(tostring(musicState))
         self.musicComp:PlayAudioEvent() 
+        
     end
 
     if self.waitingForSplash then
@@ -333,7 +341,7 @@ function Update(self, dt)
                 self.pendingScene = "Splash.scene"
                 self.fading = true                  
                 self.canvas:PlayStoryboard("FadeOut")
-                Audio.SetMusicVolume(self.public.fullVolume or 100)
+                --Audio.SetMusicVolume(self.public.fullVolume or 100)
             end
         end
 

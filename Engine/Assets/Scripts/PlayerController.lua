@@ -1507,7 +1507,7 @@ function Update(self, dt)
         
         Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
-        Audio.SetMusicVolume(100.0)
+        --Audio.SetMusicVolume(100.0)
         local mGo = GameObject.Find("MusicSource")
         if mGo then
             local musicComp = mGo:GetComponent("Audio Source")
@@ -1543,7 +1543,7 @@ function Update(self, dt)
     if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
         Player.masterAudioTimer = Player.masterAudioTimer - dt
         Audio.SetGlobalVolume(100.0)
-        Audio.SetMusicVolume(100.0)
+        --Audio.SetMusicVolume(100.0)
     end
 
     if Player.restoreListenerFrames then

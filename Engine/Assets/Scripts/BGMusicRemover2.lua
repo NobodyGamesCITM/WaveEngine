@@ -26,7 +26,7 @@ local function Initialize(self)
 	exitedLevel = false
 	finishedTransition = false
 	fadeTimer = 0
-	volume = 100
+	volume = self.public.maxVolume or 100
 	musicSource = GameObject.Find("MusicSource")
 	bgMusic = musicSource:GetComponent("Audio Source")
 

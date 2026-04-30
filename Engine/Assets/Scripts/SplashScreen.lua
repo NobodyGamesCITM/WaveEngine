@@ -55,6 +55,10 @@ function Update(self, dt)
             if type(path) == "table" then path = path.value end
 
             Engine.Log("[SplashScreen] Skip detectado en Update. Forzando: " .. path)
+
+            if not Audio.IsEventPlaying("MUS_BGM") then
+                bgMusic:PlayAudioEvent()
+            end
             
             self.splashFinished = true
             _G.ForceStartXAML = path  
@@ -104,12 +108,10 @@ function Update(self, dt)
 
         if self.splashFadeTimer >= self.public.fadeSpeed then
 
-            if not self.splashFinished then 
-                -- if self.musicComp then self.musicComp:PlayAudioEvent()
-                -- else Engine.Log("[SPLASH SCREEN] Couldn't play BG Music") 
-                -- end
+            
+            if not Audio.IsEventPlaying("MUS_BGM") then
+                bgMusic:PlayAudioEvent()
             end
-
             self.splashFinished = true
             
 

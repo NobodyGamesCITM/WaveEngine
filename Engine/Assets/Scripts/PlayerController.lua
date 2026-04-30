@@ -233,7 +233,7 @@ local function GetMovementInput(self)
     if _G.interact == true then _G.interact = false end
 
     if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F") or Input.GetGamepadButton("A") then
+    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         Engine.Log("interact try")
         self.public.interact = true
         _G.interact = true
@@ -296,8 +296,8 @@ end
 
 local function GetAttackInput(self)
     if attackCooldown > 0 and attackBuffer == false then return 0 end
-    if Input.GetKeyDown("E") or Input.GetGamepadButton("X") then return 1 end
-    if Input.GetKeyDown("Q") or Input.GetGamepadButton("Y") then return 2 end
+    if Input.GetKeyDown("E") or Input.GetGamepadButtonDown("X") then return 1 end
+    if Input.GetKeyDown("Q") or Input.GetGamepadButtonDown("Y") then return 2 end
     return 0
 end
 
@@ -559,6 +559,7 @@ States[State.DEAD] = {
         end
 
         if Player.hermesDeathRespawn then
+            self.public.stamina = 50.0
             Player.hermesDeathTimer = Player.hermesDeathTimer - dt
             if Player.hermesDeathTimer <= 0 then
                 Player.hermesDeathRespawn = false    
@@ -841,7 +842,7 @@ States[State.CHARGING] = {
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
-        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Ares", 0.5) end
@@ -888,7 +889,7 @@ States[State.SHOOTING] = {
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
-        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
@@ -947,7 +948,7 @@ States[State.ATTACK_HEAVY] = {
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
-        if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 250) end
+        if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then anim:Play("Hermes", 0.0) end

@@ -56,7 +56,7 @@ bool ModulePhysics::Start() {
     gDispatcher = PxDefaultCpuDispatcherCreate(2);
 
     PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-    sceneDesc.gravity = PxVec3(0.0f, -50.0f, 0.0f);
+    sceneDesc.gravity = PxVec3(0.0f, -30.0f, 0.0f);
     sceneDesc.cpuDispatcher = gDispatcher;
     sceneDesc.filterShader = CustomFilterShader;
     sceneDesc.simulationEventCallback = this;

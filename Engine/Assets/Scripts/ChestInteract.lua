@@ -63,7 +63,7 @@ function Update(self, dt)
         hidePrompt()
     end
 
-    if inRange and Input.GetKeyDown("F") and not (_G.DialogActive)
+    if inRange and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A"))
        and not (_G.ItemObtainedActive) and inputCooldown <= 0 then
         opened = true
         hidePrompt()

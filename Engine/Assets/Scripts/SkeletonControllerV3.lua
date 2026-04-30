@@ -30,15 +30,17 @@ local Skeleton = {
 public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
-    chaseSpeed      = 3.5,
+    chaseSpeed      = 6.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
     attackColDelay  = 0.9,
     attackAnimaAnticip  = 0.3,
-    nearDist        = 2,
+
+    detectDist      = 10.0,
+    nearDist        = 3,
     nearYDist       = 1.0,
 
-    patrolWaitMin   = 1.0,
+    patrolWaitMin   = 2.0,
     patrolWaitMax   = 2.8,
     deathTime       = 1.5,
     
@@ -80,9 +82,9 @@ local function CheckDistance(self, dist, near)
     
    -- Engine.Log("[Skeleton] NOT NEAR ENOUGH: " .. tostring(dist))
     if near == true then 
-        return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist --and math.abs(pos.y - playerPos.y) < self.public.nearYDist
+        return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist and math.abs(pos.y - playerPos.y) < self.public.nearYDist
     else
-        return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist-- or math.abs(pos.y - playerPos.y) > self.public.nearYDist
+        return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist or math.abs(pos.y - playerPos.y) > self.public.nearYDist
     end
 end
 
@@ -242,7 +244,7 @@ States[State.IDLE] = {
             end
         elseif not OnStartPos then ChangeState(self, State.GUARD)
         end
-        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
             ChangeState(self, State.CHASE)
             return
         end
@@ -275,7 +277,7 @@ States[State.GUARD] = {
             OnStartPos = true
             return
         end
-        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
             ChangeState(self, State.CHASE)
             return
         end
@@ -307,7 +309,7 @@ States[State.PATROL] = {
             ChangeState(self, State.IDLE)
             return
         end
-        if CheckDistance(self,30.0,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
             ChangeState(self, State.CHASE)
             return
         end
@@ -335,7 +337,7 @@ States[State.CHASE] = {
             ChangeState(self, State.ATTACK)
             return
         end
-        if CheckDistance(self,31,false) or not cantChase then
+        if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
             if not self.public.activeGuard then ChangeState(self, State.IDLE)
             else  
                 OnStartPos = false

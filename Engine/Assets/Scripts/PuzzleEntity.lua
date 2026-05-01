@@ -86,7 +86,7 @@ local function ProcessHit(self, attackType, playerObj)
                 self.public.gridC = self.public.gridC + dC
                 isMoving = true
                 Engine.Log("[PuzzleEntity] Movement is possible, no object in the way.")
-                if puzzleEntSFX then puzzleEntSFX:PlayAudioEvent() end
+                if puzzleEntSFX then puzzleEntSFX:SelectPlayAudioEvent("SFX_RockMove") end
             end
         end
         
@@ -169,5 +169,23 @@ function OnTriggerEnter(self, other)
             playerAttackHandled = true
             ProcessHit(self, attackType, other)
         end
+    end
+    if other:CompareTag("Plate") then
+        --Engine.Log("Collided with pressure plate")
+        if not Audio.IsEventPlaying("SFX_PressPlate") then
+            
+            if puzzleEntSFX then 
+                -- if Audio.IsEventPlaying("SFX_RockMove") then
+                --     Engine.Log("Rock pls shut the fuck up")
+                --     puzzleEntSFX:StopAudioEvent() 
+                    
+                -- end
+                puzzleEntSFX:SelectPlayAudioEvent("SFX_PressPlate") 
+                --Engine.Log("Playing pressure plate SFX")
+            else 
+                Engine.Log("Could not play Pressure Plate SFX")
+            end
+        end
+
     end
 end

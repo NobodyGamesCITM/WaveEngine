@@ -928,6 +928,18 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     return 0;
 }
 
+static int Lua_Audio_IsEventPlaying(lua_State* L) {
+    
+    std::string eventName = luaL_checkstring(L, 1);
+    std::wstring wEventName(eventName.begin(), eventName.end());
+
+    bool isPlaying = Application::GetInstance().audio.get()->audioSystem->IsEventPlaying(wEventName.c_str());
+
+    lua_pushboolean(L, isPlaying);
+
+    return 1;
+}
+
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     float volume = luaL_checknumber(L, 2);
@@ -981,6 +993,8 @@ static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     }
     return 0;
 }
+
+
 
 // UI
 // UI.WasClicked("ButtonName") → bool
@@ -1160,6 +1174,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SelectPlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
     lua_setfield(L, -2, "StopAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_IsEventPlaying);
+    lua_setfield(L, -2, "IsEventPlaying");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
     lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
@@ -2361,6 +2377,67 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             return 0;
             }, 1);
         lua_setfield(L, -2, "Shake");
+
+        // PlayCinematic(trackTable, blendBackTime)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            if (!cam) return 0;
+
+            if (!lua_istable(L, 2)) {
+                LOG_CONSOLE("[Lua] ERROR: PlayCinematic expects a table of keyframes.");
+                return 0;
+            }
+
+            float blendBackTime = static_cast<float>(luaL_optnumber(L, 3, 1.0));
+            std::vector<CameraKeyframe> track;
+
+            lua_pushnil(L);
+            while (lua_next(L, 2) != 0) {
+                if (lua_istable(L, -1)) {
+                    CameraKeyframe kf;
+
+                    lua_getfield(L, -1, "time"); kf.time = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+
+                    lua_getfield(L, -1, "pos");
+                    if (lua_istable(L, -1)) {
+                        lua_rawgeti(L, -1, 1); kf.position.x = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+                        lua_rawgeti(L, -1, 2); kf.position.y = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+                        lua_rawgeti(L, -1, 3); kf.position.z = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+                    }
+                    lua_pop(L, 1);
+
+                    lua_getfield(L, -1, "rot");
+                    if (lua_istable(L, -1)) {
+                        float rx, ry, rz;
+                        lua_rawgeti(L, -1, 1); rx = glm::radians((float)lua_tonumber(L, -1)); lua_pop(L, 1);
+                        lua_rawgeti(L, -1, 2); ry = glm::radians((float)lua_tonumber(L, -1)); lua_pop(L, 1);
+                        lua_rawgeti(L, -1, 3); rz = glm::radians((float)lua_tonumber(L, -1)); lua_pop(L, 1);
+                        kf.rotation = glm::quat(glm::vec3(rx, ry, rz));
+                    }
+                    lua_pop(L, 1);
+
+                    track.push_back(kf);
+                }
+                lua_pop(L, 1);
+            }
+
+            Application::GetInstance().scripts->EnqueueOperation([cam, track, blendBackTime]() {
+                cam->PlayCinematic(track, blendBackTime);
+                });
+
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "PlayCinematic");
+
+        // IsPlayingCinematic() -> bool
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            lua_pushboolean(L, cam ? cam->IsPlayingCinematic() : false);
+            return 1;
+            }, 1);
+        lua_setfield(L, -2, "IsPlayingCinematic");
 
         return 1;
     }

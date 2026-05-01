@@ -19,6 +19,8 @@ public:
 		return playingID != 0;
 	};
 
+	AkUniqueID eventID;
+	std::string eventName;
 	AkPlayingID playingID;
 	AkCallbackFunc eventCallback; //callback function wwise uses to fire events
 };
@@ -42,6 +44,9 @@ public:
 	void StopEvent(const wchar_t* eventName, AkGameObjectID goID);
 	void PauseEvent(AkUniqueID event, AkGameObjectID goID);
 	void ResumeEvent(AkUniqueID event, AkGameObjectID goID);
+
+	bool IsEventPlaying(AkUniqueID event);
+	bool IsEventPlaying(const wchar_t* eventName);
 
 	// ----------------------- STATES ---------------------- //
 	void SetState(AkStateGroupID stateGroup, AkStateID state);
@@ -158,6 +163,8 @@ public:
 
 	// list of events
 	std::vector<std::string> eventNames;
+	std::vector<std::uint32_t> eventIDs;
+	std::unordered_map<AkUniqueID, AudioEvent*> activeEvents;
 	
 	// registered reverb zones
 	std::vector<ReverbZone*> reverbZones;

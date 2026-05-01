@@ -25,6 +25,8 @@ namespace AK
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_ARESMASK = 3161303428U;
+        static const AkUniqueID SFX_DOORMOVE = 2318810U;
+        static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_HERMESMASK = 3607278939U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
@@ -63,6 +65,8 @@ namespace AK
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
+        static const AkUniqueID UI_CLOSEWINDOW = 767454882U;
+        static const AkUniqueID UI_POTIONGET = 3610360561U;
     } // namespace EVENTS
 
     namespace STATES
@@ -73,6 +77,7 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID AFTERBOSS = 1221996634U;
                 static const AkUniqueID BOSS = 1560169506U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;

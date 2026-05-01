@@ -100,7 +100,13 @@ void ModuleEmitterSpawn::Spawn(EmitterInstance* emitter, Particle* particle) {
         if (!emitFromShell) r *= sqrt(RandomFloat(0.0f, 1.0f));
 
         offset = glm::vec3(r * cos(theta), 0.0f, r * sin(theta));
-        dir = glm::vec3(0, 1, 0); // Goes straight up like a column or portal
+
+        if (emitter->alignToVelocity) {
+            dir = glm::normalize(glm::vec3(cos(theta), 0.0f, sin(theta)));
+        }
+        else {
+            dir = glm::vec3(0.0f, 1.0f, 0.0f);
+        }
     }
 
     if (emitter->simulationSpace == SimulationSpace::WORLD) {
@@ -545,8 +551,24 @@ void EmitterInstance::Draw(glm::vec3 cameraPos, const glm::mat4& modelMatrix) {
         glm::vec3 baseRight = glm::normalize(glm::cross(worldUp, direction));
         glm::vec3 baseUp = glm::normalize(glm::cross(direction, baseRight));
 
+        float finalRotation = p.rotation;
+
+        if (alignToVelocity) {
+            glm::vec3 wVel = p.velocity;
+            if (simulationSpace == SimulationSpace::LOCAL) {
+                wVel = glm::vec3(unscaledModel * glm::vec4(p.velocity, 0.0f));
+            }
+
+            if (glm::length(wVel) > 0.001f) {
+                float vRight = glm::dot(wVel, baseRight);
+                float vUp = glm::dot(wVel, baseUp);
+
+                finalRotation += glm::degrees(atan2(-vRight, vUp));
+            }
+        }
+
         // Apply Particle Rotation
-        float rad = glm::radians(p.rotation);
+        float rad = glm::radians(finalRotation);
         float c = cos(rad);
         float s = sin(rad);
 

@@ -7,7 +7,6 @@ local abs   = math.abs
 -- States
 local State = {
     IDLE        = "Idle",
-    PATROL = "Patrol",
     CHASE      = "Chase", --Searching and walking to player
     REPOSITION  = "Reposition", -- Getting away if player is too close
     ANTICIPATION = "Anticipation", -- Waiting before charging
@@ -38,7 +37,7 @@ local hitCooldown = 0
 local TILE_SIZE = 3.744
 
 local BaseMat = nil
-
+local lastPPos = {x = 0, z = 0}
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -109,9 +108,7 @@ local function TakeDamage(self, amount, attackerPos)
 
     self.hp = self.hp - amount
     Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
-    if _G.TriggerCameraShake then
-        _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
-    end
+    _PlayerController_triggerCameraShake = true
 
     if self.rb and attackerPos then
         local pos = self.transform.worldPosition
@@ -143,69 +140,27 @@ end
 
 -- State functions
 local function UpdateIdle(self, dist)
-    if not self.nav then return end
-
-    local px, py, pz = self.nav:GetRandomPoint()
-
-    if px then
-        self.nav:SetDestination(px, py, pz)
-        ChangeState(self, State.PATROL)
-    end
-    if self.anim and not self.anim:IsPlayingAnimation("Idle") then
-        self.anim:Play("Idle")
-    end
-end
-
-local function UpdatePatrol(self, dt)
-    if not self.nav or not self.playerGO then return end
-
-    local playerPos = self.playerGO.transform.worldPosition
-
-    --Detect if player is in the navmesh
-    local canChase = self.nav:CheckDestination(playerPos.x, playerPos.y, playerPos.z)
-
-    if canChase then
+    if dist <= self.public.detectRange then
         ChangeState(self, State.CHASE)
-        return
     end
-
-    local dx, dz = self.nav:GetMoveDirection(0.3)
-    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    local vel = self.rb:GetLinearVelocity()
-
-    self.rb:SetLinearVelocity(dx * 4.0, vel.y, dz * 4.0)
-
-    if not self.nav:IsMoving() then
-        ChangeState(self, State.IDLE)
-    end
+    --if self.anim and not self.anim:IsPlayingAnimation("Idle") then
+        --self.anim:Play("Idle")
+    --end
 end
 
 local function UpdateChase(self, myPos, pp, dist, dt)
-    
     local dx = pp.x - myPos.x
     local dy = pp.y - myPos.y
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
-    if not self.nav or not self.playerGO then return end
-
-    local playerPos = self.playerGO.transform.worldPosition
-
-    self.navTimer = self.navTimer - dt
-
-    local canChase = true
-
-    if self.navTimer <= 0 then
-        canChase = self.nav:SetDestination(playerPos.x, playerPos.y, playerPos.z)
-        self.navTimer = 0.2
-    end
-
-    if not canChase then
-        ChangeState(self, State.PATROL)
+    -- Volver a IDLE si el player está muy lejos o en diferente altura (plataforma distinta)
+    if dist > self.public.detectRange or abs(dy) > 3.0 then
+        StopMovement(self)
+        ChangeState(self, State.IDLE)
         return
     end
-
 
     if dist < self.public.tooCloseRange then
         ChangeState(self, State.REPOSITION)
@@ -262,7 +217,11 @@ local function UpdateReposition(self, myPos, pp, dist, dt)
 end
 
 local function UpdateAnticipation(self, pp, dt)
-    
+    local pVelX = (pp.x - lastPPos.x) / dt
+    local pVelZ = (pp.z - lastPPos.z) / dt
+    lastPPos.x = pp.x
+    lastPPos.z = pp.z
+
     if not self.chargeFeedbackGO then
         self.chargeFeedbackTiles = {}
         self.chargeFeedbackGO = true
@@ -307,7 +266,6 @@ local function UpdateAnticipation(self, pp, dt)
         end
 
         local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        numTiles = numTiles +1
         if #self.chargeFeedbackTiles ~= numTiles then
 
             -- Destroy old ones
@@ -317,28 +275,28 @@ local function UpdateAnticipation(self, pp, dt)
 
             self.chargeFeedbackTiles = {}
 
-            -- Create new ones
             for i = 1, numTiles do
                 local tile = Prefab.Instantiate("MinocabroFeedback")
-                table.insert(self.chargeFeedbackTiles, tile)
+                if tile then
+                    table.insert(self.chargeFeedbackTiles, tile)
+                end
             end
+        end
+
+        local dirX, dirZ = 0, 0
+        if distance > 0.001 then 
+            dirX = dx / distance 
+            dirZ = dz / distance 
         end
 
         -- Place tiles
         for i, tile in ipairs(self.chargeFeedbackTiles) do
-
-            local offset = (i - 0.5) * TILE_SIZE
-
-            local posX = myPos.x + directionX * offset
-            local posZ = myPos.z + directionZ * offset
-            local posY = pp.y + 0.2
-
-            tile.transform:SetPosition(posX, posY, posZ)
-
-            local rot = atan2(directionX, directionZ) * (180.0 / pi)
-            tile.transform:SetRotation(0, rot, 0)
-
-            tile.transform:SetScale(3.744, 0.15, 3.744)
+           if tile then
+                local offset = (i - 0.5) * TILE_SIZE
+                tile.transform:SetPosition(myPos.x + dirX * offset, pp.y + 0.2, myPos.z + dirZ * offset)
+                tile.transform:SetRotation(0, atan2(dirX, dirZ) * (180.0 / pi), 0)
+                tile.transform:SetScale(3.744, 0.15, 3.744)
+            end
         end
     end
 
@@ -353,26 +311,29 @@ local function UpdateAnticipation(self, pp, dt)
             local vel = self.rb:GetLinearVelocity()
             self.rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
         end
+    else
+        StopMovement(self)
     end
 
     if self.preparationTimer >= self.public.preparationTime then
-        local predictedX = pp.x
-        local predictedZ = pp.z
+        local timeToPredict = self.public.predictionTime or 0.5
+        
+        local predictedX = pp.x + (pVelX * timeToPredict)
+        local predictedZ = pp.z + (pVelZ * timeToPredict)
 
-        if self.rb then
-            local predictionVel = self.rb:GetLinearVelocity()
-            local time = self.public.predictionTime
-            predictedX = pp.x + predictionVel.x * time
-            predictedZ = pp.z + predictionVel.z * time
+        local pDx = predictedX - myPos.x
+        local pDz = predictedZ - myPos.z
+        local len = sqrt(pDx*pDx + pDz*pDz)
+
+        if len > 0.1 then
+            self.chargeDirX = pDx / len
+            self.chargeDirZ = pDz / len
+        else
+            local rotY = self.transform.worldRotation.y * (pi / 180.0)
+            self.chargeDirX = math.sin(rotY)
+            self.chargeDirZ = math.cos(rotY)
         end
 
-        local predictionDx= predictedX - myPos.x
-        local predictionDz= predictedZ - myPos.z
-        local len = sqrt(predictionDx*predictionDx + predictionDz*predictionDz)
-        if len > 0.001 then
-            self.chargeDirX, self.chargeDirZ = predictionDx/len, predictionDz/len
-        end
-        if self.nav then self.nav:StopMovement() end
         self.chargeTimer = 0
         ChangeState(self, State.CHARGE)
     end
@@ -407,7 +368,17 @@ local function UpdateCharge(self, dt)
     if self.rb then
         local vel = self.rb:GetLinearVelocity()
         self.rb:SetLinearVelocity(self.chargeDirX * self.public.chargeSpeed, 0, self.chargeDirZ * self.public.chargeSpeed)
-        
+
+        if self.chargeTimer > 0.2 then
+            local actualSpeed = sqrt(vel.x*vel.x + vel.z*vel.z)
+            if actualSpeed < self.public.wallSpeedThresh then
+                self.alreadyHit = false
+                StopMovement(self)
+                self.wallStunTimer = self.public.wallStunTime
+                ChangeState(self, State.WALL)
+                return
+            end
+        end
     end
 
     if not self.attackCol then self.attackCol = self.gameObject:GetComponent("Box Collider") end
@@ -438,9 +409,7 @@ local function UpdateCharge(self, dt)
                 _EnemyDamage_minocabro = finalDamage
                 _PlayerController_pendingDamage = finalDamage
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
-                -- if _G.TriggerCameraShake then
-                --    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
-                -- end
+                _PlayerController_triggerCameraShake = true
 
                 if self.attackCol then self.attackCol:Disable() end
                 StopMovement(self)
@@ -496,8 +465,8 @@ local function UpdateWall(self, dt)
 end
 
 local function UpdateRecovery(self, dt)
-  
     DestroyChargeFeedback(self)
+
     if self.playerGO and not self.cameFromWall then
         local myPos = self.transform.worldPosition
         local pp = self.playerGO.transform.worldPosition
@@ -578,10 +547,6 @@ function Start(self)
         enemyDamageMax = 35,
 
         predictionTime = 0.4,
-        
-        camDuration     = 0.5,
-        camMagnitud     = 1.0,
-        camFrequency    = 20.0,
     }
 
     self.hp               = self.public.maxHp
@@ -607,13 +572,8 @@ function Start(self)
     self.chargeFeedbackGO = nil
     self.stepTimer        = 0.5
 
-    self.nav = self.gameObject:GetComponent("Navigation")
     self.rb   = self.gameObject:GetComponent("Rigidbody")
     self.anim = self.gameObject:GetComponent("Animation")
-
-    self.playerGO = GameObject.Find("Player")
-    self.navTimer = 0
-
 
     self.stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
     self.voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
@@ -668,7 +628,6 @@ function Update(self, dt)
     if self.pendingWallHit == nil then self.pendingWallHit = false end
     if self.alreadyHit     == nil then self.alreadyHit     = false end
 
-    if not self.nav then self.nav = self.gameObject:GetComponent("Navigation") end
     if not self.rb   then self.rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not self.anim then self.anim = self.gameObject:GetComponent("Animation")  end
 
@@ -737,7 +696,6 @@ function Update(self, dt)
 
     -- State machine
     if     self.currentState == State.IDLE         then UpdateIdle(self, dist)
-    elseif self.currentState == State.PATROL       then UpdatePatrol(self, dt)
     elseif self.currentState == State.CHASE       then UpdateChase(self, myPos, pp, dist, dt)
     elseif self.currentState == State.REPOSITION   then UpdateReposition(self, myPos, pp, dist, dt)
     elseif self.currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
@@ -751,18 +709,16 @@ end
 function OnTriggerEnter(self, other)
     if self.isDead then return end         
 
-    if other:CompareTag("Wall") and self.currentState == State.CHARGE then
+    if other:CompareTag("Wall") then
         if self.currentState == State.WALL or self.currentState == State.RECOVERY then 
             return 
         end
 
-        StopMovement(self)
         DestroyChargeFeedback(self)
 
 
         self.pendingWallHit = true
         Engine.Log("[Minocabro] Chocó con la pared")
-        ChangeState(self, State.WALL)
         return 
     end
 

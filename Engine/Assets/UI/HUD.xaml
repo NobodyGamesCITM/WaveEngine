@@ -12,9 +12,17 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="562*"/>
+                <ColumnDefinition Width="1358*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="241*"/>
+                <RowDefinition Height="839*"/>
+            </Grid.RowDefinitions>
 
             <!-- HUD superior izquierda -->
-            <Grid HorizontalAlignment="Left"
+            <Grid x:Name="HudGrid" HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Margin="20,20,0,0"
                   Width="500"
@@ -273,7 +281,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <!-- Prompt de interacción -->
             <Canvas Width="1920" Height="1080"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0" Grid.RowSpan="2">
                 <StackPanel x:Name="InteractPrompt"
                             Visibility="Collapsed"
                             Orientation="Horizontal"
@@ -318,7 +326,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </StackPanel>
             </Canvas>
-            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-38,-30">
+            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869">
                 <StackPanel x:Name="InputKeyText001" Visibility="Collapsed" Orientation="Horizontal" Canvas.Left="0" Canvas.Top="0">
                     <Border CornerRadius="6" Padding="20,8,20,8">
                         <Border.Background>
@@ -351,8 +359,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <!-- Hints de controles -->
             <Grid VerticalAlignment="Bottom"
                   HorizontalAlignment="Center"
-                  Margin="0,0,0,40"
-                  Width="600">
+                  Margin="0,0,562,40"
+                  Width="600" Grid.Column="1" Grid.Row="1">
                 <Border x:Name="ControlsHintPanel"
                         CornerRadius="8"
                         Padding="12,8,12,8"
@@ -412,5 +420,39 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
         </Grid>
     </Viewbox>
+    <Grid x:Name="MissionGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1599*"/>
+            <ColumnDefinition Width="288*"/>
+            <ColumnDefinition Width="33*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="194*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="818*"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+            <Path Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure IsClosed="True" StartPoint="0.45,0">
+                            <LineSegment Point="470,0" IsStroked="False"/>
+                            <LineSegment Point="470,100" IsStroked="False"/>
+                            <LineSegment Point="0,100" IsStroked="False"/>
+                            <ArcSegment/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+                <Path.Fill>
+                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.194"/>
+                </Path.Fill>
+            </Path>
+        </Viewbox>
+        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <Viewbox x:Name="TextViewBox" Margin="10,10,10,10">
+                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Statues Destroyed 0/3" Foreground="#FFFFFFFF" TextAlignment="Right" FontFamily="./#ForgottenUncial"/>
+            </Viewbox>
+        </Viewbox>
+    </Grid>
 
 </Grid>

@@ -6,6 +6,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+  xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
@@ -123,7 +124,7 @@
 
             <Storyboard x:Key="Intro">
                 <!-- Fade In desde negro (RootContent contiene la imagen y botones) -->
-                <DoubleAnimation Storyboard.TargetName="RootContent" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"/>
+                <!-- La opacidad inicial del RootContent se gestiona directamente, no con animación de fade-in aquí. -->
 
                 <!-- START -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="StartButton">
@@ -176,86 +177,82 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <Grid x:Name="RootContent" Opacity="0">
+    <Grid x:Name="RootContent">
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
         </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="931*"/>
+            <ColumnDefinition Width="349*"/>
+        </Grid.ColumnDefinitions>
 
-        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid x:Name="LayoutRoot" Width="1280" Height="720">
+        <Viewbox Stretch="Uniform" Margin="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid x:Name="LayoutRoot" Height="720">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="768"/>
-                <ColumnDefinition Width="512"/>
+                <ColumnDefinition Width="971"/>
+                <ColumnDefinition Width="283"/>
+                <ColumnDefinition Width="26"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="MainMenu_text"
-                       Grid.Column="0"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       Margin="30,25,0,0"
-                       FontSize="52"
-                       FontWeight="Bold"
-                       Foreground="Black"
-                       Text="MainMenu" FontFamily="Arial"/>
-
-            <Grid Grid.Column="1">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Width="359" Height="497" Margin="121,209,0,0">
-
-                    <Button x:Name="StartButton"
-                            Content="START"
-                            Opacity="0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Margin="0,0,0,90"
-                            Command="{Binding Path=Commands[StartButton]}">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="SettingsButton"
-                            Content="SETTINGS"
-                            Opacity="0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Margin="0,0,0,90"
-                            Command="{Binding Commands[SettingsButton]}">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="ExitButton"
-                            Content="EXIT"
-                            Opacity="0"
-                            Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding Commands[ExitButton]}">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                </StackPanel>
+            <Grid Grid.Column="1" Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="151*"/>
+                    <RowDefinition Height="489*"/>
+                    <RowDefinition Height="80*"/>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Row="1">
+                    <StackPanel>
+                        <Button x:Name="StartButton" Content="START" Command="{Binding Path=Commands[StartButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60">
+                            <Button.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Button.RenderTransform>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Loaded">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="MouseEnter">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                        <Button x:Name="ContinueButton" Command="{Binding Path=Commands[StartButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Content="CONTINUE" Margin="0,0,0,60">
+                            <Button.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Button.RenderTransform>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Loaded">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="MouseEnter">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                        <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60">
+                            <Button.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Button.RenderTransform>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="MouseEnter">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                        <Button x:Name="ExitButton" Content="EXIT" Command="{Binding Commands[ExitButton]}" Opacity="1" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right">
+                            <Button.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Button.RenderTransform>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="MouseEnter">
+                                    <noesis:SetFocusAction/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </Viewbox>
             </Grid>
         </Grid>
     </Viewbox>
-    <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
+    <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="2" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

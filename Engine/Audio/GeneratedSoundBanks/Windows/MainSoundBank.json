@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{783F5666-ED97-C026-4F7E-D2282830F946}",
+    "Hash": "{DC17F731-6DED-DC1D-0491-6C0A60CA8C15}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -344,6 +344,14 @@
       "CachePath": "A5/{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem"
      },
      {
+      "Id": "307199709",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "portcullis_end.wav",
+      "CachePath": "ED/{EDB2A2B9-AF89-A392-C392-03C1B4846002}.wem"
+     },
+     {
       "Id": "309921112",
       "Language": "SFX",
       "Streaming": "false",
@@ -640,6 +648,22 @@
       "CachePath": "34/{34316DED-6F89-5154-B91B-6BA1D8781BCD}.wem"
      },
      {
+      "Id": "585854071",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "portcullis_00.wav",
+      "CachePath": "38/{384FD139-562F-B8F5-A0AD-E88B2ADCC4DA}.wem"
+     },
+     {
+      "Id": "592504271",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "cave-ambience-asmr-loop-2-if-5-ex.wav",
+      "CachePath": "50/{501C7939-18C2-C702-F877-E682E1766015}.wem"
+     },
+     {
       "Id": "598271853",
       "Language": "SFX",
       "Streaming": "false",
@@ -784,14 +808,6 @@
       "CachePath": "29/{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem"
      },
      {
-      "Id": "698807496",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "MainMenu.wav",
-      "CachePath": "BF/{BF002955-90D4-EF90-9D18-47A78478410C}.wem"
-     },
-     {
       "Id": "699306489",
       "Language": "SFX",
       "Streaming": "false",
@@ -904,6 +920,14 @@
       "CachePath": "50/{507E21FB-7A9C-8707-3FD6-2319D76E8922}.wem"
      },
      {
+      "Id": "818212773",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Musica_MainMenu.wav",
+      "CachePath": "39/{39B47E58-1A00-7354-0FE6-4950CEFC10EA}.wem"
+     },
+     {
       "Id": "818783277",
       "Language": "SFX",
       "Streaming": "false",
@@ -989,7 +1013,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "moving_rock.wav",
-      "CachePath": "D7/{D71796B4-3470-BB8C-D3B8-470BEAC13168}.wem"
+      "CachePath": "7F/{7F462D61-3ED8-DEF5-D33E-3043B308A97D}.wem"
      },
      {
       "Id": "864759864",
@@ -1104,6 +1128,14 @@
       "CachePath": "E3/{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem"
      },
      {
+      "Id": "974543721",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Hud-potion.wav",
+      "CachePath": "98/{98BF5890-2D11-B08A-B236-05C7C2337EC9}.wem"
+     },
+     {
       "Id": "980240822",
       "Language": "SFX",
       "Streaming": "false",
@@ -1206,10 +1238,26 @@
       "Location": "Memory",
       "ShortName": "siren_hurt.wav",
       "CachePath": "9F/{9F780056-22BE-15FA-B38E-A4EB69E14754}.wem"
+     },
+     {
+      "Id": "1073671797",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Hud-closewindow.wav",
+      "CachePath": "F0/{F0BF379C-1598-391F-95DD-A66C591C9110}.wem"
      }
     ],
     "Plugins": {
      "Custom": [
+      {
+       "Id": "100648286",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\moving_rock\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{609C2862-3979-44EC-AED4-B1D5EE81E35A}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
       {
        "Id": "139464527",
        "Name": "Time Stretch (Custom)",
@@ -1257,6 +1305,14 @@
        "GUID": "{3E106FDF-014E-4E3A-9BC9-6AE678D9DB8B}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
+      },
+      {
+       "Id": "972658868",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\pressure_plate\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{7440839D-36AD-4390-8CA4-6A6A619B426A}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
       }
      ],
      "ShareSets": [
@@ -1273,6 +1329,14 @@
        "Name": "Plate_Large",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Plates\\Plate_Large",
        "GUID": "{62CB7384-421D-4F9A-9CF1-E90F7336A07B}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "2513915904",
+       "Name": "Hall_Large",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Halls\\Hall_Large",
+       "GUID": "{6D154498-FF6D-4823-96FC-56841B70E079}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
       },
@@ -1382,7 +1446,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "698807496"
+          "Id": "818212773"
          }
         ]
        },
@@ -1424,6 +1488,26 @@
           "Id": "193895961"
          }
         ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "1221996634",
+         "GUID": "{552E920B-8856-454A-8B4A-A720BA7E6C50}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "592504271"
+         }
+        ],
+        "PluginRefs": {
+         "ShareSets": [
+          {
+           "Id": "2513915904"
+          }
+         ]
+        }
        }
       ]
      },
@@ -1643,6 +1727,34 @@
       "MediaRefs": [
        {
         "Id": "526649077"
+       }
+      ]
+     },
+     {
+      "Id": "2318810",
+      "Name": "SFX_DoorMove",
+      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorMove",
+      "GUID": "{9D486567-4554-4275-B8DE-2D663F79B9F8}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "585854071"
+       }
+      ]
+     },
+     {
+      "Id": "2620143605",
+      "Name": "SFX_DoorStop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorStop",
+      "GUID": "{44D2366F-762A-4133-980D-A8110E41216E}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.0620506",
+      "DurationMax": "2.3145738",
+      "MediaRefs": [
+       {
+        "Id": "307199709"
        }
       ]
      },
@@ -2008,8 +2120,8 @@
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "2.4402916",
-      "DurationMax": "2.5313542",
+      "DurationMin": "2.9402916",
+      "DurationMax": "3.0313542",
       "MediaRefs": [
        {
         "Id": "70539538"
@@ -2402,13 +2514,20 @@
       "GUID": "{348B4560-5EB4-42B6-82A2-C2BD590D65B7}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.47221923",
-      "DurationMax": "0.6775325",
+      "DurationMin": "0.9722192",
+      "DurationMax": "1.1775324",
       "MediaRefs": [
        {
         "Id": "271606854"
        }
-      ]
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "972658868"
+        }
+       ]
+      }
      },
      {
       "Id": "1281281593",
@@ -2417,13 +2536,20 @@
       "GUID": "{3781C989-4AE3-430E-8606-1E5B0D50F2BA}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "1.0187755",
-      "DurationMax": "1.0187755",
+      "DurationMin": "0.88960487",
+      "DurationMax": "0.9985478",
       "MediaRefs": [
        {
         "Id": "863671011"
        }
-      ]
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "100648286"
+        }
+       ]
+      }
      },
      {
       "Id": "4188719418",
@@ -2661,6 +2787,34 @@
         "Id": "332618846"
        }
       ]
+     },
+     {
+      "Id": "767454882",
+      "Name": "UI_CloseWindow",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_CloseWindow",
+      "GUID": "{4015699C-215D-40CF-A144-54499D59F78A}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.50383157",
+      "DurationMax": "0.50383157",
+      "MediaRefs": [
+       {
+        "Id": "1073671797"
+       }
+      ]
+     },
+     {
+      "Id": "3610360561",
+      "Name": "UI_PotionGet",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_PotionGet",
+      "GUID": "{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.274119",
+      "DurationMax": "3.274119",
+      "MediaRefs": [
+       {
+        "Id": "974543721"
+       }
+      ]
      }
     ],
     "Busses": [
@@ -2841,6 +2995,12 @@
         "GUID": "{FF3A9A9C-03B3-4931-9DCD-C964AAFDB20D}"
        },
        {
+        "Id": "1221996634",
+        "Name": "AfterBoss",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\AfterBoss",
+        "GUID": "{552E920B-8856-454A-8B4A-A720BA7E6C50}"
+       },
+       {
         "Id": "1499148877",
         "Name": "Level1_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
@@ -2967,6 +3127,6 @@
     ]
    }
   ],
-  "FileHash": "{D49C1C7B-772D-0D8A-7321-73802E9E792C}"
+  "FileHash": "{D1C50DE2-0454-EF70-C9D5-22BDD4DBE333}"
  }
 }

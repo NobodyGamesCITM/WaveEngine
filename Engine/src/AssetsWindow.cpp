@@ -1294,6 +1294,7 @@ const char* AssetsWindow::GetAssetIcon(const std::string& extension) const
     if (extension == ".wav" || extension == ".ogg" || extension == ".mp3") return "[SND]";
     if (extension == ".lua") return "[LUA]";  
     if (extension == ".prefab") return "[PREFAB]";
+    if (extension == ".particle") return "[PTC]";
     return "[FILE]";
 }
 
@@ -1314,6 +1315,7 @@ bool AssetsWindow::IsAssetFile(const std::string& extension) const
         extension == ".lua"  ||
         extension == ".mat"  ||
         extension == ".prefab" ||
+        extension == ".particle" ||
         extension == ".scene";
 }
 

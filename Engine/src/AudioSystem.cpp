@@ -35,6 +35,8 @@
 
 AudioEvent::AudioEvent() {
     playingID = 0L;
+    //eventName = "None";
+    eventID = AK_INVALID_UNIQUE_ID;
     eventCallback = (AkCallbackFunc)AudioSystem::EventCallBack;
 
 }
@@ -275,6 +277,7 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
 
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
             audioEvents[i]->playingID = 1L; //1L = event slot is now taken
+            audioEvents[i]->eventID = event;
 
             return;
         }
@@ -315,6 +318,26 @@ void AudioSystem::StopEvent(const wchar_t* eventName, AkGameObjectID goID)
     StopEvent(eventID, goID);
 }
 
+bool AudioSystem::IsEventPlaying(AkUniqueID event) {
+    for (size_t i = 0; i < audioEvents.size(); i++)
+    {
+        if (audioEvents[i]->IsEventPlaying() && audioEvents[i]->eventID == event)
+            return true;
+    }
+    return false;
+}
+
+bool AudioSystem::IsEventPlaying(const wchar_t* eventName) {
+
+    AkUniqueID eventID = AK::SoundEngine::GetIDFromString(eventName);
+    if (eventID == AK_INVALID_UNIQUE_ID)
+    {
+        LOG_CONSOLE("Wwise Error: Event name '%ls' not found!", eventName);
+        return false;
+    }
+    return IsEventPlaying(eventID);
+}
+
 void AudioSystem::PauseEvent(AkUniqueID event, AkGameObjectID goID) {
     AK::SoundEngine::ExecuteActionOnEvent(event, AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Pause, goID);
     if (enableDebugLogs) LOG_DEBUG("Pausing event from %d audiogameobject", goID);
@@ -324,6 +347,8 @@ void AudioSystem::ResumeEvent(AkUniqueID event, AkGameObjectID goID) {
     AK::SoundEngine::ExecuteActionOnEvent(event, AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Resume, gameObjectIDs[goID]);
     if (enableDebugLogs) LOG_DEBUG("Resuming event from %d audiogameobject", goID);
 }
+
+
 
 AudioComponent* AudioSystem::GetAudioCompByID(AkGameObjectID goID) {
     bool found = false;
@@ -800,12 +825,14 @@ void AudioSystem::EventCallBack(AkCallbackType in_eType, AkEventCallbackInfo* in
     if (pEvent && in_eType == AkCallbackType::AK_EndOfEvent)
     {
         pEvent->playingID = 0L; 
+        pEvent->eventID = AK_INVALID_UNIQUE_ID;
     }
 }
 
 void AudioSystem::DiscoverEvents() {
     // Clear existing names to avoid duplicates
     eventNames.clear();
+    eventIDs.clear();
     
     std::string soundBankDir(mainSoundBankPath.begin(), mainSoundBankPath.end());
     std::string soundBankFileName = "MainSoundBank.json";
@@ -831,12 +858,17 @@ void AudioSystem::DiscoverEvents() {
                             std::string name = event["Name"].get<std::string>();
                             eventNames.push_back(name);
                         }
+                        /*if (event.contains("Id")) {
+                            AkUniqueID eventID = event["Id"].get<uint32_t>();
+                            eventIDs.push_back(eventID);
+                        }*/
                     }
                 }
             }
         }
 
         std::sort(eventNames.begin(), eventNames.end());
+        
         LOG_CONSOLE("Audio: Discovered %d events from MainSoundBank.json", (int)eventNames.size());
     }
     catch (const nlohmann::json::exception& e) {

@@ -344,6 +344,12 @@
         "GUID": "{FF3A9A9C-03B3-4931-9DCD-C964AAFDB20D}"
        },
        {
+        "Id": "1221996634",
+        "Name": "AfterBoss",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\AfterBoss",
+        "GUID": "{552E920B-8856-454A-8B4A-A720BA7E6C50}"
+       },
+       {
         "Id": "1499148877",
         "Name": "Level1_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Combat",
@@ -947,6 +953,6 @@
     ]
    }
   ],
-  "FileHash": "{7ECB459F-B8CB-7C06-3AAB-60953008A60F}"
+  "FileHash": "{E272888E-2356-2B8D-E7D1-044D1D534654}"
  }
 }

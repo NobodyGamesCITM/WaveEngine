@@ -1,0 +1,35 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignWidth="1920"
+  d:DesignHeight="1080"
+  Background="#FF4D5052">
+  <Grid Margin="0,-1,0,1">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="515*"/>
+      <ColumnDefinition Width="900"/>
+      <ColumnDefinition Width="515"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="150"/>
+      <RowDefinition Height="780*"/>
+      <RowDefinition Height="101"/>
+      <RowDefinition Height="55"/>
+    </Grid.RowDefinitions>
+    <Grid.Background>
+      <RadialGradientBrush>
+        <GradientStop Color="#00000000" Offset="0.77000004"/>
+        <GradientStop Offset="1" Color="#A6000000"/>
+      </RadialGradientBrush>
+    </Grid.Background>
+    <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="0,71.063">
+      <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold"/>
+    </Viewbox>
+    <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="2" Margin="280.018,0">
+      <Image x:Name="Logo" Source="Textures/Logo.png"/>
+    </Viewbox>
+  </Grid>
+</Page>

@@ -43,6 +43,7 @@ local dashSFX = nil
 local armorSFX = nil
 
 
+
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
 
 local alreadyHit   = false
@@ -71,6 +72,8 @@ local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
 local stepTimer = 0
+local fadeMusicTimer = 0
+local volume = 100
 
 local inOpportunity = false
 local pendingWallHit = false
@@ -97,8 +100,10 @@ local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
 local hitCooldown = 0
+local finishedTransition = false
 
 local TILE_SIZE = 3.744
+local lastPPos = {x = 0, z = 0}
 
 -- Helpers
 local function lerp(a, b, t)
@@ -164,9 +169,6 @@ local function DestroyChargeFeedback(self)
     self.chargeFeedbackActive = false
 end
 
-local function FadeOutMusic()
-    local volume
-end
 
 local function ChangeState(newState)
     currentState = newState
@@ -186,6 +188,36 @@ local function ChangeState(newState)
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
+
+end
+
+local function FadeOutBossMusic(self, dt)
+
+    if volume > 0 and not finishedTransition then 
+		fadeMusicTimer = fadeMusicTimer + dt
+		local progressPercent = math.min((fadeMusicTimer/3.5), 1.0)
+		volume = 100 * (1 - progressPercent)
+		Engine.Log("Setting music volume to ".. volume)
+		if volume then 
+			Audio.SetMusicVolume(volume)
+		else
+			Engine.Log("Could not set music volume!")
+		end
+
+	elseif volume <= 0 and not finishedTransition then
+		finishedTransition = true
+        Audio.SetMusicVolume(0)
+		--if bgMusic then bgMusic:StopAudioEvent() end
+	end
+
+
+	if _G._PlayerController_isDead then
+		--exitedLevel = false
+		--finishedTransition = false
+        Audio.SetMusicState("Level2")
+		fadeMusicTimer = 0
+		Audio.SetMusicVolume(100)
+	end 
 
 end
 
@@ -221,7 +253,7 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
-            FadeOutMusic()
+            
             return
         end
     else
@@ -442,6 +474,11 @@ end
 
 local function UpdateAnticipation(self, pp, dt)
 
+    local pVelX = (pp.x - lastPPos.x) / dt
+    local pVelZ = (pp.z - lastPPos.z) / dt
+    lastPPos.x = pp.x
+    lastPPos.z = pp.z
+
     if not self.chargeFeedbackGO then
         self.chargeFeedbackTiles = {}
         self.chargeFeedbackGO = true
@@ -458,7 +495,7 @@ local function UpdateAnticipation(self, pp, dt)
         anim:Play("Charge_Start", 0.2)
     end
 
-    if self.chargeFeedbackGO then
+     if self.chargeFeedbackGO then
         --Maximum possible distance
         local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
         
@@ -481,8 +518,7 @@ local function UpdateAnticipation(self, pp, dt)
         end
 
         local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        numTiles = numTiles +1
-       if #self.chargeFeedbackTiles ~= numTiles then
+        if #self.chargeFeedbackTiles ~= numTiles then
 
             -- Destroy old ones
             for _, tile in ipairs(self.chargeFeedbackTiles) do
@@ -491,28 +527,28 @@ local function UpdateAnticipation(self, pp, dt)
 
             self.chargeFeedbackTiles = {}
 
-            -- Create new ones
             for i = 1, numTiles do
-                local tile = Prefab.Instantiate("MinocabroFeedback")
-                table.insert(self.chargeFeedbackTiles, tile)
+                local tile = Prefab.Instantiate("AquilesFeedback")
+                if tile then
+                    table.insert(self.chargeFeedbackTiles, tile)
+                end
             end
+        end
+
+        local dirX, dirZ = 0, 0
+        if distance > 0.001 then 
+            dirX = dx / distance 
+            dirZ = dz / distance 
         end
 
         -- Place tiles
         for i, tile in ipairs(self.chargeFeedbackTiles) do
-
-            local offset = (i - 0.5) * TILE_SIZE
-
-            local posX = myPos.x + directionX * offset
-            local posZ = myPos.z + directionZ * offset
-            local posY = pp.y + 0.2
-
-            tile.transform:SetPosition(posX, posY, posZ)
-
-            local rot = atan2(directionX, directionZ) * (180.0 / pi)
-            tile.transform:SetRotation(0, rot, 0)
-
-            tile.transform:SetScale(3.744, 0.20, 3.744)
+           if tile then
+                local offset = (i - 0.5) * TILE_SIZE
+                tile.transform:SetPosition(myPos.x + dirX * offset, pp.y + 0.2, myPos.z + dirZ * offset)
+                tile.transform:SetRotation(0, atan2(dirX, dirZ) * (180.0 / pi), 0)
+                tile.transform:SetScale(3.744, 0.30, 3.744)
+            end
         end
     end
 
@@ -531,21 +567,23 @@ local function UpdateAnticipation(self, pp, dt)
     end
 
     if preparationTimer >= self.public.preparationTime then
-        local predictedX = pp.x
-        local predictedZ = pp.z
+        local timeToPredict = self.public.predictionTime or 0.5
+        
+        local predictedX = pp.x + (pVelX * timeToPredict)
+        local predictedZ = pp.z + (pVelZ * timeToPredict)
 
-        if rb then
-            local predictionVel = rb:GetLinearVelocity()
-            local time = self.public.predictionTime
-            predictedX = pp.x + predictionVel.x * time
-            predictedZ = pp.z + predictionVel.z * time
-        end
+        local pDx = predictedX - myPos.x
+        local pDz = predictedZ - myPos.z
+        local len = sqrt(pDx*pDx + pDz*pDz)
 
-        local predictionDx= predictedX - myPos.x
-        local predictionDz= predictedZ - myPos.z
-        local len = sqrt(predictionDx*predictionDx + predictionDz*predictionDz)
-        if len > 0.001 then
-            chargeDirX, chargeDirZ = predictionDx/len, predictionDz/len
+
+        if len > 0.1 then
+            chargeDirX = pDx / len
+            chargeDirZ = pDz / len
+        else
+            local rotY = self.transform.worldRotation.y * (pi / 180.0)
+            chargeDirX = math.sin(rotY)
+            chargeDirZ = math.cos(rotY)
         end
         chargeTimer = 0
         ChangeState(State.CHARGE)
@@ -667,7 +705,7 @@ local function UpdateDeath(self,dt)
     if deathTimer <= 0 then
         DestroyChargeFeedback(self)
         local _rb  = rb
-
+        Audio.SetMusicState("AfterBoss")
         rb       = nil
         anim     = nil
         playerGO = nil
@@ -808,7 +846,7 @@ function Start(self)
     lanceCDTimer    =   0
     chargeCDTimer   =   0
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
+    Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}
@@ -823,7 +861,11 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if not self.gameObject or isDead then return end
+    if not self.gameObject then return end
+
+    if isDead then
+        return
+    end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
@@ -835,9 +877,12 @@ function Update(self, dt)
     if Input.GetKey("K") then
         --TakeDamage(self, hp, self.transform.worldPosition)
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        Engine.Log("Aquiles at 1HP!")
         hp = 1
         return
     end
+
+    
 
     -- Trigger Wall
     if pendingWallHit then
@@ -897,8 +942,16 @@ function Update(self, dt)
         end
     end
 
-    local myPos = self.transform.worldPosition
-    local pp    = playerGO.transform.worldPosition
+   
+    local myPos
+    local pp
+
+    if self.transform then 
+        myPos = self.transform.worldPosition
+        pp = playerGO.transform.worldPosition
+    else
+        Engine.Log("Could not retrieve transform value")
+    end
     if not pp then return end
 
     local dist = Dist(myPos, pp)   

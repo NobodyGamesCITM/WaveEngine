@@ -29,6 +29,9 @@ function Start(self)
 
     self.initialized = true
     rb = self.gameObject:GetComponent("Rigidbody")
+    if _BulletRegistry == nil then _BulletRegistry = {} end
+    bulletId = tostring(self.gameObject) .. tostring(os.clock())
+    _BulletRegistry[tostring(self.gameObject)] = bulletId
 end
 
 function Update(self, dt)

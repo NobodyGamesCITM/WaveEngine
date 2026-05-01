@@ -10,62 +10,69 @@ public = {
     near = 8.0,         
 }
 
-local lastCheckpointVFX = nil
-local lastCheckpointPs = nil
+-- local lastCheckpointVFX = nil
+-- local lastCheckpointPs = nil
+-- local sparklesVFX = nil
+-- local sparklesPs = nil
+-- local blueSparklesVFX = nil
+-- local blueSparklesPs = nil
 
 local currentCheckpoint = nil
 local previousCheckpoint = nil
 
-local function ActivateParticles(self, checkpoint)
+local function ActivateParticles(self, vfxName, checkpoint)
     if not checkpoint then 
         Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
-    lastCheckpointVFX = GameObject.FindInChildren(checkpoint, "LastCheckpointVFX")
-    if lastCheckpointVFX then
-        lastCheckpointVFX:SetActive(true)
-        Engine.Log("Activated Particles GameObject")
-        lastCheckpointPs = lastCheckpointVFX:GetComponent("ParticleSystem")
+    local VFXobj = GameObject.FindInChildren(checkpoint, tostring(vfxName))
+
+    if VFXobj then
+        VFXobj:SetActive(true)
+        Engine.Log("Activated " ..tostring(vfxName).. " Particles GameObject")
+        local particleComp = VFXobj:GetComponent("ParticleSystem")
         
-        if lastCheckpointPs then 
-            if not lastCheckpointPs:IsPlaying() then 
-                lastCheckpointPs:Play() 
-                Engine.Log("Activated CheckPoint Particle System")
+        if particleComp then 
+            if not particleComp:IsPlaying() then 
+                particleComp:Play() 
+                Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
             end
            
         else 
-            Engine.Log("Couldn't find Particle System on Last Saved CheckPoint VFX GameObject")
+            Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
         end
     else 
-        Engine.Log("Couldn't retrieve Last Saved CheckPoint VFX GameObject")    
+        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
     end
+
+    
 end
 
-local function StopParticles(self, checkpoint)
+local function StopParticles(self, vfxName, checkpoint)
     if not checkpoint then 
         Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
-    lastCheckpointVFX = GameObject.FindInChildren(checkpoint, "LastCheckpointVFX")
-    if lastCheckpointVFX then
+    local VFXobj = GameObject.FindInChildren(checkpoint, tostring(vfxName))
+    if VFXobj then
         
-        lastCheckpointPs = lastCheckpointVFX:GetComponent("ParticleSystem")
-        if lastCheckpointPs then 
-            if lastCheckpointPs:IsPlaying() then 
-                lastCheckpointPs:Stop() 
-                Engine.Log("Deactivated CheckPoint Particle System")
+        local particleComp = VFXobj:GetComponent("ParticleSystem")
+        if particleComp then 
+            if particleComp:IsPlaying() then 
+                particleComp:Stop() 
+                Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
             end
             
         else 
-            Engine.Log("Couldn't find Particle System on Last Saved CheckPoint VFX GameObject")
+            Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
         end
 
-        lastCheckpointVFX:SetActive(false)
-        Engine.Log("Deactivated Particles GameObject")
+        VFXobj:SetActive(false)
+        Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
     else 
-        Engine.Log("Couldn't retrieve Last Saved CheckPoint VFX GameObject")
+        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
     end
 end
 
@@ -73,8 +80,10 @@ local function Initialize(self)
    checkpoints = GameObject.FindByTag("CheckPoint")
     
     for i, checkpoint in ipairs(checkpoints) do
-        Engine.Log("Deactivating last checkpoint particles from checkpoint ".. i)
-        StopParticles(self, checkpoint)
+        Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
+        StopParticles(self, "LastCheckpointVFX", checkpoint)
+        StopParticles(self, "BlueSparkles", checkpoint)
+        ActivateParticles(self, "YellowSparkles", checkpoint)
     end
 end
 
@@ -90,7 +99,7 @@ function Update(self, deltaTime)
     end
 
     if interact == true then 
-        Engine.Log("Interacted with checkpoint")
+        Engine.Log("[Checkpoints] Interacted with checkpoint")
         local obj = GameObject.Find("Player")
         local playerPos = obj.transform.position
 
@@ -110,9 +119,13 @@ function Update(self, deltaTime)
                     pos.z = pos.z + self.public.offsetZ
 
                     lastCheckpoint = pos --current checkpoint transform, not gameobject
-					StopParticles(self, previousCheckpoint)
-                    ActivateParticles(self, currentCheckpoint)
-                    
+					StopParticles(self, "LastCheckpointVFX", previousCheckpoint)
+                    StopParticles(self, "BlueSparkles", previousCheckpoint)
+                    ActivateParticles(self, "Sparkles", previousCheckpoint)
+
+                    ActivateParticles(self, "LastCheckpointVFX", currentCheckpoint)
+                    ActivateParticles(self, "BlueSparkles", currentCheckpoint)
+                    StopParticles(self, "YellowSparkles", currentCheckpoint)
                     Restore(self)
                 end
             end

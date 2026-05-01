@@ -29,6 +29,7 @@
                         "activationRadius": 15.0,
                         "active": true,
                         "additive": true,
+                        "alignToVelocity": false,
                         "animLoop": false,
                         "animSpeed": 1.0,
                         "bursts": [],
@@ -105,7 +106,104 @@
                 ],
                 "name": "Trail",
                 "tag": "",
-                "uid": 527772329075153622
+                "uid": 15761181221822473708
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            90.00006866455078,
+                            -0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "activationRadius": 15.0,
+                        "active": true,
+                        "additive": true,
+                        "alignToVelocity": true,
+                        "animLoop": false,
+                        "animSpeed": 1.0,
+                        "bursts": [],
+                        "circleRadius": 0.6499999761581421,
+                        "colorEnd": [
+                            1.0,
+                            0.5,
+                            0.0,
+                            0.0
+                        ],
+                        "colorGradient": [],
+                        "colorStart": [
+                            1.0,
+                            0.8999999761581421,
+                            0.20000000298023224,
+                            1.0
+                        ],
+                        "coneAngle": 25.0,
+                        "coneRadius": 0.5,
+                        "duration": 5.0,
+                        "emissionArea": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "emissionRadius": 0.800000011920929,
+                        "emissionRate": 25.0,
+                        "emissionRateDist": 0.0,
+                        "emitFromShell": true,
+                        "gravity": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "initRotMax": 0.0,
+                        "initRotMin": 0.0,
+                        "lifetimeMax": 1.2000000476837158,
+                        "lifetimeMin": 0.699999988079071,
+                        "looping": true,
+                        "luminance": false,
+                        "maxParticles": 500,
+                        "noiseActive": false,
+                        "noiseFreq": 0.5,
+                        "noiseStrength": 1.0,
+                        "oneShot": false,
+                        "oneShotCount": 30,
+                        "prewarm": false,
+                        "proximityActivation": false,
+                        "proximityTarget": "Player",
+                        "rotSpeedMax": 0.0,
+                        "rotSpeedMin": 0.0,
+                        "shape": 3,
+                        "simulationSpace": 0,
+                        "sizeCurve": [],
+                        "sizeEnd": 0.0,
+                        "sizeStart": 0.5,
+                        "speedMax": 0.0020000000949949026,
+                        "speedMin": 0.0010000000474974513,
+                        "textureCols": 1,
+                        "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
+                        "textureRows": 1,
+                        "textureUID": 14131276021326959926,
+                        "type": 7
+                    }
+                ],
+                "name": "Ps",
+                "tag": "",
+                "uid": 16656826524525499081
             }
         ],
         "components": [
@@ -130,6 +228,7 @@
             },
             {
                 "active": true,
+                "castShadows": true,
                 "primitiveType": "Sphere",
                 "type": 1
             },
@@ -137,9 +236,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "damage",
+                        "name": "lifetime",
                         "type": 0,
-                        "value": 15.0
+                        "value": 5.0
                     },
                     {
                         "name": "speed",
@@ -147,9 +246,9 @@
                         "value": 30.0
                     },
                     {
-                        "name": "lifetime",
+                        "name": "damage",
                         "type": 0,
-                        "value": 5.0
+                        "value": 15.0
                     }
                 ],
                 "scriptUID": 12957541813524735499,
@@ -277,78 +376,10 @@
                     ]
                 },
                 "type": 31
-            },
-            {
-                "activationRadius": 15.0,
-                "active": true,
-                "additive": true,
-                "animLoop": false,
-                "animSpeed": 1.0,
-                "bursts": [],
-                "circleRadius": 1.0,
-                "colorEnd": [
-                    1.0,
-                    0.9048442840576172,
-                    0.46078431606292725,
-                    0.3499999940395355
-                ],
-                "colorGradient": [],
-                "colorStart": [
-                    1.0,
-                    0.7352941036224365,
-                    0.0,
-                    1.0
-                ],
-                "coneAngle": 25.0,
-                "coneRadius": 0.5,
-                "duration": 5.0,
-                "emissionArea": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "emissionRadius": 0.800000011920929,
-                "emissionRate": 8.699999809265137,
-                "emissionRateDist": 0.0,
-                "emitFromShell": true,
-                "gravity": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "initRotMax": 360.0,
-                "initRotMin": 0.0,
-                "lifetimeMax": 1.2000000476837158,
-                "lifetimeMin": 0.699999988079071,
-                "looping": true,
-                "luminance": false,
-                "maxParticles": 500,
-                "noiseActive": false,
-                "noiseFreq": 0.5,
-                "noiseStrength": 1.0,
-                "oneShot": false,
-                "oneShotCount": 30,
-                "prewarm": false,
-                "proximityActivation": false,
-                "proximityTarget": "Player",
-                "rotSpeedMax": 0.0,
-                "rotSpeedMin": 0.0,
-                "shape": 1,
-                "simulationSpace": 0,
-                "sizeCurve": [],
-                "sizeEnd": 0.0,
-                "sizeStart": 0.5,
-                "speedMax": 0.800000011920929,
-                "speedMin": 0.6000000238418579,
-                "textureCols": 1,
-                "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
-                "textureRows": 1,
-                "textureUID": 14131276021326959926,
-                "type": 7
             }
         ],
         "name": "Bullet",
         "tag": "Bullet",
-        "uid": 10332591777130034333
+        "uid": 6735561454524827404
     }
 ]

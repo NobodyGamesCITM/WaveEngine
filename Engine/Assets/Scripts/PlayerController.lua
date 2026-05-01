@@ -116,6 +116,11 @@ local Player = {
     healPending = false,
 
     AnimTimer = 0.0,
+    isGetMaskAnim     = false,
+    pendingObtainMask = nil,
+    getMaskEvent1Done = false,
+    getMaskEvent2Done = false,
+    getMaskIdleTransitionDone = false,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -409,7 +414,7 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
     return true
 end
 
-local function EquipMask(self, newMask)
+local function EquipMask(self, newMask, skipSword)
     if Player.maskAnimTimer > 0 then return end
 
     if not maskApolo or not maskAres or not maskHermes then
@@ -421,73 +426,21 @@ local function EquipMask(self, newMask)
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
-        --vfx
-        if swordAres then swordAres:SetActive(false)end
-        if swordApolo then swordApolo:SetActive(true)end
-        if swordHermes then swordHermes:SetActive(false)end
-        if swordGameObject then swordGameObject:SetActive(false)end
-        --ps
-        if Player.aresPs then Player.aresPs:Stop() end
-        if Player.apoloPs then Player.apoloPs:Play() end
-        if Player.hermesPs then Player.hermesPs:Stop() end
-        --light
-        if Player.aresLight then Player.aresLight:SetEnabled(false) end
-        if Player.apoloLight then Player.apoloLight:SetEnabled(true) end
-        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.HERMES then 
         --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
-        --vfx
-        if swordAres then swordAres:SetActive(false)end
-        if swordApolo then swordApolo:SetActive(false)end
-        if swordHermes then swordHermes:SetActive(true)end
-        if swordGameObject then swordGameObject:SetActive(false)end
-        --ps
-        if Player.aresPs then Player.aresPs:Stop() end
-        if Player.apoloPs then Player.apoloPs:Stop() end
-        if Player.hermesPs then Player.hermesPs:Play() end
-        --light
-        if Player.aresLight then Player.aresLight:SetEnabled(false) end
-        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
-        if Player.hermesLight then Player.hermesLight:SetEnabled(true) end
     elseif newMask == Mask.ARES then 
         --masks
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
-        --vfx
-        if swordAres then swordAres:SetActive(true)end
-        if swordApolo then swordApolo:SetActive(false)end
-        if swordHermes then swordHermes:SetActive(false)end
-        if swordGameObject then swordGameObject:SetActive(false)end
-        --ps
-        if Player.aresPs then Player.aresPs:Play() end
-        if Player.apoloPs then Player.apoloPs:Stop() end
-        if Player.hermesPs then Player.hermesPs:Stop() end
-        --light
-        if Player.aresLight then Player.aresLight:SetEnabled(true) end
-        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
-        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     elseif newMask == Mask.NONE then 
         --masks
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(false)end
-        --vfx
-        if swordAres then swordAres:SetActive(false)end
-        if swordApolo then swordApolo:SetActive(false)end
-        if swordHermes then swordHermes:SetActive(false)end    
-        if swordGameObject then swordGameObject:SetActive(true)end
-        --ps
-        if Player.aresPs then Player.aresPs:Stop() end
-        if Player.apoloPs then Player.apoloPs:Stop() end
-        if Player.hermesPs then Player.hermesPs:Stop() end
-        --light
-        if Player.aresLight then Player.aresLight:SetEnabled(false) end
-        if Player.apoloLight then Player.apoloLight:SetEnabled(false) end
-        if Player.hermesLight then Player.hermesLight:SetEnabled(false) end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -517,6 +470,11 @@ local function EquipMask(self, newMask)
     Engine.Log("Change to "..tostring(newMask))
     Player.currentMask = newMask
 
+    if newMask == Mask.APOLLO then _G._MaskState_Apolo  = true
+    elseif newMask == Mask.HERMES then _G._MaskState_Hermes = true
+    elseif newMask == Mask.ARES   then _G._MaskState_Ares   = true
+    end
+
     if Player.currentMask ~= Mask.NONE then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
@@ -534,7 +492,7 @@ local function EquipMask(self, newMask)
     else
         _PlayerController_currentMask = ""
     end
-    UpdateSwordMaterial()
+    if not skipSword then UpdateSwordMaterial() end
 end
 
 States[State.DEAD] = {
@@ -1131,6 +1089,7 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.DEAD then return end
     if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
+    if Player.AnimTimer > 0 then return end
 
     local anim = self.gameObject:GetComponent("Animation")
     if anim then
@@ -1452,9 +1411,14 @@ function Update(self, dt)
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
+        if Player.AnimTimer > 0 then
+            _PlayerController_pendingDamage    = 0
+            _PlayerController_pendingDamagePos = nil
+        else
         TakeDamage(self, _PlayerController_pendingDamage, _PlayerController_pendingDamagePos)
         _PlayerController_pendingDamage    = 0
         _PlayerController_pendingDamagePos = nil
+        end
     end
 
     if not Player.currentState then
@@ -1602,13 +1566,34 @@ function Update(self, dt)
     if Player.AnimTimer > 0 then
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
+
+        --segundo 14
+        if Player.isGetMaskAnim and not Player.getMaskEvent1Done and Player.AnimTimer <= 20.0 then
+            Player.getMaskEvent1Done = true
+            if Player.pendingObtainMask then
+                EquipMask(self, Player.pendingObtainMask, true)
+            end
+        end
+
+        --segundo 27
+        if Player.isGetMaskAnim and not Player.getMaskEvent2Done and Player.AnimTimer <= 7.7 then
+            Player.getMaskEvent2Done = true
+            UpdateSwordMaterial()
+        end
+
+        if Player.AnimTimer <= 1.8 and not Player.getMaskIdleTransitionDone then
+            Player.getMaskIdleTransitionDone = true
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Idle", 1.5) end)
+            end
+        end
+
         if Player.AnimTimer <= 0 then
             Player.AnimTimer = 0
+            Player.isGetMaskAnim = false
             self.public.canMove = true
             ChangeState(self, State.IDLE)
-            if anim then 
-                pcall(function() anim:Play("Idle", 0.5) end)
-            end
             ChangeState(self, State.IDLE, true)
         end
     end
@@ -1682,6 +1667,7 @@ function Update(self, dt)
 
     if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
         if Player.maskAnimTimer > 0 then return end
+        if Player.AnimTimer > 0 then return end
         if Player.currentMask ~= Mask.NONE then 
             if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
             EquipMask(self, Mask.NONE) 
@@ -1742,6 +1728,7 @@ function Update(self, dt)
 end
 
 function MaskScroll(self)
+    if Player.AnimTimer > 0 then return end
     Engine.Log("old mask: "..tostring(oldMask)..", current mask: "..tostring(Player.currentMask).. ", Player state: "..tostring(Player.currentState))
     oldMask = Player.currentMask
 
@@ -1792,36 +1779,27 @@ function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
         _G._MaskCount = _G._MaskCount + 1
-        _G._MaskState_Apolo = true
         Engine.Log("Apolo Mask obtain")
         maskObtained = true
-        if Player.currentMask == Mask.NONE then
-            EquipMask(self, Mask.APOLLO)
-        end
+        Player.pendingObtainMask = Mask.APOLLO
     end
     giveApoloMask = false
 
     if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
         _G._MaskCount = _G._MaskCount + 1
-        _G._MaskState_Hermes = true
         Engine.Log("Hermes Mask obtain")
         maskObtained = true
-        if Player.currentMask == Mask.NONE then
-            EquipMask(self, Mask.HERMES)
-        end
+        Player.pendingObtainMask = Mask.HERMES
     end
     giveHermesMask = false
 
     if giveAresMask and Mask.ARES == "None" then
         Mask.ARES = "Ares"
         _G._MaskCount = _G._MaskCount + 1
-        _G._MaskState_Ares = true
         Engine.Log("Ares Mask obtain")
         maskObtained = true
-        if Player.currentMask == Mask.NONE then
-            EquipMask(self, Mask.ARES)
-        end
+        Player.pendingObtainMask = Mask.ARES
     end
     giveAresMask = false
 
@@ -1834,8 +1812,17 @@ function ObtainMask(self)
                 pcall(function() anim:Play("Idle", 0.0) end)
                 pcall(function() anim:Play("GetMask", 0.4) end)
             end
-            Player.AnimTimer = 33.0
+            Player.AnimTimer = 34.0
             self.public.canMove = false
+            Player.isGetMaskAnim     = true
+            Player.getMaskEvent1Done = false
+            Player.getMaskEvent2Done = false
+            Player.getMaskIdleTransitionDone = false
+        else
+            if Player.pendingObtainMask == Mask.APOLLO  then _G._MaskState_Apolo  = true end
+            if Player.pendingObtainMask == Mask.HERMES  then _G._MaskState_Hermes = true end
+            if Player.pendingObtainMask == Mask.ARES    then _G._MaskState_Ares   = true end
+            Player.pendingObtainMask = nil
         end
     end
     debugMaskGive = false
@@ -1956,7 +1943,23 @@ function OnCollisionExit(self, other)
 end
 
 function UpdateSwordMaterial()
-
+    if not Player.currentMask then return end
+    if swordApolo      then swordApolo:SetActive(Player.currentMask      == Mask.APOLLO) end
+    if swordHermes     then swordHermes:SetActive(Player.currentMask     == Mask.HERMES) end
+    if swordAres       then swordAres:SetActive(Player.currentMask       == Mask.ARES)   end
+    if swordGameObject then swordGameObject:SetActive(Player.currentMask == Mask.NONE)   end
+    if Player.aresPs   then
+        if Player.currentMask == Mask.ARES   then Player.aresPs:Play()   else Player.aresPs:Stop()   end
+    end
+    if Player.apoloPs  then
+        if Player.currentMask == Mask.APOLLO then Player.apoloPs:Play()  else Player.apoloPs:Stop()  end
+    end
+    if Player.hermesPs then
+        if Player.currentMask == Mask.HERMES then Player.hermesPs:Play() else Player.hermesPs:Stop() end
+    end
+    if Player.aresLight   then Player.aresLight:SetEnabled(Player.currentMask   == Mask.ARES)   end
+    if Player.apoloLight  then Player.apoloLight:SetEnabled(Player.currentMask  == Mask.APOLLO) end
+    if Player.hermesLight then Player.hermesLight:SetEnabled(Player.currentMask == Mask.HERMES) end
 end
 
 function ActivateTrail()

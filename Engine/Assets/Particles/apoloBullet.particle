@@ -29,7 +29,7 @@
         1.0
     ],
     "emissionRadius": 0.800000011920929,
-    "emissionRate": 15.0,
+    "emissionRate": 25.0,
     "emissionRateDist": 0.0,
     "emitFromShell": true,
     "gravity": [
@@ -59,10 +59,10 @@
     "sizeCurve": [],
     "sizeEnd": 0.0,
     "sizeStart": 0.5,
-    "speedMax": 0.0010000000474974513,
+    "speedMax": 0.0020000000949949026,
     "speedMin": 0.0010000000474974513,
     "textureCols": 1,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\repos\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
+    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Textures\\Bullet\\RayApolo_Mid_02_TEST.png",
     "textureRows": 1,
     "textureUID": 14131276021326959926,
     "type": 7

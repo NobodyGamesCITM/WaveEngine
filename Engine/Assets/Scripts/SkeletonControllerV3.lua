@@ -113,6 +113,8 @@ local function FaceTargetSmooth(self, target, dt)
 end
 
 local function ChangeState(self, newState)
+
+
     --Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
     if Skeleton.currentState and States[Skeleton.currentState].Exit then
         States[Skeleton.currentState].Exit(self)
@@ -121,6 +123,9 @@ local function ChangeState(self, newState)
     if States[newState].Enter then
         States[newState].Enter(self)
     end
+
+    
+
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -309,6 +314,7 @@ States[State.CHASE] = {
         if anim then 
             pcall(function() anim:Play("Run", 0.2) end)
         end
+
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
@@ -348,6 +354,7 @@ States[State.ATTACK] = {
         if anim then 
             pcall(function() anim:Play("Orbit", 0.5) end)
         end
+
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
@@ -427,6 +434,7 @@ States[State.DEAD] = {
     Update = function(self, dt)
         if not Skeleton.isDead  then
             Skeleton.isDead       = true
+            
             local colision = self.gameObject:GetComponent("Sphere Collider")
             if colision then 
                 colision:Disable()
@@ -439,8 +447,10 @@ States[State.DEAD] = {
                 States[State.DEAD].deadAnim = true 
             elseif deathTimer >= self.public.deathTime/3 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
+               _G.TriggerExplorationMusic()
             else
                Skeleton.rb:SetLinearVelocity(0,0, 0)
+               
             end
         else 
             Skeleton.rb:SetLinearVelocity(0, 0, 0)
@@ -484,6 +494,12 @@ function Update(self, dt)
     else
         stepTimer = 0
     end
+
+    if CheckDistance(self,self.public.detectDist,true) then
+        Engine.Log("Triggering Combat Music from Skeleton Detection Range")
+        _G.TriggerCombatMusic()
+    end
+
 end
 
 function OnTriggerEnter(self, other)
@@ -498,7 +514,7 @@ function OnTriggerEnter(self, other)
                 local dmg = 0
                 if     attack == "light"  then dmg = 10
                 elseif attack == "heavy" or attack == "charge" then dmg = 25 end
-                if dmg > 0 thenTakeDamage(self, dmg, ap) end
+                if dmg > 0 then TakeDamage(self, dmg, ap) end
             end
         end
     end

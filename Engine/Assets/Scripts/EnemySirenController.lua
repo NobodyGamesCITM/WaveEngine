@@ -380,7 +380,13 @@ local function UpdateIdle(self, dist, dt)
             
             self.isShowing = true
             self.playerInRange = true
+            
             return 
+        end
+
+        if self.playerInRange then
+            Engine.Log("Triggering Combat Music from Siren detection range")
+            _G.TriggerCombatMusic()
         end
 
         if self.isShowing then
@@ -397,8 +403,12 @@ local function UpdateIdle(self, dist, dt)
             ChangeState(self, State.WINDUP)
         end
 
+        
+
     else
         if self.playerInRange then
+
+            
             if self.anim and not self.anim:IsPlayingAnimation("Hide") then
                 self.anim:Play("Hide")
                 if self.dipSFX then self.dipSFX:PlayAudioEvent() end
@@ -636,6 +646,7 @@ function Update(self, dt)
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
         Engine.Log("Destroyed Siren")
+        _G.TriggerExplorationMusic()
         self:Destroy() 
 
         return  

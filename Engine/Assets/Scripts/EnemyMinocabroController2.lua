@@ -92,12 +92,17 @@ local function ChangeState(self, newState)
     self.currentState = newState
     Engine.Log("[Minocabro] -> " .. newState)
 
-    if newState == State.CHARGE then
+    if newState == State.CHASE then 
+        
+    elseif newState == State.CHARGE then
         if self.voiceSFX then  self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
+       
     elseif newState == State.WALL then
         if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoStun") end
+        
     elseif newState == State.ANTICIPATION then
         if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoRoar") end
+       
     elseif newState == State.DEAD then
         if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDeath") end
     end
@@ -142,6 +147,7 @@ end
 local function UpdateIdle(self, dist)
     if dist <= self.public.detectRange then
         ChangeState(self, State.CHASE)
+        
     end
     --if self.anim and not self.anim:IsPlayingAnimation("Idle") then
         --self.anim:Play("Idle")
@@ -513,6 +519,8 @@ local function UpdateDeath(self,dt)
         _impactFrameTimer = 0.1
         self.isDead = true
 
+        _G.TriggerExplorationMusic()
+
         self:Destroy()
   
     end
@@ -693,6 +701,11 @@ function Update(self, dt)
     if not pp then return end
 
     local dist = Dist(myPos, pp)
+
+    if dist <= self.public.detectRange then
+        Engine.Log("Triggering Combat Music from Minocabro's detection range")
+        _G.TriggerCombatMusic()
+    end
 
     -- State machine
     if     self.currentState == State.IDLE         then UpdateIdle(self, dist)

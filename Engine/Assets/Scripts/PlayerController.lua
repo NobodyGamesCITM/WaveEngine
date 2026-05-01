@@ -546,6 +546,7 @@ States[State.DEAD] = {
         local anim = self.gameObject:GetComponent("Animation")
         if anim and Player.isDrowning then anim:Play("Drown", 0.5)
         else anim:Play("Die", 0.5) end
+        
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end

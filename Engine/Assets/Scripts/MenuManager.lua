@@ -195,7 +195,9 @@ function Update(self, dt)
         
         
         Audio.SetMusicState(tostring(musicState))
-        self.musicComp:PlayAudioEvent() 
+        if self.musicComp then self.musicComp:PlayAudioEvent()
+        else Engine.Log("Music Audio Source Component NOT found! Music will NOT play!")
+        end
         
     end
 

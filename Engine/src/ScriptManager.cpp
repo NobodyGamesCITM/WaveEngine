@@ -137,6 +137,7 @@ bool ScriptManager::Start() {
 
 bool ScriptManager::Update() {
     if (!L) return true;
+    lua_gc(L, LUA_GCSTEP, 200);
     return true;
 }
 
@@ -1404,29 +1405,25 @@ static int Lua_Animation_IsPlayingAnimation(lua_State* L)
 static int Lua_GameObject_Create(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);
 
-    // Create userdata that will be filled in PostUpdate
-    GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
-    *udata = nullptr;  // Temporarily null
+    GameObject* obj = Application::GetInstance().scene->CreateGameObject(name);
 
-    // Assign metatable
-    luaL_getmetatable(L, "GameObject");
-    lua_setmetatable(L, -2);
-
-    // Enqueue the real creation for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([name, udata]() {
-        GameObject* obj = Application::GetInstance().scene->CreateGameObject(name);
-
-        if (obj) {
-            GameObject* root = Application::GetInstance().scene->GetRoot();
-            if (root && obj->GetParent() == nullptr) {
-                root->AddChild(obj);
-            }
-
-            *udata = obj;  // Assign the created GameObject
+    if (obj) {
+        GameObject* root = Application::GetInstance().scene->GetRoot();
+        if (root && obj->GetParent() == nullptr) {
+            root->AddChild(obj);
         }
-        });
 
+        // Create userdata that will be filled in PostUpdate
+        GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+        *udata = obj; // Assign the created GameObject
+
+        // Assign metatable
+        luaL_getmetatable(L, "GameObject");
+        lua_setmetatable(L, -2);
+        return 1;
+    }
+
+    lua_pushnil(L);
     return 1;
 }
 
@@ -1439,13 +1436,9 @@ static int Lua_GameObject_Destroy(lua_State* L) {
         return 0;
     }
 
-    GameObject* obj = *udata;
-
     // Enqueue destruction for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([obj]() {
-        obj->MarkForDeletion();
-        });
+    GameObject* obj = *udata;
+    obj->MarkForDeletion();
 
     return 0;
 }
@@ -3008,126 +3001,98 @@ static int Lua_Prefab_Load(lua_State* L) {
 // Prefab.Instantiate(name) - Deferred operation
 static int Lua_Prefab_Instantiate(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);
+    GameObject* instance = nullptr;
 
-    // Create userdata that will be filled in PostUpdate
-    GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
-    *udata = nullptr;  // Temporarily null
+    if (PrefabManager::GetInstance().HasPrefab(name)) {
+        instance = PrefabManager::GetInstance().InstantiatePrefab(name);
+    }
+    else {
+        ModuleResources* resources = Application::GetInstance().resources.get();
+        UID prefabUID = 0;
+        const auto& allResources = resources->GetAllResources();
 
-    luaL_getmetatable(L, "GameObject");
-    lua_setmetatable(L, -2);
+        for (const auto& pair : allResources) {
+            if (pair.second->GetType() == Resource::PREFAB) {
+                std::string assetPath = pair.second->GetAssetFile();
+                std::string normalizedAsset = assetPath;
+                std::replace(normalizedAsset.begin(), normalizedAsset.end(), '\\', '/');
+                std::string normalizedName = name;
+                std::replace(normalizedName.begin(), normalizedName.end(), '\\', '/');
 
-    // Enqueue instantiation for PostUpdate
-    auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([name, udata]() {
-        GameObject* instance = nullptr;
+                size_t lastSlash = normalizedAsset.find_last_of("/");
+                std::string filename = (lastSlash != std::string::npos) ? normalizedAsset.substr(lastSlash + 1) : normalizedAsset;
 
-        // First check if prefab is already loaded in PrefabManager
-        if (PrefabManager::GetInstance().HasPrefab(name)) {
-            instance = PrefabManager::GetInstance().InstantiatePrefab(name);
-        }
-        else {
-            // Try to find prefab in resources
-            ModuleResources* resources = Application::GetInstance().resources.get();
+                size_t nameLastSlash = normalizedName.find_last_of("/");
+                std::string nameFilename = (nameLastSlash != std::string::npos) ? normalizedName.substr(nameLastSlash + 1) : normalizedName;
 
-            // Search for prefab by matching filename in all resources
-            UID prefabUID = 0;
-            const auto& allResources = resources->GetAllResources();
-
-            for (const auto& pair : allResources) {
-                UID uid = pair.first;
-                Resource* res = pair.second;
-
-                if (res->GetType() == Resource::PREFAB) {
-                    std::string assetPath = res->GetAssetFile();
-
-                    // Normalise slashes
-                    std::string normalizedAsset = assetPath;
-                    std::replace(normalizedAsset.begin(), normalizedAsset.end(), '\\', '/');
-                    std::string normalizedName = name;
-                    std::replace(normalizedName.begin(), normalizedName.end(), '\\', '/');
-
-                    // Retrieve the filename of the asset 
-                    size_t lastSlash = normalizedAsset.find_last_of("/");
-                    std::string filename = (lastSlash != std::string::npos)
-                        ? normalizedAsset.substr(lastSlash + 1)
-                        : normalizedAsset;
-
-                    // Extract the filename from the search term
-                    size_t nameLastSlash = normalizedName.find_last_of("/");
-                    std::string nameFilename = (nameLastSlash != std::string::npos)
-                        ? normalizedName.substr(nameLastSlash + 1)
-                        : normalizedName;
-
-
-                    bool matchExact = normalizedAsset == normalizedName;
-                    bool matchSuffix = normalizedAsset.size() >= normalizedName.size() &&
-                        normalizedAsset.substr(normalizedAsset.size() - normalizedName.size()) == normalizedName;
-                    bool matchFilename = filename == nameFilename;
-
-                    if (matchExact || matchSuffix || matchFilename) {
-                        prefabUID = uid;
-                        break;
-                    }
+                if (normalizedAsset == normalizedName ||
+                    (normalizedAsset.size() >= normalizedName.size() && normalizedAsset.substr(normalizedAsset.size() - normalizedName.size()) == normalizedName) ||
+                    filename == nameFilename) {
+                    prefabUID = pair.first;
+                    break;
                 }
             }
+        }
 
-            if (prefabUID != 0) {
-                Resource* res = resources->RequestResource(prefabUID);
-                if (res && res->GetType() == Resource::PREFAB) {
-                    ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
+        if (prefabUID != 0) {
+            Resource* res = resources->RequestResource(prefabUID);
+            if (res && res->GetType() == Resource::PREFAB) {
+                ResourcePrefab* prefabRes = static_cast<ResourcePrefab*>(res);
 
-                    if (!prefabRes->IsLoadedToMemory()) {
-                        prefabRes->LoadInMemory();
+                if (!prefabRes->IsLoadedToMemory()) {
+                    prefabRes->LoadInMemory();
+                }
+
+                nlohmann::json hierarchy = prefabRes->GetPrefabHierarchy();
+
+                if (!hierarchy.is_null() && !hierarchy.empty()) {
+                    ModuleScene* scene = Application::GetInstance().scene.get();
+
+                    if (hierarchy.is_array()) {
+                        instance = GameObject::Deserialize(hierarchy[0], scene->GetRoot());
+                    }
+                    else {
+                        instance = GameObject::Deserialize(hierarchy, scene->GetRoot());
                     }
 
-                    nlohmann::json hierarchy = prefabRes->GetPrefabHierarchy();
-
-                    if (!hierarchy.is_null() && !hierarchy.empty()) {
-                        ModuleScene* scene = Application::GetInstance().scene.get();
-
-                        if (hierarchy.is_array()) {
-                            instance = GameObject::Deserialize(hierarchy[0], scene->GetRoot());
-                        }
-                        else {
-                            instance = GameObject::Deserialize(hierarchy, scene->GetRoot());
-                        }
-
-                        if (instance) {
-                            instance->SolveReferences();
-
-                            std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
-                                for (auto* comp : obj->GetComponents()) {
-                                    if (comp->GetType() == ComponentType::SCRIPT) {
-                                        ComponentScript* script = static_cast<ComponentScript*>(comp);
-                                        if (script->IsActive()) {
-                                            script->CallStart();
-                                        }
+                    if (instance) {
+                        instance->SolveReferences();
+                        std::function<void(GameObject*)> enableScripts = [&](GameObject* obj) {
+                            for (auto* comp : obj->GetComponents()) {
+                                if (comp->GetType() == ComponentType::SCRIPT) {
+                                    ComponentScript* script = static_cast<ComponentScript*>(comp);
+                                    if (script->IsActive()) {
+                                        script->CallStart();
                                     }
                                 }
-                                for (GameObject* child : obj->GetChildren()) {
-                                    enableScripts(child);
-                                }
-                                };
-                            enableScripts(instance);
-                        }
+                            }
+                            for (GameObject* child : obj->GetChildren()) {
+                                enableScripts(child);
+                            }
+                            };
+                        enableScripts(instance);
                     }
                 }
-                Application::GetInstance().resources->ReleaseResource(prefabUID);
             }
-            else {
-                LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);
-            }
-        }
-
-        if (instance) {
-            *udata = instance;
+            resources->ReleaseResource(prefabUID);
         }
         else {
-            LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", name);
+            LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);
         }
-        });
+    }
 
-    return 1;
+    if (instance) {
+        GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+        *udata = instance;
+        luaL_getmetatable(L, "GameObject");
+        lua_setmetatable(L, -2);
+        return 1;
+    }
+    else {
+        LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", name);
+        lua_pushnil(L);
+        return 1;
+    }
 }
 
 void ScriptManager::RegisterPrefabAPI() {

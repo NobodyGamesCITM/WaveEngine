@@ -238,6 +238,12 @@ void ModuleScene::ClearScene()
         delete child;
     }
 
+    if (Application::GetInstance().scripts) {
+        lua_State* L = Application::GetInstance().scripts->GetState();
+        if (L) {
+            lua_gc(L, LUA_GCCOLLECT, 0);
+        }
+    }
     LOG_CONSOLE("Scene cleared");
 }
 

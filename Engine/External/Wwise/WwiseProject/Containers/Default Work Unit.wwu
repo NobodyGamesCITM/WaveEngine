@@ -179,7 +179,7 @@
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="DestinationContextObject">
-													<ObjectRef Name="Level2_Combat" ID="{2E681130-9455-40B9-BAA6-1C1FE8A45926}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="Level2_Alt" ID="{8AE90459-E9D0-4839-BA99-ED7CC0DDFA1C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 												<Reference Name="SourceContextObject">
 													<ObjectRef Name="Level2_AltCombat" ID="{F78E1836-3BFA-4FBB-B8CF-F7F538B056BA}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
@@ -253,6 +253,10 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicPlaylistContainer Name="Level1_Playlist" ID="{F2A37717-4801-4991-9D58-0467545A0E41}" ShortID="614765259">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="17"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -905,6 +909,10 @@
 							</ChildrenList>
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="Level1_Combat_Playlist" ID="{0A854664-B451-48B0-B981-8081E1514CA3}" ShortID="114316262">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="9"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -1025,6 +1033,8 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="Level2_Playlist" ID="{7A97DE5E-582B-4B64-AADF-D3CD7D3F4BC4}" ShortID="734620679">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="3"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-10</Value>
@@ -1463,6 +1473,8 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="Level2_Combat_Playlist" ID="{65A7E006-24DB-4979-935A-27D3182E8AA9}" ShortID="556542119">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="10"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -8134,6 +8146,7 @@
 							<ChildrenList>
 								<Sound Name="pressure_plate" ID="{231C8213-EA11-4E7A-A6E1-85B424DECCBF}" ShortID="395828789">
 									<PropertyList>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
@@ -8166,6 +8179,23 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<EffectSlot Name="" ID="{0C972696-4BC6-4928-AEC6-EEB9702C0C59}" ShortID="998912995">
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Time Stretch (Custom)" ID="{7440839D-36AD-4390-8CA4-6A6A619B426A}" ShortID="972658868" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																<PropertyList>
+																	<Property Name="TimeStretch" Type="Real32" Value="130"/>
+																</PropertyList>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</ObjectList>
+									</ObjectLists>
 									<ActiveSourceList>
 										<ActiveSource Name="pressure_plate" ID="{70B292DA-642D-4FA9-BDEC-0788CED8AC98}" Platform="Linked"/>
 									</ActiveSourceList>

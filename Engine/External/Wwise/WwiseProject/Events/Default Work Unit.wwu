@@ -728,6 +728,9 @@
 						<Event Name="SFX_PressPlate" ID="{348B4560-5EB4-42B6-82A2-C2BD590D65B7}">
 							<ChildrenList>
 								<Action Name="" ID="{F0CD36B0-3129-4810-A727-54120432A536}" ShortID="1049108072">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.5"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="pressure_plate" ID="{231C8213-EA11-4E7A-A6E1-85B424DECCBF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{2A1A9049-E8D9-6B39-9283-6994E4C17C3C}",
+    "Hash": "{BE4C62D5-3FF5-85D2-41AE-C97126ADEC60}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1305,6 +1305,14 @@
        "GUID": "{3E106FDF-014E-4E3A-9BC9-6AE678D9DB8B}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
+      },
+      {
+       "Id": "972658868",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\pressure_plate\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{7440839D-36AD-4390-8CA4-6A6A619B426A}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
       }
      ],
      "ShareSets": [
@@ -2506,13 +2514,20 @@
       "GUID": "{348B4560-5EB4-42B6-82A2-C2BD590D65B7}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.47221923",
-      "DurationMax": "0.6775325",
+      "DurationMin": "0.9722192",
+      "DurationMax": "1.1775324",
       "MediaRefs": [
        {
         "Id": "271606854"
        }
-      ]
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "972658868"
+        }
+       ]
+      }
      },
      {
       "Id": "1281281593",
@@ -3112,6 +3127,6 @@
     ]
    }
   ],
-  "FileHash": "{B437A821-8937-8BB5-2454-43FD740A21EE}"
+  "FileHash": "{3C0BD012-63DE-5C3D-804E-91C019200ACF}"
  }
 }

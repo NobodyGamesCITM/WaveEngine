@@ -46,18 +46,11 @@ GameObject::GameObject(const std::string& name) : name(name), active(true), pare
 }
 
 GameObject::~GameObject() {
-    
     MarkCleaning();
-
-    for (auto* component : components) {
-        componentOwners.clear();
-        component = nullptr;
-    }
-
+    componentOwners.clear();
     components.clear();
     for (auto* child : children) {
         delete child;
-        child = nullptr;
     }
     children.clear();
 }

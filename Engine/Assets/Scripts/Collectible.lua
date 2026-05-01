@@ -25,8 +25,11 @@ end
 
 function Update(self, dt)
     if self.isCollected then return end
+    
+    local keyPressed = Input.GetKeyDown(self.public.collectKey or "X")
+    local buttonPressed = Input.GetGamepadButtonDown("A")
 
-    if self.playerInside and Input.GetKeyDown(self.public.collectKey or "X") then
+    if self.playerInside and (keyPressed or buttonPressed) then
         self.isCollected = true
 
         local varName = self.public.varName or "keysCollected"

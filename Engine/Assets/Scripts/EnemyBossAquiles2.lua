@@ -229,6 +229,10 @@ local function TakeDamage(self, amount, attackerPos)
         local totalDamage = amount * self.public.opportunityDamageMultiplier
         hp = hp - totalDamage
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        if currentState == State.LANCE_360 or currentState == State.CHARGE then
+            return
+        end
+
         Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
         if currentState == State.WALL then
             if anim then anim:Play("Stuck_Hit", 0.1) end
@@ -237,6 +241,13 @@ local function TakeDamage(self, amount, attackerPos)
         end
         opportunityHitTimer = 0.4
 
+        -- Stun receive damage
+        if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
+            StopMovement()
+            hurtTimer = self.public.hurtStunTime
+            if anim then anim:Play("Hit", 0.1) end
+        end
+        
         if hp <= 0 then
             ChangeState(State.DEAD)
             if anim then anim:Play("Death") end
@@ -251,26 +262,26 @@ local function TakeDamage(self, amount, attackerPos)
     else
         -- Damage Posture
         posture = posture + amount
+        
         Engine.Log("[Aquiles] Postura: " .. posture .. "/" .. self.public.maxPosture)
         if posture >= self.public.maxPosture then
             posture = 0
+            PlaySFX(armorSFX)
 
+            if currentState == State.LANCE_360 or currentState == State.CHARGE then
+                return
+            end
+        
             StopMovement()
             --stunTimer = self.public.stunDuration
                         
             ChangeState(State.IDLE)
             --ChangeState(State.STUN)
             --if anim then anim:Play("Stun") end
-            PlaySFX(armorSFX)
             return
         end
  
-        -- Stun receive damage
-        if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
-            StopMovement()
-            hurtTimer = self.public.hurtStunTime
-            if anim then anim:Play("Hit", 0.1) end
-        end
+        
     end
     -- Refresh boss bar health after taking damage
     if _G.BossBar_RefreshHealth then
@@ -333,7 +344,7 @@ local function dodgePlayer(self, dist, dt)
 
         end
 
-        wallStunTimer = 0.8
+        wallStunTimer = 0.4
         ChangeState(State.RECOVERY)
         PlaySFX(dashSFX)
         if anim then anim:Play("Dash", 0.1) end
@@ -413,24 +424,28 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
-    dodgePlayer(self,dist,dt)
-
+    --dodgePlayer(self,dist,dt)
     if dist < self.public.Lance360Range and ActiveDodge == false then -- Lance
         if lanceCDTimer <= 0 then
             StopMovement()
             lanceTimer = 0
+            lanceAnimStarted = false
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
             return 
         else
            
             StopMovement()
+            RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
             if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
         end
+        return
+    end
     
-    elseif dist < self.public.dashApproachRange then --dash
+    dodgePlayer(self,dist,dt)
+
+    if dist < self.public.dashApproachRange then --dash
         MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, true)
-        
 
     elseif dist <= self.public.chargeRange then --Charge
         if chargeCDTimer <= 0 then
@@ -441,12 +456,13 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             chargeCDTimer = self.public.chargeCooldown
             ChangeState(State.ANTICIPATION)
             return 
-        else
+        else 
             MovementWalk(self, dx, dz, dt)
         end
 
     else
         MovementWalk(self, dx, dz, dt)
+
     end
 end
 
@@ -455,15 +471,24 @@ local function UpdateLance360(self, myPos, pp, dt)
     
     if not lanceAnimStarted then
         lanceAnimStarted = true
-        anim:Play("360Attack", 0.15)
+        anim:Play("360Attack", 0.1)
+        currentYaw = self.transform.eulerAngles.y
     end
 
-    currentYaw = currentYaw + 500.0 * dt
+    currentYaw = currentYaw + 600.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
 
     lanceTimer = lanceTimer + dt
     if lanceTimer >= self.public.lanceDuration then
+       
+        local dx = pp.x - myPos.x
+        local dz = pp.z - myPos.z
+        if abs(dx) > 0.1 or abs(dz) > 0.1 then
+            currentYaw = atan2(dx, dz) * (180.0 / pi)
+            rb:SetRotation(0, currentYaw, 0)
+        end
+
         if attackCol then attackCol:Disable() end
         lanceCDTimer = self.public.lanceCooldown
         wallStunTimer = self.public.recoveryLance
@@ -491,10 +516,10 @@ local function UpdateAnticipation(self, pp, dt)
     local dz = pp.z - myPos.z
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
    
-    anticipationAnimStarted = true
     if anim and not anim:IsPlayingAnimation("Charge_Start") then
         anim:Play("Charge_Start", 0.2)
     end
+    anticipationAnimStarted = true
 
      if self.chargeFeedbackGO then
         --Maximum possible distance
@@ -597,7 +622,7 @@ local function UpdateCharge(self, dt)
 
     if not chargeAnimStarted then
         chargeAnimStarted = true
-        anim:Play("Charge_Loop ", 0.0)
+        anim:Play("Charge_Loop ")
     end
     
     if rb then
@@ -626,10 +651,10 @@ local function UpdateWall(self, dt)
 
     if opportunityHitTimer > 0 then
         opportunityHitTimer = opportunityHitTimer - dt
-        return  -- no sobreescribir Stuck_Hit hasta que termine
+        return
     end
     
-    if anim then
+    if anim and not anim:IsPlayingAnimation("Stuck_Loop") and not anim:IsPlayingAnimation("Stuck_Hit") then
         anim:Play("Stuck_Loop", 0.1)
     end
  
@@ -668,9 +693,9 @@ local function UpdateRecovery(self, dt)
 
     wallStunTimer = wallStunTimer - dt
     
-    if anim and not anim:IsPlayingAnimation("Charge_End") and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Charge_End", 0.15)
-    end
+    --if anim and not anim:IsPlayingAnimation("Charge_End") and not anim:IsPlayingAnimation("Idle") then
+        --anim:Play("Charge_End", 0.15)
+    --end
 
     if wallStunTimer <= 0 then
         lanceCDTimer=self.public.lanceCooldown
@@ -782,10 +807,10 @@ function Start(self)
         maxPosture      = 100,
 
         -- Ranges
-        detectRange     = 20.0,
+        detectRange     = 25.0,
         Lance360Range   = 2.0,
         chargeRange     = 18.0,
-        dashApproachRange = 9.0,
+        dashApproachRange = 11.0,
         --Movement
         moveSpeed       = 6.5,
         rotationSpeed   = 1.8,
@@ -934,11 +959,20 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            if hp<=100 then
+            
+            if hp <=60 then
                 BaseMat.SetTexture("10242481670410472725")
-            else
-                BaseMat.SetTexture("18385834806947720505")
 
+            elseif hp > 60 and hp <=120 then
+                BaseMat.SetTexture("15230868181932546860")
+            
+            elseif hp > 120 and hp <=180 then
+                BaseMat.SetTexture("770031546471412972")
+
+            elseif hp > 180 and hp <=240 then
+                BaseMat.SetTexture("14923760841240419563")
+            else
+                BaseMat.SetTexture("14923760841240419563")
             end        
         end
     end
@@ -1064,11 +1098,20 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        if hp<=100 then
-            BaseMat.SetTexture("10242481670410472725")
-        else
-            BaseMat.SetTexture("18385834806947720505")
 
-        end
+         if hp <=60 then
+            BaseMat.SetTexture("10242481670410472725")
+
+        elseif hp > 60 and hp <=120 then
+            BaseMat.SetTexture("15230868181932546860")
+        
+        elseif hp > 120 and hp <=180 then
+            BaseMat.SetTexture("770031546471412972")
+
+        elseif hp > 180 and hp <=240 then
+            BaseMat.SetTexture("14923760841240419563")
+        else
+            BaseMat.SetTexture("14923760841240419563")
+        end 
     end
 end

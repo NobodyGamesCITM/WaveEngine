@@ -18,10 +18,10 @@ public:
     void SetAspectRatio(float aspectRatio);
     void SetNearPlane(float nearPlane);
     void SetFarPlane(float farPlane);    
-    float GetFov() { return fov; }
-    float GetAspectRatio() { return aspectRatio; }
-    float GetNearPlane() { return zNear; }
-    float GetFarPlane() { return zFar; }
+    float GetFov()         const { return fov; }
+    float GetAspectRatio() const { return aspectRatio; }
+    float GetNearPlane()   const { return zNear; }
+    float GetFarPlane()    const { return zFar; }
 
     void SetUsesPostProcessing(bool uses) { usesPostProcessing = uses; }
     bool IsUsingPostProcessing() const { return usesPostProcessing; }

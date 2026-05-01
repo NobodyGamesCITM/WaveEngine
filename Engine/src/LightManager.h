@@ -4,12 +4,14 @@
 #include <vector>
 #include <memory>
 #include "ComponentMesh.h"
+#include "ComponentSkinnedMesh.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 class Shader;
 class ComponentLight;
+class CameraLens;
 
 // Collects all active ComponentLights and uploads them to the GPU via SSBOs.
 // The Renderer owns one instance. ComponentLight registers/unregisters itself.
@@ -32,7 +34,9 @@ public:
     // Also sets numDirLights / numPointLights / numSpotLights uniforms.
     void UploadToShader(Shader* shader);
 
-    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes);
+    void BuildShadowMap(const std::vector<ComponentMesh*>& meshes,
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes,
+        const CameraLens* camera);
 
     unsigned int GetShadowMapID()      const { return shadowMapTexture; }
     glm::mat4    GetLightSpaceMatrix() const { return lightSpaceMatrix; }
@@ -40,7 +44,7 @@ public:
     bool shadowsEnabled = true;
 
     void MarkShadowsDirty() { shadowsDirty = true; }
-
+    void MarkStaticShadowsDirty() { staticDirty = true; }
 private:
     void InitSSBOs();
     void InitShadowMap();
@@ -58,11 +62,36 @@ private:
     unsigned int shadowMapTexture = 0;
     glm::mat4    lightSpaceMatrix = glm::mat4(1.0f);
 
+    unsigned int staticShadowFBO = 0;
+    unsigned int staticShadowTexture = 0;
+
+    bool staticDirty = true;
+
     std::unique_ptr<ShaderShadowDepth> shadowDepthShader;
 
-    static constexpr int SHADOW_WIDTH = 8192;
-    static constexpr int SHADOW_HEIGHT = 8192;
+    static constexpr int SHADOW_WIDTH = 2048;
+    static constexpr int SHADOW_HEIGHT = 2048;//8192
 
     bool shadowsDirty = true;
     glm::mat4 cachedLightDir = glm::mat4(0.0f);
+
+    glm::vec3 lastSceneCenter = glm::vec3(0.f);
+
+    void RenderShadowPass(
+        const std::vector<ComponentMesh*>& meshes,
+        const std::vector<ComponentSkinnedMesh*>& skinnedMeshes);
+
+    struct ShadowRenderData
+    {
+        unsigned int VAO = 0;
+        GLsizei      numIndices = 0;
+        glm::mat4    modelMatrix;
+    };
+
+    std::vector<ShadowRenderData> staticShadowCache;
+    std::vector<glm::mat4>        staticModelMatrices;
+
+    unsigned int ssboShadowModels = 0;
+
+
 };

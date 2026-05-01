@@ -84,6 +84,7 @@
                                                                             },
                                                                             {
                                                                                 "active": true,
+                                                                                "castShadows": true,
                                                                                 "meshUID": 8245053662812340647,
                                                                                 "type": 1
                                                                             },
@@ -3340,6 +3341,7 @@
                     },
                     {
                         "active": true,
+                        "castShadows": true,
                         "meshUID": 9730929064892442290,
                         "type": 2
                     },
@@ -3398,7 +3400,7 @@
                         "UID": 14976730222657993225,
                         "loop": false,
                         "name": "360Attack",
-                        "speed": 1.0
+                        "speed": 0.10000000149011612
                     },
                     {
                         "UID": 1495317721687806512,
@@ -3476,7 +3478,7 @@
                         "UID": 3030139293678385797,
                         "loop": false,
                         "name": "Stun_Hit",
-                        "speed": 2.0
+                        "speed": 1.0
                     },
                     {
                         "UID": 14340295846306340398,

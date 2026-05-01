@@ -3112,6 +3112,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                         }
                     }
                 }
+                Application::GetInstance().resources->ReleaseResource(prefabUID);
             }
             else {
                 LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);

@@ -2,7 +2,7 @@
 public = {
    -- isOpen = false,
     distance = 10.0,
-    speed = 1,
+    speed = 1.0,
     myColision = "Puerta_Sala_1_Colision"
 }
 local openDoor2 = false
@@ -69,7 +69,7 @@ function Update (self, deltaTime)
     if openDoor2 then 
         local p = self.transform.worldPosition
         if not isOpen then
-            if p.y >= finalY then rb:SetLinearVelocity(0, -1, 0)
+            if p.y >= finalY then rb:SetLinearVelocity(0, -self.public.speed, 0)
             if not isMoving then 
                 if doorSFX then doorSFX:SelectPlayAudioEvent("SFX_DoorMove") end
                 isMoving = true

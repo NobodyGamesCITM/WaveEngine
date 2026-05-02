@@ -146,6 +146,10 @@ bool ModuleScene::LoadScene(const nlohmann::json& sceneHierarchy)
 
     ClearScene();
 
+    if (Application::GetInstance().navMesh) {
+        Application::GetInstance().navMesh->CleanUp();
+    }
+
     if (sceneHierarchy.contains("gameObjects") && sceneHierarchy["gameObjects"].is_array())
     {
         const nlohmann::json& gameObjectsArray = sceneHierarchy["gameObjects"];
@@ -214,16 +218,6 @@ void ModuleScene::ClearScene()
     LOG_CONSOLE("Clearing scene...");
 
     if (!root) return;
-
-    if (Application::GetInstance().navMesh) {
-        Application::GetInstance().navMesh->CleanUp();
-    }
-
-
-    // Selection
-    if (Application::GetInstance().navMesh) {
-        Application::GetInstance().navMesh->CleanUp();
-    }
 
     Application::GetInstance().selectionManager->ClearSelection();
 

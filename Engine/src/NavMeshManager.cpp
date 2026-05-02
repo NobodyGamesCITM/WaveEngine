@@ -33,19 +33,17 @@ bool ModuleNavMesh::Start() {
 
 bool ModuleNavMesh::Update() {
 
-    Application::PlayState currentState = Application::GetInstance().GetPlayState();
+   /* Application::PlayState currentState = Application::GetInstance().GetPlayState();
 
     if (currentState == Application::PlayState::PLAYING && !baked) {
-        GameObject* root = Application::GetInstance().scene->GetRoot();
-        if (root) {
-            Bake(root);
-            baked = true;
+        if (navMeshes.empty()) {
+            GameObject* root = Application::GetInstance().scene->GetRoot();
+            if (root) {
+                Bake(root);
+            }
         }
-    }
-
-    if (currentState == Application::PlayState::EDITING && baked) {
-        baked = false;
-    }
+        baked = true;
+    }*/
 
     DrawDebug();
     return true;

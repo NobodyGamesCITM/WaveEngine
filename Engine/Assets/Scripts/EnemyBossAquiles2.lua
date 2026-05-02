@@ -16,6 +16,13 @@ local State = {
     STUN        = "Stun", 
     DEAD        = "Dead",
 }
+public = {
+    doorName = "Puerta_Final",
+}
+
+-- Internal variables
+local currentState = State.IDLE
+local hp           = 0
 
 -- Internal variables
 local currentState = State.IDLE
@@ -762,6 +769,13 @@ local function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
+        local door = GameObject.Find(self.public.doorName)
+        if door then
+            local doorScript = door:GetComponent("Script")
+            if doorScript and doorScript.OpenDoor then
+                doorScript:OpenDoor()
+            end
+        end
         DestroyChargeFeedback(self)
         local _rb  = rb
         Audio.SetMusicState("AfterBoss")

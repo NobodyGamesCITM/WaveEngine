@@ -44,7 +44,7 @@ public = {
 
     patrolWaitMin   = 2.0,
     patrolWaitMax   = 2.8,
-    deathTime       = 1.5,
+    deathTime       = 3.5,
     
     activeGuard     = false,
 
@@ -212,6 +212,10 @@ function Start(self)
     
     local squeletonMesh = GameObject.FindInChildren(self.gameObject,"Mesh_fixedUVs")
     BaseMat = squeletonMesh:GetComponent("Material")
+
+    self.CheckAlive = function(self)
+        return Skeleton.isDead
+    end
 end
 
 States[State.IDLE] = {
@@ -433,7 +437,7 @@ States[State.DEAD] = {
     end,
     Update = function(self, dt)
         if not Skeleton.isDead  then
-            Skeleton.isDead       = true
+            Skeleton.isDead = true
             
             local colision = self.gameObject:GetComponent("Sphere Collider")
             if colision then 

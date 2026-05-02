@@ -1,13 +1,53 @@
 [
     {
         "active": true,
-        "children": [],
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            5.984051704406738,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            6.830018520355225,
+                            6.830018520355225,
+                            6.830018520355225
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "castShadows": true,
+                        "meshUID": 7988421388869693928,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 15948015133303186395,
+                        "type": 3
+                    }
+                ],
+                "name": "pSphere1",
+                "tag": "",
+                "uid": 14168222445127051804
+            }
+        ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    -1.0,
-                    10.0,
+                    0.0,
+                    0.0,
                     0.0
                 ],
                 "rotation": [
@@ -16,40 +56,37 @@
                     0.0
                 ],
                 "scale": [
-                    0.6000000238418579,
-                    0.6000000238418579,
-                    0.6000000238418579
+                    0.07048626989126205,
+                    0.07048626989126205,
+                    0.07048626989126205
                 ],
                 "type": 0
             },
             {
-                "active": true,
-                "primitiveType": "Sphere",
-                "type": 1
-            },
-            {
-                "active": true,
-                "materialUID": 5774806756921454133,
-                "type": 3
-            },
-            {
-                "active": true,
-                "scriptUID": 6797048061387793298,
-                "type": 6
-            },
-            {
                 "Center": [
                     0.0,
-                    0.0,
+                    6.0,
                     0.0
                 ],
                 "DynamicFriction": 0.5,
-                "Radius": 1.0,
+                "Radius": 8.0,
                 "Restitution": 0.6000000238418579,
                 "StaticFriction": 0.5,
                 "Trigger": false,
                 "active": true,
                 "type": 11
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "maxLifetime",
+                        "type": 0,
+                        "value": 8.0
+                    }
+                ],
+                "scriptUID": 6797048061387793298,
+                "type": 6
             },
             {
                 "AngularDamping": 0.0,
@@ -74,6 +111,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 8490306449372164924
+        "uid": 14251545024265558896
     }
 ]

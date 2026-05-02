@@ -759,7 +759,13 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            BaseMat.SetTexture("15634858790036886356")
+            if self.hp<30 then
+                BaseMat.SetTexture("16637297170788735381")
+
+            else
+                BaseMat.SetTexture("15634858790036886356")
+
+            end
         end
     end
     
@@ -867,6 +873,10 @@ end
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         self.alreadyHit = false 
-        BaseMat.SetTexture("15634858790036886356")
+        if self.hp<30 then
+            BaseMat.SetTexture("16637297170788735381")
+        else
+            BaseMat.SetTexture("15634858790036886356")
+        end
     end
 end

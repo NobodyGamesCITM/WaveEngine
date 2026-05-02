@@ -434,13 +434,13 @@ local function EquipMask(self, newMask, skipSword)
     elseif newMask == Mask.ARES then 
         --masks
         if maskAres then maskAres:SetActive(true) end
-        if maskApolo then maskApolo:SetActive(false)end
-        if maskHermes then maskHermes:SetActive(false)end
+        if maskApolo then maskApolo:SetActive(false) end
+        if maskHermes then maskHermes:SetActive(false) end
     elseif newMask == Mask.NONE then 
         --masks
         if maskAres then maskAres:SetActive(false) end
-        if maskApolo then maskApolo:SetActive(false)end
-        if maskHermes then maskHermes:SetActive(false)end
+        if maskApolo then maskApolo:SetActive(false) end
+        if maskHermes then maskHermes:SetActive(false) end
     end
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end

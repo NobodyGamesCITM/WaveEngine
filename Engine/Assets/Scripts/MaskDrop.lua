@@ -5,7 +5,6 @@ local maskAnimDuration = 34.0
 -- local statueAnim = nil
 -- local statueMesh = nil
 -- local statueMat  = nil
-local stoneMask  = nil
 --local activatedStatue = false
 --local maskAnimTimer = 0
 
@@ -25,17 +24,17 @@ local function FindStoneMasks(self)
         if stoneApoloMask  then stoneApoloMask:SetActive(true)   end
         if stoneAresMask   then stoneAresMask:SetActive(false)   end
         if stoneHermesMask then stoneHermesMask:SetActive(false) end
-        stoneMask = stoneApoloMask
+        self.stoneMask = stoneApoloMask
     elseif self.public.DropHermesMask then
         if stoneApoloMask  then stoneApoloMask:SetActive(false)  end
         if stoneAresMask   then stoneAresMask:SetActive(false)   end
         if stoneHermesMask then stoneHermesMask:SetActive(true)  end
-        stoneMask = stoneHermesMask
+        self.stoneMask = stoneHermesMask
     elseif self.public.DropAresMask then
         if stoneApoloMask  then stoneApoloMask:SetActive(false)  end
         if stoneAresMask   then stoneAresMask:SetActive(true)    end
         if stoneHermesMask then stoneHermesMask:SetActive(false) end
-        stoneMask = stoneAresMask
+        self.stoneMask = stoneAresMask
     end
 end
 
@@ -109,16 +108,21 @@ function Update(self, dt)
     if self.activatedStatue then
         Engine.Log("Activated Statue")
         self.maskAnimTimer = self.maskAnimTimer + dt
+
+        if self.maskAnimTimer <= 20.0 and self.maskAnimTimer >= 21.0 then
+            if stoneMask then stoneMask:SetActive(false) end
+            if not stoneMask then Engine.Log("[MASKDROP] Couldn't find stoneMask") end
+        end
+
         if self.maskAnimTimer >= maskAnimDuration then
-            --local statueAnim = self.gameObject:GetComponent("Animation") 
             if self.statueAnim then self.statueAnim:Stop() end
             
+            --won't reset the statue since the animation should only play once (the first and only time you get the mask)
             --self.activatedStatue = false
             --self.maskAnimTimer = 0
 
-            --local statueMesh = GameObject.FindInChildren(self.gameObject, "mesh")
+            
             if self.statueMesh then 
-                --local statueMat = self.statueMesh:GetComponent("Material")
                 if self.statueMat then 
                     self.statueMat.SetTexture("10286171976575561541")
                 else

@@ -94,39 +94,6 @@ local function ChangeState(self, newState)
     end
 end
 
-local function EnemyIsInTheWay (self, chargeDirX, chargeDirZ)
-    local myPos =self.transform.worldPosition
-    local foundEnemy = GameObject.Find("Enemy")
-    if foundEnemy == nil then return false end
-    local enemies = { foundEnemy }
-    
-    for _, other in ipairs(enemies) do
-        Engine.Log("Enemigo encontrado")
-        if other ~= self.gameObject then
-
-            local otherPos = other.transform.worldPosition
-            local canReach = self.nav:SetDestination(otherPos.x, otherPos.y, otherPos.z)
-            if canReach then
-                local distX = otherPos.x-myPos.x
-                local distZ = otherPos.z-myPos.z
-                local dist=Dist(distX,distZ)
-                
-
-                if dist < 5.0 then 
-                    if other.currentState == State.CHARGE and self.currentState == State.ANTICIPATION then
-                        return true
-                    end
-                    if other.currentState == State.ANTICIPATION and self.currentState == State.ANTICIPATION then
-                        if other.preparationTimer > self.preparationTimer then
-                            return true
-                        end
-                    end
-                end
-            end
-        end
-    end
-    return false
-end
 local function TakeDamage(self, amount, attackerPos)
     if self.isDead then return end
 
@@ -393,7 +360,6 @@ local function UpdateAnticipation(self, pp, dt)
     end
 
     if self.preparationTimer >= self.public.preparationTime then
-        
         local timeToPredict = self.public.predictionTime or 0.5
         
         local predictedX = pp.x + (pVelX * timeToPredict)
@@ -412,13 +378,7 @@ local function UpdateAnticipation(self, pp, dt)
             self.chargeDirZ = math.cos(rotY)
         end
 
-        if EnemyIsInTheWay(self,self.chargeDirX,self.chargeDirZ) then
-            preparationTimer = preparationTimer - 0.1
-           return
-        end
-
         self.chargeTimer = 0
-        --if self.nav then self.nav.StopMovement() end
         ChangeState(self, State.CHARGE)
     end
 
@@ -470,7 +430,47 @@ local function UpdateCharge(self, dt)
     if not self.attackCol then self.attackCol = self.gameObject:GetComponent("Box Collider") end
     if self.attackCol then self.attackCol:Enable() end
 
+    if not self.alreadyHit and _PlayerController_pendingDamage == 0 and self.playerGO then
+        local myPos = self.transform.worldPosition
+        local pp = self.playerGO.transform.worldPosition
+        local dx = pp.x - myPos.x
+        local dz = pp.z - myPos.z
+        local dist = sqrt(dx*dx + dz*dz)
+
+        if dist <= 1.8 then
+            local len = dist
+            if len > 0.001 then dx = dx/len; dz = dz/len end
+
+            local dot = dx * self.chargeDirX + dz * self.chargeDirZ
+
+            if dot > 0.7 then
+                self.alreadyHit = true
+
+                local ratio = self.chargeTimer / self.public.chargeDuration
+                local finalDamage = math.floor(
+                    self.public.enemyDamageMin +
+                    (self.public.enemyDamageMax - self.public.enemyDamageMin) * ratio
+                )
+
+                _EnemyDamage_minocabro = finalDamage
+                _PlayerController_pendingDamage = finalDamage
+                _PlayerController_pendingDamagePos = self.transform.worldPosition
+                _PlayerController_triggerCameraShake = true
+
+                if self.attackCol then self.attackCol:Disable() end
+                StopMovement(self)
+                self.slideVelX = 0
+                self.slideVelZ = 0
+                DestroyChargeFeedback(self)
+                ChangeState(self, State.RECOVERY)
+                Engine.Log("[Minocabro] Impacto tras " .. self.chargeTimer .. "s. Daño: " .. finalDamage)
+                return
+            end
+        end
+    end
+
     if self.chargeTimer >= self.public.chargeDuration then
+        if self.attackCol then self.attackCol:Disable() end
         --Save direction for after
         self.slideVelX = self.chargeDirX * 8.0
         self.slideVelZ = self.chargeDirZ * 8.0
@@ -530,8 +530,6 @@ local function UpdateRecovery(self, dt)
         self.rb:SetLinearVelocity(self.slideVelX, vel.y, self.slideVelZ)
     end
 
-    if self.attackCol then self.attackCol:Disable() end
-
     self.wallStunTimer = self.wallStunTimer - dt
     if self.wallStunTimer <= 0 then
         self.cameFromWall = false
@@ -580,11 +578,11 @@ end
 function Start(self)
     self.public = {
         maxHp           = 60,
-        detectRange     = 20.0,
+        detectRange     = 15.0,
         tooCloseRange   = 3.5,
         chargeRange     = 12.0,
 
-        preparationTime = 1.5,
+        preparationTime = 3.0,
         chargeSpeed     = 18.0,
         chargeDuration  = 0.8,
         knockbackForce  = 8.0,
@@ -619,7 +617,6 @@ function Start(self)
     self.preparationTimer = 0
     self.chargeTimer      = 0
     self.currentYaw       = 0
-    self.chargeTargetPos = { x = 0, y = 0, z = 0 }
     self.chargeDirX       = 0
     self.chargeDirZ       = 1
     self.slideVelX        = 0
@@ -817,37 +814,6 @@ function OnTriggerEnter(self, other)
                     TakeDamage(self, DAMAGE_HEAVY, attackerPos)
                 end
             end
-        end
-
-        -- The enemy hits the player
-        if self.currentState == State.CHARGE and not self.alreadyHit and _PlayerController_pendingDamage == 0 then
-            self.alreadyHit  = true
-            
-            local timeCharge = self.chargeTimer
-            local durationMax = self.public.chargeDuration
-
-            local ratio = timeCharge/durationMax
-
-            local finalDamage = self.public.enemyDamageMin + (self.public.enemyDamageMax - self.public.enemyDamageMin) * ratio
-
-            finalDamage = math.floor(finalDamage)
-
-            _EnemyDamage_minocabro = finalDamage
-
-            _PlayerController_pendingDamage    =  _EnemyDamage_minocabro
-            _PlayerController_pendingDamagePos = self.transform.worldPosition
-            _PlayerController_triggerCameraShake = true
-            
-            if self.attackCol then self.attackCol:Disable() end
-            StopMovement(self)
-            self.slideVelX=0
-            self.slideVelZ= 0
-            if self.chargeFeedbackGO then
-                GameObject.Destroy(self.chargeFeedbackGO)
-                self.chargeFeedbackGO = nil
-            end
-            ChangeState(self, State.RECOVERY)
-            Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end
 
     end

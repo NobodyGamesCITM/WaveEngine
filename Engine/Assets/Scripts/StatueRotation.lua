@@ -8,6 +8,7 @@ local currentOffset = 0.0
 local targetOffset  = 0.0
 local rotateSFX = nil
 local hasTurned = false
+local hitCooldown = 0.0
 
 function Start(self)
     local rot = self.transform.rotation
@@ -23,8 +24,9 @@ function Start(self)
 end
 
 function OnTriggerEnter(self, other)
-    if other:CompareTag("Player") and _G._PlayerController_lastAttack == "light" then
+    if other:CompareTag("Player") and _G._PlayerController_lastAttack == "light" and hitCooldown <= 0.0 then
         targetOffset = targetOffset + self.public.targetDegrees
+        hitCooldown = 0.5
     end
 end
 
@@ -32,6 +34,10 @@ function Update(self, dt)
 	if not turnSFX then
 		rotateSFX = self.gameObject:GetComponent("Audio Source")
 	end
+
+    if hitCooldown > 0.0 then
+        hitCooldown = hitCooldown - dt
+    end
 
     if currentOffset ~= targetOffset then
         if not hasTurned then

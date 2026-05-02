@@ -366,11 +366,17 @@ local function UpdateHide(self, dt)
 end
 
 local function UpdateIdle(self, dist, dt)
+    
+    if _G.PlayerInMountain == true then
+        if anim and not anim:IsPlayingAnimation("Idle") then
+            anim:Play("Idle", 0.2)
+        end
+        return
+    end
+        
     UpdateHeight(self, 0, dt)
-    -- Caso 1: Jugador en rango de ataque
     if dist <= self.public.detectRange and dist >= self.public.minRange then
 
-        -- Si no estamos visibles aún, activamos la aparición
         if not self.isShowing and not self.playerInRange then
             if self.anim then 
                 self.anim:Play("Show")
@@ -464,11 +470,6 @@ local function UpdateWindUp(self, pp, dist, dt)
         return
     end
 
-    --NOTE: no charging animation for siren
-    -- if self.anim and not self.anim:IsPlayingAnimation("Charge") then
-    --     self.anim:Play("Charge")
-    -- end
-
     if self.windUpTimer >= self.public.windUpTime then
         FireShell(self, pp.x, pp.y, pp.z)
         if self.anim then self.anim:Play("Shoot") end
@@ -551,11 +552,9 @@ local function FindSirenAudioComponents(self)  -- local: no interfiere con otros
 
 end
 
--- ── Start ─────────────────────────────────────────────────────────────────
+-- Start
 function Start(self)
     Game.SetTimeScale(1.0)
-
-    -- Datos propios de este enemigo (self.public evita conflictos con otros scripts)
     self.public = {
         maxHp            = 50,
         knockbackForce   = 3.0,
@@ -631,8 +630,8 @@ function Start(self)
              .. " detectRange=" .. self.public.detectRange)
     
    self.anim:Play("Hide")
-    --SirenMesh
-    sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+
+   sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
     BaseMat = sirenMesh:GetComponent("Material")
 
     self.baseY = self.transform.position.y
@@ -696,7 +695,7 @@ function Update(self, dt)
     end
 
     
-    -- Simular proyectiles en vuelo
+    -- Proyectules
     UpdateShells(self, dt)
 
     -- Retry components if missing
@@ -768,8 +767,6 @@ function Update(self, dt)
     elseif self.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
-    --Engine.Log("[Siren] State: " .. tostring(self.currentState) .. " dist: " .. string.format("%.1f", dist))
-
 
 end
 
@@ -803,8 +800,6 @@ function OnTriggerEnter(self, other)
         -- La bala golpea a la sirena
         if not alreadyHit then
             local ap  = other.transform.worldPosition
-            local dmg = 0
-            dmg = 15
             self.alreadyHit = true
             hitCooldown = 0.2
             if BaseMat then 
@@ -812,7 +807,7 @@ function OnTriggerEnter(self, other)
             else
                 Engine.Log("BaseMat not found in Siren")
             end
-            TakeDamage(self, dmg, ap)
+            TakeDamage(self, self.hp, ap)
         end
     end
 end

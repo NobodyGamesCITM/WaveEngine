@@ -1821,6 +1821,10 @@ function ObtainMask(self)
             Player.getMaskEvent1Done = false
             Player.getMaskEvent2Done = false
             Player.getMaskIdleTransitionDone = false
+
+            if _G.PlayMaskCinematic then
+                _G.PlayMaskCinematic(Player.pendingObtainMask)
+            end
         else
             if Player.pendingObtainMask == Mask.APOLLO  then _G._MaskState_Apolo  = true end
             if Player.pendingObtainMask == Mask.HERMES  then _G._MaskState_Hermes = true end

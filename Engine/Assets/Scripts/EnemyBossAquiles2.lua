@@ -317,6 +317,11 @@ end
 -- Dodge player
 local function dodgePlayer(self, dist, dt)
 
+    if dist<= self.public.Lance360Range then
+        ActiveDodge=false
+        pressureTimer=0
+        return
+    end
     if dist < 4.5 then
         pressureTimer = pressureTimer + dt
     else
@@ -345,7 +350,7 @@ local function dodgePlayer(self, dist, dt)
         end
 
         wallStunTimer = 0.4
-        ChangeState(State.RECOVERY)
+        ChangeState(State.DASH)
         PlaySFX(dashSFX)
         if anim then anim:Play("Dash", 0.1) end
         ActiveDodge = true
@@ -425,16 +430,17 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
     --dodgePlayer(self,dist,dt)
-    if dist < self.public.Lance360Range and ActiveDodge == false then -- Lance
+    if dist < self.public.Lance360Range then --lance
+        ActiveDodge   = false
+        pressureTimer = 0
         if lanceCDTimer <= 0 then
             StopMovement()
-            lanceTimer = 0
+            lanceTimer       = 0
             lanceAnimStarted = false
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
             return 
         else
-           
             StopMovement()
             RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
             if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
@@ -442,7 +448,7 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
         return
     end
     
-    dodgePlayer(self,dist,dt)
+    dodgePlayer(self, dist, dt)
 
     if dist < self.public.dashApproachRange then --dash
         MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, true)
@@ -475,7 +481,7 @@ local function UpdateLance360(self, myPos, pp, dt)
         currentYaw = self.transform.eulerAngles.y
     end
 
-    currentYaw = currentYaw + 600.0 * dt
+    currentYaw = currentYaw + 500.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
 
@@ -512,8 +518,17 @@ local function UpdateAnticipation(self, pp, dt)
     end
     
     local myPos = self.transform.worldPosition
-    local dx = pp.x - myPos.x
-    local dz = pp.z - myPos.z
+    local timeToPredict = self.public.predictionTime or 0.5
+
+    local pVelX = (pp.x - lastPPos.x) / dt
+    local pVelZ = (pp.z - lastPPos.z) / dt
+
+    local predictedX = pp.x + (pVelX * timeToPredict)
+    local predictedZ = pp.z + (pVelZ * timeToPredict)
+
+    local dx = predictedX - myPos.x
+    local dz = predictedZ - myPos.z
+
     RotateTowards(self, dx, dz, self.public.rotationSpeed * 3.0, dt)
    
     if anim and not anim:IsPlayingAnimation("Charge_Start") then
@@ -521,7 +536,7 @@ local function UpdateAnticipation(self, pp, dt)
     end
     anticipationAnimStarted = true
 
-     if self.chargeFeedbackGO then
+    if self.chargeFeedbackGO then
         --Maximum possible distance
         local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
         
@@ -530,7 +545,6 @@ local function UpdateAnticipation(self, pp, dt)
         local vectorToPlayerZ = pp.z - myPos.z
         local currentDistToPlayer = sqrt(vectorToPlayerX * vectorToPlayerX + vectorToPlayerZ * vectorToPlayerZ)
 
-        -- Trim the indicator if the player is closer than the max range
         local indicatorLength = maxChargeDistance
         if currentDistToPlayer < maxChargeDistance then
             indicatorLength = currentDistToPlayer
@@ -671,6 +685,25 @@ local function UpdateWall(self, dt)
     end
 end
 
+local function UpdateDash(self, dt)
+    local friction = self.public.stopSmoothing
+    slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
+    slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
+
+    if rb then
+        local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(slideVelX, vel.y, slideVelZ)
+    end
+
+    if not anim:IsPlayingAnimation("Dash") then
+        ActiveDodge   = false
+        pressureTimer = 0
+        slideVelX     = 0
+        slideVelZ     = 0
+        ChangeState(State.COMBAT_MOVE)
+    end
+end
+
 local function UpdateRecovery(self, dt)
 
     if not recoveryAnimStarted then
@@ -801,14 +834,13 @@ end
           
 function Start(self)
 
-    -- Definimos los datos SOLO para este enemigo (self.public evita conflictos globales)
     self.public = {
         maxHp           = 300,
         maxPosture      = 100,
 
         -- Ranges
         detectRange     = 25.0,
-        Lance360Range   = 2.0,
+        Lance360Range   = 3.5,
         chargeRange     = 18.0,
         dashApproachRange = 11.0,
         --Movement
@@ -877,7 +909,6 @@ function Start(self)
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles = {}
 
-    --AquilesMesh
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
     if aquilesMesh then
         BaseMat = aquilesMesh:GetComponent("Material")
@@ -962,13 +993,10 @@ function Update(self, dt)
             
             if hp <=60 then
                 BaseMat.SetTexture("10242481670410472725")
-
             elseif hp > 60 and hp <=120 then
-                BaseMat.SetTexture("15230868181932546860")
-            
+                BaseMat.SetTexture("15230868181932546860")            
             elseif hp > 120 and hp <=180 then
                 BaseMat.SetTexture("770031546471412972")
-
             elseif hp > 180 and hp <=240 then
                 BaseMat.SetTexture("14923760841240419563")
             else
@@ -995,7 +1023,6 @@ function Update(self, dt)
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
     elseif currentState == State.COMBAT_MOVE       then UpdateCombatMove(self, myPos, pp, dist, dt)
     elseif currentState == State.LANCE_360       then UpdateLance360(self, myPos, pp, dt)
-    -- Health updates are handled in TakeDamage, no need for redundant calls here.
     elseif currentState == State.ANTICIPATION  then UpdateAnticipation(self, pp, dt)
     elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
     elseif currentState == State.WALL         then UpdateWall(self, dt)
@@ -1101,13 +1128,10 @@ function OnTriggerExit(self, other)
 
          if hp <=60 then
             BaseMat.SetTexture("10242481670410472725")
-
         elseif hp > 60 and hp <=120 then
-            BaseMat.SetTexture("15230868181932546860")
-        
+            BaseMat.SetTexture("15230868181932546860")        
         elseif hp > 120 and hp <=180 then
             BaseMat.SetTexture("770031546471412972")
-
         elseif hp > 180 and hp <=240 then
             BaseMat.SetTexture("14923760841240419563")
         else

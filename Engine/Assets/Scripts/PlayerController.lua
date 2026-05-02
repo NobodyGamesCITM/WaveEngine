@@ -83,7 +83,7 @@ local Player = {
     stepSFX 		= nil,
     voiceSFX 		= nil,
     swordSFX 		= nil,
-    --pickMaskSFX     = nil,
+    
     changeMaskSFX   = nil,
     itemSFX     = nil,
     hitSFX          = nil,
@@ -1567,11 +1567,14 @@ function Update(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
+
         --segundo 14
         if Player.isGetMaskAnim and not Player.getMaskEvent1Done and Player.AnimTimer <= 20.0 then
+            
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
+                
             end
         end
 

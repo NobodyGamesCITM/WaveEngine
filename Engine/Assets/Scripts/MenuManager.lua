@@ -72,13 +72,14 @@ function Initialize(self)
     --Audio.SetMusicState("MainMenu")
     
 
-    self.isMusicPlaying = false
+    --self.isMusicPlaying = false
     Engine.Log("[MenuManager] isMusicPlaying reset to false")
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
+        Engine.Log("[MenuManager] MusicSource found")
         self.musicComp = self.musicSource:GetComponent("Audio Source")
-
+        if self.musicComp then Engine.Log("[MenuManager] Music Audio Source Component Found") end
     end
 
     self.selectSource = GameObject.Find("UISelectSound")
@@ -179,10 +180,11 @@ end
 
 function Update(self, dt)
 
-    local sceneVal = self.public.currentScene
-    local musicState = "None"
-    if not Audio.IsEventPlaying("MUS_BGM") then 
-        
+    --if not self.musicSource or not self.musicComp then Initialize() end
+    
+    if not Audio.IsEventPlaying("MUS_BGM") then
+        local sceneVal = self.public.currentScene 
+        local musicState = "None"
         if sceneVal == "Level1.scene" then 
            musicState = "Level1"
         elseif sceneVal == "Blockout2Nuevo.scene" then 
@@ -195,9 +197,18 @@ function Update(self, dt)
         
         
         Audio.SetMusicState(tostring(musicState))
-        if self.musicComp then self.musicComp:PlayAudioEvent()
-        else Engine.Log("Music Audio Source Component NOT found! Music will NOT play!")
+        self.musicSource = GameObject.Find("MusicSource")
+        if not self.musicSource then 
+            Engine.Log("[MenuManager] MusiC GameObject NOT found! Music will NOT play!")
+        else 
+            self.musicComp = self.musicSource:GetComponent("Audio Source")
+            if self.musicComp then 
+                self.musicComp:PlayAudioEvent() 
+            else
+                Engine.Log("[MenuManager] Music Audio Source NOT found! Music will NOT play!")
+            end
         end
+
         
     end
 

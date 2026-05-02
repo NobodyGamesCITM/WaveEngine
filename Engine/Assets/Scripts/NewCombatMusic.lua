@@ -55,7 +55,7 @@ function Update(self, dt)
 	end
 
 	if _PlayerController_isDead then
-		Engine.Log("Player is Dead, going back to Exploration Music")
+		--Engine.Log("Player is Dead, going back to Exploration Music")
 		_G.TriggerExplorationMusic()
 		afterCombatTimer = 0
 		resetCombatTimer = false
@@ -67,7 +67,7 @@ function Update(self, dt)
 		
 		afterCombatTimer = afterCombatTimer + dt
 
-		Engine.Log("Combat Music Started " ..tostring(afterCombatTimer).. " seconds ago")
+		--Engine.Log("Combat Music Started " ..tostring(afterCombatTimer).. " seconds ago")
 		if afterCombatTimer >= self.public.afterCombatTime then
 			TriggerExplorationMusic()
 			afterCombatTimer = 0	

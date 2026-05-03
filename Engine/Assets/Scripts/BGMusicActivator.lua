@@ -62,7 +62,7 @@ function FadeInMusic(self, dt)
     
 	if enteredNewLevel and volume <= (self.public.maxVolume or 100) and not finishedTransition then 
         if volume <= 0 then
-            if bgMusic then bgMusic:PlayAudioEvent() end
+            if bgMusic and not Audio.IsEventPlaying("MUS_BGM") then bgMusic:PlayAudioEvent() end
         end
 
 		fadeTimer = fadeTimer + dt

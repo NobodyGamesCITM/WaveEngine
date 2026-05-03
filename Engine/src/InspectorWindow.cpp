@@ -2534,6 +2534,21 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
                 ImGui::CloseCurrentPopup();
             }
         }
+        
+        // Skybox Camera
+        if (matches("Skybox"))
+        {
+            if (ImGui::Selectable("Skybox"))
+            {
+                Component* newComp = selectedObject->CreateComponent(ComponentType::SKYBOX);
+                if (newComp)
+                    Application::GetInstance().editor->GetCommandHistory()->PushWithoutExecute(
+                        std::make_unique<AddComponentCommand>(selectedObject, newComp)
+                    );
+                LOG_CONSOLE("[Inspector] Skybox component added to: %s", selectedObject->GetName().c_str());
+                ImGui::CloseCurrentPopup();
+            }
+        }
 
         // Mensaje si el filtro no devuelve nada
         if (!filterLower.empty())

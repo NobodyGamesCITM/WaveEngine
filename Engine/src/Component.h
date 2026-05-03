@@ -42,6 +42,7 @@ enum class ComponentType {
     LIGHT,
     CAMERA_ZONE,
     CINEMATIC_CAMERA,
+    SKYBOX,
     UNKNOWN,
 };
 

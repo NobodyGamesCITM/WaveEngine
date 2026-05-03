@@ -17,7 +17,7 @@ ComponentMesh::ComponentMesh(GameObject* owner, ComponentType type)
     attachedMaterial = (ComponentMaterial*)owner->GetComponent(ComponentType::MATERIAL);
     name = "Mesh";
 
-    if (type == ComponentType::MESH)  // no registrar subclases aquí
+    if (type == ComponentType::MESH)
         Application::GetInstance().renderer->AddMesh(this);
 }
 
@@ -26,7 +26,7 @@ ComponentMesh::~ComponentMesh()
     attachedMaterial = nullptr;
     ReleaseCurrentMesh();
 
-    if (GetType() == ComponentType::MESH)  // solo desregistrar si es mesh puro
+    if (GetType() == ComponentType::MESH)
         Application::GetInstance().renderer->RemoveMesh(this);
 
     if (hasDirectMesh && directMesh.VAO != 0) {

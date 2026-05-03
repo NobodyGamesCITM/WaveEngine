@@ -11,6 +11,7 @@
 #include "ComponentParticleSystem.h"
 #include "ComponentCameraZone.h"
 #include "ComponentCamera.h"
+#include "ComponentSkybox.h"
 #include "CameraLens.h"
 #include "ComponentPostProcessing.h"
 #include "Texture.h"
@@ -30,6 +31,7 @@
 #include "ShaderStandard.h"
 #include "ShaderUiOverlay.h"
 #include "ShaderWater.h"
+#include "ShaderSkybox.h"
 #include "ShaderPostPorcessing.h"
 
 #include "LightManager.h"
@@ -99,6 +101,14 @@ bool Renderer::Start()
     {
         LOG_DEBUG("ERROR: Failed to create water shader");
         LOG_CONSOLE("ERROR: Failed to compile water shader");
+        return false;
+    }
+    
+    skyboxShader = make_unique<ShaderSkybox>();
+    if (!skyboxShader->CreateShader())
+    {
+        LOG_DEBUG("ERROR: Failed to create skybox shader");
+        LOG_CONSOLE("ERROR: Failed to compile skybox shader");
         return false;
     }
 
@@ -798,9 +808,9 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
 
         // Paso 2: Blur Vertical (Usamos finalBlurFBO como destino)
         glBindFramebuffer(GL_FRAMEBUFFER, finalBlurFBO);
-        postProcessShader->SetInt("uPass", 2); 
+        postProcessShader->SetInt("uPass", 2);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, blurTexture); 
+        glBindTexture(GL_TEXTURE_2D, blurTexture);
         glBindVertexArray(quadVAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
@@ -1092,6 +1102,29 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     glDeleteFramebuffers(1, &tempDepthFBO);
 }
 
+void Renderer::DrawSkybox(const CameraLens* camera)
+{
+    if (!activeSkybox || activeSkybox->GetCubemapID() == 0) return;
+
+    glDepthFunc(GL_LEQUAL);
+
+    skyboxShader->Use();
+    glm::mat4 view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
+    skyboxShader->SetMat4("view", view);
+    skyboxShader->SetMat4("projection", camera->GetProjectionMatrix());
+
+    glBindVertexArray(activeSkybox->GetVAO());
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, activeSkybox->GetCubemapID());
+    skyboxShader->SetInt("skybox", 0);
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+
+    // Restauramos para el siguiente frame
+    glDepthFunc(GL_LESS);
+}
+
 void Renderer::DrawParticlesList(const CameraLens* camera)
 {
     if (particlesList.empty()) return;
@@ -1174,6 +1207,7 @@ void Renderer::DrawCanvasList(const CameraLens* camera)
     glBindVertexArray(0);
     glUseProgram(0);
 }
+
 void Renderer::DrawStencilList(const CameraLens* camera)
 {
     if (stencilList.empty()) return;

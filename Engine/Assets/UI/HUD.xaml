@@ -422,7 +422,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <!-- ═══════════════════════════════════════
                  CINEMÁTICA - Panel a pantalla completa
                  ═══════════════════════════════════════ -->
-            <Grid x:Name="CinematicPanel" Visibility="Collapsed">
+            <Grid x:Name="CinematicPanel" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
                 </Grid.Background>
@@ -523,7 +523,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </Grid>
 
             <!-- Overlay negro para fade de cinemática (siempre encima del resto) -->
-            <Grid x:Name="CinematicFade" IsHitTestVisible="False">
+            <Grid x:Name="CinematicFade" Visibility="Collapsed" IsHitTestVisible="False" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
                 </Grid.Background>

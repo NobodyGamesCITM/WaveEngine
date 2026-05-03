@@ -392,6 +392,13 @@ local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
         if not hasDashed then
             PlaySFX(dashSFX)
             hasDashed = true
+            
+        elseif hasDashed and not Audio.IsEventPlaying("SFX_AquilesDash") then
+            if anim and not anim:IsPlayingAnimation("Walk") then 
+                anim:Play("Walk", 0.2) 
+                Engine.Log("[AQUILES] Walking after dash")
+            end
+            --PlaySFX(stepSFX)
         end
     end
 
@@ -643,7 +650,7 @@ local function UpdateCharge(self, dt)
 
     if not chargeAnimStarted then
         chargeAnimStarted = true
-        anim:Play("Charge_Loop ")
+        if anim then anim:Play("Walk", 0.2) end
     end
     
     if rb then

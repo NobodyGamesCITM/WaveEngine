@@ -53,6 +53,10 @@ public:
     float defaultFov = 45.0f;
     float smoothSpeed = 5.0f; // Lerp
 
+    bool combatLockActive = false;
+    glm::vec3 combatOffset = glm::vec3(0.0f, 12.0f, 6.0f);
+    glm::vec3 combatEuler = glm::vec3(-65.0f, 0.0f, 0.0f);
+
 private:
     CameraLens* lens = nullptr;
     std::vector<CameraTarget> targets;

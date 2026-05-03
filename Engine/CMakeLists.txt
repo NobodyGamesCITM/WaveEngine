@@ -69,6 +69,8 @@ set(SHADERS_SRC
     src/Shader.cpp
     src/ShaderSimpleColor.h
     src/ShaderSimpleColor.cpp
+    src/ShaderSilhouette.h
+    src/ShaderSilhouette.cpp
     src/ShaderSingleColor.h
     src/ShaderSingleColor.cpp
     src/ShaderDepthVisualization.h

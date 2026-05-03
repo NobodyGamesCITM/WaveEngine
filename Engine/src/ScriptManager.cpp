@@ -2452,6 +2452,20 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             }, 1);
         lua_setfield(L, -2, "IsPlayingCinematic");
 
+        // SetCombatLock(bool)
+        lua_pushlightuserdata(L, cam);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCinematicCamera* cam = static_cast<ComponentCinematicCamera*>(lua_touserdata(L, lua_upvalueindex(1)));
+            bool active = lua_toboolean(L, 2) != 0;
+            if (cam) {
+                Application::GetInstance().scripts->EnqueueOperation([cam, active]() {
+                    cam->combatLockActive = active;
+                    });
+            }
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "SetCombatLock");
+
         return 1;
     }
 

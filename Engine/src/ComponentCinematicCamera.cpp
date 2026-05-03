@@ -54,60 +54,86 @@ void ComponentCinematicCamera::Update() {
     bool hasTarget = CalculateWeightedTarget(focusPoint);
 
     if (hasTarget) {
-        EvaluateZones(focusPoint);
-
-        // Check mode of the zone
-        if (currentZone) {
-            glm::vec3 basePos;
-            glm::quat baseRot;
-            glm::vec3 baseEuler; // save the safe angles
-
-            if (currentZone->cameraLocationObj) {
-                basePos = currentZone->cameraLocationObj->transform->GetGlobalPosition();
-                baseRot = currentZone->cameraLocationObj->transform->GetGlobalRotationQuat();
-                baseEuler = glm::radians(currentZone->cameraLocationObj->transform->GetRotation());
-            }
-            else {
-                basePos = currentZone->owner->transform->GetGlobalPosition() + currentZone->cameraOffset;
-                baseEuler = glm::radians(currentZone->cameraEulerAngles);
-                baseRot = glm::quat(baseEuler);
-            }
-
-            // Apply mode
-            if (currentZone->mode == ComponentCameraZone::CameraMode::OFFSET_TRACKING) {
-                // Keep distance if follows player
-                targetPos = focusPoint + (basePos - currentZone->owner->transform->GetGlobalPosition());
-                targetRot = baseRot;
-            }
-            else if (currentZone->mode == ComponentCameraZone::CameraMode::FIXED_POS_LOOKAT) {
-                // PAN with tripod
-                targetPos = basePos;
-                
-                // Get only the horizontal turning, yaw
-                glm::vec3 flatFocus = focusPoint;
-                flatFocus.y = targetPos.y;
-
-                if (glm::distance(targetPos, flatFocus) > 0.001f) {
-                    glm::mat4 lookAtMat = glm::lookAt(targetPos, flatFocus, glm::vec3(0.0f, 1.0f, 0.0f));
-                    glm::quat panYawOnly = glm::quat_cast(glm::inverse(lookAtMat));
-                    glm::quat originalTilt = glm::quat(glm::vec3(baseEuler.x, 0.0f, baseEuler.z));
-                    targetRot = panYawOnly * originalTilt;
-                }
-                else {
-                    targetRot = baseRot;
+        if (combatLockActive) {
+            // Calculate the max distance between the mid point, focusPoint, to the objectives
+            float maxDistFromCenter = 0.0f;
+            for (auto& t : targets) {
+                GameObject* obj = Application::GetInstance().scene->FindObject(t.uid);
+                if (obj && obj->IsActive()) {
+                    float d = glm::distance(obj->transform->GetGlobalPosition(), focusPoint);
+                    if (d > maxDistFromCenter) maxDistFromCenter = d;
                 }
             }
-            else if (currentZone->mode == ComponentCameraZone::CameraMode::FIXED_POS_FIXED_ROT) {
-                // Fixed pos and rotation
-                targetPos = basePos;
-                targetRot = baseRot;
-            }
-            targetFov = currentZone->fov;
+
+            // Offset and max distance
+            glm::vec3 dirOffset = glm::normalize(combatOffset);
+
+            // Base distance is the lenght of the original offset 
+            // Add the separation of the targets multiplied by the zoom factor, 1.8f.
+            float dynamicDistance = glm::length(combatOffset) + (maxDistFromCenter * 1.8f);
+
+            // Apply position and rotation, ignore camera zones
+            targetPos = focusPoint + (dirOffset * dynamicDistance);
+            targetRot = glm::quat(glm::radians(combatEuler));
+            targetFov = defaultFov;
+            currentZone = nullptr;
         }
         else {
-            targetPos = focusPoint + defaultOffset;
-            targetRot = glm::quat(glm::radians(defaultEuler));
-            targetFov = defaultFov;
+            EvaluateZones(focusPoint);
+
+            // Check mode of the zone
+            if (currentZone) {
+                glm::vec3 basePos;
+                glm::quat baseRot;
+                glm::vec3 baseEuler; // save the safe angles
+
+                if (currentZone->cameraLocationObj) {
+                    basePos = currentZone->cameraLocationObj->transform->GetGlobalPosition();
+                    baseRot = currentZone->cameraLocationObj->transform->GetGlobalRotationQuat();
+                    baseEuler = glm::radians(currentZone->cameraLocationObj->transform->GetRotation());
+                }
+                else {
+                    basePos = currentZone->owner->transform->GetGlobalPosition() + currentZone->cameraOffset;
+                    baseEuler = glm::radians(currentZone->cameraEulerAngles);
+                    baseRot = glm::quat(baseEuler);
+                }
+
+                // Apply mode
+                if (currentZone->mode == ComponentCameraZone::CameraMode::OFFSET_TRACKING) {
+                    // Keep distance if follows player
+                    targetPos = focusPoint + (basePos - currentZone->owner->transform->GetGlobalPosition());
+                    targetRot = baseRot;
+                }
+                else if (currentZone->mode == ComponentCameraZone::CameraMode::FIXED_POS_LOOKAT) {
+                    // PAN with tripod
+                    targetPos = basePos;
+                
+                    // Get only the horizontal turning, yaw
+                    glm::vec3 flatFocus = focusPoint;
+                    flatFocus.y = targetPos.y;
+
+                    if (glm::distance(targetPos, flatFocus) > 0.001f) {
+                        glm::mat4 lookAtMat = glm::lookAt(targetPos, flatFocus, glm::vec3(0.0f, 1.0f, 0.0f));
+                        glm::quat panYawOnly = glm::quat_cast(glm::inverse(lookAtMat));
+                        glm::quat originalTilt = glm::quat(glm::vec3(baseEuler.x, 0.0f, baseEuler.z));
+                        targetRot = panYawOnly * originalTilt;
+                    }
+                    else {
+                        targetRot = baseRot;
+                    }
+                }
+                else if (currentZone->mode == ComponentCameraZone::CameraMode::FIXED_POS_FIXED_ROT) {
+                    // Fixed pos and rotation
+                    targetPos = basePos;
+                    targetRot = baseRot;
+                }
+                targetFov = currentZone->fov;
+            }
+            else {
+                targetPos = focusPoint + defaultOffset;
+                targetRot = glm::quat(glm::radians(defaultEuler));
+                targetFov = defaultFov;
+            }
         }
     }
     else {

@@ -73,6 +73,10 @@ void ComponentCinematicCamera::Update() {
             float dynamicDistance = glm::length(combatOffset) + (maxDistFromCenter * 1.8f);
 
             // Apply position and rotation, ignore camera zones
+            // If dynamicDistance is lower than 19.0f it stays, cannot go closer to the player
+            float minCameraDistance = 19.0f;
+            dynamicDistance = glm::max(minCameraDistance, dynamicDistance);
+
             targetPos = focusPoint + (dirOffset * dynamicDistance);
             targetRot = glm::quat(glm::radians(combatEuler));
             targetFov = defaultFov;

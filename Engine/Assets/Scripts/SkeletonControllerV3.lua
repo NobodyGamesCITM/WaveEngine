@@ -51,6 +51,12 @@ public = {
     camDuration     = 0.5,
     camMagnitud     = 1.0,
     camFrequency    = 20.0,
+
+    level2          = false,
+
+    --BaseMatId       = "13296577326446124640",   --level2:   15645066021049183995    
+    --HitMatId        = "17109277834976977864",   
+    --DamgeMatId      = "6526428321459400712",    --level2:   9184343178901509246
 }
 local OnStartPos = false
 
@@ -113,8 +119,6 @@ local function FaceTargetSmooth(self, target, dt)
 end
 
 local function ChangeState(self, newState)
-
-
     --Engine.Log("[Skeleton] CHANGING STATE: " .. tostring(newState))
     if Skeleton.currentState and States[Skeleton.currentState].Exit then
         States[Skeleton.currentState].Exit(self)
@@ -123,9 +127,6 @@ local function ChangeState(self, newState)
     if States[newState].Enter then
         States[newState].Enter(self)
     end
-
-    
-
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -421,7 +422,13 @@ States[State.HIT] = {
     end,
     Exit = function(self)
         alreadyHit = false
-        BaseMat.SetTexture("13296577326446124640")
+        if Skeleton.hp > 15 then
+            if self.public.level2 then BaseMat.SetTexture("15645066021049183995")
+            else BaseMat.SetTexture("13296577326446124640") end
+        else 
+            if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
+            else BaseMat.SetTexture("6526428321459400712") end
+        end
     end
 }
 
@@ -444,7 +451,8 @@ States[State.DEAD] = {
                 colision:Disable()
                 Skeleton.rb:SetUseGravity(false)
             else  Engine.Log("Sphere not found") end
-             BaseMat.SetTexture("13296577326446124640")
+            if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
+            else BaseMat.SetTexture("6526428321459400712") end
         elseif not States[State.DEAD].deadAnim then
             deathTimer = deathTimer + dt
             if deathTimer >= self.public.deathTime then 

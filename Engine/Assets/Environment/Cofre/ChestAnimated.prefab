@@ -41,17 +41,24 @@
                                                         "active": true,
                                                         "castShadows": true,
                                                         "meshUID": 2647495395560604482,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
                                                         "type": 1
                                                     },
                                                     {
                                                         "active": true,
-                                                        "materialUID": 12826905890167695993,
+                                                        "materialUID": 7449264730611044924,
                                                         "type": 3
                                                     }
                                                 ],
                                                 "name": "Cube",
                                                 "tag": "",
-                                                "uid": 16857195701531954094
+                                                "uid": 5689363309299881056
                                             }
                                         ],
                                         "components": [
@@ -77,7 +84,7 @@
                                         ],
                                         "name": "Cube_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 12424568467367588198
+                                        "uid": 17396292670062761635
                                     }
                                 ],
                                 "components": [
@@ -103,7 +110,7 @@
                                 ],
                                 "name": "Cube_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 5777782879445370695
+                                "uid": 3426714018642880784
                             }
                         ],
                         "components": [
@@ -129,7 +136,7 @@
                         ],
                         "name": "Cube_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 10042894702284289324
+                        "uid": 12326352652333674702
                     }
                 ],
                 "components": [
@@ -155,7 +162,7 @@
                 ],
                 "name": "Cube_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 15978901543774404232
+                "uid": 12465214556006666036
             },
             {
                 "active": true,
@@ -205,17 +212,24 @@
                                                                                 "active": true,
                                                                                 "castShadows": true,
                                                                                 "meshUID": 16148272544457871166,
+                                                                                "silhouetteColor": [
+                                                                                    0.5686274766921997,
+                                                                                    0.5686274766921997,
+                                                                                    0.5686274766921997,
+                                                                                    1.0
+                                                                                ],
+                                                                                "silhouetteEnabled": false,
                                                                                 "type": 1
                                                                             },
                                                                             {
                                                                                 "active": true,
-                                                                                "materialUID": 12826905890167695993,
+                                                                                "materialUID": 7449264730611044924,
                                                                                 "type": 3
                                                                             }
                                                                         ],
                                                                         "name": "Cube.001",
                                                                         "tag": "",
-                                                                        "uid": 4647248903804169102
+                                                                        "uid": 1123266000180030790
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -241,7 +255,7 @@
                                                                 ],
                                                                 "name": "Cube.001_$AssimpFbx$_ScalingPivotInverse",
                                                                 "tag": "",
-                                                                "uid": 14045500852464916053
+                                                                "uid": 7388600084298002221
                                                             }
                                                         ],
                                                         "components": [
@@ -267,7 +281,7 @@
                                                         ],
                                                         "name": "Cube.001_$AssimpFbx$_Scaling",
                                                         "tag": "",
-                                                        "uid": 10163942466939121761
+                                                        "uid": 5033274227213569729
                                                     }
                                                 ],
                                                 "components": [
@@ -293,7 +307,7 @@
                                                 ],
                                                 "name": "Cube.001_$AssimpFbx$_ScalingPivot",
                                                 "tag": "",
-                                                "uid": 2662788051435708859
+                                                "uid": 3362269137244642220
                                             }
                                         ],
                                         "components": [
@@ -319,7 +333,7 @@
                                         ],
                                         "name": "Cube.001_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 6164650150157014223
+                                        "uid": 10562661574270852235
                                     }
                                 ],
                                 "components": [
@@ -345,7 +359,7 @@
                                 ],
                                 "name": "Cube.001_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 1500266886233796387
+                                "uid": 9379311335356541002
                             }
                         ],
                         "components": [
@@ -371,7 +385,7 @@
                         ],
                         "name": "Cube.001_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 2653662764603127976
+                        "uid": 11872528675293295283
                     }
                 ],
                 "components": [
@@ -397,7 +411,7 @@
                 ],
                 "name": "Cube.001_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 5008902566110408766
+                "uid": 8871751124456750092
             },
             {
                 "active": true,
@@ -453,6 +467,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 17012328042422930792,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -463,7 +484,7 @@
                                                                                         ],
                                                                                         "name": "bottle",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 18201124596086023726
+                                                                                        "uid": 5897060509993139163
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -492,6 +513,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 10631934952419687674,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -502,7 +530,7 @@
                                                                                         ],
                                                                                         "name": "cap",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 1872041716981674518
+                                                                                        "uid": 11224029406162260587
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -531,6 +559,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 16732987619119363959,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -541,7 +576,7 @@
                                                                                         ],
                                                                                         "name": "decor",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 8487329572135896387
+                                                                                        "uid": 17997340370770284610
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -570,6 +605,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 1964338728983549316,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -580,7 +622,7 @@
                                                                                         ],
                                                                                         "name": "handles",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 2386041347512782196
+                                                                                        "uid": 14816116055278176828
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -609,6 +651,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 18377794706254852235,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -619,7 +668,7 @@
                                                                                         ],
                                                                                         "name": "liquid",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 11590249855400212352
+                                                                                        "uid": 8220050548922240718
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -648,6 +697,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 4615559380556813179,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -658,7 +714,7 @@
                                                                                         ],
                                                                                         "name": "lower metal rim",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 2926565980771358630
+                                                                                        "uid": 3747379109918370782
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -687,6 +743,13 @@
                                                                                                 "active": true,
                                                                                                 "castShadows": true,
                                                                                                 "meshUID": 2462481813048653572,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
@@ -697,7 +760,7 @@
                                                                                         ],
                                                                                         "name": "upper metal rim",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 9215852183569440301
+                                                                                        "uid": 18337566804294923428
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -723,7 +786,7 @@
                                                                                 ],
                                                                                 "name": "group",
                                                                                 "tag": "",
-                                                                                "uid": 14940881585315737976
+                                                                                "uid": 5967657212220055402
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -749,7 +812,7 @@
                                                                         ],
                                                                         "name": "group_$AssimpFbx$_ScalingPivotInverse",
                                                                         "tag": "",
-                                                                        "uid": 14178840622193376105
+                                                                        "uid": 18188146567873493833
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -775,7 +838,7 @@
                                                                 ],
                                                                 "name": "group_$AssimpFbx$_Scaling",
                                                                 "tag": "",
-                                                                "uid": 16376893145002003186
+                                                                "uid": 6818785070121274204
                                                             }
                                                         ],
                                                         "components": [
@@ -801,7 +864,7 @@
                                                         ],
                                                         "name": "group_$AssimpFbx$_ScalingPivot",
                                                         "tag": "",
-                                                        "uid": 13444955636384854774
+                                                        "uid": 7335421799146391365
                                                     }
                                                 ],
                                                 "components": [
@@ -827,7 +890,7 @@
                                                 ],
                                                 "name": "group_$AssimpFbx$_RotationPivotInverse",
                                                 "tag": "",
-                                                "uid": 5859613112056031777
+                                                "uid": 9194790726561449061
                                             }
                                         ],
                                         "components": [
@@ -853,7 +916,7 @@
                                         ],
                                         "name": "group_$AssimpFbx$_Rotation",
                                         "tag": "",
-                                        "uid": 16815033127602601296
+                                        "uid": 16046924463164657859
                                     }
                                 ],
                                 "components": [
@@ -879,7 +942,7 @@
                                 ],
                                 "name": "group_$AssimpFbx$_RotationPivot",
                                 "tag": "",
-                                "uid": 13254816111992461916
+                                "uid": 12929378894655862080
                             }
                         ],
                         "components": [
@@ -905,7 +968,7 @@
                         ],
                         "name": "group_$AssimpFbx$_Translation",
                         "tag": "",
-                        "uid": 7873033551087476837
+                        "uid": 8307140270988874426
                     }
                 ],
                 "components": [
@@ -955,7 +1018,7 @@
                 ],
                 "name": "PotionVisual",
                 "tag": "",
-                "uid": 3404801175837793986
+                "uid": 8657431314163489766
             },
             {
                 "active": true,
@@ -990,21 +1053,21 @@
                 ],
                 "name": "CofreUI",
                 "tag": "",
-                "uid": 5443426691668195772
+                "uid": 6566387741141115755
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    14.619178771972656,
-                    0.13212311267852783,
-                    -1.1367034912109375
+                    149.03468322753906,
+                    11.606101036071777,
+                    -266.466552734375
                 ],
                 "rotation": [
-                    -180.0,
-                    25.699979782104492,
-                    -180.0
+                    -178.50360107421875,
+                    -0.8033922910690308,
+                    -179.67918395996094
                 ],
                 "scale": [
                     0.05391228571534157,
@@ -1017,6 +1080,11 @@
                 "active": true,
                 "publicVariables": [
                     {
+                        "name": "potionAnim",
+                        "type": 1,
+                        "value": "Float"
+                    },
+                    {
                         "name": "chestAnim",
                         "type": 1,
                         "value": "Open"
@@ -1027,14 +1095,14 @@
                         "value": "Abrir cofre"
                     },
                     {
-                        "name": "potionAnim",
-                        "type": 1,
-                        "value": "Float"
-                    },
-                    {
                         "name": "radius",
                         "type": 0,
                         "value": 2.0
+                    },
+                    {
+                        "name": "potionTag",
+                        "type": 1,
+                        "value": "PotionObtained"
                     },
                     {
                         "name": "potionName",
@@ -1061,10 +1129,94 @@
                 ],
                 "active": true,
                 "type": 28
+            },
+            {
+                "active": true,
+                "dir": {
+                    "ambient": [
+                        0.05000000074505806,
+                        0.05000000074505806,
+                        0.05000000074505806
+                    ],
+                    "diffuse": [
+                        0.800000011920929,
+                        0.800000011920929,
+                        0.800000011920929
+                    ],
+                    "direction": [
+                        -0.9999997615814209,
+                        2.0847906734289268e-14,
+                        0.0006905794143676758
+                    ],
+                    "specular": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ]
+                },
+                "lightType": 1,
+                "point": {
+                    "ambient": [
+                        1.0,
+                        0.7647058963775635,
+                        0.0
+                    ],
+                    "constant": 0.2070000022649765,
+                    "diffuse": [
+                        1.0,
+                        0.7058823108673096,
+                        0.0
+                    ],
+                    "linear": 0.21199999749660492,
+                    "position": [
+                        149.03468322753906,
+                        11.606101036071777,
+                        -266.466552734375
+                    ],
+                    "quadratic": 0.0729999989271164,
+                    "specular": [
+                        1.0,
+                        0.7462514042854309,
+                        0.13725489377975464
+                    ]
+                },
+                "spot": {
+                    "ambient": [
+                        1.0,
+                        0.7058823108673096,
+                        0.0
+                    ],
+                    "constant": 1.0889999866485596,
+                    "cutOff": 12.800000190734863,
+                    "diffuse": [
+                        0.9803921580314636,
+                        0.7825044989585876,
+                        0.13936945796012878
+                    ],
+                    "direction": [
+                        -2.9802322387695313e-08,
+                        -1.0,
+                        0.0
+                    ],
+                    "linear": 0.09000000357627869,
+                    "outerCutOff": 15.899999618530273,
+                    "position": [
+                        -14.244141578674316,
+                        14.561172485351563,
+                        -224.7938995361328
+                    ],
+                    "quadratic": 0.03200000151991844,
+                    "specular": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                "type": 31
             }
         ],
         "name": "Chest_OpenChest",
         "tag": "",
-        "uid": 14102597339739936981
+        "uid": 7197265743558997387
     }
 ]

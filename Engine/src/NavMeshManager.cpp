@@ -33,7 +33,7 @@ bool ModuleNavMesh::Start() {
 
 bool ModuleNavMesh::Update() {
 
-   /* Application::PlayState currentState = Application::GetInstance().GetPlayState();
+    Application::PlayState currentState = Application::GetInstance().GetPlayState();
 
     if (currentState == Application::PlayState::PLAYING && !baked) {
         if (navMeshes.empty()) {
@@ -43,7 +43,11 @@ bool ModuleNavMesh::Update() {
             }
         }
         baked = true;
-    }*/
+    }
+
+    if (currentState == Application::PlayState::EDITING && baked) {
+        baked = false;
+    }
 
     DrawDebug();
     return true;

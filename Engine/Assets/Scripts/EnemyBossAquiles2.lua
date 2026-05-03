@@ -457,7 +457,7 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
         else
             StopMovement()
             RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-            if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
+            if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
         end
         return
     end
@@ -650,7 +650,8 @@ local function UpdateCharge(self, dt)
 
     if not chargeAnimStarted then
         chargeAnimStarted = true
-        if anim then anim:Play("Walk", 0.2) end
+        --if anim then anim:Play("Walk", 0.2) end
+        anim:Play("Charge_Loop ")
     end
     
     if rb then
@@ -672,8 +673,8 @@ end
 local function UpdateWall(self, dt)
 
     if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(0, vel.y, 0)
+        --local vel = rb:GetLinearVelocity()
+        rb:SetLinearVelocity(0, 0, 0)
         rb:SetRotation(0, currentYaw, 0)
     end
 
@@ -753,6 +754,8 @@ local function UpdateRecovery(self, dt)
 end
 
 local function UpdateStun(self, dt)
+    rb:SetLinearVelocity(0, 0, 0)
+
     if opportunityHitTimer > 0 then
         opportunityHitTimer = opportunityHitTimer - dt
         return
@@ -776,13 +779,13 @@ local function UpdateDeath(self,dt)
     deathTimer = deathTimer - dt
     
     if deathTimer <= 0 then
-        local door = GameObject.Find(self.public.doorName)
-        if door then
-            local doorScript = door:GetComponent("Script")
-            if doorScript and doorScript.OpenDoor then
-                doorScript:OpenDoor()
-            end
-        end
+     --   local door = GameObject.Find(self.public.doorName)
+       -- if door then
+         --   local doorScript = door:GetComponent("Script")
+         --   if doorScript and doorScript.OpenDoor then
+            --    doorScript:OpenDoor()
+           -- end
+        --end
         DestroyChargeFeedback(self)
         local _rb  = rb
         Audio.SetMusicState("AfterBoss")
@@ -792,12 +795,19 @@ local function UpdateDeath(self,dt)
         
         if _rb  then
             local vel = _rb:GetLinearVelocity()
-            _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+            _rb:SetLinearVelocity(0, 0, 0)
         end
         Engine.Log("[Aquiles] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
         isDead = true
+
+        local door = GameObject.Find("Puerta_Final") 
+        if door then
+            local doorScript = door:GetComponent("Script")
+            doorScript:OpenDoor()
+        end
+
 
         self:Destroy()
   
@@ -861,9 +871,9 @@ function Start(self)
 
         -- Ranges
         detectRange     = 25.0,
-        Lance360Range   = 3.5,
+        Lance360Range   = 2.0,
         chargeRange     = 18.0,
-        dashApproachRange = 11.0,
+        dashApproachRange = 9.0,
         --Movement
         moveSpeed       = 6.5,
         rotationSpeed   = 1.8,

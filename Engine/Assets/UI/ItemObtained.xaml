@@ -4,58 +4,66 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 d:DesignWidth="1920" d:DesignHeight="1080">
-
     <Grid.Background>
         <SolidColorBrush Color="#00000000"/>
     </Grid.Background>
-
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
             <Grid x:Name="ItemObtainedPanel"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
                   Visibility="Collapsed">
-                <Border CornerRadius="10" Padding="60,40,60,40">
-                    <Border.Background>
-                        <SolidColorBrush Color="#DD000000"/>
-                    </Border.Background>
-                    <StackPanel Orientation="Vertical"
-                                HorizontalAlignment="Center">
 
-                        <Image x:Name="ItemObtainedIcon"
-                               Source="Textures/Pocion.PNG"
-                               Width="100" Height="100"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,20"/>
+                <!-- Texto arriba: Poción obtenida -->
+                <TextBlock x:Name="ItemObtainedText"
+                           Text="¡Poción obtenida!"
+                           FontSize="48"
+                           FontFamily="Times New Roman"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,80,0,0">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="#FFFFFFFF"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
 
-                        <TextBlock x:Name="ItemObtainedText"
-                                   Text="¡Poción obtenida!"
-                                   FontSize="28"
-                                   FontFamily="Times New Roman"
-                                   FontWeight="Bold"
+                <!-- Prompt abajo: icono F + Reclamar -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,80">
+                    <Border CornerRadius="4"
+                            Padding="10,6,10,6"
+                            Margin="0,0,12,0">
+                        <Border.Background>
+                            <SolidColorBrush Color="#33FFFFFF"/>
+                        </Border.Background>
+                        <Grid>
+                            <Image x:Name="ItemObtainedKeyIcon"
+                                   Source="Textures/F.PNG"
+                                   Width="36" Height="36"
                                    HorizontalAlignment="Center"
-                                   Margin="0,0,0,15">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FFFFFFFF"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
+                                   VerticalAlignment="Center"/>
+                            <Image x:Name="ItemObtainedGamepadIcon"
+                                   Source="Textures/A.PNG"
+                                   Width="36" Height="36"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="Reclamar"
+                               FontSize="28"
+                               FontFamily="Arial"
+                               VerticalAlignment="Center">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="#FFDDDDDD"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </StackPanel>
 
-                        <TextBlock x:Name="ItemObtainedContinue"
-                                   Text="[F] Continuar"
-                                   FontSize="18"
-                                   FontFamily="Arial"
-                                   HorizontalAlignment="Center">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FFAAAAAA"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-
-                    </StackPanel>
-                </Border>
             </Grid>
 
         </Grid>
     </Viewbox>
-
 </Grid>

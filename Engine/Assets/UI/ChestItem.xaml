@@ -1,0 +1,59 @@
+<Grid x:Name="LayoutRoot"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+d:DesignWidth="1920" d:DesignHeight="1080">
+    <Grid.Background>
+        <SolidColorBrush Color="#00000000"/>
+    </Grid.Background>
+    <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Width="1920" Height="1080">
+
+            <Grid x:Name="ItemObtainedPanel" Visibility="Collapsed">
+
+                <TextBlock x:Name="ItemObtainedText"
+                           Text="¡Poción obtenida!"
+                           FontSize="48"
+                           FontFamily="Times New Roman"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,80,0,0">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="#FFFFFFFF"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,80">
+                    <Image x:Name="ItemObtainedKeyIcon"
+                           Source="Textures/F.PNG"
+                           Width="48" Height="48"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"/>
+                    <Image x:Name="ItemObtainedGamepadIcon"
+                           Source="Textures/A.PNG"
+                           Width="48" Height="48"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"
+                           Visibility="Collapsed"/>
+                    <TextBlock Text="Reclamar"
+                               FontSize="28"
+                               FontFamily="Arial"
+                               VerticalAlignment="Center">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="#FFDDDDDD"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+    </Viewbox>
+</Grid>

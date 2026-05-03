@@ -1,4 +1,3 @@
-
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
@@ -11,6 +10,7 @@ local currentAlpha = 1.0
 local canvasComponent = nil 
 local musicFadeTimer = 0.0
 local volume = 100.0
+local startDelay = 1.5
 
 public = {
     targetScene = "Level_02",  
@@ -26,18 +26,15 @@ function Start(self)
     currentState = State.FADE_OUT
     currentAlpha = 1.0
     
-    
     canvasComponent = self.gameObject:GetComponent("Canvas") 
     
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
     else
-        -- Cargamos la pantalla de carga para que sea lo que se desvanece al entrar en la escena
         if canvasComponent:GetCurrentXAML() ~= "LoadingScreen.xaml" then
             canvasComponent:LoadXAML("LoadingScreen.xaml")
         end
         canvasComponent:SetOpacity(1.0)
-        -- Registramos el estado global inmediatamente
         _G.CurrentXAML = "LoadingScreen.xaml"
     end
 
@@ -46,20 +43,20 @@ end
 
 function Update(self, dt)
     if not canvasComponent then return end
-
+    _G.SceneManagerState = currentState
 
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-		local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-		volume = (self.public.maxVolume or 100.0) * (progressPercent)
-        
+        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
+        volume = (self.public.maxVolume or 100.0) * (progressPercent)
         
         if currentAlpha <= 0.0 and volume >= (self.public.maxVolume or 100.0) then
             volume = self.public.maxVolume or 100.0
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
+            _G.SceneManagerState = State.IDLE     
         end
         SetMusicVolume(volume)
         SetCanvasAlpha(currentAlpha)
@@ -67,12 +64,10 @@ function Update(self, dt)
     elseif currentState == State.FADE_IN then
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-		local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-		volume = (self.public.maxVolume or 100.0) * (1 - progressPercent)
-		
-		
+        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
+        volume = (self.public.maxVolume or 100.0) * (1 - progressPercent)
         
-        if currentAlpha >= 1.0 and volume <= 0  then
+        if currentAlpha >= 1.0 and volume <= 0 then
             currentAlpha = 1.0
             volume = 0
             musicFadeTimer = 0
@@ -80,7 +75,6 @@ function Update(self, dt)
             SetCanvasAlpha(currentAlpha)
             SetMusicVolume(volume)
 
-            -- Opcional: Cargar la pantalla de carga si la transición se hace desde este script
             if canvasComponent then
                 canvasComponent:LoadXAML("LoadingScreen.xaml")
             end
@@ -96,7 +90,6 @@ function Update(self, dt)
 end
 
 function StartTransition(self, sceneName)
-
     if currentState == State.IDLE or currentState == State.FADE_OUT then
         Engine.Log("[SceneTransition] Transición iniciada por script hacia: " .. tostring(sceneName))
         
@@ -114,7 +107,6 @@ end
 
 function SetCanvasAlpha(alpha)
     if canvasComponent then
-
         if canvasComponent.SetOpacity then
             canvasComponent:SetOpacity(alpha)
         end
@@ -123,9 +115,8 @@ end
 
 function SetMusicVolume(volume)
     if volume then 
-		Audio.SetMusicVolume(volume)
-	else
-		Engine.Log("Could not set music volume!")
-		
+        Audio.SetMusicVolume(volume)
+    else
+        Engine.Log("Could not set music volume!")
     end
 end

@@ -1567,15 +1567,24 @@ function Update(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
-
+        --segundo 9
+        if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GetMask") end 
+        end
         --segundo 14
         if Player.isGetMaskAnim and not Player.getMaskEvent1Done and Player.AnimTimer <= 20.0 then
             
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
+                --_G.RemoveStatueMask()
                 
             end
+        end
+
+        --segundo 19
+        if Player.isGetMaskAnim and Player.AnimTimer <= 15.0 and Player.AnimTimer >= 10.0 and not Audio.IsEventPlaying("SFX_ShowSword") then
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
         end
 
         --segundo 27

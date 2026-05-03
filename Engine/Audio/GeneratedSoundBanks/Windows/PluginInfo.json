@@ -18,6 +18,13 @@
     "StaticLib": "AkTimeStretchFX"
    },
    {
+    "LibName": "Wwise Tremolo",
+    "LibId": "8585219",
+    "Type": "Effect",
+    "DLL": "AkTremolo",
+    "StaticLib": "AkTremoloFX"
+   },
+   {
     "LibName": "System",
     "LibId": "11403271",
     "Type": "AudioDevice"
@@ -28,6 +35,6 @@
     "Type": "AudioDevice"
    }
   ],
-  "FileHash": "{BC1F8E18-A6DB-D28B-39CA-5713DA4E02E0}"
+  "FileHash": "{00075B50-5CEE-8132-9B24-48AA583D30EC}"
  }
 }

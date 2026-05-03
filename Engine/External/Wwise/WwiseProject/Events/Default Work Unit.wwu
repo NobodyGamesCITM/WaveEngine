@@ -312,6 +312,126 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_ActivateStatue" ID="{78CD194E-8299-4128-9E57-965A6B7D168F}">
+							<ChildrenList>
+								<Action Name="" ID="{1B1C7F64-94C5-4B6C-AF1A-2657E972886A}" ShortID="554945897">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="2.21"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Unlock_Statue" ID="{66447CE9-DCD6-41BE-AD73-C4425117F38A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{F3A849F1-9755-49B5-B345-B05394C9E8EF}" ShortID="65089558">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="3"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_rotate" ID="{AE37F192-F2AD-4723-9730-6EDEB6FA24DF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{D24F12AD-2578-439A-AFF1-E4A3E472E8F3}" ShortID="799516944">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="7"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="riser_03" ID="{DE47F7BA-12BF-4104-9932-1482FFA8D6A0}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_GetMask" ID="{54FC191C-1D25-4E12-BB1B-D6277EBB870B}">
+							<ChildrenList>
+								<Action Name="" ID="{ECDD7215-B7C8-4B9E-AB69-48C9C5DC5C7D}" ShortID="307287611">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="riser_00" ID="{1F2366CF-4D3D-4EF7-A3D9-F3868143BBF2}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{CA290BF4-028B-4E16-ACDC-0788D2D645FD}" ShortID="45789690">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="3.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{21A3AD3B-092B-4A29-98F5-54516ECE3251}" ShortID="740300247">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_rotate" ID="{AE37F192-F2AD-4723-9730-6EDEB6FA24DF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{C6A7A939-BF7F-45A9-8ECC-AEDB222C6A5B}" ShortID="831441076">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="4.3"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="angelic_chant_00" ID="{5A0AE5D3-B71C-49DE-9A72-FCE0E65993EE}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{50AF9DF7-81D2-4EE6-BB32-ACA083BCEA1E}" ShortID="477205964">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="8.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="FallDown" ID="{E1749158-12D4-40A5-BC2A-2D1E509C193F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_ShowSword" ID="{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}">
+							<ChildrenList>
+								<Action Name="" ID="{9EB2FA81-A79D-4975-A7A0-06C865869DBF}" ShortID="670549791">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="2.3"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mystical_Chime" ID="{2CFDB9BC-47DC-45F2-87E5-DA7C5F6A2437}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{DAF1E524-A99B-4DF7-A8F2-D12A07C7B681}" ShortID="933356113">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="3.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{FE76A0E9-801B-442D-AACD-59AE8E371EAF}" ShortID="694283962">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="sword_slice_hard" ID="{328AEA01-17B2-4A17-AB1B-B4A6687AFB4B}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">
@@ -469,6 +589,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="UI_PotionGetSFX" ID="{16D9B312-3901-42F8-9A7A-1020C5364839}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_FlowingWater" ID="{9E52DD8A-49E8-4ACA-B268-C9563C5F8EF7}">
+							<ChildrenList>
+								<Action Name="" ID="{96EA746D-8284-4CA3-BA7E-AC090A8BE3D5}" ShortID="432116323">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="FlowingWater" ID="{A0D7B97D-86D5-4F29-94FF-7F91B13D1DEB}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

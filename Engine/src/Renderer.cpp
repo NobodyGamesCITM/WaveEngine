@@ -596,7 +596,7 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
             if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
             {
-                transparentList.emplace(distanceToCamera, renderObject);
+                transparentList.emplace(distanceToCamera, renderObject); //TODO: Fix transparencies!!
             }
             else
             {

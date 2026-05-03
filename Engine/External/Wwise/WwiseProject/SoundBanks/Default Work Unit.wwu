@@ -9,6 +9,7 @@
 						<ObjectRef Name="SFX_MinoCrash" ID="{CF6CBB00-EC82-40C7-8F29-32C4484F102A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_CloseWindow" ID="{4015699C-215D-40CF-A144-54499D59F78A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_LargePlate" ID="{74317D9E-E568-40FF-B6D7-3340DA2D5A61}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_ActivateStatue" ID="{78CD194E-8299-4128-9E57-965A6B7D168F}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_DoorStop" ID="{44D2366F-762A-4133-980D-A8110E41216E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_DoorMove" ID="{9D486567-4554-4275-B8DE-2D663F79B9F8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -19,6 +20,7 @@
 						<ObjectRef Name="SFX_PlayerDeath" ID="{56BB4187-8021-42D9-8DEF-1666D2D720E3}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoPrecharge" ID="{87F93940-23E6-4308-8CC3-1107DAB901AC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_RockMove" ID="{3781C989-4AE3-430E-8606-1E5B0D50F2BA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_ShowSword" ID="{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_InsideMyHead" ID="{44985131-50E8-43FD-B7E0-D1F56C2EED65}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_Cathedral" ID="{64009C03-8FCF-4415-9CF9-F5AC4444D726}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoSteps" ID="{BF9B421B-E71B-44A0-AF1A-E7BCED648445}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -52,6 +54,7 @@
 						<ObjectRef Name="UI_ButtonPress" ID="{ADA38DA9-F51E-49FE-A165-7F7122F5008C}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonDie" ID="{4EBB27EA-7D02-4A1F-86B5-A61D1695B5C1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesShield" ID="{B33E9F00-8627-4A23-A54D-B16E09F44577}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_FlowingWater" ID="{9E52DD8A-49E8-4ACA-B268-C9563C5F8EF7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_StatueTurn" ID="{676BBD1D-8F58-4B1E-BD80-B2817347EB98}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PlayerRoll" ID="{791AC566-9B37-4B72-B77D-D35D4FB37976}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_PotionGet" ID="{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -63,6 +66,7 @@
 						<ObjectRef Name="SFX_Mask_PickUp" ID="{E0980B18-F280-4D87-B820-788C5140CDAE}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_Absorption" ID="{F2430640-E339-4DAF-A3A6-F7511DCD102F}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_ButtonSelect" ID="{08655955-4914-4DBA-868C-4212C34AAB89}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_GetMask" ID="{54FC191C-1D25-4E12-BB1B-D6277EBB870B}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_ApoloMask" ID="{467B3DA6-3AD0-4E56-BE38-E5F74690B1CC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PlayerHit" ID="{AFE45752-2A63-4E96-95C4-6D38F3FA801F}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoHurt" ID="{C937AFA1-0B7A-4E9B-941E-15541FAAABB1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

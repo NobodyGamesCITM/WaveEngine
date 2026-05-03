@@ -2,8 +2,11 @@ State Group	ID	Name			Wwise Object Path	Notes
 	3086301423	BGM_State			\Default Work Unit\BGM_State	
 
 State	ID	Name	State Group			Notes
+	447801688	Level2_Combat	BGM_State			
 	748895195	None	BGM_State			
+	1221996634	AfterBoss	BGM_State			
 	1499148877	Level1_Combat	BGM_State			
+	1560169506	Boss	BGM_State			
 	2678230381	Level2	BGM_State			
 	2678230382	Level1	BGM_State			
 	3604647259	MainMenu	BGM_State			

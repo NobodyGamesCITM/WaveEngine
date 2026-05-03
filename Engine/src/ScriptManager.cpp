@@ -1359,6 +1359,19 @@ static int Lua_Animation_SetAnimSpeed(lua_State* L) {
     return 0;
 }
 
+static int Lua_Animation_SetAnimLooping(lua_State* L) {
+    ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
+    std::string animName = luaL_checkstring(L, 2);
+    bool loop = lua_toboolean(L, 3) != 0;
+
+    if (anim)
+    {
+        anim->SetAnimationLoop(animName, loop);
+    }
+
+    return 0;
+}
+
 static int Lua_Animation_Stop(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
@@ -2928,6 +2941,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "Play");
     lua_pushcfunction(L, Lua_Animation_SetAnimSpeed);
     lua_setfield(L, -2, "SetSpeed");
+    lua_pushcfunction(L, Lua_Animation_SetAnimLooping);
+    lua_setfield(L, -2, "SetLooping");
     lua_pushcfunction(L, Lua_Animation_Stop);
     lua_setfield(L, -2, "Stop");
     lua_pushcfunction(L, Lua_Animation_IsPlaying);

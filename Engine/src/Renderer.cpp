@@ -25,6 +25,7 @@
 #include "ShaderNoTexture.h"
 #include "ShaderPicking.h"
 #include "ShaderSimpleColor.h"
+#include "ShaderSilhouette.h"
 #include "ShaderSingleColor.h"
 #include "ShaderStandard.h"
 #include "ShaderUiOverlay.h"
@@ -140,6 +141,14 @@ bool Renderer::Start()
         return false;
     }
     
+    silhouetteShader = make_unique<ShaderSilhouette>();
+    if (!silhouetteShader->CreateShader())
+    {
+        LOG_DEBUG("ERROR: Failed to create silhouette shader");
+        LOG_CONSOLE("ERROR: Failed to compile silhouette shader");
+        return false;
+    }
+
     postProcessShader = make_unique<ShaderPostPorcessing>();
     if (!postProcessShader->CreateShader())
     {
@@ -505,6 +514,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     opaqueList.clear();
     transparentList.clear();
     particlesList.clear();
+    silhouetteList.clear();
     canvasList.clear();
     BuildRenderLists(camera);
 
@@ -526,10 +536,13 @@ bool Renderer::RenderScene(CameraLens* camera)
     glEnable(GL_CULL_FACE);
     DrawRenderList(opaqueList, camera);
 
+    BuildSilhouetteStencil(camera);
+
     glEnable(GL_BLEND);
     glDepthMask(GL_FALSE);
     DrawRenderList(transparentList, camera);
     DrawParticlesList(camera);
+    DrawSilhouetteList(camera);
 
     if (camera->GetDebugCamera()) {
         Application::GetInstance().physics->DrawDebug();
@@ -602,6 +615,9 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             {
                 opaqueList.push_back(renderObject);
             }
+
+            if (mesh->GetSilhouetteEnabled())
+                silhouetteList.push_back(renderObject);
         }
     }
 
@@ -629,6 +645,9 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
                 transparentList.emplace(distanceToCamera, renderObject);
             else
                 opaqueList.push_back(renderObject);
+
+            if (mesh->GetSilhouetteEnabled())
+                silhouetteList.push_back(renderObject);
         }
     }
 
@@ -869,7 +888,10 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
         Shader* currentShader = defaultShader.get();
         Material* currentMaterial = nullptr;
 
-        if (materialComp) {
+        if (showZBuffer) {
+            currentShader = depthShader.get();
+        }
+        else if (materialComp) {
             currentMaterial = materialComp->GetMaterial();
             if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD)
                 currentShader = standardShader.get();
@@ -879,20 +901,22 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
             currentShader->Use();
             lastShader = currentShader;
 
-            currentShader->SetVec3("viewPos", camera->position);
-            currentShader->SetVec3("lightDir", lightDir);
+            if (!showZBuffer) {
+                currentShader->SetVec3("viewPos", camera->position);
+                currentShader->SetVec3("lightDir", lightDir);
 
-            if (currentShader == standardShader.get()) {
-                glActiveTexture(GL_TEXTURE7);
-                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
-                currentShader->SetInt("uShadowMap", 7);
-                currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+                if (currentShader == standardShader.get()) {
+                    glActiveTexture(GL_TEXTURE7);
+                    glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+                    currentShader->SetInt("uShadowMap", 7);
+                    currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+                }
             }
         }
 
         currentShader->SetMat4("model", renderObject.globalModelMatrix);
 
-        if (currentMaterial != lastMaterial) {
+        if (!showZBuffer && currentMaterial != lastMaterial) {
             if (currentMaterial)
                 currentMaterial->Bind(currentShader);
             else { /* default texture */ }
@@ -944,7 +968,10 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         Shader* currentShader = defaultShader.get();
         Material* currentMaterial = nullptr;
 
-        if (materialComp) {
+        if (showZBuffer) {
+            currentShader = depthShader.get();
+        }
+        else if (materialComp) {
             currentMaterial = materialComp->GetMaterial();
             if (currentMaterial && currentMaterial->GetType() == MaterialType::STANDARD)
                 currentShader = standardShader.get();
@@ -954,15 +981,17 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             currentShader->Use();
             lastShader = currentShader;
 
-            currentShader->SetVec3("viewPos", camera->position);
-            currentShader->SetVec3("lightDir", lightDir);
+            if (!showZBuffer) {
+                currentShader->SetVec3("viewPos", camera->position);
+                currentShader->SetVec3("lightDir", lightDir);
 
-            // Re-bindear shadow map cada vez que se activa standardShader
-            if (currentShader == standardShader.get()) {
-                glActiveTexture(GL_TEXTURE7);
-                glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
-                currentShader->SetInt("uShadowMap", 7);
-                currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+                // Re-bindear shadow map cada vez que se activa standardShader
+                if (currentShader == standardShader.get()) {
+                    glActiveTexture(GL_TEXTURE7);
+                    glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
+                    currentShader->SetInt("uShadowMap", 7);
+                    currentShader->SetMat4("lightSpaceMatrix", lightManager->GetLightSpaceMatrix());
+                }
             }
         }
 
@@ -972,7 +1001,7 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             ? static_cast<MaterialStandard*>(currentMaterial)->GetAlbedoMapUID()
             : 0;
 
-        if (currentUID != lastMaterialUID || currentUID == 0) {
+        if (!showZBuffer && (currentUID != lastMaterialUID || currentUID == 0)) {
             if (currentMaterial)
                 currentMaterial->Bind(currentShader);
             else {
@@ -1118,6 +1147,83 @@ void Renderer::DrawStencilList(const CameraLens* camera)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glDisable(GL_STENCIL_TEST);
+}
+
+void Renderer::BuildSilhouetteStencil(const CameraLens* camera)
+{
+    if (silhouetteList.empty()) return;
+
+    glStencilMask(0xFF);
+    glClear(GL_STENCIL_BUFFER_BIT);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glDepthFunc(GL_LEQUAL);
+    glDepthMask(GL_FALSE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    Shader* lastShader = nullptr;
+
+    auto renderStencilMesh = [&](const RenderObject& renderObject) {
+        ComponentMesh* meshComp = renderObject.mesh;
+        ComponentMaterial* matComp = meshComp->GetAttachedMaterial();
+        Material* mat = matComp ? matComp->GetMaterial() : nullptr;
+
+        Shader* shader = (mat && mat->GetType() == MaterialType::STANDARD)
+            ? standardShader.get()
+            : defaultShader.get();
+
+        if (shader != lastShader) {
+            shader->Use();
+            lastShader = shader;
+        }
+
+        shader->SetBool("hasBones", meshComp->HasSkinning());
+        shader->SetMat4("model", renderObject.globalModelMatrix);
+        DrawMesh(meshComp);
+    };
+
+    for (const RenderObject& ro : silhouetteList) renderStencilMesh(ro);
+
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_STENCIL_TEST);
+}
+
+void Renderer::DrawSilhouetteList(const CameraLens* camera)
+{
+    if (silhouetteList.empty()) return;
+
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_EQUAL, 0, 0xFF);
+    glStencilMask(0x00);
+    glDepthFunc(GL_GREATER);
+    glDepthMask(GL_FALSE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    silhouetteShader->Use();
+
+    GLint model = glGetUniformLocation(silhouetteShader->GetProgramID(), "model");
+
+    for (const RenderObject& renderObject : silhouetteList)
+    {
+        ComponentMesh* meshComp = renderObject.mesh;
+        glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(renderObject.globalModelMatrix));
+        silhouetteShader->SetVec4("silhouetteColor", meshComp->GetSilhouetteColor());
+        DrawMesh(meshComp);
+    }
+
+    glStencilMask(0xFF);
+    glStencilFunc(GL_ALWAYS, 0, 0xFF);
+    glDisable(GL_STENCIL_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
 }
 
 void Renderer::DrawNormalsList(const CameraLens* camera)

@@ -93,6 +93,7 @@ public:
     Shader* GetWaterShader() const { return waterShader.get(); }
     Shader* GetOutlineShader() const { return outlineShader.get(); }
     Shader* GetLineShader() const { return lineShader.get(); }
+    Shader* GetSilhouetteShader() const { return silhouetteShader.get(); }
 
     // Render configuration
     bool IsDepthTestEnabled() const { return depthTestEnabled; }
@@ -156,6 +157,8 @@ private:
     void DrawParticlesList(const CameraLens* camera);
     void DrawLinesList(const CameraLens* camera);
     void DrawStencilList(const CameraLens* camera);
+    void BuildSilhouetteStencil(const CameraLens* camera);
+    void DrawSilhouetteList(const CameraLens* camera);
     void DrawNormalsList(const CameraLens* camera);
     void DrawMeshLinesList(const CameraLens* camera);
     void DrawCanvasList(const CameraLens* camera);
@@ -174,7 +177,7 @@ private:
     std::unique_ptr<Shader> meshShader;
     std::unique_ptr<Shader> pickingShader;
     std::unique_ptr<Shader> uiShader;
-    
+    std::unique_ptr<Shader> silhouetteShader;
     std::unique_ptr<Shader> currentShader;
 
     // Default assets
@@ -229,6 +232,7 @@ private:
     std::multimap<float, RenderObject> transparentList;
     std::multimap<float, ParticleObject> particlesList;
     std::vector<RenderObject> stencilList;
+    std::vector<RenderObject> silhouetteList;
     std::vector<RenderObject> normalsList;
     std::vector<RenderObject> meshLinesList;
     std::vector<RenderLine> linesList;

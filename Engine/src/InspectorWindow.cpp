@@ -766,6 +766,25 @@ void InspectorWindow::DrawMeshComponent(Component* component)
             ImGui::Separator();
             ImGui::Spacing();
 
+            ImGui::TextColored(ImVec4(0.3f, 0.8f, 1.0f, 1.0f), "Silhouette");
+            bool silEnabled = meshComp->GetSilhouetteEnabled();
+            if (ImGui::Checkbox("Enable Silhouette", &silEnabled))
+                meshComp->SetSilhouetteEnabled(silEnabled);
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("Shows a colored silhouette when this mesh is behind other geometry.");
+
+            if (silEnabled)
+            {
+                glm::vec4 silColor = meshComp->GetSilhouetteColor();
+                float col[4] = { silColor.r, silColor.g, silColor.b, silColor.a };
+                if (ImGui::ColorEdit4("Color##Sil", col))
+                    meshComp->SetSilhouetteColor({ col[0], col[1], col[2], col[3] });
+            }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             ImGui::Text("Debug Visualization:");
             bool showNormals = meshComp->GetDrawNormals();
             if (ImGui::Checkbox("Show Normals", &showNormals))
@@ -895,6 +914,25 @@ void InspectorWindow::DrawSkinnedMeshComponent(Component* component)
                 meshComp->SetCastShadows(castShadows);
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("This skinned mesh contributes to the shadow map.");
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            ImGui::TextColored(ImVec4(0.3f, 0.8f, 1.0f, 1.0f), "Silhouette");
+            bool silEnabled = meshComp->GetSilhouetteEnabled();
+            if (ImGui::Checkbox("Enable Silhouette##Skinned", &silEnabled))
+                meshComp->SetSilhouetteEnabled(silEnabled);
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("Shows a colored silhouette when this mesh is behind other geometry.");
+
+            if (silEnabled)
+            {
+                glm::vec4 silColor = meshComp->GetSilhouetteColor();
+                float col[4] = { silColor.r, silColor.g, silColor.b, silColor.a };
+                if (ImGui::ColorEdit4("Color##SilSkinned", col))
+                    meshComp->SetSilhouetteColor({ col[0], col[1], col[2], col[3] });
+            }
 
             ImGui::Spacing();
             ImGui::Separator();

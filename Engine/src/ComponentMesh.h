@@ -104,6 +104,11 @@ public:
     bool GetDynamicShadow() const { return dynamicShadow; }
     void SetDynamicShadow(bool b) { dynamicShadow = b; }
 
+    // Silhouette
+    bool GetSilhouetteEnabled() const { return silhouetteEnabled; }
+    void SetSilhouetteEnabled(bool b) { silhouetteEnabled = b; }
+    const glm::vec4& GetSilhouetteColor() const { return silhouetteColor; }
+    void SetSilhouetteColor(const glm::vec4& c) { silhouetteColor = c; }
 private:
     void OnGameObjectEvent(GameObjectEvent event, Component* component);
 
@@ -112,6 +117,9 @@ protected:
 
     bool castShadows = true;      // todos proyectan sombra por defecto
     bool dynamicShadow = false;   // por defecto estático
+
+    bool silhouetteEnabled = false;
+    glm::vec4 silhouetteColor = { 145.0f / 255.0f, 145.0f / 255.0f, 145.0f / 255.0f, 1.0f };
 
     UID meshUID = 0;
     void ReleaseCurrentMesh();

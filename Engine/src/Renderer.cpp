@@ -503,6 +503,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     //Build Render List
     opaqueList.clear();
+    waterList.clear();
     transparentList.clear();
     particlesList.clear();
     canvasList.clear();
@@ -525,6 +526,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     glDisable(GL_BLEND);
     glEnable(GL_CULL_FACE);
     DrawRenderList(opaqueList, camera);
+    DrawWaterList(waterList, camera);
 
     glEnable(GL_BLEND);
     glDepthMask(GL_FALSE);
@@ -594,9 +596,13 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+            if (mesh->owner->CompareTag("Water"))
             {
-                transparentList.emplace(distanceToCamera, renderObject); //TODO: Fix transparencies!!
+                waterList.push_back(renderObject);
+            }
+            else if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+            {
+                transparentList.emplace(distanceToCamera, renderObject);
             }
             else
             {
@@ -624,11 +630,14 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             glm::vec3 aabbCenter = (globalAABB.min + globalAABB.max) * 0.5f;
             float distanceToCamera = glm::distance(aabbCenter, camera->position);
 
-            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive()
-                && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+            if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
+            {
                 transparentList.emplace(distanceToCamera, renderObject);
+            }
             else
+            {
                 opaqueList.push_back(renderObject);
+            }
         }
     }
 
@@ -986,6 +995,74 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
         DrawMesh(meshComp);
     }
 }
+
+void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const CameraLens* camera)
+{
+    if (list.empty() || !camera) return;
+
+    int w = camera->textureWidth;
+    int h = camera->textureHeight;
+    if (camera->fboID == 0) {
+        Application::GetInstance().window->GetWindowSize(w, h);
+    }
+    GLuint tempDepthFBO, tempDepthTex;
+    glGenFramebuffers(1, &tempDepthFBO);
+    glGenTextures(1, &tempDepthTex);
+
+    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, w, h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, tempDepthFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tempDepthTex, 0);
+
+    bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
+    GLuint currentFBO = usingMSAA ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, currentFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, tempDepthFBO);
+    glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, currentFBO);
+
+    glDepthMask(GL_FALSE);
+    waterShader->Use();
+
+    glm::mat4 viewMat = camera->GetViewMatrix();
+    glm::mat4 projMat = camera->GetProjectionMatrix();
+
+    waterShader->SetMat4("view", viewMat);
+    waterShader->SetMat4("projection", projMat);
+
+    glm::mat4 inverseVP = glm::inverse(projMat * viewMat);
+    waterShader->SetMat4("uInverseVP", inverseVP);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+    waterShader->SetInt("uSceneDepthMap", 1);
+
+    waterShader->SetVec3("uWaterColor", glm::vec3(0.05f, 0.45f, 0.8f));
+    waterShader->SetVec3("uFoamColor", glm::vec3(0.6f, 0.9f, 1.0f));
+
+    float time = Application::GetInstance().time->GetTotalTime();
+    waterShader->SetFloat("uTime", time);
+
+    waterShader->SetFloat("uFoamOffset", 0.5f);
+    waterShader->SetFloat("uFoamThickness", 0.2f);
+
+    for (const RenderObject& obj : list) {
+        waterShader->SetMat4("model", obj.globalModelMatrix);
+        DrawMesh(obj.mesh);
+    }
+
+    glDepthMask(GL_TRUE);
+
+    glDeleteTextures(1, &tempDepthTex);
+    glDeleteFramebuffers(1, &tempDepthFBO);
+}
+
 void Renderer::DrawParticlesList(const CameraLens* camera)
 {
     if (particlesList.empty()) return;
@@ -1007,7 +1084,6 @@ void Renderer::DrawParticlesList(const CameraLens* camera)
 
     for (const auto& pair : particlesList)
     {
-        // Render directly in World Space
         pair.second.system->GetEmitter()->Draw(billboardPos, pair.second.modelMatrix);
     }
 

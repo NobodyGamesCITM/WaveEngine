@@ -1049,8 +1049,8 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     float time = Application::GetInstance().time->GetTotalTime();
     waterShader->SetFloat("uTime", time);
 
-    waterShader->SetFloat("uFoamOffset", 0.5f);
-    waterShader->SetFloat("uFoamThickness", 0.2f);
+    waterShader->SetFloat("uFoamOffset", 0.2f);
+    waterShader->SetFloat("uFoamThickness", 0.1f);
 
     for (const RenderObject& obj : list) {
         waterShader->SetMat4("model", obj.globalModelMatrix);

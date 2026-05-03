@@ -281,12 +281,24 @@ void ComponentMesh::Serialize(nlohmann::json& componentObj) const
 
     // Shadow casting
     componentObj["castShadows"] = castShadows;
+
+    // Silhouette
+    componentObj["silhouetteEnabled"] = silhouetteEnabled;
+    componentObj["silhouetteColor"] = { silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, silhouetteColor.a };
 }
 void ComponentMesh::Deserialize(const nlohmann::json& componentObj)
 {
     // Shadow casting
     if (componentObj.contains("castShadows")) {
         castShadows = componentObj["castShadows"].get<bool>();
+    }
+
+    // Silhouette
+    if (componentObj.contains("silhouetteEnabled"))
+        silhouetteEnabled = componentObj["silhouetteEnabled"].get<bool>();
+    if (componentObj.contains("silhouetteColor")) {
+        auto& c = componentObj["silhouetteColor"];
+        silhouetteColor = { c[0].get<float>(), c[1].get<float>(), c[2].get<float>(), c[3].get<float>() };
     }
 
     // UID

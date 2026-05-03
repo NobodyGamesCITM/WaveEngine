@@ -937,6 +937,8 @@ void Renderer::DrawRenderList(const std::vector<RenderObject>& list, const Camer
                 glBindTexture(GL_TEXTURE_2D, lightManager->GetShadowMapID());
             }
         }
+        if (!showZBuffer && materialComp && currentShader == standardShader.get())
+            materialComp->ApplyTilingOverride(currentShader);
         DrawMesh(meshComp);
     }
 }
@@ -1021,6 +1023,8 @@ void Renderer::DrawRenderList(const std::multimap<float, RenderObject>& map, con
             lastMaterialUID = currentUID;
         }
 
+        if (!showZBuffer && materialComp && currentShader == standardShader.get())
+            materialComp->ApplyTilingOverride(currentShader);
         DrawMesh(meshComp);
     }
 }

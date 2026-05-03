@@ -419,6 +419,117 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Border>
             </Grid>
 
+            <!-- ═══════════════════════════════════════
+                 CINEMÁTICA - Panel a pantalla completa
+                 ═══════════════════════════════════════ -->
+            <Grid x:Name="CinematicPanel" Visibility="Collapsed">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FF000000"/>
+                </Grid.Background>
+
+                <!-- PÁGINA 1: viñeta grande izq + 2 derechas -->
+                <Grid x:Name="Page1" Visibility="Collapsed">
+                    <Border x:Name="Page1_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Un visionado grande a Telémaco en Ítaca, con un burro, y se ve desde arriba la escena. Atenea en forma de Búho bajando a velocidad."
+                                   FontSize="26" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="40,40,40,40">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page1_V2" Visibility="Collapsed" BorderThickness="2" Margin="924,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea saluda a Telémaco y le explica quién es. Telémaco también la saluda."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page1_V3" Visibility="Collapsed" BorderThickness="2" Margin="924,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea le explica que viene a buscarlo ya que su padre se encuentra prisionero en el inframundo tras morir a manos de Aquiles."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+                <!-- PÁGINA 2: 2 viñetas arriba + 1 grande abajo (texto off amarillo) -->
+                <Grid x:Name="Page2" Visibility="Collapsed">
+                    <Border x:Name="Page2_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,984,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Telémaco se muestra afectado por ello, e incluso duda de sus posibilidades. Aunque sabe que quiere volver a ver a su padre."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page2_V2" Visibility="Collapsed" BorderThickness="2" Margin="940,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea le habla de la isla y de lo que le espera, y lo alienta. Telémaco se llena de valentía."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page2_V3" Visibility="Collapsed" BorderThickness="2" Margin="40,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF1A1500"/></Border.Background>
+                        <TextBlock Text="«Te traeré de vuelta, padre. No consentiré que las sombras lo dominen. Parto en su busca, y no volveré sin él.»"
+                                   FontSize="28" FontFamily="Times New Roman" FontStyle="Italic" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="60,30,60,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFE082"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+                <!-- PÁGINA 3: viñeta grande izq + 2 derechas -->
+                <Grid x:Name="Page3" Visibility="Collapsed">
+                    <Border x:Name="Page3_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Vistazo introductorio al juego. Primer plano de la barca de Telémaco, junto al búho, y a lo lejos la isla de Perséfone."
+                                   FontSize="26" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="40,40,40,40">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page3_V2" Visibility="Collapsed" BorderThickness="2" Margin="924,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Fuerte tormenta y marea por llegar. El mismo plano, pero sin la isla al fondo."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page3_V3" Visibility="Collapsed" BorderThickness="2" Margin="924,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="El barco es dado la vuelta y Telémaco cae al agua agarrado a un tablón. Atenea como búho se acerca al pobre chico."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+            </Grid>
+
+            <!-- Overlay negro para fade de cinemática (siempre encima del resto) -->
+            <Grid x:Name="CinematicFade" IsHitTestVisible="False">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FF000000"/>
+                </Grid.Background>
+            </Grid>
+
+
         </Grid>
     </Viewbox>
 

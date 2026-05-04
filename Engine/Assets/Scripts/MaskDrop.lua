@@ -160,9 +160,6 @@ function Update(self, dt)
 
         --Engine.Log("Activated Statue")
         self.maskAnimTimer = self.maskAnimTimer + dt
-        
-
-        
         if self.maskAnimTimer >= 15.0 and not self.removedStoneMask then
             if self.stoneMask then self.stoneMask:SetActive(false)
             else Engine.Log("[MASKDROP] Stone Mask not found, unable to remove from statue")

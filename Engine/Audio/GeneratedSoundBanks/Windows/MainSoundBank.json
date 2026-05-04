@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{935C4A38-57CC-57AA-7022-9EF85F6A4A1B}",
+    "Hash": "{6F409AB1-0FD5-E3AD-FA85-82BBD0A69D77}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -213,7 +213,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "boulder_drag_loop.wav",
-      "CachePath": "A7/{A7BC1031-161B-BD2D-F121-F0DB31F2FE64}.wem"
+      "CachePath": "24/{246630AD-E9DC-2FCA-53CA-FD5B01B51A78}.wem"
      },
      {
       "Id": "169106791",
@@ -765,7 +765,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "AIGUA2.wav",
-      "CachePath": "EB/{EB264394-8142-F0C6-23AB-8C97E0A13599}.wem"
+      "CachePath": "B6/{B626E2FC-F892-8794-FD38-ED0C475537AA}.wem"
      },
      {
       "Id": "639013023",
@@ -1261,7 +1261,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "AIGUA1.wav",
-      "CachePath": "6E/{6E68A49C-1259-2823-9CCE-438DC9F25164}.wem"
+      "CachePath": "F8/{F8099315-4FEC-B24F-7CDC-D2DB17EA153F}.wem"
      },
      {
       "Id": "1045497793",
@@ -3318,6 +3318,6 @@
     ]
    }
   ],
-  "FileHash": "{E9B3253F-D09F-00F7-A8B4-F41044C8A583}"
+  "FileHash": "{74B4CDB7-F895-B281-33CC-4BE9EF1E12A2}"
  }
 }

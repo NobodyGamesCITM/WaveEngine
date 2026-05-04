@@ -54,12 +54,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 16450282669257660283,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -208,12 +217,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 4890459208533504094,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -362,12 +380,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 12800878780970760474,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -516,12 +543,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 3257085352911725793,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -670,12 +706,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 9251197083696533758,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -824,12 +869,21 @@
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
+                                                                                                "castShadows": true,
                                                                                                 "meshUID": 15191944953108887207,
+                                                                                                "silhouetteColor": [
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    0.5686274766921997,
+                                                                                                    1.0
+                                                                                                ],
+                                                                                                "silhouetteEnabled": false,
                                                                                                 "type": 1
                                                                                             },
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 16334396549686467088,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -1210,21 +1264,50 @@
                         "activationRadius": 15.0,
                         "active": true,
                         "additive": true,
+                        "alignToVelocity": false,
                         "animLoop": true,
                         "animSpeed": 6.150000095367432,
                         "bursts": [],
                         "circleRadius": 1.0,
                         "colorEnd": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.7058823108673096,
+                            0.0,
                             1.0
                         ],
-                        "colorGradient": [],
+                        "colorGradient": [
+                            {
+                                "color": [
+                                    1.0,
+                                    0.44117647409439087,
+                                    0.0,
+                                    1.0
+                                ],
+                                "time": 0.24899999797344208
+                            },
+                            {
+                                "color": [
+                                    1.0,
+                                    0.8823529481887817,
+                                    0.0,
+                                    0.6000000238418579
+                                ],
+                                "time": 0.5
+                            },
+                            {
+                                "color": [
+                                    1.0,
+                                    0.4431372582912445,
+                                    0.0,
+                                    1.0
+                                ],
+                                "time": 1.0
+                            }
+                        ],
                         "colorStart": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.5294117331504822,
+                            0.0,
                             1.0
                         ],
                         "coneAngle": 0.0,
@@ -1236,8 +1319,8 @@
                             1.0
                         ],
                         "emissionRadius": 1.0,
-                        "emissionRate": 2.0,
-                        "emissionRateDist": 0.0,
+                        "emissionRate": 0.8999999761581421,
+                        "emissionRateDist": 2.9000000953674316,
                         "emitFromShell": false,
                         "gravity": [
                             0.0,
@@ -1264,14 +1347,14 @@
                         "shape": 2,
                         "simulationSpace": 0,
                         "sizeCurve": [],
-                        "sizeEnd": 1.0,
-                        "sizeStart": 1.0,
+                        "sizeEnd": 1.399999976158142,
+                        "sizeStart": 1.399999976158142,
                         "speedMax": 0.0,
                         "speedMin": 0.0,
                         "textureCols": 9,
-                        "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Engines\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\FireAresSword_Hard_00_TEST.png",
+                        "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
                         "textureRows": 1,
-                        "textureUID": 3311442359370931205,
+                        "textureUID": 16317242200390614680,
                         "type": 7
                     }
                 ],

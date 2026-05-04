@@ -75,6 +75,8 @@ function Update(self, dt)
     if not initialized then return end
     if state == "done" then return end
 
+    _G.DialogActive = true
+
     local delta = math.min(dt, 0.05)
     timer = timer + delta
 

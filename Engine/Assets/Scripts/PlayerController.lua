@@ -121,6 +121,7 @@ local Player = {
     getMaskEvent1Done = false,
     getMaskEvent2Done = false,
     getMaskIdleTransitionDone = false,
+    currentOrbitAnim = nil,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -306,6 +307,29 @@ local function GetAttackInput(self)
     return 0
 end
 
+local function GetLockOnDir(self)
+    if not _G.TargetLockManager_IsLocked then return nil, nil end
+    local target = _G.TargetLockManager_CurrentTarget
+    if not target then return nil, nil end
+    local pPos = self.transform.worldPosition
+    local tPos = target.transform.position
+    local dx = tPos.x - pPos.x
+    local dz = tPos.z - pPos.z
+    local len = math.sqrt(dx*dx + dz*dz)
+    if len < 0.001 then return nil, nil end
+    return dx / len, dz / len
+end
+
+local function SnapToLockOn(self)
+    local lockDirX, lockDirZ = GetLockOnDir(self)
+    if not lockDirX then return false end
+    Player.lastDirX  = lockDirX
+    Player.lastDirZ  = lockDirZ
+    Player.lastAngle = atan2(lockDirX, lockDirZ) * (180.0 / pi)
+    if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
+    return true
+end
+
 local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
     local speed = speedOverride or Player.currentSpeed
     local faceDirX = moveX / INPUT_SCALE
@@ -316,7 +340,13 @@ local function ApplyMovementAndRotation(self, dt, moveX, moveZ, speedOverride)
         velY = math.min(0, Player.rb:GetLinearVelocity().y)
     end
 
-    if abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
+    local lockDirX, lockDirZ = GetLockOnDir(self)
+    if lockDirX then
+        Player.lastDirX  = lockDirX
+        Player.lastDirZ  = lockDirZ
+        Player.lastAngle = atan2(lockDirX, lockDirZ) * (180.0 / pi)
+        if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
+    elseif abs(faceDirX) > 0.01 or abs(faceDirZ) > 0.01 then
         local targetAngle = atan2(faceDirX, faceDirZ) * (180.0 / pi)
         Player.lastAngle = targetAngle
         if Player.rb then Player.rb:SetRotation(0, Player.lastAngle, 0) end
@@ -558,6 +588,7 @@ States[State.DEAD] = {
 
 States[State.IDLE] = {
     Enter = function(self)
+        Player.currentOrbitAnim = nil
         _PlayerController_lastAttack = ""
         if attackBufferPending then 
             ChangeState(self, State.ATTACK_LIGHT)
@@ -571,6 +602,7 @@ States[State.IDLE] = {
     end,
     
     Update = function(self, dt)
+        SnapToLockOn(self)
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
             Player.rb:SetLinearVelocity(0, math.min(0, velocity.y), 0)
@@ -612,15 +644,17 @@ States[State.IDLE] = {
 
 States[State.WALK] = {
     Enter = function(self)
+        Player.currentOrbitAnim = nil
         self.public.usingStamina = false
-
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then 
-            local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
-            if hasWalk then
-                pcall(function() anim:SetSpeed("Walk", 1) end)
-            else
-                pcall(function() anim:Play("Idle", 0.5) end)
+        if not _G.TargetLockManager_IsLocked then
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
+                if hasWalk then
+                    pcall(function() anim:SetSpeed("Walk", 1) end)
+                else
+                    pcall(function() anim:Play("Idle", 0.5) end)
+                end
             end
         end
     end,
@@ -673,17 +707,63 @@ States[State.WALK] = {
                 if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
             end
         end
+
+        if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
+            local tPos = _G.TargetLockManager_CurrentTarget.transform.position
+            local pPos = self.transform.worldPosition
+            local dx = tPos.x - pPos.x
+            local dz = tPos.z - pPos.z
+            local len = math.sqrt(dx*dx + dz*dz)
+            if len > 0.001 then
+                local eDirX = dx / len
+                local eDirZ = dz / len
+                local mLen = math.sqrt(moveX*moveX + moveZ*moveZ)
+                if mLen > 0.01 then
+                    local mX = moveX / mLen
+                    local mZ = moveZ / mLen
+                    local fwdDot   =  mX * eDirX + mZ * eDirZ
+                    local rightDot =  mX * eDirZ - mZ * eDirX
+                    local newAnim
+                    if math.abs(fwdDot) >= math.abs(rightDot) then
+                        if fwdDot >= 0 then newAnim = "OrbitForward"
+                        else                newAnim = "OrbitBack" end
+                    else
+                        if rightDot >= 0 then newAnim = "OrbitRight"
+                        else                  newAnim = "OrbitLeft" end
+                    end
+                    if newAnim ~= Player.currentOrbitAnim then
+                        Player.currentOrbitAnim = newAnim
+                        local anim = self.gameObject:GetComponent("Animation")
+                        if anim then
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) end
+                        end                    
+                    end
+                end
+            end
+        else
+            Player.currentOrbitAnim = nil
+        end
         
         ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.baseSpeed)
-    end
+    end,
+
+    Exit = function(self)
+        Player.currentOrbitAnim = nil
+    end,
 }
 
 States[State.RUNNING] = {
     Enter = function(self)
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then 
-            anim:Play("Running", 0.5) 
-            anim:SetSpeed("Running", 2.0)
+        Player.currentOrbitAnim = nil
+        if not _G.TargetLockManager_IsLocked then
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                anim:Play("Running", 0.5) 
+                anim:SetSpeed("Running", 2.0)
+            end
         end
 
         self.public.usingStamina = true
@@ -697,6 +777,7 @@ States[State.RUNNING] = {
         elseif Player.smokePS then Player.smokePS:Play() end
     end,
     Exit = function(self)
+        Player.currentOrbitAnim = nil
         Player.currentSpeed = Player.baseSpeed
         self.public.usingStamina = false
 		if Player.smokePS then Player.smokePS:Stop() end
@@ -760,6 +841,46 @@ States[State.RUNNING] = {
                 if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
             end
         end
+
+        if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
+            local tPos = _G.TargetLockManager_CurrentTarget.transform.position
+            local pPos = self.transform.worldPosition
+            local dx = tPos.x - pPos.x
+            local dz = tPos.z - pPos.z
+            local len = math.sqrt(dx*dx + dz*dz)
+            if len > 0.001 then
+                local eDirX = dx / len
+                local eDirZ = dz / len
+                local mLen = math.sqrt(moveX*moveX + moveZ*moveZ)
+                if mLen > 0.01 then
+                    local mX = moveX / mLen
+                    local mZ = moveZ / mLen
+                    local fwdDot   =  mX * eDirX + mZ * eDirZ
+                    local rightDot =  mX * eDirZ - mZ * eDirX
+                    local newAnim
+                    if math.abs(fwdDot) >= math.abs(rightDot) then
+                        if fwdDot >= 0 then newAnim = "OrbitFwd"
+                        else                newAnim = "OrbitBack" end
+                    else
+                        if rightDot >= 0 then newAnim = "OrbitRight"
+                        else                  newAnim = "OrbitLeft" end
+                    end
+                    if newAnim ~= Player.currentOrbitAnim then
+                        Player.currentOrbitAnim = newAnim
+                        local anim = self.gameObject:GetComponent("Animation")
+                        if anim then
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) pcall(function() anim:SetSpeed("OrbitFwd",   2.0) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) pcall(function() anim:SetSpeed("OrbitBack",  2.0) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) pcall(function() anim:SetSpeed("OrbitLeft",  2.0) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) pcall(function() anim:SetSpeed("OrbitRight", 2.0) end) end
+                        end                    
+                    end
+                end
+            end
+        else
+            Player.currentOrbitAnim = nil
+        end
+
         ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.currentSpeed)
     end
 }
@@ -798,6 +919,7 @@ States[State.ROLL] = {
 
 States[State.CHARGING] = {
     Enter = function(self)
+        SnapToLockOn(self)
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
@@ -844,6 +966,7 @@ States[State.CHARGING] = {
 
 States[State.SHOOTING] = {
     Enter = function(self)
+        SnapToLockOn(self)
         _PlayerController_lastAttack = ""
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
@@ -904,6 +1027,7 @@ States[State.SHOOTING] = {
 States[State.ATTACK_HEAVY] = {
     colliderActive = false,
     Enter = function(self)
+        SnapToLockOn(self)
         if not Player.godMode and not self.public.berserkActive then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
@@ -969,6 +1093,7 @@ States[State.ATTACK_HEAVY] = {
 
 States[State.ATTACK_LIGHT] = {
     Enter = function(self)
+        SnapToLockOn(self)
         attackTimer = 0
         attackCol = self.gameObject:GetComponent("Box Collider")
         if attackCol then attackCol:Disable() end
@@ -1192,6 +1317,7 @@ function Start(self)
     attackBuffer   = false
     attackBufferPending = false
     attackNum      = 0
+    _G.PlayerInAnim = false
 
     -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
     -- El estado de pausa es responsabilidad exclusiva de MenuManager.
@@ -1564,8 +1690,25 @@ function Update(self, dt)
     end
 
     if Player.AnimTimer > 0 then
+        _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
+        
+        --positions
+        if Player.isGetMaskAnim and Player.AnimTimer > 33.0 and Player.pendingObtainMask then
+            if Player.pendingObtainMask == Mask.HERMES then 
+                self.transform:SetPosition(-68.549, 3.280, -318.933) 
+                if Player.rb then Player.rb:SetRotation(180, 0, 180) end
+            end
+            if Player.pendingObtainMask == Mask.APOLLO then 
+                self.transform:SetPosition(200.729, 32.377, -168.781) 
+                if Player.rb then Player.rb:SetRotation(0, 88.814, 0) end
+            end
+            if Player.pendingObtainMask == Mask.ARES then
+                self.transform:SetPosition(77.979, 8.898, -104.323) 
+                if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
+            end
+        end
 
         --segundo 9
         if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
@@ -1577,7 +1720,6 @@ function Update(self, dt)
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
-                --_G.RemoveStatueMask()
                 
             end
         end
@@ -1602,6 +1744,7 @@ function Update(self, dt)
         end
 
         if Player.AnimTimer <= 0 then
+            _G.PlayerInAnim = false
             Player.AnimTimer = 0
             Player.isGetMaskAnim = false
             self.public.canMove = true

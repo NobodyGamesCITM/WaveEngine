@@ -157,7 +157,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
 	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
-	156765714	maskStatue_rotate	.cache\A7\{A7BC1031-161B-BD2D-F121-F0DB31F2FE64}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\maskStatue_rotate		238472
+	156765714	maskStatue_rotate	.cache\24\{246630AD-E9DC-2FCA-53CA-FD5B01B51A78}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\maskStatue_rotate		238472
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
@@ -226,7 +226,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	617220961	minocabro_footstep_03	.cache\E3\{E317B072-E9B3-EBE5-4709-0EA2679A9BD9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_03		28088
 	618455848	Mino_DeathGrowl	.cache\D6\{D6A8C950-894B-852B-483E-5C0DB675E006}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_DeathGrowl		121904
 	629385577	sword_slice_soft	.cache\50\{500A7620-3D3B-0D66-4878-7359F88B5448}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_soft		11816
-	632941085	AIGUA2	.cache\EB\{EB264394-8142-F0C6-23AB-8C97E0A13599}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA2		470456
+	632941085	AIGUA2	.cache\B6\{B626E2FC-F892-8794-FD38-ED0C475537AA}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA2		470456
 	639013023	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292
 	642231808	grass_run_02	.cache\AD\{AD62AB3C-7BDF-5173-5EA1-5D20D082709F}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_02		7244
 	642616489	minocabro_footstep_05	.cache\91\{9131534D-C685-71B7-FC0A-1B2731955757}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_05		27728
@@ -288,7 +288,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1001637293	grass_run_06	.cache\8B\{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_06		7352
 	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496
-	1041846858	AIGUA1	.cache\6E\{6E68A49C-1259-2823-9CCE-438DC9F25164}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA1		1354328
+	1041846858	AIGUA1	.cache\F8\{F8099315-4FEC-B24F-7CDC-D2DB17EA153F}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA1		1354328
 	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244
 	1053237588	Mino_Charge	.cache\2B\{2B630395-DE9C-A067-BC08-8E1921E200EA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Charge		102608
 	1055980740	yodguard-spear_thrust-6-382403	.cache\68\{680238FE-5EBB-F386-8A76-F9B773F98FCF}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-6-382403		399032

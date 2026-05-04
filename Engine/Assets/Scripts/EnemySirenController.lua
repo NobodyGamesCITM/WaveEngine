@@ -28,6 +28,9 @@ local hitCooldown = 0
 
 local BaseMat = nil
 
+public = {
+    level2 = false,
+}
 
 -- Public (movido a self.public dentro de Start para evitar conflictos entre enemigos)
 
@@ -555,6 +558,8 @@ end
 -- Start
 function Start(self)
     Game.SetTimeScale(1.0)
+     local isLevel2 = self.public.level2
+
     self.public = {
         maxHp            = 50,
         knockbackForce   = 3.0,
@@ -576,6 +581,7 @@ function Start(self)
         maxLifetime      = 10.0,
         riseHeight       = 1.0,
         riseSpeed        = 3.0,
+        level2 = isLevel2,
     }
 
     self.hp             = self.public.maxHp
@@ -631,8 +637,14 @@ function Start(self)
     
    self.anim:Play("Hide")
 
-   sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+    sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
     BaseMat = sirenMesh:GetComponent("Material")
+
+    if self.public.level2 then
+        BaseMat.SetTexture("10973116870485554369")
+    else
+        BaseMat.SetTexture("8896541361096085563")
+    end
 
     self.baseY = self.transform.position.y
     self.currentYOffset = 0
@@ -641,6 +653,7 @@ end
 -- Update
 function Update(self, dt)
     if not self.gameObject then return end
+
 
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
@@ -688,9 +701,11 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            
-            if BaseMat then BaseMat.SetTexture("8896541361096085563")
-            else Engine.Log("BaseMat not found in Siren") end
+            if self.public.level2 then
+                BaseMat.SetTexture("10973116870485554369")
+            else
+                BaseMat.SetTexture("8896541361096085563")
+            end
         end
     end
 
@@ -817,10 +832,10 @@ function OnTriggerExit(self, other)
 	if not other then Engine.Log("[SIREN] other was nil"); return end
 
     if other:CompareTag("Player") then
-        if BaseMat then
-            BaseMat.SetTexture("8896541361096085563")
+        if self.public.level2 then
+            BaseMat.SetTexture("10973116870485554369")
         else
-            Engine.Log("BaseMat not found in Siren")
+            BaseMat.SetTexture("8896541361096085563")
         end
     end
 end

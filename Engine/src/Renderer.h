@@ -115,7 +115,7 @@ public:
     void SetLightDir(const glm::vec3& dir) { lightDir = dir; }
     glm::vec3 GetLightDir() const { return lightDir; }
 
-    void SetActiveSkybox(ComponentSkybox* skybox) { activeSkybox = skybox; }
+    void SetActiveSkybox(ComponentSkybox* skybox);
     bool IsSkyboxActive(ComponentSkybox* skybox) { return activeSkybox == skybox; }
     void DrawSkybox(const CameraLens* camera);
 

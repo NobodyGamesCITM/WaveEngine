@@ -1127,6 +1127,15 @@ void Renderer::DrawSkybox(const CameraLens* camera)
     glDepthFunc(GL_LESS);
 }
 
+void Renderer::SetActiveSkybox(ComponentSkybox* skybox)
+{
+    if (activeSkybox == skybox) return;
+
+    if (activeSkybox) activeSkybox->SetActive(false);
+
+    activeSkybox = skybox;
+}
+
 void Renderer::DrawParticlesList(const CameraLens* camera)
 {
     if (particlesList.empty()) return;

@@ -26,6 +26,7 @@ public:
     void CleanUp() override;
 
     void SetFaceTexture(SkyboxFace face, UID textureUID);
+    void SetActive(bool b);
     ResourceTexture* GetFaceTexture(SkyboxFace face) const;
 
     unsigned int GetCubemapID() const { return cubemapID; }
@@ -33,7 +34,11 @@ public:
 
     void OnEditor() override;
 
+    void Serialize(nlohmann::json& componentObj) const override;
+    void Deserialize(const nlohmann::json& componentObj) override;
+
 private:
+    bool active = false;
     unsigned int cubemapID = 0;
     unsigned int skyboxVAO = 0;
     unsigned int skyboxVBO = 0;

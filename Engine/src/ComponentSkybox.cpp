@@ -11,7 +11,7 @@
 ComponentSkybox::ComponentSkybox(GameObject* owner) : Component(owner, ComponentType::SKYBOX)
 {
     SetupCubeMesh();
-    Application::GetInstance().renderer.get()->SetActiveSkybox(this);
+    if (Application::GetInstance().renderer.get()->IsSkyboxActive(nullptr)) SetActive(true);
 }
 
 ComponentSkybox::~ComponentSkybox()
@@ -19,10 +19,11 @@ ComponentSkybox::~ComponentSkybox()
     CleanUp();
 }
 
-
 void ComponentSkybox::SetFaceTexture(SkyboxFace face, UID textureUID)
 {
     int index = (int)face;
+
+    if (facesResourcesUID[index] == textureUID) return;
 
     if (facesResourcesUID[index] != 0)
     {
@@ -39,18 +40,21 @@ void ComponentSkybox::SetFaceTexture(SkyboxFace face, UID textureUID)
         facesResourcesUID[index] = textureUID;
 
         bool allFacesLoaded = true;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) 
+        {
             if (faces[i] == nullptr || faces[i]->GetGPU_ID() == 0) {
                 allFacesLoaded = false;
                 break;
             }
         }
 
-        if (allFacesLoaded) {
+        if (allFacesLoaded) 
+        {
             BuildCubemapFromResources();
         }
     }
 }
+
 
 ResourceTexture* ComponentSkybox::GetFaceTexture(SkyboxFace face) const
 {
@@ -93,6 +97,22 @@ void ComponentSkybox::BuildCubemapFromResources()
     glDeleteFramebuffers(1, &tempFBO);
 }
 
+void ComponentSkybox::SetActive(bool b)
+{
+    if (b != active)
+    {
+        active = b;
+        if (active)
+        {
+            Application::GetInstance().renderer.get()->SetActiveSkybox(this);
+        }
+        else
+        {
+            Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
+        }
+    }
+}
+
 void ComponentSkybox::SetupCubeMesh()
 {
     float skyboxVertices[] = {
@@ -126,7 +146,7 @@ void ComponentSkybox::SetupCubeMesh()
 
 void ComponentSkybox::CleanUp()
 {
-    if (Application::GetInstance().renderer.get()->IsSkyboxActive(this)) Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
+    if (active) Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
 
     if (skyboxVAO != 0) glDeleteVertexArrays(1, &skyboxVAO);
     if (skyboxVBO != 0) glDeleteBuffers(1, &skyboxVBO);
@@ -152,9 +172,9 @@ void ComponentSkybox::OnEditor()
     {
         std::string buttonText = std::string(facesNames[i]) + " Face: ";
 
-        if (faces[i] != nullptr) {
+        if (facesResourcesUID[i] != 0) {
 
-            buttonText += "[ " + std::to_string(faces[i]->GetUID()) + " ]";
+            buttonText += "[ " + std::to_string(facesResourcesUID[i]) + " ]";
         }
         else {
             buttonText += "[ Empty ]";
@@ -180,14 +200,43 @@ void ComponentSkybox::OnEditor()
         }
     }
 
-    bool active = Application::GetInstance().renderer.get()->IsSkyboxActive(this);
     bool isActive = active;
     if (ImGui::Checkbox("Active", &isActive))
     {
         if (active != isActive)
         {
-            if (active) Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
-            else Application::GetInstance().renderer.get()->SetActiveSkybox(this);
+            SetActive(isActive);
         }
     }
+}
+
+void ComponentSkybox::Serialize(nlohmann::json& componentObj) const
+{
+    const char* facesNames[] = { "Right face", "Left face", "Top face", "Bottom face", "Front face", "Back face" };
+    componentObj["active"] = active;
+    
+    for (int i = 0; i < 6; i++)
+    {
+        componentObj[facesNames[i]] = facesResourcesUID[i];
+    }
+}
+
+void ComponentSkybox::Deserialize(const nlohmann::json& componentObj)
+{
+    const char* facesNames[] = { "Right face", "Left face", "Top face", "Bottom face", "Front face", "Back face" };
+    bool mustActive = false;
+    UID uidsToLoad[6] = { 0,0,0,0,0,0 };
+
+    mustActive = componentObj.value("active", false);
+    for (int i = 0; i < 6; i++)
+    {
+        uidsToLoad[i] = componentObj.value(facesNames[i], (UID)0);
+    }
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (uidsToLoad[i] != 0) SetFaceTexture((SkyboxFace)i, uidsToLoad[i]);
+    }
+
+    SetActive(mustActive);
 }

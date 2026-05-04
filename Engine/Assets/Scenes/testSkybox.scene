@@ -1,0 +1,43 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "Back face": 17052572773912728639,
+                    "Bottom face": 3878512396083316174,
+                    "Front face": 6649375905559676122,
+                    "Left face": 15105800546605434514,
+                    "Right face": 4763155893226578480,
+                    "Top face": 2936047825346960978,
+                    "active": true,
+                    "type": 34
+                }
+            ],
+            "name": "GameObject",
+            "tag": "",
+            "uid": 14579582491219889254
+        }
+    ],
+    "version": 1
+}

@@ -326,7 +326,7 @@ void InspectorWindow::Draw()
             DrawCanvasComponent(component);
 			break;
 
-			// lights
+			// --- LIGHTS ---
         case ComponentType::LIGHT:
             DrawLightComponent(component);
             break;

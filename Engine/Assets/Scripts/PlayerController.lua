@@ -1720,7 +1720,6 @@ function Update(self, dt)
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
-                --_G.RemoveStatueMask()
                 
             end
         end

@@ -103,6 +103,9 @@ function Update(self, dt)
         Engine.Log("[Chest] F pulsado, abriendo cofre")
         Engine.Log("[Chest] ShowItemObtained = " .. tostring(_G.ShowItemObtained))
 
+
+        
+
         opened = true
         hidePrompt()
         inputCooldown = COOLDOWN_TIME
@@ -110,6 +113,8 @@ function Update(self, dt)
         local chestAnimComp = self.gameObject:GetComponent("Animation")
         if chestAnimComp then
             local ok, err = pcall(function() chestAnimComp:Play(self.public.chestAnim, 0.0) end)
+            if _G.PlayerInstance then _G.TriggerChestAnimation(_G.PlayerInstance) end
+            
             if not ok then Engine.Log("[Chest] ERROR anim cofre: " .. tostring(err)) end
         else
             Engine.Log("[Chest] ERROR: sin Animation en cofre")

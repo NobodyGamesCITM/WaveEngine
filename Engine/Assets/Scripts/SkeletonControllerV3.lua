@@ -241,7 +241,7 @@ States[State.IDLE] = {
             end
         elseif not OnStartPos then ChangeState(self, State.GUARD)
         end
-        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) and not _G.PlayerInAnim then
             ChangeState(self, State.CHASE)
             return
         end
@@ -274,7 +274,7 @@ States[State.GUARD] = {
             OnStartPos = true
             return
         end
-        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) and not _G.PlayerInAnim then
             ChangeState(self, State.CHASE)
             return
         end
@@ -306,7 +306,7 @@ States[State.PATROL] = {
             ChangeState(self, State.IDLE)
             return
         end
-        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) then
+        if CheckDistance(self,self.public.detectDist,true) and Skeleton.nav:CheckDestination(plPos.x, plPos.y, plPos.z) and not _G.PlayerInAnim then
             ChangeState(self, State.CHASE)
             return
         end
@@ -402,12 +402,16 @@ States[State.ATTACK] = {
             attackTimer = 0
             return
         end
+        if _G.PlayerInAnim then 
+            ChangeState(self, State.IDLE)
+        end
         FaceTargetSmooth(self, plPos, dt)
         Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
 }
 
 States[State.HIT] = {
+cnt = 0.0,
     Enter = function(self)
         alreadyHit = true
         attackTimer = 0
@@ -419,10 +423,17 @@ States[State.HIT] = {
         if anim then 
             pcall(function() anim:Play("Hit", 0.0) end)
         end
+        if hitCooldown > 0.0 then 
+             States[State.HIT].cnt =  States[State.HIT].cnt + 0.1
+            if States[State.HIT].cnt >= hitCooldown then 
+                ChangeState(self, State.ATTACK)
+                hitCooldown = 0.0
+            end
+        end
     end,
     Exit = function(self)
         alreadyHit = false
-        if Skeleton.hp > 15 then
+        if Skeleton.hp >= 15 then
             if self.public.level2 then BaseMat.SetTexture("15645066021049183995")
             else BaseMat.SetTexture("13296577326446124640") end
         else 
@@ -536,7 +547,7 @@ function OnTriggerEnter(self, other)
         if not alreadyHit then
             local ap  = other.transform.worldPosition
             local dmg = 15
-            hitCooldown = 0.2
+            hitCooldown = 1.0
             TakeDamage(self, dmg, ap)
         end
     end

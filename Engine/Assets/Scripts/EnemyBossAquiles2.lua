@@ -124,14 +124,14 @@ end
 local function PlaySFX(audioComp)
     if audioComp then audioComp:PlayAudioEvent()    
     else 
-        Engine.Log("Could not play configured event in Audio Source ".. tostring(audioComp).. ", component not found")
+        --Engine.Log("Could not play configured event in Audio Source ".. tostring(audioComp).. ", component not found")
     end
 end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(eventName)
     else 
-        Engine.Log("Could not play " .. eventName ..", Audio Source component".. tostring(audioComp).. " not found")
+        --Engine.Log("Could not play " .. eventName ..", Audio Source component".. tostring(audioComp).. " not found")
     end
 end
 
@@ -170,7 +170,7 @@ end
 
 local function ChangeState(newState)
     currentState = newState
-    Engine.Log("[Aquiles] -> " .. newState)
+    --Engine.Log("[Aquiles] -> " .. newState)
     pressureTimer = 0 
     chargeAnimStarted = false
     lanceAnimStarted = false
@@ -194,11 +194,11 @@ local function FadeOutBossMusic(self, dt)
 		fadeMusicTimer = fadeMusicTimer + dt
 		local progressPercent = math.min((fadeMusicTimer/3.5), 1.0)
 		volume = 100 * (1 - progressPercent)
-		Engine.Log("Setting music volume to ".. volume)
+		--Engine.Log("Setting music volume to ".. volume)
 		if volume then 
 			Audio.SetMusicVolume(volume)
 		else
-			Engine.Log("Could not set music volume!")
+			--Engine.Log("Could not set music volume!")
 		end
 
 	elseif volume <= 0 and not finishedTransition then
@@ -240,7 +240,7 @@ local function TakeDamage(self, amount, attackerPos)
             return
         end
 
-        Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
+        --Engine.Log("[Aquiles] Daño directo HP: " .. hp .. "/" .. self.public.maxHp)
         if currentState == State.WALL then
             if anim then anim:Play("Stuck_Hit", 0.1) end
         elseif currentState == State.STUN then
@@ -270,7 +270,7 @@ local function TakeDamage(self, amount, attackerPos)
         -- Damage Posture
         posture = posture + amount
         
-        Engine.Log("[Aquiles] Postura: " .. posture .. "/" .. self.public.maxPosture)
+        --Engine.Log("[Aquiles] Postura: " .. posture .. "/" .. self.public.maxPosture)
         if posture >= self.public.maxPosture then
             posture = 0
             PlaySFX(armorSFX)
@@ -316,7 +316,7 @@ local function TakeDamage(self, amount, attackerPos)
             wallStunTimer = 0.8 
             ChangeState(State.RECOVERY)
             PlaySFX(dashSFX)
-            Engine.Log("[Aquiles] Dash de alejamiento: Demasiada presión")
+            --Engine.Log("[Aquiles] Dash de alejamiento: Demasiada presión")
         end
     end
 end
@@ -396,7 +396,7 @@ local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
         elseif hasDashed and not Audio.IsEventPlaying("SFX_AquilesDash") then
             if anim and not anim:IsPlayingAnimation("Walk") then 
                 anim:Play("Walk", 0.2) 
-                Engine.Log("[AQUILES] Walking after dash")
+                --Engine.Log("[AQUILES] Walking after dash")
             end
             --PlaySFX(stepSFX)
         end
@@ -797,7 +797,7 @@ local function UpdateDeath(self,dt)
             local vel = _rb:GetLinearVelocity()
             _rb:SetLinearVelocity(0, 0, 0)
         end
-        Engine.Log("[Aquiles] DEAD")
+        --Engine.Log("[Aquiles] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
         isDead = true
@@ -816,20 +816,20 @@ end
 
 --attempting to automize the audiosource retrieval (WIP)
 local function AutoFindAquilesAudioComponents(self)
-    Engine.Log("Getting AQUILES AUDIOsource components... AudioComps size: " ..tostring(#audioComps).." vs. SourceNames size: "..tostring(#sourceNames))
+    --Engine.Log("Getting AQUILES AUDIOsource components... AudioComps size: " ..tostring(#audioComps).." vs. SourceNames size: "..tostring(#sourceNames))
     -- Note to self: # gets the length of an array in Lua
     -- Note to self 2: Lua arrays start at 1, not 0
     for i = 1, #audioComps do
         local audioGO = GameObject.FindInChildren(self.gameObject, tostring(sourceNames[i]))
         if not audioGO then
-            Engine.Log("[AQUILES AUDIO] Could not find GameObject " .. tostring(sourceNames[i]))
+            --Engine.Log("[AQUILES AUDIO] Could not find GameObject " .. tostring(sourceNames[i]))
         else
             local key = nameToKey[tostring(sourceNames[i])]
             audioComps[key] = audioGO:GetComponent("Audio Source")
             if not audioComps[key] then
-                Engine.Log("[AQUILES AUDIO] Could not retrieve Audio Source from " .. tostring(sourceNames[i]))
+                --Engine.Log("[AQUILES AUDIO] Could not retrieve Audio Source from " .. tostring(sourceNames[i]))
             else
-                Engine.Log("[AQUILES AUDIO] Found ".. tostring(audioComps[key]))
+                --Engine.Log("[AQUILES AUDIO] Found ".. tostring(audioComps[key]))
             end
         end
     end
@@ -840,27 +840,32 @@ local function FindAquilesAudioComponents(self)
     local stepSource = GameObject.FindInChildren(self.gameObject, "AQ_StepsSource")
     if stepSource then
        stepSFX = stepSource:GetComponent("Audio Source")
-    else Engine.Log("[AQUILES] WARNING: Audio Source for steps SFX not found") end
+    --else Engine.Log("[AQUILES] WARNING: Audio Source for steps SFX not found") 
+    end
 
     local voiceSource = GameObject.FindInChildren(self.gameObject, "AQ_VoiceSource")
     if voiceSource then
        voiceSFX = voiceSource:GetComponent("Audio Source")
-    else Engine.Log("[AQUILES] WARNING: Audio Source for voice SFX not found") end
+    --else Engine.Log("[AQUILES] WARNING: Audio Source for voice SFX not found")
+    end
 
     local spearSource = GameObject.FindInChildren(self.gameObject, "AQ_SpearSource")
     if spearSource then
        spearSFX = spearSource:GetComponent("Audio Source")
-    else Engine.Log("[AQUILES] WARNING: Audio Source for spear SFX not found") end
+    --else Engine.Log("[AQUILES] WARNING: Audio Source for spear SFX not found") 
+    end
 
     local dashSource = GameObject.FindInChildren(self.gameObject, "AQ_DashSource")
     if dashSource then
        dashSFX = dashSource:GetComponent("Audio Source")
-    else Engine.Log("[AQUILES] WARNING: Audio Source for dash SFX not found") end
+    --else Engine.Log("[AQUILES] WARNING: Audio Source for dash SFX not found") 
+    end
 
     local armorSource = GameObject.FindInChildren(self.gameObject, "AQ_ArmorSource")
     if armorSource then
        armorSFX = armorSource:GetComponent("Audio Source")
-    else Engine.Log("[AQUILES] WARNING: Audio Source for armor SFX not found") end
+    --else Engine.Log("[AQUILES] WARNING: Audio Source for armor SFX not found") 
+    end
 end
           
 function Start(self)
@@ -919,18 +924,23 @@ function Start(self)
     rb   = self.gameObject:GetComponent("Rigidbody")
     anim = self.gameObject:GetComponent("Animation")
 
+    Engine.RequestResource("10242481670410472725")
+    Engine.RequestResource("15230868181932546860")
+    Engine.RequestResource("770031546471412972")
+    Engine.RequestResource("14923760841240419563")
+
     FindAquilesAudioComponents(self)
 
 
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then
         attackCol:Disable()
-    else
-        Engine.Log("[Aquiles] ERROR: no se encontró Box Collider")
+    --else
+        --Engine.Log("[Aquiles] ERROR: no se encontró Box Collider")
     end
 
     if anim then anim:Play("Idle") end
-    Engine.Log("[Aquiles] Start OK  HP=" .. hp)
+    --Engine.Log("[Aquiles] Start OK  HP=" .. hp)
     
     lanceCDTimer    =   0
     chargeCDTimer   =   0
@@ -943,8 +953,8 @@ function Start(self)
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
     if aquilesMesh then
         BaseMat = aquilesMesh:GetComponent("Material")
-    else
-        Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
+    --else
+        --Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
     end
 end
 
@@ -965,7 +975,7 @@ function Update(self, dt)
     if Input.GetKey("K") then
         --TakeDamage(self, hp, self.transform.worldPosition)
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
-        Engine.Log("Aquiles at 1HP!")
+        --Engine.Log("Aquiles at 1HP!")
         hp = 1
         return
     end
@@ -1043,8 +1053,8 @@ function Update(self, dt)
     if self.transform then 
         myPos = self.transform.worldPosition
         pp = playerGO.transform.worldPosition
-    else
-        Engine.Log("Could not retrieve transform value")
+    --else
+        --Engine.Log("Could not retrieve transform value")
     end
     if not pp then return end
 
@@ -1087,7 +1097,7 @@ function OnTriggerEnter(self, other)
 
         pendingWallHit = true
       
-        Engine.Log("[Aquiles] Choco con la pared")
+        --Engine.Log("[Aquiles] Choco con la pared")
         return 
     end
 
@@ -1148,7 +1158,7 @@ function OnTriggerEnter(self, other)
                 ChangeState(State.RECOVERY)
             end
 
-            Engine.Log("[Aquiles] Impacto " .. currentState .. ". Daño: " .. (finalDamage or 0))
+            --Engine.Log("[Aquiles] Impacto " .. currentState .. ". Daño: " .. (finalDamage or 0))
         end
     end
 end

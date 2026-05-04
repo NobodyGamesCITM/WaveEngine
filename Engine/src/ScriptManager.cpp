@@ -279,6 +279,37 @@ static int Lua_Engine_Log(lua_State* L) {
     return 0;
 }
 
+
+static int Lua_Engine_RequestResource(lua_State* L) {
+ 
+    const char* uidStr = luaL_checkstring(L, 1);
+    UID resourceUID = std::stoull(uidStr);
+
+    Resource* res = Application::GetInstance().resources.get()->RequestResource(resourceUID);
+
+    if (!res) {
+        LOG_CONSOLE("[Lua] ERROR: RequestResource failed for UID: %s", uidStr);
+        lua_pushboolean(L, false);RequestResource
+        return 1;
+    }
+
+    if (!res->IsLoadedToMemory()) {
+        res->LoadInMemory();
+    }
+
+    lua_pushboolean(L, true);
+    return 1;
+}
+
+static int Lua_Engine_ReleaseResource(lua_State* L) {
+
+    const char* uidStr = luaL_checkstring(L, 1);
+    UID resourceUID = std::stoull(uidStr);
+
+    Application::GetInstance().resources.get()->ReleaseResource(resourceUID);
+    return 0;
+}
+
 static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
     {"W", SDL_SCANCODE_W}, {"A", SDL_SCANCODE_A}, {"S", SDL_SCANCODE_S},
     {"D", SDL_SCANCODE_D}, {"Q", SDL_SCANCODE_Q}, {"E", SDL_SCANCODE_E},
@@ -1112,6 +1143,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "GetScenesPath");
     lua_pushcfunction(L, Lua_Engine_GetAssetsPath);
     lua_setfield(L, -2, "GetAssetsPath");
+    lua_pushcfunction(L, Lua_Engine_RequestResource);
+    lua_setfield(L, -2, "RequestResource");
+    lua_pushcfunction(L, Lua_Engine_ReleaseResource);
+    lua_setfield(L, -2, "ReleaseResource");
     lua_setglobal(L, "Engine");
 
     // Input
@@ -1186,6 +1221,7 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetMusicVolume");
     lua_setglobal(L, "Audio");
 
+    
     
     //Navigation
 
@@ -1628,7 +1664,6 @@ static int Lua_GameObject_FindByTag(lua_State* L) {
 // Helper functions for GameObject methods
 static int Lua_GameObject_SetActive(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
-
     if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
         LOG_CONSOLE("[Lua] ERROR: Cannot SetActive on invalid/deleted GameObject");
         return 0;
@@ -1781,6 +1816,7 @@ static int Lua_GameObject_LoadTexture(lua_State* L) {
     lua_pushboolean(L, true);
     return 1;
 }
+
 
 // Helper for ComponentMesh.SetMesh
 static int Lua_ComponentMesh_SetMesh(lua_State* L) {

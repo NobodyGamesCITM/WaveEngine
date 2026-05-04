@@ -453,7 +453,7 @@ local function UpdateWindUp(self, pp, dist, dt)
     if self.windupFeedback then
         pcall(function()
             local scale = self.public.blastRadius * 2
-            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.2, pp.z)
+            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
             self.windupFeedback.transform:SetScale(scale, 0.03, scale)
             self.windupFeedbackSet = true
         end)

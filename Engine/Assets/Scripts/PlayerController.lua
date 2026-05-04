@@ -1317,6 +1317,7 @@ function Start(self)
     attackBuffer   = false
     attackBufferPending = false
     attackNum      = 0
+    _G.PlayerInAnim = false
 
     -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
     -- El estado de pausa es responsabilidad exclusiva de MenuManager.
@@ -1689,8 +1690,25 @@ function Update(self, dt)
     end
 
     if Player.AnimTimer > 0 then
+        _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
+        
+        --positions
+        if Player.isGetMaskAnim and Player.AnimTimer > 33.0 and Player.pendingObtainMask then
+            if Player.pendingObtainMask == Mask.HERMES then 
+                self.transform:SetPosition(-68.549, 3.280, -318.933) 
+                if Player.rb then Player.rb:SetRotation(180, 0, 180) end
+            end
+            if Player.pendingObtainMask == Mask.APOLLO then 
+                self.transform:SetPosition(200.729, 32.377, -168.781) 
+                if Player.rb then Player.rb:SetRotation(0, 88.814, 0) end
+            end
+            if Player.pendingObtainMask == Mask.ARES then
+                self.transform:SetPosition(77.979, 8.898, -104.323) 
+                if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
+            end
+        end
 
         --segundo 9
         if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
@@ -1727,6 +1745,7 @@ function Update(self, dt)
         end
 
         if Player.AnimTimer <= 0 then
+            _G.PlayerInAnim = false
             Player.AnimTimer = 0
             Player.isGetMaskAnim = false
             self.public.canMove = true

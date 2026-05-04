@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Globals.h"
 
 class ResourceTexture;
 
@@ -9,7 +10,8 @@ enum class SkyboxFace {
     TOP,
     BOTTOM,
     FRONT,
-    BACK
+    BACK,
+    NUM_FACES
 };
 
 class ComponentSkybox : public Component
@@ -20,15 +22,16 @@ public:
 
     bool IsType(ComponentType type) override { return type == ComponentType::SKYBOX; };
     bool IsIncompatible(ComponentType type) override { return type == ComponentType::SKYBOX; };
+  
+    void CleanUp() override;
 
-    void Enable() override;
-    void Disable() override;
-
-    void SetFaceTexture(SkyboxFace face, ResourceTexture* texture);
+    void SetFaceTexture(SkyboxFace face, UID textureUID);
     ResourceTexture* GetFaceTexture(SkyboxFace face) const;
 
     unsigned int GetCubemapID() const { return cubemapID; }
     unsigned int GetVAO() const { return skyboxVAO; }
+
+    void OnEditor() override;
 
 private:
     unsigned int cubemapID = 0;
@@ -36,8 +39,9 @@ private:
     unsigned int skyboxVBO = 0;
 
     ResourceTexture* faces[6] = { nullptr };
+    UID facesResourcesUID[6] = { 0,0,0,0,0,0 };
 
     void SetupCubeMesh();
     void BuildCubemapFromResources();
-    void CleanUp();
+
 };

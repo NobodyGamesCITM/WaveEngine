@@ -45,6 +45,7 @@
 #include "ComponentLight.h"
 #include "LightManager.h"
 #include "Renderer.h"
+#include "ComponentSkybox.h"
 
 #include "Log.h"
 #include "ComponentScript.h"
@@ -340,6 +341,9 @@ void InspectorWindow::Draw()
                 DrawComponentContextMenu(component, true);
                 component->OnEditor();
             }
+            break;
+        case ComponentType::SKYBOX:
+            DrawSkyboxComponent(component);
             break;
 		case ComponentType::UNKNOWN:
             break;
@@ -1185,6 +1189,19 @@ void  InspectorWindow::DrawD6JointComponent(Component* component)
         if (ImGui::CollapsingHeader("D6 Joint", ImGuiTreeNodeFlags_DefaultOpen)) {
             DrawComponentContextMenu(Joint, true);
             Joint->OnEditor();
+        }
+    }
+}
+
+void  InspectorWindow::DrawSkyboxComponent(Component* component)
+{
+    ComponentSkybox* skybox = static_cast<ComponentSkybox*>(component);
+
+    if (skybox != nullptr)
+    {
+        if (ImGui::CollapsingHeader("Skybox", ImGuiTreeNodeFlags_DefaultOpen)) {
+            DrawComponentContextMenu(skybox, true);
+            skybox->OnEditor();
         }
     }
 }

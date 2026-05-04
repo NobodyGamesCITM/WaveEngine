@@ -116,6 +116,7 @@ public:
     glm::vec3 GetLightDir() const { return lightDir; }
 
     void SetActiveSkybox(ComponentSkybox* skybox) { activeSkybox = skybox; }
+    bool IsSkyboxActive(ComponentSkybox* skybox) { return activeSkybox == skybox; }
     void DrawSkybox(const CameraLens* camera);
 
     void SetMSAA(bool enabled);
@@ -233,7 +234,7 @@ private:
     std::vector<ComponentCanvas*> activeCanvas;
     std::vector<CameraLens*> activeCameras;
     std::vector<ComponentPostProcessing*> postProcessingComponents;
-    ComponentSkybox* activeSkybox;
+    ComponentSkybox* activeSkybox = nullptr;
 
     std::vector<RenderObject> opaqueList;
     std::vector<RenderObject> waterList;

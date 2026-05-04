@@ -556,6 +556,8 @@ bool Renderer::RenderScene(CameraLens* camera)
     DrawParticlesList(camera);
     DrawSilhouetteList(camera);
 
+    DrawSkybox(camera);
+
     if (camera->GetDebugCamera()) {
         Application::GetInstance().physics->DrawDebug();
         ComponentCameraZone::DrawAllDebug();

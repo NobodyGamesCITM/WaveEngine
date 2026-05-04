@@ -1,11 +1,17 @@
 ﻿#include "ComponentSkybox.h"
 #include "GameObject.h"
 #include "ResourceTexture.h"
+#include "AssetsWindow.h"
+#include "Application.h"
+#include "Renderer.h"
+#include "ModuleResources.h"
 #include <glad/glad.h>
+
 
 ComponentSkybox::ComponentSkybox(GameObject* owner) : Component(owner, ComponentType::SKYBOX)
 {
     SetupCubeMesh();
+    Application::GetInstance().renderer.get()->SetActiveSkybox(this);
 }
 
 ComponentSkybox::~ComponentSkybox()
@@ -13,31 +19,36 @@ ComponentSkybox::~ComponentSkybox()
     CleanUp();
 }
 
-void ComponentSkybox::Enable()
-{
-    active = true;
-}
 
-void ComponentSkybox::Disable()
+void ComponentSkybox::SetFaceTexture(SkyboxFace face, UID textureUID)
 {
-    active = false;
-}
+    int index = (int)face;
 
-void ComponentSkybox::SetFaceTexture(SkyboxFace face, ResourceTexture* texture)
-{
-    faces[(int)face] = texture;
-
-    // Comprobamos si ya tenemos las 6 texturas asignadas para compilar el cubemap
-    bool allFacesLoaded = true;
-    for (int i = 0; i < 6; i++) {
-        if (faces[i] == nullptr || faces[i]->GetGPU_ID() == 0) {
-            allFacesLoaded = false;
-            break;
-        }
+    if (facesResourcesUID[index] != 0)
+    {
+        Application::GetInstance().resources.get()->ReleaseResource(facesResourcesUID[index]);
+        faces[index] = nullptr;
+        facesResourcesUID[index] = 0;
     }
 
-    if (allFacesLoaded) {
-        BuildCubemapFromResources();
+    ResourceTexture* texture = (ResourceTexture*)Application::GetInstance().resources.get()->RequestResource(textureUID);
+
+    if (texture)
+    {
+        faces[index] = texture;
+        facesResourcesUID[index] = textureUID;
+
+        bool allFacesLoaded = true;
+        for (int i = 0; i < 6; i++) {
+            if (faces[i] == nullptr || faces[i]->GetGPU_ID() == 0) {
+                allFacesLoaded = false;
+                break;
+            }
+        }
+
+        if (allFacesLoaded) {
+            BuildCubemapFromResources();
+        }
     }
 }
 
@@ -53,11 +64,9 @@ void ComponentSkybox::BuildCubemapFromResources()
     glGenTextures(1, &cubemapID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapID);
 
-    // Asumimos que todas las texturas del skybox miden lo mismo (p.ej. 2048x2048)
-    int width = faces[0]->GetWidth(); // Ajusta esto si tus getters se llaman diferente
+    int width = faces[0]->GetWidth();
     int height = faces[0]->GetHeight();
 
-    // 1. Reservamos la memoria en la VRAM para el Cubemap (NULL como datos)
     for (unsigned int i = 0; i < 6; i++) {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     }
@@ -68,22 +77,18 @@ void ComponentSkybox::BuildCubemapFromResources()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    // 2. MAGIA DE GPU: Copiamos los píxeles de los ResourceTexture 2D al Cubemap
     GLuint tempFBO;
     glGenFramebuffers(1, &tempFBO);
     glBindFramebuffer(GL_READ_FRAMEBUFFER, tempFBO);
 
     for (unsigned int i = 0; i < 6; i++)
     {
-        // Enganchamos tu ResourceTexture 2D al FBO de lectura
         glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, faces[i]->GetGPU_ID(), 0);
 
-        // Copiamos internamente en la GPU desde el FBO a la cara del Cubemap
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapID);
         glCopyTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, 0, 0, width, height);
     }
 
-    // Limpiamos
     glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
     glDeleteFramebuffers(1, &tempFBO);
 }
@@ -121,7 +126,68 @@ void ComponentSkybox::SetupCubeMesh()
 
 void ComponentSkybox::CleanUp()
 {
+    if (Application::GetInstance().renderer.get()->IsSkyboxActive(this)) Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
+
     if (skyboxVAO != 0) glDeleteVertexArrays(1, &skyboxVAO);
     if (skyboxVBO != 0) glDeleteBuffers(1, &skyboxVBO);
     if (cubemapID != 0) glDeleteTextures(1, &cubemapID);
+
+    for (unsigned int i = 0; i < 6; i++) {
+        
+        if (facesResourcesUID[i] != 0)
+        {
+            Application::GetInstance().resources.get()->ReleaseResource(facesResourcesUID[i]);
+            faces[i] = nullptr;
+            facesResourcesUID[i] = 0;
+        }
+    }
+}
+
+void ComponentSkybox::OnEditor() 
+{
+    const char* facesNames[] = { "Right face", "Left face", "Top face", "Bottom face", "Front face", "Back face" };
+    float availableWidth = ImGui::GetContentRegionAvail().x;
+
+    for (int i = 0; i < 6; i++)
+    {
+        std::string buttonText = std::string(facesNames[i]) + " Face: ";
+
+        if (faces[i] != nullptr) {
+
+            buttonText += "[ " + std::to_string(faces[i]->GetUID()) + " ]";
+        }
+        else {
+            buttonText += "[ Empty ]";
+        }
+
+        ImGui::Button(buttonText.c_str(), ImVec2(availableWidth, 20));
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_ITEM"))
+            {
+                DragDropPayload* dropData = (DragDropPayload*)payload->Data;
+                UID droppedUID = dropData->assetUID;
+
+                const Resource* res = Application::GetInstance().resources->PeekResource(droppedUID);
+                if (res && res->GetType() == Resource::Type::TEXTURE)
+                {
+                    LOG_CONSOLE("Cargando skybox face %d: %llu", i, droppedUID);
+                    SetFaceTexture((SkyboxFace)i, droppedUID);
+                }
+            }
+            ImGui::EndDragDropTarget();
+        }
+    }
+
+    bool active = Application::GetInstance().renderer.get()->IsSkyboxActive(this);
+    bool isActive = active;
+    if (ImGui::Checkbox("Active", &isActive))
+    {
+        if (active != isActive)
+        {
+            if (active) Application::GetInstance().renderer.get()->SetActiveSkybox(nullptr);
+            else Application::GetInstance().renderer.get()->SetActiveSkybox(this);
+        }
+    }
 }

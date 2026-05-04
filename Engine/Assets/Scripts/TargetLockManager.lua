@@ -2,13 +2,16 @@
 
 public = {
     maxLockDistance = 30.0,
-    tagsToLock = {"Enemy", "Lockable"}
+    tagsToLock = {"Enemy", "Lockable"},
+	particleYOffset = 1.0,
+    baseParticleSize = 3.5
 }
 
 local player = nil
 local cineCam = nil
 local currentTarget = nil
 local isLocked = false
+local lockParticleObj = nil
 
 local switchCooldown = 0.0
 local SWITCH_DELAY = 0.3 
@@ -20,6 +23,14 @@ function Start(self)
     player = GameObject.Find("Player")
     local camObj = GameObject.Find("MainCamera")
     if camObj then cineCam = camObj:GetComponent("CinematicCamera") end
+	
+	lockParticleObj = GameObject.Find("LockOnParticle")
+    if lockParticleObj then
+        local ps = lockParticleObj:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
+    else
+        Engine.Log("[TargetLockManager] WARNING: No se encontro el GameObject 'LockOnParticle'.")
+    end
 end
 
 -- Dead or destroyed
@@ -61,6 +72,26 @@ local function FindBestTarget(self)
         end
     end
     return bestTarget
+end
+
+-- Update ParticleSystem of the object focused, based on position and scale.
+local function UpdateParticle(self, target)
+    if not lockParticleObj or not target then return end
+    
+    local tPos = target.transform.position
+    lockParticleObj.transform:SetPosition(tPos.x, tPos.y + self.public.particleYOffset, tPos.z)
+    
+    local finalSize = self.public.baseParticleSize
+    local script = target:GetComponent("Script")
+    if script and script.public and script.public.lockOnSize then
+        finalSize = script.public.lockOnSize
+    end
+    
+    local ps = lockParticleObj:GetComponent("ParticleSystem")
+    if ps then
+        if ps.SetSize then ps:SetSize(finalSize) end
+        if not ps:IsPlaying() then ps:Play() end
+    end
 end
 
 -- Change objetive between camera and input 4 directions
@@ -139,7 +170,8 @@ local function SwitchTarget(self, directionStr)
         cineCam:AddTarget(currentTarget, 1.0)
         _G.TargetLockManager_CurrentTarget = currentTarget
         
-        -- PARTICLE ACTIVE HERE TO THE NEW OBJECTIVE
+        -- PARTICLE ACTIVE HERE TO THE NEW TARGET
+		UpdateParticle(self, currentTarget)
     end
 end
 
@@ -157,6 +189,10 @@ local function ClearLock(self)
     end
 
     -- HIDE PARTICLE
+	if lockParticleObj then
+        local ps = lockParticleObj:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
+    end
 end
 
 local function EngageLock(self)
@@ -175,6 +211,7 @@ local function EngageLock(self)
         end
 
         -- PARTICLE LOCK-ON on the currentTarget
+		UpdateParticle(self, currentTarget)
     end
 end
 
@@ -229,5 +266,6 @@ function Update(self, dt)
         end
         
         -- PARTCILES: Update the position of the particle to follow currentTarget.transform.position + offset Y
+		UpdateParticle(self, currentTarget)
     end
 end

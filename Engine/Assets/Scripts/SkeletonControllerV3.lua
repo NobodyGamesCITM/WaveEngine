@@ -31,6 +31,7 @@ local Skeleton = {
 public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
+	lockOnSize      = 3.0,
     chaseSpeed      = 6.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,

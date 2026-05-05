@@ -24,13 +24,13 @@
                                                             {
                                                                 "active": true,
                                                                 "position": [
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0
+                                                                    -0.0028533935546875,
+                                                                    -7.62939453125e-06,
+                                                                    -0.0018768310546875
                                                                 ],
                                                                 "rotation": [
-                                                                    0.0,
-                                                                    -66.86052703857422,
+                                                                    1.0856295246455816e-12,
+                                                                    -89.98021697998047,
                                                                     0.0
                                                                 ],
                                                                 "scale": [
@@ -173,9 +173,9 @@
                     {
                         "active": true,
                         "position": [
-                            0.0,
-                            0.0,
-                            -0.8535664677619934
+                            0.1432952880859375,
+                            -0.00081634521484375,
+                            -0.22265625
                         ],
                         "rotation": [
                             0.0,
@@ -199,14 +199,14 @@
             {
                 "active": true,
                 "position": [
-                    162.86416625976563,
-                    27.870914459228516,
-                    -185.4775390625
+                    162.67420959472656,
+                    27.870908737182617,
+                    -185.10353088378906
                 ],
                 "rotation": [
                     180.0,
-                    20.0,
-                    180.0
+                    0.0,
+                    -180.0
                 ],
                 "scale": [
                     0.75,
@@ -219,6 +219,16 @@
                 "active": true,
                 "publicVariables": [
                     {
+                        "name": "onlyRedirected",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "fordwardOffset",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
                         "name": "doorName",
                         "type": 1,
                         "value": ""
@@ -229,24 +239,14 @@
                         "value": 0.0
                     },
                     {
-                        "name": "onlyRedirected",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "dirY",
-                        "type": 0,
-                        "value": 0.0
-                    },
-                    {
                         "name": "dirZ",
                         "type": 0,
                         "value": 1.0
                     },
                     {
-                        "name": "fordwardOffset",
+                        "name": "dirY",
                         "type": 0,
-                        "value": 1.0
+                        "value": 0.0
                     }
                 ],
                 "scriptUID": 3213472682470300881,

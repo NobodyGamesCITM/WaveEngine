@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleResources.h"
+#include "ResourceAnimation.h"
 #include "Time.h"
 #include "Log.h"
 #include "imgui.h"
@@ -15,7 +16,17 @@ ComponentAnimation::ComponentAnimation(GameObject* owner) : Component(owner, Com
 
 ComponentAnimation::~ComponentAnimation()
 {
-    UnloadAnimation(currentAnimation);
+    Stop();
+
+    for (auto& [name, data] : animationsLibrary)
+    {
+        if (data.uid != 0)
+        {
+            Application::GetInstance().resources->ReleaseResource(data.uid);
+        }
+    }
+    animationsLibrary.clear();
+
     Application::GetInstance().events->UnsubscribeAll(this);
 }
 
@@ -23,9 +34,16 @@ void ComponentAnimation::AddAnimation(const std::string& name, UID uid)
 {
     if (name.empty() || uid == 0) return;
 
+    auto it = animationsLibrary.find(name);
+    if (it != animationsLibrary.end()) {
+        Application::GetInstance().resources->ReleaseResource(it->second.uid);
+    }
+
     AnimationData data;
     data.uid = uid;
     data.loop = true;
+
+    data.resource = (ResourceAnimation*)Application::GetInstance().resources->RequestResource(uid);
 
     animationsLibrary[name] = data;
 }
@@ -33,7 +51,6 @@ void ComponentAnimation::AddAnimation(const std::string& name, UID uid)
 void ComponentAnimation::RemoveAnimation(const std::string& name)
 {
     auto it = animationsLibrary.find(name);
-
     if (it == animationsLibrary.end()) return;
 
     UID uidToRemove = it->second.uid;
@@ -42,6 +59,8 @@ void ComponentAnimation::RemoveAnimation(const std::string& name)
     {
         Stop();
     }
+
+    Application::GetInstance().resources->ReleaseResource(uidToRemove);
 
     animationsLibrary.erase(it);
 }
@@ -67,16 +86,12 @@ void ComponentAnimation::Play(const std::string& name, float blendTime)
     if (it == animationsLibrary.end()) return;
 
     CaptureSnapshot();
-    
-    if (currentAnimation.uid != it->second.uid)
-    {
-        UnloadAnimation(currentAnimation);
-        currentAnimation.name = it->first;
-        currentAnimation.uid = it->second.uid;
-        currentAnimation.speed = it->second.speed;
-        currentAnimation.loop = it->second.loop;
-        currentAnimation.resource = (ResourceAnimation*)Application::GetInstance().resources->RequestResource(currentAnimation.uid);
-    }
+
+    currentAnimation.name = it->first;
+    currentAnimation.uid = it->second.uid;
+    currentAnimation.speed = it->second.speed;
+    currentAnimation.loop = it->second.loop;
+    currentAnimation.resource = it->second.resource;
 
     currentTime = 0.0f;
     ended = false;
@@ -101,8 +116,8 @@ void ComponentAnimation::Stop()
     playing = false;
     isBlending = false;
     currentBlendTime = 0.0f;
-    
-    UnloadAnimation(currentAnimation);
+
+    currentAnimation.resource = nullptr;
 
     ResetPose();
 }
@@ -143,16 +158,6 @@ void ComponentAnimation::SetAnimationLoop(const std::string& name, bool loop)
     {
         currentAnimation.loop = loop;
     }
-}
-
-void ComponentAnimation::UnloadAnimation(AnimationInstance& animation)
-{
-    if (animation.resource)
-    {
-        Application::GetInstance().resources->ReleaseResource(currentAnimation.uid);
-    }
-    animation.resource = nullptr;
-    animation.uid = 0;
 }
 
 void ComponentAnimation::Update()

@@ -1765,6 +1765,13 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
+            if Player.pendingMaskInfoDialog then
+                Player.pendingMaskInfoDialog = false
+                _G._MaskInfoShown = true
+                if _G.TriggerSequence then
+                    _G.TriggerSequence("maskInfo")
+                end
+            end
         end
     end
 
@@ -1952,6 +1959,9 @@ function ObtainMask(self)
         Engine.Log("Apolo Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.APOLLO
+        if _G._MaskCount == 1 and not _G._MaskInfoShown then
+            Player.pendingMaskInfoDialog = true
+        end
     end
     giveApoloMask = false
 
@@ -1961,6 +1971,9 @@ function ObtainMask(self)
         Engine.Log("Hermes Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.HERMES
+        if _G._MaskCount == 1 and not _G._MaskInfoShown then
+            Player.pendingMaskInfoDialog = true
+        end
     end
     giveHermesMask = false
 

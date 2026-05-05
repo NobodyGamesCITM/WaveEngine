@@ -1,44 +1,33 @@
---CHEST INTERACT SCRIPT 
-
 public = {
     radius     = 2.0,
     actionText = "Abrir cofre",
     itemText   = "¡Poción obtenida!",
     chestAnim  = "Open",
-    potionAnim = "Float",
-    potionName = "PotionVisual",
-    potionTag = "PotionObtained",
+    updateWhenPaused = true,  
 }
 
---local inRange       = false
---local opened        = false
---local inputCooldown = 0.0
 local COOLDOWN_TIME = 0.5
---local potionObject  = nil
+local POPUP_DELAY   = 0.5
+
 local CANVAS_W = 1920
 local CANVAS_H = 1080
 local PROMPT_W = 220
 local PROMPT_H = 50
---local PotionObt = nil
+
+
 
 local function showPrompt(self)
     local myPos = self.transform.worldPosition
     local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + 1.5, myPos.z)
-    if sx == nil or sy == nil then
-        Engine.Log("[Chest] Failed to transform position from world to screen") 
-        return 
-    end
 
-    
+    if not sx or not sy then return end
 
     local vw, vh = Camera.GetViewportSize()
-    if not vw or vw == 0 or not vh or vh == 0 then 
-        Engine.Log("[Chest] Failed to find camera viewport size")
-        return 
-    end
+    if not vw or vw == 0 or not vh or vh == 0 then return end
 
     local cx = (sx / vw) * CANVAS_W
     local cy = (sy / vh) * CANVAS_H
+
     UI.SetElementMargin("InteractPrompt", cx - PROMPT_W * 0.5, cy - PROMPT_H, 0, 0)
     UI.SetElementVisibility("InteractPrompt", true)
 end
@@ -51,126 +40,132 @@ local function onChestOpened(self)
     if _G.PotionSystem and _G.PotionSystem.public then
         _G.PotionSystem.public.potionCount =
             (_G.PotionSystem.public.potionCount or 0) + 1
-        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
-    end
-    Engine.Log("[Chest] Poción añadida")
-    if self.potionObject then
-        for i, PotionObtain in ipairs(self.PotionObt) do
-            PotionObtain:SetActive(false)
+
+        if _G.ForceRefreshHUD then
+            _G.ForceRefreshHUD()
         end
+    end
+    Engine.Log("[Chest] Poción reclamada")
+end
+
+local function showPopup(self)
+    if _G.ShowItemObtained then
+        _G.ShowItemObtained(
+            self.public.itemText,
+            nil,
+            function() onChestOpened(self) end
+        )
+    else
+        Engine.Log("[Chest] ERROR: _G.ShowItemObtained es nil")
     end
 end
 
+
+
 function Initialize(self)
-    self.inRange = false
-    self.opened = false
+    self.inRange       = false
+    self.opened        = false
     self.inputCooldown = 0.0
-    COOLDOWN_TIME = 0.5
-    CANVAS_W = 1920
-    CANVAS_H = 1080
-    PROMPT_W = 220
-    PROMPT_H = 50
+    self.waitingPopup  = false
+    self.popupTimer    = 0.0
 
     self.potionObject = GameObject.FindInChildren(self.gameObject, self.public.potionName or "PotionVisual")
     if self.potionObject then
-        --Engine.Log("[Chest] PotionVisual encontrado: " .. tostring(self.public.potionName or "PotionVisual"))
-    else
-        --Engine.Log("[Chest] AVISO: no encontrado: " .. tostring(self.public.potionName or "PotionVisual"))
+        self.potionObject:SetActive(false)
     end
-    self.PotionObt = GameObject.FindInChildren(self.gameObject, "group")
-    --Engine.Log("[Chest] ShowItemObtained al Start = " .. tostring(_G.ShowItemObtained))
 end
 
 function Start(self)
     Initialize(self)
+    Engine.Log("[Chest] Ready")
 end
 
-function Update(self, dt)
-    if not self.potionObject or not self.PotionObt or not self.inputCooldown then
-        Initialize(self)
-    end
 
+
+function Update(self, dt)
+
+    -- Cooldown
     if self.inputCooldown > 0 then
         self.inputCooldown = self.inputCooldown - dt
     end
 
-    if _G.ItemObtainedActive and self.inputCooldown <= 0  then
-        Engine.Log("[Chest] ItemObtainedActive=true, esperando F para reclamar")
+    -- Esperando popup
+    if self.waitingPopup then
+        self.popupTimer = self.popupTimer + dt
+        if self.popupTimer >= POPUP_DELAY then
+            self.waitingPopup = false
+            showPopup(self)
+        end
+        return
+    end
+
+    -- Si popup activo (esperando input para cerrarlo)
+    if _G.ItemObtainedActive and self.inputCooldown <= 0 then
         if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
-            Engine.Log("[Chest] Reclamando poción")
             self.inputCooldown = COOLDOWN_TIME
-            if _G.HideItemObtained then _G.HideItemObtained() end
+            if _G.HideItemObtained then
+                _G.HideItemObtained()
+            end
         end
         return
     end
 
     if self.opened then return end
 
+   
+
     local player = GameObject.Find("Player")
     if not player then return end
 
     local myPos     = self.transform.worldPosition
     local playerPos = player.transform.worldPosition
+
     local dx = myPos.x - playerPos.x
     local dz = myPos.z - playerPos.z
     local dist = math.sqrt(dx*dx + dz*dz)
 
-    if dist < self.public.radius and not self.inRange then
-        self.inRange = true
-        showPrompt(self)
+   
+
+    if dist < self.public.radius then
+        if not self.inRange then
+            self.inRange = true
+            showPrompt(self)
+        end
+    else
+        if self.inRange then
+            self.inRange = false
+            hidePrompt()
+        end
     end
-    if dist >= self.public.radius and self.inRange then
-        self.inRange = false
-        hidePrompt(self)
-    end
-
-    if self.inRange and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A"))
-       and not (_G.ItemObtainedActive) and self.inputCooldown <= 0 then
-
-        Engine.Log("[Chest] F pulsado, abriendo cofre")
-        Engine.Log("[Chest] ShowItemObtained = " .. tostring(_G.ShowItemObtained))
 
 
-        
+
+    if self.inRange
+        and not _G.ItemObtainedActive
+        and self.inputCooldown <= 0
+        and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A")) then
+
+        Engine.Log("[Chest] Abriendo cofre")
 
         self.opened = true
         hidePrompt()
         self.inputCooldown = COOLDOWN_TIME
 
+        -- Animación cofre
         local chestAnimComp = self.gameObject:GetComponent("Animation")
         if chestAnimComp then
-            local ok, err = pcall(function() chestAnimComp:Play(self.public.chestAnim, 0.0) end)
-            if _G.PlayerInstance then _G.TriggerChestAnimation(_G.PlayerInstance) end
-            
-            if not ok then Engine.Log("[Chest] ERROR anim cofre: " .. tostring(err)) end
-        else
-            Engine.Log("[Chest] ERROR: sin Animation en cofre")
+            pcall(function()
+                chestAnimComp:Play(self.public.chestAnim, 0.0)
+            end)
         end
 
-        Engine.Log("[Chest] PotionObject antes de animar = " .. tostring(self.potionObject))
-        if self.potionObject then
-            self.potionObject:SetActive(true)
-            local potAnimComp = self.potionObject:GetComponent("Animation")
-            Engine.Log("[Chest] potAnimComp = " .. tostring(potAnimComp))
-            if potAnimComp then
-                local ok, err = pcall(function() potAnimComp:Play(self.public.potionAnim, 0.0) end)
-                Engine.Log("[Chest] Anim pocion ok=" .. tostring(ok) .. " err=" .. tostring(err))
-            else
-                Engine.Log("[Chest] ERROR: sin Animation en PotionVisual")
-            end
-        else
-            Engine.Log("[Chest] ERROR: potionObject es nil al pulsar F")
+        -- Animación player
+        if _G.PlayerInstance and _G.TriggerChestAnimation then
+            _G.TriggerChestAnimation(_G.PlayerInstance)
         end
 
-        if _G.ShowItemObtained then
-            _G.ShowItemObtained(
-                self.public.itemText,
-                nil,
-                function() onChestOpened(self) end
-            )
-        else
-            Engine.Log("[Chest] ERROR: _G.ShowItemObtained es nil, ItemObtained no inicializado")
-        end
+        -- Lanzar popup con delay
+        self.waitingPopup = true
+        self.popupTimer   = 0.0
     end
 end
-

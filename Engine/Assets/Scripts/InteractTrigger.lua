@@ -1,3 +1,4 @@
+
 public = {
     radius           = 3.0,
     promptRadius     = 6.0,
@@ -17,8 +18,8 @@ local COOLDOWN_TIME  = 0.5
 local KEYBOARD_ICON = "F"
 local GAMEPAD_ICON  = "ⓐ"
 
-local CANVAS_W = 1920
-local CANVAS_H = 1080
+local CANVAS_W = 1280
+local CANVAS_H = 720
 local PROMPT_W = 220
 local PROMPT_H = 50
 
@@ -43,12 +44,7 @@ end
 local function showPrompt(self, canInteract)
     updatePrompt(self)
 
-  
-    if canInteract then
-        UI.SetElementVisibility("InputKeyBorder", true)
-    else
-        UI.SetElementVisibility("InputKeyBorder", false)
-    end
+    UI.SetElementVisibility("InputKeyBorder", canInteract)
 
     local myPos = self.transform.worldPosition
     local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + 1.5, myPos.z)
@@ -78,6 +74,24 @@ local function hidePrompt()
     UI.SetElementVisibility("InteractPrompt", false)
 end
 
+local function triggerDialog(self)
+    local shown = dialogShownMap[self.public.sequenceId] or false
+    if not shown then
+        if self.public.oneShot then
+            dialogShownMap[self.public.sequenceId] = true
+        end
+        hidePrompt()
+        inputCooldown = COOLDOWN_TIME
+        if _G.TriggerSequence then
+            _G.TriggerSequence(self.public.sequenceId)
+        else
+            Engine.Log("[ERROR] TriggerSequence no registrado en _G")
+        end
+    else
+        onAction(self)
+    end
+end
+
 function Update(self, dt)
     if inputCooldown > 0 then
         inputCooldown = inputCooldown - dt
@@ -98,25 +112,18 @@ function Update(self, dt)
     local dz = myPos.z - playerPos.z
     local dist = math.sqrt(dx*dx + dz*dz)
 
-    local shown = dialogShownMap[self.public.sequenceId] or false
-
- 
-    if dist < self.public.promptRadius and not inPromptRange then
+  
+    if dist < self.public.promptRadius then
         inPromptRange = true
-    end
-
-    if dist >= self.public.promptRadius and inPromptRange then
+    elseif inPromptRange then
         inPromptRange = false
         inActionRange = false
         hidePrompt()
     end
 
-
-    if dist < self.public.radius and not inActionRange then
+    if dist < self.public.radius then
         inActionRange = true
-    end
-
-    if dist >= self.public.radius and inActionRange then
+    elseif inActionRange then
         inActionRange = false
     end
 
@@ -125,35 +132,17 @@ function Update(self, dt)
         showPrompt(self, inActionRange)
     end
 
-  
-   if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
    
-    if _G.DialogActive and inputCooldown <= 0 then
-        if _G.AdvanceDialog then _G.AdvanceDialog() end
-        inputCooldown = COOLDOWN_TIME
-    elseif inActionRange and not _G.DialogActive and inputCooldown <= 0 then
-            if _G.AdvanceDialog then 
-                _G.AdvanceDialog() 
-                inputCooldown = COOLDOWN_TIME
-            end
-        end
-    
-    
-    elseif inActionRange and inputCooldown <= 0 then
-        if not shown then
-            if self.public.oneShot then
-                dialogShownMap[self.public.sequenceId] = true
-            end
-            hidePrompt()
-            inputCooldown = COOLDOWN_TIME
+    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+        if inputCooldown > 0 then return end
+
+        if _G.DialogActive then
             
-            if _G.TriggerSequence then
-                _G.TriggerSequence(self.public.sequenceId)
-            else
-                Engine.Log("[ERROR] DialogManager no ha registrado TriggerSequence en _G")
-            end
-        else
-            onAction(self)
+            if _G.AdvanceDialog then _G.AdvanceDialog() end
+            inputCooldown = COOLDOWN_TIME
+        elseif inActionRange then
+            
+            triggerDialog(self)
         end
     end
 end

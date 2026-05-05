@@ -134,6 +134,8 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     view->Activate();
     UIManager::GetInstance().ClearCanvasButtons();
     needsHookEvents = true;
+    UIManager::GetInstance().UnregisterCanvas(this);
+    UIManager::GetInstance().RegisterCanvas(this);
     return true;
 }
 
@@ -392,13 +394,18 @@ float ComponentCanvas::GetOpacity() const
 
 }
 
-void ComponentCanvas::PlayStoryboard(const char* name)
+void ComponentCanvas::PlayStoryboard(const char* name, const char* scopeName)
 {
     if (!view) return;
     Noesis::FrameworkElement* root = view->GetContent();
     if (!root) return;
-
     Noesis::Storyboard* sb = root->FindResource<Noesis::Storyboard>(name);
-    if (sb)
-        sb->Begin(root);
+    if (!sb) return;
+
+    Noesis::FrameworkElement* scope = root;
+    if (scopeName) {
+        auto* found = Noesis::DynamicCast<Noesis::FrameworkElement*>(root->FindName(scopeName));
+        if (found) scope = found;
+    }
+    sb->Begin(scope, true);
 }

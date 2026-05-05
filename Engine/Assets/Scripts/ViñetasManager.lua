@@ -31,8 +31,8 @@ local function loadStep(index)
         state = "done"
         show("CinematicPanel", false)
         show("CinematicFade", false)
-        _G.DialogActive = false
-        Game.Resume()
+        _G.CinematicActive = false
+        _G.UpdatePauseState()
         Engine.Log("[Cinematic] Terminado, gameplay activo")
         return
     end
@@ -52,8 +52,8 @@ local function loadStep(index)
 end
 
 function Start(self)
-    Game.Pause()
-    _G.DialogActive = true
+    _G.CinematicActive = true
+    _G.UpdatePauseState()
 
     for _, e in ipairs(sequence) do show(e.panel, false) end
     show("Page1", false)
@@ -75,7 +75,7 @@ function Update(self, dt)
     if not initialized then return end
     if state == "done" then return end
 
-    _G.DialogActive = true
+    _G.CinematicActive = true
 
     local delta = math.min(dt, 0.05)
     timer = timer + delta

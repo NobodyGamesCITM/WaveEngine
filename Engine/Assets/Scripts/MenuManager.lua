@@ -69,7 +69,7 @@ function Initialize(self)
 
     _G.GlobalMenuManagerInstance = self
 
-    Engine.Log("[MenuManager] isMusicPlaying reset to false")
+    --Engine.Log("[MenuManager] isMusicPlaying reset to false")
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
@@ -94,7 +94,7 @@ function Initialize(self)
     end
 
     if _G.SkipSplash and not _G.ForceStartXAML and not self.waitingForSplash then
-        Engine.Log("[MenuManager] Esperando a que SplashScreen procese el Skip...")
+        --Engine.Log("[MenuManager] Esperando a que SplashScreen procese el Skip...")
         self.waitingForSplash = true
         return true
     end
@@ -192,20 +192,20 @@ function Update(self, dt)
         Audio.SetMusicState(tostring(musicState))
         self.musicSource = GameObject.Find("MusicSource")
         if not self.musicSource then 
-            Engine.Log("[MenuManager] MusiC GameObject NOT found! Music will NOT play!")
+            --Engine.Log("[MenuManager] MusiC GameObject NOT found! Music will NOT play!")
         else 
             self.musicComp = self.musicSource:GetComponent("Audio Source")
             if self.musicComp then 
                 self.musicComp:PlayAudioEvent() 
             else
-                Engine.Log("[MenuManager] Music Audio Source NOT found! Music will NOT play!")
+                --Engine.Log("[MenuManager] Music Audio Source NOT found! Music will NOT play!")
             end
         end
     end
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
-            Engine.Log("[MenuManager] ForceStartXAML disponible tras espera. Aplicando...")
+            --Engine.Log("[MenuManager] ForceStartXAML disponible tras espera. Aplicando...")
             self.waitingForSplash = false
             Initialize(self)
         end

@@ -2122,8 +2122,9 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
                 lua_touserdata(L, lua_upvalueindex(1)));
             const char* sbName = luaL_checkstring(L, 2);
+            const char* scopeName = lua_isstring(L, 3) ? lua_tostring(L, 3) : nullptr;
             if (canvas)
-                canvas->PlayStoryboard(sbName);
+                canvas->PlayStoryboard(sbName, scopeName);
             return 0;
             }, 1);
         lua_setfield(L, -2, "PlayStoryboard");

@@ -217,6 +217,15 @@ function Start(self)
     self.CheckAlive = function(self)
         return Skeleton.isDead
     end
+
+    Engine.RequestResource("17109277834976977864")
+    Engine.RequestResource("15645066021049183995")
+    Engine.RequestResource("13296577326446124640")
+    Engine.RequestResource("9184343178901509246")
+    Engine.RequestResource("6526428321459400712")
+
+
+
 end
 
 States[State.IDLE] = {

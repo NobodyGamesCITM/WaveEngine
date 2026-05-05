@@ -1426,13 +1426,13 @@ function Start(self)
 
     Player.currentState = State.IDLE
     ChangeState(self, State.IDLE, true)
+    Player.currentMask = nil
+    FindMasks(self)
+    InitParticles(self)
     EquipMask(self, Mask.NONE)
     Player.currentMask = Mask.NONE
 
     Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
-
-    FindMasks(self)
-    InitParticles(self)
 
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)

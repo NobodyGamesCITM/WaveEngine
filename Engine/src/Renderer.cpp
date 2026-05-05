@@ -545,7 +545,11 @@ bool Renderer::RenderScene(CameraLens* camera)
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
     glEnable(GL_CULL_FACE);
+    
     DrawRenderList(opaqueList, camera);
+
+    DrawSkybox(camera);
+
     DrawWaterList(waterList, camera);
 
     BuildSilhouetteStencil(camera);
@@ -556,7 +560,6 @@ bool Renderer::RenderScene(CameraLens* camera)
     DrawParticlesList(camera);
     DrawSilhouetteList(camera);
 
-    DrawSkybox(camera);
 
     if (camera->GetDebugCamera()) {
         Application::GetInstance().physics->DrawDebug();

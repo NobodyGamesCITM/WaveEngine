@@ -6,12 +6,13 @@ local wasHermes = false
 local wasDead = false
 local pushFrame = false
 
+public = {
+    isGround = false
+}
+
 function Start(self)
     waterCollider = self.gameObject:GetComponent("Box Collider")
     if waterCollider ~= nil then waterCollider:Enable() end
-
-    waterGroundCollider = self.gameObject:GetComponent("Convex Collider")
-    if waterGroundCollider ~= nil then waterGroundCollider:Enable() end
 
     if not waterCollider then Engine.Log("Water collider missing on water gameobject " ..tostring(self.gameObject)) end
 
@@ -29,20 +30,22 @@ function Update(self, dt)
     end
     wasDead = isDead
 
-    if pushFrame then
-        waterCollider:Enable()
-        pushFrame = false
-    elseif isHermes then
-        waterCollider:Disable()
-        wasHermes = true
+    if not self.public.isGround then
+        if pushFrame then
+            waterCollider:Enable()
+            pushFrame = false
+        elseif isHermes then
+            waterCollider:Disable()
+            wasHermes = true
+        else
+            waterCollider:Enable()
+            wasHermes = false
+        end
     else
-        waterCollider:Enable()
-        wasHermes = false
-    end
-
-    if isDead then
-        waterGroundCollider:Disable()
-    else
-        waterGroundCollider:Enable()
+        if isDead then
+            waterCollider:Disable()
+        else
+            waterCollider:Enable()
+        end
     end
 end

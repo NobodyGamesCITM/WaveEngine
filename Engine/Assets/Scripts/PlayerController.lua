@@ -581,6 +581,9 @@ States[State.DEAD] = {
                 ChangeState(self, State.IDLE)
                 self.public.stamina = 50.0
                 staminaLock = false
+                if Player.isDrowning then
+                    Player.hermesGraceTimer = 1.0
+                end
             end
         end
     end

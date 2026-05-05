@@ -54,6 +54,12 @@ void MaterialEditorWindow::Draw() {
         }
         ImGui::Separator();
 
+        bool transparent = editingMaterial->GetOpacity() == 0.0f;
+        if (ImGui::Checkbox("Transparent", &transparent))
+        {
+            editingMaterial->SetOpacity(transparent ? 0.0f : 1.0f);
+        }
+
         if (editingMaterial->GetType() == MaterialType::STANDARD) {
             MaterialStandard* sMat = (MaterialStandard*)editingMaterial;
 

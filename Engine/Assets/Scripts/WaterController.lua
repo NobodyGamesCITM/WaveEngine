@@ -32,10 +32,10 @@ function Update(self, dt)
 
     if not self.public.isGround then
         if pushFrame then
-            waterCollider:Enable()
+            if waterCollider then waterCollider:Enable() end
             pushFrame = false
         elseif isHermes then
-            waterCollider:Disable()
+            if waterCollider then waterCollider:Disable() end
             wasHermes = true
         else
             waterCollider:Enable()
@@ -43,9 +43,9 @@ function Update(self, dt)
         end
     else
         if isDead then
-            waterCollider:Disable()
+            if waterCollider then waterCollider:Disable() end
         else
-            waterCollider:Enable()
+            if waterCollider then waterCollider:Enable() end
         end
     end
 end

@@ -42,7 +42,6 @@ function Update(self, dt)
             _G.HUD_RefreshStatuesDestroyed()
         end
 
-        -- Disparar dialogo statuesComplete cuando se recogen todas las llaves
         local total = _G.TotalStatuesToDestroy or self.public.totalInLevel or 3
         if _G[varName] >= total then
             if _G.TriggerSequence then

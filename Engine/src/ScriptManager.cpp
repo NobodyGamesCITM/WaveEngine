@@ -1427,8 +1427,8 @@ static int Lua_GameObject_Create(lua_State* L) {
 
     // Enqueue the real creation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([name, udata]() {
-        GameObject* obj = Application::GetInstance().scene->CreateGameObject(name);
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
+        GameObject* obj = Application::GetInstance().scene->CreateGameObject(nameStr.c_str());
 
         if (obj) {
             GameObject* root = Application::GetInstance().scene->GetRoot();
@@ -3069,12 +3069,12 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
 
     // Enqueue instantiation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([name, udata]() {
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
         GameObject* instance = nullptr;
 
         // First check if prefab is already loaded in PrefabManager
-        if (PrefabManager::GetInstance().HasPrefab(name)) {
-            instance = PrefabManager::GetInstance().InstantiatePrefab(name);
+        if (PrefabManager::GetInstance().HasPrefab(nameStr)) {
+            instance = PrefabManager::GetInstance().InstantiatePrefab(nameStr);
         }
         else {
             // Try to find prefab in resources
@@ -3094,7 +3094,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                     // Normalise slashes
                     std::string normalizedAsset = assetPath;
                     std::replace(normalizedAsset.begin(), normalizedAsset.end(), '\\', '/');
-                    std::string normalizedName = name;
+                    std::string normalizedName = nameStr;
                     std::replace(normalizedName.begin(), normalizedName.end(), '\\', '/');
 
                     // Retrieve the filename of the asset 
@@ -3166,7 +3166,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                 Application::GetInstance().resources->ReleaseResource(prefabUID);
             }
             else {
-                LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", name);
+                LOG_CONSOLE("[Lua] ERROR: Prefab no encontrado en recursos: %s", nameStr.c_str());
             }
         }
 
@@ -3174,7 +3174,7 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
             *udata = instance;
         }
         else {
-            LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", name);
+            LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", nameStr.c_str());
         }
         });
 

@@ -1257,7 +1257,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 local function RefreshAudioSources(self)
-    --Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
+    Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
     local go = self.gameObject
     
     local stepGo   = GameObject.FindInChildren(go, "StepSource") or GameObject.FindInChildren(go, "SFX_FootSteps")
@@ -1269,7 +1269,7 @@ local function RefreshAudioSources(self)
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
-        --Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
+        Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
     end
 
     Player.stepSFX       = (stepGo and stepGo:GetComponent("Audio Source")) or rootSource
@@ -1560,7 +1560,7 @@ function Update(self, dt)
     end
 
     if not maskApolo or not maskAres or not maskHermes then
-        --Engine.Log("Masks not found, retrieving from hierarchy...")
+        Engine.Log("Masks not found, retrieving from hierarchy...")
         FindMasks(self)
     end
 
@@ -1711,7 +1711,8 @@ function Update(self, dt)
         end
 
         --segundo 9
-        if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
+        if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 
+        and not Audio.IsEventPlaying("SFX_GetMask") then
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GetMask") end 
         end
         --segundo 14
@@ -1720,12 +1721,12 @@ function Update(self, dt)
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
-                
             end
         end
-
+        
         --segundo 19
-        if Player.isGetMaskAnim and Player.AnimTimer <= 15.0 and Player.AnimTimer >= 10.0 and not Audio.IsEventPlaying("SFX_ShowSword") then
+        if Player.isGetMaskAnim and Player.AnimTimer <= 15.0 and Player.AnimTimer >= 10.0 
+        and not Audio.IsEventPlaying("SFX_ShowSword") then
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
         end
 

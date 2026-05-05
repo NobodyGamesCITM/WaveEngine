@@ -28,6 +28,7 @@
 #include "ComponentParticleSystem.h"
 #include "ComponentCameraZone.h"
 #include "ComponentCinematicCamera.h"
+#include "ComponentSkybox.h"
 #include "ComponentNavigation.h"
 #include "ComponentRotate.h"
 #include "ComponentAnimation.h"
@@ -170,6 +171,9 @@ Component* GameObject::CreateComponent(ComponentType type) {
         break;
     case ComponentType::CINEMATIC_CAMERA:
         newComponent = new ComponentCinematicCamera(this);
+        break;
+    case ComponentType::SKYBOX:
+        newComponent = new ComponentSkybox(this);
         break;
     default:
         LOG_DEBUG("ERROR: Unknown component type requested for GameObject '%s'", name.c_str());

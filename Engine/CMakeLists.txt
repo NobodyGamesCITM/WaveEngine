@@ -58,6 +58,8 @@ set(RENDERING_SRC
     src/ComponentMesh.cpp
     src/ComponentSkinnedMesh.h
     src/ComponentSkinnedMesh.cpp
+    src/ComponentSkybox.h
+    src/ComponentSkybox.cpp
     src/CameraLens.h
     src/CameraLens.cpp
     src/UI.h
@@ -95,6 +97,8 @@ set(SHADERS_SRC
     src/ShaderPostPorcessing.cpp 
     src/ShaderShadowDepth.cpp 
     src/ShaderShadowDepth.h 
+    src/ShaderSkybox.cpp
+    src/ShaderSkybox.h
 )  
 
 set(VFX_SRC

@@ -45,6 +45,7 @@
 #include "ComponentLight.h"
 #include "LightManager.h"
 #include "Renderer.h"
+#include "ComponentSkybox.h"
 
 #include "Log.h"
 #include "ComponentScript.h"
@@ -325,7 +326,7 @@ void InspectorWindow::Draw()
             DrawCanvasComponent(component);
 			break;
 
-			// lights
+			// --- LIGHTS ---
         case ComponentType::LIGHT:
             DrawLightComponent(component);
             break;
@@ -340,6 +341,9 @@ void InspectorWindow::Draw()
                 DrawComponentContextMenu(component, true);
                 component->OnEditor();
             }
+            break;
+        case ComponentType::SKYBOX:
+            DrawSkyboxComponent(component);
             break;
 		case ComponentType::UNKNOWN:
             break;
@@ -1185,6 +1189,19 @@ void  InspectorWindow::DrawD6JointComponent(Component* component)
         if (ImGui::CollapsingHeader("D6 Joint", ImGuiTreeNodeFlags_DefaultOpen)) {
             DrawComponentContextMenu(Joint, true);
             Joint->OnEditor();
+        }
+    }
+}
+
+void  InspectorWindow::DrawSkyboxComponent(Component* component)
+{
+    ComponentSkybox* skybox = static_cast<ComponentSkybox*>(component);
+
+    if (skybox != nullptr)
+    {
+        if (ImGui::CollapsingHeader("Skybox", ImGuiTreeNodeFlags_DefaultOpen)) {
+            DrawComponentContextMenu(skybox, true);
+            skybox->OnEditor();
         }
     }
 }
@@ -2531,6 +2548,21 @@ void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
                         std::make_unique<AddComponentCommand>(selectedObject, newComp)
                     );
                 LOG_CONSOLE("[Inspector] Cinematic Camera component added to: %s", selectedObject->GetName().c_str());
+                ImGui::CloseCurrentPopup();
+            }
+        }
+        
+        // Skybox Camera
+        if (matches("Skybox"))
+        {
+            if (ImGui::Selectable("Skybox"))
+            {
+                Component* newComp = selectedObject->CreateComponent(ComponentType::SKYBOX);
+                if (newComp)
+                    Application::GetInstance().editor->GetCommandHistory()->PushWithoutExecute(
+                        std::make_unique<AddComponentCommand>(selectedObject, newComp)
+                    );
+                LOG_CONSOLE("[Inspector] Skybox component added to: %s", selectedObject->GetName().c_str());
                 ImGui::CloseCurrentPopup();
             }
         }

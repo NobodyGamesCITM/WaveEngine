@@ -20,7 +20,7 @@ local PORTRAIT_MAP = {
 local currentPortrait    = nil
 local lastDisplayedChars = -1
 
--- ===== UTF-8 helpers =====
+
 local function utf8charlen(byte)
     if byte < 0x80 then return 1
     elseif byte < 0xE0 then return 2
@@ -52,7 +52,7 @@ local function utf8sub(str, nchars)
     end
     return str
 end
--- =========================
+
 
 local state = {
     active          = false,
@@ -85,7 +85,7 @@ local function loadDialogs()
         return false
     end
     allDialogs = result
-    Engine.Log("[DialogSystem] Dialogs loaded")
+    Engine.Log("[DialogSystem] Dialogs loaded OK")
     return true
 end
 
@@ -113,32 +113,40 @@ local function loadDialogEntry(entry)
 end
 
 local function startSequence(sequenceId)
-    if _G.CurrentXAML and _G.CurrentXAML ~= "HUD.xaml" then
+    
+    Engine.Log("[DialogSystem] >>> TriggerSequence llamado: " .. tostring(sequenceId))
+    Engine.Log("[DialogSystem] >>> CurrentXAML = " .. tostring(_G.CurrentXAML))
+
+    if not loadDialogs() then
+        Engine.Log("[DialogSystem] BLOQUEADO: loadDialogs() falló")
         return
     end
-    if not loadDialogs() then return end
+
     local seq = allDialogs[sequenceId]
     if not seq then
-        Engine.Log("[DialogSystem] Sequence not found: " .. tostring(sequenceId))
+        Engine.Log("[DialogSystem] BLOQUEADO: secuencia no encontrada -> " .. tostring(sequenceId))
         return
     end
+
     state.active          = true
     state.currentSequence = seq.dialogs
     state.currentIndex    = 1
     _G._IsDialogActive    = true
     _G.DialogActive       = true
+    if _G.UpdatePauseState then _G.UpdatePauseState() end
     wasAmbient            = _G.DialogAmbientMode or false
     _G.DialogAmbientMode  = false
-    if not wasAmbient then
-        Game.Pause()
-    end
+
+    Engine.Log("[DialogSystem] Canvas: " .. tostring(canvas))
+    Engine.Log("[DialogSystem] DialogBox -> SetVisible true")
     UI.SetElementVisibility("DialogBox", true)
-    -- Ocultar ContinueIcon si es ambiental
+
     if wasAmbient then
         UI.SetElementVisibility("ContinueIcon", false)
     end
+
     loadDialogEntry(state.currentSequence[1])
-    Engine.Log("[DialogSystem] Started: " .. sequenceId)
+    Engine.Log("[DialogSystem] Started OK: " .. sequenceId)
 end
 
 function ForceCloseDialog()
@@ -157,9 +165,7 @@ function ForceCloseDialog()
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
     _G.DialogActive = false
-    if not wasAmbient then
-        Game.Resume()
-    end
+    if _G.UpdatePauseState then _G.UpdatePauseState() end
     wasAmbient = false
     Engine.Log("[DialogSystem] Force closed")
 end
@@ -197,16 +203,14 @@ local function closeDialog()
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
     _G.DialogActive = false
-    if not wasAmbient then
-        Game.Resume()
-    end
+   if _G.UpdatePauseState then _G.UpdatePauseState() end
     wasAmbient = false
     Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
     if not state.active then return end
-    if wasAmbient then return end  -- los ambientales no se avanzan manualmente
+    if wasAmbient then return end
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true

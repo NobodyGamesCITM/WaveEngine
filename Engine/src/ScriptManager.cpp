@@ -2032,6 +2032,25 @@ static int Lua_ParticleSystem_SetEndColor(lua_State* L) {
     return 0;
 }
 
+// SetSize Particle
+static int Lua_ParticleSystem_SetSize(lua_State* L) {
+    ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float size = (float)luaL_checknumber(L, 2);
+
+    if (ps) {
+        EmitterInstance* emitter = ps->GetEmitter();
+        for (auto* m : emitter->modules) {
+            if (m->type == ParticleModuleType::SPAWNER) {
+                // Static size at the start and at the end
+                static_cast<ModuleEmitterSpawn*>(m)->sizeStart = size;
+                static_cast<ModuleEmitterSpawn*>(m)->sizeEnd = size;
+                break;
+            }
+        }
+    }
+    return 0;
+}
+
 
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
@@ -2139,8 +2158,9 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
             ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
                 lua_touserdata(L, lua_upvalueindex(1)));
             const char* sbName = luaL_checkstring(L, 2);
+            const char* scopeName = lua_isstring(L, 3) ? lua_tostring(L, 3) : nullptr;
             if (canvas)
-                canvas->PlayStoryboard(sbName);
+                canvas->PlayStoryboard(sbName, scopeName);
             return 0;
             }, 1);
         lua_setfield(L, -2, "PlayStoryboard");
@@ -3026,6 +3046,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetStartColor");
     lua_pushcfunction(L, Lua_ParticleSystem_SetEndColor);
     lua_setfield(L, -2, "SetEndColor");
+    lua_pushcfunction(L, Lua_ParticleSystem_SetSize);
+    lua_setfield(L, -2, "SetSize");
     lua_pop(L, 1);
 }
 

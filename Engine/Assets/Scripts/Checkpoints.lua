@@ -76,8 +76,34 @@ local function StopParticles(self, vfxName, checkpoint)
     end
 end
 
+local function FindCheckPointAudioSources(self)
+    -- local chantSource = GameObject.FindInChildren(self.gameObject, "ChantSource")
+    -- if chantSource then 
+    --     self.chantSFX = chantSource:GetComponent(self.gameObject, "Audio Source")
+    --     if not self.chantSFX then Engine.Log("[Checkpoints] Chant Audio Source Component not found!") 
+    --     else Engine.Log("[Checkpoints] Chant Audio Source Component FOUND!") end
+    -- else
+    --     Engine.Log("[Checkpoints] Unable to retrieve Chant Source GameObject!")
+    -- end
+
+    local saveSource = GameObject.FindInChildren(self.gameObject, "VoiceSource") --will reuse an already existent player audiosource for practicality
+    if saveSource then 
+        self.saveSFX = saveSource:GetComponent("Audio Source")
+        if not self.saveSFX then Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component not found!")
+        else Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component FOUND!") end
+    else
+        Engine.Log("[Checkpoints] Unable to retrieve Save (Player's VoiceSource) Source GameObject!")
+    end
+
+end
+
 local function Initialize(self)
-   checkpoints = GameObject.FindByTag("CheckPoint")
+
+    --FindCheckPointAudioSources(self)
+
+    checkpoints = GameObject.FindByTag("CheckPoint")
+
+
     
     for i, checkpoint in ipairs(checkpoints) do
         Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
@@ -96,6 +122,10 @@ function Update(self, deltaTime)
 
     if not checkpoints then
         Initialize(self)
+    end
+
+    if not self.chantSFX or not self.saveSFX then 
+        FindCheckPointAudioSources(self)
     end
 
     if interact == true then 
@@ -127,6 +157,9 @@ function Update(self, deltaTime)
                     ActivateParticles(self, "BlueSparkles", currentCheckpoint)
                     StopParticles(self, "YellowSparkles", currentCheckpoint)
                     Restore(self)
+
+                    if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
+                    else Engine.Log("[Checkpoints] Could not play SaveSFX!") end
                 end
             end
         end

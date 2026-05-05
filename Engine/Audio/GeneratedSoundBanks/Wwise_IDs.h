@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID MUS_BGM = 638756417U;
         static const AkUniqueID SFX_ACTIVATESTATUE = 433468090U;
+        static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
         static const AkUniqueID SFX_APOLOMASK = 200801602U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
         static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;
@@ -26,6 +27,10 @@ namespace AK
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_ARESMASK = 3161303428U;
+        static const AkUniqueID SFX_CALMWATER = 2864737081U;
+        static const AkUniqueID SFX_CHECKPOINTSAVE = 3854015376U;
+        static const AkUniqueID SFX_CREEPYSOUNDS = 112594585U;
+        static const AkUniqueID SFX_DEACTIVATESTATUE = 2443085627U;
         static const AkUniqueID SFX_DOORMOVE = 2318810U;
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
@@ -54,6 +59,7 @@ namespace AK
         static const AkUniqueID SFX_POTIONDRINK = 3128226246U;
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;
+        static const AkUniqueID SFX_SEAWATER = 2754480747U;
         static const AkUniqueID SFX_SHOWSWORD = 1498826869U;
         static const AkUniqueID SFX_SIRENDIE = 4188719418U;
         static const AkUniqueID SFX_SIRENDIP = 4188719407U;

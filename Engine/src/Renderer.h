@@ -12,6 +12,7 @@ class GameObject;
 class ComponentMesh;
 class ComponentSkinnedMesh;
 class ComponentParticleSystem;
+class ComponentSkybox;
 class CameraLens;
 class ComponentCanvas;
 class ComponentCamara;
@@ -114,6 +115,10 @@ public:
     void SetLightDir(const glm::vec3& dir) { lightDir = dir; }
     glm::vec3 GetLightDir() const { return lightDir; }
 
+    void SetActiveSkybox(ComponentSkybox* skybox);
+    bool IsSkyboxActive(ComponentSkybox* skybox) { return activeSkybox == skybox; }
+    void DrawSkybox(const CameraLens* camera);
+
     void SetMSAA(bool enabled);
     bool IsMSAAEnabled() const { return msaaEnabled; }
 
@@ -180,6 +185,7 @@ private:
     std::unique_ptr<Shader> uiShader;
     std::unique_ptr<Shader> silhouetteShader;
     std::unique_ptr<Shader> currentShader;
+    std::unique_ptr<Shader> skyboxShader;
 
     // Default assets
     std::unique_ptr<Texture> defaultTexture;
@@ -228,6 +234,7 @@ private:
     std::vector<ComponentCanvas*> activeCanvas;
     std::vector<CameraLens*> activeCameras;
     std::vector<ComponentPostProcessing*> postProcessingComponents;
+    ComponentSkybox* activeSkybox = nullptr;
 
     std::vector<RenderObject> opaqueList;
     std::vector<RenderObject> waterList;

@@ -592,6 +592,7 @@ function Start(self)
     self.public = {
         maxHp           = 60,
         detectRange     = 20.0,
+		lockOnSize      = 6.5,
         tooCloseRange   = 3.5,
         chargeRange     = 12.0,
 

@@ -42,7 +42,7 @@ end
 local function FindStatueInteractPrompt(self)
     self.interactive = GameObject.FindInChildren(self.gameObject, "Interactive")
     if not self.interactive then 
-        Engine.Log("[MASKDROP] Unable to retrieve Interactive Prompt GameObject")
+        --Engine.Log("[MASKDROP] Unable to retrieve Interactive Prompt GameObject")
     else 
         self.interactive:SetActive(true) 
     end
@@ -54,11 +54,37 @@ local function FindStatueAudioSource(self)
     if self.statueSource then 
         self.statueSFX = self.statueSource:GetComponent("Audio Source")
         if not self.statueSFX then 
-            Engine.Log("[MASKDROP] Unable to retrieve Audio Source Component from Bust Statue")
+            --Engine.Log("[MASKDROP] Unable to retrieve Audio Source Component from Bust Statue")
         end
 
     else
-        Engine.Log("[MASKDROP] Unable to find Audio GameObject from Bust Statue")
+        --Engine.Log("[MASKDROP] Unable to find Audio GameObject from Bust Statue")
+    end
+end
+
+local function ActivateStatue(self)
+    
+    --local statueAnim = self.gameObject:GetComponent("Animation") 
+    if self.statueAnim then self.statueAnim:Play("Activate", 0.15) end
+
+    self.activatedStatue = true
+    self.removedStoneMask = false
+    self.maskAnimTimer = 0
+    if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_ActivateStatue") end
+        
+    if self.interactive then GameObject.Destroy(self.interactive) end
+    
+
+    if not statueMesh then statueMesh = GameObject.FindInChildren(self.gameObject, "mesh") end
+    if self.statueMesh then 
+        if not statueMat then statueMat = self.statueMesh:GetComponent("Material") end
+        if self.statueMat then 
+            self.statueMat.SetTexture("16679556794755767834")
+            if self.dustPs then self.dustPs:Play() end
+        else
+            Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
+        end
+
     end
 end
 
@@ -75,11 +101,13 @@ function Initialize(self)
     end
 
     self.dustVFX = GameObject.FindInChildren(self.gameObject, "DustParticles")
-    if not self.dustVFX then Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
+
+    if not self.dustVFX then 
+        --Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
     else
         self.dustPs = self.dustVFX:GetComponent("ParticleSystem")
         if not self.dustPs then 
-            Engine.Log("Unable to retrieve dust Particle System Component")
+            --Engine.Log("Unable to retrieve dust Particle System Component")
         end
     end
 
@@ -92,6 +120,7 @@ function Initialize(self)
     maskAnimDuration = 34.0
     self.activatedStatue = false
     self.removedStoneMask = false
+    self.finished = false
     self.maskAnimTimer = 0   
     self.stopAnimTimer = 0
 end
@@ -129,40 +158,19 @@ function Update(self, dt)
             if self.public.DropHermesMask then giveHermesMask = true end
             if self.public.DropAresMask   then giveAresMask   = true end
 
-            --local statueAnim = self.gameObject:GetComponent("Animation") 
-            if self.statueAnim then self.statueAnim:Play("Activate", 0.15) end
-
-            self.activatedStatue = true
-            self.removedStoneMask = false
-            self.maskAnimTimer = 0
-            if self.statueSFX then self.statueSFX:PlayAudioEvent() end
-                
-            if self.interactive then GameObject.Destroy(self.interactive) end
-            
-
-            --local statueMesh = GameObject.FindInChildren(self.gameObject, "mesh")
-            if self.statueMesh then 
-                --local statueMat = self.statueMesh:GetComponent("Material")
-                if self.statueMat then 
-                    self.statueMat.SetTexture("16679556794755767834")
-                    if self.dustPs then self.dustPs:Play() end
-                else
-                    Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
-                end
-
+            if (giveApoloMask and not _G._MaskState_Apolo )
+            or (giveHermesMask and not _G._MaskState_Hermes) 
+            or (giveAresMask and not _G._MaskState_Ares) then
+                ActivateStatue(self)
             end
-            
             
         end
     end
 
-    if self.activatedStatue then
+    if self.activatedStatue and not self.finished then
 
         --Engine.Log("Activated Statue")
         self.maskAnimTimer = self.maskAnimTimer + dt
-        
-
-        
         if self.maskAnimTimer >= 15.0 and not self.removedStoneMask then
             if self.stoneMask then self.stoneMask:SetActive(false)
             else Engine.Log("[MASKDROP] Stone Mask not found, unable to remove from statue")
@@ -171,7 +179,7 @@ function Update(self, dt)
         end
 
         if self.maskAnimTimer >= 30.0 then
-            self.statueAnim:SetLooping("Activate", false)
+            if self.statueAnim then self.statueAnim:SetLooping("Activate", false) end
             if self.statueSFX then self.statueSFX:StopAudioEvent() end
         end
 
@@ -179,17 +187,20 @@ function Update(self, dt)
 
             --won't reset bc the animation should only play once (you only get the mask once obv)
             --self.activatedStatue = false
-            self.maskAnimTimer = 0
+            self.maskAnimTimer = 0 
 
             if self.statueMesh then 
                 if self.statueMat then 
                     self.statueMat.SetTexture("10286171976575561541")
                     if self.dustPs then self.dustPs:Play() end
+                    if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_DeactivateStatue") end
                     
                 else
                     Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
                 end
             end
+
+            self.finished = true
         end
     end
 end

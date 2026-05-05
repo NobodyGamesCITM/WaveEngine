@@ -35,7 +35,7 @@ public:
     void SetElementText(const std::string& elementName, const std::string& text);
     void SetElementVisibility(const std::string& elementName, bool visible);
     void SetElementMargin(const std::string& elementName, float left, float top, float right, float bottom);
-
+    void SetCanvasOpacity(ComponentCanvas* canvas, float opacity);
 
 private:
     UIManager() = default;

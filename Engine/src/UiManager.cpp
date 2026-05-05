@@ -112,8 +112,14 @@ void UIManager::SetElementVisibility(const std::string& elementName, bool visibl
 std::unordered_set<std::string> UIManager::GetCanvasButtons() {
     return m_canvasButtons;
 }
+
 void UIManager::SetElementMargin(const std::string& elementName, float left, float top, float right, float bottom) {
     auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
     if (!fe) return;
     fe->SetMargin(Noesis::Thickness(left, top, right, bottom));
+}
+
+void UIManager::SetCanvasOpacity(ComponentCanvas* canvas, float opacity) {
+    if (!canvas) return;
+    canvas->SetOpacity(std::clamp(opacity, 0.0f, 1.0f));
 }

@@ -53,6 +53,7 @@ local function NavigateBack(self)
 end
 
 function Initialize(self)
+    _G.CinematicActive = false
     Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
     
     self.canvas = self.gameObject:GetComponent("Canvas")
@@ -175,7 +176,6 @@ function Start(self)
 end
 
 function Update(self, dt)
-
     if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = self.public.currentScene 
         local musicState = "None"

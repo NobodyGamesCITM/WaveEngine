@@ -99,8 +99,7 @@ end
 
 local function ApplyMoveVelocity(dt, accelRate)
     local vel = Skeleton.rb:GetLinearVelocity()
-    Skeleton.rb:SetLinearVelocity(Lerp(vel.x, targetVelX, dt * accelRate),vel.y,
-                         Lerp(vel.z, targetVelZ, dt * accelRate))
+    Skeleton.rb:SetLinearVelocity(targetVelX * accelRate,vel.y,targetVelZ * accelRate)
 end
 
 local function FaceTargetSmooth(self, target, dt)
@@ -264,7 +263,7 @@ States[State.GUARD] = {
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
         targetVelX = dx * self.public.patrolSpeed
         targetVelZ = dz * self.public.patrolSpeed
-        ApplyMoveVelocity(dt, 18.0)
+        ApplyMoveVelocity(dt, 1.0)
         
         if abs(dx) > 0.001 or abs(dz) > 0.001 then
             local p = self.transform.worldPosition
@@ -295,7 +294,7 @@ States[State.PATROL] = {
         local dx, dz = Skeleton.nav:GetMoveDirection(self.public.offset)
         targetVelX = dx * self.public.patrolSpeed
         targetVelZ = dz * self.public.patrolSpeed
-        ApplyMoveVelocity(dt, 18.0)
+        ApplyMoveVelocity(dt, 1.5)
         
         if abs(dx) > 0.001 or abs(dz) > 0.001 then
             local p = self.transform.worldPosition
@@ -348,7 +347,7 @@ States[State.CHASE] = {
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
         targetVelX = dx * self.public.chaseSpeed
         targetVelZ = dz * self.public.chaseSpeed
-        ApplyMoveVelocity(dt, 18.0)
+        ApplyMoveVelocity(dt, 1.5)
         FaceTargetSmooth(self, plPos, dt)
     end
 }

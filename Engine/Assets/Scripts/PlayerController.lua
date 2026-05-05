@@ -581,6 +581,9 @@ States[State.DEAD] = {
                 ChangeState(self, State.IDLE)
                 self.public.stamina = 50.0
                 staminaLock = false
+                if Player.isDrowning then
+                    Player.hermesGraceTimer = 1.0
+                end
             end
         end
     end
@@ -725,7 +728,7 @@ States[State.WALK] = {
                     local rightDot =  mX * eDirZ - mZ * eDirX
                     local newAnim
                     if math.abs(fwdDot) >= math.abs(rightDot) then
-                        if fwdDot >= 0 then newAnim = "OrbitForward"
+                        if fwdDot >= 0 then newAnim = "OrbitFwd"
                         else                newAnim = "OrbitBack" end
                     else
                         if rightDot >= 0 then newAnim = "OrbitRight"
@@ -744,7 +747,11 @@ States[State.WALK] = {
                 end
             end
         else
-            Player.currentOrbitAnim = nil
+            if Player.currentOrbitAnim ~= nil then
+                Player.currentOrbitAnim = nil
+                local anim = self.gameObject:GetComponent("Animation")
+                if anim then pcall(function() anim:Play("Walk", 0.2) end) end
+            end
         end
         
         ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.baseSpeed)
@@ -878,7 +885,14 @@ States[State.RUNNING] = {
                 end
             end
         else
-            Player.currentOrbitAnim = nil
+            if Player.currentOrbitAnim ~= nil then
+                Player.currentOrbitAnim = nil
+                local anim = self.gameObject:GetComponent("Animation")
+                if anim then
+                    pcall(function() anim:Play("Running", 0.2) end)
+                    pcall(function() anim:SetSpeed("Running", 2.0) end)
+                end
+            end
         end
 
         ApplyMovementAndRotation(self, dt, moveX, moveZ, Player.currentSpeed)
@@ -1695,7 +1709,7 @@ function Update(self, dt)
         Player.AnimTimer = Player.AnimTimer - dt
         
         --positions
-        if Player.isGetMaskAnim and Player.AnimTimer > 33.0 and Player.pendingObtainMask then
+        if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
                 self.transform:SetPosition(-68.549, 3.280, -318.933) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end

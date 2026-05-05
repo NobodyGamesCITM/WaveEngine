@@ -682,6 +682,10 @@ function Start(self)
     mesh = GameObject.FindInChildren(self.gameObject,"Mesh")
     BaseMat = mesh:GetComponent("Material")
 
+    Engine.RequestResource("16637297170788735381")
+    Engine.RequestResource("15634858790036886356")
+    Engine.RequestResource("12721768917354180794")
+
     self.stayinNavmesh=false
 end
 

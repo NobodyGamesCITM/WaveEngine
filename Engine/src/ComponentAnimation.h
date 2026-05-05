@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-#include "ResourceAnimation.h"
 #include "EventListener.h"
+#include "Globals.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -10,6 +10,8 @@
 
 class GameObject;
 class Transform;
+class ResourceAnimation;
+class Channel;
 
 struct BoneSnapshot {
     glm::vec3 pos;
@@ -41,6 +43,7 @@ struct AnimationData {
     UID uid = 0;
     float speed = 1.0f;
     bool loop = true;
+    ResourceAnimation* resource = nullptr;
 };
 
 class ComponentAnimation : public Component, public EventListener
@@ -56,8 +59,6 @@ public:
 
     void AddAnimation(const std::string& name, UID uid);
     void RemoveAnimation(const std::string& name);
-
-    void UnloadAnimation(AnimationInstance& animation);
 
     void Play(const std::string& name, float blendTime = 0.2f);
     void Stop();

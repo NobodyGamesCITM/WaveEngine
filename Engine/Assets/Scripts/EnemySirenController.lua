@@ -242,12 +242,14 @@ local function SyncCollider(self)
 end
 
 local function UpdateHeight(self, targetOffset, dt)
-    self.currentYOffset = self.currentYOffset + (targetOffset - self.currentYOffset) * dt * self.public.riseSpeed
+    local yOffset = self.currentYOffset or 0
+
+    yOffset = yOffset + (targetOffset - yOffset) * dt * self.public.riseSpeed
     
     local pos = self.transform.position
-    pos.y = self.baseY + self.currentYOffset
+    pos.y = self.baseY + yOffset
     self.transform:SetPosition(pos.x, pos.y, pos.z)
-    if self.currentYOffset < 0.2 then
+    if yOffset < 0.2 then
         if not self.isFullyHidden then
             self.isFullyHidden = true
             -- Engine.Log("[Siren] Sumergida: Invulnerable")
@@ -395,7 +397,7 @@ local function UpdateIdle(self, dist, dt)
 
         if self.playerInRange then
             Engine.Log("Triggering Combat Music from Siren detection range")
-            _G.TriggerCombatMusic()
+           -- _G.TriggerCombatMusic()
         end
 
         if self.isShowing then
@@ -453,7 +455,7 @@ local function UpdateWindUp(self, pp, dist, dt)
     if self.windupFeedback then
         pcall(function()
             local scale = self.public.blastRadius * 2
-            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.2, pp.z)
+            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
             self.windupFeedback.transform:SetScale(scale, 0.03, scale)
             self.windupFeedbackSet = true
         end)
@@ -638,6 +640,13 @@ function Start(self)
    self.anim:Play("Hide")
 
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+
+
+    Engine.RequestResource("10973116870485554369")
+    Engine.RequestResource("8896541361096085563")
+    Engine.RequestResource("1496995762458507062")
+
+
     BaseMat = sirenMesh:GetComponent("Material")
 
     if self.public.level2 then
@@ -657,9 +666,10 @@ function Update(self, dt)
 
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
+        self.gameObject:SetActive(false)
         Engine.Log("Destroyed Siren")
         _G.TriggerExplorationMusic()
-        self:Destroy() 
+        --self:Destroy() 
 
         return  
     end
@@ -682,6 +692,7 @@ function Update(self, dt)
 
         if self.deathTimer <= 0 then
             Engine.Log("Siren pending to destroy")
+
             self.pendingDestroy = true
             
         end

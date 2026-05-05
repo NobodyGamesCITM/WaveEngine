@@ -242,13 +242,14 @@ local function SyncCollider(self)
 end
 
 local function UpdateHeight(self, targetOffset, dt)
-    
-    self.currentYOffset = self.currentYOffset + (targetOffset - self.currentYOffset) * dt * self.public.riseSpeed
+    local yOffset = self.currentYOffset or 0
+
+    yOffset = yOffset + (targetOffset - yOffset) * dt * self.public.riseSpeed
     
     local pos = self.transform.position
-    pos.y = self.baseY + self.currentYOffset
+    pos.y = self.baseY + yOffset
     self.transform:SetPosition(pos.x, pos.y, pos.z)
-    if self.currentYOffset < 0.2 then
+    if yOffset < 0.2 then
         if not self.isFullyHidden then
             self.isFullyHidden = true
             -- Engine.Log("[Siren] Sumergida: Invulnerable")
@@ -396,7 +397,7 @@ local function UpdateIdle(self, dist, dt)
 
         if self.playerInRange then
             Engine.Log("Triggering Combat Music from Siren detection range")
-            _G.TriggerCombatMusic()
+           -- _G.TriggerCombatMusic()
         end
 
         if self.isShowing then
@@ -655,7 +656,7 @@ function Start(self)
     end
 
     self.baseY = self.transform.position.y
-    --self.currentYOffset = 0
+    self.currentYOffset = 0
 end
 
 -- Update
@@ -665,9 +666,10 @@ function Update(self, dt)
 
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
+        self.gameObject:SetActive(false)
         Engine.Log("Destroyed Siren")
         _G.TriggerExplorationMusic()
-        self:Destroy() 
+        --self:Destroy() 
 
         return  
     end
@@ -690,6 +692,7 @@ function Update(self, dt)
 
         if self.deathTimer <= 0 then
             Engine.Log("Siren pending to destroy")
+
             self.pendingDestroy = true
             
         end

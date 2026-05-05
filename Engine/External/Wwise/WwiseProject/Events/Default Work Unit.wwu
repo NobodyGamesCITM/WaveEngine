@@ -69,7 +69,7 @@
 								<Action Name="" ID="{6DAAB6D4-02F8-4D82-BEBD-B51DA3289669}" ShortID="980498547">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Item_PickUp" ID="{FF90A242-7EAF-480A-A6EC-35126B27A941}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="checkpoint_save_00" ID="{FF90A242-7EAF-480A-A6EC-35126B27A941}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -259,6 +259,16 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
+								<Action Name="" ID="{27029A68-61EC-4214-8E7E-4405225C9B9C}" ShortID="452456793">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="3"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_PotionGetSFX" ID="{16D9B312-3901-42F8-9A7A-1020C5364839}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 							</ChildrenList>
 						</Event>
 						<Event Name="SFX_AresCharge" ID="{C804D2B1-0E64-460D-92D0-6B978E1BF186}">
@@ -315,9 +325,6 @@
 						<Event Name="SFX_ActivateStatue" ID="{78CD194E-8299-4128-9E57-965A6B7D168F}">
 							<ChildrenList>
 								<Action Name="" ID="{1B1C7F64-94C5-4B6C-AF1A-2657E972886A}" ShortID="554945897">
-									<PropertyList>
-										<Property Name="Delay" Type="Real64" Value="2.21"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Unlock_Statue" ID="{66447CE9-DCD6-41BE-AD73-C4425117F38A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
@@ -326,7 +333,7 @@
 								</Action>
 								<Action Name="" ID="{F3A849F1-9755-49B5-B345-B05394C9E8EF}" ShortID="65089558">
 									<PropertyList>
-										<Property Name="Delay" Type="Real64" Value="3"/>
+										<Property Name="Delay" Type="Real64" Value="2"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
@@ -341,6 +348,13 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="riser_03" ID="{DE47F7BA-12BF-4104-9932-1482FFA8D6A0}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{2906D302-3D70-4704-BDD0-4B2904826644}" ShortID="872551317">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="epic_mask_bgm" ID="{D727F379-6EFA-4781-A046-AF0637613A59}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -437,7 +451,18 @@
 								<Action Name="" ID="{E25CC84B-808D-477F-9BAB-D3F69CB4A076}" ShortID="995291733">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Unlock_Statue" ID="{66447CE9-DCD6-41BE-AD73-C4425117F38A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="deactivate_statue" ID="{04BC33DF-AB07-4825-8580-E854DEB8039C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_CheckPointSave" ID="{0816B4D0-AEC7-4C06-880D-49724B112FA5}">
+							<ChildrenList>
+								<Action Name="" ID="{30AACEDD-A520-49AD-A237-48E1B34D7C12}" ShortID="95354155">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Checkpoint_Save" ID="{D9AEF2EA-57AA-4633-990C-CFBE96C36875}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -604,6 +629,50 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="FlowingWater" ID="{A0D7B97D-86D5-4F29-94FF-7F91B13D1DEB}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_CalmWater" ID="{4D1AD8E3-016B-44BC-AAE3-A960B6A1F011}">
+							<ChildrenList>
+								<Action Name="" ID="{2A24FBD1-F5D3-430C-B881-09B9B2528F57}" ShortID="107360386">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="CalmWater" ID="{3AA5E316-2FCC-49E5-905D-1F615F8230C9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_SeaWater" ID="{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}">
+							<ChildrenList>
+								<Action Name="" ID="{676B29D8-58CE-41EA-9F27-CD0562966AB8}" ShortID="172280850">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_CreepySounds" ID="{213D3FC0-8CE6-4D66-856D-43D6ECE5C1CB}">
+							<ChildrenList>
+								<Action Name="" ID="{7FC7B724-B553-4C94-BF6A-4CBFB1A2D80D}" ShortID="791157591">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="CreepySounds" ID="{BE9DA73A-6ABF-4C2E-BA36-01904145B1F7}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_AngelsChant" ID="{8F39C16E-2B80-4349-B27C-82E61A229390}">
+							<ChildrenList>
+								<Action Name="" ID="{8FC93E6A-3DDA-4362-A529-1729EBA56C84}" ShortID="94310543">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Angels_Chant" ID="{9F3D6452-9670-48C2-B088-BC9F5BD8EC4C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

@@ -78,7 +78,7 @@ function Initialize(self)
         --Engine.Log("[Chest] AVISO: no encontrado: " .. tostring(self.public.potionName or "PotionVisual"))
     end
     self.PotionObt = GameObject.FindInChildren(self.gameObject, "group")
-    Engine.Log("[Chest] ShowItemObtained al Start = " .. tostring(_G.ShowItemObtained))
+    --Engine.Log("[Chest] ShowItemObtained al Start = " .. tostring(_G.ShowItemObtained))
 end
 
 function Start(self)
@@ -86,7 +86,7 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if not self.potionObject or not self.PotionObt then
+    if not self.potionObject or not self.PotionObt or not self.inputCooldown then
         Initialize(self)
     end
 

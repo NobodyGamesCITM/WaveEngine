@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{33DFEAFB-5E22-3493-8933-EFBCE84BFB31}",
+    "Hash": "{CFAA50F2-8A0A-3A91-0A4D-7A75656B840D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -86,6 +86,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_02.wav",
       "CachePath": "20/{20689C57-7370-61C4-252A-08FF85B687BA}.wem"
+     },
+     {
+      "Id": "79161646",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "deactivate_statue.wav",
+      "CachePath": "8B/{8BC2369C-3201-7F61-C836-F71BFB5A38D4}.wem"
      },
      {
       "Id": "81473091",
@@ -190,6 +198,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_06.wav",
       "CachePath": "63/{63DE341F-D470-9497-426E-74076A8C943D}.wem"
+     },
+     {
+      "Id": "146106055",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "unlock_statue.wav",
+      "CachePath": "56/{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem"
      },
      {
       "Id": "146545938",
@@ -568,6 +584,14 @@
       "CachePath": "86/{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem"
      },
      {
+      "Id": "494683163",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambiance_Sea_Loop_Stereo.wav",
+      "CachePath": "A3/{A355D325-890C-F1C2-1F2C-E4D69AE327E6}.wem"
+     },
+     {
       "Id": "495811719",
       "Language": "SFX",
       "Streaming": "false",
@@ -598,14 +622,6 @@
       "Location": "Memory",
       "ShortName": "mask_pickup.wav",
       "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
-     },
-     {
-      "Id": "523403148",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "statue_unlock.wav",
-      "CachePath": "07/{07BAF0C5-2C80-2B82-1781-36BD4C569BBF}.wem"
      },
      {
       "Id": "526649077",
@@ -752,6 +768,14 @@
       "CachePath": "D6/{D6A8C950-894B-852B-483E-5C0DB675E006}.wem"
      },
      {
+      "Id": "622655417",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "athena_chant_01.wav",
+      "CachePath": "B8/{B8393BF5-BF7E-7D51-9C91-AB43F22A4D1B}.wem"
+     },
+     {
       "Id": "629385577",
       "Language": "SFX",
       "Streaming": "false",
@@ -864,14 +888,6 @@
       "CachePath": "29/{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem"
      },
      {
-      "Id": "699306489",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "item_pickup.wav",
-      "CachePath": "EB/{EBA44276-58C0-7559-AFE3-4D4EC9F96AE8}.wem"
-     },
-     {
       "Id": "699991876",
       "Language": "SFX",
       "Streaming": "false",
@@ -912,12 +928,44 @@
       "CachePath": "4E/{4E75E11D-7074-9846-F9FA-1AD2AF279754}.wem"
      },
      {
+      "Id": "750230204",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "activate_checkpoint.wav",
+      "CachePath": "C5/{C5B4E518-4227-92D0-9B07-9035442D91D5}.wem"
+     },
+     {
       "Id": "752261276",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_wallcrash_boulder.wav",
       "CachePath": "9D/{9DD305E0-6FCF-959F-B0C3-790C87EAFFB6}.wem"
+     },
+     {
+      "Id": "759655859",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Splatoon - Disturbing Boss Sounds (also in Splatoon 2).wav",
+      "CachePath": "35/{35A3F13E-17D8-6405-06F3-7B6532779FD8}.wem"
+     },
+     {
+      "Id": "760390763",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "epic_mask_bgm.wav",
+      "CachePath": "F4/{F473FBEA-99CD-1F7E-F450-3E586ACD94F4}.wem"
+     },
+     {
+      "Id": "781091657",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambiance_Stream_Calm_Loop_Stereo.wav",
+      "CachePath": "B8/{B8426694-4372-E0F4-597B-DEAC77781EE6}.wem"
      },
      {
       "Id": "786202757",
@@ -1619,22 +1667,35 @@
         "Id": "82093474"
        },
        {
+        "Id": "146106055"
+       },
+       {
         "Id": "156765714"
        },
        {
-        "Id": "523403148"
+        "Id": "760390763"
        }
       ],
       "PluginRefs": {
        "ShareSets": [
         {
-         "Id": "3164629247"
-        },
-        {
          "Id": "3250156175"
         }
        ]
       }
+     },
+     {
+      "Id": "3810757633",
+      "Name": "SFX_AngelsChant",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_AngelsChant",
+      "GUID": "{8F39C16E-2B80-4349-B27C-82E61A229390}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "622655417"
+       }
+      ]
      },
      {
       "Id": "200801602",
@@ -1856,26 +1917,63 @@
       ]
      },
      {
+      "Id": "2864737081",
+      "Name": "SFX_CalmWater",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_CalmWater",
+      "GUID": "{4D1AD8E3-016B-44BC-AAE3-A960B6A1F011}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "781091657"
+       }
+      ]
+     },
+     {
+      "Id": "3854015376",
+      "Name": "SFX_CheckPointSave",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_CheckPointSave",
+      "GUID": "{0816B4D0-AEC7-4C06-880D-49724B112FA5}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.72425",
+      "DurationMax": "1.72425",
+      "MediaRefs": [
+       {
+        "Id": "750230204"
+       }
+      ]
+     },
+     {
+      "Id": "112594585",
+      "Name": "SFX_CreepySounds",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_CreepySounds",
+      "GUID": "{213D3FC0-8CE6-4D66-856D-43D6ECE5C1CB}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "759655859"
+       },
+       {
+        "Id": "994023216"
+       }
+      ]
+     },
+     {
       "Id": "2443085627",
       "Name": "SFX_DeactivateStatue",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_DeactivateStatue",
       "GUID": "{684B36A3-8718-47E5-AAFC-5C50D1066CEE}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "1.6367192",
-      "DurationMax": "1.6367192",
+      "DurationMin": "1.1186118",
+      "DurationMax": "1.1186118",
       "MediaRefs": [
        {
-        "Id": "523403148"
+        "Id": "79161646"
        }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "3164629247"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "2318810",
@@ -2007,13 +2105,8 @@
       "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "2.544",
-      "DurationMax": "2.544",
-      "MediaRefs": [
-       {
-        "Id": "699306489"
-       }
-      ]
+      "DurationMin": "0",
+      "DurationMax": "0"
      },
      {
       "Id": "3212792312",
@@ -2312,10 +2405,9 @@
       "Name": "SFX_OpenChest",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_OpenChest",
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "2.9402916",
-      "DurationMax": "3.0313542",
+      "DurationMin": "6.274119",
+      "DurationMax": "6.274119",
       "MediaRefs": [
        {
         "Id": "70539538"
@@ -2325,6 +2417,9 @@
        },
        {
         "Id": "511744790"
+       },
+       {
+        "Id": "974543721"
        }
       ]
      },
@@ -2744,6 +2839,19 @@
         }
        ]
       }
+     },
+     {
+      "Id": "2754480747",
+      "Name": "SFX_SeaWater",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_SeaWater",
+      "GUID": "{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "494683163"
+       }
+      ]
      },
      {
       "Id": "1498826869",
@@ -3340,6 +3448,6 @@
     ]
    }
   ],
-  "FileHash": "{EF000F3F-1E9F-7FB1-C27C-41B18C6CAFD1}"
+  "FileHash": "{58B9F77A-FFD9-017B-138C-863A64A85F0A}"
  }
 }

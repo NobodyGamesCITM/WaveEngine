@@ -42,7 +42,7 @@ end
 local function FindStatueInteractPrompt(self)
     self.interactive = GameObject.FindInChildren(self.gameObject, "Interactive")
     if not self.interactive then 
-        Engine.Log("[MASKDROP] Unable to retrieve Interactive Prompt GameObject")
+        --Engine.Log("[MASKDROP] Unable to retrieve Interactive Prompt GameObject")
     else 
         self.interactive:SetActive(true) 
     end
@@ -54,11 +54,11 @@ local function FindStatueAudioSource(self)
     if self.statueSource then 
         self.statueSFX = self.statueSource:GetComponent("Audio Source")
         if not self.statueSFX then 
-            Engine.Log("[MASKDROP] Unable to retrieve Audio Source Component from Bust Statue")
+            --Engine.Log("[MASKDROP] Unable to retrieve Audio Source Component from Bust Statue")
         end
 
     else
-        Engine.Log("[MASKDROP] Unable to find Audio GameObject from Bust Statue")
+        --Engine.Log("[MASKDROP] Unable to find Audio GameObject from Bust Statue")
     end
 end
 
@@ -75,11 +75,13 @@ function Initialize(self)
     end
 
     self.dustVFX = GameObject.FindInChildren(self.gameObject, "DustParticles")
-    if not self.dustVFX then Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
+
+    if not self.dustVFX then 
+        --Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
     else
         self.dustPs = self.dustVFX:GetComponent("ParticleSystem")
         if not self.dustPs then 
-            Engine.Log("Unable to retrieve dust Particle System Component")
+            --Engine.Log("Unable to retrieve dust Particle System Component")
         end
     end
 
@@ -135,14 +137,14 @@ function Update(self, dt)
             self.activatedStatue = true
             self.removedStoneMask = false
             self.maskAnimTimer = 0
-            if self.statueSFX then self.statueSFX:PlayAudioEvent() end
+            if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_ActivateStatue") end
                 
             if self.interactive then GameObject.Destroy(self.interactive) end
             
 
-            --local statueMesh = GameObject.FindInChildren(self.gameObject, "mesh")
+            if not statueMesh then statueMesh = GameObject.FindInChildren(self.gameObject, "mesh") end
             if self.statueMesh then 
-                --local statueMat = self.statueMesh:GetComponent("Material")
+                if not statueMat then statueMat = self.statueMesh:GetComponent("Material") end
                 if self.statueMat then 
                     self.statueMat.SetTexture("16679556794755767834")
                     if self.dustPs then self.dustPs:Play() end
@@ -168,7 +170,7 @@ function Update(self, dt)
         end
 
         if self.maskAnimTimer >= 30.0 then
-            self.statueAnim:SetLooping("Activate", false)
+            if self.statueAnim then self.statueAnim:SetLooping("Activate", false) end
             if self.statueSFX then self.statueSFX:StopAudioEvent() end
         end
 
@@ -182,6 +184,7 @@ function Update(self, dt)
                 if self.statueMat then 
                     self.statueMat.SetTexture("10286171976575561541")
                     if self.dustPs then self.dustPs:Play() end
+                    if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_DeactivateStatue") end
                     
                 else
                     Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")

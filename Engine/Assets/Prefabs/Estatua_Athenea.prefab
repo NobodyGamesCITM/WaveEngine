@@ -14,9 +14,9 @@
                             -0.157440185546875
                         ],
                         "rotation": [
-                            3.256888161939919e-11,
-                            -2.4759427105891518e-05,
-                            2.646220464974647e-10
+                            3.216176977516305e-11,
+                            -2.4759436200838536e-05,
+                            2.6563992672201664e-10
                         ],
                         "scale": [
                             1.0,
@@ -29,11 +29,19 @@
                         "active": true,
                         "castShadows": true,
                         "meshUID": 4156237712023692844,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
                         "type": 1
                     },
                     {
                         "active": true,
                         "materialUID": 12789350073155248058,
+                        "overrideTiling": false,
                         "type": 3
                     }
                 ],
@@ -68,11 +76,19 @@
                         "active": true,
                         "castShadows": true,
                         "meshUID": 7123884107561425851,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
                         "type": 1
                     },
                     {
                         "active": true,
                         "materialUID": 12789350073155248058,
+                        "overrideTiling": false,
                         "type": 3
                     }
                 ],
@@ -375,6 +391,16 @@
                                 "value": 6.0
                             },
                             {
+                                "name": "radius",
+                                "type": 0,
+                                "value": 3.0
+                            },
+                            {
+                                "name": "oneShot",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
                                 "name": "updateWhenPaused",
                                 "type": 2,
                                 "value": true
@@ -385,19 +411,9 @@
                                 "value": ""
                             },
                             {
-                                "name": "radius",
-                                "type": 0,
-                                "value": 3.0
-                            },
-                            {
                                 "name": "actionText",
                                 "type": 1,
                                 "value": "Interactuar"
-                            },
-                            {
-                                "name": "oneShot",
-                                "type": 2,
-                                "value": true
                             }
                         ],
                         "scriptUID": 11869449068228775486,
@@ -504,6 +520,41 @@
                 "name": "BlueSparkles",
                 "tag": "",
                 "uid": 4155381408797323209
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "eventName": "SFX_AngelsChant",
+                        "playOnAwake": true,
+                        "type": 26,
+                        "volume": 46.76599884033203
+                    }
+                ],
+                "name": "AngelSource",
+                "tag": "",
+                "uid": 770006262894352452
             }
         ],
         "components": [

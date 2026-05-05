@@ -2159,7 +2159,7 @@ function _G.TriggerChestAnimation(self)
             Player.itemSFX:SelectPlayAudioEvent("SFX_OpenChest") 
             Engine.Log("Playing Open Chest")
         end
-        
+
     end
 
     Player.AnimTimer = 4.0

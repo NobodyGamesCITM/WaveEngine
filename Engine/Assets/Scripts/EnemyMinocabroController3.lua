@@ -592,7 +592,7 @@ function Start(self)
     self.public = {
         maxHp           = 60,
         detectRange     = 20.0,
-		lockOnSize      = 6.5,
+		lockOnSize      = 7.5, -- partícula de fijado, no tocar.
         tooCloseRange   = 3.5,
         chargeRange     = 12.0,
 

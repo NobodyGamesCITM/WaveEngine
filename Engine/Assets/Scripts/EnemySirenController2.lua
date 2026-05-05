@@ -93,6 +93,7 @@ public = {
     projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
     maxLifetime      = 10.0,
 
+	lockOnSize      = 8.5, -- partícula de fijado, no tocar.
     camDuration     = 0.5,
     camMagnitud     = 1.0,
     camFrequency    = 20.0,

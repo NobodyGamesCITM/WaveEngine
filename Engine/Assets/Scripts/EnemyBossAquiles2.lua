@@ -18,6 +18,7 @@ local State = {
 }
 public = {
     doorName = "Puerta_Final",
+	lockOnSize      = 14.0, -- partícula de fijado, no tocar.
 }
 
 -- Internal variables

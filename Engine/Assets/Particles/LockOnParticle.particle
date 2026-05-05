@@ -4,21 +4,21 @@
     "additive": false,
     "alignToVelocity": false,
     "animLoop": true,
-    "animSpeed": 1.0,
+    "animSpeed": 0.75,
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
         1.0,
         1.0,
         1.0,
-        1.0
+        0.75
     ],
     "colorGradient": [],
     "colorStart": [
         1.0,
         1.0,
         1.0,
-        1.0
+        0.75
     ],
     "coneAngle": 25.0,
     "coneRadius": 0.5,
@@ -61,9 +61,9 @@
     "sizeStart": 0.5,
     "speedMax": 0.0,
     "speedMin": 0.0,
-    "textureCols": 8,
-    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Target_Enemy_Hard_00_TEST.png",
-    "textureRows": 3,
-    "textureUID": 877079217452589577,
+    "textureCols": 6,
+    "texturePath": "C:\\Users\\pablo\\Desktop\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Target_Enemy_Hard_01_TEST.png",
+    "textureRows": 4,
+    "textureUID": 2677822354627226221,
     "type": 7
 }

@@ -386,19 +386,19 @@
                         "active": true,
                         "publicVariables": [
                             {
-                                "name": "promptRadius",
-                                "type": 0,
-                                "value": 6.0
-                            },
-                            {
                                 "name": "radius",
                                 "type": 0,
                                 "value": 3.0
                             },
                             {
-                                "name": "oneShot",
-                                "type": 2,
-                                "value": true
+                                "name": "actionText",
+                                "type": 1,
+                                "value": "Interactuar"
+                            },
+                            {
+                                "name": "promptRadius",
+                                "type": 0,
+                                "value": 6.0
                             },
                             {
                                 "name": "updateWhenPaused",
@@ -406,14 +406,14 @@
                                 "value": true
                             },
                             {
+                                "name": "oneShot",
+                                "type": 2,
+                                "value": true
+                            },
+                            {
                                 "name": "sequenceId",
                                 "type": 1,
                                 "value": ""
-                            },
-                            {
-                                "name": "actionText",
-                                "type": 1,
-                                "value": "Interactuar"
                             }
                         ],
                         "scriptUID": 11869449068228775486,
@@ -549,7 +549,7 @@
                         "eventName": "SFX_AngelsChant",
                         "playOnAwake": true,
                         "type": 26,
-                        "volume": 46.76599884033203
+                        "volume": 20.895000457763672
                     }
                 ],
                 "name": "AngelSource",

@@ -242,6 +242,7 @@ local function SyncCollider(self)
 end
 
 local function UpdateHeight(self, targetOffset, dt)
+    
     self.currentYOffset = self.currentYOffset + (targetOffset - self.currentYOffset) * dt * self.public.riseSpeed
     
     local pos = self.transform.position
@@ -638,6 +639,13 @@ function Start(self)
    self.anim:Play("Hide")
 
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
+
+
+    Engine.RequestResource("10973116870485554369")
+    Engine.RequestResource("8896541361096085563")
+    Engine.RequestResource("1496995762458507062")
+
+
     BaseMat = sirenMesh:GetComponent("Material")
 
     if self.public.level2 then
@@ -647,7 +655,7 @@ function Start(self)
     end
 
     self.baseY = self.transform.position.y
-    self.currentYOffset = 0
+    --self.currentYOffset = 0
 end
 
 -- Update

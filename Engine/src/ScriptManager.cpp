@@ -289,7 +289,7 @@ static int Lua_Engine_RequestResource(lua_State* L) {
 
     if (!res) {
         LOG_CONSOLE("[Lua] ERROR: RequestResource failed for UID: %s", uidStr);
-        lua_pushboolean(L, false);RequestResource
+        lua_pushboolean(L, false);
         return 1;
     }
 

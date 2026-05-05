@@ -432,6 +432,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_DeactivateStatue" ID="{684B36A3-8718-47E5-AAFC-5C50D1066CEE}">
+							<ChildrenList>
+								<Action Name="" ID="{E25CC84B-808D-477F-9BAB-D3F69CB4A076}" ShortID="995291733">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Unlock_Statue" ID="{66447CE9-DCD6-41BE-AD73-C4425117F38A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">
@@ -533,13 +544,6 @@
 							</ChildrenList>
 						</Event>
 						<Event Name="SFX_TreeAmbience" ID="{F5975989-9429-4748-8BED-740280664212}">
-							<PropertyList>
-								<Property Name="InstanceLimit" Type="int16">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ChildrenList>
 								<Action Name="" ID="{DB04E044-6A2E-4967-A2F9-74A38163E361}" ShortID="810765069">
 									<ReferenceList>

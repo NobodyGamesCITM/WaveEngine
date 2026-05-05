@@ -53,6 +53,7 @@
                                                     {
                                                         "active": true,
                                                         "materialUID": 7449264730611044924,
+                                                        "overrideTiling": false,
                                                         "type": 3
                                                     }
                                                 ],
@@ -224,6 +225,7 @@
                                                                             {
                                                                                 "active": true,
                                                                                 "materialUID": 7449264730611044924,
+                                                                                "overrideTiling": false,
                                                                                 "type": 3
                                                                             }
                                                                         ],
@@ -479,6 +481,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 1627584858079614175,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -525,6 +528,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 18336018432099735750,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -571,6 +575,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 18336018432099735750,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -617,6 +622,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 1627584858079614175,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -663,6 +669,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 18021257080287948194,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -709,6 +716,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 18336018432099735750,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -755,6 +763,7 @@
                                                                                             {
                                                                                                 "active": true,
                                                                                                 "materialUID": 18336018432099735750,
+                                                                                                "overrideTiling": false,
                                                                                                 "type": 3
                                                                                             }
                                                                                         ],
@@ -1080,9 +1089,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "potionAnim",
+                        "name": "actionText",
                         "type": 1,
-                        "value": "Float"
+                        "value": "Abrir cofre"
+                    },
+                    {
+                        "name": "itemText",
+                        "type": 1,
+                        "value": "¡Poción obtenida!"
                     },
                     {
                         "name": "chestAnim",
@@ -1090,9 +1104,9 @@
                         "value": "Open"
                     },
                     {
-                        "name": "actionText",
+                        "name": "potionName",
                         "type": 1,
-                        "value": "Abrir cofre"
+                        "value": "PotionVisual"
                     },
                     {
                         "name": "radius",
@@ -1105,14 +1119,9 @@
                         "value": "PotionObtained"
                     },
                     {
-                        "name": "potionName",
+                        "name": "potionAnim",
                         "type": 1,
-                        "value": "PotionVisual"
-                    },
-                    {
-                        "name": "itemText",
-                        "type": 1,
-                        "value": "¡Poción obtenida!"
+                        "value": "Float"
                     }
                 ],
                 "scriptUID": 12617463497130070296,
@@ -1124,7 +1133,7 @@
                         "UID": 1764216894420051993,
                         "loop": false,
                         "name": "Open",
-                        "speed": 1.0
+                        "speed": 0.5
                     }
                 ],
                 "active": true,
@@ -1213,6 +1222,44 @@
                     ]
                 },
                 "type": 31
+            },
+            {
+                "Center": [
+                    1.0,
+                    0.0,
+                    60.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    95.0,
+                    75.0,
+                    65.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 10
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
             }
         ],
         "name": "Chest_OpenChest",

@@ -1,3 +1,5 @@
+--CHEST INTERACT SCRIPT 
+
 public = {
     radius     = 2.0,
     actionText = "Abrir cofre",
@@ -8,9 +10,9 @@ public = {
     potionTag = "PotionObtained",
 }
 
-local inRange       = false
-local opened        = false
-local inputCooldown = 0.0
+--local inRange       = false
+--local opened        = false
+--local inputCooldown = 0.0
 local COOLDOWN_TIME = 0.5
 --local potionObject  = nil
 local CANVAS_W = 1920
@@ -22,12 +24,18 @@ local PROMPT_H = 50
 local function showPrompt(self)
     local myPos = self.transform.worldPosition
     local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + 1.5, myPos.z)
-    if sx == nil or sy == nil then return end
+    if sx == nil or sy == nil then
+        Engine.Log("[Chest] Failed to transform position from world to screen") 
+        return 
+    end
 
     
 
     local vw, vh = Camera.GetViewportSize()
-    if not vw or vw == 0 or not vh or vh == 0 then return end
+    if not vw or vw == 0 or not vh or vh == 0 then 
+        Engine.Log("[Chest] Failed to find camera viewport size")
+        return 
+    end
 
     local cx = (sx / vw) * CANVAS_W
     local cy = (sy / vh) * CANVAS_H
@@ -53,33 +61,50 @@ local function onChestOpened(self)
     end
 end
 
-function Start(self)
-    self.potionObject = GameObject.Find(self.public.potionName)
+function Initialize(self)
+    self.inRange = false
+    self.opened = false
+    self.inputCooldown = 0.0
+    COOLDOWN_TIME = 0.5
+    CANVAS_W = 1920
+    CANVAS_H = 1080
+    PROMPT_W = 220
+    PROMPT_H = 50
+
+    self.potionObject = GameObject.FindInChildren(self.gameObject, self.public.potionName or "PotionVisual")
     if self.potionObject then
-        Engine.Log("[Chest] PotionVisual encontrado: " .. tostring(self.potionObject.name))
+        --Engine.Log("[Chest] PotionVisual encontrado: " .. tostring(self.public.potionName or "PotionVisual"))
     else
-        Engine.Log("[Chest] AVISO: no encontrado: " .. tostring(self.public.potionName))
+        --Engine.Log("[Chest] AVISO: no encontrado: " .. tostring(self.public.potionName or "PotionVisual"))
     end
-    self.PotionObt = GameObject.FindByTag(self.public.potionTag)
+    self.PotionObt = GameObject.FindInChildren(self.gameObject, "group")
     Engine.Log("[Chest] ShowItemObtained al Start = " .. tostring(_G.ShowItemObtained))
 end
 
+function Start(self)
+    Initialize(self)
+end
+
 function Update(self, dt)
-    if inputCooldown > 0 then
-        inputCooldown = inputCooldown - dt
+    if not self.potionObject or not self.PotionObt then
+        Initialize(self)
     end
 
-    if _G.ItemObtainedActive and inputCooldown <= 0 then
+    if self.inputCooldown > 0 then
+        self.inputCooldown = self.inputCooldown - dt
+    end
+
+    if _G.ItemObtainedActive and self.inputCooldown <= 0  then
         Engine.Log("[Chest] ItemObtainedActive=true, esperando F para reclamar")
         if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
             Engine.Log("[Chest] Reclamando poción")
-            inputCooldown = COOLDOWN_TIME
+            self.inputCooldown = COOLDOWN_TIME
             if _G.HideItemObtained then _G.HideItemObtained() end
         end
         return
     end
 
-    if opened then return end
+    if self.opened then return end
 
     local player = GameObject.Find("Player")
     if not player then return end
@@ -90,17 +115,17 @@ function Update(self, dt)
     local dz = myPos.z - playerPos.z
     local dist = math.sqrt(dx*dx + dz*dz)
 
-    if dist < self.public.radius and not inRange then
-        inRange = true
+    if dist < self.public.radius and not self.inRange then
+        self.inRange = true
         showPrompt(self)
     end
-    if dist >= self.public.radius and inRange then
-        inRange = false
-        hidePrompt()
+    if dist >= self.public.radius and self.inRange then
+        self.inRange = false
+        hidePrompt(self)
     end
 
-    if inRange and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A"))
-       and not (_G.ItemObtainedActive) and inputCooldown <= 0 then
+    if self.inRange and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A"))
+       and not (_G.ItemObtainedActive) and self.inputCooldown <= 0 then
 
         Engine.Log("[Chest] F pulsado, abriendo cofre")
         Engine.Log("[Chest] ShowItemObtained = " .. tostring(_G.ShowItemObtained))
@@ -108,9 +133,9 @@ function Update(self, dt)
 
         
 
-        opened = true
+        self.opened = true
         hidePrompt()
-        inputCooldown = COOLDOWN_TIME
+        self.inputCooldown = COOLDOWN_TIME
 
         local chestAnimComp = self.gameObject:GetComponent("Animation")
         if chestAnimComp then

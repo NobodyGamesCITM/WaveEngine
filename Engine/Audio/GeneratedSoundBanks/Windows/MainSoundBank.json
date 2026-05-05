@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{6F409AB1-0FD5-E3AD-FA85-82BBD0A69D77}",
+    "Hash": "{33DFEAFB-5E22-3493-8933-EFBCE84BFB31}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1856,6 +1856,28 @@
       ]
      },
      {
+      "Id": "2443085627",
+      "Name": "SFX_DeactivateStatue",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_DeactivateStatue",
+      "GUID": "{684B36A3-8718-47E5-AAFC-5C50D1066CEE}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.6367192",
+      "DurationMax": "1.6367192",
+      "MediaRefs": [
+       {
+        "Id": "523403148"
+       }
+      ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "3164629247"
+        }
+       ]
+      }
+     },
+     {
       "Id": "2318810",
       "Name": "SFX_DoorMove",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorMove",
@@ -3318,6 +3340,6 @@
     ]
    }
   ],
-  "FileHash": "{74B4CDB7-F895-B281-33CC-4BE9EF1E12A2}"
+  "FileHash": "{EF000F3F-1E9F-7FB1-C27C-41B18C6CAFD1}"
  }
 }

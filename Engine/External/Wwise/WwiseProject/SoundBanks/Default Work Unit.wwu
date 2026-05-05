@@ -43,6 +43,7 @@
 						<ObjectRef Name="SFX_TreeAmbience" ID="{F5975989-9429-4748-8BED-740280664212}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_LongDarkHall" ID="{D9EA95D1-1B49-4759-AD24-104B147B9973}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesDeath" ID="{BA867AD9-D7D5-4777-BC99-21D40C9472E0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_DeactivateStatue" ID="{684B36A3-8718-47E5-AAFC-5C50D1066CEE}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SirenHurt" ID="{97204195-8C58-4830-AF5D-F1BD949098CC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MaskChange" ID="{6F7924D3-404C-4878-8045-8C6184257404}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoIdle" ID="{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

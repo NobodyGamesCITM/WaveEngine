@@ -9,7 +9,7 @@
 class AudioComponent;
 class ReverbZone;
 
-#define MAX_AUDIO_EVENTS 60
+#define MAX_AUDIO_EVENTS 300
 
 class AudioEvent {
 public:

@@ -42,10 +42,10 @@ end
 
 function OnTriggerEnter(self, other)
     if other:CompareTag("Player") then
-        if not hasAllKeys() then
-            Engine.Log("[Portal] Llaves insuficientes, portal bloqueado.")
-            return
-        end
+        -- if not hasAllKeys() then
+        --     Engine.Log("[Portal] Llaves insuficientes, portal bloqueado.")
+        --     return
+        -- end
         canTransition = true
         -- Disparar portalWarning la primera vez que el player entra con todas las llaves
         if not warningShown then

@@ -224,10 +224,6 @@ function Start(self)
     Engine.RequestResource("9184343178901509246")
     Engine.RequestResource("6526428321459400712")
     Engine.RequestResource("10436511945076754837") --new skeleton level2 mat
-    
-
-
-
 end
 
 States[State.IDLE] = {
@@ -293,8 +289,11 @@ States[State.GUARD] = {
 }
 
 States[State.PATROL] = {
+    tempPos = nil,
+    timeA = 0.0,
     Enter = function(self)
         playerGO = GameObject.Find("Player")
+        States[State.PATROL].tempPos = self.transform.position
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Walk", 0.5) end)
@@ -321,6 +320,22 @@ States[State.PATROL] = {
             ChangeState(self, State.CHASE)
             return
         end
+
+        if States[State.PATROL].timeA >= 4.0 then
+            local pos = self.transform.position
+            States[State.PATROL].timeA = 0.0
+            if math.abs(pos.x - States[State.PATROL].tempPos.x) < 0.8 and math.abs(pos.z - States[State.PATROL].tempPos.z) < 0.8 then
+                patrolWait   = self.public.patrolWaitMin
+                    + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
+                ChangeState(self, State.IDLE)
+            else 
+                States[State.PATROL].timeA = 0.0
+                States[State.PATROL].tempPos = pos
+            end
+        else   
+            States[State.PATROL].timeA = States[State.PATROL].timeA + 0.1
+        end
+
     end
 }
 

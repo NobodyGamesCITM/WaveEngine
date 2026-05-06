@@ -1,153 +1,11 @@
 <Grid
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-  xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
   d:DesignWidth="1280" d:DesignHeight="720">
 
-    <Grid.Resources>
-      <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-          <ResourceDictionary Source="Resources.xaml"/>
-        </ResourceDictionary.MergedDictionaries>
-
-        <Style x:Key="TextButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
-            <Setter Property="FontSize" Value="36"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <StackPanel x:Name="ButtonContent" Orientation="Horizontal" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                            <StackPanel.RenderTransform>
-                                <ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="1"/>
-                            </StackPanel.RenderTransform>
-
-                            <Image x:Name="ArrowL" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="0,0,15,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <Image.RenderTransform>
-                                    <TranslateTransform x:Name="ArrowLTrans" X="-30"/>
-                                </Image.RenderTransform>
-                            </Image>
-
-                            <TextBlock x:Name="TextContent"
-                                       Text="{TemplateBinding Content}"
-                                       FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       FontWeight="{TemplateBinding FontWeight}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-
-                            <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <Image.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleX="-1"/>
-                                        <TranslateTransform x:Name="ArrowRTrans" X="30"/>
-                                    </TransformGroup>
-                                </Image.RenderTransform>
-                            </Image>
-                        </StackPanel>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard x:Name="HoverFocusStoryboard">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.1" Duration="0:0:0.25">
-                                                <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.25">
-                                                <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-
-                                            <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
-
-                                            <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowRTrans" Storyboard.TargetProperty="X" From="15" To="5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <StopStoryboard BeginStoryboardName="HoverFocusStoryboard"/>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" To="-30" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="ArrowRTrans" Storyboard.TargetProperty="X" To="30" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                                <Setter TargetName="ArrowL" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
-                            </Trigger>
-
-                            <Trigger Property="IsPressed" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="0.85" Duration="0:0:0.05"/>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="0.85" Duration="0:0:0.05"/>
-                                            <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFBBBBBB" Duration="0:0:0.05"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.1" Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/></DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/></DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Storyboard x:Key="Intro">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TryAgainButton">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="TryAgainButton">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="80"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackToMenuButton">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackToMenuButton">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <!-- Fade Out hacia negro (desvanece el contenido pero deja el Grid Background="Black" visible) -->
-        <Storyboard x:Key="FadeOut"/>
-
-      </ResourceDictionary>
-    </Grid.Resources>
     <Grid.RowDefinitions>
         <RowDefinition Height="7*"/>
         <RowDefinition Height="570"/>
@@ -160,22 +18,43 @@
         <ColumnDefinition Width="560"/>
         <ColumnDefinition Width="360"/>
     </Grid.ColumnDefinitions>
-    <Viewbox x:Name="BossBarViewbox" Grid.Column="1" Grid.Row="3">
-        <Image x:Name="BossbarImage" Source="Textures/Bossbar.png"/>
-    </Viewbox>
-    <Viewbox x:Name="BossBarInteriorViewbox" Grid.Column="1" Grid.Row="3">
-        <Grid>
-            <Image x:Name="InteriorImage" Source="Textures/BossbarInterior.png"/>
-        </Grid>
-    </Viewbox>
+
+    <!-- Nombre del boss encima de la barra -->
     <Viewbox x:Name="TextViewbox" Grid.Column="1" Grid.Row="2">
-        <TextBlock x:Name="Text" TextWrapping="Wrap" Text="Aquiles traigo la bossbar" TextAlignment="Center" Foreground="#FFC73D05" FontSize="16"/>
+        <TextBlock x:Name="Text"
+                   Text="Aquiles"
+                   FontFamily="./#ForgottenUncial"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#FFC73D05"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"/>
     </Viewbox>
 
-    <Grid.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource Intro}"/>
-        </EventTrigger>
-    </Grid.Triggers>
+    <Viewbox x:Name="BossBarViewbox" Grid.Column="1" Grid.Row="3" Stretch="Uniform">
+
+        <Grid x:Name="BossBarRoot" Width="560" Height="80">
+
+            <!-- Marco exterior: nunca se toca -->
+            <Image x:Name="BossbarImage"
+                   Source="Textures/Bossbar.png"
+                   Stretch="Fill"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"/>
+
+            <Grid x:Name="BossBarFill"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  ClipToBounds="True"
+                  Margin="71,31,0,0" Width="418" Height="13">
+                <Image x:Name="InteriorImage"
+                       Source="Textures/BossbarInterior.png"
+                       Stretch="Fill"
+                       HorizontalAlignment="Left"
+                       Width="418" Height="13"/>
+            </Grid>
+
+        </Grid>
+    </Viewbox>
 
 </Grid>

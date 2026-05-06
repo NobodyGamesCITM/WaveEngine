@@ -1,16 +1,48 @@
-local BOSS_BAR_MAX_WIDTH = 500.0
+local BOSS_BAR_MAX_WIDTH = 418
 
 local canvasComponent = nil
-local bossName = "Aquiles" 
+
+-- Fade state
+local currentOpacity = 0.0
+local targetOpacity  = 0.0
+local FADE_SPEED     = 3.0
+
+-- Lerp igual que el HUD del jugador
+local function Lerp(a, b, t)
+    return a + (b - a) * math.min(1, t)
+end
+
+local currentDisplayWidth = BOSS_BAR_MAX_WIDTH
 
 public = {
-    xamlPath = "UI/BossBar.xaml", 
-    bossName = "Aquiles",         
-    barMaxWidth = BOSS_BAR_MAX_WIDTH, 
+    xamlPath    = "UI/BossBar.xaml",
+    barMaxWidth = 418.0,
+    fadeSpeed   = FADE_SPEED,
+    lerpSpeed   = 10.0,
 }
 
 _G.BossBar_SetVisibility = _G.BossBar_SetVisibility or function() end
 _G.BossBar_RefreshHealth = _G.BossBar_RefreshHealth or function() end
+
+
+local targetWidth = BOSS_BAR_MAX_WIDTH  -- el ancho hacia el que lerpeamos
+
+local function ApplyOpacity()
+    if not canvasComponent then return end
+    canvasComponent:SetOpacity(currentOpacity)
+end
+
+local function SetVisible(isVisible)
+    targetOpacity = isVisible and 1.0 or 0.0
+end
+
+local function RefreshBar(currentHp, maxHp)
+    if not maxHp or maxHp <= 0 then return end
+    local clampedHp     = math.max(0, math.min(maxHp, currentHp))
+    local healthPercent = clampedHp / maxHp
+    targetWidth = healthPercent * BOSS_BAR_MAX_WIDTH
+end
+
 
 function Start(self)
     canvasComponent = self.gameObject:GetComponent("Canvas")
@@ -19,35 +51,38 @@ function Start(self)
         canvasComponent:LoadXAML(self.public.xamlPath)
         Engine.Log("[BossBarController] Loaded XAML: " .. self.public.xamlPath)
     else
-        Engine.Log("[BossBarController] ERROR: No Canvas component found on this GameObject.")
+        Engine.Log("[BossBarController] ERROR: No Canvas component found.")
         return
     end
 
-    _G.BossBar_SetVisibility = function(isVisible)
-        self:SetVisibility(isVisible)
-    end
-    _G.BossBar_RefreshHealth = function(currentHp, maxHp)
-        self:RefreshHealth(currentHp, maxHp)
-    end
+    BOSS_BAR_MAX_WIDTH    = self.public.barMaxWidth or 418.0
+    FADE_SPEED            = self.public.fadeSpeed   or 3.0
+    currentDisplayWidth   = BOSS_BAR_MAX_WIDTH
+    targetWidth           = BOSS_BAR_MAX_WIDTH
 
-    self:SetVisibility(false) 
-    bossName = self.public.bossName
-    BOSS_BAR_MAX_WIDTH = self.public.barMaxWidth
-    Engine.Log("[BossBarController] Initialized. Boss: " .. bossName .. ", Max Bar Width: " .. BOSS_BAR_MAX_WIDTH)
+    _G.BossBar_SetVisibility = function(isVisible) SetVisible(isVisible) end
+    _G.BossBar_RefreshHealth = function(currentHp, maxHp) RefreshBar(currentHp, maxHp) end
+
+    currentOpacity = 0.0
+    targetOpacity  = 0.0
+    ApplyOpacity()
+    UI.SetElementWidth("BossBarFill", BOSS_BAR_MAX_WIDTH)
+
+    Engine.Log("[BossBarController] Ready.")
 end
 
-function SetVisibility(self, isVisible)
+function Update(self, dt)
     if not canvasComponent then return end
-    UI.SetElementVisibility("BossBarViewbox", isVisible)
-    UI.SetElementVisibility("BossBarInteriorViewbox", isVisible)
-    UI.SetElementVisibility("TextViewbox", isVisible)
-end
 
-function RefreshHealth(self, currentHp, maxHp)
-    if not canvasComponent then return end
-    local clampedHp = math.max(0, math.min(maxHp, currentHp))
-    local healthPercent = clampedHp / maxHp
+    if math.abs(currentOpacity - targetOpacity) > 0.001 then
+        local dir      = targetOpacity > currentOpacity and 1 or -1
+        currentOpacity = currentOpacity + dir * FADE_SPEED * dt
+        currentOpacity = math.max(0.0, math.min(1.0, currentOpacity))
+        ApplyOpacity()
+    end
 
-    UI.SetElementWidth("InteriorImage", healthPercent * BOSS_BAR_MAX_WIDTH)
-    UI.SetElementText("Text", bossName .. " " .. math.floor(clampedHp) .. "/" .. math.floor(maxHp))
+    if math.abs(currentDisplayWidth - targetWidth) > 0.1 then
+        currentDisplayWidth = Lerp(currentDisplayWidth, targetWidth, dt * (self.public.lerpSpeed or 10.0))
+        UI.SetElementWidth("BossBarFill", currentDisplayWidth)
+    end
 end

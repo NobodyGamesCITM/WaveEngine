@@ -160,24 +160,6 @@ bool Application::Start()
         }
 
         //std::string scenePath = (projectRoot / "Scene" / startupScene).string();
-       
-
-
-        std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
-            if (!obj || !obj->IsActive()) return;
-            for (Component* comp : obj->GetComponents()) {
-                if (comp->GetType() == ComponentType::SCRIPT) {
-                    ComponentScript* script = static_cast<ComponentScript*>(comp);
-                    if (script->IsActive()) {
-                        script->CallStart();
-                    }
-                }
-            }
-            for (GameObject* child : obj->GetChildren()) {
-                callStartOnAll(child);
-            }
-        };
-        callStartOnAll(scene->GetRoot());
 
         playState = PlayState::PLAYING;
         time->Resume();
@@ -308,22 +290,7 @@ void Application::Play()
 
     if (wasEditing)
     {
-        // Llamar Start en todos los scripts de la escena
-        std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
-            if (!obj || !obj->IsActive()) return;
-            for (Component* comp : obj->GetComponents()) {
-                if (comp->GetType() == ComponentType::SCRIPT) {
-                    ComponentScript* script = static_cast<ComponentScript*>(comp);
-                    if (script->IsActive()) {
-                        script->CallStart();
-                    }
-                }
-            }
-            for (GameObject* child : obj->GetChildren()) {
-                callStartOnAll(child);
-            }
-        };
-        callStartOnAll(scene->GetRoot());
+
     }
 
     time->Resume();

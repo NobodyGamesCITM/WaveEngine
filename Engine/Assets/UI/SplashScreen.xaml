@@ -42,7 +42,7 @@
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
         <Viewbox Grid.Column="1" Grid.Row="1">
-            <Image x:Name="SplashImage" Source="Textures/Logo.png" Margin="410,182" Opacity="0" RenderTransformOrigin="0.5,0.5">
+            <Image x:Name="SplashImage" Source="Textures/Logo.png" Margin="410,182" RenderTransformOrigin="0.5,0.5" Opacity="0">
                 <Image.RenderTransform>
                     <ScaleTransform x:Name="SplashScale" ScaleX="0.95" ScaleY="0.95"/>
                 </Image.RenderTransform>

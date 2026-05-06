@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID MUS_BGM = 638756417U;
         static const AkUniqueID SFX_ACTIVATESTATUE = 433468090U;
+        static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
         static const AkUniqueID SFX_APOLOMASK = 200801602U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
         static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;

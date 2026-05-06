@@ -27,6 +27,14 @@ function Start(self)
     currentAlpha = 1.0
     
     canvasComponent = self.gameObject:GetComponent("Canvas") 
+
+    self.musicSource = GameObject.Find("MusicSource")
+    if self.musicSource then 
+        Engine.Log("[SceneChanger] MusicSource found")
+        self.musicComp = self.musicSource:GetComponent("Audio Source")
+        if self.musicComp then Engine.Log("[SceneChanger] Music Audio Source Component Found") end
+    end
+
     
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
@@ -42,6 +50,34 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if not Audio.IsEventPlaying("MUS_BGM") then
+        local sceneVal = self.public.currentScene 
+        local musicState = "None"
+        if self.public.currentLevel == "Level_01" then 
+           musicState = "Level1"
+        elseif self.public.currentLevel == "Level_02" then 
+           musicState = "Level2"
+        elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
+            musicState = "MainMenu"
+        else
+            Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
+        end
+        
+        Audio.SetMusicState(tostring(musicState))
+        self.musicSource = GameObject.Find("MusicSource")
+        if not self.musicSource then 
+            Engine.Log("[SceneChanger] MusiC GameObject NOT found! Music will NOT play!")
+        else 
+            self.musicComp = self.musicSource:GetComponent("Audio Source")
+            if self.musicComp then 
+                self.musicComp:PlayAudioEvent() 
+            else
+                Engine.Log("[SceneChanger] Music Audio Source NOT found! Music will NOT play!")
+            end
+        end
+    end
+
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
 

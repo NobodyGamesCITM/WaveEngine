@@ -676,7 +676,7 @@
 								<Action Name="" ID="{8FC93E6A-3DDA-4362-A529-1729EBA56C84}" ShortID="94310543">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Angels_Chant" ID="{9F3D6452-9670-48C2-B088-BC9F5BD8EC4C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="athena_chant_01" ID="{B86B6293-407B-43C7-9B46-36BBB6D57883}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

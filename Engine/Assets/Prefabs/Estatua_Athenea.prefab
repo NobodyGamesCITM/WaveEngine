@@ -386,9 +386,14 @@
                         "active": true,
                         "publicVariables": [
                             {
-                                "name": "radius",
+                                "name": "promptRadius",
                                 "type": 0,
-                                "value": 3.0
+                                "value": 6.0
+                            },
+                            {
+                                "name": "sequenceId",
+                                "type": 1,
+                                "value": ""
                             },
                             {
                                 "name": "actionText",
@@ -396,14 +401,9 @@
                                 "value": "Interactuar"
                             },
                             {
-                                "name": "promptRadius",
+                                "name": "radius",
                                 "type": 0,
-                                "value": 6.0
-                            },
-                            {
-                                "name": "updateWhenPaused",
-                                "type": 2,
-                                "value": true
+                                "value": 3.0
                             },
                             {
                                 "name": "oneShot",
@@ -411,9 +411,9 @@
                                 "value": true
                             },
                             {
-                                "name": "sequenceId",
-                                "type": 1,
-                                "value": ""
+                                "name": "updateWhenPaused",
+                                "type": 2,
+                                "value": true
                             }
                         ],
                         "scriptUID": 11869449068228775486,
@@ -528,14 +528,14 @@
                     {
                         "active": true,
                         "position": [
-                            0.0,
-                            0.0,
-                            0.0
+                            -0.0796356201171875,
+                            12.511124610900879,
+                            0.4058837890625
                         ],
                         "rotation": [
                             0.0,
-                            0.0,
-                            0.0
+                            4.268868451617891e-06,
+                            -6.106665195217131e-13
                         ],
                         "scale": [
                             1.0,
@@ -549,7 +549,7 @@
                         "eventName": "SFX_AngelsChant",
                         "playOnAwake": true,
                         "type": 26,
-                        "volume": 20.895000457763672
+                        "volume": 30.844999313354492
                     }
                 ],
                 "name": "AngelSource",

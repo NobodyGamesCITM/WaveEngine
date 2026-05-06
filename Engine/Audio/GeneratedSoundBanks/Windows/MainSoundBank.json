@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{EE567763-420E-0877-7A02-F1E971C4695E}",
+    "Hash": "{346CFE95-8447-65E1-E381-749679309655}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -766,6 +766,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_deathgrowl.wav",
       "CachePath": "D6/{D6A8C950-894B-852B-483E-5C0DB675E006}.wem"
+     },
+     {
+      "Id": "622655417",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "athena_chant_01.wav",
+      "CachePath": "B8/{B8393BF5-BF7E-7D51-9C91-AB43F22A4D1B}.wem"
      },
      {
       "Id": "629385577",
@@ -1677,6 +1685,19 @@
       }
      },
      {
+      "Id": "3810757633",
+      "Name": "SFX_AngelsChant",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_AngelsChant",
+      "GUID": "{8F39C16E-2B80-4349-B27C-82E61A229390}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "622655417"
+       }
+      ]
+     },
+     {
       "Id": "200801602",
       "Name": "SFX_ApoloMask",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ApoloMask",
@@ -1900,7 +1921,7 @@
       "Name": "SFX_CalmWater",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_CalmWater",
       "GUID": "{4D1AD8E3-016B-44BC-AAE3-A960B6A1F011}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "30",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -2824,7 +2845,7 @@
       "Name": "SFX_SeaWater",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_SeaWater",
       "GUID": "{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "30",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -2839,8 +2860,8 @@
       "GUID": "{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "6.4715214",
-      "DurationMax": "6.5607367",
+      "DurationMin": "6.02",
+      "DurationMax": "6.02",
       "MediaRefs": [
        {
         "Id": "629385577"
@@ -3427,6 +3448,6 @@
     ]
    }
   ],
-  "FileHash": "{9AEDD53D-58DE-5E61-AE0D-21D7FAD48092}"
+  "FileHash": "{9170B9CF-EEA0-5261-DD5F-26031FA2432A}"
  }
 }

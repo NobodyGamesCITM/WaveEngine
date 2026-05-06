@@ -20,6 +20,7 @@
 						<ObjectRef Name="SFX_PlayerDeath" ID="{56BB4187-8021-42D9-8DEF-1666D2D720E3}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoPrecharge" ID="{87F93940-23E6-4308-8CC3-1107DAB901AC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_RockMove" ID="{3781C989-4AE3-430E-8606-1E5B0D50F2BA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_AngelsChant" ID="{8F39C16E-2B80-4349-B27C-82E61A229390}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_ShowSword" ID="{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SeaWater" ID="{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_InsideMyHead" ID="{44985131-50E8-43FD-B7E0-D1F56C2EED65}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>

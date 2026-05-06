@@ -236,5 +236,18 @@
             </Grid>
         </Viewbox>
         <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
+        <Grid x:Name="MissionGrid" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="178*"/>
+                <RowDefinition Height="79*"/>
+                <RowDefinition Height="463*"/>
+            </Grid.RowDefinitions>
+            <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" HorizontalAlignment="Right">
+                <Rectangle x:Name="MissionBackground" Stroke="#FF000000" Height="100" Fill="#AAECD7B9" HorizontalAlignment="Right" Width="400"/>
+            </Viewbox>
+            <Viewbox x:Name="MissionTextViewBox" Grid.Row="1">
+                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas 0/3" VerticalAlignment="Bottom" Foreground="#FFFFFFFF"/>
+            </Viewbox>
+        </Grid>
     </Grid>
 </Grid>

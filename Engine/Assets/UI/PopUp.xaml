@@ -1,0 +1,43 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignWidth="1920"
+  d:DesignHeight="1080" Background="#004D5052">
+  <Grid VerticalAlignment="Bottom">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="300"/>
+      <ColumnDefinition Width="1300"/>
+      <ColumnDefinition Width="200"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="3"/>
+      <RowDefinition Height="780*"/>
+      <RowDefinition Height="208"/>
+      <RowDefinition Height="55"/>
+    </Grid.RowDefinitions>
+    <Viewbox x:Name="BottomTutorialViewbox" Grid.Column="1" Grid.Row="2">
+      <Image x:Name="BottonTutorialImage" Source="Textures/BottomTutorial.PNG"/>
+    </Viewbox>
+    <Viewbox x:Name="PopUpBackgroundViewBox" Grid.Column="1" Grid.Row="1" Margin="193,0">
+      <Image x:Name="PopUpBackgroundImage" Height="100" Width="100" Source="Textures/PopUp.PNG"/>
+    </Viewbox>
+    <Grid x:Name="TutorialGrid" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="192*"/>
+        <ColumnDefinition Width="833*"/>
+        <ColumnDefinition Width="175*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="100"/>
+        <RowDefinition Height="608*"/>
+        <RowDefinition Height="100"/>
+      </Grid.RowDefinitions>
+      <Viewbox x:Name="TutorialViewBox" Grid.Column="1" Grid.Row="1">
+        <Image x:Name="TutorialImage" Height="100" Width="100" Source="Textures/MainCharacter_Skill Hermes.png"/>
+      </Viewbox>
+    </Grid>
+  </Grid>
+</Page>

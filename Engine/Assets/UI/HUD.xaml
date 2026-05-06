@@ -644,31 +644,17 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <ColumnDefinition Width="33*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="194*"/>
-            <RowDefinition Height="68*"/>
-            <RowDefinition Height="818*"/>
+            <RowDefinition Height="214*"/>
+            <RowDefinition Height="125*"/>
+            <RowDefinition Height="741*"/>
         </Grid.RowDefinitions>
 
         <!-- Fondo decorativo del panel de misión -->
-        <Viewbox x:Name="ViewboxBackground" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-            <Path x:Name="MissionBackground" Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
-                <Path.Data>
-                    <PathGeometry>
-                        <PathFigure IsClosed="True" StartPoint="0.45,0">
-                            <LineSegment Point="470,0" IsStroked="False"/>
-                            <LineSegment Point="470,100" IsStroked="False"/>
-                            <LineSegment Point="0,100" IsStroked="False"/>
-                            <ArcSegment/>
-                        </PathFigure>
-                    </PathGeometry>
-                </Path.Data>
-                <Path.Fill>
-                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.194"/>
-                </Path.Fill>
-            </Path>
+        <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right">
+            <Image x:Name="MissionBackgroundImage" Source="Textures/MissionBackground.PNG"/>
         </Viewbox>
-        <Viewbox x:Name="MissionViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-            <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas Destruidas 0/3" FontFamily="Arial" TextAlignment="Center"/>
+        <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="Arial" TextAlignment="Center" Text="0/3"/>
         </Viewbox>
 
         <!--

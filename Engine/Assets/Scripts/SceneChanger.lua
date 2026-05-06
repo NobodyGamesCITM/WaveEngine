@@ -1,8 +1,9 @@
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
-    FADE_IN  = 2,
-    DONE     = 3
+    FADE_IN  = 2, 
+    LOADING  = 3,
+    DONE     = 4
 }
 
 local currentState = State.FADE_OUT
@@ -11,22 +12,24 @@ local canvasComponent = nil
 local musicFadeTimer = 0.0
 local volume = 100.0
 local startDelay = 1.5
+local loadingTimer = 0.0
 
 public = {
     targetScene = "Level_02",  
     fadeSpeed   = 1.0,
     musicFadeTime = 2.0,
     currentLevel = "Level_01",
+    loadingDuration = 1.7,
     maxVolume = 100.0,
     fullIntro = false
 }
 
 function Start(self)
     if self.public.currentLevel == "Level_01" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then _G._PlayerController_introAnim = true end
-    currentState = State.FADE_OUT
-    currentAlpha = 1.0
+    currentState = State.LOADING
+    currentAlpha = 1.0 
+    loadingTimer = 0.0
     _G.CurrentLevel = self.public.currentLevel
-
     canvasComponent = self.gameObject:GetComponent("Canvas") 
 
     self.musicSource = GameObject.Find("MusicSource")
@@ -37,12 +40,10 @@ function Start(self)
     end
 
     if not canvasComponent then
-        Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
+        Engine.Log("[SceneTransition] ERROR: No se encontró Canvas.")
     else
-        if canvasComponent:GetCurrentXAML() ~= "LoadingScreen.xaml" then
-            canvasComponent:LoadXAML("LoadingScreen.xaml")
-        end
-        canvasComponent:SetOpacity(1.0)
+        canvasComponent:LoadXAML("LoadingScreen.xaml")
+        canvasComponent:SetOpacity(1.0) 
         _G.CurrentXAML = "LoadingScreen.xaml"
     end
 
@@ -50,33 +51,6 @@ function Start(self)
 end
 
 function Update(self, dt)
-
-    if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = self.public.currentScene 
-        local musicState = "None"
-        if self.public.currentLevel == "Level_01" then 
-           musicState = "Level1"
-        elseif self.public.currentLevel == "Level_02" then 
-           musicState = "Level2"
-        elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
-            musicState = "MainMenu"
-        else
-            Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
-        end
-        
-        Audio.SetMusicState(tostring(musicState))
-        self.musicSource = GameObject.Find("MusicSource")
-        if not self.musicSource then 
-            Engine.Log("[SceneChanger] MusiC GameObject NOT found! Music will NOT play!")
-        else 
-            self.musicComp = self.musicSource:GetComponent("Audio Source")
-            if self.musicComp then 
-                self.musicComp:PlayAudioEvent() 
-            else
-                Engine.Log("[SceneChanger] Music Audio Source NOT found! Music will NOT play!")
-            end
-        end
-    end
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
@@ -91,11 +65,25 @@ function Update(self, dt)
             volume = self.public.maxVolume or 100.0
             currentAlpha = 0.0
             musicFadeTimer = 0
-            currentState = State.IDLE
-            _G.SceneManagerState = State.IDLE     
+            currentState = State.IDLE   
         end
         SetMusicVolume(volume)
         SetCanvasAlpha(currentAlpha)
+
+    elseif currentState == State.LOADING then
+        loadingTimer = loadingTimer + dt
+        if loadingTimer >= (self.public.loadingDuration or 1.7) then
+            if _G._NewSceneLoaded then
+                currentState = State.FADE_OUT
+                _G._NewSceneLoaded = false
+                if canvasComponent then canvasComponent:LoadXAML("FadePanel.xaml") end
+            else
+                if Engine.LoadScene then
+                    _G._NewSceneLoaded = true
+                    Engine.LoadScene(self.public.targetScene)
+                end
+            end
+        end
 
     elseif currentState == State.FADE_IN then
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
@@ -103,20 +91,17 @@ function Update(self, dt)
         local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
         volume = (self.public.maxVolume or 100.0) * (1 - progressPercent)
         
-        if currentAlpha >= 1.0 and volume <= 0 then
+        if currentAlpha >= 1.0 then
             currentAlpha = 1.0
             volume = 0
             musicFadeTimer = 0
-            currentState = State.DONE
+            loadingTimer = 0
+            currentState = State.LOADING
             SetCanvasAlpha(currentAlpha)
             SetMusicVolume(volume)
 
             if canvasComponent then
                 canvasComponent:LoadXAML("LoadingScreen.xaml")
-            end
-
-            if Engine.LoadScene then
-                Engine.LoadScene(self.public.targetScene)
             end
         end
         
@@ -133,6 +118,7 @@ function StartTransition(self, sceneName)
             self.public.targetScene = sceneName
         end
         
+        if canvasComponent then canvasComponent:LoadXAML("FadePanel.xaml") end
         currentState = State.FADE_IN
         
         if _G.PlayerInstance then

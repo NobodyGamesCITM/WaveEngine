@@ -2,6 +2,7 @@
 
 public = {
     fadeDuration = 0.8,         -- Seconds for the fade effect
+    loadingDuration = 1.7,      -- Seconds to show the loading screen
     targetScene  = "Blockout2", -- The scene to load after fading out
     autoFadeIn   = true,        -- Start the scene with a Fade In effect
     sceneMusic   = "Level1",    -- The music track for this specific level
@@ -29,10 +30,12 @@ function Update(self, dt)
         Engine.Log("[FadeManager] Initializing on " .. (self.gameObject and self.gameObject.name or "Unknown"))
         self.canvasComp = self.gameObject:GetComponent("Canvas")
         self.fadeTimer = 0.0
-        self.currentST = 0 -- 0: idle, 1: in, 2: out
+        self.currentST = 0 -- 0: idle, 1: in, 2: out, 3: loading
         
         if self.public.autoFadeIn then
             self.currentST = 1
+            -- Revertimos a un panel negro liso antes de hacer fade in
+            if self.canvasComp then self.canvasComp:LoadXAML("FadePanel.xaml") end
             if self.canvasComp then 
                 self.canvasComp:SetOpacity(1.0) 
                 Engine.Log("[FadeManager] Opacity set to 1.0 for Fade IN")
@@ -113,9 +116,23 @@ function Update(self, dt)
         Audio.SetGlobalVolume((1.0 - alpha) * 100.0)
         
         if t >= 1.0 then
+            self.currentST = 3 -- Pasamos a estado de carga
+            self.fadeTimer = 0.0
+            if self.canvasComp then
+                self.canvasComp:LoadXAML("LoadingScreen.xaml")
+                self.canvasComp:SetOpacity(1.0)
+            end
+            Engine.Log("[FadeManager] Fade OUT Finished. Mostrando Loading Screen.")
+        end
+
+    elseif self.currentST == 3 then -- ESTADO DE CARGA (Loading)
+        self.fadeTimer = self.fadeTimer + delta
+        local duration = self.public.loadingDuration or 1.7
+        
+        if self.fadeTimer >= duration then
             self.currentST = 0
             local target = self.public.targetScene or "MainMenu"
-            Engine.Log("[FadeManager] Fade OUT Finished. Loading scene: " .. target)
+            Engine.Log("[FadeManager] Tiempo de carga cumplido. Cargando escena: " .. target)
             self.lastSceneCounter = -1
             _G._SceneCounter = (_G._SceneCounter or 0) + 1
             _G._NewSceneLoaded = true
@@ -135,6 +152,8 @@ function StartFadeOut(self, sceneName)
         self.gameObject:SetActive(true)
         self.currentST = 2
         self.fadeTimer = 0.0
+        -- Aseguramos que el panel sea negro para el fade out
+        if self.canvasComp then self.canvasComp:LoadXAML("FadePanel.xaml") end
         Engine.Log("[FadeManager] Transition triggered towards: " .. tostring(self.public.targetScene))
     end
 end

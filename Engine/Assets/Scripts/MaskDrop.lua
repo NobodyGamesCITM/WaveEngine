@@ -139,6 +139,10 @@ end
 
 function Update(self, dt)
 
+    if not self.statueMesh or not self.statueMat or not self.statueAnim then
+        Initialize(self)   
+    end
+
     if not self.stoneMask then
         FindStoneMasks(self)
     end
@@ -151,10 +155,7 @@ function Update(self, dt)
         FindStatueInteractPrompt(self)
     end
 
-    if not self.statueMesh or not self.statueMat or not self.statueAnim then
-        Initialize(self)
-        
-    end
+
 
     if interact == true and not self.activatedStatue then
         local obj = GameObject.Find("Player")

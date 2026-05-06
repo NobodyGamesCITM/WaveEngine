@@ -14,7 +14,8 @@ public = {
     fullVolume = 100.0,
     lowerVolume = 60.0
 }
-local FADE_IN_DURATION = 0.4 -- Nueva constante para la duración del fade in
+local FADE_IN_DURATION = 0.4
+local DEATH_MENU_DELAY = 1.5
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -59,7 +60,6 @@ function Initialize(self)
     
     self.canvas = self.gameObject:GetComponent("Canvas")
     
-    -- No resetear la fase si ya estamos en una transición (evita interrupciones de triggers)
     if not self.phase or self.phase == "idle" then
         self.phase = "idle"
         self.fadeTimer = 0.0
@@ -72,8 +72,8 @@ function Initialize(self)
     self.waitingForSplash = false
     self.loadingScreenTimer = 0.0
     self.loadingXAMLStarted = false
+    self.deathTimer = 0.0 
 
-    -- Registramos la instancia global inmediatamente
     _G.GlobalMenuManagerInstance = self
     self.NavigateTo = NavigateTo
 
@@ -100,7 +100,6 @@ function Initialize(self)
     end
 
     if _G.SkipSplash and not _G.ForceStartXAML and not self.waitingForSplash then
-        --Engine.Log("[MenuManager] Esperando a que SplashScreen procese el Skip...")
         self.waitingForSplash = true
         return true
     end
@@ -115,10 +114,10 @@ function Initialize(self)
         Engine.Log("[MenuManager] ForceStartXAML aplicado: " .. path)
         
         self.canvas:LoadXAML(path)
-        self.canvas:SetOpacity(0.0) -- Empezar invisible para el fade in
-        self.fading = true -- Indicar que hay un fade activo
+        self.canvas:SetOpacity(0.0)
+        self.fading = true
         
-        if path:find("MainMenu.xaml") or path:find("Splash.scene") then -- Tratar Splash.scene como un contexto de menú principal
+        if path:find("MainMenu.xaml") or path:find("Splash.scene") then
             Game.Resume()
             self.lastPauseState = "running"
             self.history = {}
@@ -127,7 +126,7 @@ function Initialize(self)
             self.lastPauseState = "paused"
         end
 
-        SetPhase(self, "fadeIn") -- Iniciar la fase de fade in
+        SetPhase(self, "fadeIn")
         Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
         return true
     end
@@ -158,7 +157,6 @@ function Initialize(self)
         self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
-        
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
         elseif sceneVal == "Blockout2Nuevo.scene" then Audio.SetMusicState("Level2") end
             
@@ -194,20 +192,16 @@ function Update(self, dt)
         Audio.SetMusicState(tostring(musicState))
         self.musicSource = GameObject.Find("MusicSource")
         if not self.musicSource then 
-            --Engine.Log("[MenuManager] MusiC GameObject NOT found! Music will NOT play!")
         else 
             self.musicComp = self.musicSource:GetComponent("Audio Source")
             if self.musicComp then 
                 self.musicComp:PlayAudioEvent() 
-            else
-                --Engine.Log("[MenuManager] Music Audio Source NOT found! Music will NOT play!")
             end
         end
     end
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
-            --Engine.Log("[MenuManager] ForceStartXAML disponible tras espera. Aplicando...")
             self.waitingForSplash = false
             Initialize(self)
         end
@@ -238,7 +232,6 @@ function Update(self, dt)
             Audio.SetMusicState("MainMenu")
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
         end
-    -- FIX: no reanudar si hay una cinemática activa
     elseif not _G.DialogActive and not _G.CinematicActive then
         if self.lastPauseState ~= "running" then
             Game.Resume()
@@ -265,25 +258,38 @@ function Update(self, dt)
             self.loggedReady = true
         end
 
-        local isDead = false
+        if not self.deathTimer then self.deathTimer = 0.0 end
+
+        local playerHealth = 101  
         if _G.PlayerInstance and _G.PlayerInstance.public then
-            isDead = (_G.PlayerInstance.public.health <= 0)
+            playerHealth = _G.PlayerInstance.public.health
         else
             local playerObj = GameObject.Find("Player")
             if playerObj then
                 local pScript = GameObject.GetScript(playerObj)
                 if pScript then
                     _G.PlayerInstance = pScript
-                    isDead = (pScript.public and pScript.public.health <= 0)
+                    playerHealth = pScript.public and pScript.public.health or 101
                 end
             end
         end
 
-        -- FIX: no abrir LoseMenu ni procesar input durante la cinemática
+        local playerIsDead = (playerHealth <= 0)
+
         if not _G.CinematicActive then
-            if isDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-                self.history = {}
-                NavigateTo(self, "LoseMenu.xaml")
+            -- Gestión del timer de muerte
+            if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
+                self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
+                Engine.Log("[MenuManager] Death timer: " .. tostring(self.deathTimer))
+                if self.deathTimer >= DEATH_MENU_DELAY then
+                    self.deathTimer = 0.0
+                    self.history = {}
+                    NavigateTo(self, "LoseMenu.xaml")
+                end
+            else
+                if not playerIsDead then
+                    self.deathTimer = 0.0
+                end
             end
 
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
@@ -331,6 +337,7 @@ function Update(self, dt)
 
         if UI.WasClicked("TryAgainButton") then
             _G._PlayerController_isDead = false
+            self.deathTimer = 0.0  -- reset timer
             NavigateTo(self, "HUD.xaml")
         end
 
@@ -338,6 +345,7 @@ function Update(self, dt)
             if not self.fading then
                 Engine.Log("[MenuManager] BackToMenuButton: Iniciando FadeOut y regreso a Splash")
                 _G._PlayerController_isDead = false
+                self.deathTimer = 0.0  -- reset timer
                 if _G.PlayerInstance then
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
@@ -437,7 +445,6 @@ function Update(self, dt)
         self.current = self.nextXaml
         _G.CurrentXAML = self.current
 
-        -- Si se carga el menú de pausa, forzar una actualización del HUD para sincronizar el contador de misión
         if self.current == "PauseMenu.xaml" and _G.HUD_RefreshStatuesDestroyed then
             _G.HUD_RefreshStatuesDestroyed()
         end
@@ -486,7 +493,6 @@ function Update(self, dt)
 
         self.canvas:SetOpacity(alpha)
 
-        -- Restaurar el volumen de audio durante el fade in
         local vol = math.min(t * (self.public.fullVolume or 100.0), (self.public.fullVolume or 100.0))
         Audio.SetGlobalVolume(vol)
 

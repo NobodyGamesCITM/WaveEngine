@@ -1,5 +1,3 @@
--- PlayerController.lua
-
 local sqrt  = math.sqrt
 local abs   = math.abs
 local atan2 = math.atan
@@ -192,7 +190,7 @@ function TriggerDrinkAnimation(self, isInternalHeal)
     
     Player.healAnimTimer = Player.healAnimDuration
     Player.healPending = isInternalHeal
-    Player.maskAnimTimer = 0 -- Reset mask timer just in case
+    Player.maskAnimTimer = 0
     self.public.canMove = false
     return true
 end
@@ -203,7 +201,6 @@ function _G.TriggerCameraShake(duration, magnitude, freq)
         Engine.Log("Entra camera")
         local cineCam = camObj:GetComponent("CinematicCamera")
         if cineCam then
-            -- Valores por defecto si no se pasan parámetros
             cineCam:Shake(duration or 0.3, magnitude or 6.0, freq or 25.0)
         end
     end
@@ -296,7 +293,6 @@ local function GetMovementInput(self)
         return moveX, moveZ, inputLen * INPUT_SCALE
     end
     
-    -- Fallback if cannot find object "MainCamera"
     return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
 end
 
@@ -452,22 +448,21 @@ local function EquipMask(self, newMask, skipSword)
     end
     
     if newMask == Mask.APOLLO then 
-        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(true)end
         if maskHermes then maskHermes:SetActive(false)end
+
     elseif newMask == Mask.HERMES then 
-        --masks
         if maskAres then maskAres:SetActive(false)end
         if maskApolo then maskApolo:SetActive(false)end
         if maskHermes then maskHermes:SetActive(true)end
+
     elseif newMask == Mask.ARES then 
-        --masks
         if maskAres then maskAres:SetActive(true) end
         if maskApolo then maskApolo:SetActive(false) end
         if maskHermes then maskHermes:SetActive(false) end
+
     elseif newMask == Mask.NONE then 
-        --masks
         if maskAres then maskAres:SetActive(false) end
         if maskApolo then maskApolo:SetActive(false) end
         if maskHermes then maskHermes:SetActive(false) end
@@ -508,9 +503,8 @@ local function EquipMask(self, newMask, skipSword)
     if Player.currentMask ~= Mask.NONE then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
-    end -- SFX_MaskSwitch is for equipping, SFX_MaskChange is for cycling
+    end
 
-    -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
     if newMask == Mask.HERMES then
         _G._PlayerController_currentMask = "Hermes"
     elseif newMask == Mask.APOLLO then
@@ -527,21 +521,33 @@ States[State.DEAD] = {
     Enter  = function(self)
         Engine.Log("[Player] Player is DEAD")
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-        _G._PlayerController_isDead = true 
+        _G._PlayerController_isDead = true
+        _G._PlayerController_deathAnimDone = false  
+        Player.deathAnimTimer = 1.5                  
         if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_PlayerDeath") end
         local anim = self.gameObject:GetComponent("Animation")
         if anim and Player.isDrowning then anim:Play("Drown", 0.5)
         else anim:Play("Die", 0.5) end
-        
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+        if not _G._PlayerController_deathAnimDone then
+            local realDt = Time.GetRealDeltaTime()
+            Player.deathAnimTimer = (Player.deathAnimTimer or 1.5) - realDt
+            if Player.deathAnimTimer <= 0 then
+                _G._PlayerController_deathAnimDone = true
+                Engine.Log("[Player] Death anim done, showing LoseMenu")
+            end
+        end
+
         if Input.GetKeyDown("1") then
             self.public.health  = 100
             self.public.stamina = 100
             local p = lastCheckpoint
             self.transform:SetPosition(p.x, p.y, p.z)
             _G._PlayerController_isDead = false
+            _G._PlayerController_deathAnimDone = false
             ChangeState(self, State.IDLE)
         end
 
@@ -560,6 +566,7 @@ States[State.DEAD] = {
                 end
                 Player.hermesRespawnCooldown = 1.5
                 _G._PlayerController_isDead = false
+                _G._PlayerController_deathAnimDone = false
 
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then 
@@ -832,10 +839,6 @@ States[State.RUNNING] = {
         if self.public.stamina <= 0 then
             ChangeState(self, State.WALK)
             return
-        end
-
-        if not Player.godMode and not self.public.berserkActive then
-            -- self.public.stamina = self.public.stamina - (self.public.staminaCost * dt)
         end
 
         if Player.stepSFX then
@@ -1288,7 +1291,6 @@ local function RefreshAudioSources(self)
     Player.swordSFX      = (swordGo and swordGo:GetComponent("Audio Source")) or rootSource
     Player.voiceSFX      = (voiceGo and voiceGo:GetComponent("Audio Source")) or rootSource
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
-    --Player.pickMaskSFX   = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
 
@@ -1330,10 +1332,6 @@ function Start(self)
     attackBufferPending = false
     attackNum      = 0
     _G.PlayerInAnim = false
-
-    -- FIX: eliminados Game.Resume() y Game.SetTimeScale(1.0) del Start.
-    -- El estado de pausa es responsabilidad exclusiva de MenuManager.
-    -- Game.SetTimeScale solo se resetea tras cambio de escena (ver Update).
     Game.SetTimeScale(1.0)
 
     _G._PlayerController_isDead = false
@@ -1581,9 +1579,6 @@ function Update(self, dt)
         Player.lastSceneCounter = sceneLoaderCount
         Engine.Log("[Player] New Scene Detected (Counter: " .. tostring(sceneLoaderCount) .. ") - Resetting persistent state")
         
-        -- FIX: Game.Resume() aquí sí es correcto porque es un cambio de escena
-        -- real, donde sabemos que el juego debe correr (el MenuManager
-        -- se reinicializará y tomará el control del estado de pausa).
         Game.Resume()
         Game.SetTimeScale(1.0)
         
@@ -1636,10 +1631,6 @@ function Update(self, dt)
         Player.currentSpeed = self.public.speed
         
         Player.firstFrameCheck = true
-
-        -- FIX: si el UIManager está desactivado el engine puede pausar
-        -- automáticamente por tener MainMenu.xaml en el Canvas.
-        -- Esperamos unos frames y si no hay MenuManager activo, forzamos Resume.
         Player.forceResumeFrames = 10
     end
 
@@ -1664,13 +1655,10 @@ function Update(self, dt)
         end
     end
 
-    -- FIX: resume forzado si no hay MenuManager activo (UIManager desactivado)
     if Player.forceResumeFrames and Player.forceResumeFrames > 0 then
         Player.forceResumeFrames = Player.forceResumeFrames - 1
         if Player.forceResumeFrames == 0 then
             if not _G.GlobalMenuManagerInstance then
-                -- Anti-AutoPause: Si el MenuManager está desactivado pero tiene el MainMenu cargado,
-                -- el engine pausará el juego. Buscamos el Canvas y lo limpiamos.
                 local uiObj = GameObject.Find("MenuManager") or GameObject.Find("Canvas")
                 if uiObj then
                     local canvas = uiObj:GetComponent("Canvas")
@@ -1837,7 +1825,7 @@ function Update(self, dt)
     end
 
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") or Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB") then
-        MaskScroll(self) -- Call MaskScroll, which now handles direction internally
+        MaskScroll(self)
     end
 
     if Input.GetKeyDown("F1") then 
@@ -1901,15 +1889,14 @@ function MaskScroll(self)
 
     local direction = 0
     if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then
-        direction = 1 -- Scroll right
+        direction = 1 
     elseif Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB") then
-        direction = -1 -- Scroll left
+        direction = -1 
     else
-        return -- No scroll input detected
+        return 
     end
 
     local obtainedMasks = {}
-    -- Use a consistent order for cycling (Hermes, Apolo, Ares)
     if _G._MaskState_Hermes then table.insert(obtainedMasks, Mask.HERMES) end
     if _G._MaskState_Apolo  then table.insert(obtainedMasks, Mask.APOLLO) end
     if _G._MaskState_Ares   then table.insert(obtainedMasks, Mask.ARES)   end
@@ -1936,7 +1923,6 @@ function MaskScroll(self)
         return
     end
 
-    -- Find current mask index in the obtained list
     local currentIndex = 0
     for i, mask in ipairs(obtainedMasks) do
         if mask == oldMask then
@@ -1948,7 +1934,6 @@ function MaskScroll(self)
     if oldMask == Mask.NONE or currentIndex == 0 then
         newMask = obtainedMasks[1] 
     else
-        -- Cycle to the next/previous mask
         local newIndex = currentIndex + direction
         if newIndex > #obtainedMasks then
             newIndex = 1 
@@ -1962,7 +1947,6 @@ function MaskScroll(self)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
         EquipMask(self, newMask)
 
-        -- Trigger mask change animation
         ChangeState(self, State.IDLE)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         local anim = self.gameObject:GetComponent("Animation")
@@ -2129,7 +2113,6 @@ function OnCollisionEnter(self, other)
         end
     end
 
-
     if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
         Player.isGrounded = true
     end
@@ -2145,7 +2128,6 @@ function OnCollisionExit(self, other)
             if Player.smokePS then Player.smokePS:Play() end
             if Player.bubblesPS then Player.bubblesPS:Stop() end
         end
-
 
         if Player.stepSFX and Player.lastGroundSurface then
             Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)

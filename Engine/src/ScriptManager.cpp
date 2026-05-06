@@ -156,7 +156,24 @@ bool ScriptManager::PostUpdate() {
         pendingSceneLoad.clear();
        
         Application::GetInstance().loader->LoadScene(path);
-        
+     
+
+        std::function<void(GameObject*)> callStartOnAll = [&](GameObject* obj) {
+            if (!obj || !obj->IsActive()) return;
+            for (Component* comp : obj->GetComponents()) {
+                if (comp->GetType() == ComponentType::SCRIPT) {
+                    ComponentScript* script = static_cast<ComponentScript*>(comp);
+                    if (script->IsActive()) {
+                        script->ReloadScript();
+                        script->CallStart();
+                    }
+                }
+            }
+            for (GameObject* child : obj->GetChildren()) {
+                callStartOnAll(child);
+            }
+            };
+        callStartOnAll(Application::GetInstance().scene->GetRoot());
     }
 
     return true;

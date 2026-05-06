@@ -56,8 +56,12 @@ function Initialize(self)
     Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
     
     self.canvas = self.gameObject:GetComponent("Canvas")
-    self.phase = "idle"
-    self.fadeTimer = 0.0
+    
+    -- No resetear la fase si ya estamos en una transición (evita interrupciones de triggers)
+    if not self.phase or self.phase == "idle" then
+        self.phase = "idle"
+        self.fadeTimer = 0.0
+    end
     self.fading = false
     self.history = {}
     self.pendingScene = nil
@@ -67,9 +71,9 @@ function Initialize(self)
     self.loadingScreenTimer = 0.0
     self.loadingXAMLStarted = false
 
+    -- Registramos la instancia global inmediatamente
     _G.GlobalMenuManagerInstance = self
-
-    --Engine.Log("[MenuManager] isMusicPlaying reset to false")
+    self.NavigateTo = NavigateTo
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
@@ -163,9 +167,6 @@ function Initialize(self)
     
     Engine.Log("[MenuManager] Current XAML: " .. self.current)
     self.canvas:SetOpacity(1.0)
-    self.fading = false
-    SetPhase(self, "idle")
-
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
     return true
 end

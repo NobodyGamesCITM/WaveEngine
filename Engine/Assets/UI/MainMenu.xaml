@@ -182,19 +182,19 @@
             <ImageBrush Stretch="UniformToFill" ImageSource="Textures/Inicio.PNG"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="931*"/>
-            <ColumnDefinition Width="349*"/>
+            <ColumnDefinition Width="726*"/>
+            <ColumnDefinition Width="205*"/>
+            <ColumnDefinition Width="327*"/>
+            <ColumnDefinition Width="22*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="639*"/>
+        </Grid.RowDefinitions>
 
-        <Viewbox Stretch="Uniform" Margin="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid x:Name="LayoutRoot" Height="720">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="971"/>
-                <ColumnDefinition Width="283"/>
-                <ColumnDefinition Width="26"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="1" Margin="0">
+        <Viewbox Stretch="Uniform" Grid.Column="2" Grid.Row="2">
+            <Grid Margin="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="151*"/>
                     <RowDefinition Height="489*"/>
@@ -251,8 +251,10 @@
                     </StackPanel>
                 </Viewbox>
             </Grid>
-        </Grid>
-    </Viewbox>
-    <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="2" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
+        </Viewbox>
+    <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="4" Fill="Black" Opacity="0" IsHitTestVisible="False" Grid.RowSpan="5"/>
+        <Viewbox x:Name="TitleViewBox" Grid.Row="1" Grid.Column="2" Margin="0,3.93">
+            <TextBlock TextWrapping="Wrap" Text="The Son Of Ithaca" Foreground="#FFFFFFFF" FontFamily="./#ForgottenUncial"/>
+        </Viewbox>
     </Grid>
 </Grid>

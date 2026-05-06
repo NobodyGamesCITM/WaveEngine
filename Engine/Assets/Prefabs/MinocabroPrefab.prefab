@@ -3306,13 +3306,13 @@
                     {
                         "active": true,
                         "position": [
-                            0.0001220703125,
+                            6.4849853515625e-05,
                             0.0,
                             0.0
                         ],
                         "rotation": [
                             0.0,
-                            0.0,
+                            2.0490568203967996e-05,
                             0.0
                         ],
                         "scale": [
@@ -3324,12 +3324,21 @@
                     },
                     {
                         "active": true,
+                        "castShadows": true,
                         "meshUID": 1237256068531908927,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
                         "type": 2
                     },
                     {
                         "active": true,
                         "materialUID": 15634858790036886356,
+                        "overrideTiling": false,
                         "type": 3
                     },
                     {
@@ -3453,86 +3462,19 @@
                 "name": "Audio",
                 "tag": "",
                 "uid": 12498294554770476438
-            },
-            {
-                "active": true,
-                "children": [],
-                "components": [
-                    {
-                        "active": true,
-                        "position": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "rotation": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "scale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "type": 0
-                    },
-                    {
-                        "active": true,
-                        "scriptUID": 12749869038866807971,
-                        "type": 6
-                    },
-                    {
-                        "Center": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "DynamicFriction": 0.5,
-                        "Radius": 250.0,
-                        "Restitution": 0.6000000238418579,
-                        "StaticFriction": 0.5,
-                        "Trigger": true,
-                        "active": true,
-                        "type": 11
-                    },
-                    {
-                        "AngularDamping": 0.0,
-                        "FreezePos": [
-                            false,
-                            false,
-                            false
-                        ],
-                        "FreezeRot": [
-                            false,
-                            false,
-                            false
-                        ],
-                        "LinearDamping": 0.0,
-                        "Mass": 1.0,
-                        "Type": 0,
-                        "UseCCD": false,
-                        "UseGravity": true,
-                        "active": true,
-                        "type": 8
-                    }
-                ],
-                "name": "CombatArea",
-                "tag": "",
-                "uid": 11011290148529898614
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    24.0,
+                    27.0,
                     0.0,
-                    -27.0
+                    -29.0
                 ],
                 "rotation": [
                     0.0,
-                    -45.000003814697266,
+                    -44.97201919555664,
                     0.0
                 ],
                 "scale": [
@@ -3592,7 +3534,7 @@
             },
             {
                 "active": true,
-                "scriptUID": 14054434615812849693,
+                "scriptUID": 162971020098534040,
                 "type": 6
             },
             {

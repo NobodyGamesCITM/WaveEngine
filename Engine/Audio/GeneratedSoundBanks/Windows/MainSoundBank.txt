@@ -7,7 +7,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	276386536	SFX_AquilesSpearSwing			\Default Work Unit\Aquiles\SFX_AquilesSpearSwing	
 	385136311	SFX_MinoCrash			\Default Work Unit\Minocabro\SFX_MinoCrash	
 	416781375	UI_ButtonPress			\Default Work Unit\Other\UI_ButtonPress	
-	433468090	SFX_ActivateStatue			\Default Work Unit\Player\SFX_ActivateStatue	
+	433468090	SFX_ActivateStatue			\Default Work Unit\Player\GetMaskAnim\SFX_ActivateStatue	
 	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
 	565814488	SFX_AquilesHurt			\Default Work Unit\Aquiles\SFX_AquilesHurt	
 	638756417	MUS_BGM			\Default Work Unit\Music\MUS_BGM	
@@ -22,7 +22,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1263671132	SFX_ItemPickup			\Default Work Unit\Player\SFX_ItemPickup	
 	1281281593	SFX_RockMove			\Default Work Unit\Puzzles\SFX_RockMove	
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
-	1498826869	SFX_ShowSword			\Default Work Unit\Player\SFX_ShowSword	
+	1498826869	SFX_ShowSword			\Default Work Unit\Player\GetMaskAnim\SFX_ShowSword	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
@@ -54,9 +54,8 @@ Event	ID	Name			Wwise Object Path	Notes
 	3607278939	SFX_HermesMask			\Default Work Unit\Player\SFX_HermesMask	
 	3610360561	UI_PotionGet			\Default Work Unit\Other\UI_PotionGet	
 	3651743467	SFX_SirenHurt			\Default Work Unit\Siren\SFX_SirenHurt	
-	3673223703	SFX_GetMask			\Default Work Unit\Player\SFX_GetMask	
+	3673223703	SFX_GetMask			\Default Work Unit\Player\GetMaskAnim\SFX_GetMask	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
-	3810757633	SFX_AngelsChant			\Default Work Unit\Other\SFX_AngelsChant	
 	3854015376	SFX_CheckPointSave			\Default Work Unit\Player\SFX_CheckPointSave	
 	3983796901	SFX_TreeAmbience			\Default Work Unit\Other\SFX_TreeAmbience	
 	4011307621	SFX_MaskChange			\Default Work Unit\Player\SFX_MaskChange	
@@ -233,7 +232,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604
 	617220961	minocabro_footstep_03	.cache\E3\{E317B072-E9B3-EBE5-4709-0EA2679A9BD9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_03		28088
 	618455848	Mino_DeathGrowl	.cache\D6\{D6A8C950-894B-852B-483E-5C0DB675E006}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_DeathGrowl		121904
-	622655417	athena_chant_01	.cache\B8\{B8393BF5-BF7E-7D51-9C91-AB43F22A4D1B}.wem		\Containers\Default Work Unit\Objects\Ambiance\Angels_Chant\athena_chant_01		765800
 	629385577	sword_slice_soft	.cache\50\{500A7620-3D3B-0D66-4878-7359F88B5448}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_soft		11816
 	632941085	AIGUA2	.cache\B6\{B626E2FC-F892-8794-FD38-ED0C475537AA}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA2		470456
 	639013023	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292

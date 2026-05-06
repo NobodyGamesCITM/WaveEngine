@@ -44,7 +44,7 @@ end
 
 
 function Start(self)
-  	--Engine.Log("CombatMusic.lua script running!")
+
 end
 
 function Update(self, dt)
@@ -61,20 +61,15 @@ function Update(self, dt)
 		resetCombatTimer = false
 		startedCombat = false
 	end
-	
 
 	if startedCombat then
-		
 		afterCombatTimer = afterCombatTimer + dt
-
-		--Engine.Log("Combat Music Started " ..tostring(afterCombatTimer).. " seconds ago")
 		if afterCombatTimer >= self.public.afterCombatTime then
 			TriggerExplorationMusic()
 			afterCombatTimer = 0	
 		end
 	end
 
-	
 end
 
 

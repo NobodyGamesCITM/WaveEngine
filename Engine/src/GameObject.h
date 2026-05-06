@@ -56,8 +56,9 @@ public:
                 
     const std::string& GetName() const { return name; }
     void SetName(const std::string& newName) { name = newName; }
-    bool IsActive() const { return active; }
-    void SetActive(bool state) { active = state; }
+    bool IsActive() const { return activeInHierarchy; }
+    bool IsActiveSelf() const { return active; }
+    void SetActive(bool state);
     GameObject* GetParent() const { return parent; }
     const std::vector<GameObject*>& GetChildren() const { return children; }
     const std::vector<Component*>& GetComponents() const { return components; }
@@ -86,6 +87,7 @@ public:
     UID objectUID;
     std::string name;
     bool active = true;
+    bool activeInHierarchy = true;
     Transform* transform = nullptr;
 
     //tags
@@ -104,6 +106,8 @@ private:
     std::vector<GameObject*> children;
     std::vector<std::unique_ptr<Component>> componentOwners;
     std::vector<Component*> components;
+
+    void UpdateActiveInHierarchy(bool parentIsActive);
 
     bool markedForDeletion = false;
     bool isCleaning = false;

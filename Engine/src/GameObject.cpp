@@ -293,6 +293,19 @@ void GameObject::GetComponentsInParent(ComponentType type, std::vector<Component
     }
 }
 
+void GameObject::SetActive(bool state) {
+    active = state;
+    bool parentActive = parent ? parent->activeInHierarchy : true;
+    UpdateActiveInHierarchy(active && parentActive);
+}
+
+void GameObject::UpdateActiveInHierarchy(bool parentIsActive) {
+    activeInHierarchy = active && parentIsActive;
+    for (GameObject* child : children) {
+        child->UpdateActiveInHierarchy(activeInHierarchy);
+    }
+}
+
 void GameObject::AddChild(GameObject* child) {
     if (child && child != this) {
         if (child->parent) {
@@ -301,6 +314,7 @@ void GameObject::AddChild(GameObject* child) {
 
         child->parent = this;
         children.push_back(child);
+        child->UpdateActiveInHierarchy(activeInHierarchy);
     }
 }
 

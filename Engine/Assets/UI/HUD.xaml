@@ -650,7 +650,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         </Grid.RowDefinitions>
 
         <!-- Fondo decorativo del panel de misión -->
-        <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+        <Viewbox x:Name="ViewboxBackground" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
             <Path x:Name="MissionBackground" Stretch="Fill" Height="100" Width="470" StrokeThickness="0" StrokeDashCap="Triangle" StrokeDashOffset="7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Triangle" StrokeLineJoin="Round" StrokeMiterLimit="19">
                 <Path.Data>
                     <PathGeometry>

@@ -14,6 +14,7 @@ public = {
     fullVolume = 100.0,
     lowerVolume = 60.0
 }
+local FADE_IN_DURATION = 0.4 -- Nueva constante para la duración del fade in
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -114,10 +115,10 @@ function Initialize(self)
         Engine.Log("[MenuManager] ForceStartXAML aplicado: " .. path)
         
         self.canvas:LoadXAML(path)
-        self.canvas:SetOpacity(1.0)
-        self.fading = false 
+        self.canvas:SetOpacity(0.0) -- Empezar invisible para el fade in
+        self.fading = true -- Indicar que hay un fade activo
         
-        if path:find("MainMenu.xaml") then
+        if path:find("MainMenu.xaml") or path:find("Splash.scene") then -- Tratar Splash.scene como un contexto de menú principal
             Game.Resume()
             self.lastPauseState = "running"
             self.history = {}
@@ -126,7 +127,7 @@ function Initialize(self)
             self.lastPauseState = "paused"
         end
 
-        SetPhase(self, "idle")
+        SetPhase(self, "fadeIn") -- Iniciar la fase de fade in
         Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
         return true
     end
@@ -471,6 +472,25 @@ function Update(self, dt)
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
         self.canvas:SetOpacity(1.0)
         SetPhase(self, "idle")
+
+    elseif self.phase == "fadeIn" then
+        self.fadeTimer = self.fadeTimer + dt
+        local duration = FADE_IN_DURATION
+        local t = math.min(self.fadeTimer / duration, 1.0)
+        local alpha = EaseInOutQuad(t)
+
+        self.canvas:SetOpacity(alpha)
+
+        -- Restaurar el volumen de audio durante el fade in
+        local vol = math.min(t * (self.public.fullVolume or 100.0), (self.public.fullVolume or 100.0))
+        Audio.SetGlobalVolume(vol)
+
+        if t >= 1.0 then
+            self.canvas:SetOpacity(1.0)
+            Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+            SetPhase(self, "idle")
+            Engine.Log("[MenuManager] Fade IN completado.")
+        end
 
     elseif self.phase == "loadingScreenAnimating" then
         if self.pendingScene then

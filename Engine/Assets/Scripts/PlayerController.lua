@@ -26,7 +26,7 @@ local surfaces = {"Grass", "Water", "Dirt", "Stone", "Bones"}
 _PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
-_PlayerController_currentMask        = ""
+_G._PlayerController_currentMask     = ""
 _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
@@ -508,19 +508,17 @@ local function EquipMask(self, newMask, skipSword)
     if Player.currentMask ~= Mask.NONE then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
-    end
-
-   
+    end -- SFX_MaskSwitch is for equipping, SFX_MaskChange is for cycling
 
     -- Exponer al HUD: usar cadena limpia ("Hermes"/"Ares"/"Apolo"/"" para ninguna)
     if newMask == Mask.HERMES then
-        _PlayerController_currentMask = "Hermes"
+        _G._PlayerController_currentMask = "Hermes"
     elseif newMask == Mask.APOLLO then
-        _PlayerController_currentMask = "Apolo"
+        _G._PlayerController_currentMask = "Apolo"
     elseif newMask == Mask.ARES then
-        _PlayerController_currentMask = "Ares"
+        _G._PlayerController_currentMask = "Ares"
     else
-        _PlayerController_currentMask = ""
+        _G._PlayerController_currentMask = ""
     end
     if not skipSword then UpdateSwordMaterial() end
 end
@@ -557,7 +555,7 @@ States[State.DEAD] = {
                 self.transform:SetPosition(rp.x, rp.y, rp.z)
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 if Player.hermesPendingUnequip then
-                    _PlayerController_currentMask = ""
+                    _G._PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
                 Player.hermesRespawnCooldown = 1.5
@@ -1298,8 +1296,8 @@ local function RefreshAudioSources(self)
     Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - SwordSFX: " .. (swordGo and "CHILD FOUND" or "ROOT DEFAULT"))
     Engine.Log(" - VoiceSFX: " .. (voiceGo and "CHILD FOUND" or "ROOT DEFAULT"))
-    Engine.Log(" - ItemSFX: " ..(itemGO and "CHILD FOUND" or "ROOT DEFAULT"))
-    Engine.Log(" - MaskSFX: " ..(maskGO and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - ItemSFX: " ..(itemGo and "CHILD FOUND" or "ROOT DEFAULT"))
+    Engine.Log(" - MaskSFX: " ..(maskGo and "CHILD FOUND" or "ROOT DEFAULT"))
 end
 
 local FindMasks
@@ -1386,7 +1384,7 @@ function Start(self)
     
     Player.isDrowning       = false
     Player.hermesGraceTimer = 0
-    _PlayerController_currentMask = ""
+    _G._PlayerController_currentMask = ""
 	
     local smokeObj = GameObject.FindInChildren(self.gameObject, "SmokeTrail")
     if smokeObj then
@@ -1838,17 +1836,8 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then 
-        MaskScroll(self)
-    end
-
-    if Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB")  then 
-        if Player.maskAnimTimer > 0 then return end
-        if Player.AnimTimer > 0 then return end
-        if Player.currentMask ~= Mask.NONE then 
-            if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
-            EquipMask(self, Mask.NONE) 
-        end
+    if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") or Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB") then
+        MaskScroll(self) -- Call MaskScroll, which now handles direction internally
     end
 
     if Input.GetKeyDown("F1") then 
@@ -1905,40 +1894,77 @@ function Update(self, dt)
 end
 
 function MaskScroll(self)
-    if Player.AnimTimer > 0 then return end
-    Engine.Log("old mask: "..tostring(oldMask)..", current mask: "..tostring(Player.currentMask).. ", Player state: "..tostring(Player.currentState))
-    oldMask = Player.currentMask
-
-    Engine.Log("Mask Scrolling, maskAnimTimer = "..tostring(Player.maskAnimTimer)..", healAnimTimer = "..tostring(Player.healAnimTimer))
-
     if Player.maskAnimTimer > 0 then return end
     if Player.healAnimTimer > 0 then return end
-
-    if not Player.currentMask then Player.currentMask = Mask.NONE end
-
+    if Player.AnimTimer > 0 then return end
     if Player.currentState == State.DEAD then return end
-    if Player.currentMask == Mask.NONE then 
-        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
-        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
-        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
-    elseif Player.currentMask == Mask.HERMES then 
-        if Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
-        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
-        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)end
-    elseif Player.currentMask == Mask.APOLLO then 
-        if Mask.ARES ~= "None" then EquipMask(self,Mask.ARES)
-        elseif Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
-        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)end
-    elseif Player.currentMask == Mask.ARES then 
-        if Mask.HERMES ~= "None" then EquipMask(self,Mask.HERMES)
-        elseif Mask.APOLLO ~= "None" then EquipMask(self,Mask.APOLLO)
-        elseif Mask.ARES ~= "None" then EquipMask(self,Mask.ARES) end
-    end  
 
-    ChangeState(self, State.IDLE)
-    if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+    local direction = 0
+    if Input.GetKeyDown("8") or Input.GetGamepadButtonDown("RB") then
+        direction = 1 -- Scroll right
+    elseif Input.GetKeyDown("9") or Input.GetGamepadButtonDown("LB") then
+        direction = -1 -- Scroll left
+    else
+        return -- No scroll input detected
+    end
 
-    if oldMask ~= Player.currentMask then
+    local obtainedMasks = {}
+    -- Use a consistent order for cycling (Hermes, Apolo, Ares)
+    if _G._MaskState_Hermes then table.insert(obtainedMasks, Mask.HERMES) end
+    if _G._MaskState_Apolo  then table.insert(obtainedMasks, Mask.APOLLO) end
+    if _G._MaskState_Ares   then table.insert(obtainedMasks, Mask.ARES)   end
+
+    local oldMask = Player.currentMask
+    local newMask = nil
+
+    if #obtainedMasks == 0 then
+        if oldMask ~= Mask.NONE then
+            if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+            EquipMask(self, Mask.NONE)
+            ChangeState(self, State.IDLE)
+            if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("Idle", 0.0) end)
+                pcall(function() anim:Play("Mask", 0.2) end)
+            else
+                Engine.Log("Unable to Play Mask animation")
+            end
+            Player.maskAnimTimer = Player.maskAnimDuration
+            self.public.canMove = false
+        end
+        return
+    end
+
+    -- Find current mask index in the obtained list
+    local currentIndex = 0
+    for i, mask in ipairs(obtainedMasks) do
+        if mask == oldMask then
+            currentIndex = i
+            break
+        end
+    end
+
+    if oldMask == Mask.NONE or currentIndex == 0 then
+        newMask = obtainedMasks[1] 
+    else
+        -- Cycle to the next/previous mask
+        local newIndex = currentIndex + direction
+        if newIndex > #obtainedMasks then
+            newIndex = 1 
+        elseif newIndex < 1 then
+            newIndex = #obtainedMasks 
+        end
+        newMask = obtainedMasks[newIndex]
+    end
+
+    if newMask and newMask ~= oldMask then
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+        EquipMask(self, newMask)
+
+        -- Trigger mask change animation
+        ChangeState(self, State.IDLE)
+        if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
             anim:Play("Idle", 0.0)
@@ -1949,6 +1975,7 @@ function MaskScroll(self)
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false
     end
+
 end
 
 function ObtainMask(self)
@@ -2006,10 +2033,14 @@ function ObtainMask(self)
                 _G.PlayMaskCinematic(Player.pendingObtainMask)
             end
         else
+
             if Player.pendingObtainMask == Mask.APOLLO  then _G._MaskState_Apolo  = true end
             if Player.pendingObtainMask == Mask.HERMES  then _G._MaskState_Hermes = true end
             if Player.pendingObtainMask == Mask.ARES    then _G._MaskState_Ares   = true end
+
+            local maskToEquip = Player.pendingObtainMask
             Player.pendingObtainMask = nil
+            EquipMask(self, maskToEquip)
         end
     end
     debugMaskGive = false

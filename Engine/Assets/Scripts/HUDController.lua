@@ -5,6 +5,7 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
+local ALL_MASK_TYPES_ORDER = { "Hermes", "Apolo", "Ares" } -- Define a fixed order for cycling and display
 local MASK_NAMES = { "Hermes", "Ares", "Apolo" }
 
 local obtainedOrder = {}
@@ -30,13 +31,6 @@ local MISSION_HIDE_DELAY = 3.0
 -- ─── Helpers
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
-end
-
-local function alreadyTracked(name)
-    for _, v in ipairs(obtainedOrder) do
-        if v == name then return true end
-    end
-    return false
 end
 
 -- ─── Barras
@@ -73,23 +67,48 @@ end
 local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
     local hasMap = { Hermes = hasHermes, Ares = hasAres, Apolo = hasApolo }
 
-    for _, name in ipairs(MASK_NAMES) do
-        if hasMap[name] and not alreadyTracked(name) then
-            table.insert(obtainedOrder, name)
+    obtainedOrder = {}
+    for _, maskType in ipairs(ALL_MASK_TYPES_ORDER) do
+        if hasMap[maskType] then
+            table.insert(obtainedOrder, maskType)
         end
     end
 
+    if #obtainedOrder == 0 then
+        for _, prefix in ipairs({ "Active", "Left", "Right" }) do
+            for _, maskName in ipairs(MASK_NAMES) do
+                UI.SetElementVisibility(prefix .. "_" .. maskName, false)
+            end
+        end
+        return
+    end
+
+    local activeSlotMask = nil
+    if activeMask ~= "" then
+
+        for _, m in ipairs(obtainedOrder) do
+            if m == activeMask then
+                activeSlotMask = activeMask
+                break
+            end
+        end
+    end
+
+    if not activeSlotMask then
+        activeSlotMask = obtainedOrder[1]
+    end
+
     local sideSlots = {}
-    for _, name in ipairs(obtainedOrder) do
-        if name ~= activeMask then
-            table.insert(sideSlots, name)
+    for _, m in ipairs(obtainedOrder) do
+        if m ~= activeSlotMask then
+            table.insert(sideSlots, m)
         end
     end
 
     local slotAssign = {
-        Active = (activeMask ~= "" and activeMask or nil),
-        Left   = sideSlots[1],
-        Right  = sideSlots[2],
+        Active = activeSlotMask,
+        Left   = sideSlots[1] or nil,
+        Right  = sideSlots[2] or nil,
     }
 
     for _, prefix in ipairs({ "Active", "Left", "Right" }) do
@@ -102,6 +121,15 @@ end
 
 -- ─── Mission / Collectibles
 local function RefreshMissionUI()
+    local currentSceneName = ""
+    if _G.GlobalMenuManagerInstance and _G.GlobalMenuManagerInstance.public and _G.GlobalMenuManagerInstance.public.currentScene then
+        currentSceneName = _G.GlobalMenuManagerInstance.public.currentScene.value
+    end
+
+    if currentSceneName ~= "Level1.scene" then
+        UI.SetElementVisibility("MissionGrid", false)
+        return
+    end
     local varName      = _G.MissionVarName or "keysCollected"
     local currentCount = _G[varName] or 0
     local total        = _G.TotalStatuesToDestroy or 0
@@ -111,7 +139,7 @@ local function RefreshMissionUI()
 
     UI.SetElementText("MissionText", "Estatuas Destruidas " .. countInt .. "/" .. totalInt)
     
-    UI.SetElementVisibility("MissionViewBox", true)
+    UI.SetElementVisibility("MissionGrid", true)
 
     if totalInt > 0 then
         if countInt ~= lastDisplayedCount then
@@ -152,6 +180,7 @@ function ForceRefreshHUD()
 
     RefreshPotionUI(potions, berserkPotions)
 
+    -- Reset mask state for a full refresh
     obtainedOrder  = {}
     prevHasHermes  = false
     prevHasAres    = false
@@ -186,14 +215,8 @@ function Update(self, dt)
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Sincronización continua de la misión para capturar cambios en variables globales
-    local missionVar = _G.MissionVarName or "keysCollected"
-    local cur = math.floor(_G[missionVar] or 0)
-    local tot = math.floor(_G.TotalStatuesToDestroy or 0)
-
-    if cur ~= lastDisplayedCount or tot ~= lastDisplayedTotal then
-        RefreshMissionUI()
-    end
+    -- Misión
+    RefreshMissionUI()
 
     -- Máscaras
     local hasHermes  = (_G._MaskState_Hermes == true)
@@ -201,6 +224,7 @@ function Update(self, dt)
     local hasApolo   = (_G._MaskState_Apolo  == true)
     local activeMask = _G._PlayerController_currentMask or ""
 
+    -- Solo refrescar si hay cambios
     if hasHermes ~= prevHasHermes or hasAres ~= prevHasAres
        or hasApolo ~= prevHasApolo or activeMask ~= prevActiveMask then
         RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)

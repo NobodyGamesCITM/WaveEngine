@@ -2,8 +2,13 @@ local triggered = false
 local fadeIn = false
 local fadeTimer = 0.0
 local FADE_DURATION = 1.5
+local canExit = false
 
 local canvas = nil
+
+public = {
+    updateWhenPaused = true
+}
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
@@ -28,18 +33,36 @@ function OnTriggerEnter(self, other)
 end
 
 function Update(self, dt)
-    if not fadeIn then return end
+    if not triggered then return end
     if not canvas then return end
 
-    fadeTimer = fadeTimer + dt
-    local t = math.min(fadeTimer / FADE_DURATION, 1.0)
-    local alpha = t * t  -- EaseIn suave
+    if fadeIn then
+        fadeTimer = fadeTimer + dt
+        local t = math.min(fadeTimer / FADE_DURATION, 1.0)
+        local alpha = t * t  -- EaseIn suave
 
-    canvas:SetOpacity(alpha)
+        canvas:SetOpacity(alpha)
 
-    if t >= 1.0 then
-        canvas:SetOpacity(1.0)
-        fadeIn = false
-        Engine.Log("[TriggerThanks] Fade in completado.")
+        if t >= 1.0 then
+            canvas:SetOpacity(1.0)
+            fadeIn = false
+            canExit = true
+            Engine.Log("[TriggerThanks] Fade in completado. Esperando input para volver al menú.")
+        end
+    end
+
+    if canExit then
+        -- Detectar Enter, Espacio o Botón A (X en PS4)
+        if Input.GetKeyDown("Enter") or Input.GetKeyDown("Space") or Input.GetGamepadButtonDown("A") then
+            canExit = false
+            _G.SkipSplash = true -- Saltamos los logos al volver
+            Engine.Log("[TriggerThanks] Volviendo a Splash.scene...")
+            
+            if _G.TransitionToScene then
+                _G.TransitionToScene("Splash.scene")
+            else
+                Engine.LoadScene(Engine.GetScenesPath(), "Splash.scene")
+            end
+        end
     end
 end

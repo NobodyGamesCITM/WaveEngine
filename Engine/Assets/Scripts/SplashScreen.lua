@@ -65,10 +65,10 @@ function Update(self, dt)
             _G._MenuManager_NeedReinit = true
             _G.SkipSplash = nil
 
-            if self.splashCanvas:LoadXAML(path) then
-                self.splashCanvas:SetOpacity(1.0)
+            if self.splashCanvas:LoadXAML(path) then -- Cargar el XAML, pero dejar que MenuManager gestione la opacidad y el fade
+                -- self.splashCanvas:SetOpacity(1.0) -- Eliminado: MenuManager se encargará del fade-in
                 _G.CurrentXAML = path
-            else
+            else -- Si la carga del XAML falla, aún así activar la reinicialización del MenuManager
                 Engine.Log("[SplashScreen] ERROR: No se pudo cargar " .. path .. ". Desbloqueando MenuManager de todos modos.")
             end
             return

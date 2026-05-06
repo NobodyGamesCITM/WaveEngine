@@ -25,7 +25,8 @@ function Start(self)
     if self.public.currentLevel == "Level_01" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then _G._PlayerController_introAnim = true end
     currentState = State.FADE_OUT
     currentAlpha = 1.0
-    
+    _G.CurrentLevel = self.public.currentLevel
+
     canvasComponent = self.gameObject:GetComponent("Canvas") 
 
     self.musicSource = GameObject.Find("MusicSource")
@@ -35,7 +36,6 @@ function Start(self)
         if self.musicComp then Engine.Log("[SceneChanger] Music Audio Source Component Found") end
     end
 
-    
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró el componente Image en este objeto.")
     else

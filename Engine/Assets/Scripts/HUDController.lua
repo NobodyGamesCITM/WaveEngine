@@ -5,12 +5,11 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
-local ALL_MASK_TYPES_ORDER = { "Hermes", "Apolo", "Ares" } -- Define a fixed order for cycling and display
+local ALL_MASK_TYPES_ORDER = { "Hermes", "Apolo", "Ares" }
 local MASK_NAMES = { "Hermes", "Ares", "Apolo" }
 
 local obtainedOrder = {}
 
--- Cache del estado anterior
 local prevHasHermes  = false
 local prevHasAres    = false
 local prevHasApolo   = false
@@ -85,7 +84,6 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
 
     local activeSlotMask = nil
     if activeMask ~= "" then
-
         for _, m in ipairs(obtainedOrder) do
             if m == activeMask then
                 activeSlotMask = activeMask
@@ -121,15 +119,13 @@ end
 
 -- ─── Mission / Collectibles
 local function RefreshMissionUI()
-    local currentSceneName = ""
-    if _G.GlobalMenuManagerInstance and _G.GlobalMenuManagerInstance.public and _G.GlobalMenuManagerInstance.public.currentScene then
-        currentSceneName = _G.GlobalMenuManagerInstance.public.currentScene.value
-    end
+    local currentLevel = _G.CurrentLevel or ""
 
-    if currentSceneName ~= "Level1.scene" then
+    if currentLevel ~= "Level_01" then
         UI.SetElementVisibility("MissionGrid", false)
         return
     end
+
     local varName      = _G.MissionVarName or "keysCollected"
     local currentCount = _G[varName] or 0
     local total        = _G.TotalStatuesToDestroy or 0
@@ -137,20 +133,21 @@ local function RefreshMissionUI()
     local countInt = math.floor(currentCount)
     local totalInt = math.floor(total)
 
+    -- Solo mostrar si hay estatuas configuradas
+    if totalInt <= 0 then
+        UI.SetElementVisibility("MissionGrid", false)
+        return
+    end
+
     UI.SetElementText("MissionText", "Estatuas Destruidas " .. countInt .. "/" .. totalInt)
-    
     UI.SetElementVisibility("MissionGrid", true)
 
-    if totalInt > 0 then
-        if countInt ~= lastDisplayedCount then
-
-            if lastDisplayedCount ~= -1 then
-                UI.PlayStoryboard("MissionExpand")
-                UI.PlayStoryboard("MissionCountBump")
-
-                missionVisible     = true
-                missionHideTimer   = MISSION_HIDE_DELAY
-            end
+    if countInt ~= lastDisplayedCount then
+        if lastDisplayedCount ~= -1 then
+            UI.PlayStoryboard("MissionExpand")
+            UI.PlayStoryboard("MissionCountBump")
+            missionVisible   = true
+            missionHideTimer = MISSION_HIDE_DELAY
         end
         lastDisplayedCount = countInt
         lastDisplayedTotal = totalInt
@@ -187,13 +184,16 @@ function ForceRefreshHUD()
     prevHasApolo   = false
     prevActiveMask = ""
     RefreshMaskUI(false, false, false, "")
+
+    -- Ocultar MissionGrid hasta que RefreshMissionUI lo active
+    UI.SetElementVisibility("MissionGrid", false)
+    lastDisplayedCount = -1
+    lastDisplayedTotal = -1
 end
 _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
     ForceRefreshHUD()
-    lastDisplayedCount = -1
-    lastDisplayedTotal = -1
     missionVisible     = false
     missionHideTimer   = 0.0
     

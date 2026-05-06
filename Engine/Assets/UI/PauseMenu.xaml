@@ -246,7 +246,7 @@
                 <Rectangle x:Name="MissionBackground" Stroke="#FF000000" Height="100" Fill="#AAECD7B9" HorizontalAlignment="Right" Width="400"/>
             </Viewbox>
             <Viewbox x:Name="MissionTextViewBox" Grid.Row="1">
-                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas 0/3" VerticalAlignment="Bottom" Foreground="#FFFFFFFF"/>
+                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas 0/3" FontFamily="./#ForgottenUncial" VerticalAlignment="Bottom" Foreground="#FFFFFFFF"/>
             </Viewbox>
         </Grid>
     </Grid>

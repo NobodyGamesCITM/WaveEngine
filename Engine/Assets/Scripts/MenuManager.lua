@@ -436,6 +436,11 @@ function Update(self, dt)
         self.canvas:LoadXAML(self.nextXaml)
         self.current = self.nextXaml
         _G.CurrentXAML = self.current
+
+        -- Si se carga el menú de pausa, forzar una actualización del HUD para sincronizar el contador de misión
+        if self.current == "PauseMenu.xaml" and _G.HUD_RefreshStatuesDestroyed then
+            _G.HUD_RefreshStatuesDestroyed()
+        end
         self.lastPauseState = nil
 
         if self.current == "HUD.xaml" then

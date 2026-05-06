@@ -139,7 +139,6 @@ local function RefreshMissionUI()
         return
     end
 
-    UI.SetElementText("MissionText", "Estatuas Destruidas " .. countInt .. "/" .. totalInt)
     UI.SetElementVisibility("MissionGrid", true)
 
     if countInt ~= lastDisplayedCount then

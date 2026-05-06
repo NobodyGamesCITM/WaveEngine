@@ -654,16 +654,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <Image x:Name="MissionBackgroundImage" Source="Textures/MissionBackground.PNG"/>
         </Viewbox>
         <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-            <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="Arial" TextAlignment="Center" Text="0/3"/>
+            <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="./#ForgottenUncial" TextAlignment="Center" Text="0/3" />
         </Viewbox>
-
-        <!--
-            MissionViewBox — controlado por Lua (Visibility, Storyboards).
-            Empieza Collapsed; Lua lo hace Visible cuando TotalStatuesToDestroy > 0.
-
-            RenderTransformOrigin="1,0.5" → el colapso encoge hacia la derecha,
-            manteniendo el contador (N/Total) siempre visible en la esquina.
-        -->
 
     </Grid>
 

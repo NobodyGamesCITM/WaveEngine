@@ -223,6 +223,8 @@ function Start(self)
     Engine.RequestResource("13296577326446124640")
     Engine.RequestResource("9184343178901509246")
     Engine.RequestResource("6526428321459400712")
+    Engine.RequestResource("10436511945076754837") --new skeleton level2 mat
+    
 
 
 
@@ -443,7 +445,8 @@ cnt = 0.0,
     Exit = function(self)
         alreadyHit = false
         if Skeleton.hp >= 15 then
-            if self.public.level2 then BaseMat.SetTexture("15645066021049183995")
+            --if self.public.level2 then BaseMat.SetTexture("15645066021049183995")
+            if self.public.level2 then BaseMat.SetTexture("10436511945076754837")
             else BaseMat.SetTexture("13296577326446124640") end
         else 
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")

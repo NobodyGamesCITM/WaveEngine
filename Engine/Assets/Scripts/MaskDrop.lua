@@ -89,6 +89,10 @@ local function ActivateStatue(self)
 end
 
 function Initialize(self)
+
+    Engine.RequestResource("16679556794755767834")
+    Engine.RequestResource("10286171976575561541")
+
     self.statueMesh = GameObject.FindInChildren(self.gameObject, "mesh")
     if self.statueMesh then 
         self.statueMat = self.statueMesh:GetComponent("Material")
@@ -102,12 +106,14 @@ function Initialize(self)
 
     self.dustVFX = GameObject.FindInChildren(self.gameObject, "DustParticles")
 
+
+
     if not self.dustVFX then 
-        --Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
+        Engine.Log("[MASKDROP] Unable to find dustVFX GameObject")
     else
         self.dustPs = self.dustVFX:GetComponent("ParticleSystem")
         if not self.dustPs then 
-            --Engine.Log("Unable to retrieve dust Particle System Component")
+            Engine.Log("Unable to retrieve dust Particle System Component")
         end
     end
 

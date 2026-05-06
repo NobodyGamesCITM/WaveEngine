@@ -77,14 +77,6 @@ local function StopParticles(self, vfxName, checkpoint)
 end
 
 local function FindCheckPointAudioSources(self)
-    -- local chantSource = GameObject.FindInChildren(self.gameObject, "ChantSource")
-    -- if chantSource then 
-    --     self.chantSFX = chantSource:GetComponent(self.gameObject, "Audio Source")
-    --     if not self.chantSFX then Engine.Log("[Checkpoints] Chant Audio Source Component not found!") 
-    --     else Engine.Log("[Checkpoints] Chant Audio Source Component FOUND!") end
-    -- else
-    --     Engine.Log("[Checkpoints] Unable to retrieve Chant Source GameObject!")
-    -- end
 
     local saveSource = GameObject.FindInChildren(self.gameObject, "VoiceSource") --will reuse an already existent player audiosource for practicality
     if saveSource then 
@@ -99,12 +91,9 @@ end
 
 local function Initialize(self)
 
-    --FindCheckPointAudioSources(self)
+    FindCheckPointAudioSources(self)
 
     checkpoints = GameObject.FindByTag("CheckPoint")
-
-
-    
     for i, checkpoint in ipairs(checkpoints) do
         Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
         StopParticles(self, "LastCheckpointVFX", checkpoint)

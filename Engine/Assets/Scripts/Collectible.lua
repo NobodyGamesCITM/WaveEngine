@@ -42,6 +42,13 @@ function Update(self, dt)
             _G.HUD_RefreshStatuesDestroyed()
         end
 
+        local total = _G.TotalStatuesToDestroy or self.public.totalInLevel or 3
+        if _G[varName] >= total then
+            if _G.TriggerSequence then
+                _G.TriggerSequence("statuesComplete")
+            end
+        end
+
         self:Destroy()
     end
 end

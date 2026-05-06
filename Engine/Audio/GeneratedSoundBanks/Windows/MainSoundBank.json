@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{CFAA50F2-8A0A-3A91-0A4D-7A75656B840D}",
+    "Hash": "{14F95DB4-1612-1FE8-D0B4-3BF84A5241B0}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -766,14 +766,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_deathgrowl.wav",
       "CachePath": "D6/{D6A8C950-894B-852B-483E-5C0DB675E006}.wem"
-     },
-     {
-      "Id": "622655417",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "athena_chant_01.wav",
-      "CachePath": "B8/{B8393BF5-BF7E-7D51-9C91-AB43F22A4D1B}.wem"
      },
      {
       "Id": "629385577",
@@ -1658,7 +1650,7 @@
      {
       "Id": "433468090",
       "Name": "SFX_ActivateStatue",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ActivateStatue",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_ActivateStatue",
       "GUID": "{78CD194E-8299-4128-9E57-965A6B7D168F}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -1683,19 +1675,6 @@
         }
        ]
       }
-     },
-     {
-      "Id": "3810757633",
-      "Name": "SFX_AngelsChant",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_AngelsChant",
-      "GUID": "{8F39C16E-2B80-4349-B27C-82E61A229390}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
-      "MediaRefs": [
-       {
-        "Id": "622655417"
-       }
-      ]
      },
      {
       "Id": "200801602",
@@ -2022,7 +2001,7 @@
      {
       "Id": "3673223703",
       "Name": "SFX_GetMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_GetMask",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_GetMask",
       "GUID": "{54FC191C-1D25-4E12-BB1B-D6277EBB870B}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -2856,7 +2835,7 @@
      {
       "Id": "1498826869",
       "Name": "SFX_ShowSword",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ShowSword",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_ShowSword",
       "GUID": "{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3448,6 +3427,6 @@
     ]
    }
   ],
-  "FileHash": "{58B9F77A-FFD9-017B-138C-863A64A85F0A}"
+  "FileHash": "{7BF5FE52-2435-8455-3BB4-9C3E8B461F06}"
  }
 }

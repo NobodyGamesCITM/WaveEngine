@@ -139,6 +139,9 @@ end
 
 function Update(self, dt)
 
+    if not self.statueMesh or not self.statueMat or not self.statueAnim then
+        Initialize(self)   
+    end
 
     if not self.stoneMask then
         FindStoneMasks(self)
@@ -152,6 +155,8 @@ function Update(self, dt)
         FindStatueInteractPrompt(self)
     end
 
+
+
     if interact == true and not self.activatedStatue then
         local obj = GameObject.Find("Player")
         local playerPos = obj.transform.position
@@ -159,16 +164,11 @@ function Update(self, dt)
         if math.abs(pos.x - playerPos.x) < self.public.near and
            math.abs(pos.z - playerPos.z) < self.public.near then
 
-            Engine.Log("[MASKDROP] Interacted with bust statue")
             if self.public.DropApoloMask  then giveApoloMask  = true end
             if self.public.DropHermesMask then giveHermesMask = true end
             if self.public.DropAresMask   then giveAresMask   = true end
 
-            if (giveApoloMask and not _G._MaskState_Apolo )
-            or (giveHermesMask and not _G._MaskState_Hermes) 
-            or (giveAresMask and not _G._MaskState_Ares) then
-                ActivateStatue(self)
-            end
+            ActivateStatue(self)
             
         end
     end

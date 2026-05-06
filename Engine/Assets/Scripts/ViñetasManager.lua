@@ -26,14 +26,20 @@ local function show(name, visible)
     UI.SetElementVisibility(name, visible)
 end
 
+local function hidePanelsOfPage(pageName)
+    for _, e in ipairs(sequence) do
+        if e.page == pageName then show(e.panel, false) end
+    end
+end
+
 local function loadStep(index)
     if index > #sequence then
         state = "done"
         show("CinematicPanel", false)
         show("CinematicFade", false)
         _G.CinematicActive = false
-        _G.UpdatePauseState()
-        Engine.Log("[Cinematic] Terminado, gameplay activo")
+        if _G.UpdatePauseState then _G.UpdatePauseState() end
+        Engine.Log("[Cinematic] Terminado")
         return
     end
 
@@ -41,7 +47,10 @@ local function loadStep(index)
     local newPage = entry.page
 
     if newPage ~= currentPage then
-        if currentPage ~= "" then show(currentPage, false) end
+        if currentPage ~= "" then
+            hidePanelsOfPage(currentPage)
+            show(currentPage, false)
+        end
         show(newPage, true)
         currentPage = newPage
         Engine.Log("[Cinematic] Página: " .. newPage)
@@ -53,9 +62,11 @@ end
 
 function Start(self)
     _G.CinematicActive = true
-    _G.UpdatePauseState()
+    if _G.UpdatePauseState then _G.UpdatePauseState() end
 
-    for _, e in ipairs(sequence) do show(e.panel, false) end
+    hidePanelsOfPage("Page1")
+    hidePanelsOfPage("Page2")
+    hidePanelsOfPage("Page3")
     show("Page1", false)
     show("Page2", false)
     show("Page3", false)
@@ -68,7 +79,7 @@ function Start(self)
     loadStep(currentStep)
 
     initialized = true
-    Engine.Log("[Cinematic] Iniciando")
+    Engine.Log("[Cinematic] Listo")
 end
 
 function Update(self, dt)
@@ -76,14 +87,11 @@ function Update(self, dt)
     if state == "done" then return end
 
     _G.CinematicActive = true
-
-    local delta = math.min(dt, 0.05)
-    timer = timer + delta
+    timer = timer + math.min(dt, 0.05)
 
     if state == "wait" then
         local nextStep     = currentStep + 1
         local isPageChange = nextStep <= #sequence and
-                             sequence[nextStep] ~= nil and
                              sequence[nextStep].page ~= sequence[currentStep].page
         local delay = isPageChange and self.public.delayBetweenPages
                                     or self.public.delayBetweenPanels
@@ -92,7 +100,8 @@ function Update(self, dt)
             timer = 0.0
             currentStep = currentStep + 1
 
-            if currentStep <= #sequence and sequence[currentStep].page ~= currentPage then
+            if currentStep <= #sequence and
+               sequence[currentStep].page ~= currentPage then
                 show("CinematicFade", true)
                 state = "pagebreak"
             else

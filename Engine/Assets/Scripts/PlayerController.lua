@@ -1738,8 +1738,8 @@ function Update(self, dt)
             end
         end
         
-        --segundo 19
-        if Player.isGetMaskAnim and Player.AnimTimer <= 15.0 and Player.AnimTimer >= 10.0 
+        --segundo 20
+        if Player.isGetMaskAnim and Player.AnimTimer <= 14.0 and Player.AnimTimer >= 10.0 
         and not Audio.IsEventPlaying("SFX_ShowSword") then
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
         end

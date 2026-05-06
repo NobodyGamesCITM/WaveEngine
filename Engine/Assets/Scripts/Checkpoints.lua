@@ -20,6 +20,7 @@ public = {
 local currentCheckpoint = nil
 local previousCheckpoint = nil
 
+
 local function ActivateParticles(self, vfxName, checkpoint)
     if not checkpoint then 
         Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
@@ -82,7 +83,8 @@ local function FindCheckPointAudioSources(self)
     if saveSource then 
         self.saveSFX = saveSource:GetComponent("Audio Source")
         if not self.saveSFX then Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component not found!")
-        else Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component FOUND!") end
+        -- else Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component FOUND!") 
+        end
     else
         Engine.Log("[Checkpoints] Unable to retrieve Save (Player's VoiceSource) Source GameObject!")
     end
@@ -100,6 +102,7 @@ local function Initialize(self)
         StopParticles(self, "BlueSparkles", checkpoint)
         ActivateParticles(self, "YellowSparkles", checkpoint)
     end
+
 end
 
 function Start(self)
@@ -129,6 +132,12 @@ function Update(self, deltaTime)
             if (math.abs(pos.x - playerPos.x) < self.public.near) then
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
+
+                    if currentCheckpoint == checkpoint then
+                        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
+                        return 
+                    end
+
 					
                     previousCheckpoint = currentCheckpoint
                     currentCheckpoint = checkpoint
@@ -138,6 +147,8 @@ function Update(self, deltaTime)
                     pos.z = pos.z + self.public.offsetZ
 
                     lastCheckpoint = pos --current checkpoint transform, not gameobject
+
+
 					StopParticles(self, "LastCheckpointVFX", previousCheckpoint)
                     StopParticles(self, "BlueSparkles", previousCheckpoint)
                     ActivateParticles(self, "Sparkles", previousCheckpoint)

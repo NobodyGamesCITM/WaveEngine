@@ -1,16 +1,22 @@
 
+public = {
+    PlayerInMountain = false
+}
+
+local playerinMountain=nil
 function Start(self)
-    _G.PlayerInMountain = false
 end
 
 function OnTriggerEnter(self, other)
+    Engine.Log("playe en pla moñata")
     if other:CompareTag("Player") then
-        _G.PlayerInMountain = true
+        Engine.Log("playe detectado")
+        self.public.PlayerInMountain = true
     end
 end
 
 function OnTriggerExit(self, other)
     if other:CompareTag("Player") then
-        _G.PlayerInMountain = false
+        self.public.PlayerInMountain = false
     end
 end

@@ -372,11 +372,8 @@ end
 
 local function UpdateIdle(self, dist, dt)
     
-    if _G.PlayerInMountain == true then
-        if anim and not anim:IsPlayingAnimation("Idle") then
-            anim:Play("Idle", 0.2)
-        end
-        return
+    if anim and not anim:IsPlayingAnimation("Idle") then
+        anim:Play("Idle", 0.2)
     end
         
     UpdateHeight(self, 0, dt)
@@ -779,7 +776,7 @@ function Update(self, dt)
 
     local myPos = self.transform.position
     local pp    = self.playerGO.transform.worldPosition
-    if not pp then return end
+    if not pp or pp.y> (myPos.y+10)then return end
 
     local distX = pp.x - myPos.x
     local distZ = pp.z - myPos.z

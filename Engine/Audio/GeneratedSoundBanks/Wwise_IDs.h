@@ -14,7 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_ACTIVATESTATUE = 433468090U;
+        static const AkUniqueID SFX_ACTIVATESTATUE_OLD = 3262857116U;
         static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
         static const AkUniqueID SFX_APOLOMASK = 200801602U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
@@ -35,6 +35,14 @@ namespace AK
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
         static const AkUniqueID SFX_GETMASK = 3673223703U;
+        static const AkUniqueID SFX_GM_FALLDOWN = 118434115U;
+        static const AkUniqueID SFX_GM_KNOCKBACK = 605795181U;
+        static const AkUniqueID SFX_GM_MASKFLY = 336495419U;
+        static const AkUniqueID SFX_GM_MASKON = 2665412091U;
+        static const AkUniqueID SFX_GM_STATUEOFF = 741791783U;
+        static const AkUniqueID SFX_GM_STATUEON = 2470589267U;
+        static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
+        static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
         static const AkUniqueID SFX_HERMESMASK = 3607278939U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
         static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;

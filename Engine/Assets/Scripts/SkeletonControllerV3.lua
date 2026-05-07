@@ -546,7 +546,7 @@ function Update(self, dt)
     end
 
     if CheckDistance(self,self.public.detectDist,true) then
-        Engine.Log("Triggering Combat Music from Skeleton Detection Range")
+        --Engine.Log("Triggering Combat Music from Skeleton Detection Range")
         _G.TriggerCombatMusic()
     end
 

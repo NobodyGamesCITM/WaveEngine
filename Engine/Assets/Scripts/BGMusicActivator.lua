@@ -37,7 +37,7 @@ local function Initialize(self)
 	bgMusic = musicSource:GetComponent("Audio Source")
     
 
-	if not bgMusic then Engine.Log("BG Music Audio Source component not found!") end
+	if not bgMusic then Engine.Log("[BGMusicActivator] BG Music Audio Source component not found!") end
 end
 
 
@@ -51,7 +51,7 @@ local function TryChangeMusicState(self, finalMusicState)
 	end
 
 	if found then Audio.SetMusicState(tostring(finalMusicState)) 
-	else Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
+	else --Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
 	end
 end
 
@@ -73,14 +73,14 @@ function FadeInMusic(self, dt)
 			--if bgMusic then bgMusicSetSourceVolume(volume) end
 			Audio.SetMusicVolume(volume)
 		else
-			Engine.Log("Could not set music volume!")
+			--sEngine.Log("Could not set music volume!")
 		end
 	elseif enteredNewLevel and volume >= (self.public.maxVolume or 100) and not finishedTransition then
         volume = self.public.maxVolume or 100
 		finishedTransition = true
 		
 	elseif enteredNewLevel and volume >= (self.public.maxVolume or 100) and finishedTransition then
-		--Audio.SetMusicState(tostring(self.public.nextMusicState))
+
 		TryChangeMusicState(self.public.nextMusicState)
         
 	end
@@ -107,7 +107,7 @@ end
 function OnTriggerEnter(self, other)
 	if other:CompareTag("Player") and not finishedTransition then
 		enteredNewLevel = true
-		Engine.Log("Switching to New Music...")
+		--Engine.Log("Switching to New Music...")
 		fadeTimer = 0
         TryChangeMusicState(self, self.public.nextMusicState)
 		-- if bgMusic then bgMusic:PlayAudioEvent()

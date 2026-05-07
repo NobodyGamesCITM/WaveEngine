@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{346CFE95-8447-65E1-E381-749679309655}",
+    "Hash": "{6DD18EDC-B955-2312-383B-50A7A4756086}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -229,7 +229,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "boulder_drag_loop.wav",
-      "CachePath": "24/{246630AD-E9DC-2FCA-53CA-FD5B01B51A78}.wem"
+      "CachePath": "53/{53F3078C-4293-A98F-7D9F-D7CFA7CA110D}.wem"
      },
      {
       "Id": "169106791",
@@ -1656,9 +1656,9 @@
       ]
      },
      {
-      "Id": "433468090",
-      "Name": "SFX_ActivateStatue",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_ActivateStatue",
+      "Id": "3262857116",
+      "Name": "SFX_ActivateStatue_Old",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_ActivateStatue_Old",
       "GUID": "{78CD194E-8299-4128-9E57-965A6B7D168F}",
       "MaxAttenuation": "20",
       "DurationType": "Infinite",
@@ -1963,7 +1963,7 @@
      {
       "Id": "2443085627",
       "Name": "SFX_DeactivateStatue",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_DeactivateStatue",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_DeactivateStatue",
       "GUID": "{684B36A3-8718-47E5-AAFC-5C50D1066CEE}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -2022,7 +2022,7 @@
      {
       "Id": "3673223703",
       "Name": "SFX_GetMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_GetMask",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_GetMask",
       "GUID": "{54FC191C-1D25-4E12-BB1B-D6277EBB870B}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -2049,6 +2049,150 @@
         }
        ]
       }
+     },
+     {
+      "Id": "118434115",
+      "Name": "SFX_GM_FallDown",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_FallDown",
+      "GUID": "{1C9F55C6-8DA1-4DD8-BDDC-30924F4D630F}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.44",
+      "DurationMax": "1.44",
+      "MediaRefs": [
+       {
+        "Id": "575356994"
+       }
+      ]
+     },
+     {
+      "Id": "605795181",
+      "Name": "SFX_GM_KnockBack",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_KnockBack",
+      "GUID": "{B07B54A4-0947-4427-ACFF-B924B6923C28}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.798061",
+      "DurationMax": "2.798061",
+      "MediaRefs": [
+       {
+        "Id": "82093474"
+       }
+      ]
+     },
+     {
+      "Id": "336495419",
+      "Name": "SFX_GM_MaskFly",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_MaskFly",
+      "GUID": "{75B826FD-C5F7-4456-803C-31AC2871C0BC}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "4.3885713",
+      "DurationMax": "4.3885713",
+      "MediaRefs": [
+       {
+        "Id": "38515333"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "130504718"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2665412091",
+      "Name": "SFX_GM_MaskOn",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_MaskOn",
+      "GUID": "{E5063C11-CF69-4CFA-BEF1-C90C191DAAB5}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "8.111277",
+      "DurationMax": "8.111277",
+      "MediaRefs": [
+       {
+        "Id": "664468680"
+       },
+       {
+        "Id": "1066110828"
+       }
+      ]
+     },
+     {
+      "Id": "741791783",
+      "Name": "SFX_GM_StatueOff",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_StatueOff",
+      "GUID": "{00D67F21-8A70-4BBF-8DC8-C284CFDC5B49}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.1186118",
+      "DurationMax": "1.1186118",
+      "MediaRefs": [
+       {
+        "Id": "79161646"
+       }
+      ]
+     },
+     {
+      "Id": "2470589267",
+      "Name": "SFX_GM_StatueOn",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_StatueOn",
+      "GUID": "{67B384E0-9A2C-4133-B2A7-B4E444D8858B}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "146106055"
+       },
+       {
+        "Id": "156765714"
+       },
+       {
+        "Id": "760390763"
+       }
+      ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "3250156175"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "3530262216",
+      "Name": "SFX_GM_Sword1",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_Sword1",
+      "GUID": "{3ACAC93C-6972-4BB7-AAB1-B94BE385A2F8}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.21037447",
+      "DurationMax": "0.2650552",
+      "MediaRefs": [
+       {
+        "Id": "629385577"
+       }
+      ]
+     },
+     {
+      "Id": "3530262219",
+      "Name": "SFX_GM_Sword2",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration2\\SFX_GM_Sword2",
+      "GUID": "{18715E8F-A267-460A-A913-5A921DA01DEB}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "3.72",
+      "DurationMax": "3.72",
+      "MediaRefs": [
+       {
+        "Id": "699991876"
+       },
+       {
+        "Id": "825492870"
+       }
+      ]
      },
      {
       "Id": "3607278939",
@@ -2856,7 +3000,7 @@
      {
       "Id": "1498826869",
       "Name": "SFX_ShowSword",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\SFX_ShowSword",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_ShowSword",
       "GUID": "{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3448,6 +3592,6 @@
     ]
    }
   ],
-  "FileHash": "{9170B9CF-EEA0-5261-DD5F-26031FA2432A}"
+  "FileHash": "{4166D3B1-4808-80B0-BAA3-2F92BB15CA43}"
  }
 }

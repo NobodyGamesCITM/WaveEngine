@@ -1,3 +1,5 @@
+--chest interact script
+
 public = {
     radius     = 2.0,
     actionText = "Abrir cofre",
@@ -85,6 +87,8 @@ end
 function Update(self, dt)
 
     -- Cooldown
+	if not self.inputCooldown then self.inputCooldown = 0.0 end
+	
     if self.inputCooldown > 0 then
         self.inputCooldown = self.inputCooldown - dt
     end
@@ -169,3 +173,5 @@ function Update(self, dt)
         self.popupTimer   = 0.0
     end
 end
+
+

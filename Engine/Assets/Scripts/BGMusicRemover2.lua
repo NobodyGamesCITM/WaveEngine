@@ -48,7 +48,7 @@ function FadeOutMusic(self, dt)
 		if volume then 
 			Audio.SetMusicVolume(volume)
 		else
-			Engine.Log("Could not set music volume!")
+			--Engine.Log("Could not set music volume!")
 		end
 
 	elseif exitedLevel and volume <= 0 and not finishedTransition then

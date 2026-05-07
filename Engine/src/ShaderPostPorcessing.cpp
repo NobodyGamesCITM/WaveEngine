@@ -43,7 +43,7 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float vignetteIntensity;
         uniform float vignetteSmoothness;
         uniform float vignetteRoundness;
-        uniform vec3  vignetteColor;
+        uniform vec4  vignetteColor;
 
         // Chromatic aberration
         uniform bool  caEnabled;
@@ -227,7 +227,7 @@ bool ShaderPostPorcessing::CreateShader()
                 float radius  = 1.5 - vignetteIntensity;
                 float soft    = vignetteSmoothness + 0.05;
                 float vig     = smoothstep(radius, radius - soft, dist);
-                color = mix(vignetteColor, color, vig);
+                color = mix(color, vignetteColor.rgb, (1.0 - vig) * vignetteColor.a);
             }
 
             // --- Grain ---

@@ -2712,6 +2712,21 @@ static int Lua_PostProcessing_SetVignetteIntensity(lua_State* L) {
     if (pp) pp->lens.vignetteIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetVignetteSmoothness(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->lens.vignetteColor.x = (float)luaL_checknumber(L, 2);
+        pp->lens.vignetteColor.y = (float)luaL_checknumber(L, 3);
+        pp->lens.vignetteColor.z = (float)luaL_checknumber(L, 4);
+        pp->lens.vignetteColor.w = (float)luaL_optnumber(L, 5, 1.0f);
+    }
+    return 0;
+}
 
 static int Lua_PostProcessing_SetCAEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
@@ -2752,6 +2767,17 @@ static int Lua_PostProcessing_SetBlurEnabled(lua_State* L) {
 static int Lua_PostProcessing_SetBlurIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) pp->blur.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetRadialBlurEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->radialBlur.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+ 
+static int Lua_PostProcessing_SetRadialBlurIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->radialBlur.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
@@ -3085,6 +3111,8 @@ void ScriptManager::RegisterPostProcessingAPI() {
 
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteSmoothness); lua_setfield(L, -2, "SetVignetteSmoothness");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteColor);     lua_setfield(L, -2, "SetVignetteColor");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");
 
@@ -3093,7 +3121,9 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetGrainEnabled);      lua_setfield(L, -2, "SetGrainEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurEnabled);       lua_setfield(L, -2, "SetBlurEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurIntensity);     lua_setfield(L, -2, "SetBlurIntensity");
-
+    lua_pushcfunction(L, Lua_PostProcessing_SetRadialBlurEnabled);lua_setfield(L, -2, "SetRadialBlurEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetRadialBlurIntensity); lua_setfield(L, -2, "SetRadialBlurIntensity");
+    
     lua_pop(L, 1);
 }
 

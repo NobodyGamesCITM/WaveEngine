@@ -34,9 +34,11 @@ function Start(self)
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
-        Engine.Log("[SceneChanger] MusicSource found")
+        --Engine.Log("[SceneChanger] MusicSource found")
         self.musicComp = self.musicSource:GetComponent("Audio Source")
-        if self.musicComp then Engine.Log("[SceneChanger] Music Audio Source Component Found") end
+        if self.musicComp then 
+            Engine.Log("[SceneChanger] Music Audio Source Component Found") 
+        end
     end
 
     if not canvasComponent then
@@ -51,6 +53,31 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if not Audio.IsEventPlaying("MUS_BGM") then
+        local sceneVal = self.public.currentScene 
+        local musicState = "None"
+        if self.public.currentLevel == "Level_01" then 
+           musicState = "Level1"
+        elseif self.public.currentLevel == "Level_02" then 
+           musicState = "Level2"
+        elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
+            musicState = "MainMenu"
+        else
+            Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
+        end
+        
+        Audio.SetMusicState(tostring(musicState))
+        self.musicSource = GameObject.Find("MusicSource")
+        if not self.musicSource then 
+            Engine.Log("[SceneChanger] Music GameObject NOT found! Music will NOT play!")
+        else 
+            self.musicComp = self.musicSource:GetComponent("Audio Source")
+            if self.musicComp then 
+                self.musicComp:PlayAudioEvent() 
+            end
+        end
+    end
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
@@ -139,6 +166,6 @@ function SetMusicVolume(volume)
     if volume then 
         Audio.SetMusicVolume(volume)
     else
-        Engine.Log("Could not set music volume!")
+        --Engine.Log("Could not set music volume!")
     end
 end

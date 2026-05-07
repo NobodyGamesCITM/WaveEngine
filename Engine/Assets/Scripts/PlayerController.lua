@@ -1710,27 +1710,61 @@ function Update(self, dt)
             end
         end
 
-        --segundo 9
-        if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 
-        and not Audio.IsEventPlaying("SFX_GetMask") then
-            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GetMask") end 
+        --segundo 6.75
+        if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_KnockBack") end
         end
+
+        -- --segundo 9
+        -- if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
+        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GetMask") end 
+        -- end
+
+
+        --segundo 10
+        if Player.isGetMaskAnim and Player.AnimTimer <= 24.0 and Player.AnimTimer >= 23.9 and not Audio.IsEventPlaying("SFX_GM_MaskFly") then 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskFly") end
+        end
+
+        
+        -- if Player.isGetMaskAnim and Player.AnimTimer <= 20.25 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GM_MaskOn") then 
+        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskOn") end
+        -- end
+
         --segundo 14
+
         if Player.isGetMaskAnim and not Player.getMaskEvent1Done and Player.AnimTimer <= 20.0 then
             
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
+                if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskOn") end
             end
         end
+
+        --segundo 17.9
+        if Player.isGetMaskAnim and Player.AnimTimer <= 16.1 and Player.AnimTimer >= 16.0 and not Audio.IsEventPlaying("SFX_GM_FallDown") then 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_FallDown") end
+        end
         
-        --segundo 20
-        if Player.isGetMaskAnim and Player.AnimTimer <= 14.0 and Player.AnimTimer >= 10.0 
-        and not Audio.IsEventPlaying("SFX_ShowSword") then
-            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
+        -- --segundo 20
+        -- if Player.isGetMaskAnim and Player.AnimTimer <= 14.0 and Player.AnimTimer >= 10.0 
+        -- and not Audio.IsEventPlaying("SFX_ShowSword") then
+        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
+        -- end
+
+        --segundo 24 (short sword slash)
+
+        if Player.isGetMaskAnim and Player.AnimTimer <= 10.0 and Player.AnimTimer >= 9.9 and not Audio.IsEventPlaying("SFX_GM_Sword1") then 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_Sword1") end
         end
 
-        --segundo 27
+        --segundo 26 (long sword slash)
+        if Player.isGetMaskAnim and Player.AnimTimer <= 8.5 and Player.AnimTimer >= 8.0 and not Audio.IsEventPlaying("SFX_GM_Sword2") then 
+            if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_Sword2") end
+        end
+
+        --segundo 27 
         if Player.isGetMaskAnim and not Player.getMaskEvent2Done and Player.AnimTimer <= 7.7 then
             Player.getMaskEvent2Done = true
             UpdateSwordMaterial()

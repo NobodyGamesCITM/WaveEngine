@@ -37,14 +37,14 @@ local function ActivateParticles(self, vfxName, checkpoint)
         if particleComp then 
             if not particleComp:IsPlaying() then 
                 particleComp:Play() 
-                Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
+                --Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
             end
            
         else 
-            Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
+            --Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
         end
     else 
-        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
+        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
     end
 
     
@@ -63,17 +63,17 @@ local function StopParticles(self, vfxName, checkpoint)
         if particleComp then 
             if particleComp:IsPlaying() then 
                 particleComp:Stop() 
-                Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
+               -- Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
             end
             
         else 
-            Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
+            --Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
         end
 
         VFXobj:SetActive(false)
-        Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
+       -- Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
     else 
-        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
+        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
     end
 end
 
@@ -82,11 +82,11 @@ local function FindCheckPointAudioSources(self)
     local saveSource = GameObject.FindInChildren(self.gameObject, "VoiceSource") --will reuse an already existent player audiosource for practicality
     if saveSource then 
         self.saveSFX = saveSource:GetComponent("Audio Source")
-        if not self.saveSFX then Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component not found!")
+        --if not self.saveSFX then Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component not found!")
         -- else Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component FOUND!") 
         end
     else
-        Engine.Log("[Checkpoints] Unable to retrieve Save (Player's VoiceSource) Source GameObject!")
+        --Engine.Log("[Checkpoints] Unable to retrieve Save (Player's VoiceSource) Source GameObject!")
     end
 
 end
@@ -97,7 +97,7 @@ local function Initialize(self)
 
     checkpoints = GameObject.FindByTag("CheckPoint")
     for i, checkpoint in ipairs(checkpoints) do
-        Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
+       -- Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
         StopParticles(self, "LastCheckpointVFX", checkpoint)
         StopParticles(self, "BlueSparkles", checkpoint)
         ActivateParticles(self, "YellowSparkles", checkpoint)
@@ -121,7 +121,7 @@ function Update(self, deltaTime)
     end
 
     if interact == true then 
-        Engine.Log("[Checkpoints] Interacted with checkpoint")
+        --Engine.Log("[Checkpoints] Interacted with checkpoint")
         local obj = GameObject.Find("Player")
         local playerPos = obj.transform.position
 
@@ -134,7 +134,7 @@ function Update(self, deltaTime)
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
 
                     if currentCheckpoint == checkpoint then
-                        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
+                        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
                         return 
                     end
 
@@ -159,7 +159,7 @@ function Update(self, deltaTime)
                     Restore(self)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
-                    else Engine.Log("[Checkpoints] Could not play SaveSFX!") end
+                    else --Engine.Log("[Checkpoints] Could not play SaveSFX!") end
                 end
             end
         end

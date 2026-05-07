@@ -79,9 +79,9 @@ function Initialize(self)
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
-        Engine.Log("[MenuManager] MusicSource found")
+        --Engine.Log("[MenuManager] MusicSource found")
         self.musicComp = self.musicSource:GetComponent("Audio Source")
-        if self.musicComp then Engine.Log("[MenuManager] Music Audio Source Component Found") end
+
     end
 
     self.selectSource = GameObject.Find("UISelectSound")
@@ -405,7 +405,7 @@ function Update(self, dt)
             if volume then 
                 Audio.SetMusicVolume(volume)
             else
-                Engine.Log("Could not set music volume!")
+                --Engine.Log("Could not set music volume!")
             end
         end
 

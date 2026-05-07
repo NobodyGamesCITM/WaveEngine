@@ -1379,7 +1379,6 @@ static int Lua_Rigidbody_SetUseGravity(lua_State* L) {
     if (rb) rb->SetUseGravity(useGravity);
     return 0;
 }
-
 // Animation
 
 // GAMEOBJECT API

@@ -2,16 +2,19 @@ Event	ID	Name			Wwise Object Path	Notes
 	2318810	SFX_DoorMove			\Default Work Unit\Puzzles\SFX_DoorMove	
 	112594585	SFX_CreepySounds			\Default Work Unit\Other\SFX_CreepySounds	
 	115335488	SFX_Mask_PickUp			\Default Work Unit\Player\SFX_Mask_PickUp	
+	118434115	SFX_GM_FallDown			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_FallDown	
 	161972871	SFX_AquilesDash			\Default Work Unit\Aquiles\SFX_AquilesDash	
 	200801602	SFX_ApoloMask			\Default Work Unit\Player\SFX_ApoloMask	
 	276386536	SFX_AquilesSpearSwing			\Default Work Unit\Aquiles\SFX_AquilesSpearSwing	
+	336495419	SFX_GM_MaskFly			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_MaskFly	
 	385136311	SFX_MinoCrash			\Default Work Unit\Minocabro\SFX_MinoCrash	
 	416781375	UI_ButtonPress			\Default Work Unit\Other\UI_ButtonPress	
-	433468090	SFX_ActivateStatue			\Default Work Unit\Player\GetMaskAnim\SFX_ActivateStatue	
 	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
 	565814488	SFX_AquilesHurt			\Default Work Unit\Aquiles\SFX_AquilesHurt	
+	605795181	SFX_GM_KnockBack			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_KnockBack	
 	638756417	MUS_BGM			\Default Work Unit\Music\MUS_BGM	
 	724467519	SFX_PlayerFootSteps			\Default Work Unit\Player\SFX_PlayerFootSteps	
+	741791783	SFX_GM_StatueOff			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_StatueOff	
 	767454882	UI_CloseWindow			\Default Work Unit\Other\UI_CloseWindow	
 	871435336	SFX_OpenChest			\Default Work Unit\Player\SFX_OpenChest	
 	1000127844	SFX_PlayerDeath			\Default Work Unit\Player\SFX_PlayerDeath	
@@ -22,7 +25,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1263671132	SFX_ItemPickup			\Default Work Unit\Player\SFX_ItemPickup	
 	1281281593	SFX_RockMove			\Default Work Unit\Puzzles\SFX_RockMove	
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
-	1498826869	SFX_ShowSword			\Default Work Unit\Player\GetMaskAnim\SFX_ShowSword	
+	1498826869	SFX_ShowSword			\Default Work Unit\Player\GetMaskAnim\Iteration1\SFX_ShowSword	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
@@ -34,10 +37,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	2261003392	SFX_AquilesShield			\Default Work Unit\Aquiles\SFX_AquilesShield	
 	2295055714	UI_ButtonSelect			\Default Work Unit\Other\UI_ButtonSelect	
 	2400499341	SFX_SkeletonDodge			\Default Work Unit\Skeleton\SFX_SkeletonDodge	
-	2443085627	SFX_DeactivateStatue			\Default Work Unit\Player\SFX_DeactivateStatue	
+	2443085627	SFX_DeactivateStatue			\Default Work Unit\Player\GetMaskAnim\Iteration1\SFX_DeactivateStatue	
+	2470589267	SFX_GM_StatueOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_StatueOn	
 	2620143605	SFX_DoorStop			\Default Work Unit\Puzzles\SFX_DoorStop	
 	2637687044	SFX_MinoDie			\Default Work Unit\Minocabro\SFX_MinoDie	
 	2660566025	SFX_SkeletonSteps			\Default Work Unit\Skeleton\SFX_SkeletonSteps	
+	2665412091	SFX_GM_MaskOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_MaskOn	
 	2754480747	SFX_SeaWater			\Default Work Unit\Other\SFX_SeaWater	
 	2836803753	SFX_AquilesWarcry			\Default Work Unit\Aquiles\SFX_AquilesWarcry	
 	2864737081	SFX_CalmWater			\Default Work Unit\Other\SFX_CalmWater	
@@ -47,14 +52,17 @@ Event	ID	Name			Wwise Object Path	Notes
 	3128226246	SFX_PotionDrink			\Default Work Unit\Player\SFX_PotionDrink	
 	3161303428	SFX_AresMask			\Default Work Unit\Player\SFX_AresMask	
 	3212792312	SFX_MansionAmbience			\Default Work Unit\Other\SFX_MansionAmbience	
+	3262857116	SFX_ActivateStatue_Old			\Default Work Unit\Player\GetMaskAnim\Iteration1\SFX_ActivateStatue_Old	
 	3395391508	SFX_StatueTurn			\Default Work Unit\Puzzles\SFX_StatueTurn	
 	3486629458	SFX_PlayerShot			\Default Work Unit\Player\SFX_PlayerShot	
 	3511972170	SFX_PressPlate			\Default Work Unit\Puzzles\SFX_PressPlate	
+	3530262216	SFX_GM_Sword1			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_Sword1	
+	3530262219	SFX_GM_Sword2			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_Sword2	
 	3602580268	SFX_AquilesSteps			\Default Work Unit\Aquiles\SFX_AquilesSteps	
 	3607278939	SFX_HermesMask			\Default Work Unit\Player\SFX_HermesMask	
 	3610360561	UI_PotionGet			\Default Work Unit\Other\UI_PotionGet	
 	3651743467	SFX_SirenHurt			\Default Work Unit\Siren\SFX_SirenHurt	
-	3673223703	SFX_GetMask			\Default Work Unit\Player\GetMaskAnim\SFX_GetMask	
+	3673223703	SFX_GetMask			\Default Work Unit\Player\GetMaskAnim\Iteration1\SFX_GetMask	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
 	3810757633	SFX_AngelsChant			\Default Work Unit\Other\SFX_AngelsChant	
 	3854015376	SFX_CheckPointSave			\Default Work Unit\Player\SFX_CheckPointSave	
@@ -165,7 +173,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	146106055	unlock_statue	.cache\56\{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Unlock_Statue\unlock_statue		111752
 	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
-	156765714	maskStatue_rotate	.cache\24\{246630AD-E9DC-2FCA-53CA-FD5B01B51A78}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\maskStatue_rotate		238472
+	156765714	maskStatue_rotate	.cache\53\{53F3078C-4293-A98F-7D9F-D7CFA7CA110D}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\maskStatue_rotate		238472
 	169106791	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720

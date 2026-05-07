@@ -54,10 +54,6 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
-
-    --BaseMatId       = "13296577326446124640",   --level2:   15645066021049183995    
-    --HitMatId        = "17109277834976977864",   
-    --DamgeMatId      = "6526428321459400712",    --level2:   9184343178901509246
 }
 local OnStartPos = false
 

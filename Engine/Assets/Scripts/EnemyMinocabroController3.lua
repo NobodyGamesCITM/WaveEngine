@@ -561,6 +561,7 @@ local function UpdateRecovery(self, dt)
 end
 
 local function UpdateDeath(self,dt)
+
     self.deathTimer = self.deathTimer - dt
     
     if self.deathTimer <= 0 then

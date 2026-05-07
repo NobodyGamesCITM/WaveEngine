@@ -105,6 +105,9 @@ local finishedTransition = false
 local TILE_SIZE = 3.744
 local lastPPos = {x = 0, z = 0}
 
+
+local isKinematic = false
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -425,6 +428,12 @@ local function UpdateIdle(self, dist)
 end
 
 local function UpdateCombatMove(self, myPos, pp, dist, dt)
+
+    if isKinematic then
+            rb:SetBody(1)
+            isKinematic=false
+    end
+
     if dist > self.public.detectRange then
         StopMovement()
         ChangeState(State.IDLE)
@@ -677,6 +686,8 @@ local function UpdateWall(self, dt)
         --local vel = rb:GetLinearVelocity()
         rb:SetLinearVelocity(0, 0, 0)
         rb:SetRotation(0, currentYaw, 0)
+        rb:SetBody(2)
+
     end
 
     if opportunityHitTimer > 0 then
@@ -691,6 +702,8 @@ local function UpdateWall(self, dt)
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
+        
+        isKinematic=true
         wallAnimStarted = false
         anim:Play("Stuck_End", 0.15)
         slideVelX = 0
@@ -721,9 +734,15 @@ local function UpdateDash(self, dt)
 end
 
 local function UpdateRecovery(self, dt)
+    if isKinematic then
+        rb:SetBody(1)
+        isKinematic=false
+    end
+
 
     if not recoveryAnimStarted then
         recoveryAnimStarted = true
+
         if cameFromWall then
             anim:Play("Idle", 0.2)
         else
@@ -757,6 +776,7 @@ end
 local function UpdateStun(self, dt)
     rb:SetLinearVelocity(0, 0, 0)
 
+
     if opportunityHitTimer > 0 then
         opportunityHitTimer = opportunityHitTimer - dt
         return
@@ -772,6 +792,8 @@ local function UpdateStun(self, dt)
     stunTimer = stunTimer - dt
     if stunTimer <= 0 then
         posture = 0
+        rb:SetBody(2)
+        isKinematic = true
         ChangeState(State.COMBAT_MOVE)
     end
 end
@@ -787,6 +809,9 @@ local function UpdateDeath(self,dt)
             --    doorScript:OpenDoor()
            -- end
         --end
+        rb:SetBody(2)
+        isKinematic = true
+
         DestroyChargeFeedback(self)
         local _rb  = rb
         Audio.SetMusicState("AfterBoss")
@@ -955,9 +980,8 @@ function Start(self)
     aquilesMesh = GameObject.FindInChildren(self.gameObject,"aquilesMesh")
     if aquilesMesh then
         BaseMat = aquilesMesh:GetComponent("Material")
-    --else
-        --Engine.Log("[Aquiles] ERROR: aquilesMesh no encontrado")
     end
+
 end
 
 function Update(self, dt)
@@ -1133,7 +1157,7 @@ function OnTriggerEnter(self, other)
         end
 
         -- The enemy hits the player
-        if (currentState == State.CHARGE or currentState == State.LANCE_360) and not alreadyHit and _PlayerController_pendingDamage == 0 then
+        if (currentState == State.CHARGE or currentState == State.LANCE_360) and not alreadyHit and _PlayerController_pendingDamage == 0 and not isKinematic then
 
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
             alreadyHit  = true

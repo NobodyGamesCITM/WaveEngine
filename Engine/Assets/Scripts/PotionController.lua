@@ -21,6 +21,17 @@ local HEAL_ALPHA_MIN      = 0.15
 local HEAL_ALPHA_MAX      = 0.45  
 local HEAL_SMOOTHNESS     = 0.75  
 
+-- LOW HEALTH VIGNETTE (Ajustada para ser más intensa y no desaparecer)
+local LOW_HEALTH_THRESHOLD        = 40.0 
+local LOW_HEALTH_PULSE_FREQ       = 1.2 
+local LOW_HEALTH_ALPHA_MIN_BASE   = 0.25 -- Elevado para que nunca desaparezca
+local LOW_HEALTH_ALPHA_MAX_BASE   = 0.55 -- Más intenso
+local LOW_HEALTH_SMOOTHNESS       = 0.85 
+local LOW_HEALTH_INTENSITY        = 0.40 
+local LOW_HEALTH_COLOR_R          = 0.8  -- Un rojo algo más sangre, menos chillón
+local LOW_HEALTH_COLOR_G          = 0.0
+local LOW_HEALTH_COLOR_B          = 0.0
+
 -- VARIABLES DE ESTADO
 local potionHealing       = false
 local potionHealRemaining = 0.0
@@ -33,6 +44,11 @@ local healVigTimer        = 0.0
 local healWasActive       = false
 local healElapsed         = 0.0
 
+local lowHealthPulseTimer     = 0.0
+local berserkVignetteData   = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
+local healVignetteData      = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
+local lowHealthVignetteData = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
+
 local postProcess = nil
 
 public = {
@@ -40,7 +56,6 @@ public = {
     berserkCount = 2
 }
 
--- FUNCIONES MATEMÁTICAS
 local function smoothstep(t)
     t = math.max(0.0, math.min(1.0, t))
     return t * t * (3.0 - 2.0 * t)
@@ -69,16 +84,17 @@ function ResetPotions(self)
     healVigTimer        = 0.0
     healElapsed         = 0.0
     healWasActive       = false
+    lowHealthPulseTimer = 0.0
 
     if postProcess then
         postProcess:SetVignetteEnabled(false)
-        postProcess:SetRadialBlurEnabled(false)
-        postProcess:SetChromaticAberrationEnabled(false)
     end
 end
 
 local function UpdateBerserkVignette(dt)
     if not postProcess then return end
+    berserkVignetteData.active = false
+    
     local isActive = berserkActiveTimer > 0
     if isActive then
         local totalTime = BERSERK_DURATION
@@ -98,34 +114,26 @@ local function UpdateBerserkVignette(dt)
         
         local pulseFactor = (math.sin(berserkPulseTimer * freq * math.pi * 2.0) + 1.0) * 0.5
         local targetAlpha = (0.2 + (pulseFactor * (MAX_ALPHA - 0.2))) * fadeAlpha
-
-        local hitActive = (_G.PlayerInstance and _G._hitVigActive) or false
-        if not hitActive then
-            postProcess:SetVignetteEnabled(true)
-            postProcess:SetVignetteIntensity(0.0)
-            postProcess:SetVignetteSmoothness(0.65)
-            postProcess:SetVignetteColor(0.0, 0.8, 0.8, targetAlpha)
-        end
-
+        
+        berserkVignetteData.active = true
+        berserkVignetteData.color = {0.0, 0.8, 0.8, targetAlpha}
+        berserkVignetteData.intensity = 0.0 
+        berserkVignetteData.smoothness = 0.65
+        
         postProcess:SetRadialBlurEnabled(true)
         postProcess:SetRadialBlurIntensity(0.30 * fadeAlpha)
         postProcess:SetChromaticAberrationEnabled(true)
         postProcess:SetChromaticAberrationIntensity(2.25 * fadeAlpha)
         berserkWasActive = true
     elseif berserkWasActive then
-        postProcess:SetVignetteEnabled(false)
         postProcess:SetRadialBlurEnabled(false)
         postProcess:SetChromaticAberrationEnabled(false)
         berserkWasActive = false
     end
 end
 
-local function UpdateHealVignette(dt)
-    if not postProcess then return end
-
-    local hitActive     = (_G.PlayerInstance and _G._hitVigActive) or false
-    local berserkActive = berserkActiveTimer > 0
-
+local function UpdateHealVignette(dt) 
+    healVignetteData.active = false
     if healVigTimer > 0 then
         healVigTimer  = healVigTimer - dt
         healElapsed   = healElapsed + dt
@@ -141,23 +149,64 @@ local function UpdateHealVignette(dt)
         end
 
         local pulse = (math.sin(healElapsed * HEAL_PULSE_FREQ * math.pi * 2.0) + 1.0) * 0.5
-
         local finalAlpha = (HEAL_ALPHA_MIN + (HEAL_ALPHA_MAX - HEAL_ALPHA_MIN) * pulse) * envelope
 
-        if not hitActive and not berserkActive then
-            postProcess:SetVignetteEnabled(true)
-            postProcess:SetVignetteIntensity(0.25) 
-            postProcess:SetVignetteSmoothness(HEAL_SMOOTHNESS)
-            postProcess:SetVignetteColor(0.0, 0.7, 0.1, finalAlpha)
-        end
-
+        healVignetteData.active = true
+        healVignetteData.color = {0.0, 0.7, 0.1, finalAlpha}
+        healVignetteData.intensity = 0.25
+        healVignetteData.smoothness = HEAL_SMOOTHNESS
         healWasActive = true
     elseif healWasActive then
-        if not hitActive and not berserkActive then
-            postProcess:SetVignetteEnabled(false)
-        end
         healWasActive = false
         healElapsed   = 0.0
+    end
+end
+
+local function UpdateLowHealthVignette(dt)
+    lowHealthVignetteData.active = false
+    local playerHealth = (_G.PlayerInstance and _G.PlayerInstance.public and _G.PlayerInstance.public.health) or 100.0
+    
+    if playerHealth <= LOW_HEALTH_THRESHOLD and playerHealth > 0 then
+        lowHealthPulseTimer = lowHealthPulseTimer + dt
+        local pulseFactor = (math.sin(lowHealthPulseTimer * LOW_HEALTH_PULSE_FREQ * math.pi * 2.0) + 1.0) * 0.5
+
+        -- Intensidad basada en qué tan cerca de morir está el jugador
+        local health_norm = math.max(0, playerHealth / LOW_HEALTH_THRESHOLD) 
+        local intensity_scale = 0.5 + (1.0 - health_norm) * 0.5 
+
+        local finalAlpha = (LOW_HEALTH_ALPHA_MIN_BASE + (LOW_HEALTH_ALPHA_MAX_BASE - LOW_HEALTH_ALPHA_MIN_BASE) * pulseFactor) * intensity_scale
+
+        lowHealthVignetteData.active = true
+        lowHealthVignetteData.color = {LOW_HEALTH_COLOR_R, LOW_HEALTH_COLOR_G, LOW_HEALTH_COLOR_B, finalAlpha}
+        lowHealthVignetteData.intensity = LOW_HEALTH_INTENSITY
+        lowHealthVignetteData.smoothness = LOW_HEALTH_SMOOTHNESS
+    else
+        lowHealthPulseTimer = 0.0
+    end
+end
+
+local function ApplyVignetteEffects()
+    if not postProcess then return end
+    local hitActive = (_G.PlayerInstance and _G._hitVigActive) or false
+    if hitActive then return end
+
+    -- Prioridad: 1. Berserk, 2. Curación, 3. Salud Baja
+    local data = nil
+    if berserkVignetteData.active then
+        data = berserkVignetteData
+    elseif healVignetteData.active then
+        data = healVignetteData
+    elseif lowHealthVignetteData.active then
+        data = lowHealthVignetteData
+    end
+
+    if data then
+        postProcess:SetVignetteEnabled(true)
+        postProcess:SetVignetteIntensity(data.intensity)
+        postProcess:SetVignetteSmoothness(data.smoothness)
+        postProcess:SetVignetteColor(data.color[1], data.color[2], data.color[3], data.color[4])
+    else
+        postProcess:SetVignetteEnabled(false)
     end
 end
 
@@ -200,8 +249,13 @@ function Update(self, dt)
         end
     end
 
+    -- Update de efectos
     UpdateBerserkVignette(dt)
     UpdateHealVignette(dt)
+    UpdateLowHealthVignette(dt)
+    
+    -- Aplicación final
+    ApplyVignetteEffects()
 
     -- Lógica de curación
     if potionHealing and _G.PlayerInstance then

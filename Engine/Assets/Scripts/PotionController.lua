@@ -12,7 +12,6 @@ local berserkActiveTimer  = 0.0
 local berserkWasActive    = false
 local berserkPulseTimer   = 0.0
 
-
 local FADE_TIME           = 0.2    
 local MAX_ALPHA           = 160/255
 local BASE_PULSE_FREQ     = 0.6  
@@ -103,11 +102,14 @@ local function UpdateBerserkVignette(dt)
         local pulseFactor = (math.sin(berserkPulseTimer * freq * math.pi * 2.0) + 1.0) * 0.5
         local targetAlpha = (0.2 + (pulseFactor * (MAX_ALPHA - 0.2))) * fadeAlpha
 
-        postProcess:SetVignetteEnabled(true)
-        postProcess:SetVignetteIntensity(0.0)
-        postProcess:SetVignetteSmoothness(0.65)
-        
-        postProcess:SetVignetteColor(0.0, 0.8, 0.8, targetAlpha)
+
+        local hitActive = (_G.PlayerInstance and _G._hitVigActive) or false
+        if not hitActive then
+            postProcess:SetVignetteEnabled(true)
+            postProcess:SetVignetteIntensity(0.0)
+            postProcess:SetVignetteSmoothness(0.65)
+            postProcess:SetVignetteColor(0.0, 0.8, 0.8, targetAlpha)
+        end
 
         postProcess:SetRadialBlurEnabled(true)
         postProcess:SetRadialBlurIntensity(0.30 * fadeAlpha)

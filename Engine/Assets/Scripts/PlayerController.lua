@@ -11,6 +11,14 @@ local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 
+-- Hit vignette
+local hitVigTimer      = 0.0
+local accumulatedAlpha = 0.0
+local HIT_VIG_FADE_IN  = 0.1
+local HIT_VIG_HOLD     = 0.15
+local HIT_VIG_FADE_OUT = 1.5
+local HIT_VIG_ALPHA_STEP = 0.3
+
 --audiosources
 local attackSource 
 local voiceSource
@@ -177,7 +185,12 @@ function TriggerDrinkAnimation(self, isInternalHeal)
     if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0  then
         return false
     end
-
+    -- Hit vignette
+    if postProcess then
+        local totalDuration = HIT_VIG_FADE_IN + HIT_VIG_HOLD + HIT_VIG_FADE_OUT
+        hitVigTimer = totalDuration
+    end
+    
     ChangeState(self, State.IDLE)
     if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
 
@@ -1243,6 +1256,13 @@ local function TakeDamage(self, amount, attackerPos)
     _PlayerController_triggerCameraShake = true
     if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 150) end
 
+    -- Activar hit vignette roja acumulada
+    if postProcess then
+        accumulatedAlpha = math.min(1.0, accumulatedAlpha + HIT_VIG_ALPHA_STEP)
+        local totalDuration = HIT_VIG_FADE_IN + HIT_VIG_HOLD + HIT_VIG_FADE_OUT
+        hitVigTimer = totalDuration
+    end
+
     if self.public.health > 0 and Player.rb and attackerPos then
         if Player.hitSFX then Player.hitSFX:SelectPlayAudioEvent("SFX_PlayerHit") end
         local playerPos = self.transform.worldPosition
@@ -1433,6 +1453,17 @@ function Start(self)
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
     end
+
+    -- Hit vignette init
+    hitVigTimer = 0.0
+    accumulatedAlpha = 0.0
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        postProcess = camObj:GetComponent("PostProcessing")
+    end
+    if postProcess then
+        postProcess:SetVignetteEnabled(false)
+    end
 end
 
 FindMasks = function(self)
@@ -1525,6 +1556,41 @@ InitParticles = function(self)
     UpdateSwordMaterial()
 end
 
+function UpdateHitVignette(dt)
+    if not postProcess then return end
+    if hitVigTimer <= 0 then 
+        accumulatedAlpha = 0.0
+        return 
+    end
+
+    local totalDuration = HIT_VIG_FADE_IN + HIT_VIG_HOLD + HIT_VIG_FADE_OUT
+    local elapsed = totalDuration - hitVigTimer
+    local alpha = 0.0
+
+    if elapsed < HIT_VIG_FADE_IN then
+        alpha = (elapsed / HIT_VIG_FADE_IN) * accumulatedAlpha
+    elseif elapsed < HIT_VIG_FADE_IN + HIT_VIG_HOLD then
+        alpha = accumulatedAlpha
+    else
+        local fadeElapsed = elapsed - HIT_VIG_FADE_IN - HIT_VIG_HOLD
+        alpha = (1.0 - (fadeElapsed / HIT_VIG_FADE_OUT)) * accumulatedAlpha
+    end
+
+    alpha = math.max(0.0, alpha)
+
+    hitVigTimer = hitVigTimer - dt
+
+    if hitVigTimer <= 0 then
+        hitVigTimer = 0
+        accumulatedAlpha = 0.0
+        postProcess:SetVignetteEnabled(false)
+        return
+    end
+
+    postProcess:SetVignetteEnabled(true)
+    postProcess:SetVignetteSmoothness(0.6)
+    postProcess:SetVignetteColor(1.0, 0.0, 0.0, alpha)
+end
 
 function Update(self, dt)
     if attackCooldown > 0 then
@@ -1605,7 +1671,6 @@ function Update(self, dt)
         
         Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
-        --Audio.SetMusicVolume(100.0)
         local mGo = GameObject.Find("MusicSource")
         if mGo then
             local musicComp = mGo:GetComponent("Audio Source")
@@ -1629,6 +1694,17 @@ function Update(self, dt)
         self.public.staminaRecover = 15.0 
         Player.baseSpeed = self.public.speed
         Player.currentSpeed = self.public.speed
+
+        -- Resetear hit vignette al cambiar de escena
+        hitVigTimer = 0.0
+        accumulatedAlpha = 0.0
+        if postProcess then postProcess:SetVignetteEnabled(false) end
+        
+        -- Re-obtener postProcess por si la camara cambio
+        local camObj = GameObject.Find("MainCamera")
+        if camObj then
+            postProcess = camObj:GetComponent("PostProcessing")
+        end
         
         Player.firstFrameCheck = true
         Player.forceResumeFrames = 10
@@ -1637,7 +1713,6 @@ function Update(self, dt)
     if Player.masterAudioTimer and Player.masterAudioTimer > 0 then
         Player.masterAudioTimer = Player.masterAudioTimer - dt
         Audio.SetGlobalVolume(100.0)
-        --Audio.SetMusicVolume(100.0)
     end
 
     if Player.restoreListenerFrames then
@@ -1694,7 +1769,6 @@ function Update(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
         
-        --positions
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
                 self.transform:SetPosition(-68.549, 3.280, -318.933) 
@@ -1710,31 +1784,15 @@ function Update(self, dt)
             end
         end
 
-        --segundo 6.75
         if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_KnockBack") end
         end
 
-        -- --segundo 9
-        -- if Player.isGetMaskAnim and Player.AnimTimer <= 25.0 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GetMask") then
-        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GetMask") end 
-        -- end
-
-
-        --segundo 10
         if Player.isGetMaskAnim and Player.AnimTimer <= 24.0 and Player.AnimTimer >= 23.9 and not Audio.IsEventPlaying("SFX_GM_MaskFly") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskFly") end
         end
 
-        
-        -- if Player.isGetMaskAnim and Player.AnimTimer <= 20.25 and Player.AnimTimer >= 20.0 and not Audio.IsEventPlaying("SFX_GM_MaskOn") then 
-        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskOn") end
-        -- end
-
-        --segundo 14
-
         if Player.isGetMaskAnim and not Player.getMaskEvent1Done and Player.AnimTimer <= 20.0 then
-            
             Player.getMaskEvent1Done = true
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
@@ -1742,29 +1800,18 @@ function Update(self, dt)
             end
         end
 
-        --segundo 17.9
         if Player.isGetMaskAnim and Player.AnimTimer <= 16.1 and Player.AnimTimer >= 16.0 and not Audio.IsEventPlaying("SFX_GM_FallDown") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_FallDown") end
         end
-        
-        -- --segundo 20
-        -- if Player.isGetMaskAnim and Player.AnimTimer <= 14.0 and Player.AnimTimer >= 10.0 
-        -- and not Audio.IsEventPlaying("SFX_ShowSword") then
-        --     if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_ShowSword") end 
-        -- end
-
-        --segundo 24 (short sword slash)
 
         if Player.isGetMaskAnim and Player.AnimTimer <= 10.0 and Player.AnimTimer >= 9.9 and not Audio.IsEventPlaying("SFX_GM_Sword1") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_Sword1") end
         end
 
-        --segundo 26 (long sword slash)
         if Player.isGetMaskAnim and Player.AnimTimer <= 8.5 and Player.AnimTimer >= 8.0 and not Audio.IsEventPlaying("SFX_GM_Sword2") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_Sword2") end
         end
 
-        --segundo 27 
         if Player.isGetMaskAnim and not Player.getMaskEvent2Done and Player.AnimTimer <= 7.7 then
             Player.getMaskEvent2Done = true
             UpdateSwordMaterial()
@@ -1913,6 +1960,9 @@ function Update(self, dt)
             Game.SetTimeScale(1.0)
         end
     end
+
+    -- Hit vignette update
+    UpdateHitVignette(dt)
 end
 
 function MaskScroll(self)
@@ -2080,6 +2130,7 @@ function ResetPlayer(self)
     _G._PlayerController_isDead           = false
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
+    accumulatedAlpha = 0.0
 
     Player.isDrowning            = false
     _PlayerController_isDrowning = false

@@ -1585,8 +1585,8 @@ function UpdateHitVignette(dt)
     if hitVigTimer <= 0 then
         hitVigTimer = 0
         accumulatedAlpha = 0.0
-        postProcess:SetVignetteEnabled(false)
-        return
+        _G._hitVigActive = false
+        return 
     end
 
     postProcess:SetVignetteEnabled(true)

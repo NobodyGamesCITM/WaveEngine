@@ -28,7 +28,13 @@
                    FontWeight="Bold"
                    Foreground="#FFC73D05"
                    HorizontalAlignment="Center"
-                   TextAlignment="Center"/>
+                   TextAlignment="Center"
+                   Effect="{x:Null}"
+                   RenderOptions.ClearTypeHint="Enabled"
+                   VerticalAlignment="Center"
+                   Opacity="1"
+                   CharacterSpacing="80"
+                   TextOptions.TextFormattingMode="Display"/>
     </Viewbox>
 
     <Viewbox x:Name="BossBarViewbox" Grid.Column="1" Grid.Row="3" Stretch="Uniform">
@@ -40,7 +46,8 @@
                    Source="Textures/Bossbar.png"
                    Stretch="Fill"
                    HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"/>
+                   VerticalAlignment="Stretch"
+                   RenderOptions.BitmapScalingMode="HighQuality"/>
 
             <Grid x:Name="BossBarFill"
                   HorizontalAlignment="Left"
@@ -51,7 +58,8 @@
                        Source="Textures/BossbarInterior.png"
                        Stretch="Fill"
                        HorizontalAlignment="Left"
-                       Width="627" Height="19.5"/>
+                       Width="627" Height="19.5"
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
             </Grid>
 
         </Grid>

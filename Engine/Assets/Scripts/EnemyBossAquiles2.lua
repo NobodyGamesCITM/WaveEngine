@@ -108,6 +108,8 @@ local lastPPos = {x = 0, z = 0}
 
 local isKinematic = false
 
+local fase1 = true
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -799,53 +801,85 @@ local function UpdateStun(self, dt)
 end
 
 local function UpdateDeath(self, dt)
-    deathTimer = deathTimer - dt
-    
-    if rb then
-        rb:SetLinearVelocity(0, 0, 0)
-        rb:SetBody(2)
-    end
 
-    if deathTimer <= 0 then
-        if self.targetDeathYisEnter == false then
-            local currentY = self.transform.position.y
-            self.targetDeathY = currentY - 5.0
-            self.targetDeathYisEnter = true
-            
-            local colision = self.gameObject:GetComponent("Box Collider")
-            if colision then 
-                colision:Disable() 
-                rb:SetUseGravity(false)
-            end
-            
-            DestroyChargeFeedback(self)
-            Audio.SetMusicState("AfterBoss")
-            
-            Game.SetTimeScale(0.2)
-            _impactFrameTimer = 0.1
-            Engine.Log("[Aquiles] Iniciant descens final")
+    if fase1==true then
+        hp           = 500
+        posture = 250
+        isDead       = false
+
+        self.public.detectionRange=27
+
+        self.public.chargeDamage=45
+        self.public.chargeSpeed=25.0
+        self.public.chargeCooldown = 1.5
+
+
+        self.public.lanceDamage=30
+        self.public.lanceCooldown=1
+
+        self.public.moveSpeed=8
+
+        self.public.preparationTime=0.5
+
+        self.public.wallStunTime = 1.0
+        self.public.afterStunTime = 0.7
+
+        self.public.stunDuration=1.5
+        self.public.predictionTime = 0.5
+        self.public.chargeDuration = 0.85
+
+        currentState = State.IDLE
+        fase1=false
+
+        return
+    else
+        deathTimer = deathTimer - dt
+        
+        if rb then
+            rb:SetLinearVelocity(0, 0, 0)
+            rb:SetBody(2)
         end
 
-        local pos = self.transform.position
-        if pos.y > self.targetDeathY then
-            self.transform:SetPosition(pos.x, pos.y - 0.05, pos.z)
-        else
-            if not isDead then
-                isDead = true
-                Engine.Log("[Aquiles] DEAD i enterrat")
-
-                local door = GameObject.Find("Puerta_Final") 
-                if door then
-                    local doorScript = door:GetComponent("Script")
-                    if doorScript and doorScript.OpenDoor then
-                        doorScript:OpenDoor()
-                    end
+        if deathTimer <= 0 then
+            if self.targetDeathYisEnter == false then
+                local currentY = self.transform.position.y
+                self.targetDeathY = currentY - 5.0
+                self.targetDeathYisEnter = true
+                
+                local colision = self.gameObject:GetComponent("Box Collider")
+                if colision then 
+                    colision:Disable() 
+                    rb:SetUseGravity(false)
                 end
+                
+                DestroyChargeFeedback(self)
+                Audio.SetMusicState("AfterBoss")
+                
+                Game.SetTimeScale(0.2)
+                _impactFrameTimer = 0.1
+            end
 
-                rb       = nil
-                anim     = nil
-                playerGO = nil
+            local pos = self.transform.position
+            if pos.y > self.targetDeathY then
+                self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
+            else
+                if not isDead then
+                    isDead = true
+                    Engine.Log("[Aquiles] DEAD i enterrat")
 
+                    local door = GameObject.Find("Puerta_Final") 
+                    if door then
+                        local doorScript = door:GetComponent("Script")
+                        if doorScript and doorScript.OpenDoor then
+                            doorScript:OpenDoor()
+                        end
+                    end
+
+                    rb       = nil
+                    anim     = nil
+                    playerGO = nil
+
+                end
             end
         end
     end
@@ -1129,7 +1163,11 @@ function OnTriggerEnter(self, other)
         slideVelX = 0
         slideVelZ = 0
         DestroyChargeFeedback(self)
-        wallStunTimer = 5.0
+        if fase1 then
+            wallStunTimer = 5.0
+        else
+            wallStunTimer=self.public.wallStunTime +1
+        end
         
     
         anim:Play("Stuck_Start", 0.15)

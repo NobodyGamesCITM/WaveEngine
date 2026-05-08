@@ -211,7 +211,6 @@ end
 function _G.TriggerCameraShake(duration, magnitude, freq)
     local camObj = GameObject.Find("MainCamera")
     if camObj then
-        Engine.Log("Entra camera")
         local cineCam = camObj:GetComponent("CinematicCamera")
         if cineCam then
             cineCam:Shake(duration or 0.3, magnitude or 6.0, freq or 25.0)
@@ -849,6 +848,10 @@ States[State.RUNNING] = {
             return
         end
 
+        if Player.currentMask == Mask.HERMES then
+            self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
+        end
+
         if self.public.stamina <= 0 then
             ChangeState(self, State.WALK)
             return
@@ -925,9 +928,15 @@ States[State.ROLL] = {
         if anim then anim:Play("Roll", 0) end
         if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerRoll") end 
         if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_SkeletonDodge") end 
+
+        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+        if Player.bubblesPS then Player.bubblesPS:Play() end
+        elseif Player.smokePS then Player.smokePS:Play() end
     end,
     Exit = function(self)
         rollCooldown = self.public.rollCooldownMax
+        if Player.smokePS then Player.smokePS:Stop() end
+		if Player.bubblesPS then Player.bubblesPS:Stop() end
     end,
     Update = function(self, dt)
         States[State.ROLL].timer = States[State.ROLL].timer - dt
@@ -1934,7 +1943,7 @@ function Update(self, dt)
 
     ObtainMask(self)
 
-    if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then
+    if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD and Player.isGrounded == false then
         if Player.currentState == State.RUNNING then
             Player.hermesGraceTimer = HERMES_GRACE_TIME
         else
@@ -2136,9 +2145,9 @@ function ResetPlayer(self)
     _PlayerController_isDrowning = false
     Player.hermesGraceTimer      = 0
 
+    local savedMask = Player.currentMask
     InitParticles(self)
     FindMasks(self)
-    EquipMask(self, Mask.NONE)
 
     --Player.currentSurface = "Dirt"
 
@@ -2151,7 +2160,9 @@ function ResetPlayer(self)
         _G.ForceRefreshHUD()
     end
 
+    Player.currentMask = Mask.NONE
     ChangeState(self, State.IDLE)
+    EquipMask(self, savedMask or Mask.NONE)
     Engine.Log("[Player] Reset completado")
 end
 

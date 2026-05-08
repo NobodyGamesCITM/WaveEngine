@@ -654,6 +654,9 @@ function Start(self)
 
     self.baseY = self.transform.position.y
     self.currentYOffset = 0
+
+    self.targetDeathY=nil
+    self.targetDeathYisEnter=false
 end
 
 -- Update
@@ -684,8 +687,23 @@ function Update(self, dt)
             self.windupFeedbackSet = false
         end
         self.deathTimer = self.deathTimer - dt
+
+        if self.targetDeathYisEnter == false then
+            local currentY = self.transform.position.y
+            self.targetDeathY = currentY - 3.0
+            
+            local colision = self.gameObject:GetComponent("Sphere Collider")
+            if colision then colision:Disable() end
+            self.targetDeathYisEnter = true
+
+        end
+
         local pos = self.transform.position
-        self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
+        if pos.y > self.targetDeathY then
+            self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
+        end
+
+      
 
         if self.deathTimer <= 0 then
             Engine.Log("Siren pending to destroy")

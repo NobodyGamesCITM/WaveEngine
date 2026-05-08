@@ -798,45 +798,55 @@ local function UpdateStun(self, dt)
     end
 end
 
-local function UpdateDeath(self,dt)
+local function UpdateDeath(self, dt)
     deathTimer = deathTimer - dt
     
+    if rb then
+        rb:SetLinearVelocity(0, 0, 0)
+    end
+
     if deathTimer <= 0 then
-     --   local door = GameObject.Find(self.public.doorName)
-       -- if door then
-         --   local doorScript = door:GetComponent("Script")
-         --   if doorScript and doorScript.OpenDoor then
-            --    doorScript:OpenDoor()
-           -- end
-        --end
-        rb:SetBody(2)
-        isKinematic = true
-
-        DestroyChargeFeedback(self)
-        local _rb  = rb
-        Audio.SetMusicState("AfterBoss")
-        rb       = nil
-        anim     = nil
-        playerGO = nil
-        
-        if _rb  then
-            local vel = _rb:GetLinearVelocity()
-            _rb:SetLinearVelocity(0, 0, 0)
-        end
-        --Engine.Log("[Aquiles] DEAD")
-        Game.SetTimeScale(0.2)
-        _impactFrameTimer = 0.1
-        isDead = true
-
-        local door = GameObject.Find("Puerta_Final") 
-        if door then
-            local doorScript = door:GetComponent("Script")
-            doorScript:OpenDoor()
+        if self.targetDeathYisEnter == false then
+            local currentY = self.transform.position.y
+            self.targetDeathY = currentY - 5.0
+            self.targetDeathYisEnter = true
+            
+            local colision = self.gameObject:GetComponent("Box Collider")
+            if colision then 
+                colision:Disable() 
+                rb:SetUseGravity(false)
+            end
+            
+            DestroyChargeFeedback(self)
+            Audio.SetMusicState("AfterBoss")
+            
+            Game.SetTimeScale(0.2)
+            _impactFrameTimer = 0.1
+            Engine.Log("[Aquiles] Iniciant descens final")
         end
 
+        local pos = self.transform.position
+        if pos.y > self.targetDeathY then
+            self.transform:SetPosition(pos.x, pos.y - 0.05, pos.z)
+        else
+            if not isDead then
+                isDead = true
+                Engine.Log("[Aquiles] DEAD i enterrat")
 
-        self:Destroy()
-  
+                local door = GameObject.Find("Puerta_Final") 
+                if door then
+                    local doorScript = door:GetComponent("Script")
+                    if doorScript and doorScript.OpenDoor then
+                        doorScript:OpenDoor()
+                    end
+                end
+
+                rb       = nil
+                anim     = nil
+                playerGO = nil
+
+            end
+        end
     end
 end
 
@@ -981,6 +991,10 @@ function Start(self)
     if aquilesMesh then
         BaseMat = aquilesMesh:GetComponent("Material")
     end
+
+    
+    self.targetDeathY=nil
+    self.targetDeathYisEnter=false
 
 end
 

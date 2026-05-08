@@ -29,6 +29,7 @@ local TILE_SIZE = 3.744
 
 local BaseMat = nil
 local lastPPos = {x = 0, z = 0}
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -560,34 +561,48 @@ local function UpdateRecovery(self, dt)
     end
 end
 
-local function UpdateDeath(self,dt)
-
+local function UpdateDeath(self, dt)    
     self.deathTimer = self.deathTimer - dt
-    
+
+    if self.rb then
+        self.rb:SetLinearVelocity(0, 0, 0)
+    end
+
     if self.deathTimer <= 0 then
-        DestroyChargeFeedback(self)
-
-
-        local _rb  = self.rb
-
-        self.rb       = nil
-        self.anim     = nil
-        self.playerGO = nil
-        
-        if _rb  then
-            local vel = _rb:GetLinearVelocity()
-            _rb:SetLinearVelocity(0, (vel and vel.y) or 0, 0)
+    
+        if self.targetDeathYisEnter == false then
+            Engine.Log("Calculant altura de mort...")
+            local currentY = self.transform.position.y
+            
+            self.targetDeathY = currentY - 5.0 
+            self.targetDeathYisEnter = true
+            
+            local colision = self.gameObject:GetComponent("Box Collider")
+            if colision then 
+                colision:Disable() 
+                self.rb:SetUseGravity(false)
+            end
         end
-        Engine.Log("[Minocabro] DEAD")
-        Game.SetTimeScale(0.2)
-        _impactFrameTimer = 0.1
-        self.isDead = true
 
-        self:Destroy()
-  
+        local pos = self.transform.position
+        
+        if pos.y > self.targetDeathY then
+            self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
+        else
+            if not self.isDead then
+                self.isDead = true
+                Engine.Log("[Minocabro] Enterrat al seu lloc correcte.")
+            end
+        end
+
+        DestroyChargeFeedback(self)
+        
+        if self.isDead then
+            self.rb = nil
+            self.anim = nil
+        end
     end
 end
-
           
 function Start(self)
     self.public = {
@@ -688,6 +703,9 @@ function Start(self)
     Engine.RequestResource("12721768917354180794")
 
     self.stayinNavmesh=false
+
+    self.targetDeathY=nil
+    self.targetDeathYisEnter=false
 end
 
 function Update(self, dt)

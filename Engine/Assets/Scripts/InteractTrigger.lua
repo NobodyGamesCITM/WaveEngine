@@ -6,6 +6,8 @@ public = {
     actionText       = "Interactuar",
     oneShot          = true,
     updateWhenPaused = true,
+    promptOffsetY    = 2.0,
+    iconSize         = 40,
 }
 
 local inPromptRange  = false
@@ -14,9 +16,6 @@ local lastInput      = "keyboard"
 local dialogShownMap = {}
 local inputCooldown  = 0.0
 local COOLDOWN_TIME  = 0.5
-
-local KEYBOARD_ICON = "F"
-local GAMEPAD_ICON  = "ⓐ"
 
 local CANVAS_W = 1280
 local CANVAS_H = 720
@@ -37,17 +36,13 @@ local function updatePrompt(self)
         UI.SetElementVisibility("InputKeyText",     true)
         UI.SetElementVisibility("InputGamepadIcon", false)
     end
-
-    UI.SetElementText("InteractText", self.public.actionText)
 end
 
 local function showPrompt(self, canInteract)
     updatePrompt(self)
 
-    UI.SetElementVisibility("InputKeyBorder", canInteract)
-
     local myPos = self.transform.worldPosition
-    local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + 1.5, myPos.z)
+    local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + self.public.promptOffsetY, myPos.z)
 
     if sx == nil or sy == nil then
         UI.SetElementVisibility("InteractPrompt", false)
@@ -63,10 +58,8 @@ local function showPrompt(self, canInteract)
     local cx = (sx / vw) * CANVAS_W
     local cy = (sy / vh) * CANVAS_H
 
-    local marginLeft = cx - PROMPT_W * 0.5
-    local marginTop  = cy - PROMPT_H
-
-    UI.SetElementMargin("InteractPrompt", marginLeft, marginTop, 0, 0)
+    local half = self.public.iconSize * 0.5
+    UI.SetElementMargin("InteractPrompt", cx - half, cy - self.public.iconSize, 0, 0)
     UI.SetElementVisibility("InteractPrompt", true)
 end
 
@@ -112,7 +105,6 @@ function Update(self, dt)
     local dz = myPos.z - playerPos.z
     local dist = math.sqrt(dx*dx + dz*dz)
 
-  
     if dist < self.public.promptRadius then
         inPromptRange = true
     elseif inPromptRange then
@@ -127,21 +119,17 @@ function Update(self, dt)
         inActionRange = false
     end
 
-  
     if inPromptRange and not _G.DialogActive then
         showPrompt(self, inActionRange)
     end
 
-   
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         if inputCooldown > 0 then return end
 
         if _G.DialogActive then
-            
             if _G.AdvanceDialog then _G.AdvanceDialog() end
             inputCooldown = COOLDOWN_TIME
         elseif inActionRange then
-            
             triggerDialog(self)
         end
     end

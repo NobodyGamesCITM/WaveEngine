@@ -287,43 +287,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             Orientation="Horizontal"
                             Canvas.Left="0"
                             Canvas.Top="0">
-                    <Border CornerRadius="6" Padding="16,8,16,8">
-                        <Border.Background>
-                            <SolidColorBrush Color="#CC000000"/>
-                        </Border.Background>
-                        <StackPanel Orientation="Horizontal">
-                            <Border x:Name="InputKeyBorder"
-                                    CornerRadius="4"
-                                    Padding="4,4,4,4"
-                                    Margin="0,0,10,0">
-                                <Border.Background>
-                                    <SolidColorBrush Color="#22FFFFFF"/>
-                                </Border.Background>
-                                <Grid>
-                                    <Image x:Name="InputKeyText"
-                                           Source="Textures/F.PNG"
-                                           Width="40" Height="40"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                                    <Image x:Name="InputGamepadIcon"
-                                           Source="Textures/A.PNG"
-                                           Width="40" Height="40"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Visibility="Collapsed"/>
-                                </Grid>
-                            </Border>
-                            <TextBlock x:Name="InteractText"
-                                       Text="Interactuar"
-                                       FontSize="22"
-                                       FontFamily="Arial"
-                                       VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FFFFFFFF"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </StackPanel>
-                    </Border>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Image x:Name="InputKeyText" Source="Textures/F.PNG" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image x:Name="InputGamepadIcon" Source="Textures/A.PNG" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
             </Canvas>
 

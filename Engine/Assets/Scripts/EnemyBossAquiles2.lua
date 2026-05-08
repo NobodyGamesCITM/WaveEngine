@@ -803,6 +803,7 @@ local function UpdateDeath(self, dt)
     
     if rb then
         rb:SetLinearVelocity(0, 0, 0)
+        rb:SetBody(2)
     end
 
     if deathTimer <= 0 then

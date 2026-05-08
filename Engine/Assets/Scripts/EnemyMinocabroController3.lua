@@ -566,6 +566,8 @@ local function UpdateDeath(self, dt)
 
     if self.rb then
         self.rb:SetLinearVelocity(0, 0, 0)
+        self.rb:SetBody(2)
+
     end
 
     if self.deathTimer <= 0 then
@@ -596,7 +598,7 @@ local function UpdateDeath(self, dt)
         end
 
         DestroyChargeFeedback(self)
-        
+
         if self.isDead then
             self.rb = nil
             self.anim = nil

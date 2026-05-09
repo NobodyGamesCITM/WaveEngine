@@ -51,8 +51,10 @@ local lowHealthVignetteData = { active = false, color = {0,0,0,0}, intensity = 0
 local postProcess = nil
 
 public = {
-    potionCount = 2,
-    berserkCount = 2
+    potionCount = 0,
+    berserkCount = 0,
+    maxPotions = 0,
+    maxBerserk = 0
 }
 
 local function smoothstep(t)
@@ -62,8 +64,10 @@ end
 
 function Start(self)
     _G.PotionSystem = self
-    self.public.potionCount  = 2
-    self.public.berserkCount = 2
+    self.public.potionCount  = 0
+    self.public.berserkCount = 0
+    self.public.maxPotions   = 0
+    self.public.maxBerserk   = 0
     _G._berserkVigActive = false
     _G._healVigActive    = false
 
@@ -74,8 +78,8 @@ function Start(self)
 end
 
 function ResetPotions(self)
-    self.public.potionCount  = 2
-    self.public.berserkCount = 2
+    self.public.potionCount  = 0
+    self.public.berserkCount = 0
     potionHealing       = false
     potionHealRemaining = 0.0
     potionCooldown      = 0.0
@@ -198,13 +202,9 @@ end
 local function ApplyVignetteEffects()
     if not postProcess then return end
 
-    -- Hit siempre tiene prioridad maxima — PlayerController escribe
-    -- directamente y nosotros no interferimos mientras este activo
     local hitActive = (_G._hitVigActive) or false
     if hitActive then return end
 
-    -- Curacion tiene prioridad sobre berserk cuando ambos estan activos:
-    -- el jugador acaba de pulsar el boton, necesita confirmacion visual inmediata
     if healVignetteData.active then
         postProcess:SetVignetteEnabled(true)
         postProcess:SetVignetteIntensity(healVignetteData.intensity)
@@ -290,6 +290,9 @@ function Update(self, dt)
     UpdateHealVignette(dt)
     UpdateLowHealthVignette(dt)
     ApplyVignetteEffects()
+
+    self.public.maxPotions = math.max(self.public.maxPotions or 0, self.public.potionCount or 0)
+    self.public.maxBerserk = math.max(self.public.maxBerserk or 0, self.public.berserkCount or 0)
 
     -- Logica de curacion
     if potionHealing and _G.PlayerInstance then

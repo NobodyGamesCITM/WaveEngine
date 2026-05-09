@@ -133,6 +133,8 @@ function Update(self, deltaTime)
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
 
+                    Restore(self)
+
                     if currentCheckpoint == checkpoint then
                         --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
                         return 
@@ -156,7 +158,6 @@ function Update(self, deltaTime)
                     ActivateParticles(self, "LastCheckpointVFX", currentCheckpoint)
                     ActivateParticles(self, "BlueSparkles", currentCheckpoint)
                     StopParticles(self, "YellowSparkles", currentCheckpoint)
-                    Restore(self)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
                     else --Engine.Log("[Checkpoints] Could not play SaveSFX!") end
@@ -170,7 +171,7 @@ end
 
 function Restore(self)
     if _G.PotionSystem then
-        _G.PotionSystem.public.potionCount = 4
-        _G.PotionSystem.public.berserkCount = 4
+        _G.PotionSystem.public.potionCount = _G.PotionSystem.public.maxPotions or 0
+        _G.PotionSystem.public.berserkCount = _G.PotionSystem.public.maxBerserk or 0
     end
 end

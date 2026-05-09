@@ -1569,9 +1569,11 @@ function UpdateHitVignette(dt)
     if not postProcess then return end
     if hitVigTimer <= 0 then 
         accumulatedAlpha = 0.0
+        _G._hitVigActive = false
         return 
     end
 
+    _G._hitVigActive = true
     local totalDuration = HIT_VIG_FADE_IN + HIT_VIG_HOLD + HIT_VIG_FADE_OUT
     local elapsed = totalDuration - hitVigTimer
     local alpha = 0.0
@@ -1592,8 +1594,8 @@ function UpdateHitVignette(dt)
     if hitVigTimer <= 0 then
         hitVigTimer = 0
         accumulatedAlpha = 0.0
-        postProcess:SetVignetteEnabled(false)
-        return
+        _G._hitVigActive = false
+        return 
     end
 
     postProcess:SetVignetteEnabled(true)

@@ -390,6 +390,7 @@ end
 
 local function UpdateIdle(self, dist, dt)
     
+    shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle", 0.2)
     end
@@ -681,6 +682,7 @@ function Start(self)
 
     shell = Prefab.Instantiate("Sirena_Bullet")
     pSphere1 = GameObject.FindInChildren(shell,"pSphere1")
+
 
 end
 

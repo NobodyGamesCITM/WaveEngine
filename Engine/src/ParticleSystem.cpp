@@ -333,7 +333,7 @@ void EmitterInstance::Update(float dt) {
 
                 p.size = EvaluateSizeCurve(lifeRatio, spawner);
                 p.rotation += p.angularVelocity * dt;
-                p.animationTime = lifeRatio * animationSpeed;
+                p.animationTime += dt * animationSpeed;
             }
             for (auto mod : modules) mod->Update(this, dt);
             KillDeadParticles();
@@ -427,7 +427,7 @@ void EmitterInstance::Update(float dt) {
 
         p.size = EvaluateSizeCurve(lifeRatio, spawner);
         p.rotation += p.angularVelocity * dt;
-        p.animationTime = lifeRatio * animationSpeed;
+        p.animationTime += dt * animationSpeed;
     }
 
     // Update modules (Movement, Noise)

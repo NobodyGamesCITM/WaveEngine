@@ -211,7 +211,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.8390191793441772,
+                    "aspectRatio": 1.668772578239441,
                     "farPlane": 1000.0,
                     "fov": 50.0,
                     "nearPlane": 0.30000001192092896,
@@ -5185,109 +5185,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "rollStaminaCost",
+                            "name": "knockbackForce",
                             "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "comboCooldown",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "bulletSpawnY",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 10000.0
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 50.0
+                            "value": 14.0
                         },
                         {
                             "name": "canMove",
@@ -5295,64 +5195,29 @@
                             "value": true
                         },
                         {
-                            "name": "attackBufferDuration",
-                            "type": 0,
-                            "value": 0.6000000238418579
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
                             "name": "berserkActive",
                             "type": 2,
                             "value": false
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "staminaCost",
+                            "name": "heavyAttackDelay",
                             "type": 0,
-                            "value": 80.0
+                            "value": 0.3499999940395355
                         },
                         {
-                            "name": "attackCooldown",
+                            "name": "hitShakeMagnitude",
                             "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
+                            "value": 6.0
                         },
                         {
                             "name": "attackImpulseForce",
                             "type": 0,
                             "value": 8.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
                         },
                         {
                             "name": "heavyDuration",
@@ -5365,44 +5230,39 @@
                             "value": 30.0
                         },
                         {
-                            "name": "attackImpulseWindow",
+                            "name": "attackCooldown",
                             "type": 0,
-                            "value": 0.15000000596046448
+                            "value": 0.4000000059604645
                         },
                         {
-                            "name": "heavyAttackDelay",
+                            "name": "hpRecover",
                             "type": 0,
-                            "value": 0.3499999940395355
+                            "value": 30.0
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "speedHermesBonus",
                             "type": 0,
-                            "value": 14.0
+                            "value": 7.0
                         },
                         {
-                            "name": "triggerCameraShake",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
+                            "name": "rollDuration",
                             "type": 0,
-                            "value": 780.0
+                            "value": 0.5
                         },
                         {
-                            "name": "bulletBarrel",
+                            "name": "heavyUpImpulse",
                             "type": 0,
-                            "value": 1.5
+                            "value": 2.0
                         },
                         {
-                            "name": "hitShakeDuration",
+                            "name": "attackBufferDuration",
                             "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 0.6000000238418579
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
                         },
                         {
                             "name": "heavyStaminaCost",
@@ -5410,9 +5270,149 @@
                             "value": 25.0
                         },
                         {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 7.0
+                        },
+                        {
+                            "name": "comboCooldown",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "triggerCameraShake",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "attackImpulseWindow",
+                            "type": 0,
+                            "value": 0.15000000596046448
+                        },
+                        {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
                             "name": "chargeDuration",
                             "type": 0,
                             "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "bulletSpawnY",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 10000.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -5654,11 +5654,11 @@
                 },
                 {
                     "activationRadius": 15.0,
-                    "active": false,
+                    "active": true,
                     "additive": false,
                     "alignToVelocity": false,
                     "animLoop": true,
-                    "animSpeed": 0.75,
+                    "animSpeed": 1.0,
                     "bursts": [],
                     "circleRadius": 1.0,
                     "colorEnd": [
@@ -5688,13 +5688,13 @@
                     "emitFromShell": false,
                     "gravity": [
                         0.0,
-                        -1.0,
+                        0.0,
                         0.0
                     ],
                     "initRotMax": 360.0,
                     "initRotMin": 0.0,
-                    "lifetimeMax": 1.0010000467300415,
-                    "lifetimeMin": 1.0,
+                    "lifetimeMax": 9999.0,
+                    "lifetimeMin": 9999.0,
                     "looping": true,
                     "luminance": false,
                     "maxParticles": 1,
@@ -5711,8 +5711,8 @@
                     "shape": 1,
                     "simulationSpace": 0,
                     "sizeCurve": [],
-                    "sizeEnd": 0.0,
-                    "sizeStart": 0.5,
+                    "sizeEnd": 3.0,
+                    "sizeStart": 3.0,
                     "speedMax": 0.0,
                     "speedMin": 0.0,
                     "textureCols": 6,
@@ -5831,14 +5831,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
                         },
                         {
                             "name": "currentScene",
@@ -5846,9 +5841,14 @@
                             "value": "Blockout2Nuevo.scene"
                         },
                         {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
+                            "name": "lowerVolume",
+                            "type": 0,
+                            "value": 60.0
+                        },
+                        {
+                            "name": "fullVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -9073,14 +9073,14 @@
                                             "active": true,
                                             "publicVariables": [
                                                 {
-                                                    "name": "fadeTime",
-                                                    "type": 0,
-                                                    "value": 1.5
-                                                },
-                                                {
                                                     "name": "maxVolume",
                                                     "type": 0,
                                                     "value": 100.0
+                                                },
+                                                {
+                                                    "name": "fadeTime",
+                                                    "type": 0,
+                                                    "value": 1.5
                                                 }
                                             ],
                                             "scriptUID": 13767443382916997088,
@@ -9156,24 +9156,24 @@
                                             "active": true,
                                             "publicVariables": [
                                                 {
-                                                    "name": "currentScene",
-                                                    "type": 5,
-                                                    "value": "Blockout2Nuevo.scene"
-                                                },
-                                                {
                                                     "name": "maxVolume",
                                                     "type": 0,
                                                     "value": 100.0
                                                 },
                                                 {
-                                                    "name": "fadeTime",
-                                                    "type": 0,
-                                                    "value": 1.5
+                                                    "name": "currentScene",
+                                                    "type": 5,
+                                                    "value": "Blockout2Nuevo.scene"
                                                 },
                                                 {
                                                     "name": "nextMusicState",
                                                     "type": 1,
                                                     "value": "Boss"
+                                                },
+                                                {
+                                                    "name": "fadeTime",
+                                                    "type": 0,
+                                                    "value": 1.5
                                                 }
                                             ],
                                             "scriptUID": 5695057043965756815,
@@ -16528,24 +16528,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -16553,52 +16543,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -16608,9 +16553,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -16618,14 +16608,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -19973,24 +19973,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -19998,52 +19988,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -20053,9 +19998,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -20063,14 +20053,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -39460,24 +39460,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -39485,52 +39475,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -39540,9 +39485,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -39550,14 +39540,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -42905,24 +42905,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -42930,52 +42920,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -42985,9 +42930,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -42995,14 +42985,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -46350,24 +46350,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -46375,52 +46365,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -46430,9 +46375,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -46440,14 +46430,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -49795,24 +49795,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -49820,52 +49810,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -49875,9 +49820,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -49885,14 +49875,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -53240,24 +53240,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -53265,52 +53255,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -53320,9 +53265,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -53330,14 +53320,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -60344,24 +60344,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -60369,52 +60359,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -60424,9 +60369,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -60434,14 +60424,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -63789,24 +63789,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -63814,52 +63804,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -63869,9 +63814,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -63879,14 +63869,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -67234,24 +67234,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -67259,52 +67249,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -67314,9 +67259,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -67324,14 +67314,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -70679,24 +70679,14 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "patrolWaitMax",
+                                    "name": "attackAnimaAnticip",
                                     "type": 0,
-                                    "value": 2.799999952316284
+                                    "value": 0.30000001192092896
                                 },
                                 {
-                                    "name": "patrolSpeed",
+                                    "name": "deathTime",
                                     "type": 0,
                                     "value": 1.5
-                                },
-                                {
-                                    "name": "detectDist",
-                                    "type": 0,
-                                    "value": 10.0
-                                },
-                                {
-                                    "name": "patrolWaitMin",
-                                    "type": 0,
-                                    "value": 2.0
                                 },
                                 {
                                     "name": "attackColDelay",
@@ -70704,52 +70694,7 @@
                                     "value": 0.8999999761581421
                                 },
                                 {
-                                    "name": "attackAnimaAnticip",
-                                    "type": 0,
-                                    "value": 0.30000001192092896
-                                },
-                                {
-                                    "name": "maxHp",
-                                    "type": 0,
-                                    "value": 30.0
-                                },
-                                {
                                     "name": "activeGuard",
-                                    "type": 2,
-                                    "value": false
-                                },
-                                {
-                                    "name": "chaseSpeed",
-                                    "type": 0,
-                                    "value": 6.5
-                                },
-                                {
-                                    "name": "nearDist",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "attackDur",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "navRefreshRate",
-                                    "type": 0,
-                                    "value": 0.18000000715255737
-                                },
-                                {
-                                    "name": "lockOnSize",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "camMagnitud",
-                                    "type": 0,
-                                    "value": 1.0
-                                },
-                                {
-                                    "name": "level2",
                                     "type": 2,
                                     "value": false
                                 },
@@ -70759,9 +70704,54 @@
                                     "value": 20.0
                                 },
                                 {
+                                    "name": "patrolSpeed",
+                                    "type": 0,
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "patrolWaitMax",
+                                    "type": 0,
+                                    "value": 2.799999952316284
+                                },
+                                {
+                                    "name": "patrolWaitMin",
+                                    "type": 0,
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "navRefreshRate",
+                                    "type": 0,
+                                    "value": 0.18000000715255737
+                                },
+                                {
+                                    "name": "level2",
+                                    "type": 2,
+                                    "value": false
+                                },
+                                {
+                                    "name": "camMagnitud",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
                                     "name": "camDuration",
                                     "type": 0,
                                     "value": 0.5
+                                },
+                                {
+                                    "name": "detectDist",
+                                    "type": 0,
+                                    "value": 10.0
+                                },
+                                {
+                                    "name": "lockOnSize",
+                                    "type": 0,
+                                    "value": 3.0
+                                },
+                                {
+                                    "name": "chaseSpeed",
+                                    "type": 0,
+                                    "value": 6.5
                                 },
                                 {
                                     "name": "offset",
@@ -70769,14 +70759,24 @@
                                     "value": 1.0
                                 },
                                 {
-                                    "name": "deathTime",
-                                    "type": 0,
-                                    "value": 1.5
-                                },
-                                {
                                     "name": "nearYDist",
                                     "type": 0,
                                     "value": 1.0
+                                },
+                                {
+                                    "name": "attackDur",
+                                    "type": 0,
+                                    "value": 1.0
+                                },
+                                {
+                                    "name": "maxHp",
+                                    "type": 0,
+                                    "value": 30.0
+                                },
+                                {
+                                    "name": "nearDist",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 9025516094113862452,
@@ -79516,11 +79516,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "currentLevel",
-                            "type": 1,
-                            "value": "Level_02"
-                        },
-                        {
                             "name": "fadeSpeed",
                             "type": 0,
                             "value": 0.20000000298023224
@@ -79536,11 +79531,6 @@
                             "value": false
                         },
                         {
-                            "name": "musicFadeTime",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
                             "name": "maxVolume",
                             "type": 0,
                             "value": 100.0
@@ -79549,6 +79539,16 @@
                             "name": "loadingDuration",
                             "type": 0,
                             "value": 1.7000000476837158
+                        },
+                        {
+                            "name": "musicFadeTime",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "currentLevel",
+                            "type": 1,
+                            "value": "Level_02"
                         }
                     ],
                     "scriptUID": 7045512815554282410,
@@ -120180,6 +120180,11 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "near",
+                                    "type": 0,
+                                    "value": 8.0
+                                },
+                                {
                                     "name": "DropAresMask",
                                     "type": 2,
                                     "value": true
@@ -120193,11 +120198,6 @@
                                     "name": "DropApoloMask",
                                     "type": 2,
                                     "value": false
-                                },
-                                {
-                                    "name": "near",
-                                    "type": 0,
-                                    "value": 8.0
                                 }
                             ],
                             "scriptUID": 6059332998782319931,
@@ -129407,6 +129407,36 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "lockOnComplete",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "cellSize",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
+                            "name": "layout",
+                            "type": 1,
+                            "value": "1111111111, 1111100001, 1111101021, 1110000001, 1111000001, 1111111021, 1111111001, 1111111111"
+                        },
+                        {
+                            "name": "prefabPlate",
+                            "type": 6,
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
+                        },
+                        {
+                            "name": "originZ",
+                            "type": 0,
+                            "value": -155.25
+                        },
+                        {
+                            "name": "prefab2WayLine",
+                            "type": 6,
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
+                        },
+                        {
                             "name": "originX",
                             "type": 0,
                             "value": -50.0
@@ -129417,24 +129447,14 @@
                             "value": 2.0
                         },
                         {
-                            "name": "prefab3Way",
-                            "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
-                        },
-                        {
-                            "name": "prefabPlate",
-                            "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
-                        },
-                        {
                             "name": "prefab4Way",
                             "type": 6,
                             "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
                         },
                         {
-                            "name": "prefab1Way",
+                            "name": "prefab3Way",
                             "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
                         },
                         {
                             "name": "prefab2WayL",
@@ -129442,34 +129462,14 @@
                             "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_L.prefab"
                         },
                         {
-                            "name": "prefab2WayLine",
+                            "name": "prefab1Way",
                             "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
-                        },
-                        {
-                            "name": "layout",
-                            "type": 1,
-                            "value": "1111111111, 1111100001, 1111101021, 1110000001, 1111000001, 1111111021, 1111111001, 1111111111"
-                        },
-                        {
-                            "name": "originZ",
-                            "type": 0,
-                            "value": -155.25
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
                         },
                         {
                             "name": "doorName",
                             "type": 1,
                             "value": "Puerta_Sala_2"
-                        },
-                        {
-                            "name": "cellSize",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "lockOnComplete",
-                            "type": 2,
-                            "value": true
                         }
                     ],
                     "scriptUID": 16200370253487048842,
@@ -129984,9 +129984,9 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "speed",
+                                            "name": "distance",
                                             "type": 0,
-                                            "value": 2.0
+                                            "value": 10.0
                                         },
                                         {
                                             "name": "myColision",
@@ -129994,9 +129994,9 @@
                                             "value": "Puerta_Sala_2_Colision"
                                         },
                                         {
-                                            "name": "distance",
+                                            "name": "speed",
                                             "type": 0,
-                                            "value": 10.0
+                                            "value": 2.0
                                         }
                                     ],
                                     "scriptUID": 2217885483722212414,
@@ -130287,19 +130287,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "managerName",
-                            "type": 1,
-                            "value": "Puzzle1"
-                        },
-                        {
-                            "name": "hitDistance",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
                             "name": "gridC",
                             "type": 0,
                             "value": 6.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "gridR",
@@ -130307,14 +130302,19 @@
                             "value": 3.0
                         },
                         {
+                            "name": "hitDistance",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "entityType",
                             "type": 1,
                             "value": "Rock"
                         },
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "managerName",
+                            "type": 1,
+                            "value": "Puzzle1"
                         }
                     ],
                     "scriptUID": 13152586541649841119,
@@ -130590,19 +130590,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "managerName",
-                            "type": 1,
-                            "value": "Puzzle1"
-                        },
-                        {
-                            "name": "hitDistance",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
                             "name": "gridC",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "gridR",
@@ -130610,14 +130605,19 @@
                             "value": 4.0
                         },
                         {
+                            "name": "hitDistance",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "entityType",
                             "type": 1,
                             "value": "Rock"
                         },
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "managerName",
+                            "type": 1,
+                            "value": "Puzzle1"
                         }
                     ],
                     "scriptUID": 13152586541649841119,
@@ -131177,9 +131177,9 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "speed",
+                                            "name": "distance",
                                             "type": 0,
-                                            "value": 2.0
+                                            "value": 10.0
                                         },
                                         {
                                             "name": "myColision",
@@ -131187,9 +131187,9 @@
                                             "value": "Puerta_Sala_1_Colision"
                                         },
                                         {
-                                            "name": "distance",
+                                            "name": "speed",
                                             "type": 0,
-                                            "value": 10.0
+                                            "value": 2.0
                                         }
                                     ],
                                     "scriptUID": 2217885483722212414,
@@ -131764,9 +131764,9 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "speed",
+                                            "name": "distance",
                                             "type": 0,
-                                            "value": 2.0
+                                            "value": 10.0
                                         },
                                         {
                                             "name": "myColision",
@@ -131774,9 +131774,9 @@
                                             "value": "Puerta_Sala_1_Colision"
                                         },
                                         {
-                                            "name": "distance",
+                                            "name": "speed",
                                             "type": 0,
-                                            "value": 10.0
+                                            "value": 2.0
                                         }
                                     ],
                                     "scriptUID": 2217885483722212414,
@@ -131874,6 +131874,36 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "lockOnComplete",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "cellSize",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
+                            "name": "layout",
+                            "type": 1,
+                            "value": "11111111111111, 11111111111111, 11001111111111, 1100011111111, 1200011111111, 1100011111111, 1110001001111, 1110000001111, 1111000011111, 11111111111111"
+                        },
+                        {
+                            "name": "prefabPlate",
+                            "type": 6,
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
+                        },
+                        {
+                            "name": "originZ",
+                            "type": 0,
+                            "value": -311.281005859375
+                        },
+                        {
+                            "name": "prefab2WayLine",
+                            "type": 6,
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
+                        },
+                        {
                             "name": "originX",
                             "type": 0,
                             "value": 90.50800323486328
@@ -131884,24 +131914,14 @@
                             "value": 1.0
                         },
                         {
-                            "name": "prefab3Way",
-                            "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
-                        },
-                        {
-                            "name": "prefabPlate",
-                            "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\AAAAAAAAAAAAA.prefab"
-                        },
-                        {
                             "name": "prefab4Way",
                             "type": 6,
                             "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_4Way.prefab"
                         },
                         {
-                            "name": "prefab1Way",
+                            "name": "prefab3Way",
                             "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_3Way.prefab"
                         },
                         {
                             "name": "prefab2WayL",
@@ -131909,34 +131929,14 @@
                             "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_L.prefab"
                         },
                         {
-                            "name": "prefab2WayLine",
+                            "name": "prefab1Way",
                             "type": 6,
-                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_2Way_Line.prefab"
-                        },
-                        {
-                            "name": "layout",
-                            "type": 1,
-                            "value": "11111111111111, 11111111111111, 11001111111111, 1100011111111, 1200011111111, 1100011111111, 1110001001111, 1110000001111, 1111000011111, 11111111111111"
-                        },
-                        {
-                            "name": "originZ",
-                            "type": 0,
-                            "value": -311.281005859375
+                            "value": "C:\\Users\\asier\\Documents\\WaveEngine\\Engine\\Assets\\Prefabs\\Puzzle_Tile_1Way.prefab"
                         },
                         {
                             "name": "doorName",
                             "type": 1,
                             "value": "Puerta_Sala_1"
-                        },
-                        {
-                            "name": "cellSize",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
-                            "name": "lockOnComplete",
-                            "type": 2,
-                            "value": false
                         }
                     ],
                     "scriptUID": 16200370253487048842,
@@ -132167,19 +132167,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "managerName",
-                            "type": 1,
-                            "value": "Puzzle2"
-                        },
-                        {
-                            "name": "hitDistance",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
                             "name": "gridC",
                             "type": 0,
                             "value": 7.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "gridR",
@@ -132187,14 +132182,19 @@
                             "value": 8.0
                         },
                         {
+                            "name": "hitDistance",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "entityType",
                             "type": 1,
                             "value": "Rock"
                         },
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "managerName",
+                            "type": 1,
+                            "value": "Puzzle2"
                         }
                     ],
                     "scriptUID": 13152586541649841119,
@@ -133240,9 +133240,9 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "speed",
+                                            "name": "distance",
                                             "type": 0,
-                                            "value": 2.0
+                                            "value": 10.0
                                         },
                                         {
                                             "name": "myColision",
@@ -133250,9 +133250,9 @@
                                             "value": "Puerta_Final_Colision"
                                         },
                                         {
-                                            "name": "distance",
+                                            "name": "speed",
                                             "type": 0,
-                                            "value": 10.0
+                                            "value": 2.0
                                         }
                                     ],
                                     "scriptUID": 2217885483722212414,
@@ -134963,6 +134963,11 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "near",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
                             "name": "DropAresMask",
                             "type": 2,
                             "value": true
@@ -134976,11 +134981,6 @@
                             "name": "DropApoloMask",
                             "type": 2,
                             "value": false
-                        },
-                        {
-                            "name": "near",
-                            "type": 0,
-                            "value": 8.0
                         }
                     ],
                     "scriptUID": 6059332998782319931,
@@ -138328,24 +138328,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "patrolWaitMax",
+                            "name": "attackAnimaAnticip",
                             "type": 0,
-                            "value": 2.799999952316284
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "patrolSpeed",
+                            "name": "deathTime",
                             "type": 0,
                             "value": 1.5
-                        },
-                        {
-                            "name": "detectDist",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolWaitMin",
-                            "type": 0,
-                            "value": 2.0
                         },
                         {
                             "name": "attackColDelay",
@@ -138353,52 +138343,7 @@
                             "value": 0.8999999761581421
                         },
                         {
-                            "name": "attackAnimaAnticip",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
                             "name": "activeGuard",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chaseSpeed",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
-                            "name": "nearDist",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "attackDur",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "navRefreshRate",
-                            "type": 0,
-                            "value": 0.18000000715255737
-                        },
-                        {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "camMagnitud",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "level2",
                             "type": 2,
                             "value": false
                         },
@@ -138408,9 +138353,54 @@
                             "value": 20.0
                         },
                         {
+                            "name": "patrolSpeed",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "patrolWaitMax",
+                            "type": 0,
+                            "value": 2.799999952316284
+                        },
+                        {
+                            "name": "patrolWaitMin",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "navRefreshRate",
+                            "type": 0,
+                            "value": 0.18000000715255737
+                        },
+                        {
+                            "name": "level2",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "camMagnitud",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
                             "name": "camDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "detectDist",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "chaseSpeed",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "offset",
@@ -138418,14 +138408,24 @@
                             "value": 1.0
                         },
                         {
-                            "name": "deathTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "nearYDist",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "attackDur",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "nearDist",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 9025516094113862452,
@@ -141773,24 +141773,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "patrolWaitMax",
+                            "name": "attackAnimaAnticip",
                             "type": 0,
-                            "value": 2.799999952316284
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "patrolSpeed",
+                            "name": "deathTime",
                             "type": 0,
                             "value": 1.5
-                        },
-                        {
-                            "name": "detectDist",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolWaitMin",
-                            "type": 0,
-                            "value": 2.0
                         },
                         {
                             "name": "attackColDelay",
@@ -141798,52 +141788,7 @@
                             "value": 0.8999999761581421
                         },
                         {
-                            "name": "attackAnimaAnticip",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
                             "name": "activeGuard",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chaseSpeed",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
-                            "name": "nearDist",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "attackDur",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "navRefreshRate",
-                            "type": 0,
-                            "value": 0.18000000715255737
-                        },
-                        {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "camMagnitud",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "level2",
                             "type": 2,
                             "value": false
                         },
@@ -141853,9 +141798,54 @@
                             "value": 20.0
                         },
                         {
+                            "name": "patrolSpeed",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "patrolWaitMax",
+                            "type": 0,
+                            "value": 2.799999952316284
+                        },
+                        {
+                            "name": "patrolWaitMin",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "navRefreshRate",
+                            "type": 0,
+                            "value": 0.18000000715255737
+                        },
+                        {
+                            "name": "level2",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "camMagnitud",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
                             "name": "camDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "detectDist",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "chaseSpeed",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "offset",
@@ -141863,14 +141853,24 @@
                             "value": 1.0
                         },
                         {
-                            "name": "deathTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "nearYDist",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "attackDur",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "nearDist",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 9025516094113862452,
@@ -145218,24 +145218,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "patrolWaitMax",
+                            "name": "attackAnimaAnticip",
                             "type": 0,
-                            "value": 2.799999952316284
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "patrolSpeed",
+                            "name": "deathTime",
                             "type": 0,
                             "value": 1.5
-                        },
-                        {
-                            "name": "detectDist",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolWaitMin",
-                            "type": 0,
-                            "value": 2.0
                         },
                         {
                             "name": "attackColDelay",
@@ -145243,52 +145233,7 @@
                             "value": 0.8999999761581421
                         },
                         {
-                            "name": "attackAnimaAnticip",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
                             "name": "activeGuard",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chaseSpeed",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
-                            "name": "nearDist",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "attackDur",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "navRefreshRate",
-                            "type": 0,
-                            "value": 0.18000000715255737
-                        },
-                        {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "camMagnitud",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "level2",
                             "type": 2,
                             "value": false
                         },
@@ -145298,9 +145243,54 @@
                             "value": 20.0
                         },
                         {
+                            "name": "patrolSpeed",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "patrolWaitMax",
+                            "type": 0,
+                            "value": 2.799999952316284
+                        },
+                        {
+                            "name": "patrolWaitMin",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "navRefreshRate",
+                            "type": 0,
+                            "value": 0.18000000715255737
+                        },
+                        {
+                            "name": "level2",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "camMagnitud",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
                             "name": "camDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "detectDist",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "chaseSpeed",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "offset",
@@ -145308,14 +145298,24 @@
                             "value": 1.0
                         },
                         {
-                            "name": "deathTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "nearYDist",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "attackDur",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "nearDist",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 9025516094113862452,
@@ -148663,24 +148663,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "patrolWaitMax",
+                            "name": "attackAnimaAnticip",
                             "type": 0,
-                            "value": 2.799999952316284
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "patrolSpeed",
+                            "name": "deathTime",
                             "type": 0,
                             "value": 1.5
-                        },
-                        {
-                            "name": "detectDist",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolWaitMin",
-                            "type": 0,
-                            "value": 2.0
                         },
                         {
                             "name": "attackColDelay",
@@ -148688,52 +148678,7 @@
                             "value": 0.8999999761581421
                         },
                         {
-                            "name": "attackAnimaAnticip",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
                             "name": "activeGuard",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chaseSpeed",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
-                            "name": "nearDist",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "attackDur",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "navRefreshRate",
-                            "type": 0,
-                            "value": 0.18000000715255737
-                        },
-                        {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "camMagnitud",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "level2",
                             "type": 2,
                             "value": false
                         },
@@ -148743,9 +148688,54 @@
                             "value": 20.0
                         },
                         {
+                            "name": "patrolSpeed",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "patrolWaitMax",
+                            "type": 0,
+                            "value": 2.799999952316284
+                        },
+                        {
+                            "name": "patrolWaitMin",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "navRefreshRate",
+                            "type": 0,
+                            "value": 0.18000000715255737
+                        },
+                        {
+                            "name": "level2",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "camMagnitud",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
                             "name": "camDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "detectDist",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "chaseSpeed",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "offset",
@@ -148753,14 +148743,24 @@
                             "value": 1.0
                         },
                         {
-                            "name": "deathTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "nearYDist",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "attackDur",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "nearDist",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 9025516094113862452,
@@ -152108,24 +152108,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "patrolWaitMax",
+                            "name": "attackAnimaAnticip",
                             "type": 0,
-                            "value": 2.799999952316284
+                            "value": 0.30000001192092896
                         },
                         {
-                            "name": "patrolSpeed",
+                            "name": "deathTime",
                             "type": 0,
                             "value": 1.5
-                        },
-                        {
-                            "name": "detectDist",
-                            "type": 0,
-                            "value": 10.0
-                        },
-                        {
-                            "name": "patrolWaitMin",
-                            "type": 0,
-                            "value": 2.0
                         },
                         {
                             "name": "attackColDelay",
@@ -152133,52 +152123,7 @@
                             "value": 0.8999999761581421
                         },
                         {
-                            "name": "attackAnimaAnticip",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "maxHp",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
                             "name": "activeGuard",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chaseSpeed",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
-                            "name": "nearDist",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "attackDur",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "navRefreshRate",
-                            "type": 0,
-                            "value": 0.18000000715255737
-                        },
-                        {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 3.0
-                        },
-                        {
-                            "name": "camMagnitud",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "level2",
                             "type": 2,
                             "value": false
                         },
@@ -152188,9 +152133,54 @@
                             "value": 20.0
                         },
                         {
+                            "name": "patrolSpeed",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "patrolWaitMax",
+                            "type": 0,
+                            "value": 2.799999952316284
+                        },
+                        {
+                            "name": "patrolWaitMin",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "navRefreshRate",
+                            "type": 0,
+                            "value": 0.18000000715255737
+                        },
+                        {
+                            "name": "level2",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "camMagnitud",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
                             "name": "camDuration",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "detectDist",
+                            "type": 0,
+                            "value": 10.0
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 3.0
+                        },
+                        {
+                            "name": "chaseSpeed",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "offset",
@@ -152198,14 +152188,24 @@
                             "value": 1.0
                         },
                         {
-                            "name": "deathTime",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "nearYDist",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "attackDur",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "maxHp",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "nearDist",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 9025516094113862452,
@@ -173670,9 +173670,9 @@
                             "value": "Abrir cofre"
                         },
                         {
-                            "name": "itemText",
-                            "type": 1,
-                            "value": "¡Poción obtenida!"
+                            "name": "radius",
+                            "type": 0,
+                            "value": 2.0
                         },
                         {
                             "name": "updateWhenPaused",
@@ -173685,9 +173685,9 @@
                             "value": "Open"
                         },
                         {
-                            "name": "radius",
-                            "type": 0,
-                            "value": 2.0
+                            "name": "itemText",
+                            "type": 1,
+                            "value": "¡Poción obtenida!"
                         }
                     ],
                     "scriptUID": 12617463497130070296,
@@ -175582,19 +175582,9 @@
                             "value": true
                         },
                         {
-                            "name": "dirY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "dirZ",
+                            "name": "fordwardOffset",
                             "type": 0,
                             "value": 1.0
-                        },
-                        {
-                            "name": "dirX",
-                            "type": 0,
-                            "value": 0.0
                         },
                         {
                             "name": "doorName",
@@ -175602,7 +175592,17 @@
                             "value": ""
                         },
                         {
-                            "name": "fordwardOffset",
+                            "name": "dirY",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirX",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirZ",
                             "type": 0,
                             "value": 1.0
                         }
@@ -175614,14 +175614,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 180.0
-                        },
-                        {
                             "name": "targetDegrees",
                             "type": 0,
                             "value": 90.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 180.0
                         }
                     ],
                     "scriptUID": 1724783290381993592,
@@ -175673,19 +175673,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "managerName",
-                            "type": 1,
-                            "value": "Puzzle2"
-                        },
-                        {
-                            "name": "hitDistance",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
                             "name": "gridC",
                             "type": 0,
                             "value": 3.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "gridR",
@@ -175693,14 +175688,19 @@
                             "value": 3.0
                         },
                         {
+                            "name": "hitDistance",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "entityType",
                             "type": 1,
                             "value": "Statue"
                         },
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "managerName",
+                            "type": 1,
+                            "value": "Puzzle2"
                         }
                     ],
                     "scriptUID": 13152586541649841119,
@@ -175937,19 +175937,9 @@
                             "value": false
                         },
                         {
-                            "name": "dirY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "dirZ",
+                            "name": "fordwardOffset",
                             "type": 0,
                             "value": 1.0
-                        },
-                        {
-                            "name": "dirX",
-                            "type": 0,
-                            "value": 0.0
                         },
                         {
                             "name": "doorName",
@@ -175957,7 +175947,17 @@
                             "value": ""
                         },
                         {
-                            "name": "fordwardOffset",
+                            "name": "dirY",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirX",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirZ",
                             "type": 0,
                             "value": 1.0
                         }
@@ -176447,19 +176447,9 @@
                             "value": true
                         },
                         {
-                            "name": "dirY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "dirZ",
+                            "name": "fordwardOffset",
                             "type": 0,
                             "value": 1.0
-                        },
-                        {
-                            "name": "dirX",
-                            "type": 0,
-                            "value": 0.0
                         },
                         {
                             "name": "doorName",
@@ -176467,7 +176457,17 @@
                             "value": "Puerta_Sala_3"
                         },
                         {
-                            "name": "fordwardOffset",
+                            "name": "dirY",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirX",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirZ",
                             "type": 0,
                             "value": 1.0
                         }
@@ -176677,19 +176677,9 @@
                             "value": true
                         },
                         {
-                            "name": "dirY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "dirZ",
+                            "name": "fordwardOffset",
                             "type": 0,
                             "value": 1.0
-                        },
-                        {
-                            "name": "dirX",
-                            "type": 0,
-                            "value": 0.0
                         },
                         {
                             "name": "doorName",
@@ -176697,7 +176687,17 @@
                             "value": ""
                         },
                         {
-                            "name": "fordwardOffset",
+                            "name": "dirY",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirX",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "dirZ",
                             "type": 0,
                             "value": 1.0
                         }
@@ -176709,14 +176709,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "rotationSpeed",
-                            "type": 0,
-                            "value": 180.0
-                        },
-                        {
                             "name": "targetDegrees",
                             "type": 0,
                             "value": 90.0
+                        },
+                        {
+                            "name": "rotationSpeed",
+                            "type": 0,
+                            "value": 180.0
                         }
                     ],
                     "scriptUID": 1724783290381993592,
@@ -176768,19 +176768,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "managerName",
-                            "type": 1,
-                            "value": "Puzzle2"
-                        },
-                        {
-                            "name": "hitDistance",
-                            "type": 0,
-                            "value": 3.5
-                        },
-                        {
                             "name": "gridC",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "moveSpeed",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "gridR",
@@ -176788,14 +176783,19 @@
                             "value": 7.0
                         },
                         {
+                            "name": "hitDistance",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
                             "name": "entityType",
                             "type": 1,
                             "value": "Statue"
                         },
                         {
-                            "name": "moveSpeed",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "managerName",
+                            "type": 1,
+                            "value": "Puzzle2"
                         }
                     ],
                     "scriptUID": 13152586541649841119,

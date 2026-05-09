@@ -2085,6 +2085,14 @@ static int Lua_ParticleSystem_SetSize(lua_State* L) {
     return 0;
 }
 
+static int Lua_ParticleSystem_Reset(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    if (ps && ps->GetEmitter()) {
+        ps->GetEmitter()->Reset();
+    }
+    return 0;
+}
 
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
@@ -3090,6 +3098,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "Play");
     lua_pushcfunction(L, Lua_ParticleSystem_Stop);
     lua_setfield(L, -2, "Stop");
+    lua_pushcfunction(L, Lua_ParticleSystem_Reset);
+    lua_setfield(L, -2, "Reset");
     lua_pushcfunction(L, Lua_ParticleSystem_Burst);
     lua_setfield(L, -2, "Burst");
     lua_pushcfunction(L, Lua_ParticleSystem_SetEmissionRate);

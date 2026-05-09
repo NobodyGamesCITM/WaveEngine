@@ -1698,7 +1698,24 @@ function Update(self, dt)
 
         InitParticles(self)
         FindMasks(self)
+
+        if _G._MidRunTransition then
+            _G._MidRunTransition = false
+            _G._UnlockedMasks = _G._UnlockedMasks or {}
+            if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
+            if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
+            if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
+        else
+            _G._UnlockedMasks    = {}
+            _G._MaskState_Apolo  = false
+            _G._MaskState_Hermes = false
+            _G._MaskState_Ares   = false
+        end
+
+        Player.currentMask = Mask.NONE
+        _G._PlayerController_currentMask = ""
         EquipMask(self, Player.currentMask)
+        UpdateSwordMaterial()
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2061,6 +2078,8 @@ function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Apollo = true
         Engine.Log("Apolo Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.APOLLO
@@ -2073,6 +2092,8 @@ function ObtainMask(self)
     if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Hermes = true
         Engine.Log("Hermes Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.HERMES
@@ -2085,6 +2106,8 @@ function ObtainMask(self)
     if giveAresMask and Mask.ARES == "None" then
         Mask.ARES = "Ares"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Ares = true
         Engine.Log("Ares Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.ARES

@@ -97,7 +97,7 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         end
     end
 
-    if not activeSlotMask then
+    if not activeSlotMask and activeMask ~= "" then
         activeSlotMask = obtainedOrder[1]
     end
 

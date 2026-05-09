@@ -1484,9 +1484,13 @@ static int Lua_GameObject_Create(lua_State* L) {
     luaL_getmetatable(L, "GameObject");
     lua_setmetatable(L, -2);
 
+    // Avoid Lua collect the userdata before execution
+    lua_pushvalue(L, -1);
+    int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
     // Enqueue the real creation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata, ref]() {
         GameObject* obj = Application::GetInstance().scene->CreateGameObject(nameStr.c_str());
 
         if (obj) {
@@ -1496,6 +1500,13 @@ static int Lua_GameObject_Create(lua_State* L) {
             }
 
             *udata = obj;  // Assign the created GameObject
+        }
+
+        // Free the reference so Manager Lua can clean
+        if (auto* scripts = Application::GetInstance().scripts.get()) {
+            if (lua_State* L_state = scripts->GetState()) {
+                luaL_unref(L_state, LUA_REGISTRYINDEX, ref);
+            }
         }
         });
 
@@ -3158,9 +3169,13 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
     luaL_getmetatable(L, "GameObject");
     lua_setmetatable(L, -2);
 
+    // Avoid Lua collect the userdata before execution
+    lua_pushvalue(L, -1);
+    int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
     // Enqueue instantiation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata, ref]() {
         GameObject* instance = nullptr;
 
         // First check if prefab is already loaded in PrefabManager
@@ -3199,7 +3214,6 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                     std::string nameFilename = (nameLastSlash != std::string::npos)
                         ? normalizedName.substr(nameLastSlash + 1)
                         : normalizedName;
-
 
                     bool matchExact = normalizedAsset == normalizedName;
                     bool matchSuffix = normalizedAsset.size() >= normalizedName.size() &&
@@ -3266,6 +3280,13 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
         }
         else {
             LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", nameStr.c_str());
+        }
+
+        // Free the reference so Manager Lua can clean
+        if (auto* scripts = Application::GetInstance().scripts.get()) {
+            if (lua_State* L_state = scripts->GetState()) {
+                luaL_unref(L_state, LUA_REGISTRYINDEX, ref);
+            }
         }
         });
 

@@ -245,15 +245,6 @@ local function GetMovementInput(self)
     if Input.GetKey("A") then inputX = inputX - 1 end
     if Input.GetKey("D") then inputX = inputX + 1 end
 
-    if _G.interact == true then _G.interact = false end
-
-    if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
-        Engine.Log("interact try")
-        self.public.interact = true
-        _G.interact = true
-    end
-
     local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
     if inputLen > 1.0 then
         inputX = inputX / inputLen
@@ -1604,6 +1595,14 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
+    if _G.interact == true then _G.interact = false end
+    if self.public.interact == true then self.public.interact = false end
+
+    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+        self.public.interact = true
+        _G.interact = true
+    end
+
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
@@ -2153,13 +2152,13 @@ function ResetPlayer(self)
 
     --Player.currentSurface = "Dirt"
 
-    local p = Player.spawnPos
+    local p = lastCheckpoint or Player.spawnPos
     if p then
         self.transform:SetPosition(p.x, p.y, p.z)
     end
 
-    if _G.ForceRefreshHUD then
-        _G.ForceRefreshHUD()
+    if _G.RestorePotions then
+        _G.RestorePotions()
     end
 
     Player.currentMask = Mask.NONE

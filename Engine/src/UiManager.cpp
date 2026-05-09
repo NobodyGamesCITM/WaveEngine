@@ -109,7 +109,7 @@ void UIManager::SetElementVisibility(const std::string& elementName, bool visibl
         : Noesis::Visibility_Hidden);
 }
 
-std::unordered_set<std::string> UIManager::GetCanvasButtons() {
+const std::unordered_set<std::string>& UIManager::GetCanvasButtons() {
     return m_canvasButtons;
 }
 

@@ -131,10 +131,10 @@ private:
 
     void CallPhysicsEvent(const char* funcName, Rigidbody* other);
 
-    void ComponentScript::OnTriggerEnter(Rigidbody* other) { CallPhysicsEvent("OnTriggerEnter", other); }
-    void ComponentScript::OnTriggerStay(Rigidbody* other) { CallPhysicsEvent("OnTriggerStay", other); }
-    void ComponentScript::OnTriggerExit(Rigidbody* other) { CallPhysicsEvent("OnTriggerExit", other); }
-    void ComponentScript::OnCollisionEnter(Rigidbody* other) { CallPhysicsEvent("OnCollisionEnter", other); }
-    void ComponentScript::OnCollisionStay(Rigidbody* other) { CallPhysicsEvent("OnCollisionStay", other); }
-    void ComponentScript::OnCollisionExit(Rigidbody* other) { CallPhysicsEvent("OnCollisionExit", other); }
+    void ComponentScript::OnTriggerEnter(Rigidbody* other) override { CallPhysicsEvent("OnTriggerEnter", other); }
+    void ComponentScript::OnTriggerStay(Rigidbody* other) override { CallPhysicsEvent("OnTriggerStay", other); }
+    void ComponentScript::OnTriggerExit(Rigidbody* other) override { CallPhysicsEvent("OnTriggerExit", other); }
+    void ComponentScript::OnCollisionEnter(Rigidbody* other) override { CallPhysicsEvent("OnCollisionEnter", other); }
+    void ComponentScript::OnCollisionStay(Rigidbody* other) override { CallPhysicsEvent("OnCollisionStay", other); }
+    void ComponentScript::OnCollisionExit(Rigidbody* other) override { CallPhysicsEvent("OnCollisionExit", other); }
 };

@@ -750,7 +750,7 @@ void ModuleEditor::DrawAboutWindow()
     ImGui::End();
 }
 
-void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
+void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, const Mesh& mesh)
 {
     GameObject* Object = new GameObject(name);
     ComponentMesh* meshComp = static_cast<ComponentMesh*>(

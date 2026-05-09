@@ -33,10 +33,11 @@
 #include <AK/Plugin/AkTremoloFXFactory.h>
 #include <windows.h>
 
-AudioEvent::AudioEvent() {
-    playingID = 0L;
-    eventID = AK_INVALID_UNIQUE_ID; //<-- new
-    eventCallback = (AkCallbackFunc)AudioSystem::EventCallBack;
+AudioEvent::AudioEvent() 
+    : playingID(0L),
+      eventID(AK_INVALID_UNIQUE_ID),
+      eventCallback((AkCallbackFunc)AudioSystem::EventCallBack)
+{
 
 }
 
@@ -384,7 +385,7 @@ void AudioSystem::SetState(const char* stateGroup, const char* state)
 }
 
 //get state from given stategroup (for Lua)
-std::string AudioSystem::GetState(const char* stateGroup) {
+const std::string& AudioSystem::GetState(const char* stateGroup) {
     return currentState;
 }
 

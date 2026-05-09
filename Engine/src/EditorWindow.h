@@ -7,7 +7,7 @@ class EditorWindow
 {
 public:
     EditorWindow(const std::string& windowName)
-        : name(windowName), isOpen(true), isHovered(false) {
+        : name(windowName), isOpen(true), isHovered(false), isFocused(false) {
     }
 
     virtual ~EditorWindow() = default;

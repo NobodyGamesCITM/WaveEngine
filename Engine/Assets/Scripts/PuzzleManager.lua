@@ -6,6 +6,7 @@ public = {
     originZ = 0.0,
     cellSize = 2.0,
     totalPlates = 1,
+    lockOnComplete = false,
     
     -- Prefabs on the inspector
     prefab1Way     = { type = "Prefab", value = "" },
@@ -106,7 +107,10 @@ function Start(self)
     end
 
     self.RequestMove = function(self, startR, startC, dR, dC)
-        if isCompleted then return false, 0, 0 end
+        if isCompleted and self.public.lockOnComplete then 
+            Engine.Log("[PuzzleManager] Movimiento bloqueado, puzzle completado.")
+            return false, 0, 0 
+        end
 
         local targetR = startR + dR
         local targetC = startC + dC
@@ -131,6 +135,9 @@ function Start(self)
 
         if gridLayout[startR][startC] == 2 then
             platesActivated = platesActivated - 1
+            if platesActivated < self.public.totalPlates then
+                isCompleted = false
+            end
             Engine.Log("[PuzzleManager] Entity ha salido de la placa. Placas: " .. platesActivated .. "/" .. self.public.totalPlates)
         end
 

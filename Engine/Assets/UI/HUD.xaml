@@ -167,7 +167,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Viewbox>
 
                     <!-- SLOT PEQUEÑO IZQUIERDA: primera obtenida no equipada -->
-                    <Viewbox x:Name="Left_Hermes" Visibility="Collapsed" Margin="13,96,170,21">
+                    <Viewbox x:Name="Left_Hermes" Margin="13,96,170,21" Visibility="Collapsed">
                         <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
                     </Viewbox>
                     <Viewbox x:Name="Left_Ares" Visibility="Collapsed" Margin="13,96,170,21">
@@ -527,6 +527,21 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
                 </Grid.Background>
+            </Grid>
+            <Grid x:Name="MaskObtainedPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#91000000" IsHitTestVisible="False">
+                <TextBlock x:Name="MaskObtainedTitle" Text="Has obtenido" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontSize="50" TextWrapping="Wrap"/>
+                <Grid>
+                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Visibility="Collapsed"/>
+                </Grid>
+                <TextBlock x:Name="MaskObtainedName" TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Ares_Heavy" Source="Textures/MainCharacter_Skill Ares.png" Height="100" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Apolo_Heavy" Source="Textures/MainCharacter_Skill Apolo.png" Height="100" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Hermes_Heavy" Source="Textures/MainCharacter_Skill Hermes.png" Height="100" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Hermes_Run" Source="Textures/Hermes_Water.PNG" Height="100" Visibility="Collapsed"/>
+                </StackPanel>
             </Grid>
 
 

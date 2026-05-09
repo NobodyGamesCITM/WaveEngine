@@ -2106,6 +2106,10 @@ function ObtainMask(self)
             Player.getMaskEvent2Done = false
             Player.getMaskIdleTransitionDone = false
 
+            if _G.ShowMaskObtained then
+            _G.ShowMaskObtained(string.lower(Player.pendingObtainMask))
+            end
+
             if _G.PlayMaskCinematic then
                 _G.PlayMaskCinematic(Player.pendingObtainMask)
             end
@@ -2114,7 +2118,11 @@ function ObtainMask(self)
             if Player.pendingObtainMask == Mask.APOLLO  then _G._MaskState_Apolo  = true end
             if Player.pendingObtainMask == Mask.HERMES  then _G._MaskState_Hermes = true end
             if Player.pendingObtainMask == Mask.ARES    then _G._MaskState_Ares   = true end
-
+            
+            if _G.ShowMaskObtained then
+            _G.ShowMaskObtained(string.lower(Player.pendingObtainMask))
+            end
+            
             local maskToEquip = Player.pendingObtainMask
             Player.pendingObtainMask = nil
             EquipMask(self, maskToEquip)

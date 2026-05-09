@@ -3,7 +3,7 @@
         "active": true,
         "children": [
             {
-                "active": false,
+                "active": true,
                 "children": [],
                 "components": [
                     {
@@ -47,7 +47,7 @@
                 ],
                 "name": "pSphere1",
                 "tag": "",
-                "uid": 15669849471241044722
+                "uid": 5449663461086212121
             }
         ],
         "components": [
@@ -80,7 +80,7 @@
                 "Radius": 8.0,
                 "Restitution": 0.6000000238418579,
                 "StaticFriction": 0.5,
-                "Trigger": false,
+                "Trigger": true,
                 "active": true,
                 "type": 11
             },
@@ -119,6 +119,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 7561105736551034259
+        "uid": 15003367415665138811
     }
 ]

@@ -32,11 +32,14 @@ public = {
     level2 = false,
 }
 
+
 -- Public (movido a self.public dentro de Start para evitar conflictos entre enemigos)
 
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
 
+local bulletAsset = nil
+local shell = nil
 -- Helpers
 local function shortAngleDiff(a, b)
     local d = b - a
@@ -118,7 +121,7 @@ local function TakeDamage(self, amount, attackerPos)
         _impactFrameTimer = 0.07
 
         for _, shell in ipairs(self.activeShells) do
-            if shell.shadowGo then pcall(function() GameObject.Destroy(shell.shadowGo) end) end
+            --if shell.shadowGo then pcall(function() GameObject.Destroy(shell.shadowGo) end) end
             SafeDestroyShell(shell)
         end
         self.activeShells = {}
@@ -158,10 +161,12 @@ local function FireShell(self, tx, ty, tz)
 
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
 
-    local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
-
+    --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
+    
+    pSphere:SetActive(true)
     if bulletAsset then
-        local shell = Prefab.Instantiate("Sirena_Bullet")
+        --local shell = Prefab.Instantiate("Sirena_Bullet")
 
         local feedback = self.windupFeedback
         self.windupFeedback = nil
@@ -214,9 +219,22 @@ end
 
 -- SafeDestroyShell
 local function SafeDestroyShell(s)
-    if not s.go or s.goInvalid then return end
-    pcall(function() GameObject.Destroy(s.go) end)
+
+    if not s.go then return end
+
+    s.go:SetActive(false)
+
+    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
+    
+    pSphere:SetActive(false)  
+
+    --GameObject.Destroy(s.go)
+
     s.go = nil
+
+    if not s.go or s.goInvalid then return end
+    --pcall(function() GameObject.Destroy(s.go) end)
+    --s.go = nil
 end
 
 local function SyncCollider(self)
@@ -657,6 +675,13 @@ function Start(self)
 
     self.targetDeathY=nil
     self.targetDeathYisEnter=false
+
+
+    bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+
+    shell = Prefab.Instantiate("Sirena_Bullet")
+    pSphere1 = GameObject.FindInChildren(shell,"pSphere1")
+
 end
 
 -- Update

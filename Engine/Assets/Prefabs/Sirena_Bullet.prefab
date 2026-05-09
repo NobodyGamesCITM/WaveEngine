@@ -29,17 +29,25 @@
                         "active": true,
                         "castShadows": true,
                         "meshUID": 7988421388869693928,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
                         "type": 1
                     },
                     {
                         "active": true,
                         "materialUID": 15948015133303186395,
+                        "overrideTiling": false,
                         "type": 3
                     }
                 ],
                 "name": "pSphere1",
                 "tag": "",
-                "uid": 14168222445127051804
+                "uid": 2786983222489223635
             }
         ],
         "components": [
@@ -111,6 +119,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 14251545024265558896
+        "uid": 17378102960383577666
     }
 ]

@@ -181,13 +181,20 @@ function ForceRefreshHUD()
 
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Reset mask state for a full refresh
-    obtainedOrder  = {}
-    prevHasHermes  = false
-    prevHasAres    = false
-    prevHasApolo   = false
-    prevActiveMask = ""
-    RefreshMaskUI(false, false, false, "")
+    -- Usar flags de estado y tabla de desbloqueo para asegurar persistencia tras pausa
+    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    -- Comprobar ambas grafías "Apolo" y "Apollo" por seguridad
+    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
+
+    local activeMask = _G._PlayerController_currentMask or ""
+
+    RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
+
+    prevHasHermes  = hasHermes
+    prevHasAres    = hasAres
+    prevHasApolo   = hasApolo
+    prevActiveMask = activeMask
 
     UI.SetElementVisibility("MissionGrid", false)
     lastDisplayedCount = -1
@@ -222,9 +229,10 @@ function Update(self, dt)
     RefreshMissionUI()
 
     -- Máscaras
-    local hasHermes  = (_G._MaskState_Hermes == true)
-    local hasAres    = (_G._MaskState_Ares   == true)
-    local hasApolo   = (_G._MaskState_Apolo  == true)
+    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
+
     local activeMask = _G._PlayerController_currentMask or ""
 
     if hasHermes ~= prevHasHermes or hasAres ~= prevHasAres

@@ -72,7 +72,8 @@ function Initialize(self)
     self.waitingForSplash = false
     self.loadingScreenTimer = 0.0
     self.loadingXAMLStarted = false
-    self.deathTimer = 0.0 
+    self.deathTimer = 0.0
+    self.pendingHUDRefresh = false  -- ← NUEVO
 
     _G.GlobalMenuManagerInstance = self
     self.NavigateTo = NavigateTo
@@ -253,6 +254,15 @@ function Update(self, dt)
     end
 
     if self.phase == "idle" then
+        -- ── NUEVO: restaurar máscaras un frame después de volver al HUD ──
+        if self.pendingHUDRefresh then
+            self.pendingHUDRefresh = false
+            if _G.ForceRefreshHUD then
+                _G.ForceRefreshHUD()
+                Engine.Log("[MenuManager] pendingHUDRefresh: ForceRefreshHUD ejecutado.")
+            end
+        end
+
         if not self.loggedReady then
             Engine.Log("[MenuManager] READY AND WAITING FOR ESCAPE (Object: " .. self.gameObject.name .. ", XAML: " .. tostring(self.current) .. ")")
             self.loggedReady = true
@@ -337,7 +347,7 @@ function Update(self, dt)
 
         if UI.WasClicked("TryAgainButton") then
             _G._PlayerController_isDead = false
-            self.deathTimer = 0.0  -- reset timer
+            self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
         end
 
@@ -345,7 +355,7 @@ function Update(self, dt)
             if not self.fading then
                 Engine.Log("[MenuManager] BackToMenuButton: Iniciando FadeOut y regreso a Splash")
                 _G._PlayerController_isDead = false
-                self.deathTimer = 0.0  -- reset timer
+                self.deathTimer = 0.0
                 if _G.PlayerInstance then
                     _G.PlayerInstance.public.health = 100
                     _G.PlayerInstance.public.stamina = 100
@@ -463,6 +473,9 @@ function Update(self, dt)
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
                 self.lastPauseState = "running"
+                -- ── NUEVO: marcar refresh pendiente para restaurar máscaras ──
+                self.pendingHUDRefresh = true
+                Engine.Log("[MenuManager] HUD restaurado desde pausa, pendingHUDRefresh=true")
             else
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
@@ -471,6 +484,8 @@ function Update(self, dt)
                 end
                 Game.Resume()
                 self.lastPauseState = "running"
+                -- ── NUEVO: también refrescar al volver desde muerte/otros menús ──
+                self.pendingHUDRefresh = true
             end
 
         elseif self.current:find("MainMenu.xaml") then

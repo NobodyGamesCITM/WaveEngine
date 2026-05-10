@@ -14,7 +14,7 @@
     "EmissiveMapUID": 4743499333834001347,
     "HeightMapUID": 4678852719345823093,
     "HeightScale": 0.05000000074505806,
-    "Metallic": 0.0,
+    "Metallic": 1.0,
     "MetallicMapUID": 7658059810420774660,
     "NormalMapUID": 12443020918644275600,
     "OcclusionMapUID": 4955215221389921677,
@@ -23,7 +23,7 @@
         0.0
     ],
     "Opacity": 1.0,
-    "Roughness": 0.5,
+    "Roughness": 0.0,
     "RoughnessMapUID": 9062426688294536571,
     "Tiling": [
         1.0,

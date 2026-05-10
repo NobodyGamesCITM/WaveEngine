@@ -487,12 +487,18 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             preparationTimer = 0
             chargeCDTimer = self.public.chargeCooldown
             ChangeState(State.ANTICIPATION)
+            Engine.Log("Me estoy moviendo")
             return 
         else 
+            if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
             MovementWalk(self, dx, dz, dt)
+            Engine.Log("Estoy aqui")
+
         end
 
     else
+        Engine.Log("Mentira estoy aqui")
+        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
         MovementWalk(self, dx, dz, dt)
 
     end
@@ -506,7 +512,7 @@ local function UpdateLance360(self, myPos, pp, dt)
         anim:Play("360Attack", 0.1)
         currentYaw = self.transform.eulerAngles.y
     end
-
+    
     currentYaw = currentYaw + 500.0 * dt
     if currentYaw >= 360 then currentYaw = currentYaw - 360 end
     rb:SetRotation(0, currentYaw, 0)
@@ -663,7 +669,7 @@ local function UpdateCharge(self, dt)
     if not chargeAnimStarted then
         chargeAnimStarted = true
         --if anim then anim:Play("Walk", 0.2) end
-        anim:Play("Charge_Loop ")
+        anim:Play("Charge_Loop")
     end
     
     if rb then

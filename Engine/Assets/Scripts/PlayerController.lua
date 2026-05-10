@@ -567,7 +567,7 @@ States[State.DEAD] = {
                     _G._PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
-                Player.hermesRespawnCooldown = 1.5
+                Player.hermesRespawnCooldown = 0.5
                 _G._PlayerController_isDead = false
                 _G._PlayerController_deathAnimDone = false
 

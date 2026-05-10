@@ -521,11 +521,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                   HorizontalAlignment="Center"
                   Margin="0,0,562,40"
                   Width="600" Grid.Column="1" Grid.Row="1">
-                <Border x:Name="ControlsHintPanel"
+                <Border x:Name="ControlsHintPanel" Visibility="Collapsed"
                         CornerRadius="8"
                         Padding="12,8,12,8"
-                        HorizontalAlignment="Center"
-                        Visibility="Collapsed">
+                        HorizontalAlignment="Center">
                     <Border.Background>
                         <SolidColorBrush Color="#AA000000"/>
                     </Border.Background>
@@ -536,8 +535,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                     Orientation="Horizontal"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="0,0,16,0"
-                                    Visibility="Collapsed">
+                                    Margin="0,0,16,0">
                             <Grid Margin="0,0,6,0">
                                 <Image x:Name="HintImg_Caminar"         Source="Textures/Caminar.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
                                 <Image x:Name="HintImg_AtaqueNormal"    Source="Textures/AtaqueNormal.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
@@ -710,6 +708,27 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Height="254" Margin="571,0,283,0" Visibility="Collapsed"/>
                     <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Health_Bar.png" Height="261" Margin="473,-161,588,0" Visibility="Collapsed"/>
                 </StackPanel>
+            </Grid>
+            <Grid x:Name="ChangeMaskTutorialPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#00000000" IsHitTestVisible="False">
+                <Rectangle Opacity="0.598" Fill="#FF000000" Stroke="#FF000000">
+                    <Rectangle.OpacityMask>
+                        <RadialGradientBrush RadiusX="0.18837637" Opacity="0.986" RadiusY="0.2747798" GradientOrigin="0.0699632,0.102248" Center="0.0699632,0.102248">
+                            <RadialGradientBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterY="0.0970609" CenterX="0.0666536"/>
+                                    <SkewTransform CenterY="0.0970609" CenterX="0.0666536"/>
+                                    <RotateTransform Angle="1.4686966" CenterX="0.06996321" CenterY="0.10224788"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </RadialGradientBrush.RelativeTransform>
+                            <GradientStop Offset="0.358"/>
+                            <GradientStop Color="#FF000000" Offset="0.62410766"/>
+                            <GradientStop Color="#FF000000" Offset="0.51369244"/>
+                        </RadialGradientBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Image Source="Textures/CanviarMascaras.PNG" Margin="831,672,591,105"/>
+                <Image Source="Textures/8.PNG" Margin="704,787,1124,201"/>
             </Grid>
 
 

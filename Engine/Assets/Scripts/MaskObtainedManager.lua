@@ -45,8 +45,19 @@ local function closeMaskPanel()
     hideAll()
     UI.SetElementVisibility("MaskObtainedPanel", false)
 
-    if pendingHint and _G.ShowControlsHint then
-        _G.ShowControlsHint(pendingHint)
+   -- if pendingHint and _G.ShowControlsHint then
+        --_G.ShowControlsHint(pendingHint)
+    --end
+
+    Engine.Log("[MaskObtained] _MaskCount al cerrar: " .. tostring(_G._MaskCount))
+
+    if _G._MaskCount == 2 then
+        Engine.Log("[MaskObtained] Mostrando ChangeMaskTutorialPanel")
+        if _G.ShowChangeMaskTutorial then
+            _G.ShowChangeMaskTutorial()
+        else
+            UI.SetElementVisibility("ChangeMaskTutorialPanel", true)
+        end
     end
 
     active      = false

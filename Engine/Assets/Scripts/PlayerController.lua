@@ -477,7 +477,7 @@ local function EquipMask(self, newMask, skipSword)
         Player.currentMask = newMask
         Player.hermesPendingUnequip = true
         Player.hermesDeathRespawn = true
-        Player.hermesDeathTimer   = 2.0
+        Player.hermesDeathTimer   = 0.5
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
 
@@ -1973,7 +1973,7 @@ function Update(self, dt)
             else
                 Engine.Log("[Player] Out of hermes :( )")
                 Player.hermesDeathRespawn = true
-                Player.hermesDeathTimer   = 2.3
+                Player.hermesDeathTimer   = 0.5
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 ChangeState(self, State.DEAD)
             end

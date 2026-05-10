@@ -178,7 +178,6 @@ function Update(self, dt)
     end
 
     if changeMaskTutorialActive then
-        Engine.Log("[ChangeMaskTutorial] Esperando F...")
         if Input.GetKeyDown("F") then
             Engine.Log("[ChangeMaskTutorial] F pulsado, cerrando")
             UI.SetElementVisibility("ChangeMaskTutorialPanel", false)

@@ -702,11 +702,19 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="731,123,731,482" Visibility="Collapsed"/>
                 </Grid>
                 <TextBlock x:Name="MaskObtainedName" Margin="362,599,362,342" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FFFFFFFF" StrokeThickness="70" FontFamily="Times New Roman" FontSize="75" TextWrapping="Wrap"/>
-                <StackPanel Width="1329" Margin="56,772,0,0" HorizontalAlignment="Center">
-                    <Image x:Name="MaskSkill_Hermes_Heavy" Source="Textures/MainCharacter_Skill Hermes.png" Height="261" Margin="593,0,368,0" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332" Margin="154,0,744,0" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Height="254" Margin="571,0,283,0" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Health_Bar.png" Height="261" Margin="473,-161,588,0" Visibility="Collapsed"/>
+                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="624" Height="381" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="487" Height="254" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="198" Height="261" Margin="100,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q1" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="431" Height="301" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="145" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332"/>
+                    <Image x:Name="MaskKey_Q2" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="ChangeMaskTutorialPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#00000000" IsHitTestVisible="False">

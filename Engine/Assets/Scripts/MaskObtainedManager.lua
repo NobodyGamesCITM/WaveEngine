@@ -4,40 +4,33 @@ public = {
 
 local MASK_DATA = {
     hermes = {
-        name      = "LA MÁSCARA DE HERMES",
-        maskImg   = "MaskImg_Hermes",
-        skillImgs = { "MaskSkill_Hermes_Heavy", "MaskSkill_Hermes_Run" },
-        hint      = "heavy_attack",
+        name    = "LA MÁSCARA DE HERMES",
+        maskImg = "MaskImg_Hermes",
+        panel   = "MaskPanel_Hermes",
     },
     apolo = {
-        name      = "LA MÁSCARA DE APOLO",
-        maskImg   = "MaskImg_Apolo",
-        skillImgs = { "MaskSkill_Apolo_Heavy" },
-        hint      = "heavy_attack",
+        name    = "LA MÁSCARA DE APOLO",
+        maskImg = "MaskImg_Apolo",
+        panel   = "MaskPanel_Apolo",
     },
     ares = {
-        name      = "LA MÁSCARA DE ARES",
-        maskImg   = "MaskImg_Ares",
-        skillImgs = { "MaskSkill_Ares_Heavy" },
-        hint      = "heavy_attack",
+        name    = "LA MÁSCARA DE ARES",
+        maskImg = "MaskImg_Ares",
+        panel   = "MaskPanel_Ares",
     },
 }
 
-local ALL_MASK_IMGS = {
-    "MaskImg_Hermes", "MaskImg_Apolo", "MaskImg_Ares",
-}
-local ALL_SKILL_IMGS = {
-    "MaskSkill_Hermes_Heavy", "MaskSkill_Hermes_Run",
-    "MaskSkill_Apolo_Heavy",
-    "MaskSkill_Ares_Heavy",
-}
+local ALL_MASK_IMGS = { "MaskImg_Hermes", "MaskImg_Apolo", "MaskImg_Ares" }
+local ALL_PANELS    = { "MaskPanel_Hermes", "MaskPanel_Apolo", "MaskPanel_Ares" }
 
 local active      = false
 local pendingHint = nil
 
+local ALL_KEY_IMGS = { "MaskKey_Q", "MaskKey_Shift" }
+
 local function hideAll()
-    for _, img in ipairs(ALL_MASK_IMGS)  do UI.SetElementVisibility(img, false) end
-    for _, img in ipairs(ALL_SKILL_IMGS) do UI.SetElementVisibility(img, false) end
+    for _, img in ipairs(ALL_MASK_IMGS) do UI.SetElementVisibility(img, false) end
+    for _, p   in ipairs(ALL_PANELS)    do UI.SetElementVisibility(p,   false) end
     UI.SetElementVisibility("MaskObtainedName", false)
 end
 
@@ -77,9 +70,7 @@ local function showMaskObtained(maskKey)
     UI.SetElementVisibility("MaskObtainedName", true)
     UI.SetElementVisibility(data.maskImg, true)
 
-    for _, img in ipairs(data.skillImgs) do
-        UI.SetElementVisibility(img, true)
-    end
+    UI.SetElementVisibility(data.panel, true)
 
     UI.SetElementVisibility("MaskObtainedPanel", true)
 

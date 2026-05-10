@@ -123,11 +123,16 @@ local function TakeDamage(self, amount, attackerPos)
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.07
 
-        for _, shell in ipairs(self.activeShells) do
+        --for _, shell in ipairs(self.activeShells) do
             --if shell.shadowGo then pcall(function() GameObject.Destroy(shell.shadowGo) end) end
-            SafeDestroyShell(shell)
+            --SafeDestroyShell(shell)
+       -- end
+        --self.activeShells = {}
+        if self.shell then
+            self.shell:SetActive(false)
         end
-        self.activeShells = {}
+
+        self.shellData = nil
 
         Engine.Log("[Mortar] DEAD")
     else
@@ -158,6 +163,10 @@ end
 
 -- FireShell: lanza un proyectil parabólico hacia la posición dada
 local function FireShell(self, tx, ty, tz)
+    if self.shellData then
+        return
+    end
+
     local myPos = self.transform.worldPosition
     local sx    = myPos.x
     local sy    = myPos.y + self.public.barrelOffsetY
@@ -165,36 +174,30 @@ local function FireShell(self, tx, ty, tz)
 
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
 
-    --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
     
     self.shell:SetActive(true)
-    if self.bulletAsset then
-        --local shell = Prefab.Instantiate("Sirena_Bullet")
 
-        local feedback = self.windupFeedback
-        self.windupFeedback = nil
-        self.windupFeedbackSet = false
+    local feedback = self.windupFeedback
+    self.windupFeedback = nil
+    self.windupFeedbackSet = false
 
-        table.insert(self.activeShells, {
-            go         = self.shell,
-            shadowGo         = feedback,
-            age        = 0,
-            flightTime = T,
-            sx = sx, sy = sy, sz = sz,
-            vx = vx, vy = vy, vz = vz,
-            targetX    = tx,
-            targetY    = ty,
-            targetZ    = tz,
-            hasHit     = false,
-            feedbackSet = false,
-        })
+    self.shellData = {
+        go         = self.shell,
+        shadowGo         = feedback,
+        age        = 0,
+        flightTime = T,
+        sx = sx, sy = sy, sz = sz,
+        vx = vx, vy = vy, vz = vz,
+        targetX    = tx,
+        targetY    = ty,
+        targetZ    = tz,
+        hasHit     = false,
+        feedbackSet = false,
+    }
 
         
         
-        --Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
-    else
-        Engine.Log("[Mortar] Error al cargar el proyectil.")
-    end
+   
 end
 
 -- SafeMoveShell
@@ -224,6 +227,12 @@ end
 
 -- SafeDestroyShell
 local function SafeDestroyShell(s)
+
+    if not s.go then
+        return
+    end
+
+    s.go:SetActive(false)
 
     --self.shell:SetActive(false)
     --if not s.go then return end
@@ -284,76 +293,67 @@ end
 
 -- UpdateShells
 local function UpdateShells(self, dt)
-    if not self.activeShells or #self.activeShells == 0 then return end
 
-    for i = #self.activeShells, 1, -1 do
-        local s = self.activeShells[i]
+    local s = self.shellData
 
-        if s.shadowGo and not s.feedbackSet then
-            local tr = s.shadowGo.transform
-            if tr then
-                tr:SetPosition(s.targetX, s.targetY + 0.1, s.targetZ)
-                local scale = self.public.blastRadius
-                tr:SetScale(scale*2, 0.03, scale*2)
-                s.feedbackSet = true
+    if not s then
+        return
+    end
 
-            end
+    if s.shadowGo and not s.feedbackSet then
+        local tr = s.shadowGo.transform
+        if tr then
+            tr:SetPosition(s.targetX, s.targetY + 0.1, s.targetZ)
+            local scale = self.public.blastRadius
+            tr:SetScale(scale*2, 0.03, scale*2)
+            s.feedbackSet = true
+
         end
-        
-        s.age = s.age + (dt*2)
+    end
+    
+    s.age = s.age + (dt*2)
 
-        local t = s.age
-        local x = s.sx + s.vx * t
-        local y = s.sy + s.vy * t - 0.5 * GRAVITY * t * t
-        local z = s.sz + s.vz * t
+    local t = s.age
+    local x = s.sx + s.vx * t
+    local y = s.sy + s.vy * t - 0.5 * GRAVITY * t * t
+    local z = s.sz + s.vz * t
 
-        SafeMoveShell(s, x, y, z, t)
+    SafeMoveShell(s, x, y, z, t)
 
-        local impacted = (s.age >= s.flightTime) or (y < -50.0)
+    local impacted = (s.age >= s.flightTime) or (y < -50.0)
 
-        if impacted and not s.hasHit then
-            s.hasHit = true
+    if impacted and not s.hasHit then
+        s.hasHit = true
 
-            if s.shadowGo then
-                pcall(function() GameObject.Destroy(s.shadowGo) end)
-            end
+        if s.shadowGo then
+            pcall(function() GameObject.Destroy(s.shadowGo) end)
+        end
 
-            Engine.Log("[Mortar] Impact at ("
-                     .. string.format("%.1f", x) .. ", "
-                     .. string.format("%.1f", z) .. ")")
+        if self.playerGO then
+            local pp = self.playerGO.transform.position
+            if pp then
+                local impDx   = pp.x - s.targetX
+                local impDz   = pp.z - s.targetZ
+                local impDist = sqrt(impDx * impDx + impDz * impDz)
 
-            if self.playerGO then
-                local pp = self.playerGO.transform.position
-                if pp then
-                    local impDx   = pp.x - s.targetX
-                    local impDz   = pp.z - s.targetZ
-                    local impDist = sqrt(impDx * impDx + impDz * impDz)
-
-                    if impDist <= self.public.blastRadius then
-                        local factor = 1.0 - (impDist / self.public.blastRadius) * 0.5
-                        local dmg    = math.max(math.floor(self.public.attackDamage * factor), 1)
-                        if not _G._PlayerController_isDead then
-                            if (_PlayerController_pendingDamage or 0) == 0 then
-                                _PlayerController_pendingDamage    = dmg
-                                _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
-                                Engine.Log("[Mortar] HIT PLAYER for " .. dmg
-                                        .. " (dist=" .. string.format("%.2f", impDist) .. ")")
-                                Engine.Log("[Mortar] targetX=" .. string.format("%.2f", s.targetX) 
-                                .. " x=" .. string.format("%.2f", x)
-                                .. " targetZ=" .. string.format("%.2f", s.targetZ)
-                                .. " z=" .. string.format("%.2f", z)
-                                .. " playerDist=" .. string.format("%.2f", impDist)
-                                .. " blastRadius=" .. string.format("%.2f", self.public.blastRadius))
-                            end
+                if impDist <= self.public.blastRadius then
+                    local factor = 1.0 - (impDist / self.public.blastRadius) * 0.5
+                    local dmg    = math.max(math.floor(self.public.attackDamage * factor), 1)
+                    if not _G._PlayerController_isDead then
+                        if (_PlayerController_pendingDamage or 0) == 0 then
+                            _PlayerController_pendingDamage    = dmg
+                            _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
                         end
                     end
                 end
             end
-
-            SafeDestroyShell(s)
-            table.remove(self.activeShells, i)
         end
+        self.shell:SetActive(false)
+
+        self.shellData = nil
+
     end
+    
 end
 
 
@@ -493,7 +493,8 @@ local function UpdateWindUp(self, pp, dist, dt)
         return
     end
 
-    if self.windUpTimer >= self.public.windUpTime then
+    if self.windUpTimer >= self.public.windUpTime  and not self.hasFired then
+        self.hasFired = true
 
 
         FireShell(self, pp.x, pp.y, pp.z)
@@ -529,8 +530,9 @@ local function UpdateCooldown(self, dist, dt)
     if self.cooldownTimer <= 0 then
         self.currentState = State.IDLE
         self.isShowing = false
+        self.hasFired = false
 
-        ChangeState(self, State.IDLE)
+        ChangeState(self, State.IsDLE)
 
         if self.anim and not self.anim:IsPlayingAnimation("Show") then
             self.anim:Play("Show")
@@ -632,7 +634,6 @@ function Start(self)
         barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
         rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
 
-        projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
         maxLifetime      = 10.0,
         riseHeight       = 1.0,
         riseSpeed        = 3.0,
@@ -677,7 +678,7 @@ function Start(self)
     self.hideDurationTimer = 0
     self.deathTimer     = 2.5
     self.deathTime = 2.5
-    self.activeShells  = {}
+    self.shellData = nil
 
     self.hasDeathPlayed = false
     --self.firedShell = false
@@ -689,7 +690,7 @@ function Start(self)
     self.windupFeedback = nil
     self.windupFeedbackSet = false
 
-    Prefab.Load("Sirena_Bullet", finalPath)
+    --Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
 
     if self.rb then
@@ -731,7 +732,7 @@ function Start(self)
     self.shell:SetActive(true)
     self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
  
-
+    self.hasFired = false
 
 end
 
@@ -919,7 +920,7 @@ function OnTriggerEnter(self, other)
 
     if other:CompareTag("Bullet") then
         -- La bala golpea a la sirena
-        if not alreadyHit then
+        if not self.alreadyHit then
             local ap  = other.transform.worldPosition
             self.alreadyHit = true
             hitCooldown = 0.2

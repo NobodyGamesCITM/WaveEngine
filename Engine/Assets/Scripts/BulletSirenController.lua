@@ -24,17 +24,17 @@ end
 
 -- Update: contador de seguridad por si el proyectil queda huérfano
 function Update(self, dt)
-    if not self.gameObject then return end
+   -- if not self.gameObject then return end
 
-    age = age + dt
+    --age = age + dt
 
-    if age >= self.public.maxLifetime then
+   -- if age >= self.public.maxLifetime then
         --Engine.Log("[MortarProjectile] Auto-destruyendo proyectil huérfano")
         --self:Destroy()
-        self.gameObject:SetActive(false)
-        return
-    end
-     self.gameObject:SetActive(true)
+       -- self.gameObject:SetActive(false)
+       -- return
+    --end
+     --self.gameObject:SetActive(true)
     
 end
 

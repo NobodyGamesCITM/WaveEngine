@@ -47,7 +47,7 @@
                 ],
                 "name": "pSphere1",
                 "tag": "",
-                "uid": 5449663461086212121
+                "uid": 4461810616409165723
             }
         ],
         "components": [
@@ -85,18 +85,6 @@
                 "type": 11
             },
             {
-                "active": true,
-                "publicVariables": [
-                    {
-                        "name": "maxLifetime",
-                        "type": 0,
-                        "value": 8.0
-                    }
-                ],
-                "scriptUID": 6797048061387793298,
-                "type": 6
-            },
-            {
                 "AngularDamping": 0.0,
                 "FreezePos": [
                     false,
@@ -119,6 +107,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 15003367415665138811
+        "uid": 9020624366305133916
     }
 ]

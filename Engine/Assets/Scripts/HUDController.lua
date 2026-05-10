@@ -27,6 +27,8 @@ local missionVisible     = false
 local missionHideTimer   = 0.0
 local MISSION_HIDE_DELAY = 3.0  
 
+local myCanvas = nil
+
 -- ─── Helpers
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
@@ -138,7 +140,6 @@ local function RefreshMissionUI()
     local countInt = math.floor(currentCount)
     local totalInt = math.floor(total)
 
-    -- Solo mostrar si hay estatuas configuradas
     if totalInt <= 0 then
         UI.SetElementVisibility("MissionGrid", false)
         return
@@ -148,8 +149,10 @@ local function RefreshMissionUI()
 
     if countInt ~= lastDisplayedCount then
         if lastDisplayedCount ~= -1 then
-            UI.PlayStoryboard("MissionExpand")
-            UI.PlayStoryboard("MissionCountBump")
+            if myCanvas then
+                myCanvas:PlayStoryboard("MissionExpand")
+                myCanvas:PlayStoryboard("MissionCountBump")
+            end
             missionVisible   = true
             missionHideTimer = MISSION_HIDE_DELAY
         end
@@ -196,6 +199,7 @@ end
 _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
+    myCanvas = self.gameObject:GetComponent("Canvas")
     ForceRefreshHUD()
     missionVisible     = false
     missionHideTimer   = 0.0
@@ -241,7 +245,6 @@ function Update(self, dt)
         if missionHideTimer <= 0 then
             missionHideTimer = 0
             missionVisible   = false
-            UI.PlayStoryboard("MissionCollapse")
-        end
+            if myCanvas then myCanvas:PlayStoryboard("MissionCollapse") end
     end
 end

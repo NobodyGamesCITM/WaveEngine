@@ -24,17 +24,26 @@
             },
             {
                 "active": true,
+                "castShadows": true,
                 "primitiveType": "Cube",
+                "silhouetteColor": [
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    1.0
+                ],
+                "silhouetteEnabled": false,
                 "type": 1
             },
             {
                 "active": true,
-                "materialUID": 15960239173946183572,
+                "materialUID": 877439296763403037,
+                "overrideTiling": false,
                 "type": 3
             }
         ],
         "name": "MinocabroFeedback",
         "tag": "",
-        "uid": 9828290854644627830
+        "uid": 125322895902589413
     }
 ]

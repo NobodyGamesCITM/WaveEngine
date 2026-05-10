@@ -92,7 +92,7 @@ end
 function Update(self, dt)
     if not active then return end
 
-    if Input.GetKeyDown("F") then
+    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         closeMaskPanel()
     end
 end

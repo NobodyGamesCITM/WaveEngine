@@ -90,8 +90,8 @@ local currentPreset = nil
 local timer         = 0.0
 local duration      = nil
 local lastMaskCount = 0
-local changeMaskTutorialActive = false
-local changeMaskTutorialDelay  = 0.0
+local changeMaskTutorialActive  = false
+local changeMaskTutorialPending = false
 
 local function hideAll()
     for _, img in ipairs(ALL_IMGS) do
@@ -162,29 +162,27 @@ function Start(self)
     _G.ShowChangeMaskTutorial = function()
         Engine.Log("[ChangeMaskTutorial] Llamado!")
         UI.SetElementVisibility("ChangeMaskTutorialPanel", true)
-        changeMaskTutorialActive = false
-        changeMaskTutorialDelay  = 0.5
+        changeMaskTutorialActive  = false
+        changeMaskTutorialPending = true
     end
 
     Engine.Log("[ControlsHint] Ready")
 end
 
 function Update(self, dt)
-    if changeMaskTutorialDelay > 0 then
-        changeMaskTutorialDelay = changeMaskTutorialDelay - dt
-        if changeMaskTutorialDelay <= 0 then
-            changeMaskTutorialActive = true  
-        end
+    if changeMaskTutorialPending then
+        changeMaskTutorialPending = false
+        changeMaskTutorialActive  = true
+        return
     end
 
     if changeMaskTutorialActive then
-        if Input.GetKeyDown("F") then
-            Engine.Log("[ChangeMaskTutorial] F pulsado, cerrando")
+        if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+            Engine.Log("[ChangeMaskTutorial] Cerrando")
             UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
             changeMaskTutorialActive = false
         end
     end
-
 
     if not currentPreset then return end
 

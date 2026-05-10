@@ -137,7 +137,7 @@ function Initialize(self)
     end
     
     local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
-    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2.scene" or sceneVal == "Blockout2Nuevo.scene")
+    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2Nuevo.scene" or sceneVal == "Level2.scene")
 
     if isGameplayScene then
         if self.current == "" or self.current:find("MainMenu.xaml") then
@@ -158,7 +158,7 @@ function Initialize(self)
         self.lastPauseState = "running"
     elseif isGameplayScene then
         if sceneVal == "Level1.scene" then Audio.SetMusicState("Level1")
-        elseif sceneVal == "Blockout2Nuevo.scene" then Audio.SetMusicState("Level2") end
+        elseif sceneVal == "Level2.scene" then Audio.SetMusicState("Level2") end
             
         Game.Resume()
         Game.SetTimeScale(1.0)
@@ -181,7 +181,7 @@ function Update(self, dt)
         local musicState = "None"
         if sceneVal == "Level1.scene" then 
            musicState = "Level1"
-        elseif sceneVal == "Blockout2Nuevo.scene" then 
+        elseif sceneVal == "Level2.scene" then 
            musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -454,7 +454,7 @@ function Update(self, dt)
             Engine.Log("[UI MENU] current scene: " .. tostring(self.public.currentScene.value))
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
-            elseif self.public.currentScene == "Blockout2.scene" or self.public.currentScene == "Blockout2Nuevo.scene" then
+            elseif self.public.currentScene == "Blockout2Nuevo.scene" or self.public.currentScene == "Level2.scene" then
                 if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then 
                     Audio.SetMusicState("Level2")
                 end

@@ -38,8 +38,8 @@ public = {
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
 
-local bulletAsset = nil
-local shell = nil
+--local bulletAsset = nil
+--local shell = nil
 -- Helpers
 local function shortAngleDiff(a, b)
     local d = b - a
@@ -162,10 +162,9 @@ local function FireShell(self, tx, ty, tz)
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
 
     --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
-    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
     
-    pSphere:SetActive(true)
-    if bulletAsset then
+    self.shell:SetActive(true)
+    if self.bulletAsset then
         --local shell = Prefab.Instantiate("Sirena_Bullet")
 
         local feedback = self.windupFeedback
@@ -173,7 +172,7 @@ local function FireShell(self, tx, ty, tz)
         self.windupFeedbackSet = false
 
         table.insert(self.activeShells, {
-            go         = shell,
+            go         = self.shell,
             shadowGo         = feedback,
             age        = 0,
             flightTime = T,
@@ -211,28 +210,25 @@ local function SafeMoveShell(s, x, y, z, t)
         tr:SetRotation(pitch, heading, 0)
     end)
 
-    if not ok then
-        s.goInvalid = true
-        s.go        = nil
-    end
+    --if not ok then
+       -- s.goInvalid = true
+      --  s.go        = nil
+    --end
 end
 
 -- SafeDestroyShell
 local function SafeDestroyShell(s)
 
-    if not s.go then return end
+    --self.shell:SetActive(false)
+    --if not s.go then return end
 
-    s.go:SetActive(false)
-
-    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
-    
-    pSphere:SetActive(false)  
+   -- s.go:SetActive(false)
 
     --GameObject.Destroy(s.go)
 
-    s.go = nil
+    --s.go = nil
 
-    if not s.go or s.goInvalid then return end
+   -- if not s.go or s.goInvalid then return end
     --pcall(function() GameObject.Destroy(s.go) end)
     --s.go = nil
 end
@@ -390,7 +386,6 @@ end
 
 local function UpdateIdle(self, dist, dt)
     
-    shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle", 0.2)
     end
@@ -678,10 +673,12 @@ function Start(self)
     self.targetDeathYisEnter=false
 
 
-    bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+    self.bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
 
-    shell = Prefab.Instantiate("Sirena_Bullet")
-    pSphere1 = GameObject.FindInChildren(shell,"pSphere1")
+    self.shell = Prefab.Instantiate("Sirena_Bullet")
+    self.shell:SetActive(true)
+    self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
+ 
 
 
 end
@@ -691,6 +688,10 @@ function Update(self, dt)
     if not self.gameObject then return end
 
 
+    if self.shell ==nil then
+        Engine.Log("Shell nill")
+        return
+    end
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)

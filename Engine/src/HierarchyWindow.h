@@ -34,6 +34,7 @@ private:
     DropPosition GetDropPosition(GameObject* draggedObject, GameObject* targetObject);
     void DrawInsertionLine(const ImVec2& start, const ImVec2& end);
     void HandleAutoScroll();
+    void ApplyMultiReparent(GameObject* targetParent, int baseTarget, GameObject* dragged);
 
     std::vector<GameObject*> visibleObjects;
     GameObject* pendingShiftSelection = nullptr;
@@ -52,4 +53,7 @@ private:
     // Scroll to selected
     GameObject* scrollToTarget = nullptr;
     GameObject* lastKnownSelection = nullptr;
+
+	// Multi reparenting
+    bool prevFrameDragging = false;
 };

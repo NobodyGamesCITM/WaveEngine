@@ -190,8 +190,7 @@ void HierarchyWindow::Draw()
                         if (dragged != root)
                         {
                             int newIndex = static_cast<int>(root->GetChildren().size());
-                            Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                                std::make_unique<ReparentCommand>(dragged, root, newIndex));
+                            ApplyMultiReparent(root, newIndex, dragged);
                         }
                     }
                     else
@@ -235,6 +234,8 @@ void HierarchyWindow::Draw()
     }
 
     DrawBackgroundContextMenu();
+
+    prevFrameDragging = ImGui::IsMouseDragging(ImGuiMouseButton_Left);
 
     ImGui::End();
 }
@@ -328,7 +329,7 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
         if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
         {
             // If it was NOT a drag
-            if (!ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+            if (!prevFrameDragging)
             {
                 const bool* keys = SDL_GetKeyboardState(NULL);
                 bool ctrlPressed = keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL];
@@ -382,7 +383,11 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
             dragCancelled = true;
 
         ImGui::SetDragDropPayload("HIERARCHY_GAMEOBJECT", &gameObject, sizeof(GameObject*));
-        ImGui::Text("Moving: %s", gameObject->GetName().c_str());
+        int dragCount = (selectionManager->IsSelected(gameObject) && selectionManager->GetSelectionCount() > 1) ? selectionManager->GetSelectionCount() : 1;
+        if (dragCount > 1)
+            ImGui::Text("Moving %d objects", dragCount);
+        else
+            ImGui::Text("Moving: %s", gameObject->GetName().c_str());
 
         if (dragCancelled)
             ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "CANCELLED - Release to finish");
@@ -433,23 +438,17 @@ void HierarchyWindow::DrawGameObjectNode(GameObject* gameObject, int childIndex)
             {
                 int realIndex = parent->GetChildIndex(gameObject);
                 if (realIndex < 0) realIndex = 0;
-                Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                    std::make_unique<ReparentCommand>(dragged, parent, realIndex));
+                ApplyMultiReparent(parent, realIndex, dragged);
             }
             else if (dropPos == DropPosition::AFTER && parent)
             {
                 int realIndex = parent->GetChildIndex(gameObject);
-                Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-					std::make_unique<ReparentCommand>(dragged, parent, realIndex + 1));
+                ApplyMultiReparent(parent, realIndex + 1, dragged);
             }
             else if (dropPos == DropPosition::ON)
             {
-                const auto& ch = gameObject->GetChildren();
-                int newIndex = static_cast<int>(ch.size());
-                if (dragged->GetParent() == gameObject) --newIndex;
-                newIndex = std::max(0, newIndex);
-                Application::GetInstance().editor->GetCommandHistory()->ExecuteCommand(
-                    std::make_unique<ReparentCommand>(dragged, gameObject, newIndex));
+                int newIndex = static_cast<int>(gameObject->GetChildren().size());
+                ApplyMultiReparent(gameObject, newIndex, dragged);
             }
         }
 
@@ -488,9 +487,20 @@ bool HierarchyWindow::IsDescendantOf(GameObject* potentialDescendant, GameObject
 
 DropPosition HierarchyWindow::GetDropPosition(GameObject* draggedObject, GameObject* targetObject)
 {
-    if (!draggedObject || !targetObject)          return DropPosition::NONE;
-    if (draggedObject == targetObject)            return DropPosition::NONE;
+    if (!draggedObject || !targetObject)             return DropPosition::NONE;
+    if (draggedObject == targetObject)               return DropPosition::NONE;
     if (IsDescendantOf(targetObject, draggedObject)) return DropPosition::NONE;
+
+    // Block if the target is a descendant of any selected object
+    SelectionManager* sel = Application::GetInstance().selectionManager;
+    if (sel->IsSelected(draggedObject) && sel->GetSelectionCount() > 1)
+    {
+        for (GameObject* obj : sel->GetSelectedObjects())
+        {
+            if (obj == targetObject || IsDescendantOf(targetObject, obj))
+                return DropPosition::NONE;
+        }
+    }
 
     ImVec2 itemMin = ImGui::GetItemRectMin();
     ImVec2 itemMax = ImGui::GetItemRectMax();
@@ -500,6 +510,63 @@ DropPosition HierarchyWindow::GetDropPosition(GameObject* draggedObject, GameObj
     if (relativeY < height * 0.25f) return DropPosition::BEFORE;
     if (relativeY > height * 0.75f) return DropPosition::AFTER;
     return DropPosition::ON;
+}
+
+void HierarchyWindow::ApplyMultiReparent(GameObject* targetParent, int baseTarget, GameObject* dragged)
+{
+    SelectionManager* sel = Application::GetInstance().selectionManager;
+
+    std::vector<GameObject*> toMove;
+    if (sel->IsSelected(dragged) && sel->GetSelectionCount() > 1)
+        toMove = sel->GetFilteredObjects();
+    else
+        toMove = { dragged };
+
+	// This functios evites reparenting the parent to one of its children
+    toMove.erase(std::remove_if(toMove.begin(), toMove.end(), [&](GameObject* obj) {
+        return obj == targetParent || IsDescendantOf(targetParent, obj);
+    }), toMove.end());
+
+    if (toMove.empty()) return;
+
+    // Reorder
+    std::sort(toMove.begin(), toMove.end(), [&](GameObject* a, GameObject* b) {
+        auto itA = std::find(visibleObjects.begin(), visibleObjects.end(), a);
+        auto itB = std::find(visibleObjects.begin(), visibleObjects.end(), b);
+        return itA < itB;
+    });
+
+	// Record original positions
+    std::vector<int> preIdx(toMove.size(), -1);
+    int numSameParentBefore = 0;
+    for (int i = 0; i < (int)toMove.size(); i++)
+    {
+        if (toMove[i]->GetParent() == targetParent)
+        {
+            preIdx[i] = targetParent->GetChildIndex(toMove[i]);
+            if (preIdx[i] >= 0 && preIdx[i] < baseTarget)
+                numSameParentBefore++;
+        }
+    }
+
+    int effectiveBase = baseTarget - numSameParentBefore;
+
+    auto* history = Application::GetInstance().editor->GetCommandHistory();
+    int insertedSoFar = 0;
+    for (int i = 0; i < (int)toMove.size(); i++)
+    {
+        int nominal;
+        if (preIdx[i] >= 0 && preIdx[i] < baseTarget)
+        {
+            nominal = baseTarget;
+        }
+        else
+        {
+            nominal = effectiveBase + insertedSoFar;
+        }
+        history->ExecuteCommand(std::make_unique<ReparentCommand>(toMove[i], targetParent, nominal));
+        insertedSoFar++;
+    }
 }
 
 void HierarchyWindow::DrawInsertionLine(const ImVec2& start, const ImVec2& end)

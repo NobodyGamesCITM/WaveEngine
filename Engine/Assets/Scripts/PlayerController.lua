@@ -245,15 +245,6 @@ local function GetMovementInput(self)
     if Input.GetKey("A") then inputX = inputX - 1 end
     if Input.GetKey("D") then inputX = inputX + 1 end
 
-    if _G.interact == true then _G.interact = false end
-
-    if self.public.interact == true then self.public.interact = false end
-    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
-        Engine.Log("interact try")
-        self.public.interact = true
-        _G.interact = true
-    end
-
     local inputLen = math.sqrt(inputX*inputX + inputZ*inputZ)
     if inputLen > 1.0 then
         inputX = inputX / inputLen
@@ -576,7 +567,7 @@ States[State.DEAD] = {
                     _G._PlayerController_currentMask = ""
                     Player.hermesPendingUnequip = false    
                 end
-                Player.hermesRespawnCooldown = 1.5
+                Player.hermesRespawnCooldown = 0.5
                 _G._PlayerController_isDead = false
                 _G._PlayerController_deathAnimDone = false
 
@@ -1569,9 +1560,11 @@ function UpdateHitVignette(dt)
     if not postProcess then return end
     if hitVigTimer <= 0 then 
         accumulatedAlpha = 0.0
+        _G._hitVigActive = false
         return 
     end
 
+    _G._hitVigActive = true
     local totalDuration = HIT_VIG_FADE_IN + HIT_VIG_HOLD + HIT_VIG_FADE_OUT
     local elapsed = totalDuration - hitVigTimer
     local alpha = 0.0
@@ -1592,8 +1585,8 @@ function UpdateHitVignette(dt)
     if hitVigTimer <= 0 then
         hitVigTimer = 0
         accumulatedAlpha = 0.0
-        postProcess:SetVignetteEnabled(false)
-        return
+        _G._hitVigActive = false
+        return 
     end
 
     postProcess:SetVignetteEnabled(true)
@@ -1602,6 +1595,14 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
+    if _G.interact == true then _G.interact = false end
+    if self.public.interact == true then self.public.interact = false end
+
+    if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+        self.public.interact = true
+        _G.interact = true
+    end
+
     if attackCooldown > 0 then
         attackCooldown = attackCooldown - dt
     end
@@ -1697,7 +1698,24 @@ function Update(self, dt)
 
         InitParticles(self)
         FindMasks(self)
+
+        if _G._MidRunTransition then
+            _G._MidRunTransition = false
+            _G._UnlockedMasks = _G._UnlockedMasks or {}
+            if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
+            if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
+            if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
+        else
+            _G._UnlockedMasks    = {}
+            _G._MaskState_Apolo  = false
+            _G._MaskState_Hermes = false
+            _G._MaskState_Ares   = false
+        end
+
+        Player.currentMask = Mask.NONE
+        _G._PlayerController_currentMask = ""
         EquipMask(self, Player.currentMask)
+        UpdateSwordMaterial()
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2060,6 +2078,8 @@ function ObtainMask(self)
     if giveApoloMask and Mask.APOLLO == "None" then
         Mask.APOLLO = "Apolo"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Apollo = true
         Engine.Log("Apolo Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.APOLLO
@@ -2072,6 +2092,8 @@ function ObtainMask(self)
     if giveHermesMask and Mask.HERMES == "None" then
         Mask.HERMES = "Hermes"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Hermes = true
         Engine.Log("Hermes Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.HERMES
@@ -2084,6 +2106,8 @@ function ObtainMask(self)
     if giveAresMask and Mask.ARES == "None" then
         Mask.ARES = "Ares"
         _G._MaskCount = _G._MaskCount + 1
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Ares = true
         Engine.Log("Ares Mask obtain")
         maskObtained = true
         Player.pendingObtainMask = Mask.ARES
@@ -2159,13 +2183,13 @@ function ResetPlayer(self)
 
     --Player.currentSurface = "Dirt"
 
-    local p = Player.spawnPos
+    local p = lastCheckpoint or Player.spawnPos
     if p then
         self.transform:SetPosition(p.x, p.y, p.z)
     end
 
-    if _G.ForceRefreshHUD then
-        _G.ForceRefreshHUD()
+    if _G.RestorePotions then
+        _G.RestorePotions()
     end
 
     Player.currentMask = Mask.NONE

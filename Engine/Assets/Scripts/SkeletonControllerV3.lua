@@ -133,6 +133,8 @@ local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.hp <= 0 and not pendingDeath then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
+        Game.SetTimeScale(0.3)
+        _impactFrameTimer = 0.2
         ChangeState(self, State.DEAD)
     else
         --hitGiven = false
@@ -560,7 +562,12 @@ function OnTriggerEnter(self, other)
                 local dmg = 0
                 if     attack == "light"  then dmg = 10
                 elseif attack == "heavy" or attack == "charge" then dmg = 25 end
-                if dmg > 0 then TakeDamage(self, dmg, ap) end
+                if dmg > 0 then
+                    TakeDamage(self, dmg, ap)
+                    if _G.TriggerCameraShake then
+                        _G.TriggerCameraShake(0.15, 2.5, 20.0)
+                    end
+                end
             end
         end
     end

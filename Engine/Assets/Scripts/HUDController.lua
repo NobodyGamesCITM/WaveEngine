@@ -51,14 +51,19 @@ end
 
 -- ─── Pociones
 local function RefreshPotionUI(potions, berserkPotions)
-    for i = 1, 4 do
-        UI.SetElementVisibility("Potion" .. i,     i <= potions)
-        UI.SetElementVisibility("UsedPotion" .. i, i > potions)
+    local ps = _G.PotionSystem and _G.PotionSystem.public
+    local maxH = ps and ps.maxPotions or 0
+    local maxB = ps and ps.maxBerserk or 0
+
+    for i = 1, 10 do
+        local slotVisible = i <= maxH
+        UI.SetElementVisibility("Potion" .. i,     slotVisible and i <= potions)
+        UI.SetElementVisibility("UsedPotion" .. i, slotVisible and i > potions)
     end
-    for i = 1, 4 do
-        local slotIndex = i + 4
-        UI.SetElementVisibility("Potion" .. slotIndex,     i <= (berserkPotions or 0))
-        UI.SetElementVisibility("UsedPotion" .. slotIndex, i > (berserkPotions or 0))
+    for i = 1, 10 do
+        local slotVisible = i <= maxB
+        UI.SetElementVisibility("Berserk" .. i,         slotVisible and i <= (berserkPotions or 0))
+        UI.SetElementVisibility("UsedBerserk" .. i,     slotVisible and i > (berserkPotions or 0))
     end
 end
 
@@ -92,7 +97,7 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         end
     end
 
-    if not activeSlotMask then
+    if not activeSlotMask and activeMask ~= "" then
         activeSlotMask = obtainedOrder[1]
     end
 
@@ -184,7 +189,6 @@ function ForceRefreshHUD()
     prevActiveMask = ""
     RefreshMaskUI(false, false, false, "")
 
-    -- Ocultar MissionGrid hasta que RefreshMissionUI lo active
     UI.SetElementVisibility("MissionGrid", false)
     lastDisplayedCount = -1
     lastDisplayedTotal = -1
@@ -223,7 +227,6 @@ function Update(self, dt)
     local hasApolo   = (_G._MaskState_Apolo  == true)
     local activeMask = _G._PlayerController_currentMask or ""
 
-    -- Solo refrescar si hay cambios
     if hasHermes ~= prevHasHermes or hasAres ~= prevHasAres
        or hasApolo ~= prevHasApolo or activeMask ~= prevActiveMask then
         RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)

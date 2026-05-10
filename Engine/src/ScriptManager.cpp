@@ -2742,6 +2742,11 @@ static int Lua_PostProcessing_SetVignetteSmoothness(lua_State* L) {
     if (pp) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetVignetteRoundness(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteRoundness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) {
@@ -3141,6 +3146,7 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteSmoothness); lua_setfield(L, -2, "SetVignetteSmoothness");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteRoundness); lua_setfield(L, -2, "SetVignetteRoundness");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteColor);     lua_setfield(L, -2, "SetVignetteColor");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");

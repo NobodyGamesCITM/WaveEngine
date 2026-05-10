@@ -599,8 +599,8 @@ void EmitterInstance::Draw(glm::vec3 cameraPos, const glm::mat4& modelMatrix) {
 
         float uLeft = col * frameWidth;
         float uRight = uLeft + frameWidth;
-        float vTop = 1.0f - (row * frameHeight);
-        float vBottom = vTop - frameHeight;
+        float vTop = row * frameHeight;
+        float vBottom = vTop + frameHeight;
 
         glColor4f(p.color.r, p.color.g, p.color.b, p.color.a);
 

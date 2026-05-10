@@ -17,7 +17,9 @@ public = {
 }
 
 function Start(self)
-    self.pSphere1 = GameObject.FindInChildren(self.gameObject,"pSphere1")
+    self.gameObject:SetActive(true)
+
+    --self.pSphere1 = GameObject.FindInChildren(self.gameObject,"pSphere1")
 end
 
 -- Update: contador de seguridad por si el proyectil queda huérfano
@@ -29,14 +31,10 @@ function Update(self, dt)
     if age >= self.public.maxLifetime then
         --Engine.Log("[MortarProjectile] Auto-destruyendo proyectil huérfano")
         --self:Destroy()
-        if pSphere1 then
-            Engine.Log("SPhere1 existe")
-            pSphere1:SetActive(false)
-        end
+        self.gameObject:SetActive(false)
         return
     end
-    --pSphere1:SetActive(true)
-
+     self.gameObject:SetActive(true)
     
 end
 
@@ -62,12 +60,10 @@ function OnTriggerEnter(self, other)
         --self:Destroy()
 
     end
+    
     age = 0
 
-    pSphere1:SetActive(false)
+    self.gameObject:SetActive(false)
 
-    if self.pSphere1 then 
-        self.pSphere1:SetActive(false) 
-    end
 
 end

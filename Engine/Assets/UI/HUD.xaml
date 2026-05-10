@@ -688,18 +688,27 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Grid.Background>
             </Grid>
             <Grid x:Name="MaskObtainedPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#91000000" IsHitTestVisible="False">
-                <TextBlock x:Name="MaskObtainedTitle" Text="Has obtenido" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontSize="50" TextWrapping="Wrap"/>
+                <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="32"/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
                 <Grid>
-                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Margin="743,126,743,485" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Margin="683,125,683,484" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="731,123,731,482" Visibility="Collapsed"/>
                 </Grid>
-                <TextBlock x:Name="MaskObtainedName" TextWrapping="Wrap"/>
-                <StackPanel HorizontalAlignment="Center" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Ares_Heavy" Source="Textures/MainCharacter_Skill Ares.png" Height="100" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Apolo_Heavy" Source="Textures/MainCharacter_Skill Apolo.png" Height="100" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Hermes_Heavy" Source="Textures/MainCharacter_Skill Hermes.png" Height="100" Visibility="Collapsed"/>
-                    <Image x:Name="MaskSkill_Hermes_Run" Source="Textures/Hermes_Water.PNG" Height="100" Visibility="Collapsed"/>
+                <TextBlock x:Name="MaskObtainedName" Margin="362,599,362,342" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FFFFFFFF" StrokeThickness="70" FontFamily="Times New Roman" FontSize="75" TextWrapping="Wrap"/>
+                <StackPanel Width="1329" Margin="56,772,0,0" HorizontalAlignment="Center">
+                    <Image x:Name="MaskSkill_Hermes_Heavy" Source="Textures/MainCharacter_Skill Hermes.png" Height="261" Margin="593,0,368,0" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332" Margin="154,0,744,0" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Height="254" Margin="571,0,283,0" Visibility="Collapsed"/>
+                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Health_Bar.png" Height="261" Margin="473,-161,588,0" Visibility="Collapsed"/>
                 </StackPanel>
             </Grid>
 

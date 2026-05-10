@@ -1,4 +1,3 @@
-
 public = {
     radius           = 3.0,
     promptRadius     = 6.0,
@@ -6,9 +5,11 @@ public = {
     actionText       = "Interactuar",
     oneShot          = true,
     updateWhenPaused = true,
-    promptOffsetY    = 2.0,
-    iconSize         = 40,
+    promptOffsetY    = 150,  -- pixeles hacia arriba en pantalla, ajusta desde el inspector
 }
+
+local ICON_W = 50
+local ICON_H = 50
 
 local inPromptRange  = false
 local inActionRange  = false
@@ -17,18 +18,12 @@ local dialogShownMap = {}
 local inputCooldown  = 0.0
 local COOLDOWN_TIME  = 0.5
 
-local CANVAS_W = 1280
-local CANVAS_H = 720
-local PROMPT_W = 220
-local PROMPT_H = 50
-
 local function onAction(self)
-    Engine.Log("[InteractTrigger] Acción ejecutada: " .. tostring(self.public.sequenceId))
+    Engine.Log("[InteractTrigger] Action executed: " .. tostring(self.public.sequenceId))
 end
 
 local function updatePrompt(self)
     local input = _G.LastInputType or "keyboard"
-
     if input == "gamepad" then
         UI.SetElementVisibility("InputKeyText",     false)
         UI.SetElementVisibility("InputGamepadIcon", true)
@@ -42,7 +37,7 @@ local function showPrompt(self, canInteract)
     updatePrompt(self)
 
     local myPos = self.transform.worldPosition
-    local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y + self.public.promptOffsetY, myPos.z)
+    local sx, sy = Camera.WorldToScreen(myPos.x, myPos.y, myPos.z)
 
     if sx == nil or sy == nil then
         UI.SetElementVisibility("InteractPrompt", false)
@@ -55,11 +50,17 @@ local function showPrompt(self, canInteract)
         return
     end
 
-    local cx = (sx / vw) * CANVAS_W
-    local cy = (sy / vh) * CANVAS_H
+    -- Offset en pixeles de pantalla hacia arriba
+    local cx = sx - ICON_W * 0.5
+    local cy = sy - self.public.promptOffsetY - ICON_H * 0.5
 
-    local half = self.public.iconSize * 0.5
-    UI.SetElementMargin("InteractPrompt", cx - half, cy - self.public.iconSize, 0, 0)
+    -- Si sale de pantalla simplemente no se muestra
+    if cx < 0 or cx > vw or cy < 0 or cy > vh then
+        UI.SetElementVisibility("InteractPrompt", false)
+        return
+    end
+
+    UI.SetCanvasPosition("InteractPrompt", cx, cy)
     UI.SetElementVisibility("InteractPrompt", true)
 end
 
@@ -78,7 +79,7 @@ local function triggerDialog(self)
         if _G.TriggerSequence then
             _G.TriggerSequence(self.public.sequenceId)
         else
-            Engine.Log("[ERROR] TriggerSequence no registrado en _G")
+            Engine.Log("[ERROR] TriggerSequence not registered in _G")
         end
     else
         onAction(self)

@@ -38,6 +38,8 @@ public = {
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
 
+Prefab.Load("Sirena_Bullet", finalPath)
+
 --local bulletAsset = nil
 --local shell = nil
 -- Helpers
@@ -690,7 +692,7 @@ function Start(self)
     self.windupFeedback = nil
     self.windupFeedbackSet = false
 
-    --Prefab.Load("Sirena_Bullet", finalPath)
+    Prefab.Load("Sirena_Bullet", finalPath)
     Prefab.Load("Sirenfeedback", finalPath_Feedback)
 
     if self.rb then
@@ -726,7 +728,7 @@ function Start(self)
     self.targetDeathYisEnter=false
 
 
-    self.bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+    --self.bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
 
     self.shell = Prefab.Instantiate("Sirena_Bullet")
     self.shell:SetActive(true)

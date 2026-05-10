@@ -78,6 +78,8 @@ local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     return vX, vY, vZ, T
 end
 
+
+
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
 
@@ -114,6 +116,7 @@ local function TakeDamage(self, amount, attackerPos)
                     self.deathSFX:PlayAudioEvent() 
                 end
             	if self.anim then self.anim:Play("Die") end
+                if self.bloodPs then self.bloodPs:Play() end
 			end
 		end
 
@@ -131,9 +134,10 @@ local function TakeDamage(self, amount, attackerPos)
         if self.hurtSFX then 
             if self.singSFX then self.singSFX:StopAudioEvent() end
             if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
-            Engine.Log("[SIREN AUDIO] Hurt SFX Played")
+            --Engine.Log("[SIREN AUDIO] Hurt SFX Played")
             self.isSinging = false    
             if self.anim then self.anim:Play("Hurt") end
+            if self.bloodPs then self.bloodPs:Play() end
         end
     
        
@@ -184,6 +188,8 @@ local function FireShell(self, tx, ty, tz)
             hasHit     = false,
             feedbackSet = false,
         })
+
+        
         
         --Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
     else
@@ -396,6 +402,7 @@ local function UpdateIdle(self, dist, dt)
         if not self.isShowing and not self.playerInRange then
             if self.anim then 
                 self.anim:Play("Show")
+                if self.waterPs then self.waterPs:Play() end
                 Engine.Log("[SIREN] Ejecutando Show")
             end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
@@ -487,16 +494,22 @@ local function UpdateWindUp(self, pp, dist, dt)
     end
 
     if self.windUpTimer >= self.public.windUpTime then
+
+
         FireShell(self, pp.x, pp.y, pp.z)
         if self.anim then self.anim:Play("Shoot") end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
+
         if self.anim then 
             self.anim:Play("Hide") 
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
         Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
+
+
         ChangeState(self, State.COOLDOWN)
+
     end
 
 
@@ -521,6 +534,7 @@ local function UpdateCooldown(self, dist, dt)
 
         if self.anim and not self.anim:IsPlayingAnimation("Show") then
             self.anim:Play("Show")
+            if self.waterPs then self.waterPs:Play() end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
         if dist <= self.public.detectRange and dist >= self.public.minRange then
@@ -568,6 +582,33 @@ local function FindSirenAudioComponents(self)  -- local: no interfiere con otros
 
 end
 
+local function FindSirenParticles(self)
+    
+    local bloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops")
+    if bloodVFX then 
+        self.bloodPs = bloodVFX:GetComponent("ParticleSystem") 
+        if not self.bloodPs then 
+            Engine.Log("[Siren] Blood Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Blood Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Blood Drops VFX GameObject") 
+    end
+
+    local waterVFX = GameObject.FindInChildren(self.gameObject, "WaterDrops")
+    if waterVFX then 
+        self.waterPs = waterVFX:GetComponent("ParticleSystem") 
+        if not self.waterPs then 
+            Engine.Log("[Siren] Water Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Water Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
+    end
+end
+
 -- Start
 function Start(self)
     Game.SetTimeScale(1.0)
@@ -583,6 +624,7 @@ function Start(self)
         windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
         flightTime       = 4.0,    -- duración del arco en el aire
         cooldownTime     = 4.5,    -- espera entre disparos
+        shootTime        = 3.0,    -- tiempo de disparo
 
         blastRadius      = 3.0,   -- radio de daño en el impacto
         attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
@@ -621,7 +663,15 @@ function Start(self)
 
     FindSirenAudioComponents(self)
 
+    --particle system components
+    self.bloodPs = nil
+    self.waterPs = nil
+
+    FindSirenParticles(self)
+
+
     self.windUpTimer   = 0
+    self.shootTimer    = 0
     self.cooldownTimer = 0
     self.hideCooldownTimer = 0
     self.hideDurationTimer = 0
@@ -630,6 +680,7 @@ function Start(self)
     self.activeShells  = {}
 
     self.hasDeathPlayed = false
+    --self.firedShell = false
     self.hasHurtPlayed = false
     self.isSinging = false
     self.isShowing = false
@@ -648,7 +699,8 @@ function Start(self)
     Engine.Log("[Mortar] Initialized. HP=" .. self.hp
              .. " detectRange=" .. self.public.detectRange)
     
-   self.anim:Play("Hide")
+    self.anim:Play("Hide")
+   
 
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
 
@@ -702,7 +754,7 @@ function Update(self, dt)
         return  
     end
 
-    if Input.GetKey("0") then
+    if Input.GetKey("K") then
         TakeDamage(self, self.hp, self.transform.worldPosition)
         return
     end
@@ -809,7 +861,7 @@ function Update(self, dt)
     if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
         TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
         _EnemyPendingDamage[self.gameObject.name] = nil
-    end
+    end 
 
     --just in case hideCooldownTimer is nil
     self.hideCooldownTimer = (self.hideCooldownTimer or 0) - dt
@@ -893,3 +945,4 @@ function OnTriggerExit(self, other)
         end
     end
 end
+

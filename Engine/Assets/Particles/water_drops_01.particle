@@ -8,39 +8,20 @@
     "bursts": [],
     "circleRadius": 1.0,
     "colorEnd": [
-        1.0,
-        0.0,
-        0.0,
+        0.6712562441825867,
+        0.906862735748291,
+        0.8999330401420593,
         0.0
     ],
-    "colorGradient": [
-        {
-            "color": [
-                1.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "time": 0.6240000128746033
-        },
-        {
-            "color": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "time": 1.0
-        }
-    ],
+    "colorGradient": [],
     "colorStart": [
-        1.0,
-        0.0,
-        0.0,
+        0.1363898366689682,
+        0.6768437623977661,
+        0.843137264251709,
         1.0
     ],
-    "coneAngle": 32.779998779296875,
-    "coneRadius": 0.5,
+    "coneAngle": 28.85099983215332,
+    "coneRadius": 0.20000000298023224,
     "duration": 5.0,
     "emissionArea": [
         1.0,
@@ -48,21 +29,21 @@
         1.0
     ],
     "emissionRadius": 1.0,
-    "emissionRate": 20.0,
+    "emissionRate": 16.200000762939453,
     "emissionRateDist": 0.0,
-    "emitFromShell": false,
+    "emitFromShell": true,
     "gravity": [
         0.0,
-        0.0,
+        -1.0,
         0.0
     ],
-    "initRotMax": 200.0,
-    "initRotMin": 200.0,
-    "lifetimeMax": 0.5,
-    "lifetimeMin": 0.20000000298023224,
+    "initRotMax": 180.0,
+    "initRotMin": 180.0,
+    "lifetimeMax": 1.0,
+    "lifetimeMin": 0.5,
     "looping": false,
     "luminance": false,
-    "maxParticles": 100,
+    "maxParticles": 67,
     "noiseActive": true,
     "noiseFreq": 1.0,
     "noiseStrength": 1.0,
@@ -71,15 +52,15 @@
     "prewarm": false,
     "proximityActivation": false,
     "proximityTarget": "Player",
-    "rotSpeedMax": 20.0,
+    "rotSpeedMax": 43.0,
     "rotSpeedMin": 0.0,
     "shape": 2,
     "simulationSpace": 0,
     "sizeCurve": [],
     "sizeEnd": 0.20000000298023224,
-    "sizeStart": 0.699999988079071,
-    "speedMax": 8.0,
-    "speedMin": 5.0,
+    "sizeStart": 0.9900000095367432,
+    "speedMax": 0.800000011920929,
+    "speedMin": 0.30000001192092896,
     "textureCols": 1,
     "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_01.PNG",
     "textureRows": 1,

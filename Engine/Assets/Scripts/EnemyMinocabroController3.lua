@@ -137,6 +137,10 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if self.isDead then return end
 
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.15, 1.5, 10.0)
+    end
+
     self.hp = self.hp - amount
     Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true

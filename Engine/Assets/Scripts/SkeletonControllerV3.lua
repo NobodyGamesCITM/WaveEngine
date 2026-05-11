@@ -565,7 +565,7 @@ function OnTriggerEnter(self, other)
                 if dmg > 0 then
                     TakeDamage(self, dmg, ap)
                     if _G.TriggerCameraShake then
-                        _G.TriggerCameraShake(0.15, 2.5, 20.0)
+                        _G.TriggerCameraShake(0.15, 1.5, 10.0)
                     end
                 end
             end

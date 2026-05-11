@@ -1853,7 +1853,7 @@ function Update(self, dt)
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
 
-            if _G.ShowMaskObtained and Player.currentMask ~= Mask.NONE then  
+            if Player.isGetMaskAnim and _G.ShowMaskObtained and Player.currentMask ~= Mask.NONE then  
                 _G.ShowMaskObtained(Player.currentMask:lower())
             end
 

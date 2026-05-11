@@ -233,7 +233,7 @@ local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
 
     if _G.TriggerCameraShake then
-        _G.TriggerCameraShake(0.15, 1.5, 10.0)
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
     end
 
     _PlayerController_triggerCameraShake = true

@@ -101,7 +101,8 @@ function Update(self, dt)
             volume = self.public.maxVolume or 100.0
             currentAlpha = 0.0
             musicFadeTimer = 0
-            currentState = State.IDLE   
+            currentState = State.IDLE
+			_G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
         SetCanvasAlpha(currentAlpha)

@@ -137,21 +137,22 @@ function Initialize(self)
         self.current = _G.CurrentXAML
     end
     
-    local sceneVal = self.public.currentScene and self.public.currentScene.value or ""
-    local isGameplayScene = (sceneVal == "Level1.scene" or sceneVal == "Blockout2Nuevo.scene" or sceneVal == "Level2.scene")
+    local sceneVal = ""
+    if type(self.public.currentScene) == "table" then 
+        sceneVal = self.public.currentScene.value or ""
+    elseif type(self.public.currentScene) == "string" then
+        sceneVal = self.public.currentScene
+    end
+
+    local isGameplayScene = (sceneVal:find("Level1") ~= nil or sceneVal:find("Level2") ~= nil)
 
     if isGameplayScene then
-        if self.current == "" or self.current:find("MainMenu.xaml") then
+        if self.current == "" or self.current:find("MainMenu.xaml") or self.current:find("LoadingScreen.xaml") or self.current:find("FadePanel.xaml") then
             Engine.Log("[MenuManager] Inicializando HUD en escena de juego.")
             self.current = "HUD.xaml"
             self.canvas:LoadXAML("HUD.xaml")
             _G.CurrentXAML = "HUD.xaml"
         end
-    elseif self.current == "" then
-        self.current = "MainMenu.xaml"
-        self.nextXaml = self.current
-        _G.CurrentXAML = self.current
-    end
 
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
         Audio.SetMusicState("MainMenu")

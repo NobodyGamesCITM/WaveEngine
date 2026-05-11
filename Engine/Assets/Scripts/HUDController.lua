@@ -128,7 +128,7 @@ end
 local function RefreshMissionUI()
     local currentLevel = _G.CurrentLevel or ""
 
-    if currentLevel ~= "Level_01" then
+    if currentLevel ~= "Level1" then
         UI.SetElementVisibility("MissionGrid", false)
         return
     end

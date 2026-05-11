@@ -14,6 +14,149 @@
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- ── SLIDER STYLE ── -->
+            <Style x:Key="MenuSliderStyle" TargetType="Slider">
+                <Setter Property="Minimum" Value="0"/>
+                <Setter Property="Maximum" Value="100"/>
+                <Setter Property="Value" Value="80"/>
+                <Setter Property="Focusable" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Slider">
+                            <Grid x:Name="SliderRoot" RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <ScaleTransform x:Name="SliderScale" ScaleX="1" ScaleY="1"/>
+                                </Grid.RenderTransform>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Label -->
+                                <TextBlock x:Name="SliderLabel"
+                                           Grid.Row="0"
+                                           Text="{TemplateBinding Tag}"
+                                           FontFamily="./#ForgottenUncial"
+                                           FontSize="30"
+                                           FontWeight="Bold"
+                                           Foreground="#F0F0F0"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,6"/>
+
+                                <!-- Track area -->
+                                <Grid Grid.Row="1" Height="28">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Track background -->
+                                    <Border Height="6" VerticalAlignment="Center"
+                                            Background="#55FFFFFF" CornerRadius="3"/>
+
+                                    <!-- Fill (progreso) -->
+                                    <Border x:Name="TrackFill" Height="6" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" CornerRadius="3"
+                                            Background="#F0F0F0"/>
+
+                                    <!-- PART_Track -->
+                                    <Track x:Name="PART_Track">
+                                        <Track.Thumb>
+                                            <Thumb x:Name="SliderThumb">
+                                                <Thumb.Template>
+                                                    <ControlTemplate TargetType="Thumb">
+                                                        <Grid>
+                                                            <!-- Glow -->
+                                                            <Ellipse x:Name="ThumbGlow"
+                                                                     Width="26" Height="26"
+                                                                     Fill="#33F0F0F0"/>
+                                                            <!-- Círculo principal -->
+                                                            <Ellipse x:Name="ThumbCircle"
+                                                                     Width="18" Height="18"
+                                                                     Fill="#F0F0F0"
+                                                                     HorizontalAlignment="Center"
+                                                                     VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers>
+                                                            <!-- Hover: blanco puro -->
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Trigger.EnterActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbCircle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.15"/>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbGlow" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#55FFFFFF" Duration="0:0:0.15"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.EnterActions>
+                                                                <Trigger.ExitActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbCircle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.15"/>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbGlow" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#33F0F0F0" Duration="0:0:0.15"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.ExitActions>
+                                                            </Trigger>
+                                                            <!-- Drag/Press: gris oscuro -->
+                                                            <Trigger Property="IsDragging" Value="True">
+                                                                <Trigger.EnterActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbCircle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#AAAAAA" Duration="0:0:0.05"/>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbGlow" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#22AAAAAA" Duration="0:0:0.05"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.EnterActions>
+                                                                <Trigger.ExitActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbCircle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.2"/>
+                                                                            <ColorAnimation Storyboard.TargetName="ThumbGlow" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" To="#33F0F0F0" Duration="0:0:0.2"/>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.ExitActions>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Thumb.Template>
+                                            </Thumb>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard x:Name="SliderFocusStoryboard">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="SliderScale" Storyboard.TargetProperty="ScaleX" To="1.05" Duration="0:0:0.25">
+                                                    <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="SliderScale" Storyboard.TargetProperty="ScaleY" To="1.05" Duration="0:0:0.25">
+                                                    <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="SliderLabel" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <StopStoryboard BeginStoryboardName="SliderFocusStoryboard"/>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="SliderScale" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="SliderScale" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2"/>
+                                                <ColorAnimation Storyboard.TargetName="SliderLabel" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- ── BACK BUTTON STYLE ── -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -41,7 +184,7 @@
                                            FontFamily="{TemplateBinding FontFamily}"
                                            FontSize="{TemplateBinding FontSize}"
                                            FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
+                                           Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
 
@@ -56,6 +199,7 @@
                             </StackPanel>
 
                             <ControlTemplate.Triggers>
+                                <!-- Hover/Focus: blanco puro -->
                                 <Trigger Property="IsFocused" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard x:Name="HoverFocusStoryboard">
@@ -66,6 +210,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.25">
                                                     <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
@@ -79,6 +224,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" To="-30" Duration="0:0:0.2"/>
@@ -90,13 +236,14 @@
                                     <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
                                 </Trigger>
 
+                                <!-- Press: gris oscuro -->
                                 <Trigger Property="IsPressed" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="0.85" Duration="0:0:0.05"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="0.85" Duration="0:0:0.05"/>
-                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFBBBBBB" Duration="0:0:0.05"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#AAAAAA" Duration="0:0:0.05"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
@@ -109,6 +256,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.3">
                                                     <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>
@@ -119,8 +267,8 @@
                 </Setter>
             </Style>
 
+            <!-- ── STORYBOARDS ── -->
             <Storyboard x:Key="Intro">
-                <!-- Overlay oscuro: aparece rápido -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1">
@@ -128,7 +276,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Panel central: escala desde 0.88 con fade -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
@@ -148,7 +295,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Título SOUND: cae desde arriba -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MainMenu_Viewbox">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
@@ -162,35 +308,32 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- SOUND EFFECTS -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SoundEffectsButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SoundEffectsSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SoundEffectsButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SoundEffectsSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- MUSIC -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MusicButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MusicSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="MusicButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="MusicSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="80"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- BACK -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
@@ -206,13 +349,10 @@
             </Storyboard>
 
             <Storyboard x:Key="FadeOut">
-                <!-- Overlay negro cubre todo -->
                 <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity"
                                  To="1" Duration="0:0:1.5">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-
-                <!-- Panel central se encoge al salir -->
                 <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
                                  To="0" Duration="0:0:0.35">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
@@ -227,29 +367,26 @@
                                  To="0.88" Duration="0:0:0.35">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-
-                <!-- Overlay oscuro desaparece -->
                 <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
                                  To="0" Duration="0:0:0.4">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Botones salen a la derecha en cascada -->
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsButton" Storyboard.TargetProperty="Opacity"
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="Opacity"
                                  To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsButton"
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider"
                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
                                  To="80" BeginTime="0:0:0.0" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="MusicButton" Storyboard.TargetProperty="Opacity"
+                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="Opacity"
                                  To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="MusicButton"
+                <DoubleAnimation Storyboard.TargetName="MusicSlider"
                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
                                  To="80" BeginTime="0:0:0.05" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
@@ -274,7 +411,6 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <!-- Overlay oscuro de fondo -->
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
     <Grid x:Name="LayoutRoot" Opacity="0" RenderTransformOrigin="0.5,0.5">
@@ -303,7 +439,8 @@
                     <TranslateTransform X="0" Y="0"/>
                 </Viewbox.RenderTransform>
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445" Text="SOUND" FontFamily="./#ForgottenUncial">
+                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445"
+                               Text="SOUND" FontFamily="./#ForgottenUncial">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -325,12 +462,14 @@
                         <RowDefinition Height="45*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="SoundEffectsButton" Grid.Row="1" Opacity="0"
-                            Style="{StaticResource TextButtonStyle}" Content="SOUND EFFECTS"
-                            Command="{Binding Path=Commands[SoundEffectsButton]}" Margin="0,0,0,30">
-                        <Button.RenderTransform>
+                    <Slider x:Name="SoundEffectsSlider" Grid.Row="1"
+                            Style="{StaticResource MenuSliderStyle}"
+                            Tag="SOUND EFFECTS"
+                            Value="{Binding Path=SoundEffectsVolume, Mode=TwoWay}"
+                            Opacity="0" Margin="0,0,0,10">
+                        <Slider.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
+                        </Slider.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="Loaded">
                                 <noesis:SetFocusAction/>
@@ -339,20 +478,22 @@
                                 <noesis:SetFocusAction/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
-                    </Button>
+                    </Slider>
 
-                    <Button x:Name="MusicButton" Grid.Row="3" Opacity="0"
-                            Style="{StaticResource TextButtonStyle}" Content="MUSIC"
-                            Command="{Binding Path=Commands[SoundsButton]}" Margin="0,0,0,30">
-                        <Button.RenderTransform>
+                    <Slider x:Name="MusicSlider" Grid.Row="3"
+                            Style="{StaticResource MenuSliderStyle}"
+                            Tag="MUSIC"
+                            Value="{Binding Path=MusicVolume, Mode=TwoWay}"
+                            Opacity="0" Margin="0,0,0,10">
+                        <Slider.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
+                        </Slider.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
-                    </Button>
+                    </Slider>
 
                     <Button x:Name="BackButton" Grid.Row="5" Opacity="0"
                             Style="{StaticResource TextButtonStyle}" Content="BACK"
@@ -372,5 +513,4 @@
 
         <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
-
 </Grid>

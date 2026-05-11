@@ -159,6 +159,7 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
+                <!-- SOUND -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SoundButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
@@ -172,15 +173,30 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton">
+                <!-- GRAPHICS -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="GraphicsButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="GraphicsButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="80"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- BACK -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="80"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
@@ -202,16 +218,26 @@
                 <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.4">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
+
+                <!-- Botones salen a la derecha en cascada -->
                 <DoubleAnimation Storyboard.TargetName="SoundButton" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="SoundButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="80" BeginTime="0:0:0.0" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
+
+                <DoubleAnimation Storyboard.TargetName="GraphicsButton" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="80" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                <DoubleAnimation Storyboard.TargetName="GraphicsButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="80" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="80" BeginTime="0:0:0.1" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
             </Storyboard>
@@ -263,26 +289,49 @@
                         <RowDefinition Height="45*"/>
                         <RowDefinition Height="0*"/>
                         <RowDefinition Height="45*"/>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition Height="45*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="SoundButton" Grid.Row="1" Style="{StaticResource TextButtonStyle}" 
-                            Content="SOUND" Command="{Binding Path=Commands[SoundsButton]}" Opacity="0" Margin="0,0,0,30">
+                    <Button x:Name="SoundButton" Grid.Row="1" Opacity="0"
+                            Style="{StaticResource TextButtonStyle}" Content="SOUND"
+                            Command="{Binding Path=Commands[SoundsButton]}" Margin="0,0,0,30">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Loaded"><noesis:SetFocusAction/></b:EventTrigger>
-                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                            <b:EventTrigger EventName="Loaded">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
                         </b:Interaction.Triggers>
                     </Button>
 
-                    <Button x:Name="BackButton" Grid.Row="3" Style="{StaticResource TextButtonStyle}" 
-                            Content="BACK" Command="{Binding Path=Commands[BackButton]}" Opacity="0" Margin="0,0,0,30">
+                    <Button x:Name="GraphicsButton" Grid.Row="3" Opacity="0"
+                            Style="{StaticResource TextButtonStyle}" Content="GRAPHICS"
+                            Command="{Binding Path=Commands[GraphicsButton]}" Margin="0,0,0,30">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+
+                    <Button x:Name="BackButton" Grid.Row="5" Opacity="0"
+                            Style="{StaticResource TextButtonStyle}" Content="BACK"
+                            Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30">
+                        <Button.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
                         </b:Interaction.Triggers>
                     </Button>
                 </Grid>

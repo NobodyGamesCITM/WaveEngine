@@ -3,6 +3,8 @@
 #include <NsGui/FrameworkElement.h>
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/TextBlock.h>
+#include <NsGui/CheckBox.h>
+#include <NsCore/Nullable.h>
 #include <NsGui/Canvas.h>
 #include <algorithm>
 #include <functional>
@@ -100,6 +102,14 @@ void UIManager::SetElementText(const std::string& elementName, const std::string
 
     if (auto* tb = Noesis::DynamicCast<Noesis::TextBlock*>(fe))
         tb->SetText(text.c_str());
+}
+
+void UIManager::SetCheckBox(const std::string& elementName, bool checked) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+
+    if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(fe))
+        cb->SetIsChecked(checked);
 }
 
 void UIManager::SetElementVisibility(const std::string& elementName, bool visible) {

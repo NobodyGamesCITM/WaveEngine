@@ -186,10 +186,8 @@ function ForceRefreshHUD()
 
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Usar flags de estado y tabla de desbloqueo para asegurar persistencia tras pausa
     local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
     local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
-    -- Comprobar ambas grafías "Apolo" y "Apollo" por seguridad
     local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
 
     local activeMask = _G._PlayerController_currentMask or ""
@@ -210,9 +208,8 @@ _G.ForceRefreshHUD = ForceRefreshHUD
 function Start(self)
     myCanvas = self.gameObject:GetComponent("Canvas")
     ForceRefreshHUD()
-    missionVisible     = false
-    missionHideTimer   = 0.0
-    
+    missionVisible   = false
+    missionHideTimer = 0.0
     RefreshMissionUI()
 end
 

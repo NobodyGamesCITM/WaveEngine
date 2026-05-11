@@ -505,17 +505,29 @@ bool Renderer::RenderScene(CameraLens* camera)
 
     if (lightManager)
     {
+        const glm::vec3& camPos = camera->position;
+
         shadowCasters.clear();
         for (ComponentMesh* m : meshes)
         {
             if (!m || !m->GetCastShadows()) continue;
+            if (!m->owner || !m->owner->IsActive()) continue;
+            const AABB& aabb = m->GetGlobalAABB();
+            glm::vec3 center = (aabb.min + aabb.max) * 0.5f;
+            if (glm::distance(center, camPos) > shadowCullDistance) continue;
             shadowCasters.push_back(m);
         }
 
         skinnedShadowCasters.clear();
         for (ComponentSkinnedMesh* m : skinnedMeshes)
-            if (m && m->GetCastShadows())
-                skinnedShadowCasters.push_back(m);
+        {
+            if (!m || !m->GetCastShadows()) continue;
+            if (!m->owner || !m->owner->IsActive()) continue;
+            const AABB& aabb = m->GetGlobalAABB();
+            glm::vec3 center = (aabb.min + aabb.max) * 0.5f;
+            if (glm::distance(center, camPos) > shadowCullDistance) continue;
+            skinnedShadowCasters.push_back(m);
+        }
 
         lightManager->BuildShadowMap(shadowCasters, skinnedShadowCasters, camera);
     }
@@ -1053,24 +1065,32 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     if (camera->fboID == 0) {
         Application::GetInstance().window->GetWindowSize(w, h);
     }
-    GLuint tempDepthFBO, tempDepthTex;
-    glGenFramebuffers(1, &tempDepthFBO);
-    glGenTextures(1, &tempDepthTex);
 
-    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+    if (waterDepthFBO == 0 || w != waterDepthW || h != waterDepthH) {
+        if (waterDepthFBO != 0) {
+            glDeleteFramebuffers(1, &waterDepthFBO);
+            glDeleteTextures(1, &waterDepthTex);
+        }
+        glGenFramebuffers(1, &waterDepthFBO);
+        glGenTextures(1, &waterDepthTex);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, w, h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glBindTexture(GL_TEXTURE_2D, waterDepthTex);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, w, h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, tempDepthFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tempDepthTex, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, waterDepthFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, waterDepthTex, 0);
+
+        waterDepthW = w;
+        waterDepthH = h;
+    }
 
     bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
     GLuint currentFBO = usingMSAA ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
 
     glBindFramebuffer(GL_READ_FRAMEBUFFER, currentFBO);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, tempDepthFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, waterDepthFBO);
     glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
     glBindFramebuffer(GL_FRAMEBUFFER, currentFBO);
@@ -1088,7 +1108,7 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     waterShader->SetMat4("uInverseVP", inverseVP);
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, tempDepthTex);
+    glBindTexture(GL_TEXTURE_2D, waterDepthTex);
     waterShader->SetInt("uSceneDepthMap", 1);
 
     waterShader->SetVec3("uWaterColor", glm::vec3(0.05f, 0.45f, 0.8f));
@@ -1106,9 +1126,6 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     }
 
     glDepthMask(GL_TRUE);
-
-    glDeleteTextures(1, &tempDepthTex);
-    glDeleteFramebuffers(1, &tempDepthFBO);
 }
 
 void Renderer::DrawSkybox(const CameraLens* camera)
@@ -1457,6 +1474,11 @@ bool Renderer::CleanUp()
     {
         glDeleteVertexArrays(1, &normalLinesVAO);
         glDeleteBuffers(1, &normalLinesVBO);
+    }
+
+    if (waterDepthFBO != 0) {
+        glDeleteFramebuffers(1, &waterDepthFBO);
+        glDeleteTextures(1, &waterDepthTex);
     }
 
     if (postProcessFBO != 0) {

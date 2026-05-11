@@ -115,6 +115,9 @@ public:
     void SetLightDir(const glm::vec3& dir) { lightDir = dir; }
     glm::vec3 GetLightDir() const { return lightDir; }
 
+    float GetShadowCullDistance() const { return shadowCullDistance; }
+    void SetShadowCullDistance(float d) { shadowCullDistance = glm::max(d, 0.0f); }
+
     void SetActiveSkybox(ComponentSkybox* skybox);
     bool IsSkyboxActive(ComponentSkybox* skybox) { return activeSkybox == skybox; }
     void DrawSkybox(const CameraLens* camera);
@@ -200,6 +203,7 @@ private:
     float clearColorB = 0.3f;
     int cullFaceMode = 0; // GL_BACK
     glm::vec3 lightDir = glm::vec3(1.0f, -1.0f, -1.0f);
+    float shadowCullDistance = 120.0f;
 
     // Normal visualization buffers (reused to avoid repeated allocations)
     GLuint normalLinesVAO = 0;
@@ -247,6 +251,12 @@ private:
     std::vector<RenderLine> linesList;
     std::vector<CanvasObject> canvasList;
 
+
+    // Water depth
+    GLuint waterDepthFBO = 0;
+    GLuint waterDepthTex = 0;
+    int waterDepthW = 0;
+    int waterDepthH = 0;
 
     // Post Processing
     int postProcessCurrentW = 0;

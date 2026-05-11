@@ -74,6 +74,7 @@ local Player = {
     sprintHeld      = false,
 	smokePS         = nil,
 	bubblesPS         = nil,
+	hermesRunPS         = nil,
 	aresPs         = nil,
 	apoloPs         = nil,
 	hermesPs         = nil,
@@ -775,7 +776,8 @@ States[State.RUNNING] = {
 
         if Player.isDrowning and Player.currentMask == Mask.HERMES then
             if Player.bubblesPS then Player.bubblesPS:Play() end
-        elseif Player.smokePS then Player.smokePS:Play() end
+        elseif Player.currentMask ~= Mask.HERMES and Player.smokePS then Player.smokePS:Play() end
+        if Player.hermesRunPS and Player.currentMask == Mask.HERMES then Player.hermesRunPS:Play() end
     end,
     Exit = function(self)
         Player.currentOrbitAnim = nil
@@ -783,6 +785,7 @@ States[State.RUNNING] = {
         self.public.usingStamina = false
 		if Player.smokePS then Player.smokePS:Stop() end
 		if Player.bubblesPS then Player.bubblesPS:Stop() end
+		if Player.hermesRunPS then Player.hermesRunPS:Stop() end
     end,
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput(self)
@@ -1399,8 +1402,6 @@ function Start(self)
         if Player.smokePS then
             Player.smokePS:Stop()
         end
-    else
-        Engine.Log("[Player] No SmokeTrail child found in hierarchy")
     end
 
     local bubblesObj = GameObject.FindInChildren(self.gameObject, "WaterTrail")
@@ -1409,8 +1410,14 @@ function Start(self)
         if Player.bubblesPS then
             Player.bubblesPS:Stop()
         end
-    else
-        Engine.Log("[Player] No WaterTrail child found in hierarchy")
+    end
+
+    local hermesRunObj = GameObject.FindInChildren(self.gameObject, "HermesTrail")
+    if hermesRunObj then
+        Player.hermesRunPS = hermesRunObj:GetComponent("ParticleSystem")
+        if Player.hermesRunPS then
+            Player.hermesRunPS:Stop()
+        end
     end
 
     _G._PlayerController_isDead = false
@@ -1996,7 +2003,10 @@ function MaskScroll(self)
     local oldMask = Player.currentMask
     EquipMask(self, newMask)
 
-    if Player.changeMaskSFX and oldMask ~= Player.currentMask then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
+    if Player.changeMaskSFX and oldMask ~= Player.currentMask then 
+        Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
+        ChangeState(self, State.IDLE)
+    end
 
     if oldMask ~= Player.currentMask and Player.currentMask ~= Mask.NONE then
         local anim = self.gameObject:GetComponent("Animation")
@@ -2175,7 +2185,7 @@ function OnCollisionExit(self, other)
         _PlayerController_isDrowning = false
         Player.hermesGraceTimer      = 0
         if Player.currentState == State.RUNNING then
-            if Player.smokePS then Player.smokePS:Play() end
+            if Player.smokePS and Player.currentMask ~= Mask.HERMES then Player.smokePS:Play() end
             if Player.bubblesPS then Player.bubblesPS:Stop() end
         end
 

@@ -91,6 +91,7 @@ public:
 
     // Load resources from meta files
     void LoadResourcesFromMetaFiles();
+    void LoadResourcesFromRegistry();
 
     // Create resource with specific UID
     Resource* CreateNewResourceWithUID(const char* assetsFile, Resource::Type type, UID uid);

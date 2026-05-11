@@ -1,0 +1,97 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": true,
+    "alignToVelocity": true,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 1.0,
+    "colorEnd": [
+        1.0,
+        0.9887543320655823,
+        0.6176470518112183,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                1.0,
+                0.658823549747467,
+                0.1725490242242813,
+                1.0
+            ],
+            "time": 0.0
+        },
+        {
+            "color": [
+                1.0,
+                0.9857266545295715,
+                0.5147058963775635,
+                1.0
+            ],
+            "time": 0.5
+        },
+        {
+            "color": [
+                1.0,
+                0.529411792755127,
+                0.529411792755127,
+                1.0
+            ],
+            "time": 0.8270000219345093
+        }
+    ],
+    "colorStart": [
+        1.0,
+        0.6588811874389648,
+        0.1715686321258545,
+        1.0
+    ],
+    "coneAngle": 32.779998779296875,
+    "coneRadius": 1.0,
+    "duration": 5.0,
+    "emissionArea": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 20.0,
+    "emissionRateDist": 0.0,
+    "emitFromShell": false,
+    "gravity": [
+        0.0,
+        -2.0,
+        0.0
+    ],
+    "initRotMax": 0.0,
+    "initRotMin": 0.0,
+    "lifetimeMax": 1.0,
+    "lifetimeMin": 0.20000000298023224,
+    "looping": false,
+    "luminance": false,
+    "maxParticles": 100,
+    "noiseActive": true,
+    "noiseFreq": 1.690000057220459,
+    "noiseStrength": 1.0,
+    "oneShot": true,
+    "oneShotCount": 30,
+    "prewarm": false,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 0.0,
+    "rotSpeedMin": 0.0,
+    "shape": 2,
+    "simulationSpace": 0,
+    "sizeCurve": [],
+    "sizeEnd": 0.5,
+    "sizeStart": 1.0,
+    "speedMax": 8.0,
+    "speedMin": 5.0,
+    "textureCols": 1,
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Hard_00_TEST.png",
+    "textureRows": 1,
+    "textureUID": 10078130434307682494,
+    "type": 7
+}

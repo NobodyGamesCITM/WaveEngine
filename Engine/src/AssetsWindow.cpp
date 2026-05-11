@@ -1136,7 +1136,8 @@ std::string AssetsWindow::TruncateFileName(const std::string& name, float maxWid
 
     while (truncated.length() > 3)
     {
-        truncated = truncated.substr(0, truncated.length() - 1);
+        truncated.pop_back();
+
         ImVec2 currentSize = ImGui::CalcTextSize((truncated + suffix).c_str());
 
         if (currentSize.x <= maxWidth)
@@ -1836,7 +1837,7 @@ void AssetsWindow::ShowPrefabNamingModal()
         std::string relativePath = destinationPath.string();
         std::string assetsRoot = FileSystem::GetAssetsRoot();
 
-        if (relativePath.find(assetsRoot) == 0)
+        if (relativePath.rfind(assetsRoot, 0) == 0)
         {
             relativePath = relativePath.substr(assetsRoot.length());
             if (!relativePath.empty() && (relativePath[0] == '\\' || relativePath[0] == '/'))

@@ -20,7 +20,6 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::SetMaterial(UID uid) 
 {
-    LOG_CONSOLE("%llu", uid);
     if (materialUID != 0) {
         Application::GetInstance().resources->ReleaseResource(materialUID);
     }
@@ -89,7 +88,6 @@ void ComponentMaterial::OnEditor()
             const Resource* res = Application::GetInstance().resources->PeekResource(droppedUID);
             if (res && res->GetType() == Resource::Type::MATERIAL)
             {
-                LOG_CONSOLE("%llu", droppedUID);
                 SetMaterial(droppedUID);
             }
         }

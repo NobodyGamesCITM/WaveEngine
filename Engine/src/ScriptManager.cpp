@@ -1495,7 +1495,7 @@ static int Lua_Animation_IsPlaying(lua_State* L)
 static int Lua_Animation_IsPlayingAnimation(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
-    const char* animName = luaL_checkstring(L, 2);
+    std::string animName = luaL_checkstring(L, 2);
 
     bool playing = false;
     if (anim)

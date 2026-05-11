@@ -9,10 +9,13 @@
 #include "ModuleCamera.h"
 #include <imgui.h>
 
-ComponentCinematicCamera::ComponentCinematicCamera(GameObject* owner) : Component(owner, ComponentType::CINEMATIC_CAMERA) {
-    currentPos = owner->transform->GetGlobalPosition();
-    currentRot = owner->transform->GetGlobalRotationQuat();
-    currentFov = defaultFov;
+ComponentCinematicCamera::ComponentCinematicCamera(GameObject* owner) 
+    : Component(owner, ComponentType::CINEMATIC_CAMERA),
+      currentPos(owner->transform->GetGlobalPosition()),
+      currentRot(owner->transform->GetGlobalRotationQuat()),
+      currentFov(defaultFov)
+{
+
 }
 
 ComponentCinematicCamera::~ComponentCinematicCamera() {

@@ -33,10 +33,11 @@
 #include <AK/Plugin/AkTremoloFXFactory.h>
 #include <windows.h>
 
-AudioEvent::AudioEvent() {
-    playingID = 0L;
-    eventID = AK_INVALID_UNIQUE_ID; //<-- new
-    eventCallback = (AkCallbackFunc)AudioSystem::EventCallBack;
+AudioEvent::AudioEvent() 
+    : playingID(0L),
+      eventID(AK_INVALID_UNIQUE_ID),
+      eventCallback((AkCallbackFunc)AudioSystem::EventCallBack)
+{
 
 }
 
@@ -120,6 +121,7 @@ bool AudioSystem::InitStreamingManager() {
 
     std::string projectRoot = FileSystem::GetProjectRoot();
     std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
+    LOG_CONSOLE("Hola %s", wProjectRoot.c_str());
     mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
     g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());
 
@@ -384,7 +386,7 @@ void AudioSystem::SetState(const char* stateGroup, const char* state)
 }
 
 //get state from given stategroup (for Lua)
-std::string AudioSystem::GetState(const char* stateGroup) {
+const std::string& AudioSystem::GetState(const char* stateGroup) {
     return currentState;
 }
 
@@ -835,6 +837,7 @@ void AudioSystem::DiscoverEvents() {
     std::string soundBankFilePath = soundBankDir + soundBankFileName;
         
     std::ifstream file(soundBankFilePath);
+    
     if (!file.is_open()) {
         LOG_CONSOLE("Audio Error: Could not open %s at %s", soundBankFileName, soundBankFilePath);
         return;

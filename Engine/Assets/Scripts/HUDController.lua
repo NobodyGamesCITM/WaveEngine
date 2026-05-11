@@ -135,7 +135,7 @@ local function RefreshMissionUI()
 
     local varName      = _G.MissionVarName or "keysCollected"
     local currentCount = _G[varName] or 0
-    local total        = _G.TotalStatuesToDestroy or 0
+    local total        = _G.TotalStatuesToDestroy or 3
 
     local countInt = math.floor(currentCount)
     local totalInt = math.floor(total)
@@ -146,6 +146,8 @@ local function RefreshMissionUI()
     end
 
     UI.SetElementVisibility("MissionGrid", true)
+
+    UI.SetElementText("MissionText", tostring(countInt) .. "/" .. tostring(totalInt))
 
     if countInt ~= lastDisplayedCount then
         if lastDisplayedCount ~= -1 then

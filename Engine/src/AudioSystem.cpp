@@ -121,6 +121,7 @@ bool AudioSystem::InitStreamingManager() {
 
     std::string projectRoot = FileSystem::GetProjectRoot();
     std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
+    LOG_CONSOLE("Hola %s", wProjectRoot.c_str());
     mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
     g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());
 
@@ -836,6 +837,7 @@ void AudioSystem::DiscoverEvents() {
     std::string soundBankFilePath = soundBankDir + soundBankFileName;
         
     std::ifstream file(soundBankFilePath);
+    
     if (!file.is_open()) {
         LOG_CONSOLE("Audio Error: Could not open %s at %s", soundBankFileName, soundBankFilePath);
         return;

@@ -48,15 +48,23 @@ bool ModuleResources::Start() {
     LibraryManager::Initialize();
     LOG_CONSOLE("[ModuleResources] Library structure created");
 
+#ifndef WAVE_GAME
+
     MetaFileManager::Initialize();
     LOG_CONSOLE("[ModuleResources] Asset metadata synchronized");
 
     LoadResourcesFromMetaFiles();
 
-#ifndef WAVE_GAME
     LOG_CONSOLE("[ModuleResources] Importing assets to Library...");
     CheckForAssetsModifications();
+
+#else
+
+    LOG_CONSOLE("[ModuleResources] Modo Build: Cargando recursos desde el AssetRegistry...");
+    LoadResourcesFromRegistry();
+
 #endif
+
 
     LOG_CONSOLE("[ModuleResources] Initialized successfully");
 
@@ -262,6 +270,44 @@ void ModuleResources::LoadResourcesFromMetaFiles() {
         registered, skipped);
 }
 
+void ModuleResources::LoadResourcesFromRegistry() {
+
+    const auto& registry = LibraryManager::GetRegistry();
+
+    int registered = 0;
+
+    for (const auto& [uid, entry] : registry) {
+
+        Resource::Type type = static_cast<Resource::Type>(entry.type);
+        Resource* resource = nullptr;
+
+        switch (type) {
+        case Resource::TEXTURE:  resource = new ResourceTexture(uid); break;
+        case Resource::MODEL:    resource = new ResourceModel(uid); break;
+        case Resource::MESH:     resource = new ResourceMesh(uid); break;
+        case Resource::ANIMATION:resource = new ResourceAnimation(uid); break;
+        case Resource::SHADER:   resource = new ResourceShader(uid); break;
+        case Resource::SCRIPT:   resource = new ResourceScript(uid); break;
+        case Resource::PREFAB:   resource = new ResourcePrefab(uid); break;
+        case Resource::MATERIAL: resource = new ResourceMaterial(uid); break;
+        case Resource::SCENE:    resource = new ResourceScene(uid); break;
+        default: continue;
+        }
+
+        if (resource) {
+
+            resource->SetAssetFile(entry.path.c_str());
+            resource->SetLibraryFile(LibraryManager::GetLibraryPath(uid));
+
+            resources[uid] = resource;
+            registered++;
+        }
+    }
+
+    LOG_CONSOLE("[ModuleResources] Resources registered: %d",
+        registered);
+}
+
 UID ModuleResources::Find(const char* assetPath, Resource::Type type) const {
     for (auto const& [uid, res] : resources) {
         if (res->GetAssetFile() == assetPath) {
@@ -349,24 +395,21 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
         break;
     }
 
-    if (!importSuccess) {
-        LOG_CONSOLE("ERROR: Import failed for: %s", newFileInAssets);
-
-        if (it == resources.end()) {
-            delete resource;
-            resources.erase(meta.uid);
-        }
-        return 0;
-    }
-
-    if (resource->IsLoadedToMemory())
-    {
-        resource->UnloadFromMemory();
-        resource->LoadInMemory();
-    }
+    meta = MetaFileManager::LoadMeta(newFileInAssets);
 
     uint32_t finalFileHash = MetaFileManager::GetCombinedHash(newFileInAssets);
-    LibraryManager::UpdateLocalHash(meta.uid, finalFileHash);
+
+    LibraryManager::UpdateRegistry(meta.uid, finalFileHash, type, path.generic_string());
+
+    if (type == Resource::MODEL) {
+        for (const auto& [meshName, meshUID] : meta.meshes) {
+            LibraryManager::UpdateRegistry(meshUID, finalFileHash, (int)Resource::MESH, path.generic_string());
+        }
+        for (const auto& [animName, animUID] : meta.animations) {
+            LibraryManager::UpdateRegistry(animUID, finalFileHash, (int)Resource::ANIMATION, path.generic_string());
+        }
+    }
+
 
     return meta.uid;
 }

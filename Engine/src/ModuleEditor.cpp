@@ -1170,17 +1170,15 @@ void ModuleEditor::BuildGame()
         }
         LOG_CONSOLE("[Build] Copied %d DLL(s)", dllCount);
 
-        // Copy Assets/ folder
-        fs::path assetsSrc(FileSystem::GetAssetsRoot());
-        if (fs::exists(assetsSrc))
-        {
-            fs::copy(assetsSrc, dest / "Assets", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
-            LOG_CONSOLE("[Build] Copied Assets/ folder");
+        // Copy UI folder
+        fs::path uiFolder(FileSystem::GetProjectRoot() + "\\UI");
+        if (fs::exists(uiFolder)) {
+            fs::copy(uiFolder, dest / "UI", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            LOG_CONSOLE("[Build] Copied UI/ folder");
         }
         else
         {
-            LOG_CONSOLE("[Build] WARNING: Assetsfolder not found");
-            LOG_CONSOLE("[Build] WARNING: Assets folder not found");
+            LOG_CONSOLE("[Build] WARNING: UI folder not found");
         }
 
         // Copy Audio folder

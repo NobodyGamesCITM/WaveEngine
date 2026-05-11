@@ -77,11 +77,6 @@ void ModuleNavMesh::RecollectGeometry(GameObject* obj,
 
     ComponentMesh* mesh = (ComponentMesh*)obj->GetComponent(ComponentType::MESH);
     if (mesh) {
-        LOG_CONSOLE("Checking mesh for object: %s, HasMesh: %d, Vertices: %d, Indices: %d",
-            obj->GetName().c_str(),
-            mesh->HasMesh(),
-            (int)mesh->GetMesh().vertices.size(),
-            (int)mesh->GetMesh().indices.size());
         if (mesh->HasMesh())
             ExtractVertices(mesh, vertices, indices);
     }
@@ -145,8 +140,6 @@ void ModuleNavMesh::Bake(GameObject* /*triggerObj*/)
         return;
     }
 
-    LOG_CONSOLE("NavMesh: Found %d Surface object(s). Baking all...", (int)allSurfaces.size());
-
     // ── 2. Remove every existing NavMesh that belongs to any of these surfaces
     //       (checking both owner and members so merged groups are fully cleared)
     for (auto it = navMeshes.begin(); it != navMeshes.end(); )
@@ -199,11 +192,6 @@ void ModuleNavMesh::Bake(GameObject* /*triggerObj*/)
         {
             CalculateAABB(infos[i].verts, infos[i].bmin, infos[i].bmax);
             infos[i].hasGeometry = true;
-        }
-        else
-        {
-            LOG_CONSOLE("NavMesh Warning: Surface '%s' has no geometry, skipping.",
-                allSurfaces[i]->GetName().c_str());
         }
     }
 
@@ -285,14 +273,8 @@ void ModuleNavMesh::Bake(GameObject* /*triggerObj*/)
 
         if (!members.empty())
         {
-            LOG_CONSOLE("NavMesh: Merging %d touching surface(s) into group (primary: '%s')",
-                (int)members.size() + 1, primary->GetName().c_str());
             for (auto* m : members)
                 LOG_CONSOLE("  + merged: '%s'", m->GetName().c_str());
-        }
-        else
-        {
-            LOG_CONSOLE("NavMesh: Baking standalone surface '%s'", primary->GetName().c_str());
         }
 
         BakeSurfaceGroup(primary, members, mergedVerts, mergedIndices, slopeAngle);
@@ -362,7 +344,6 @@ void ModuleNavMesh::BakeSurfaceGroup(GameObject* surface,
         float obsMax[3] = { aabb.max.x, aabb.max.y, aabb.max.z };
 
         rcMarkBoxArea(&ctx, obsMin, obsMax, RC_NULL_AREA, *chf);
-        LOG_CONSOLE("NavMesh: Obstacle baked -> %s", obs->GetName().c_str());
     }
 
     rcErodeWalkableArea(&ctx, cfg.walkableRadius, *chf);
@@ -381,9 +362,6 @@ void ModuleNavMesh::BakeSurfaceGroup(GameObject* surface,
     for (int i = 0; i < pmesh->npolys; ++i)
         pmesh->flags[i] = (pmesh->areas[i] == RC_WALKABLE_AREA) ? 1 : 0;
 
-    LOG_CONSOLE("AABB: min=(%.1f,%.1f,%.1f) max=(%.1f,%.1f,%.1f)",
-        bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2]);
-    LOG_CONSOLE("NavMesh stats: polys=%d, verts=%d", pmesh->npolys, pmesh->nverts);
 
     dtNavMeshCreateParams params;
     memset(&params, 0, sizeof(params));
@@ -440,13 +418,8 @@ void ModuleNavMesh::BakeSurfaceGroup(GameObject* surface,
     meshData.members = groupMembers;   // ← store merged surfaces
     meshData.tileRef = navMesh->getTileRefAt(0, 0, 0);
 
-    if (meshData.tileRef == 0)
-        LOG_CONSOLE("NavMesh Warning: tileRef is 0 for '%s'!", surface->GetName().c_str());
-
     navMeshes.push_back(meshData);
 
-    LOG_CONSOLE("NavMesh Bake OK: '%s'. Verts: %d  Tris: %d  Members: %d",
-        surface->GetName().c_str(), nVerts, nTris, (int)groupMembers.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -622,12 +595,10 @@ void ModuleNavMesh::RemoveNavMesh(GameObject* obj)
             if (it->navQuery)    dtFreeNavMeshQuery(it->navQuery);
             if (it->chf)         rcFreeCompactHeightfield(it->chf);
             navMeshes.erase(it);
-            LOG_CONSOLE("NavMesh removed for object: %s", obj->GetName().c_str());
             return;
         }
     }
 
-    LOG_CONSOLE("NavMesh not found for object: %s", obj->GetName().c_str());
 }
 
 void ModuleNavMesh::RemoveNavMeshRecursive(GameObject* obj)

@@ -50,7 +50,7 @@ void ComponentScript::Update()
     }
 
     //EN GAME ESTO NO SE HA DE HACER
-    if (scriptRes->NeedsReload()) {
+    if (scriptRes && scriptRes->NeedsReload()) {
         app.resources.get()->ImportFile(scriptRes->GetAssetFile().c_str(), true);
         ReloadScript();
     }
@@ -235,6 +235,7 @@ bool ComponentScript::LoadScriptByUID(UID uid)
     if (!CompileAndExecuteScript(scriptContent)) {
         LOG_CONSOLE("[ComponentScript] ERROR: Failed to compile script");
         UnloadScript();
+        scriptUID = uid;
         return false;
     }
 

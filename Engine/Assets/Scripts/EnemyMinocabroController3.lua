@@ -65,6 +65,7 @@ local function StopMovement(self)
     local vel = self.rb:GetLinearVelocity()
     self.rb:SetLinearVelocity(0, vel.y, 0)
     self.smoothDx, self.smoothDz = 0, 0
+    if self.dustPs then self.dustPs:Stop() end
 end
 
 local function DestroyChargeFeedback(self)
@@ -86,12 +87,14 @@ local function ChangeState(self, newState)
 
     if newState == State.CHARGE then
         if self.voiceSFX then  self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
+        if self.hoofPs then self.hoofPs:Stop() end
+        if self.dustPs then self.dustPs:Play() end
     elseif newState == State.WALL then
         if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoStun") end
     elseif newState == State.ANTICIPATION then
         if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoRoar") end
     elseif newState == State.DEAD then
-        if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDeath") end
+        --if self.voiceSFX then self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") end
     end
 end
 
@@ -134,9 +137,14 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if self.isDead then return end
 
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
+    end
+
     self.hp = self.hp - amount
     Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
+   
 
     if self.rb and attackerPos then
         local pos = self.transform.worldPosition
@@ -149,13 +157,19 @@ local function TakeDamage(self, amount, attackerPos)
 
     if self.hp <= 0 then
         if self.anim then self.anim:Play("Death") end
+        Game.SetTimeScale(0.3)
+        _impactFrameTimer = 0.2
         ChangeState(self, State.DEAD)
     else
         
         if self.voiceSFX then self.voiceSFX:SelectPlayAudioEvent("SFX_MinoHurt") end
         
+        
         if self.anim then self.anim:Play("Hurt") end
         StopMovement(self)
+
+        if self.thinBloodPs then self.thinBloodPs:Play() end
+        if self.wideBloodPs then self.wideBloodPs:Play() end
 
         self.wallStunTimer = self.public.hurtStunTime
         self.wallStunTimer = self.wallStunTimer - dt
@@ -192,6 +206,9 @@ local function UpdateIdle(self, dist)
 end
 
 local function UpdatePatrol(self, dt)
+
+    if self.dustPs and self.dustPs:IsPlaying() then self.dustPs:Stop() end
+
     if not self.nav or not self.playerGO then return end
 
     local myPos = self.transform.worldPosition
@@ -229,6 +246,14 @@ end
 local function UpdateChase(self, myPos, pp, dist, dt)
     if not self.nav or not self.playerGO then return end
 
+    --needs steps
+    if self.stepTimer >= 0.5 then
+        self.stepTimer = 0
+        if self.stepSFX then 
+            self.stepSFX:PlayAudioEvent() 
+        end
+    end
+
     local chargeRange = self.public.chargeRange or 10
     local moveSpeed = self.public.moveSpeed or 6
 
@@ -255,6 +280,7 @@ local function UpdateChase(self, myPos, pp, dist, dt)
         StopMovement(self)
         self.preparationTimer = 0
         ChangeState(self, State.ANTICIPATION)
+        
     else
         if self.anim and not self.anim:IsPlayingAnimation("Walk") then 
             self.anim:Play("Walk", 0.2) 
@@ -271,6 +297,7 @@ end
 
 local function UpdateReposition(self, myPos, pp, dist, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Idle") then self.anim:Play("Idle") end
+    if self.dustPs and self.dustPs:IsPlaying() then self.dustPs:Stop() end
 
     -- Opposite direction to the player
     local dx = myPos.x - pp.x
@@ -328,7 +355,8 @@ local function UpdateAnticipation(self, pp, dt)
         PlayAnim(self, "PreCharge")
         if self.voiceSFX then 
             self.voiceSFX:StopAudioEvent()
-            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge") 
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoPrecharge")
+            if self.hoofPs then self.hoofPs:Play() end
         end
 
     end
@@ -432,6 +460,8 @@ local function UpdateAnticipation(self, pp, dt)
         self.chargeTimer = 0
         --if self.nav then self.nav.StopMovement() end
         ChangeState(self, State.CHARGE)
+        
+        --if self.dustPs then self.dustPs:Stop() end
     end
 
     --if self.preparationTimer >= self.public.preparationTime then
@@ -449,6 +479,7 @@ local function UpdateCharge(self, dt)
 
     if not self.playerGO then return end
 
+    
     if self.stepTimer >= 0.25 then
         self.stepTimer = 0
         if self.stepSFX then 
@@ -457,8 +488,9 @@ local function UpdateCharge(self, dt)
     end
 
     if self.anim and not self.anim:IsPlayingAnimation("Charge") then
-        PlayAnim(self, "Charge")
-
+        --PlayAnim(self, "Charge")
+        self.anim:Play("Charge")
+        
     end
 
     self.chargeTimer = self.chargeTimer + dt
@@ -491,6 +523,7 @@ local function UpdateCharge(self, dt)
 
         if self.anim and not self.anim:IsPlayingAnimation("Idle") then
             self.anim:Play("Idle", 0.3)
+            if self.dustPs then self.dustPs:Stop() end
         end
 
         ChangeState(self, State.RECOVERY)
@@ -498,6 +531,9 @@ local function UpdateCharge(self, dt)
 end
 
 local function UpdateWall(self, dt)
+
+    if self.dustPs then self.dustPs:Stop() end
+
     if self.rb then
         local vel = self.rb:GetLinearVelocity()
         self.rb:SetLinearVelocity(0, vel.y, 0)
@@ -523,6 +559,9 @@ local function UpdateWall(self, dt)
 end
 
 local function UpdateRecovery(self, dt)
+
+    if self.dustPs then self.dustPs:Stop() end
+
     DestroyChargeFeedback(self)
 
     if self.playerGO and not self.cameFromWall then
@@ -564,11 +603,26 @@ end
 local function UpdateDeath(self, dt)    
     self.deathTimer = self.deathTimer - dt
 
+    if self.dustPs then self.dustPs:Stop() end
+
     if self.rb then
         self.rb:SetLinearVelocity(0, 0, 0)
         self.rb:SetBody(2)
 
     end
+
+    if self.voiceSFX then
+        if not Audio.IsEventPlaying("SFX_MinoDie") and self.deathTimer >= 3.0 then 
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") 
+            Engine.Log("[Minocabro] Playing Death SFX")
+        else
+            Engine.Log("[Minocabro] DeathSFX already playing!")
+        end
+        
+    else
+        Engine.Log("[Minocabro] Unable to play Death SFX")
+    end
+    
 
     if self.deathTimer <= 0 then
     
@@ -603,7 +657,51 @@ local function UpdateDeath(self, dt)
             self.rb = nil
             self.anim = nil
         end
+        
     end
+end
+
+local function FindMinocabroParticles(self)
+    self.thinBloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops01")
+    if self.thinBloodVFX then 
+        self.thinBloodPs = self.thinBloodVFX:GetComponent("ParticleSystem") 
+        if not self.thinBloodPs then 
+            Engine.Log("[Minocabro] Thin Blood Particle System NOT found!")
+        else
+            Engine.Log("[Minocabro] Thin Blood Particle System FOUND!")
+        end
+    else Engine.Log("[Minocabro] Could not retrieve Thin Blood Drops VFX GameObject") end
+
+    self.wideBloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops02")
+    if self.wideBloodVFX then 
+        self.wideBloodPs = self.wideBloodVFX:GetComponent("ParticleSystem") 
+        if not self.wideBloodPs then 
+            Engine.Log("[Minocabro] Wide Blood Particle System NOT found!")
+        else
+            Engine.Log("[Minocabro] Wide Blood Particle System FOUND!")
+        end
+    else Engine.Log("[Minocabro] Could not retrieve Wide Blood Drops VFX GameObject") end
+
+    self.dustVFX = GameObject.FindInChildren(self.gameObject, "RunDust")
+    if self.dustVFX then 
+        self.dustPs = self.dustVFX:GetComponent("ParticleSystem") 
+        if not self.dustPs then 
+            Engine.Log("[Minocabro] Running Dust Particle System NOT found!")
+        else
+            Engine.Log("[Minocabro] Running Dust Particle System FOUND!")
+        end
+    else Engine.Log("[Minocabro] Could not retrieve Running Dust VFX GameObject") end
+
+    self.hoofVFX = GameObject.FindInChildren(self.gameObject, "HoofDust")
+    if self.hoofVFX then 
+        self.hoofPs = self.hoofVFX:GetComponent("ParticleSystem") 
+        if not self.hoofPs then 
+            Engine.Log("[Minocabro] Hoof Dust Particle System NOT found!")
+        else
+            Engine.Log("[Minocabro] Hoof Dust Particle System FOUND!")
+        end
+    else Engine.Log("[Minocabro] Could not retrieve Hoof Dust VFX GameObject") end
+
 end
           
 function Start(self)
@@ -659,6 +757,7 @@ function Start(self)
     self.playerGO         = nil
     self.chargeFeedbackGO = nil
     self.stepTimer        = 0.5
+    
 
     self.nav = self.gameObject:GetComponent("Navigation")
     self.rb   = self.gameObject:GetComponent("Rigidbody")
@@ -666,6 +765,8 @@ function Start(self)
 
     self.playerGO = GameObject.Find("Player")
     self.navTimer = 0
+
+    --audio components
 
     self.stepSource = GameObject.FindInChildren(self.gameObject, "MinoStepSource")
     self.voiceSource = GameObject.FindInChildren(self.gameObject, "MinoVoiceSource")
@@ -679,7 +780,16 @@ function Start(self)
         self.voiceSFX = self.voiceSource:GetComponent("Audio Source")
     else Engine.Log("[Minocabro] WARNING: Audio Source for voice not found") end
 
+
     self.stepTimer = 0.5
+
+    --particle components
+    FindMinocabroParticles(self)
+    if self.thinBloodPs then self.thinBloodPs:Stop() end
+    if self.wideBloodPs then self.wideBloodPs:Stop() end
+    if self.dustPs then self.dustPs:Stop() end
+    if self.hoofPs then self.hoofPs:Stop() end
+
 
     if self.anim then self.anim:Play("Idle") end
 
@@ -730,6 +840,10 @@ function Update(self, dt)
     if not self.nav then self.nav = self.gameObject:GetComponent("Navigation") end
     if not self.rb   then self.rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not self.anim then self.anim = self.gameObject:GetComponent("Animation")  end
+
+    if not self.thinBloodPs or not self.wideBloodPs or not self.dustPs then
+        FindMinocabroParticles(self)
+    end
 
     if not self.nav or not self.rb then return end
     
@@ -906,3 +1020,5 @@ function OnTriggerExit(self, other)
         end
     end
 end
+
+

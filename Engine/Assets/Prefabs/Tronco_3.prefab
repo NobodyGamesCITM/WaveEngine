@@ -1,0 +1,261 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "castShadows": true,
+                                                                "meshUID": 9194471552737929404,
+                                                                "silhouetteColor": [
+                                                                    0.5686274766921997,
+                                                                    0.5686274766921997,
+                                                                    0.5686274766921997,
+                                                                    1.0
+                                                                ],
+                                                                "silhouetteEnabled": false,
+                                                                "type": 1
+                                                            },
+                                                            {
+                                                                "active": true,
+                                                                "materialUID": 18271672248541165975,
+                                                                "overrideTiling": false,
+                                                                "type": 3
+                                                            }
+                                                        ],
+                                                        "name": "Arbol_2",
+                                                        "tag": "",
+                                                        "uid": 14283123310499202397
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            1.3451645374298096,
+                                                            -0.9149848222732544,
+                                                            -8.51314640045166
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Arbol_2_$AssimpFbx$_ScalingPivotInverse",
+                                                "tag": "",
+                                                "uid": 6110675696292075143
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -1.3451645374298096,
+                                                    0.9149848222732544,
+                                                    8.51314640045166
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Arbol_2_$AssimpFbx$_ScalingPivot",
+                                        "tag": "",
+                                        "uid": 5763247405572552997
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            1.3451645374298096,
+                                            -0.9149848222732544,
+                                            -8.51314640045166
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Arbol_2_$AssimpFbx$_RotationPivotInverse",
+                                "tag": "",
+                                "uid": 7675351891538675485
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -1.3451645374298096,
+                                    0.9149848222732544,
+                                    8.51314640045166
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Arbol_2_$AssimpFbx$_RotationPivot",
+                        "tag": "",
+                        "uid": 12649523311571471109
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            1.1924099922180176,
+                            0.0,
+                            -8.392583847045898
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Arbol_2_$AssimpFbx$_Translation",
+                "tag": "",
+                "uid": 2046392195834770979
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -13.0,
+                    -1.7692906856536865,
+                    -11.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.1915026903152466,
+                    1.1915026903152466,
+                    1.1915026903152466
+                ],
+                "type": 0
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.30000001192092896
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 10
+            }
+        ],
+        "name": "Tronco_3",
+        "tag": "",
+        "uid": 17631772004972444831
+    }
+]

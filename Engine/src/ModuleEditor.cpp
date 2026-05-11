@@ -1145,18 +1145,18 @@ void ModuleEditor::BuildGame()
     fs::path exeDir = fs::path(exePath).parent_path();
 	// Example: exePath = C:\WaveEngine\Engine\build\Release\Engine.exe --> exeDir = C:\WaveEngine\Engine\build\Release
 
-    fs::path gameExeSrc = exeDir / "Game.exe";
+    fs::path gameExeSrc = exeDir / "SonOfIthaca.exe";
     if (!fs::exists(gameExeSrc))
     {
-        LOG_CONSOLE("[Build] ERROR: Game.exe not found at %s", gameExeSrc.string().c_str());
+        LOG_CONSOLE("[Build] ERROR: SonOfIthaca.exe not found at %s", gameExeSrc.string().c_str());
         return;
     }
 
-    try 
+    try
     {
-        // Copy Game.exe
-        fs::copy_file(gameExeSrc, dest / "Game.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
-        LOG_CONSOLE("[Build] Copied Game.exe");
+        // Copy SonOfIthaca.exe
+        fs::copy_file(gameExeSrc, dest / "SonOfIthaca.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
+        LOG_CONSOLE("[Build] Copied SonOfIthaca.exe");
 
         // Copy all dlls 
         int dllCount = 0;

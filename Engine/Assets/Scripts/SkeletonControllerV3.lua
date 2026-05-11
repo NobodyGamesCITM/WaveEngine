@@ -130,9 +130,15 @@ local function TakeDamage(self, amount, attackerPos)
     local anim = self.gameObject:GetComponent("Animation")
     Skeleton.hp = Skeleton.hp - amount
 
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
+    end
+
     if  Skeleton.hp <= 0 and not pendingDeath then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
+        Game.SetTimeScale(0.3)
+        _impactFrameTimer = 0.2
         ChangeState(self, State.DEAD)
     else
         --hitGiven = false
@@ -220,6 +226,8 @@ function Start(self)
     Engine.RequestResource("9184343178901509246")
     Engine.RequestResource("6526428321459400712")
     Engine.RequestResource("10436511945076754837") --new skeleton level2 mat
+
+    if self.public.level2 then BaseMat.SetTexture("10436511945076754837")end
 end
 
 States[State.IDLE] = {
@@ -404,9 +412,6 @@ States[State.ATTACK] = {
                 hitGiven = true
                 _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
-                if _G.TriggerCameraShake then
-                    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
-                end
             end
         end
 
@@ -487,11 +492,15 @@ States[State.DEAD] = {
             else  Engine.Log("Sphere not found") end
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
             else BaseMat.SetTexture("6526428321459400712") end
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Death", 0.5) end)
+            end
         elseif not States[State.DEAD].deadAnim then
             deathTimer = deathTimer + dt
             if deathTimer >= self.public.deathTime then 
                 States[State.DEAD].deadAnim = true 
-            elseif deathTimer >= self.public.deathTime/3 then
+            elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                _G.TriggerExplorationMusic()
             else
@@ -560,7 +569,9 @@ function OnTriggerEnter(self, other)
                 local dmg = 0
                 if     attack == "light"  then dmg = 10
                 elseif attack == "heavy" or attack == "charge" then dmg = 25 end
-                if dmg > 0 then TakeDamage(self, dmg, ap) end
+                if dmg > 0 then
+                    TakeDamage(self, dmg, ap)
+                end
             end
         end
     end

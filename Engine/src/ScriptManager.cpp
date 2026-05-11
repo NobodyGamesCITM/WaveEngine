@@ -878,6 +878,7 @@ static int Lua_Camera_GetScreenToWorldPlane(lua_State* L) {
     return 2;
 
 }
+
 static int Lua_Camera_GetViewportSize(lua_State* L) {
     auto& app = Application::GetInstance();
     int w = 800, h = 600;
@@ -894,6 +895,27 @@ static int Lua_Camera_GetViewportSize(lua_State* L) {
     lua_pushnumber(L, w);
     lua_pushnumber(L, h);
     return 2;
+}
+
+static int Lua_Camera_GetGameWindowRect(lua_State* L) {
+    auto& app = Application::GetInstance();
+    float x = 0, y = 0, w = 800, h = 600;
+#ifndef WAVE_GAME
+    GameWindow* gameWindow = app.editor->GetGameWindow();
+    if (gameWindow) {
+        ImVec2 pos = gameWindow->GetViewportPos();
+        ImVec2 size = gameWindow->GetViewportSize();
+        x = pos.x; y = pos.y;
+        w = size.x; h = size.y;
+    }
+#else
+    app.window->GetWindowSize((int&)w, (int&)h);
+#endif
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    lua_pushnumber(L, w);
+    lua_pushnumber(L, h);
+    return 4;
 }
 
 //Audio
@@ -1211,6 +1233,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "WorldToScreen");
     lua_pushcfunction(L, Lua_Camera_GetViewportSize);
     lua_setfield(L, -2, "GetViewportSize");
+    lua_pushcfunction(L, Lua_Camera_GetGameWindowRect);
+    lua_setfield(L, -2, "GetGameWindowRect");
     lua_setglobal(L, "Camera");
 
 
@@ -1279,6 +1303,17 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
     lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
     lua_pushcfunction(L, Lua_UI_SetElementMargin);      lua_setfield(L, -2, "SetElementMargin");
+
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        std::string name(luaL_checkstring(L, 1));
+        float left = (float)luaL_checknumber(L, 2);
+        float top = (float)luaL_checknumber(L, 3);
+        Application::GetInstance().scripts->EnqueueOperation([name, left, top]() {
+            UIManager::GetInstance().SetCanvasPosition(name, left, top);
+            });
+        return 0;
+        });
+    lua_setfield(L, -2, "SetCanvasPosition");
 
     lua_setglobal(L, "UI");
 
@@ -2085,6 +2120,14 @@ static int Lua_ParticleSystem_SetSize(lua_State* L) {
     return 0;
 }
 
+static int Lua_ParticleSystem_Reset(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    if (ps && ps->GetEmitter()) {
+        ps->GetEmitter()->Reset();
+    }
+    return 0;
+}
 
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
@@ -2734,6 +2777,11 @@ static int Lua_PostProcessing_SetVignetteSmoothness(lua_State* L) {
     if (pp) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetVignetteRoundness(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteRoundness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) {
@@ -3090,6 +3138,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "Play");
     lua_pushcfunction(L, Lua_ParticleSystem_Stop);
     lua_setfield(L, -2, "Stop");
+    lua_pushcfunction(L, Lua_ParticleSystem_Reset);
+    lua_setfield(L, -2, "Reset");
     lua_pushcfunction(L, Lua_ParticleSystem_Burst);
     lua_setfield(L, -2, "Burst");
     lua_pushcfunction(L, Lua_ParticleSystem_SetEmissionRate);
@@ -3131,6 +3181,7 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteSmoothness); lua_setfield(L, -2, "SetVignetteSmoothness");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteRoundness); lua_setfield(L, -2, "SetVignetteRoundness");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteColor);     lua_setfield(L, -2, "SetVignetteColor");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");

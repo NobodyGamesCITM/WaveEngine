@@ -333,7 +333,7 @@ void EmitterInstance::Update(float dt) {
 
                 p.size = EvaluateSizeCurve(lifeRatio, spawner);
                 p.rotation += p.angularVelocity * dt;
-                p.animationTime = lifeRatio * animationSpeed;
+                p.animationTime += dt * animationSpeed;
             }
             for (auto mod : modules) mod->Update(this, dt);
             KillDeadParticles();
@@ -427,7 +427,7 @@ void EmitterInstance::Update(float dt) {
 
         p.size = EvaluateSizeCurve(lifeRatio, spawner);
         p.rotation += p.angularVelocity * dt;
-        p.animationTime = lifeRatio * animationSpeed;
+        p.animationTime += dt * animationSpeed;
     }
 
     // Update modules (Movement, Noise)
@@ -599,8 +599,8 @@ void EmitterInstance::Draw(glm::vec3 cameraPos, const glm::mat4& modelMatrix) {
 
         float uLeft = col * frameWidth;
         float uRight = uLeft + frameWidth;
-        float vTop = 1.0f - (row * frameHeight);
-        float vBottom = vTop - frameHeight;
+        float vTop = row * frameHeight;
+        float vBottom = vTop + frameHeight;
 
         glColor4f(p.color.r, p.color.g, p.color.b, p.color.a);
 

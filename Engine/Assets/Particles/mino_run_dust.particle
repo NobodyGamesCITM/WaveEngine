@@ -1,0 +1,97 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": false,
+    "alignToVelocity": true,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 0.25,
+    "colorEnd": [
+        0.6859999895095825,
+        0.5249999761581421,
+        0.4390000104904175,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.8382352590560913,
+                0.7096266150474548,
+                0.5752595067024231,
+                0.8500000238418579
+            ],
+            "time": 0.0
+        },
+        {
+            "color": [
+                0.5,
+                0.3821231722831726,
+                0.3014705777168274,
+                0.550000011920929
+            ],
+            "time": 0.4000000059604645
+        },
+        {
+            "color": [
+                0.5784313678741455,
+                0.46014609932899475,
+                0.3969627022743225,
+                0.0
+            ],
+            "time": 1.0
+        }
+    ],
+    "colorStart": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "coneAngle": 25.0,
+    "coneRadius": 0.5,
+    "duration": 5.0,
+    "emissionArea": [
+        0.8999999761581421,
+        0.0,
+        0.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 18.0,
+    "emissionRateDist": 0.0,
+    "emitFromShell": false,
+    "gravity": [
+        5.0,
+        0.0,
+        0.0
+    ],
+    "initRotMax": 360.0,
+    "initRotMin": 0.0,
+    "lifetimeMax": 0.699999988079071,
+    "lifetimeMin": 0.30000001192092896,
+    "looping": true,
+    "luminance": true,
+    "maxParticles": 30,
+    "noiseActive": true,
+    "noiseFreq": 0.6000000238418579,
+    "noiseStrength": 0.4000000059604645,
+    "oneShot": false,
+    "oneShotCount": 30,
+    "prewarm": false,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 80.0,
+    "rotSpeedMin": -80.0,
+    "shape": 0,
+    "simulationSpace": 1,
+    "sizeCurve": [],
+    "sizeEnd": 2.3499999046325684,
+    "sizeStart": 0.20999999344348907,
+    "speedMax": 2.299999952316284,
+    "speedMin": 1.0499999523162842,
+    "textureCols": 1,
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\DustCloud_Soft_00_TEST.PNG",
+    "textureRows": 1,
+    "textureUID": 15782955381924006774,
+    "type": 7
+}

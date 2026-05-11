@@ -1519,9 +1519,13 @@ static int Lua_GameObject_Create(lua_State* L) {
     luaL_getmetatable(L, "GameObject");
     lua_setmetatable(L, -2);
 
+    // Avoid Lua collect the userdata before execution
+    lua_pushvalue(L, -1);
+    int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
     // Enqueue the real creation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata, ref]() {
         GameObject* obj = Application::GetInstance().scene->CreateGameObject(nameStr.c_str());
 
         if (obj) {
@@ -1531,6 +1535,13 @@ static int Lua_GameObject_Create(lua_State* L) {
             }
 
             *udata = obj;  // Assign the created GameObject
+        }
+
+        // Free the reference so Manager Lua can clean
+        if (auto* scripts = Application::GetInstance().scripts.get()) {
+            if (lua_State* L_state = scripts->GetState()) {
+                luaL_unref(L_state, LUA_REGISTRYINDEX, ref);
+            }
         }
         });
 
@@ -2109,6 +2120,14 @@ static int Lua_ParticleSystem_SetSize(lua_State* L) {
     return 0;
 }
 
+static int Lua_ParticleSystem_Reset(lua_State* L) {
+    ComponentParticleSystem* ps =
+        *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    if (ps && ps->GetEmitter()) {
+        ps->GetEmitter()->Reset();
+    }
+    return 0;
+}
 
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
@@ -2758,6 +2777,11 @@ static int Lua_PostProcessing_SetVignetteSmoothness(lua_State* L) {
     if (pp) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetVignetteRoundness(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.vignetteRoundness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) {
@@ -3114,6 +3138,8 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "Play");
     lua_pushcfunction(L, Lua_ParticleSystem_Stop);
     lua_setfield(L, -2, "Stop");
+    lua_pushcfunction(L, Lua_ParticleSystem_Reset);
+    lua_setfield(L, -2, "Reset");
     lua_pushcfunction(L, Lua_ParticleSystem_Burst);
     lua_setfield(L, -2, "Burst");
     lua_pushcfunction(L, Lua_ParticleSystem_SetEmissionRate);
@@ -3155,6 +3181,7 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteSmoothness); lua_setfield(L, -2, "SetVignetteSmoothness");
+    lua_pushcfunction(L, Lua_PostProcessing_SetVignetteRoundness); lua_setfield(L, -2, "SetVignetteRoundness");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteColor);     lua_setfield(L, -2, "SetVignetteColor");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");
@@ -3193,9 +3220,13 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
     luaL_getmetatable(L, "GameObject");
     lua_setmetatable(L, -2);
 
+    // Avoid Lua collect the userdata before execution
+    lua_pushvalue(L, -1);
+    int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
     // Enqueue instantiation for PostUpdate
     auto& app = Application::GetInstance();
-    app.scripts->EnqueueOperation([nameStr = std::string(name), udata]() {
+    app.scripts->EnqueueOperation([nameStr = std::string(name), udata, ref]() {
         GameObject* instance = nullptr;
 
         // First check if prefab is already loaded in PrefabManager
@@ -3234,7 +3265,6 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
                     std::string nameFilename = (nameLastSlash != std::string::npos)
                         ? normalizedName.substr(nameLastSlash + 1)
                         : normalizedName;
-
 
                     bool matchExact = normalizedAsset == normalizedName;
                     bool matchSuffix = normalizedAsset.size() >= normalizedName.size() &&
@@ -3301,6 +3331,13 @@ static int Lua_Prefab_Instantiate(lua_State* L) {
         }
         else {
             LOG_CONSOLE("[Lua] ERROR: Failed to instantiate prefab: %s", nameStr.c_str());
+        }
+
+        // Free the reference so Manager Lua can clean
+        if (auto* scripts = Application::GetInstance().scripts.get()) {
+            if (lua_State* L_state = scripts->GetState()) {
+                luaL_unref(L_state, LUA_REGISTRYINDEX, ref);
+            }
         }
         });
 

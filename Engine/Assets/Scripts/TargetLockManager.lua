@@ -191,7 +191,10 @@ local function ClearLock(self)
     -- HIDE PARTICLE
 	if lockParticleObj then
         local ps = lockParticleObj:GetComponent("ParticleSystem")
-        if ps then ps:Stop() end
+        if ps then
+            ps:Stop()
+            ps:Reset()
+        end
     end
 end
 

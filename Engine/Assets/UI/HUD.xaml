@@ -63,8 +63,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <!-- Pociones usadas -->
                 <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Height="100" Width="200" Margin="177,59,0,0">
-                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                            Height="100" Width="400" Margin="229,35,-129,0">
+                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -72,7 +72,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion2" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="UsedPotion2" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -80,7 +80,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion3" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="UsedPotion3" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -88,7 +88,55 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion4" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="UsedPotion4" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion5" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion6" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion7" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion8" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion9" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion10" Source="Textures/Pocion_Used.PNG" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -101,8 +149,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <!-- Pociones disponibles -->
                 <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Height="100" Width="200" Margin="177,59,0,0">
-                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                            Height="100" Width="400" Margin="229,35,-129,0">
+                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -110,7 +158,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion2" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="Potion2" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -118,7 +166,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion3" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="Potion3" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -126,7 +174,55 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion4" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="Potion4" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion5" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion6" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion7" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion8" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion9" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion10" Source="Textures/Pocion.PNG" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/><SkewTransform/>
@@ -136,23 +232,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
-                <!--
-                    MasksContainer
-                    ═══════════════════════════════════════════════════════════
-                    3 slots posicionales. HUDController decide qué imagen
-                    mostrar en cada slot según la máscara equipada y el orden
-                    de obtención. Todos los Viewbox tienen x:Name propio.
-
-                    Active (grande, arriba)     → máscara equipada actualmente
-                    Left   (pequeño, abajo izq) → 1ª obtenida que no está en Active
-                    Right  (pequeño, abajo der) → 2ª obtenida que no está en Active
-
-                    Elementos controlados por Lua:
-                      Active_Hermes  Active_Ares  Active_Apolo
-                      Left_Hermes    Left_Ares    Left_Apolo
-                      Right_Hermes   Right_Ares   Right_Apolo
-                    ═══════════════════════════════════════════════════════════
-                -->
                 <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
 
                     <!-- SLOT GRANDE: máscara equipada -->
@@ -167,7 +246,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Viewbox>
 
                     <!-- SLOT PEQUEÑO IZQUIERDA: primera obtenida no equipada -->
-                    <Viewbox x:Name="Left_Hermes" Visibility="Collapsed" Margin="13,96,170,21">
+                    <Viewbox x:Name="Left_Hermes" Margin="13,96,170,21" Visibility="Collapsed">
                         <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
                     </Viewbox>
                     <Viewbox x:Name="Left_Ares" Visibility="Collapsed" Margin="13,96,170,21">
@@ -190,87 +269,167 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
                 </Grid>
 
-                <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
-                    <Image x:Name="UsedPotion5" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="400" Margin="222,103,-122,-35">
+                    <Image x:Name="UsedBerserk1" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion6" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                    <Image x:Name="UsedBerserk2" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion7" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                    <Image x:Name="UsedBerserk3" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="UsedPotion8" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                    <Image x:Name="UsedBerserk4" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk5" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk6" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk7" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk8" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk9" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedBerserk10" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
 
-                <StackPanel x:Name="BerserkPotionStackpanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
-                    <Image x:Name="Potion5" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                <StackPanel x:Name="BerserkPotionStackpanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="400" Margin="222,103,-122,-35">
+                    <Image x:Name="Berserk1" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion6" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                    <Image x:Name="Berserk2" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion7" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                    <Image x:Name="Berserk3" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="Potion8" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                    <Image x:Name="Berserk4" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="25"/>
-                                <TranslateTransform/>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk5" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk6" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk7" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk8" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk9" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Berserk10" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
@@ -287,11 +446,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                   HorizontalAlignment="Center"
                   Margin="0,0,562,40"
                   Width="600" Grid.Column="1" Grid.Row="1">
-                <Border x:Name="ControlsHintPanel"
+                <Border x:Name="ControlsHintPanel" Visibility="Collapsed"
                         CornerRadius="8"
                         Padding="12,8,12,8"
-                        HorizontalAlignment="Center"
-                        Visibility="Collapsed">
+                        HorizontalAlignment="Center">
                     <Border.Background>
                         <SolidColorBrush Color="#AA000000"/>
                     </Border.Background>
@@ -302,8 +460,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                     Orientation="Horizontal"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="0,0,16,0"
-                                    Visibility="Collapsed">
+                                    Margin="0,0,16,0">
                             <Grid Margin="0,0,6,0">
                                 <Image x:Name="HintImg_Caminar"         Source="Textures/Caminar.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
                                 <Image x:Name="HintImg_AtaqueNormal"    Source="Textures/AtaqueNormal.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
@@ -452,6 +609,59 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
                 </Grid.Background>
+            </Grid>
+            <Grid x:Name="MaskObtainedPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#91000000" IsHitTestVisible="False">
+                <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="32"/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+                <Grid>
+                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Margin="743,126,743,485" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Margin="683,125,683,484" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="731,123,731,482" Visibility="Collapsed"/>
+                </Grid>
+                <TextBlock x:Name="MaskObtainedName" Margin="362,599,362,342" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FFFFFFFF" StrokeThickness="70" FontFamily="Times New Roman" FontSize="75" TextWrapping="Wrap"/>
+                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="624" Height="381" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="487" Height="254" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="198" Height="261" Margin="100,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q1" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="431" Height="301" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="145" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332"/>
+                    <Image x:Name="MaskKey_Q2" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="ChangeMaskTutorialPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#00000000" IsHitTestVisible="False">
+                <Rectangle Opacity="0.598" Fill="#FF000000" Stroke="#FF000000">
+                    <Rectangle.OpacityMask>
+                        <RadialGradientBrush RadiusX="0.18837637" Opacity="0.986" RadiusY="0.2747798" GradientOrigin="0.0699632,0.102248" Center="0.0699632,0.102248">
+                            <RadialGradientBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterY="0.0970609" CenterX="0.0666536"/>
+                                    <SkewTransform CenterY="0.0970609" CenterX="0.0666536"/>
+                                    <RotateTransform Angle="1.4686966" CenterX="0.06996321" CenterY="0.10224788"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </RadialGradientBrush.RelativeTransform>
+                            <GradientStop Offset="0.358"/>
+                            <GradientStop Color="#FF000000" Offset="0.62410766"/>
+                            <GradientStop Color="#FF000000" Offset="0.51369244"/>
+                        </RadialGradientBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Image Source="Textures/CanviarMascaras.PNG" Margin="831,672,591,105"/>
+                <Image Source="Textures/8.PNG" Margin="704,787,1124,201"/>
             </Grid>
 
 

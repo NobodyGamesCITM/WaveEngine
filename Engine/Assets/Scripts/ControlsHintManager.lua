@@ -90,6 +90,8 @@ local currentPreset = nil
 local timer         = 0.0
 local duration      = nil
 local lastMaskCount = 0
+local changeMaskTutorialActive  = false
+local changeMaskTutorialPending = false
 
 local function hideAll()
     for _, img in ipairs(ALL_IMGS) do
@@ -153,22 +155,32 @@ end
 function Start(self)
     hideAll()
     UI.SetElementVisibility("ControlsHintPanel", false)
+    UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
 
     _G.ShowControlsHint = showPreset
     _G.HideControlsHint = hideHints
+    _G.ShowChangeMaskTutorial = function()
+        Engine.Log("[ChangeMaskTutorial] Llamado!")
+        UI.SetElementVisibility("ChangeMaskTutorialPanel", true)
+        changeMaskTutorialActive  = false
+        changeMaskTutorialPending = true
+    end
 
     Engine.Log("[ControlsHint] Ready")
 end
 
 function Update(self, dt)
-    -- detector de máscaras, siempre activo
-    local currentCount = _G._MaskCount or 0
-    if currentCount ~= lastMaskCount then
-        lastMaskCount = currentCount
-        if currentCount == 1 then
-            showPreset("heavy_attack")
-        elseif currentCount == 2 then
-            showPreset("change_mask")
+    if changeMaskTutorialPending then
+        changeMaskTutorialPending = false
+        changeMaskTutorialActive  = true
+        return
+    end
+
+    if changeMaskTutorialActive then
+        if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+            Engine.Log("[ChangeMaskTutorial] Cerrando")
+            UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
+            changeMaskTutorialActive = false
         end
     end
 

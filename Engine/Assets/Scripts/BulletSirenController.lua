@@ -16,16 +16,25 @@ public = {
     maxLifetime = MAX_LIFETIME,
 }
 
+function Start(self)
+    self.gameObject:SetActive(true)
+
+    --self.pSphere1 = GameObject.FindInChildren(self.gameObject,"pSphere1")
+end
+
 -- Update: contador de seguridad por si el proyectil queda huérfano
 function Update(self, dt)
-    if not self.gameObject then return end
+   -- if not self.gameObject then return end
 
-    age = age + dt
+    --age = age + dt
 
-    if age >= self.public.maxLifetime then
-        Engine.Log("[MortarProjectile] Auto-destruyendo proyectil huérfano")
-        self:Destroy()
-    end
+   -- if age >= self.public.maxLifetime then
+        --Engine.Log("[MortarProjectile] Auto-destruyendo proyectil huérfano")
+        --self:Destroy()
+       -- self.gameObject:SetActive(false)
+       -- return
+    --end
+     --self.gameObject:SetActive(true)
     
 end
 
@@ -48,6 +57,13 @@ function OnTriggerEnter(self, other)
         end
 
         -- La bala desaparece al impactar
-        self:Destroy()
+        --self:Destroy()
+
     end
+    
+    age = 0
+
+    self.gameObject:SetActive(false)
+
+
 end

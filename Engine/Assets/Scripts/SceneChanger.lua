@@ -139,6 +139,7 @@ end
 
 function StartTransition(self, sceneName)
     if currentState == State.IDLE or currentState == State.FADE_OUT then
+        _G._MidRunTransition = true
         Engine.Log("[SceneTransition] Transición iniciada por script hacia: " .. tostring(sceneName))
         
         if sceneName then

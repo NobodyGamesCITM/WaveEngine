@@ -251,7 +251,7 @@ function Update(self, dt)
     if potionCooldown > 0 then potionCooldown = potionCooldown - dt end
 
     -- Input Curacion
-    if (Input.GetKeyDown("3") or Input.GetGamepadButtonDown("DPadDown")) and potionCooldown <= 0 then
+    if (Input.GetKeyDown("3") or Input.GetGamepadButtonDown("LB")) and potionCooldown <= 0 then
         if self.public.potionCount > 0 and _G.PlayerInstance and _G.PlayerInstance.public.health < 100 and not potionHealing then
             if _G.TriggerDrinkAnimation and _G.TriggerDrinkAnimation(_G.PlayerInstance, false) then
                 self.public.potionCount  = self.public.potionCount - 1
@@ -265,7 +265,7 @@ function Update(self, dt)
     end
 
     -- Input Berserk
-    if (Input.GetGamepadButtonDown("DPadLeft") or Input.GetKeyDown("4")) and potionCooldown <= 0 then
+    if (Input.GetGamepadButtonDown("RB") or Input.GetKeyDown("4")) and potionCooldown <= 0 then
         if self.public.berserkCount > 0 and berserkActiveTimer <= 0 and _G.PlayerInstance then
             if _G.TriggerDrinkAnimation and _G.TriggerDrinkAnimation(_G.PlayerInstance, false) then
                 self.public.berserkCount = self.public.berserkCount - 1

@@ -13,8 +13,8 @@ public = {
     mat_6_ArchT      = "UID_6492819221197486088", 
     mat_7_All        = "UID_11329386542813936116", 
 
-    cinematicMidPoint = 2.0, 
-    cinematicEndTime  = 4.0  
+    cinematicMidPoint = 5.0, 
+    cinematicEndTime  = 10.0  
 }
 
 local portalState = 0 

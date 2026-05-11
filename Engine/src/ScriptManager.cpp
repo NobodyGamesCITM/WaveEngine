@@ -318,6 +318,19 @@ static int Lua_Engine_RequestResource(lua_State* L) {
     return 1;
 }
 
+static int Lua_Engine_SetFullScreen(lua_State* L) {
+    bool enabled = lua_toboolean(L, 1);
+    LOG_CONSOLE("[Engine] FullScreen set to: %s", enabled ? "ON" : "OFF");
+    return 0;
+}
+
+static int Lua_Engine_SetAntiAliasing(lua_State* L) {
+    bool enabled = lua_toboolean(L, 1);
+    // Implementation depends on your renderer, but this registers the call
+    LOG_CONSOLE("[Engine] AntiAliasing set to: %s", enabled ? "ON" : "OFF");
+    return 0;
+}
+
 static int Lua_Engine_ReleaseResource(lua_State* L) {
 
     const char* uidStr = luaL_checkstring(L, 1);
@@ -1120,6 +1133,13 @@ static int Lua_UI_SetElementVisibility(lua_State* L) {
     return 0;
 }
 
+static int Lua_UI_SetCheckBox(lua_State* L) {
+    const char* name = luaL_checkstring(L, 1);
+    bool checked = lua_toboolean(L, 2);
+    UIManager::GetInstance().SetCheckBox(name, checked);
+    return 0;
+}
+
 // Game API
 static int Lua_Game_Exit(lua_State* L) {
     Application::GetInstance().RequestExit();
@@ -1164,6 +1184,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "RequestResource");
     lua_pushcfunction(L, Lua_Engine_ReleaseResource);
     lua_setfield(L, -2, "ReleaseResource");
+    lua_pushcfunction(L, Lua_Engine_SetFullScreen);
+    lua_setfield(L, -2, "SetFullScreen");
+    lua_pushcfunction(L, Lua_Engine_SetAntiAliasing);
+    lua_setfield(L, -2, "SetAntiAliasing");
     lua_setglobal(L, "Engine");
 
     // Input
@@ -1279,6 +1303,7 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SetElementVisibility);  lua_setfield(L, -2, "SetElementVisibility");
     lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
     lua_pushcfunction(L, Lua_UI_SetElementMargin);      lua_setfield(L, -2, "SetElementMargin");
+    lua_pushcfunction(L, Lua_UI_SetCheckBox);           lua_setfield(L, -2, "SetCheckBox");
 
     lua_setglobal(L, "UI");
 

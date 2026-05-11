@@ -1817,6 +1817,7 @@ function Update(self, dt)
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
                 if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskOn") end
+                if _G.ShowMaskObtained then _G.ShowMaskObtained(Player.pendingObtainMask:lower()) end
             end
         end
 
@@ -2083,6 +2084,9 @@ function ObtainMask(self)
             if Player.pendingObtainMask == Mask.ARES    then _G._MaskState_Ares   = true end
 
             local maskToEquip = Player.pendingObtainMask
+
+            if _G.ShowMaskObtained then _G.ShowMaskObtained(maskToEquip:lower()) end
+
             Player.pendingObtainMask = nil
             EquipMask(self, maskToEquip)
         end

@@ -794,7 +794,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
     </Grid>
     <Canvas>
-        <Grid x:Name="LockOnPrompt" Width="30" Height="30">
+        <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
             <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
             <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
         </Grid>

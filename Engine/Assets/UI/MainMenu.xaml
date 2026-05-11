@@ -42,7 +42,7 @@
                                            FontFamily="{TemplateBinding FontFamily}"
                                            FontSize="{TemplateBinding FontSize}"
                                            FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
+                                           Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
 
@@ -67,6 +67,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.25">
                                                     <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
@@ -80,6 +81,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" To="-30" Duration="0:0:0.2"/>
@@ -97,7 +99,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="0.85" Duration="0:0:0.05"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="0.85" Duration="0:0:0.05"/>
-                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFBBBBBB" Duration="0:0:0.05"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#AAAAAA" Duration="0:0:0.05"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
@@ -110,6 +112,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.3">
                                                     <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>

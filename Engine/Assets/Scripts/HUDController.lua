@@ -254,5 +254,6 @@ function Update(self, dt)
             missionHideTimer = 0
             missionVisible   = false
             if myCanvas then myCanvas:PlayStoryboard("MissionCollapse") end
+        end
     end
 end

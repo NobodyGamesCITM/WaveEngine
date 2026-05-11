@@ -213,6 +213,11 @@
                                                                                 "active": true,
                                                                                 "castShadows": true,
                                                                                 "meshUID": 16148272544457871166,
+                                                                                "pivotOffset": [
+                                                                                    0.00029073646874167025,
+                                                                                    2.2273274225881323e-05,
+                                                                                    -0.0005628120270557702
+                                                                                ],
                                                                                 "silhouetteColor": [
                                                                                     0.5686274766921997,
                                                                                     0.5686274766921997,
@@ -1063,19 +1068,47 @@
                 "name": "CofreUI",
                 "tag": "",
                 "uid": 6566387741141115755
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -0.935302734375,
+                            75.136474609375,
+                            35.1376953125
+                        ],
+                        "rotation": [
+                            -4.2862641163969855e-16,
+                            -3.681898988361354e-06,
+                            7.854050636524335e-07
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "InteractAnchor",
+                "tag": "",
+                "uid": 18372175527411537348
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    149.03468322753906,
-                    11.606101036071777,
-                    -266.466552734375
+                    142.89865112304688,
+                    8.229597091674805,
+                    -289.43182373046875
                 ],
                 "rotation": [
-                    -178.50360107421875,
-                    -0.8033922910690308,
+                    -178.5035858154297,
+                    -0.8033930063247681,
                     -179.67918395996094
                 ],
                 "scale": [
@@ -1089,9 +1122,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "actionText",
-                        "type": 1,
-                        "value": "Abrir cofre"
+                        "name": "radius",
+                        "type": 0,
+                        "value": 2.0
                     },
                     {
                         "name": "itemText",
@@ -1099,29 +1132,19 @@
                         "value": "¡Poción obtenida!"
                     },
                     {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
                         "name": "chestAnim",
                         "type": 1,
                         "value": "Open"
                     },
                     {
-                        "name": "potionName",
+                        "name": "actionText",
                         "type": 1,
-                        "value": "PotionVisual"
-                    },
-                    {
-                        "name": "radius",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "potionTag",
-                        "type": 1,
-                        "value": "PotionObtained"
-                    },
-                    {
-                        "name": "potionAnim",
-                        "type": 1,
-                        "value": "Float"
+                        "value": "Abrir cofre"
                     }
                 ],
                 "scriptUID": 12617463497130070296,
@@ -1178,9 +1201,9 @@
                     ],
                     "linear": 0.21199999749660492,
                     "position": [
-                        149.03468322753906,
-                        11.606101036071777,
-                        -266.466552734375
+                        142.89865112304688,
+                        8.229597091674805,
+                        -289.43182373046875
                     ],
                     "quadratic": 0.0729999989271164,
                     "specular": [
@@ -1260,6 +1283,48 @@
                 "UseGravity": true,
                 "active": true,
                 "type": 8
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "oneShot",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "promptRadius",
+                        "type": 0,
+                        "value": 12.0
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "action",
+                        "type": 1,
+                        "value": "Interact"
+                    },
+                    {
+                        "name": "anchorName",
+                        "type": 1,
+                        "value": "InteractAnchor"
+                    },
+                    {
+                        "name": "sequenceId",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    }
+                ],
+                "scriptUID": 11869449068228775486,
+                "type": 6
             }
         ],
         "name": "Chest_OpenChest",

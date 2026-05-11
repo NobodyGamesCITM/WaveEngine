@@ -25,7 +25,8 @@ local Skeleton = {
     navRefreshTimer = 0,
     hp              = 30,
     isDead          = false,
-    initPos         = nil
+    initPos         = nil,
+    bonesPS         = nil
 }
 
 public = {
@@ -226,8 +227,14 @@ function Start(self)
     Engine.RequestResource("9184343178901509246")
     Engine.RequestResource("6526428321459400712")
     Engine.RequestResource("10436511945076754837") --new skeleton level2 mat
-
     if self.public.level2 then BaseMat.SetTexture("10436511945076754837")end
+
+    local vfxBones = GameObject.FindInChildren(self.gameObject, "VFXBones")
+    if vfxBones then
+        Skeleton.bonesPS = vfxBones:GetComponent("ParticleSystem")
+        if Skeleton.bonesPS then Skeleton.bonesPS:Stop() end
+        vfxBones:SetActive(false)
+    end
 end
 
 States[State.IDLE] = {
@@ -444,6 +451,10 @@ cnt = 0.0,
         attackTimer = 0
         Skeleton.nav:StopMovement()
         BaseMat.SetTexture("17109277834976977864")
+        if Skeleton.bonesPS then Skeleton.bonesPS:Play() 
+        else 
+            Engine.Log("nooooooooooooooooo")
+        end
     end,
     Update = function(self, dt)
         local anim = self.gameObject:GetComponent("Animation")

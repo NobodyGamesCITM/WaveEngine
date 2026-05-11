@@ -3363,24 +3363,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "deathTime",
-                        "type": 0,
-                        "value": 2.5
-                    },
-                    {
                         "name": "offset",
                         "type": 0,
                         "value": 1.0
-                    },
-                    {
-                        "name": "patrolSpeed",
-                        "type": 0,
-                        "value": 1.5
-                    },
-                    {
-                        "name": "level2",
-                        "type": 2,
-                        "value": false
                     },
                     {
                         "name": "patrolWaitMax",
@@ -3388,32 +3373,37 @@
                         "value": 2.799999952316284
                     },
                     {
-                        "name": "chaseSpeed",
+                        "name": "navRefreshRate",
                         "type": 0,
-                        "value": 6.5
+                        "value": 0.18000000715255737
                     },
                     {
-                        "name": "lockOnSize",
+                        "name": "level2",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "nearDist",
                         "type": 0,
                         "value": 3.0
                     },
                     {
-                        "name": "camMagnitud",
+                        "name": "detectDist",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "patrolSpeed",
+                        "type": 0,
+                        "value": 1.5
+                    },
+                    {
+                        "name": "nearYDist",
                         "type": 0,
                         "value": 1.0
                     },
                     {
-                        "name": "maxHp",
-                        "type": 0,
-                        "value": 30.0
-                    },
-                    {
-                        "name": "patrolWaitMin",
-                        "type": 0,
-                        "value": 2.0
-                    },
-                    {
-                        "name": "nearDist",
+                        "name": "lockOnSize",
                         "type": 0,
                         "value": 3.0
                     },
@@ -3423,14 +3413,19 @@
                         "value": 0.5
                     },
                     {
-                        "name": "detectDist",
-                        "type": 0,
-                        "value": 10.0
-                    },
-                    {
                         "name": "camFrequency",
                         "type": 0,
                         "value": 20.0
+                    },
+                    {
+                        "name": "patrolWaitMin",
+                        "type": 0,
+                        "value": 2.0
+                    },
+                    {
+                        "name": "chaseSpeed",
+                        "type": 0,
+                        "value": 6.5
                     },
                     {
                         "name": "activeGuard",
@@ -3438,19 +3433,14 @@
                         "value": false
                     },
                     {
-                        "name": "navRefreshRate",
-                        "type": 0,
-                        "value": 0.18000000715255737
-                    },
-                    {
                         "name": "attackDur",
                         "type": 0,
-                        "value": 1.0
+                        "value": 1.399999976158142
                     },
                     {
-                        "name": "attackAnimaAnticip",
+                        "name": "camMagnitud",
                         "type": 0,
-                        "value": 0.30000001192092896
+                        "value": 1.0
                     },
                     {
                         "name": "attackColDelay",
@@ -3458,9 +3448,19 @@
                         "value": 0.8999999761581421
                     },
                     {
-                        "name": "nearYDist",
+                        "name": "deathTime",
                         "type": 0,
-                        "value": 1.0
+                        "value": 2.799999952316284
+                    },
+                    {
+                        "name": "maxHp",
+                        "type": 0,
+                        "value": 30.0
+                    },
+                    {
+                        "name": "attackAnimaAnticip",
+                        "type": 0,
+                        "value": 0.30000001192092896
                     }
                 ],
                 "scriptUID": 9025516094113862452,
@@ -3470,29 +3470,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "radius",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "updateWhenPaused",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "promptRadius",
-                        "type": 0,
-                        "value": 12.0
-                    },
-                    {
                         "name": "sequenceId",
                         "type": 1,
                         "value": ""
-                    },
-                    {
-                        "name": "action",
-                        "type": 1,
-                        "value": "LockOn"
                     },
                     {
                         "name": "anchorName",
@@ -3500,7 +3480,27 @@
                         "value": "InteractAnchor"
                     },
                     {
+                        "name": "promptRadius",
+                        "type": 0,
+                        "value": 12.0
+                    },
+                    {
+                        "name": "action",
+                        "type": 1,
+                        "value": "LockOn"
+                    },
+                    {
                         "name": "oneShot",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "updateWhenPaused",
                         "type": 2,
                         "value": true
                     }

@@ -222,6 +222,8 @@ function Start(self)
     Engine.RequestResource("9184343178901509246")
     Engine.RequestResource("6526428321459400712")
     Engine.RequestResource("10436511945076754837") --new skeleton level2 mat
+
+    if self.public.level2 then BaseMat.SetTexture("10436511945076754837")end
 end
 
 States[State.IDLE] = {
@@ -489,11 +491,15 @@ States[State.DEAD] = {
             else  Engine.Log("Sphere not found") end
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
             else BaseMat.SetTexture("6526428321459400712") end
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Death", 0.5) end)
+            end
         elseif not States[State.DEAD].deadAnim then
             deathTimer = deathTimer + dt
             if deathTimer >= self.public.deathTime then 
                 States[State.DEAD].deadAnim = true 
-            elseif deathTimer >= self.public.deathTime/3 then
+            elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                _G.TriggerExplorationMusic()
             else

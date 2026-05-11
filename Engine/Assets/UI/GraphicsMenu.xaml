@@ -15,175 +15,48 @@
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- ═══════════════════════════════════════════════
-                 TOGGLE STYLE
-                 ═══════════════════════════════════════════════ -->
+            <!-- Toggle simple -->
             <Style x:Key="SettingToggleStyle" TargetType="ToggleButton">
-                <Setter Property="Foreground" Value="#FFD4C5A9"/>
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
                 <Setter Property="FontSize" Value="26"/>
-                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
-                            <Grid Height="50">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <!-- Label -->
+                                
                                 <TextBlock x:Name="Label"
                                            Text="{TemplateBinding Content}"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           VerticalAlignment="Center"
-                                           Margin="0,0,20,0">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="LabelShift" X="0"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-
-                                <!-- Track -->
-                                <Grid Grid.Column="1" VerticalAlignment="Center">
-                                    <!-- Borde exterior -->
-                                    <Border x:Name="TrackBorder"
-                                            Width="64" Height="34"
-                                            CornerRadius="17"
-                                            Background="#FF1A1410"
-                                            BorderBrush="#FF6B5B3E"
-                                            BorderThickness="1.5">
-                                        <Border.Effect>
-                                            <DropShadowEffect x:Name="TrackGlow"
-                                                              Color="#FFC8A84B"
-                                                              BlurRadius="0"
-                                                              ShadowDepth="0"
-                                                              Opacity="0"/>
-                                        </Border.Effect>
-                                    </Border>
-                                    
-                                    <!-- Relleno dorado -->
-                                    <Border x:Name="TrackFill"
-                                            Width="64" Height="34"
-                                            CornerRadius="17"
-                                            Background="#FFC8A84B"
-                                            Opacity="0"/>
-
-                                    <!-- Thumb -->
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border x:Name="Track"
+                                        Grid.Column="1"
+                                        Width="60" Height="30"
+                                        CornerRadius="15"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1">
                                     <Ellipse x:Name="Thumb"
-                                             Width="26" Height="26"
-                                             Fill="#FFE8D5A3"
-                                             Stroke="#FF8B7355"
-                                             StrokeThickness="1"
+                                             Width="24" Height="24"
+                                             Fill="White"
                                              HorizontalAlignment="Left"
                                              VerticalAlignment="Center"
-                                             Margin="3,0,0,0">
-                                        <Ellipse.Effect>
-                                            <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Opacity="0.4"/>
-                                        </Ellipse.Effect>
-                                        <Ellipse.RenderTransform>
-                                            <TranslateTransform x:Name="ThumbSlide" X="0"/>
-                                        </Ellipse.RenderTransform>
-                                    </Ellipse>
-                                </Grid>
+                                             Margin="2,0,0,0"/>
+                                </Border>
                             </Grid>
-
                             <ControlTemplate.Triggers>
-                                <!-- CHECKED -->
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbSlide"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="32" Duration="0:0:0.2">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="TrackFill"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="1" Duration="0:0:0.15"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow"
-                                                                 Storyboard.TargetProperty="BlurRadius"
-                                                                 To="8" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.6" Duration="0:0:0.2"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbSlide"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="0" Duration="0:0:0.18"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackFill"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.12"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow"
-                                                                 Storyboard.TargetProperty="BlurRadius"
-                                                                 To="0" Duration="0:0:0.15"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.15"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFD700"/>
+                                    <Setter TargetName="Track" Property="Background" Value="#FFC8A84B"/>
+                                    <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter TargetName="Thumb" Property="Margin" Value="0,0,2,0"/>
                                 </Trigger>
-
-                                <!-- FOCUSED -->
                                 <Trigger Property="IsFocused" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="8" Duration="0:0:0.18">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="0" Duration="0:0:0.12"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFD700"/>
-                                </Trigger>
-
-                                <!-- PRESSED -->
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="Thumb"
-                                                                 Storyboard.TargetProperty="Width"
-                                                                 To="22" Duration="0:0:0.06"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="Thumb"
-                                                                 Storyboard.TargetProperty="Width"
-                                                                 To="26" Duration="0:0:0.15">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -191,188 +64,45 @@
                 </Setter>
             </Style>
 
-            <!-- ═══════════════════════════════════════════════
-                 RESOLUTION SELECTOR STYLE
-                 ═══════════════════════════════════════════════ -->
+            <!-- Resolution selector simple -->
             <Style x:Key="ResolutionSelectorStyle" TargetType="Button">
-                <Setter Property="Foreground" Value="#FFD4C5A9"/>
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
                 <Setter Property="FontSize" Value="26"/>
-                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Grid Height="50">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <!-- Label -->
+                                
                                 <TextBlock x:Name="Label"
                                            Text="RESOLUTION"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           VerticalAlignment="Center"
-                                           Margin="0,0,20,0">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="LabelShift" X="0"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-
-                                <!-- Selector box -->
-                                <Border x:Name="SelectorBox"
-                                        Grid.Column="1"
-                                        Background="#FF1A1410"
-                                        BorderBrush="#FF6B5B3E"
-                                        BorderThickness="1.5"
-                                        CornerRadius="8"
-                                        Padding="2">
-                                    <Border.RenderTransform>
-                                        <ScaleTransform x:Name="BoxScale" ScaleX="1" ScaleY="1"/>
-                                    </Border.RenderTransform>
-                                    <Border.Effect>
-                                        <DropShadowEffect x:Name="SelGlow"
-                                                          Color="#FFC8A84B"
-                                                          BlurRadius="0"
-                                                          ShadowDepth="0"
-                                                          Opacity="0"/>
-                                    </Border.Effect>
-
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border Grid.Column="1"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="12,8">
                                     <StackPanel Orientation="Horizontal">
-                                        <!-- Flecha izquierda -->
-                                        <Border Width="38" Height="38"
-                                                CornerRadius="5"
-                                                Background="#FF0D0A07"
-                                                Margin="2">
-                                            <TextBlock x:Name="ArrowLeft"
-                                                       Text="◄"
-                                                       FontSize="20"
-                                                       Foreground="#FFB8960A"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <!-- Separador -->
-                                        <Rectangle Width="1" Fill="#FF3D2E1E" Margin="4,8"/>
-
-                                        <!-- Valor -->
-                                        <Border Width="160" Height="38"
-                                                CornerRadius="5"
-                                                Background="#FF0D0A07"
-                                                Margin="2">
-                                            <Border.BorderBrush>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Offset="0" Color="#003D2E1E"/>
-                                                    <GradientStop Offset="0.5" Color="#FF6B5B3E"/>
-                                                    <GradientStop Offset="1" Color="#003D2E1E"/>
-                                                </LinearGradientBrush>
-                                            </Border.BorderBrush>
-                                            <Border.BorderThickness>1</Border.BorderThickness>
-                                            <TextBlock x:Name="ResValue"
-                                                       Text="{Binding CurrentResolutionText}"
-                                                       FontFamily="./#ForgottenUncial"
-                                                       FontSize="24"
-                                                       Foreground="#FFFFD700"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <!-- Separador -->
-                                        <Rectangle Width="1" Fill="#FF3D2E1E" Margin="4,8"/>
-
-                                        <!-- Flecha derecha -->
-                                        <Border Width="38" Height="38"
-                                                CornerRadius="5"
-                                                Background="#FF0D0A07"
-                                                Margin="2">
-                                            <TextBlock x:Name="ArrowRight"
-                                                       Text="►"
-                                                       FontSize="20"
-                                                       Foreground="#FFB8960A"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
+                                        <TextBlock Text="◄" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="{Binding CurrentResolutionText}"
+                                                   Foreground="White"
+                                                   Width="140"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="►" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="8,0,0,0"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>
-
                             <ControlTemplate.Triggers>
-                                <!-- FOCUSED -->
                                 <Trigger Property="IsFocused" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard x:Name="ResFocusSB">
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="8" Duration="0:0:0.18">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="SelGlow"
-                                                                 Storyboard.TargetProperty="BlurRadius"
-                                                                 To="10" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="SelGlow"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.6" Duration="0:0:0.2"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <StopStoryboard BeginStoryboardName="ResFocusSB"/>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 To="0" Duration="0:0:0.12"/>
-                                                <DoubleAnimation Storyboard.TargetName="SelGlow"
-                                                                 Storyboard.TargetProperty="BlurRadius"
-                                                                 To="0" Duration="0:0:0.15"/>
-                                                <DoubleAnimation Storyboard.TargetName="SelGlow"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.15"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFD700"/>
-                                    <Setter TargetName="ArrowLeft" Property="Foreground" Value="#FFFFD700"/>
-                                    <Setter TargetName="ArrowRight" Property="Foreground" Value="#FFFFD700"/>
-                                </Trigger>
-
-                                <!-- PRESSED -->
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="BoxScale"
-                                                                 Storyboard.TargetProperty="ScaleX"
-                                                                 To="0.96" Duration="0:0:0.05"/>
-                                                <DoubleAnimation Storyboard.TargetName="BoxScale"
-                                                                 Storyboard.TargetProperty="ScaleY"
-                                                                 To="0.96" Duration="0:0:0.05"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="BoxScale"
-                                                                 Storyboard.TargetProperty="ScaleX"
-                                                                 To="1" Duration="0:0:0.15">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="4"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="BoxScale"
-                                                                 Storyboard.TargetProperty="ScaleY"
-                                                                 To="1" Duration="0:0:0.15">
-                                                    <DoubleAnimation.EasingFunction>
-                                                        <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="4"/>
-                                                    </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -380,9 +110,7 @@
                 </Setter>
             </Style>
 
-            <!-- ═══════════════════════════════════════════════
-                 TEXT BUTTON (BACK) - El original que pediste
-                 ═══════════════════════════════════════════════ -->
+            <!-- TEXT BUTTON (BACK) - Original -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>

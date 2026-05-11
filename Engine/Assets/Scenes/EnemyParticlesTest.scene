@@ -4940,14 +4940,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "rollSpeed",
+                            "name": "chargeSpeed",
                             "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
+                            "value": 30.0
                         },
                         {
                             "name": "speedHermesBonus",
@@ -4955,79 +4950,19 @@
                             "value": 7.0
                         },
                         {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
                             "name": "berserkActive",
                             "type": 2,
                             "value": false
                         },
                         {
-                            "name": "attackDuration",
+                            "name": "attackImpulseWindow",
                             "type": 0,
-                            "value": 0.4000000059604645
+                            "value": 0.15000000596046448
                         },
                         {
-                            "name": "staminaCost",
+                            "name": "hitShakeMagnitude",
                             "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 7.0
+                            "value": 6.0
                         },
                         {
                             "name": "heavyDuration",
@@ -5035,12 +4970,182 @@
                             "value": 0.699999988079071
                         },
                         {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 10000.0
+                        },
+                        {
+                            "name": "attackBufferDuration",
+                            "type": 0,
+                            "value": 0.6000000238418579
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "hitShakeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
                             "name": "heavyStaminaCost",
                             "type": 0,
                             "value": 25.0
                         },
                         {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "heavyUpImpulse",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "canMove",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
                             "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "triggerCameraShake",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 7.0
+                        },
+                        {
+                            "name": "heavyAttackDelay",
+                            "type": 0,
+                            "value": 0.3499999940395355
+                        },
+                        {
+                            "name": "attackImpulseForce",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "bulletSpawnY",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "comboCooldown",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "rollDuration",
                             "type": 0,
                             "value": 0.5
                         },
@@ -5050,124 +5155,19 @@
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "comboCooldown",
+                            "name": "attackDuration",
                             "type": 0,
-                            "value": 1.0
+                            "value": 0.4000000059604645
                         },
                         {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "canMove",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "attackBufferDuration",
-                            "type": 0,
-                            "value": 0.6000000238418579
-                        },
-                        {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "triggerCameraShake",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hitShakeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "attackImpulseWindow",
-                            "type": 0,
-                            "value": 0.15000000596046448
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 10000.0
-                        },
-                        {
-                            "name": "attackImpulseForce",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "hpLossCost",
+                            "name": "hpRecover",
                             "type": 0,
                             "value": 30.0
                         },
                         {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "bulletScale",
+                            "name": "staminaCost",
                             "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "bulletSpawnY",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "heavyAttackDelay",
-                            "type": 0,
-                            "value": 0.3499999940395355
+                            "value": 80.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -5331,11 +5331,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "maxBerserk",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
                             "name": "berserkCount",
                             "type": 0,
                             "value": 2.0
@@ -5347,6 +5342,11 @@
                         },
                         {
                             "name": "maxPotions",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
+                            "name": "maxBerserk",
                             "type": 0,
                             "value": 0.0
                         }
@@ -5363,17 +5363,17 @@
                             "value": 8.0
                         },
                         {
+                            "name": "offsetZ",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
                             "name": "offsetY",
                             "type": 0,
                             "value": 0.0
                         },
                         {
                             "name": "offsetX",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
-                            "name": "offsetZ",
                             "type": 0,
                             "value": 0.0
                         }
@@ -5752,28 +5752,6 @@
                 },
                 {
                     "active": true,
-                    "publicVariables": [
-                        {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
-                        },
-                        {
-                            "name": "currentScene",
-                            "type": 5,
-                            "value": "Level1.scene"
-                        }
-                    ],
                     "scriptUID": 845068803312502122,
                     "type": 6
                 }
@@ -13888,14 +13866,14 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "lockOnSize",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
                             "name": "doorName",
                             "type": 1,
                             "value": "Puerta_Final"
+                        },
+                        {
+                            "name": "lockOnSize",
+                            "type": 0,
+                            "value": 14.0
                         }
                     ],
                     "scriptUID": 2892393956142374010,
@@ -14023,7 +14001,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.056249976158142,
+                    "aspectRatio": 1.0071942806243896,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -14121,7 +14099,7 @@
                                                             ],
                                                             "name": "SirenMesh",
                                                             "tag": "Enemy",
-                                                            "uid": 12612511155845676136
+                                                            "uid": 9272748513547797248
                                                         },
                                                         {
                                                             "active": true,
@@ -14221,7 +14199,7 @@
                                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                                             "name": "cola_4",
                                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                                            "uid": 11361927296137947369
+                                                                                                                                                                                                                                                            "uid": 16835752834963396410
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "components": [
@@ -14247,7 +14225,7 @@
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "name": "cola_4_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                                    "uid": 4440205800605196238
+                                                                                                                                                                                                                                                    "uid": 1683823488181231473
                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "components": [
@@ -14273,7 +14251,7 @@
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "name": "cola_4_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                            "uid": 11926437998363881630
+                                                                                                                                                                                                                                            "uid": 4656320153011199865
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "components": [
@@ -14299,7 +14277,7 @@
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "name": "cola_4_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                    "uid": 11172558758315689736
+                                                                                                                                                                                                                                    "uid": 673439340506365727
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "components": [
@@ -14325,7 +14303,7 @@
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "name": "cola_4_$AssimpFbx$_Translation",
                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                            "uid": 3701721095478439999
+                                                                                                                                                                                                                            "uid": 5138885329622389358
                                                                                                                                                                                                                         }
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "components": [
@@ -14351,7 +14329,7 @@
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "name": "cola_2",
                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                    "uid": 8306930521101843590
+                                                                                                                                                                                                                    "uid": 7783753413952409904
                                                                                                                                                                                                                 }
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "components": [
@@ -14377,7 +14355,7 @@
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "name": "cola_2_$AssimpFbx$_Scaling",
                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                            "uid": 16109832499539040894
+                                                                                                                                                                                                            "uid": 1643134781311247783
                                                                                                                                                                                                         }
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "components": [
@@ -14403,7 +14381,7 @@
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "name": "cola_2_$AssimpFbx$_Rotation",
                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                    "uid": 3326682083182487930
+                                                                                                                                                                                                    "uid": 11171647961815851661
                                                                                                                                                                                                 }
                                                                                                                                                                                             ],
                                                                                                                                                                                             "components": [
@@ -14429,7 +14407,7 @@
                                                                                                                                                                                             ],
                                                                                                                                                                                             "name": "cola_2_$AssimpFbx$_PreRotation",
                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                            "uid": 4809047278625619092
+                                                                                                                                                                                            "uid": 16799473893510275646
                                                                                                                                                                                         }
                                                                                                                                                                                     ],
                                                                                                                                                                                     "components": [
@@ -14455,7 +14433,7 @@
                                                                                                                                                                                     ],
                                                                                                                                                                                     "name": "cola_2_$AssimpFbx$_Translation",
                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                    "uid": 7527278622351735852
+                                                                                                                                                                                    "uid": 16478936142497740980
                                                                                                                                                                                 }
                                                                                                                                                                             ],
                                                                                                                                                                             "components": [
@@ -14481,7 +14459,7 @@
                                                                                                                                                                             ],
                                                                                                                                                                             "name": "cola_1",
                                                                                                                                                                             "tag": "",
-                                                                                                                                                                            "uid": 8885747319596544369
+                                                                                                                                                                            "uid": 6105365193952566682
                                                                                                                                                                         }
                                                                                                                                                                     ],
                                                                                                                                                                     "components": [
@@ -14507,7 +14485,7 @@
                                                                                                                                                                     ],
                                                                                                                                                                     "name": "cola_1_$AssimpFbx$_Scaling",
                                                                                                                                                                     "tag": "",
-                                                                                                                                                                    "uid": 16666630255244519144
+                                                                                                                                                                    "uid": 11010538373960445529
                                                                                                                                                                 }
                                                                                                                                                             ],
                                                                                                                                                             "components": [
@@ -14533,7 +14511,7 @@
                                                                                                                                                             ],
                                                                                                                                                             "name": "cola_1_$AssimpFbx$_Rotation",
                                                                                                                                                             "tag": "",
-                                                                                                                                                            "uid": 14932723639394407911
+                                                                                                                                                            "uid": 10288803903758052701
                                                                                                                                                         }
                                                                                                                                                     ],
                                                                                                                                                     "components": [
@@ -14559,7 +14537,7 @@
                                                                                                                                                     ],
                                                                                                                                                     "name": "cola_1_$AssimpFbx$_PreRotation",
                                                                                                                                                     "tag": "",
-                                                                                                                                                    "uid": 14461422570739911123
+                                                                                                                                                    "uid": 14584286490379919475
                                                                                                                                                 }
                                                                                                                                             ],
                                                                                                                                             "components": [
@@ -14585,7 +14563,7 @@
                                                                                                                                             ],
                                                                                                                                             "name": "cola_1_$AssimpFbx$_Translation",
                                                                                                                                             "tag": "",
-                                                                                                                                            "uid": 3265018311195309807
+                                                                                                                                            "uid": 8426639925658523350
                                                                                                                                         }
                                                                                                                                     ],
                                                                                                                                     "components": [
@@ -14611,7 +14589,7 @@
                                                                                                                                     ],
                                                                                                                                     "name": "cuerpo",
                                                                                                                                     "tag": "",
-                                                                                                                                    "uid": 18186710782132838053
+                                                                                                                                    "uid": 8169896512458965676
                                                                                                                                 }
                                                                                                                             ],
                                                                                                                             "components": [
@@ -14637,7 +14615,7 @@
                                                                                                                             ],
                                                                                                                             "name": "cuerpo_$AssimpFbx$_Scaling",
                                                                                                                             "tag": "",
-                                                                                                                            "uid": 10091894176732346073
+                                                                                                                            "uid": 5888987603220964753
                                                                                                                         }
                                                                                                                     ],
                                                                                                                     "components": [
@@ -14663,7 +14641,7 @@
                                                                                                                     ],
                                                                                                                     "name": "cuerpo_$AssimpFbx$_Rotation",
                                                                                                                     "tag": "",
-                                                                                                                    "uid": 4168444246816251589
+                                                                                                                    "uid": 1384661889637218906
                                                                                                                 }
                                                                                                             ],
                                                                                                             "components": [
@@ -14689,7 +14667,7 @@
                                                                                                             ],
                                                                                                             "name": "cuerpo_$AssimpFbx$_PreRotation",
                                                                                                             "tag": "",
-                                                                                                            "uid": 6712210726741959492
+                                                                                                            "uid": 528154239648305138
                                                                                                         }
                                                                                                     ],
                                                                                                     "components": [
@@ -14715,7 +14693,7 @@
                                                                                                     ],
                                                                                                     "name": "cuerpo_$AssimpFbx$_Translation",
                                                                                                     "tag": "",
-                                                                                                    "uid": 1382718951281994376
+                                                                                                    "uid": 9230676667190235419
                                                                                                 },
                                                                                                 {
                                                                                                     "active": true,
@@ -14800,7 +14778,7 @@
                                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                                             "name": "N_izquierda",
                                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                                            "uid": 11992861143282673040
+                                                                                                                                                                                                                                                            "uid": 18084406016790897075
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "components": [
@@ -14826,7 +14804,7 @@
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "name": "N_izquierda_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                                    "uid": 9406039275547417233
+                                                                                                                                                                                                                                                    "uid": 12104936436725453460
                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "components": [
@@ -14852,7 +14830,7 @@
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "name": "N_izquierda_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                            "uid": 14503053281527517949
+                                                                                                                                                                                                                                            "uid": 18390895909895489471
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "components": [
@@ -14878,7 +14856,7 @@
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "name": "N_izquierda_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                    "uid": 3099071530223854300
+                                                                                                                                                                                                                                    "uid": 15673320046068257793
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "components": [
@@ -14904,7 +14882,7 @@
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "name": "N_izquierda_$AssimpFbx$_Translation",
                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                            "uid": 10239800798118388315
+                                                                                                                                                                                                                            "uid": 9299859597687887399
                                                                                                                                                                                                                         },
                                                                                                                                                                                                                         {
                                                                                                                                                                                                                             "active": true,
@@ -14944,7 +14922,7 @@
                                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                                             "name": "N_derecha",
                                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                                            "uid": 4753217958307123286
+                                                                                                                                                                                                                                                            "uid": 5364215443984920223
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "components": [
@@ -14970,7 +14948,7 @@
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "name": "N_derecha_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                                    "uid": 2004363612391233440
+                                                                                                                                                                                                                                                    "uid": 1969799785572833992
                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "components": [
@@ -14996,7 +14974,7 @@
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "name": "N_derecha_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                            "uid": 2851970591000287582
+                                                                                                                                                                                                                                            "uid": 414966865782739165
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "components": [
@@ -15022,7 +15000,7 @@
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "name": "N_derecha_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                    "uid": 692568898244268536
+                                                                                                                                                                                                                                    "uid": 10625445461704711024
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "components": [
@@ -15048,7 +15026,7 @@
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "name": "N_derecha_$AssimpFbx$_Translation",
                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                            "uid": 10190251910257283022
+                                                                                                                                                                                                                            "uid": 6567887792858022021
                                                                                                                                                                                                                         },
                                                                                                                                                                                                                         {
                                                                                                                                                                                                                             "active": true,
@@ -15088,7 +15066,7 @@
                                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                                             "name": "N_atras",
                                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                                            "uid": 4095545542104436915
+                                                                                                                                                                                                                                                            "uid": 12410953230756273723
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "components": [
@@ -15114,7 +15092,7 @@
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "name": "N_atras_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                                    "uid": 467891868002043620
+                                                                                                                                                                                                                                                    "uid": 10250084130232928879
                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "components": [
@@ -15140,7 +15118,7 @@
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "name": "N_atras_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                            "uid": 2640382595469622828
+                                                                                                                                                                                                                                            "uid": 17621525677618418289
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "components": [
@@ -15166,7 +15144,7 @@
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "name": "N_atras_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                    "uid": 16793389287357352249
+                                                                                                                                                                                                                                    "uid": 6840859399268710244
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "components": [
@@ -15192,7 +15170,7 @@
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "name": "N_atras_$AssimpFbx$_Translation",
                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                            "uid": 2661036242407433597
+                                                                                                                                                                                                                            "uid": 800501520234722768
                                                                                                                                                                                                                         },
                                                                                                                                                                                                                         {
                                                                                                                                                                                                                             "active": true,
@@ -15232,7 +15210,7 @@
                                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                                             "name": "N_delante",
                                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                                            "uid": 8458440420044478902
+                                                                                                                                                                                                                                                            "uid": 10604590592673677501
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "components": [
@@ -15258,7 +15236,7 @@
                                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                                     "name": "N_delante_$AssimpFbx$_Scaling",
                                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                                    "uid": 5442917236112435536
+                                                                                                                                                                                                                                                    "uid": 6329805213465306963
                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "components": [
@@ -15284,7 +15262,7 @@
                                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                                             "name": "N_delante_$AssimpFbx$_Rotation",
                                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                                            "uid": 8473433343873831446
+                                                                                                                                                                                                                                            "uid": 12169729354064658367
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "components": [
@@ -15310,7 +15288,7 @@
                                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                                     "name": "N_delante_$AssimpFbx$_PreRotation",
                                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                                    "uid": 4433960865011347947
+                                                                                                                                                                                                                                    "uid": 796767025454776493
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "components": [
@@ -15336,7 +15314,7 @@
                                                                                                                                                                                                                             ],
                                                                                                                                                                                                                             "name": "N_delante_$AssimpFbx$_Translation",
                                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                                            "uid": 15101574544205257517
+                                                                                                                                                                                                                            "uid": 12262461549109640902
                                                                                                                                                                                                                         }
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "components": [
@@ -15362,7 +15340,7 @@
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "name": "nenufar",
                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                    "uid": 11451158626176917383
+                                                                                                                                                                                                                    "uid": 12479064406492357517
                                                                                                                                                                                                                 }
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "components": [
@@ -15388,7 +15366,7 @@
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "name": "nenufar_$AssimpFbx$_Scaling",
                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                            "uid": 12609607864588400163
+                                                                                                                                                                                                            "uid": 2551859622929579490
                                                                                                                                                                                                         }
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "components": [
@@ -15414,7 +15392,7 @@
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "name": "nenufar_$AssimpFbx$_Rotation",
                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                    "uid": 9687896845696001382
+                                                                                                                                                                                                    "uid": 2891691272242131931
                                                                                                                                                                                                 }
                                                                                                                                                                                             ],
                                                                                                                                                                                             "components": [
@@ -15440,7 +15418,7 @@
                                                                                                                                                                                             ],
                                                                                                                                                                                             "name": "nenufar_$AssimpFbx$_PreRotation",
                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                            "uid": 13561962585408707373
+                                                                                                                                                                                            "uid": 17858702304837550692
                                                                                                                                                                                         }
                                                                                                                                                                                     ],
                                                                                                                                                                                     "components": [
@@ -15466,7 +15444,7 @@
                                                                                                                                                                                     ],
                                                                                                                                                                                     "name": "nenufar_$AssimpFbx$_Translation",
                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                    "uid": 17576911471187388264
+                                                                                                                                                                                    "uid": 3705307653563917442
                                                                                                                                                                                 },
                                                                                                                                                                                 {
                                                                                                                                                                                     "active": true,
@@ -15506,7 +15484,7 @@
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "name": "M_superior",
                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                    "uid": 4434746436358145279
+                                                                                                                                                                                                                    "uid": 14628180807826022306
                                                                                                                                                                                                                 }
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "components": [
@@ -15532,7 +15510,7 @@
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "name": "M_superior_$AssimpFbx$_Scaling",
                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                            "uid": 12621162407215793696
+                                                                                                                                                                                                            "uid": 12493944541315321088
                                                                                                                                                                                                         }
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "components": [
@@ -15558,7 +15536,7 @@
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "name": "M_superior_$AssimpFbx$_Rotation",
                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                    "uid": 6448982281389737151
+                                                                                                                                                                                                    "uid": 954779974361128675
                                                                                                                                                                                                 }
                                                                                                                                                                                             ],
                                                                                                                                                                                             "components": [
@@ -15584,7 +15562,7 @@
                                                                                                                                                                                             ],
                                                                                                                                                                                             "name": "M_superior_$AssimpFbx$_PreRotation",
                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                            "uid": 682826974167251272
+                                                                                                                                                                                            "uid": 12353584248464149657
                                                                                                                                                                                         }
                                                                                                                                                                                     ],
                                                                                                                                                                                     "components": [
@@ -15610,7 +15588,7 @@
                                                                                                                                                                                     ],
                                                                                                                                                                                     "name": "M_superior_$AssimpFbx$_Translation",
                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                    "uid": 1905435278108100589
+                                                                                                                                                                                    "uid": 17218736270913704362
                                                                                                                                                                                 },
                                                                                                                                                                                 {
                                                                                                                                                                                     "active": true,
@@ -15650,7 +15628,7 @@
                                                                                                                                                                                                                     ],
                                                                                                                                                                                                                     "name": "M_iferior",
                                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                                    "uid": 11052592201287384073
+                                                                                                                                                                                                                    "uid": 12182281192527555143
                                                                                                                                                                                                                 }
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "components": [
@@ -15676,7 +15654,7 @@
                                                                                                                                                                                                             ],
                                                                                                                                                                                                             "name": "M_iferior_$AssimpFbx$_Scaling",
                                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                                            "uid": 5129720044985999633
+                                                                                                                                                                                                            "uid": 18085294969548581765
                                                                                                                                                                                                         }
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "components": [
@@ -15702,7 +15680,7 @@
                                                                                                                                                                                                     ],
                                                                                                                                                                                                     "name": "M_iferior_$AssimpFbx$_Rotation",
                                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                                    "uid": 15162381561975805895
+                                                                                                                                                                                                    "uid": 1496823482403356886
                                                                                                                                                                                                 }
                                                                                                                                                                                             ],
                                                                                                                                                                                             "components": [
@@ -15728,7 +15706,7 @@
                                                                                                                                                                                             ],
                                                                                                                                                                                             "name": "M_iferior_$AssimpFbx$_PreRotation",
                                                                                                                                                                                             "tag": "",
-                                                                                                                                                                                            "uid": 4797544228528994247
+                                                                                                                                                                                            "uid": 12072413538761535762
                                                                                                                                                                                         }
                                                                                                                                                                                     ],
                                                                                                                                                                                     "components": [
@@ -15754,7 +15732,7 @@
                                                                                                                                                                                     ],
                                                                                                                                                                                     "name": "M_iferior_$AssimpFbx$_Translation",
                                                                                                                                                                                     "tag": "",
-                                                                                                                                                                                    "uid": 14492053215946028123
+                                                                                                                                                                                    "uid": 9991477476374106910
                                                                                                                                                                                 }
                                                                                                                                                                             ],
                                                                                                                                                                             "components": [
@@ -15780,7 +15758,7 @@
                                                                                                                                                                             ],
                                                                                                                                                                             "name": "cabeza",
                                                                                                                                                                             "tag": "",
-                                                                                                                                                                            "uid": 5258929983601606331
+                                                                                                                                                                            "uid": 9088521659340205879
                                                                                                                                                                         }
                                                                                                                                                                     ],
                                                                                                                                                                     "components": [
@@ -15806,7 +15784,7 @@
                                                                                                                                                                     ],
                                                                                                                                                                     "name": "cabeza_$AssimpFbx$_Scaling",
                                                                                                                                                                     "tag": "",
-                                                                                                                                                                    "uid": 8077957796400778017
+                                                                                                                                                                    "uid": 12026976033413715961
                                                                                                                                                                 }
                                                                                                                                                             ],
                                                                                                                                                             "components": [
@@ -15832,7 +15810,7 @@
                                                                                                                                                             ],
                                                                                                                                                             "name": "cabeza_$AssimpFbx$_Rotation",
                                                                                                                                                             "tag": "",
-                                                                                                                                                            "uid": 3017602668085888414
+                                                                                                                                                            "uid": 16074611057748433081
                                                                                                                                                         }
                                                                                                                                                     ],
                                                                                                                                                     "components": [
@@ -15858,7 +15836,7 @@
                                                                                                                                                     ],
                                                                                                                                                     "name": "cabeza_$AssimpFbx$_PreRotation",
                                                                                                                                                     "tag": "",
-                                                                                                                                                    "uid": 14107049659869675747
+                                                                                                                                                    "uid": 8558339110148977143
                                                                                                                                                 }
                                                                                                                                             ],
                                                                                                                                             "components": [
@@ -15884,7 +15862,7 @@
                                                                                                                                             ],
                                                                                                                                             "name": "cabeza_$AssimpFbx$_Translation",
                                                                                                                                             "tag": "",
-                                                                                                                                            "uid": 3769320761872901178
+                                                                                                                                            "uid": 14774114556842588344
                                                                                                                                         }
                                                                                                                                     ],
                                                                                                                                     "components": [
@@ -15910,7 +15888,7 @@
                                                                                                                                     ],
                                                                                                                                     "name": "cyello",
                                                                                                                                     "tag": "",
-                                                                                                                                    "uid": 5589404996348154550
+                                                                                                                                    "uid": 16461891296891411056
                                                                                                                                 }
                                                                                                                             ],
                                                                                                                             "components": [
@@ -15936,7 +15914,7 @@
                                                                                                                             ],
                                                                                                                             "name": "cyello_$AssimpFbx$_Scaling",
                                                                                                                             "tag": "",
-                                                                                                                            "uid": 6096642134108530297
+                                                                                                                            "uid": 13968034519956170705
                                                                                                                         }
                                                                                                                     ],
                                                                                                                     "components": [
@@ -15962,7 +15940,7 @@
                                                                                                                     ],
                                                                                                                     "name": "cyello_$AssimpFbx$_Rotation",
                                                                                                                     "tag": "",
-                                                                                                                    "uid": 18212124540830530283
+                                                                                                                    "uid": 17236081037685205731
                                                                                                                 }
                                                                                                             ],
                                                                                                             "components": [
@@ -15988,7 +15966,7 @@
                                                                                                             ],
                                                                                                             "name": "cyello_$AssimpFbx$_PreRotation",
                                                                                                             "tag": "",
-                                                                                                            "uid": 15957118535066119350
+                                                                                                            "uid": 5886566491029472382
                                                                                                         }
                                                                                                     ],
                                                                                                     "components": [
@@ -16014,7 +15992,7 @@
                                                                                                     ],
                                                                                                     "name": "cyello_$AssimpFbx$_Translation",
                                                                                                     "tag": "",
-                                                                                                    "uid": 15475371585614684584
+                                                                                                    "uid": 14269004012070622389
                                                                                                 }
                                                                                             ],
                                                                                             "components": [
@@ -16040,7 +16018,7 @@
                                                                                             ],
                                                                                             "name": "root",
                                                                                             "tag": "",
-                                                                                            "uid": 6833441967706695512
+                                                                                            "uid": 10748697896536233216
                                                                                         }
                                                                                     ],
                                                                                     "components": [
@@ -16066,7 +16044,7 @@
                                                                                     ],
                                                                                     "name": "root_$AssimpFbx$_Scaling",
                                                                                     "tag": "",
-                                                                                    "uid": 3644454355096627999
+                                                                                    "uid": 3065583026239747302
                                                                                 }
                                                                             ],
                                                                             "components": [
@@ -16092,7 +16070,7 @@
                                                                             ],
                                                                             "name": "root_$AssimpFbx$_Rotation",
                                                                             "tag": "",
-                                                                            "uid": 11812068213626816890
+                                                                            "uid": 16618868446272088226
                                                                         }
                                                                     ],
                                                                     "components": [
@@ -16118,7 +16096,7 @@
                                                                     ],
                                                                     "name": "root_$AssimpFbx$_PreRotation",
                                                                     "tag": "",
-                                                                    "uid": 10987956570689480660
+                                                                    "uid": 13674155185389717733
                                                                 }
                                                             ],
                                                             "components": [
@@ -16144,7 +16122,7 @@
                                                             ],
                                                             "name": "root_$AssimpFbx$_Translation",
                                                             "tag": "",
-                                                            "uid": 16432587319408415817
+                                                            "uid": 117978175217019645
                                                         }
                                                     ],
                                                     "components": [
@@ -16170,7 +16148,7 @@
                                                     ],
                                                     "name": "siren",
                                                     "tag": "",
-                                                    "uid": 9893038160412271044
+                                                    "uid": 16319553094281457660
                                                 }
                                             ],
                                             "components": [
@@ -16196,7 +16174,7 @@
                                             ],
                                             "name": "siren_$AssimpFbx$_ScalingPivotInverse",
                                             "tag": "",
-                                            "uid": 12497057627635545833
+                                            "uid": 11653035486373660719
                                         }
                                     ],
                                     "components": [
@@ -16222,7 +16200,7 @@
                                     ],
                                     "name": "siren_$AssimpFbx$_ScalingPivot",
                                     "tag": "",
-                                    "uid": 10763708455798205412
+                                    "uid": 14383540909823113635
                                 }
                             ],
                             "components": [
@@ -16248,7 +16226,7 @@
                             ],
                             "name": "siren_$AssimpFbx$_RotationPivotInverse",
                             "tag": "",
-                            "uid": 1905439448104132008
+                            "uid": 7805197608520899624
                         }
                     ],
                     "components": [
@@ -16274,7 +16252,7 @@
                     ],
                     "name": "siren_$AssimpFbx$_RotationPivot",
                     "tag": "",
-                    "uid": 12842981188421592572
+                    "uid": 9992043461442873359
                 },
                 {
                     "active": true,
@@ -16312,7 +16290,7 @@
                             ],
                             "name": "SingSource",
                             "tag": "",
-                            "uid": 11130808767375813298
+                            "uid": 8506139469371846900
                         },
                         {
                             "active": true,
@@ -16347,7 +16325,7 @@
                             ],
                             "name": "SirenDieSource",
                             "tag": "",
-                            "uid": 16211179346206157891
+                            "uid": 3047382659399511490
                         },
                         {
                             "active": true,
@@ -16382,7 +16360,7 @@
                             ],
                             "name": "SirenHurtSource",
                             "tag": "",
-                            "uid": 8511908257357144015
+                            "uid": 11480347727689552288
                         },
                         {
                             "active": true,
@@ -16417,7 +16395,7 @@
                             ],
                             "name": "DipSource",
                             "tag": "",
-                            "uid": 6594687295770104276
+                            "uid": 16791762078802647635
                         }
                     ],
                     "components": [
@@ -16443,7 +16421,7 @@
                     ],
                     "name": "AudioSources",
                     "tag": "",
-                    "uid": 16768105466503830346
+                    "uid": 12748248555477176275
                 },
                 {
                     "active": true,
@@ -16562,7 +16540,7 @@
                             ],
                             "name": "BloodDrops",
                             "tag": "",
-                            "uid": 5763869498033270925
+                            "uid": 8920192772656849001
                         },
                         {
                             "active": true,
@@ -16687,7 +16665,103 @@
                             ],
                             "name": "WaterDrops",
                             "tag": "",
-                            "uid": 10819277185220040856
+                            "uid": 5614813871220754672
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "activationRadius": 15.0,
+                                    "active": true,
+                                    "additive": false,
+                                    "alignToVelocity": false,
+                                    "animLoop": false,
+                                    "animSpeed": 1.0,
+                                    "bursts": [],
+                                    "circleRadius": 1.0,
+                                    "colorEnd": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "colorGradient": [],
+                                    "colorStart": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "coneAngle": 25.0,
+                                    "coneRadius": 0.5,
+                                    "duration": 5.0,
+                                    "emissionArea": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "emissionRadius": 1.0,
+                                    "emissionRate": 20.0,
+                                    "emissionRateDist": 0.0,
+                                    "emitFromShell": false,
+                                    "gravity": [
+                                        0.0,
+                                        -1.0,
+                                        0.0
+                                    ],
+                                    "initRotMax": 360.0,
+                                    "initRotMin": 0.0,
+                                    "lifetimeMax": 2.0,
+                                    "lifetimeMin": 1.0,
+                                    "looping": true,
+                                    "luminance": false,
+                                    "maxParticles": 500,
+                                    "noiseActive": false,
+                                    "noiseFreq": 0.5,
+                                    "noiseStrength": 1.0,
+                                    "oneShot": false,
+                                    "oneShotCount": 30,
+                                    "prewarm": false,
+                                    "proximityActivation": false,
+                                    "proximityTarget": "Player",
+                                    "rotSpeedMax": 0.0,
+                                    "rotSpeedMin": 0.0,
+                                    "shape": 2,
+                                    "simulationSpace": 0,
+                                    "sizeCurve": [],
+                                    "sizeEnd": 0.0,
+                                    "sizeStart": 0.5,
+                                    "speedMax": 5.0,
+                                    "speedMin": 2.0,
+                                    "textureCols": 1,
+                                    "texturePath": "",
+                                    "textureRows": 1,
+                                    "type": 7
+                                }
+                            ],
+                            "name": "WaterCircles",
+                            "tag": "",
+                            "uid": 14519783578695668237
                         }
                     ],
                     "components": [
@@ -16713,7 +16787,7 @@
                     ],
                     "name": "Particles",
                     "tag": "",
-                    "uid": 15168806791782161549
+                    "uid": 9810490155492514428
                 }
             ],
             "components": [
@@ -16834,7 +16908,7 @@
             "name": "Siren_New",
             "prefabInstance": 563850589322235015,
             "tag": "Enemy",
-            "uid": 2803270157047253674
+            "uid": 15073502880130508976
         }
     ],
     "version": 1

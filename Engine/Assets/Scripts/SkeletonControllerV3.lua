@@ -134,6 +134,10 @@ local function TakeDamage(self, amount, attackerPos)
     local anim = self.gameObject:GetComponent("Animation")
     Skeleton.hp = Skeleton.hp - amount
 
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
+    end
+
     if  Skeleton.hp <= 0 and not pendingDeath then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
@@ -382,9 +386,6 @@ States[State.ATTACK] = {
                 hitGiven = true
                 _PlayerController_pendingDamage = 20
                 _PlayerController_pendingDamagePos = self.transform.worldPosition
-                if _G.TriggerCameraShake then
-                    _G.TriggerCameraShake(self.public.camDuration, self.public.camMagnitud, self.public.camFrequency)
-                end
             end
         end
 

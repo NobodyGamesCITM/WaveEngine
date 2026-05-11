@@ -364,7 +364,9 @@ local function UpdateHide(self, dt)
     UpdateHeight(self, 0, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
+        if self.wavesPs then self.wavesPs:Play() end
         if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+
         self.isFullyHidden = false
         self.hideAnimTimer = 0
     end
@@ -443,6 +445,7 @@ local function UpdateIdle(self, dist, dt)
             
             if self.anim and not self.anim:IsPlayingAnimation("Hide") then
                 self.anim:Play("Hide")
+                if self.wavesPs then self.wavesPs:Play() end
                 if self.dipSFX then self.dipSFX:PlayAudioEvent() end
             end
             self.playerInRange = false
@@ -505,6 +508,7 @@ local function UpdateWindUp(self, pp, dist, dt)
 
         if self.anim then 
             self.anim:Play("Hide") 
+            if self.wavesPs then self.wavesPs:Play() end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
         Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
@@ -522,6 +526,7 @@ local function UpdateCooldown(self, dist, dt)
     if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
+            if self.wavesPs then self.wavesPs:Play() end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
     end
@@ -602,12 +607,24 @@ local function FindSirenParticles(self)
     if waterVFX then 
         self.waterPs = waterVFX:GetComponent("ParticleSystem") 
         if not self.waterPs then 
-            Engine.Log("[Siren] Water Particle System NOT found!")
+            Engine.Log("[Siren] Water Drops Particle System NOT found!")
         else
-            Engine.Log("[Siren] Water Particle System FOUND!")
+            Engine.Log("[Siren] Water Drops Particle System FOUND!")
         end
     else 
         Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
+    end
+
+    local wavesVFX = GameObject.FindInChildren(self.gameObject, "WaterCircles")
+    if wavesVFX then 
+        self.wavesPs = wavesVFX:GetComponent("ParticleSystem") 
+        if not self.wavesPs then 
+            Engine.Log("[Siren] Waves Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Waves Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Water Circles VFX GameObject") 
     end
 end
 
@@ -667,6 +684,7 @@ function Start(self)
     --particle system components
     self.bloodPs = nil
     self.waterPs = nil
+    self.wavesPs = nil
 
     FindSirenParticles(self)
 
@@ -701,6 +719,7 @@ function Start(self)
              .. " detectRange=" .. self.public.detectRange)
     
     self.anim:Play("Hide")
+    if self.wavesPs then self.wavesPs:Play() end
    
 
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")

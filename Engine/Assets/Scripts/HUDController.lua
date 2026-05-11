@@ -128,14 +128,14 @@ end
 local function RefreshMissionUI()
     local currentLevel = _G.CurrentLevel or ""
 
-    if currentLevel ~= "Level_01" then
+    if currentLevel ~= "Level1" then
         UI.SetElementVisibility("MissionGrid", false)
         return
     end
 
     local varName      = _G.MissionVarName or "keysCollected"
     local currentCount = _G[varName] or 0
-    local total        = _G.TotalStatuesToDestroy or 0
+    local total        = _G.TotalStatuesToDestroy or 3
 
     local countInt = math.floor(currentCount)
     local totalInt = math.floor(total)
@@ -146,6 +146,8 @@ local function RefreshMissionUI()
     end
 
     UI.SetElementVisibility("MissionGrid", true)
+
+    UI.SetElementText("MissionText", tostring(countInt) .. "/" .. tostring(totalInt))
 
     if countInt ~= lastDisplayedCount then
         if lastDisplayedCount ~= -1 then
@@ -251,6 +253,6 @@ function Update(self, dt)
             missionHideTimer = 0
             missionVisible   = false
             if myCanvas then myCanvas:PlayStoryboard("MissionCollapse") end
-        end 
-    end      
-end         
+        end
+    end
+end

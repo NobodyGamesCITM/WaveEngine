@@ -15,26 +15,31 @@ local startDelay = 1.5
 local loadingTimer = 0.0
 
 public = {
-    targetScene = "Level_02",  
+    targetScene = "Level2",
     fadeSpeed   = 1.0,
     musicFadeTime = 2.0,
-    currentLevel = "Level_01",
+    currentLevel = "Level1",
     loadingDuration = 1.7,
     maxVolume = 100.0,
     fullIntro = false
 }
 
 function Start(self)
-    if self.public.currentLevel == "Level_01" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then _G._PlayerController_introAnim = true end
+    if self.public.currentLevel == "Level1" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then 
+        _G._PlayerController_introAnim = true 
+    end
+    
     currentState = State.LOADING
     currentAlpha = 1.0 
     loadingTimer = 0.0
+    
+    _G._NewSceneLoaded = true 
+
     _G.CurrentLevel = self.public.currentLevel
     canvasComponent = self.gameObject:GetComponent("Canvas") 
 
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
-        --Engine.Log("[SceneChanger] MusicSource found")
         self.musicComp = self.musicSource:GetComponent("Audio Source")
         if self.musicComp then 
             Engine.Log("[SceneChanger] Music Audio Source Component Found") 
@@ -54,12 +59,18 @@ end
 
 function Update(self, dt)
 
-    if not Audio.IsEventPlaying("MUS_BGM") then
+    if Input.GetKeyDown("F8") then
+        Engine.Log("[DEBUG] F8 presionado: Forzando salto a Level2")
+        StartTransition(self, "Level2")
+    end
+	
+	if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = self.public.currentScene 
         local musicState = "None"
-        if self.public.currentLevel == "Level_01" then 
+        
+        if self.public.currentLevel == "Level1" then 
            musicState = "Level1"
-        elseif self.public.currentLevel == "Level_02" then 
+        elseif self.public.currentLevel == "Level2" then 
            musicState = "Level2"
         elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -69,9 +80,7 @@ function Update(self, dt)
         
         Audio.SetMusicState(tostring(musicState))
         self.musicSource = GameObject.Find("MusicSource")
-        if not self.musicSource then 
-            Engine.Log("[SceneChanger] Music GameObject NOT found! Music will NOT play!")
-        else 
+        if self.musicSource then 
             self.musicComp = self.musicSource:GetComponent("Audio Source")
             if self.musicComp then 
                 self.musicComp:PlayAudioEvent() 
@@ -92,7 +101,8 @@ function Update(self, dt)
             volume = self.public.maxVolume or 100.0
             currentAlpha = 0.0
             musicFadeTimer = 0
-            currentState = State.IDLE   
+            currentState = State.IDLE
+			_G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
         SetCanvasAlpha(currentAlpha)

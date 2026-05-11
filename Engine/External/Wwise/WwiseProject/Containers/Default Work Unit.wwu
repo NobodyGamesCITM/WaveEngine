@@ -4811,9 +4811,6 @@
 								<Sound Name="player_roll_01" ID="{E9A0E415-2F82-4B69-8FEB-A66ADC3380C1}" ShortID="683445782">
 									<PropertyList>
 										<Property Name="Lowpass" Type="int16">
-											<ValueList>
-												<Value>42</Value>
-											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{CE1E8437-0B3E-40A0-A9A0-EAD7C9ADB5FD}">
@@ -4827,13 +4824,16 @@
 											</ModifierList>
 										</Property>
 										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>300</Value>
+											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{EC8FFFC8-1633-4C6B-AEA8-9798C3E134A5}">
 														<PropertyList>
 															<Property Name="Enabled" Type="bool" Value="True"/>
-															<Property Name="Max" Type="Real64" Value="700"/>
-															<Property Name="Min" Type="Real64" Value="-200"/>
+															<Property Name="Max" Type="Real64" Value="400"/>
+															<Property Name="Min" Type="Real64" Value="-225"/>
 														</PropertyList>
 													</Modifier>
 												</ModifierInfo>
@@ -4861,9 +4861,22 @@
 												<MediaID ID="483035979"/>
 											</MediaIDList>
 										</AudioFileSource>
+										<AudioFileSource Name="soundreality-whoosh-super-cape-390707" ID="{22D42B79-0516-44B2-B9D0-05D056698F50}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.898819072662838"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.172114290509905"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.35779034617591"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>soundreality-whoosh-super-cape-390707.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="141089093"/>
+											</MediaIDList>
+										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="player_roll_01" ID="{C5D43672-99FE-4CF4-8664-62DA454BB88A}" Platform="Linked"/>
+										<ActiveSource Name="soundreality-whoosh-super-cape-390707" ID="{22D42B79-0516-44B2-B9D0-05D056698F50}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="player_apoloShot" ID="{2DD44F78-955F-4A52-876F-9D6CECD63075}" ShortID="658371818">

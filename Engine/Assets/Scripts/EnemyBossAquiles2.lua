@@ -1,3 +1,5 @@
+--Aquiles Script
+
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt
@@ -39,7 +41,7 @@ local attackCol    = nil
 
 local aquilesMesh =nil
 
-
+--audio components
 local voiceSFX = nil
 local stepSFX = nil
 local spearSFX = nil
@@ -47,6 +49,10 @@ local dashSFX = nil
 local armorSFX = nil
 
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
+
+--particle components
+local bloodPs = nil
+local sparksPs = nil
 
 local alreadyHit   = false
 local playerAttackHandled = false
@@ -226,6 +232,10 @@ end
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
 
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
+    end
+
     _PlayerController_triggerCameraShake = true
 
     if rb and attackerPos then
@@ -242,6 +252,7 @@ local function TakeDamage(self, amount, attackerPos)
         local totalDamage = amount * self.public.opportunityDamageMultiplier
         hp = hp - totalDamage
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        if bloodPs then bloodPs:Play() end
         if currentState == State.LANCE_360 or currentState == State.CHARGE then
             return
         end
@@ -280,6 +291,13 @@ local function TakeDamage(self, amount, attackerPos)
         if posture >= self.public.maxPosture then
             posture = 0
             PlaySFX(armorSFX)
+            if sparksPs then 
+                sparksPs:Play() 
+                Engine.Log("AQUILES SPARKS!")
+            else
+                Engine.Log("No Aquiles sparks :(")
+            end
+            
 
             if currentState == State.LANCE_360 or currentState == State.CHARGE then
                 return
@@ -303,6 +321,14 @@ local function TakeDamage(self, amount, attackerPos)
 
     if not inOpportunity and currentState == State.COMBAT_MOVE then
         hitsReceivedCounter = hitsReceivedCounter + 1
+
+        PlaySFX(armorSFX)
+        if sparksPs then 
+            sparksPs:Play() 
+            Engine.Log("AQUILES SPARKS!")
+        else
+            Engine.Log("No Aquiles sparks :(")
+        end
         
         local myPos = self.transform.worldPosition
         local dist = Dist(myPos, attackerPos)
@@ -944,6 +970,34 @@ local function FindAquilesAudioComponents(self)
     --else Engine.Log("[AQUILES] WARNING: Audio Source for armor SFX not found") 
     end
 end
+
+local function FindAquilesParticles(self)
+    local bloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops")
+
+    if bloodVFX then 
+        bloodPs = bloodVFX:GetComponent("ParticleSystem")
+        if not bloodPs then
+            Engine.Log("[Aquiles] Blood Particle System Component NOT found!")
+        else
+            Engine.Log("[Aquiles] Blood Particle System Component FOUND!")
+        end
+    else 
+        Engine.Log("[Aquiles] Unable to retrieve Blood Particles GameObject")
+    end
+
+
+    local sparksVFX = GameObject.FindInChildren(self.gameObject, "Sparks")
+    if sparksVFX then 
+        sparksPs = sparksVFX:GetComponent("ParticleSystem")
+        if not sparksPs then
+            Engine.Log("[Aquiles] Sparks Particle System Component NOT found!")
+        else
+            Engine.Log("[Aquiles] Sparks Particle System Component FOUND!")
+        end
+    else 
+        Engine.Log("[Aquiles] Unable to retrieve Sparks Particles GameObject")
+    end
+end
           
 function Start(self)
 
@@ -985,6 +1039,7 @@ function Start(self)
 
         hurtStunTime = 0.4,
 
+
         predictionTime = 0.4,
 
         opportunityDamageMultiplier = 1.0,
@@ -1008,6 +1063,7 @@ function Start(self)
     
 
     FindAquilesAudioComponents(self)
+    FindAquilesParticles(self)
 
 
     attackCol = self.gameObject:GetComponent("Box Collider")
@@ -1053,9 +1109,14 @@ function Update(self, dt)
         FindAquilesAudioComponents(self)
     end
 
+    if not bloodPs or not sparksPs then 
+        FindAquilesParticles(self)
+    end
+
     if Input.GetKey("K") then
         --TakeDamage(self, hp, self.transform.worldPosition)
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+        if bloodPs then bloodPs:Play() end
         --Engine.Log("Aquiles at 1HP!")
         hp = 1
         return

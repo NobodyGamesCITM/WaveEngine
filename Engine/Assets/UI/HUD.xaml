@@ -438,83 +438,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </Grid>
 
             <!-- Prompt de interacción -->
-            <Canvas Width="1920" Height="1080"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0" Grid.RowSpan="2">
-                <StackPanel x:Name="InteractPrompt"
-                            Visibility="Collapsed"
-                            Orientation="Horizontal"
-                            Canvas.Left="0"
-                            Canvas.Top="0">
-                    <Border CornerRadius="6" Padding="16,8,16,8">
-                        <Border.Background>
-                            <SolidColorBrush Color="#CC000000"/>
-                        </Border.Background>
-                        <StackPanel Orientation="Horizontal">
-                            <Border x:Name="InputKeyBorder"
-                                    CornerRadius="4"
-                                    Padding="4,4,4,4"
-                                    Margin="0,0,10,0">
-                                <Border.Background>
-                                    <SolidColorBrush Color="#22FFFFFF"/>
-                                </Border.Background>
-                                <Grid>
-                                    <Image x:Name="InputKeyText"
-                                           Source="Textures/F.PNG"
-                                           Width="40" Height="40"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                                    <Image x:Name="InputGamepadIcon"
-                                           Source="Textures/A.PNG"
-                                           Width="40" Height="40"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Visibility="Collapsed"/>
-                                </Grid>
-                            </Border>
-                            <TextBlock x:Name="InteractText"
-                                       Text="Interactuar"
-                                       FontSize="22"
-                                       FontFamily="Arial"
-                                       VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FFFFFFFF"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Canvas>
 
-            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869">
-                <StackPanel x:Name="InputKeyText001" Visibility="Collapsed" Orientation="Horizontal" Canvas.Left="0" Canvas.Top="0">
-                    <Border CornerRadius="6" Padding="20,8,20,8">
-                        <Border.Background>
-                            <SolidColorBrush Color="#CC000000"/>
-                        </Border.Background>
-                        <StackPanel Orientation="Horizontal">
-                            <Border x:Name="InputKeyBorder" CornerRadius="4" Padding="8,4,8,4" Margin="0,0,10,0">
-                                <Border.Background>
-                                    <SolidColorBrush Color="#FFFFFFFF"/>
-                                </Border.Background>
-                                <Grid>
-                                    <TextBlock x:Name="InputKeyText" Text="F" FontSize="22" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock.Foreground>
-                                            <SolidColorBrush Color="#FF000000"/>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
-                                    <Image x:Name="InputGamepadIcon" Source="Textures/inputA.png" Width="28" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                </Grid>
-                            </Border>
-                            <TextBlock x:Name="InteractText" Text="Interactuar" FontSize="22" FontFamily="Arial" VerticalAlignment="Center">
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="#FFFFFFFF"/>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Canvas>
+            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869"/>
 
             <!-- Hints de controles -->
             <Grid VerticalAlignment="Bottom"
@@ -868,5 +793,39 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         </Viewbox>
 
     </Grid>
+    <Canvas>
+        <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
+            <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
+            <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
+        </Grid>
+        <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
+            <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Transform3D>
+                    <noesis:CompositeTransform3D/>
+                </Image.Transform3D>
+            </Image>
+            <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Transform3D>
+                    <noesis:CompositeTransform3D/>
+                </Image.Transform3D>
+            </Image>
+        </Grid>
+    </Canvas>
 
 </Grid>

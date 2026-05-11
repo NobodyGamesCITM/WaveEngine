@@ -1,0 +1,454 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -0.1357574611902237,
+                                                            0.00016784669423941523,
+                                                            -0.0017089844914153218
+                                                        ],
+                                                        "rotation": [
+                                                            1.7128503486674163e-06,
+                                                            -89.98021697998047,
+                                                            1.7013605884130811e-06
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 18424281833268436247,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 6291061688600742063,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    }
+                                                ],
+                                                "name": "Estatua_Transformadora2",
+                                                "tag": "",
+                                                "uid": 15331544870934490030
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -1.0060758590698242,
+                                                    -67.89322662353516,
+                                                    0.17341136932373047
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Estatua_Transformadora2_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 9199510179671083493
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            1.0060758590698242,
+                                            67.89322662353516,
+                                            -0.17341136932373047
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Estatua_Transformadora2_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 5800130668581928470
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -1.0060758590698242,
+                                    -67.89322662353516,
+                                    0.17341136932373047
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Estatua_Transformadora2_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 324015967574343931
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            1.4177703857421875,
+                            100.95065307617188,
+                            -0.597381591796875
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.5,
+                            1.5,
+                            1.5
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Estatua_Transformadora2_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 1724738806193189165
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -0.412139892578125,
+                                                            0.3874015808105469,
+                                                            0.962432861328125
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            -2.75207051592119e-10,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 11321272494123072498,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 6291061688600742063,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    }
+                                                ],
+                                                "name": "Cristal",
+                                                "tag": "",
+                                                "uid": 17114870753492081778
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0006624460220336914,
+                                                    -2.403312921524048,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Cristal_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 2026191857350314479
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0006624460220336914,
+                                            2.403312921524048,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Cristal_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 17609769199823101214
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0006624460220336914,
+                                    -2.403312921524048,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Cristal_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 13238536143966124402
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            1.17041015625,
+                            2.5924453735351563,
+                            0.037933349609375
+                        ],
+                        "rotation": [
+                            0.0,
+                            -89.98021697998047,
+                            0.0
+                        ],
+                        "scale": [
+                            1.5,
+                            1.5,
+                            1.5
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Cristal_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 10744217031059006737
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    162.70184326171875,
+                    28.397106170654297,
+                    -196.2911376953125
+                ],
+                "rotation": [
+                    0.0,
+                    89.98021697998047,
+                    0.0
+                ],
+                "scale": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "dirX",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "dirY",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "fordwardOffset",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": -1.0
+                    },
+                    {
+                        "name": "onlyRedirected",
+                        "type": 2,
+                        "value": true
+                    }
+                ],
+                "scriptUID": 3213472682470300881,
+                "type": 6
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "targetDegrees",
+                        "type": 0,
+                        "value": 90.0
+                    },
+                    {
+                        "name": "rotationSpeed",
+                        "type": 0,
+                        "value": 180.0
+                    }
+                ],
+                "scriptUID": 1724783290381993592,
+                "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    2.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Height": 4.0,
+                "Radius": 3.0,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 12
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "active": true,
+                "eventName": "SFX_StatueTurn",
+                "playOnAwake": false,
+                "type": 26,
+                "volume": 100.0
+            }
+        ],
+        "name": "Estatua Transportadora",
+        "prefabInstance": 7167017773831394992,
+        "tag": "Statue",
+        "uid": 2067124245324902219
+    }
+]

@@ -5,6 +5,7 @@
 #include <NsGui/TextBlock.h>
 #include <NsGui/CheckBox.h>
 #include <NsCore/Nullable.h>
+#include <NsGui/Canvas.h>
 #include <algorithm>
 #include <functional>
 #include <NsDrawing/Thickness.h>
@@ -132,4 +133,11 @@ void UIManager::SetElementMargin(const std::string& elementName, float left, flo
 void UIManager::SetCanvasOpacity(ComponentCanvas* canvas, float opacity) {
     if (!canvas) return;
     canvas->SetOpacity(std::clamp(opacity, 0.0f, 1.0f));
+}
+
+void UIManager::SetCanvasPosition(const std::string& elementName, float left, float top) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+    Noesis::Canvas::SetLeft(fe, left);
+    Noesis::Canvas::SetTop(fe, top);
 }

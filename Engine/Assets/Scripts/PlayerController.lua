@@ -1817,7 +1817,6 @@ function Update(self, dt)
             if Player.pendingObtainMask then
                 EquipMask(self, Player.pendingObtainMask, true)
                 if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_MaskOn") end
-                if _G.ShowMaskObtained then _G.ShowMaskObtained(Player.pendingObtainMask:lower()) end
             end
         end
 
@@ -1853,6 +1852,11 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
+
+            if _G.ShowMaskObtained and Player.currentMask ~= Mask.NONE then  
+                _G.ShowMaskObtained(Player.currentMask:lower())
+            end
+
             if Player.pendingMaskInfoDialog then
                 Player.pendingMaskInfoDialog = false
                 _G._MaskInfoShown = true

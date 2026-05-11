@@ -46,13 +46,13 @@ bool UI::Start()
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
 
-    auto uiDir = exeDir / "UI";
-    if (!std::filesystem::exists(uiDir))
-        uiDir = exeDir / "../../UI";
+    auto assetsDir = exeDir / "Assets";
+    if (!std::filesystem::exists(assetsDir))
+        assetsDir = exeDir / "../../Assets";
 
-    std::string xamlPath = (uiDir).string();
-    std::string fontPath = (uiDir / "Fonts").string();
-    std::string texturePath = (uiDir).string();
+    std::string xamlPath = (assetsDir / "UI").string();
+    std::string fontPath = (assetsDir / "Fonts").string();
+    std::string texturePath = (assetsDir / "UI").string();
     LOG_DEBUG("[UI] Font path: %s", fontPath.c_str());
     LOG_DEBUG("[UI] Texture path: %s", texturePath.c_str());
 

@@ -23,7 +23,7 @@ public:
     void ClearCanvasButtons();
 
     //llamable des de Lua
-    const std::unordered_set<std::string>& GetCanvasButtons();
+    std::unordered_set<std::string> GetCanvasButtons();
 
     //Canvas registry
     void RegisterCanvas(ComponentCanvas* canvas);

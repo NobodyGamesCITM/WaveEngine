@@ -18,15 +18,16 @@ glm::quat EulerToQuat(const glm::vec3& eulerDegrees) {
     return glm::quat(radians);
 }
 
-Joint::Joint(GameObject* owner) 
-    : Component(owner, ComponentType::JOINT),
-      localPosA(0.0f),
-      localPosB(0.0f),
-      localRotA(1.0f, 0.0f, 0.0f, 0.0f),
-      localRotB(1.0f, 0.0f, 0.0f, 0.0f),
-      bodyB(nullptr),
-      bodyA((Rigidbody*)owner->GetComponent(ComponentType::RIGIDBODY))
-{
+Joint::Joint(GameObject* owner) : Component(owner, ComponentType::JOINT) {
+    
+    localPosA = glm::vec3(0.0f);
+    localPosB = glm::vec3(0.0f);
+    localRotA = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+    localRotB = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+
+    bodyB = nullptr;
+
+    bodyA = (Rigidbody*)owner->GetComponent(ComponentType::RIGIDBODY);
     if (bodyA) {
         bodyA->RegisterJoint(this);
     }

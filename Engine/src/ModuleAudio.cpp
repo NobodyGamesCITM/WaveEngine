@@ -4,12 +4,11 @@
 
 
 
-ModuleAudio::ModuleAudio() 
-    : Module(),
-      audioSystem(std::make_unique<AudioSystem>())
-{
+ModuleAudio::ModuleAudio() : Module() {
     name = "Audio";
+    audioSystem = std::make_unique<AudioSystem>();
 }
+
 ModuleAudio::~ModuleAudio() {}
 
 bool ModuleAudio::Start() {

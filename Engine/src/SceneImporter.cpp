@@ -19,6 +19,7 @@ bool SceneImporter::ImportFromFile(const std::string& file_path, const MetaFile&
         nlohmann::json j;
         file >> j;
         scene.sceneJson = j;
+        LOG_DEBUG("[SceneImporter] Scene imported successfully: %s", file_path.c_str());
     }
     catch (nlohmann::json::parse_error& e) {
         LOG_DEBUG("[SceneImporter] JSON Parse Error: %s", e.what());
@@ -41,6 +42,7 @@ bool SceneImporter::SaveToCustomFormat(const Scene& scene, const UID& uid)
             file.write(reinterpret_cast<const char*>(msgpackData.data()), msgpackData.size());
             file.close();
 
+            LOG_CONSOLE("[SceneImporter] Guardado modelo binario: %s", fullPath.c_str());
             return true;
         }
         catch (const nlohmann::json::exception& e)
@@ -75,6 +77,7 @@ Scene SceneImporter::LoadFromCustomFormat(const UID& uid)
             try
             {
                 scene.sceneJson = nlohmann::json::from_msgpack(msgpackData);
+                LOG_CONSOLE("[SceneImporter] Modelo binario cargado: %s", fullPath.c_str());
             }
             catch (const nlohmann::json::parse_error& e)
             {

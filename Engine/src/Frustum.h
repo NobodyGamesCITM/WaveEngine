@@ -9,17 +9,15 @@ struct Plane
     float distance;
 
     Plane::Plane()
-        : normal(0.0f, 1.0f, 0.0f),
-        distance(0.0f)
     {
-
+        normal = glm::vec3(0.0f, 1.0f, 0.0f);
+        distance = 0.0f;
     }
 
     Plane::Plane(const glm::vec3& n, float d)
-        : normal(n),
-        distance(d)
     {
-
+        normal = n;
+        distance = d;
     }
 
     void Plane::Normalize()

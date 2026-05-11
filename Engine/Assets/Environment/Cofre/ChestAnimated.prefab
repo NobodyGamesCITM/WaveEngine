@@ -59,7 +59,7 @@
                                                 ],
                                                 "name": "Cube",
                                                 "tag": "",
-                                                "uid": 5689363309299881056
+                                                "uid": 5614081333930728630
                                             }
                                         ],
                                         "components": [
@@ -85,7 +85,7 @@
                                         ],
                                         "name": "Cube_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 17396292670062761635
+                                        "uid": 17276264378012899112
                                     }
                                 ],
                                 "components": [
@@ -111,7 +111,7 @@
                                 ],
                                 "name": "Cube_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 3426714018642880784
+                                "uid": 2154710571809532826
                             }
                         ],
                         "components": [
@@ -137,7 +137,7 @@
                         ],
                         "name": "Cube_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 12326352652333674702
+                        "uid": 4587917518086315462
                     }
                 ],
                 "components": [
@@ -163,7 +163,7 @@
                 ],
                 "name": "Cube_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 12465214556006666036
+                "uid": 15298497502802555842
             },
             {
                 "active": true,
@@ -236,7 +236,7 @@
                                                                         ],
                                                                         "name": "Cube.001",
                                                                         "tag": "",
-                                                                        "uid": 1123266000180030790
+                                                                        "uid": 7726535302585442458
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -262,7 +262,7 @@
                                                                 ],
                                                                 "name": "Cube.001_$AssimpFbx$_ScalingPivotInverse",
                                                                 "tag": "",
-                                                                "uid": 7388600084298002221
+                                                                "uid": 2798342771146210163
                                                             }
                                                         ],
                                                         "components": [
@@ -288,7 +288,7 @@
                                                         ],
                                                         "name": "Cube.001_$AssimpFbx$_Scaling",
                                                         "tag": "",
-                                                        "uid": 5033274227213569729
+                                                        "uid": 2058839050687679440
                                                     }
                                                 ],
                                                 "components": [
@@ -314,7 +314,7 @@
                                                 ],
                                                 "name": "Cube.001_$AssimpFbx$_ScalingPivot",
                                                 "tag": "",
-                                                "uid": 3362269137244642220
+                                                "uid": 5073544494823010767
                                             }
                                         ],
                                         "components": [
@@ -340,7 +340,7 @@
                                         ],
                                         "name": "Cube.001_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 10562661574270852235
+                                        "uid": 5514158359551314280
                                     }
                                 ],
                                 "components": [
@@ -366,7 +366,7 @@
                                 ],
                                 "name": "Cube.001_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 9379311335356541002
+                                "uid": 12849007922797140532
                             }
                         ],
                         "components": [
@@ -392,7 +392,7 @@
                         ],
                         "name": "Cube.001_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 11872528675293295283
+                        "uid": 18157092935811760761
                     }
                 ],
                 "components": [
@@ -418,7 +418,7 @@
                 ],
                 "name": "Cube.001_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 8871751124456750092
+                "uid": 5828030154589946289
             },
             {
                 "active": true,
@@ -492,7 +492,7 @@
                                                                                         ],
                                                                                         "name": "bottle",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 5897060509993139163
+                                                                                        "uid": 1027716884649257234
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -539,7 +539,7 @@
                                                                                         ],
                                                                                         "name": "cap",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 11224029406162260587
+                                                                                        "uid": 6955928244310631243
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -586,7 +586,7 @@
                                                                                         ],
                                                                                         "name": "decor",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 17997340370770284610
+                                                                                        "uid": 10086558931761027885
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -633,7 +633,7 @@
                                                                                         ],
                                                                                         "name": "handles",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 14816116055278176828
+                                                                                        "uid": 14902279912904317881
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -680,7 +680,7 @@
                                                                                         ],
                                                                                         "name": "liquid",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 8220050548922240718
+                                                                                        "uid": 7949156385979593253
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -727,7 +727,7 @@
                                                                                         ],
                                                                                         "name": "lower metal rim",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 3747379109918370782
+                                                                                        "uid": 13560892024027096916
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -774,7 +774,7 @@
                                                                                         ],
                                                                                         "name": "upper metal rim",
                                                                                         "tag": "PotionObtained",
-                                                                                        "uid": 18337566804294923428
+                                                                                        "uid": 16179366587402928131
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -800,7 +800,7 @@
                                                                                 ],
                                                                                 "name": "group",
                                                                                 "tag": "",
-                                                                                "uid": 5967657212220055402
+                                                                                "uid": 10764614515464454392
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -826,7 +826,7 @@
                                                                         ],
                                                                         "name": "group_$AssimpFbx$_ScalingPivotInverse",
                                                                         "tag": "",
-                                                                        "uid": 18188146567873493833
+                                                                        "uid": 13208135587531501820
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -852,7 +852,7 @@
                                                                 ],
                                                                 "name": "group_$AssimpFbx$_Scaling",
                                                                 "tag": "",
-                                                                "uid": 6818785070121274204
+                                                                "uid": 3391439155080822977
                                                             }
                                                         ],
                                                         "components": [
@@ -878,7 +878,7 @@
                                                         ],
                                                         "name": "group_$AssimpFbx$_ScalingPivot",
                                                         "tag": "",
-                                                        "uid": 7335421799146391365
+                                                        "uid": 2066960148969167195
                                                     }
                                                 ],
                                                 "components": [
@@ -904,7 +904,7 @@
                                                 ],
                                                 "name": "group_$AssimpFbx$_RotationPivotInverse",
                                                 "tag": "",
-                                                "uid": 9194790726561449061
+                                                "uid": 14297058209495390175
                                             }
                                         ],
                                         "components": [
@@ -930,7 +930,7 @@
                                         ],
                                         "name": "group_$AssimpFbx$_Rotation",
                                         "tag": "",
-                                        "uid": 16046924463164657859
+                                        "uid": 15635461635991092897
                                     }
                                 ],
                                 "components": [
@@ -956,7 +956,7 @@
                                 ],
                                 "name": "group_$AssimpFbx$_RotationPivot",
                                 "tag": "",
-                                "uid": 12929378894655862080
+                                "uid": 206637928278464651
                             }
                         ],
                         "components": [
@@ -982,7 +982,7 @@
                         ],
                         "name": "group_$AssimpFbx$_Translation",
                         "tag": "",
-                        "uid": 8307140270988874426
+                        "uid": 7313874254767017333
                     }
                 ],
                 "components": [
@@ -1032,7 +1032,7 @@
                 ],
                 "name": "PotionVisual",
                 "tag": "",
-                "uid": 8657431314163489766
+                "uid": 144249899761537516
             },
             {
                 "active": true,
@@ -1067,7 +1067,7 @@
                 ],
                 "name": "CofreUI",
                 "tag": "",
-                "uid": 6566387741141115755
+                "uid": 18244285608508255615
             },
             {
                 "active": true,
@@ -1095,21 +1095,21 @@
                 ],
                 "name": "InteractAnchor",
                 "tag": "",
-                "uid": 18372175527411537348
+                "uid": 1005167352185535686
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    142.89865112304688,
-                    8.229597091674805,
-                    -289.43182373046875
+                    10.034683227539063,
+                    -1.5839767456054688,
+                    -12.466552734375
                 ],
                 "rotation": [
-                    -178.5035858154297,
-                    -0.8033930063247681,
-                    -179.67918395996094
+                    -157.20599365234375,
+                    89.11685180664063,
+                    -158.70458984375
                 ],
                 "scale": [
                     0.05391228571534157,
@@ -1121,11 +1121,6 @@
             {
                 "active": true,
                 "publicVariables": [
-                    {
-                        "name": "radius",
-                        "type": 0,
-                        "value": 2.0
-                    },
                     {
                         "name": "itemText",
                         "type": 1,
@@ -1145,6 +1140,11 @@
                         "name": "actionText",
                         "type": 1,
                         "value": "Abrir cofre"
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 2.0
                     }
                 ],
                 "scriptUID": 12617463497130070296,
@@ -1201,9 +1201,9 @@
                     ],
                     "linear": 0.21199999749660492,
                     "position": [
-                        142.89865112304688,
-                        8.229597091674805,
-                        -289.43182373046875
+                        10.034683227539063,
+                        -1.5839767456054688,
+                        -12.466552734375
                     ],
                     "quadratic": 0.0729999989271164,
                     "specular": [
@@ -1288,24 +1288,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "oneShot",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
                         "name": "promptRadius",
                         "type": 0,
                         "value": 12.0
-                    },
-                    {
-                        "name": "radius",
-                        "type": 0,
-                        "value": 6.0
-                    },
-                    {
-                        "name": "action",
-                        "type": 1,
-                        "value": "Interact"
                     },
                     {
                         "name": "anchorName",
@@ -1313,14 +1298,29 @@
                         "value": "InteractAnchor"
                     },
                     {
-                        "name": "sequenceId",
+                        "name": "action",
                         "type": 1,
-                        "value": ""
+                        "value": "Interact"
                     },
                     {
                         "name": "updateWhenPaused",
                         "type": 2,
                         "value": true
+                    },
+                    {
+                        "name": "oneShot",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "sequenceId",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 6.0
                     }
                 ],
                 "scriptUID": 11869449068228775486,
@@ -1329,6 +1329,6 @@
         ],
         "name": "Chest_OpenChest",
         "tag": "",
-        "uid": 7197265743558997387
+        "uid": 5229604448493108801
     }
 ]

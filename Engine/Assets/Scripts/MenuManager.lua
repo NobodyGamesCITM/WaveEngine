@@ -367,7 +367,7 @@ function Update(self, dt)
             end
         end
 
-        if UI.WasClicked("SoundsButton") then
+        if UI.WasClicked("SoundButton") then
             NavigateTo(self, "SoundsMenu.xaml")
         end
         if UI.WasClicked("GraphicsButton") then
@@ -444,7 +444,7 @@ function Update(self, dt)
             if _G.ForceCloseDialog then _G.ForceCloseDialog() end
         end
 
-        if self.nextXaml == "PauseMenu.xaml" or self.nextXaml == "GraphicsMenu.xaml" or self.nextXaml == "LoseMenu.xaml" or self.nextXaml == "SettingsMenu.xaml" then
+        if self.nextXaml == "PauseMenu.xaml" or self.nextXaml == "GraphicsMenu.xaml" or self.nextXaml == "LoseMenu.xaml" or self.nextXaml == "SettingsMenu.xaml" or self.nextXaml == "SoundsMenu.xaml" then
             Audio.SetGlobalVolume(self.public.lowerVolume or 60.0)
         elseif self.nextXaml == "MainMenu.xaml" or self.nextXaml == "HUD.xaml" then
             Audio.SetGlobalVolume(self.public.fullVolume or 100.0)

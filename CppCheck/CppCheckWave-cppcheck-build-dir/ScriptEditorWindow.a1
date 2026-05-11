@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="9161280943079507523">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/EditorWindow.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="8" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="9" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="10" column="2"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;imgui.h&quot; not found." verbose="Include file: &quot;imgui.h&quot; not found.">
+            <location file="../Engine/src/TextEditor.h" line="11" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;lua.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;lua.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="12" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;lualib.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;lualib.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="13" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;lauxlib.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;lauxlib.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="14" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;sstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;sstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cctype&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cctype&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;filesystem&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;filesystem&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="8" column="2"/>
+        </error>
+        <error id="normalCheckLevelMaxBranches" severity="information" msg="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." verbose="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="0" column="0"/>
+        </error>
+        <error id="unusedPrivateFunction" severity="style" msg="Unused private function: &apos;ScriptEditorWindow::DrawEditableView&apos;" verbose="Unused private function: &apos;ScriptEditorWindow::DrawEditableView&apos;" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="593" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="130" column="10"/>
+            <symbol>ScriptEditorWindow::DrawEditableView</symbol>
+        </error>
+        <error id="unusedPrivateFunction" severity="style" msg="Unused private function: &apos;ScriptEditorWindow::DrawLineNumbers&apos;" verbose="Unused private function: &apos;ScriptEditorWindow::DrawLineNumbers&apos;" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="655" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="131" column="10"/>
+            <symbol>ScriptEditorWindow::DrawLineNumbers</symbol>
+        </error>
+        <error id="unusedPrivateFunction" severity="style" msg="Unused private function: &apos;ScriptEditorWindow::ParseTextIntoLines&apos;" verbose="Unused private function: &apos;ScriptEditorWindow::ParseTextIntoLines&apos;" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="876" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="154" column="10"/>
+            <symbol>ScriptEditorWindow::ParseTextIntoLines</symbol>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;ScriptEditorWindow::DrawLineNumbers&apos; can be static." verbose="The member function &apos;ScriptEditorWindow::DrawLineNumbers&apos; can be static." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="655" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="131" column="10"/>
+            <symbol>ScriptEditorWindow::DrawLineNumbers</symbol>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;ScriptEditorWindow::ExtractLineFromError&apos; can be static." verbose="The member function &apos;ScriptEditorWindow::ExtractLineFromError&apos; can be static." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="509" column="25"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="139" column="9"/>
+            <symbol>ScriptEditorWindow::ExtractLineFromError</symbol>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;ScriptEditorWindow::CheckSyntaxErrorsForTab&apos; can be static." verbose="The member function &apos;ScriptEditorWindow::CheckSyntaxErrorsForTab&apos; can be static." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="920" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="153" column="10"/>
+            <symbol>ScriptEditorWindow::CheckSyntaxErrorsForTab</symbol>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;ScriptEditorWindow::ParseTextIntoLinesForTab&apos; can be static." verbose="The member function &apos;ScriptEditorWindow::ParseTextIntoLinesForTab&apos; can be static." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="885" column="26"/>
+            <location file="../Engine/src/ScriptEditorWindow.h" line="155" column="10"/>
+            <symbol>ScriptEditorWindow::ParseTextIntoLinesForTab</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~ScriptEditorWindow&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~ScriptEditorWindow&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.h" line="103" column="6" info="Destructor in derived class"/>
+            <location file="../Engine/src/EditorWindow.h" line="13" column="14" info="Virtual destructor in base class"/>
+            <symbol>~ScriptEditorWindow</symbol>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="634" column="42"/>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;tab&apos; can be declared as reference to const" verbose="Variable &apos;tab&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="274" column="24" info="Variable &apos;tab&apos; can be declared as reference to const"/>
+            <symbol>tab</symbol>
+        </error>
+        <error id="constVariablePointer" severity="style" msg="Variable &apos;tab&apos; can be declared as pointer to const" verbose="Variable &apos;tab&apos; can be declared as pointer to const" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="329" column="24" info="Variable &apos;tab&apos; can be declared as pointer to const"/>
+            <symbol>tab</symbol>
+        </error>
+        <error id="constVariablePointer" severity="style" msg="Variable &apos;tab&apos; can be declared as pointer to const" verbose="Variable &apos;tab&apos; can be declared as pointer to const" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="441" column="24" info="Variable &apos;tab&apos; can be declared as pointer to const"/>
+            <symbol>tab</symbol>
+        </error>
+        <error id="constVariablePointer" severity="style" msg="Variable &apos;tab&apos; can be declared as pointer to const" verbose="Variable &apos;tab&apos; can be declared as pointer to const" cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="662" column="16" info="Variable &apos;tab&apos; can be declared as pointer to const"/>
+            <symbol>tab</symbol>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::find_if algorithm instead of a raw loop." verbose="Consider using std::find_if algorithm instead of a raw loop." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="69" column="9"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::any_of algorithm instead of a raw loop." verbose="Consider using std::any_of algorithm instead of a raw loop." cwe="398" file0="../Engine/src/ScriptEditorWindow.cpp">
+            <location file="../Engine/src/ScriptEditorWindow.cpp" line="1143" column="5"/>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/ScriptEditorWindow.cpp" line="463" col="13" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/ScriptEditorWindow.cpp" line="584" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/ScriptEditorWindow.cpp" line="1062" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/ScriptEditorWindow.cpp" line="1109" col="5" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="TextEditor::Breakpoint" file="../Engine/src/TextEditor.h" configuration="" line="49" col="2" hash="7897829918578912581"/>
+<class name="TextEditor::Coordinates" file="../Engine/src/TextEditor.h" configuration="" line="68" col="2" hash="62794896201770751"/>
+<class name="TextEditor::Identifier" file="../Engine/src/TextEditor.h" configuration="" line="122" col="2" hash="17462612574363133372"/>
+<class name="TextEditor::Glyph" file="../Engine/src/TextEditor.h" configuration="" line="136" col="2" hash="17720432635570178087"/>
+<class name="TextEditor::EditorState" file="../Engine/src/TextEditor.h" configuration="" line="272" col="2" hash="9867974847912839246"/>
+<class name="SyntaxError" file="../Engine/src/ScriptEditorWindow.h" configuration="" line="29" col="1" hash="13485849500255860926"/>
+<class name="TextLine" file="../Engine/src/ScriptEditorWindow.h" configuration="" line="35" col="1" hash="1619281508954429926"/>
+<class name="ScriptEditorWindow" file="../Engine/src/ScriptEditorWindow.h" configuration="" line="99" col="1" hash="16127177119116651985"/>
+<class name="LogInfo" file="../Engine/src/Log.h" configuration="" line="16" col="1" hash="16815889805938457247"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/ScriptEditorWindow.h:108:10" my-argnr="1" my-argname="scriptPath" file="../Engine/src/ScriptEditorWindow.cpp" line="980" col="39" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:79:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="82" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:86:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="89" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:93:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="95" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:100:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="102" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:107:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="109" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:114:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="116" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ScriptEditorWindow.h:139:9" my-argnr="1" my-argname="error" file="../Engine/src/ScriptEditorWindow.cpp" line="510" col="25" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ScriptEditorWindow.h:147:21" my-argnr="1" my-argname="token" file="../Engine/src/ScriptEditorWindow.cpp" line="831" col="9" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ScriptEditorWindow.h:155:10" my-argnr="1" my-argname="tab" file="../Engine/src/ScriptEditorWindow.cpp" line="887" col="5" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ScriptEditorWindow.h:153:10" my-argnr="1" my-argname="tab" file="../Engine/src/ScriptEditorWindow.cpp" line="922" col="5" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/EditorWindow.h" functionName="SetOpen" lineNumber="17" column="10"/>
+    <functiondecl file="../Engine/src/EditorWindow.h" functionName="IsOpen" lineNumber="18" column="10"/>
+    <functiondecl file="../Engine/src/EditorWindow.h" functionName="GetName" lineNumber="19" column="24"/>
+    <functiondecl file="../Engine/src/EditorWindow.h" functionName="IsHovered" lineNumber="20" column="10"/>
+    <functiondecl file="../Engine/src/EditorWindow.h" functionName="IsFocused" lineNumber="21" column="10"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="Invalid" lineNumber="77" column="22"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetLanguageDefinition" lineNumber="189" column="28"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetPalette" lineNumber="191" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetErrorMarkers" lineNumber="194" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetBreakpoints" lineNumber="195" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetTotalLines" lineNumber="207" column="6"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsOverwrite" lineNumber="208" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsReadOnly" lineNumber="211" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsTextChanged" lineNumber="212" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsCursorPositionChanged" lineNumber="213" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsColorizerEnabled" lineNumber="215" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetCursorPosition" lineNumber="218" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetHandleMouseInputs" lineNumber="221" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsHandleMouseInputsEnabled" lineNumber="222" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetHandleKeyboardInputs" lineNumber="224" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsHandleKeyboardInputsEnabled" lineNumber="225" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetImGuiChildIgnored" lineNumber="227" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsImGuiChildIgnored" lineNumber="228" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetShowWhitespaces" lineNumber="230" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsShowingWhitespaces" lineNumber="231" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetTabSize" lineNumber="234" column="13"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.h" functionName="GetOpenTabCount" lineNumber="123" column="12"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetInstance" lineNumber="35" column="24"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="AddLog" lineNumber="40" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Clear" lineNumber="75" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetLogs" lineNumber="77" column="33"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Shutdown" lineNumber="79" column="10"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="InitializeLuaKeywords" lineNumber="38" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="GetActiveTab" lineNumber="55" column="32"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="FindTabByPath" lineNumber="64" column="25"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawTabs" lineNumber="258" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawMenuBar" lineNumber="323" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawTextEditor" lineNumber="469" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="ExtractLineFromError" lineNumber="509" column="25"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawColoredReadOnlyView" lineNumber="523" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawEditableView" lineNumber="593" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawLineNumbers" lineNumber="655" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawErrorPanel" lineNumber="660" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="DrawStatusBar" lineNumber="680" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="RenderTextWithSyntaxHighlighting" lineNumber="727" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="IdentifyToken" lineNumber="829" column="37"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="IsLuaKeyword" lineNumber="852" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="IsLuaFunction" lineNumber="857" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="GetColorForToken" lineNumber="862" column="28"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="ParseTextIntoLines" lineNumber="876" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="ParseTextIntoLinesForTab" lineNumber="885" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="CheckSyntaxErrors" lineNumber="911" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="CheckSyntaxErrorsForTab" lineNumber="920" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="OpenScript" lineNumber="977" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="LoadScriptIntoTab" lineNumber="1010" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="SaveScript" lineNumber="1042" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="SaveTab" lineNumber="1047" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="CloseTab" lineNumber="1119" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="HasUnsavedChanges" lineNumber="1141" column="26"/>
+    <functiondecl file="../Engine/src/ScriptEditorWindow.cpp" functionName="MarkCurrentTabAsModified" lineNumber="1151" column="26"/>
+    <functioncall functionName="AddLine"/>
+    <functioncall functionName="AddRectFilled"/>
+    <functioncall functionName="AddText"/>
+    <functioncall functionName="Begin"/>
+    <functioncall functionName="BeginChild"/>
+    <functioncall functionName="BeginMenu"/>
+    <functioncall functionName="BeginMenuBar"/>
+    <functioncall functionName="BeginPopupModal"/>
+    <functioncall functionName="BeginTabBar"/>
+    <functioncall functionName="BeginTabItem"/>
+    <functioncall functionName="Breakpoint"/>
+    <functioncall functionName="BulletText"/>
+    <functioncall functionName="Button"/>
+    <functioncall functionName="CalcTextSize"/>
+    <functioncall functionName="CheckSyntaxErrors"/>
+    <functioncall functionName="CheckSyntaxErrorsForTab"/>
+    <functioncall functionName="CloseCurrentPopup"/>
+    <functioncall functionName="CloseTab"/>
+    <functioncall functionName="ColorConvertFloat4ToU32"/>
+    <functioncall functionName="ConsoleLog"/>
+    <functioncall functionName="Coordinates"/>
+    <functioncall functionName="DrawColoredReadOnlyView"/>
+    <functioncall functionName="DrawErrorPanel"/>
+    <functioncall functionName="DrawMenuBar"/>
+    <functioncall functionName="DrawStatusBar"/>
+    <functioncall functionName="DrawTabs"/>
+    <functioncall functionName="DrawTextEditor"/>
+    <functioncall functionName="Dummy"/>
+    <functioncall functionName="EditorWindow"/>
+    <functioncall functionName="End"/>
+    <functioncall functionName="EndChild"/>
+    <functioncall functionName="EndMenu"/>
+    <functioncall functionName="EndMenuBar"/>
+    <functioncall functionName="EndPopup"/>
+    <functioncall functionName="EndTabBar"/>
+    <functioncall functionName="EndTabItem"/>
+    <functioncall functionName="ExtractLineFromError"/>
+    <functioncall functionName="FLT_MAX"/>
+    <functioncall functionName="FindTabByPath"/>
+    <functioncall functionName="FramePadding"/>
+    <functioncall functionName="GetActiveTab"/>
+    <functioncall functionName="GetActualCursorCoordinates"/>
+    <functioncall functionName="GetColorForToken"/>
+    <functioncall functionName="GetContentRegionAvail"/>
+    <functioncall functionName="GetCursorPosY"/>
+    <functioncall functionName="GetCursorScreenPos"/>
+    <functioncall functionName="GetDarkPalette"/>
+    <functioncall functionName="GetScrollY"/>
+    <functioncall functionName="GetStyle"/>
+    <functioncall functionName="GetText"/>
+    <functioncall functionName="GetTextLineHeight"/>
+    <functioncall functionName="GetTextLines"/>
+    <functioncall functionName="GetWindowDrawList"/>
+    <functioncall functionName="GetWindowWidth"/>
+    <functioncall functionName="Glyph"/>
+    <functioncall functionName="HasUnsavedChanges"/>
+    <functioncall functionName="IdentifyToken"/>
+    <functioncall functionName="ImGuiCol_ChildBg"/>
+    <functioncall functionName="ImGuiCol_FrameBg"/>
+    <functioncall functionName="ImGuiCol_Tab"/>
+    <functioncall functionName="ImGuiCol_TabActive"/>
+    <functioncall functionName="ImGuiCol_TabHovered"/>
+    <functioncall functionName="ImGuiCol_TabUnfocusedActive"/>
+    <functioncall functionName="ImGuiCol_Text"/>
+    <functioncall functionName="ImGuiInputTextFlags_CallbackAlways"/>
+    <functioncall functionName="ImGuiKey_F"/>
+    <functioncall functionName="ImGuiKey_H"/>
+    <functioncall functionName="ImGuiKey_LeftCtrl"/>
+    <functioncall functionName="ImGuiKey_LeftShift"/>
+    <functioncall functionName="ImGuiKey_RightCtrl"/>
+    <functioncall functionName="ImGuiKey_RightShift"/>
+    <functioncall functionName="ImGuiKey_S"/>
+    <functioncall functionName="ImGuiKey_W"/>
+    <functioncall functionName="ImGuiStyleVar_ItemSpacing"/>
+    <functioncall functionName="ImGuiTabBarFlags_FittingPolicyScroll"/>
+    <functioncall functionName="ImGuiWindowFlags_AlwaysAutoResize"/>
+    <functioncall functionName="ImGuiWindowFlags_MenuBar"/>
+    <functioncall functionName="ImGuiWindowFlags_NoScrollbar"/>
+    <functioncall functionName="ImU32"/>
+    <functioncall functionName="ImVec2"/>
+    <functioncall functionName="ImVec4"/>
+    <functioncall functionName="InitializeLuaKeywords"/>
+    <functioncall functionName="InputText"/>
+    <functioncall functionName="InputTextMultiline"/>
+    <functioncall functionName="IsKeyDown"/>
+    <functioncall functionName="IsKeyPressed"/>
+    <functioncall functionName="IsLuaFunction"/>
+    <functioncall functionName="IsLuaKeyword"/>
+    <functioncall functionName="IsMouseDoubleClicked"/>
+    <functioncall functionName="IsWindowHovered"/>
+    <functioncall functionName="LanguageDefinition"/>
+    <functioncall functionName="LoadScriptIntoTab"/>
+    <functioncall functionName="LogInternal"/>
+    <functioncall functionName="Lua"/>
+    <functioncall functionName="MarkCurrentTabAsModified"/>
+    <functioncall functionName="MenuItem"/>
+    <functioncall functionName="OpenPopup"/>
+    <functioncall functionName="ParseTextIntoLinesForTab"/>
+    <functioncall functionName="PopStyleColor"/>
+    <functioncall functionName="PopStyleVar"/>
+    <functioncall functionName="PushStyleColor"/>
+    <functioncall functionName="PushStyleVar"/>
+    <functioncall functionName="Render"/>
+    <functioncall functionName="RenderTextWithSyntaxHighlighting"/>
+    <functioncall functionName="SameLine"/>
+    <functioncall functionName="SaveScript"/>
+    <functioncall functionName="SaveTab"/>
+    <functioncall functionName="ScriptEditorWindow"/>
+    <functioncall functionName="ScriptTab"/>
+    <functioncall functionName="Separator"/>
+    <functioncall functionName="SetCursorPosX"/>
+    <functioncall functionName="SetCursorPosY"/>
+    <functioncall functionName="SetErrorMarkers"/>
+    <functioncall functionName="SetLanguageDefinition"/>
+    <functioncall functionName="SetNextItemWidth"/>
+    <functioncall functionName="SetNextWindowSizeConstraints"/>
+    <functioncall functionName="SetPalette"/>
+    <functioncall functionName="SetReadOnly"/>
+    <functioncall functionName="SetShowWhitespaces"/>
+    <functioncall functionName="SetText"/>
+    <functioncall functionName="SliderFloat"/>
+    <functioncall functionName="SmallButton"/>
+    <functioncall functionName="Text"/>
+    <functioncall functionName="TextColored"/>
+    <functioncall functionName="TextEditor"/>
+    <functioncall functionName="TextWrapped"/>
+    <functioncall functionName="UndoRecord"/>
+    <functioncall functionName="_TRUNCATE"/>
+    <functioncall functionName="array"/>
+    <functioncall functionName="assert"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="binary"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="close"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="filename"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="getline"/>
+    <functioncall functionName="hash"/>
+    <functioncall functionName="insert"/>
+    <functioncall functionName="is_open"/>
+    <functioncall functionName="isdigit"/>
+    <functioncall functionName="ispunct"/>
+    <functioncall functionName="isspace"/>
+    <functioncall functionName="length"/>
+    <functioncall functionName="luaL_loadstring"/>
+    <functioncall functionName="luaL_newstate"/>
+    <functioncall functionName="lua_close"/>
+    <functioncall functionName="lua_pop"/>
+    <functioncall functionName="lua_tostring"/>
+    <functioncall functionName="make_pair"/>
+    <functioncall functionName="map"/>
+    <functioncall functionName="memset"/>
+    <functioncall functionName="move"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="pair"/>
+    <functioncall functionName="path"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="rdbuf"/>
+    <functioncall functionName="regex"/>
+    <functioncall functionName="remove_if"/>
+    <functioncall functionName="replace"/>
+    <functioncall functionName="shrink_to_fit"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="snprintf"/>
+    <functioncall functionName="stoi"/>
+    <functioncall functionName="str"/>
+    <functioncall functionName="strcmp"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="strncpy_s"/>
+    <functioncall functionName="substr"/>
+    <functioncall functionName="to_string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="unordered_map"/>
+    <functioncall functionName="unordered_set"/>
+    <functioncall functionName="vector"/>
+    <functioncall functionName="x"/>
+  </FileInfo>
+</analyzerinfo>

@@ -1,0 +1,12 @@
+IsValid
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+GetInstance
+LoadPrefab call:[LoadFromFile,LogInternal,c_str,move]
+InstantiatePrefab call:[Instantiate,LogInternal,c_str,end,find] noreturn:[Instantiate]
+CreatePrefab call:[LogInternal,SaveFromGameObject,c_str,move]
+HasPrefab call:[end,find] noreturn:[end]
+Clear call:[LogInternal,clear] noreturn:[LogInternal]

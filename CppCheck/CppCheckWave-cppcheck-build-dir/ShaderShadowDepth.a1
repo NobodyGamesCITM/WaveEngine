@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="12959399043285740289">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Shader.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Shader.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Shader.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="8" column="2"/>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;CreateShader&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;CreateShader&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="../Engine/src/ShaderShadowDepth.cpp">
+            <location file="../Engine/src/ShaderShadowDepth.h" line="7" column="10" info="Function in derived class"/>
+            <location file="../Engine/src/Shader.h" line="13" column="18" info="Virtual function in base class"/>
+            <symbol>CreateShader</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="ShaderShadowDepth" file="../Engine/src/ShaderShadowDepth.h" configuration="" line="4" col="1" hash="11870608712726343548"/>
+<class name="LogInfo" file="../Engine/src/Log.h" configuration="" line="16" col="1" hash="16815889805938457247"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/Shader.h" functionName="GetProgramID" lineNumber="20" column="18"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetInstance" lineNumber="35" column="24"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="AddLog" lineNumber="40" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Clear" lineNumber="75" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetLogs" lineNumber="77" column="33"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Shutdown" lineNumber="79" column="10"/>
+    <functioncall functionName="ConsoleLog"/>
+    <functioncall functionName="LoadFromSource"/>
+    <functioncall functionName="LogExternal"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="hash"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="shrink_to_fit"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="unordered_map"/>
+    <functioncall functionName="vec2"/>
+    <functioncall functionName="vec4"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

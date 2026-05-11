@@ -1,0 +1,80 @@
+EditorWindow
+SetOpen
+IsOpen
+GetName
+IsHovered
+IsFocused
+Breakpoint
+Coordinates
+Coordinates call:[assert] noreturn:[assert]
+Invalid call:[invalid]
+operator==
+operator!=
+operator<
+operator>
+operator<=
+operator>=
+Glyph
+LanguageDefinition
+GetLanguageDefinition
+GetPalette
+SetErrorMarkers
+SetBreakpoints
+GetTotalLines call:[return,size] noreturn:[size]
+IsOverwrite
+IsReadOnly
+IsTextChanged
+IsCursorPositionChanged
+IsColorizerEnabled
+GetCursorPosition call:[GetActualCursorCoordinates] noreturn:[GetActualCursorCoordinates]
+SetHandleMouseInputs
+IsHandleMouseInputsEnabled
+SetHandleKeyboardInputs
+IsHandleKeyboardInputsEnabled
+SetImGuiChildIgnored
+IsImGuiChildIgnored
+SetShowWhitespaces
+IsShowingWhitespaces
+GetTabSize
+UndoRecord
+UndoRecord
+ScriptTab
+ScriptTab
+operator= call:[move]
+GetOpenTabCount call:[size] noreturn:[size]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+ScriptEditorWindow call:[GetDarkPalette,ImVec4,InitializeLuaKeywords,Lua,SetLanguageDefinition,SetPalette,SetReadOnly,SetShowWhitespaces] noreturn:[SetReadOnly]
+ScriptEditorWindow call:[clear] noreturn:[clear]
+InitializeLuaKeywords
+GetActiveTab call:[size]
+FindTabByPath call:[size]
+Draw call:[Begin,BeginPopupModal,Button,CalcTextSize,CloseCurrentPopup,CloseTab,DrawErrorPanel,DrawMenuBar,DrawStatusBar,DrawTabs,DrawTextEditor,End,EndPopup,GetActiveTab,GetContentRegionAvail,HasUnsavedChanges,ImVec2,ImVec4,InputText,MarkCurrentTabAsModified,OpenPopup,SameLine,SaveTab,Separator,SetCursorPosX,SetCursorPosY,SetNextItemWidth,SetNextWindowSizeConstraints,Text,TextColored,c_str,empty,find,length,replace,size,sizeof,strncpy_s] noreturn:[CloseCurrentPopup,DrawErrorPanel,DrawStatusBar,EndPopup,MarkCurrentTabAsModified,OpenPopup,SaveTab,Separator,TextColored]
+DrawTabs call:[BeginTabBar,BeginTabItem,CloseTab,EndTabBar,EndTabItem,ImVec4,PopStyleColor,PushStyleColor,SetText,c_str,size,to_string] noreturn:[EndTabBar,EndTabItem,PopStyleColor,SetText]
+DrawMenuBar call:[BeginMenu,BeginMenuBar,CheckSyntaxErrors,CloseTab,EndMenu,EndMenuBar,GetActiveTab,HasUnsavedChanges,IsKeyDown,IsKeyPressed,LogInternal,MenuItem,SaveScript,SaveTab,Separator,SliderFloat,clear,empty,size] noreturn:[CheckSyntaxErrors,CloseTab,EndMenu,EndMenuBar,LogInternal,SaveScript,SaveTab]
+DrawTextEditor call:[BeginChild,BulletText,DrawColoredReadOnlyView,EndChild,GetActiveTab,GetContentRegionAvail,ImVec2,ImVec4,ParseTextIntoLinesForTab,PopStyleColor,PushStyleColor,Render,SameLine,Separator,SetErrorMarkers,SmallButton,TextWrapped,c_str,empty] noreturn:[DrawColoredReadOnlyView,Render,Separator,SetErrorMarkers]
+ExtractLineFromError call:[find,stoi,substr] noreturn:[stoi]
+DrawColoredReadOnlyView call:[AddLine,AddRectFilled,AddText,BeginChild,ColorConvertFloat4ToU32,Dummy,EndChild,GetActiveTab,GetCursorScreenPos,GetScrollY,GetTextLineHeight,GetWindowDrawList,ImVec2,ImVec4,IsMouseDoubleClicked,IsWindowHovered,LogInternal,RenderTextWithSyntaxHighlighting,TextColored,size,sizeof,snprintf] noreturn:[AddLine,AddText,LogInternal,RenderTextWithSyntaxHighlighting,TextColored]
+DrawEditableView call:[BeginChild,CheckSyntaxErrors,EndChild,GetActiveTab,GetCursorPosY,GetStyle,ImVec2,ImVec4,InputTextMultiline,MarkCurrentTabAsModified,PopStyleColor,PopStyleVar,PushStyleColor,PushStyleVar,SameLine,SetCursorPosY,TextColored,size] noreturn:[CheckSyntaxErrors,SameLine,TextColored]
+DrawLineNumbers
+DrawErrorPanel call:[BeginChild,EndChild,GetActiveTab,ImVec2,ImVec4,Separator,TextColored,c_str] noreturn:[EndChild,TextColored]
+DrawStatusBar call:[GetActiveTab,GetWindowWidth,ImVec4,SameLine,Separator,Text,TextColored,c_str,empty,size] noreturn:[SameLine,Text,TextColored]
+RenderTextWithSyntaxHighlighting call:[AddText,CalcTextSize,ColorConvertFloat4ToU32,GetColorForToken,GetWindowDrawList,IdentifyToken,ImVec2,c_str,clear,empty,flushToken,isspace,length] noreturn:[IdentifyToken,clear,flushToken]
+IdentifyToken call:[IsLuaFunction,IsLuaKeyword,empty,isdigit,ispunct,length,size]
+IsLuaKeyword call:[end,find] noreturn:[end]
+IsLuaFunction call:[end,find] noreturn:[end]
+GetColorForToken
+ParseTextIntoLines call:[GetActiveTab,ParseTextIntoLinesForTab] noreturn:[ParseTextIntoLinesForTab]
+ParseTextIntoLinesForTab call:[clear,empty,getline,push_back,ss] noreturn:[push_back]
+CheckSyntaxErrors call:[CheckSyntaxErrorsForTab,GetActiveTab] noreturn:[CheckSyntaxErrorsForTab]
+CheckSyntaxErrorsForTab call:[clear,find,luaL_loadstring,luaL_newstate,lua_close,lua_pop,lua_tostring,push_back,size,stoi,substr] noreturn:[clear,lua_close,lua_pop]
+OpenScript call:[CheckSyntaxErrorsForTab,FindTabByPath,LoadScriptIntoTab,ParseTextIntoLinesForTab,SetText,move,push_back,size] noreturn:[CheckSyntaxErrorsForTab,SetText]
+LoadScriptIntoTab call:[c_str,close,file,filename,is_open,memset,path,rdbuf,size,str,string,strncpy_s,substr] noreturn:[substr]
+SaveScript call:[SaveTab] noreturn:[SaveTab]
+SaveTab call:[CheckSyntaxErrorsForTab,ExtractLineFromError,GetText,GetTextLines,LogInternal,SetErrorMarkers,begin,c_str,clear,close,empty,end,erase,file,insert,is_open,luaL_loadstring,luaL_newstate,lua_close,lua_tostring,make_pair,remove_if,size] noreturn:[CheckSyntaxErrorsForTab,SetErrorMarkers,lua_close]
+CloseTab call:[begin,empty,erase,size]
+HasUnsavedChanges
+MarkCurrentTabAsModified call:[GetActiveTab,c_str,strcmp]

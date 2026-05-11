@@ -1,0 +1,72 @@
+Enable
+Update
+FixedUpdate
+Disable
+OnEditor
+CleanUp
+Serialize
+Deserialize
+SolveReferences
+GetType
+IsActive
+SetActive
+OnGameObjectEvent
+IsType
+IsIncompatible
+GetPosition
+GetRotation
+GetScale
+GetRotationQuat
+GetOwner
+GetForward call:[vec3] noreturn:[vec3]
+GetUp call:[vec3] noreturn:[vec3]
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetUID
+GetName
+SetName
+IsActive
+SetActive
+GetParent
+GetChildren
+GetComponents
+SetSelected
+IsSelected
+IsMarkedForDeletion
+MarkCleaning
+IsCleaning
+SetParentDirect
+GetTag
+SetTag
+CompareTag
+SetPersistency
+IsPersistent
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Transform
+Update
+OnEditor
+SetPosition call:[MarkChildrenGlobalDirty] noreturn:[MarkChildrenGlobalDirty]
+SetGlobalPosition call:[GetGlobalMatrix,GetParent,SetPosition,inverse,vec3,vec4] noreturn:[SetPosition]
+SetRotation call:[MarkChildrenGlobalDirty,UpdateQuaternionFromEuler] noreturn:[MarkChildrenGlobalDirty]
+SetGlobalRotation call:[SetGlobalRotationQuat,quat,radians] noreturn:[SetGlobalRotationQuat]
+SetRotationQuat call:[MarkChildrenGlobalDirty,UpdateEulerFromQuaternion] noreturn:[MarkChildrenGlobalDirty]
+SetGlobalRotationQuat call:[GetGlobalRotationQuat,GetParent,SetRotationQuat,inverse] noreturn:[SetRotationQuat]
+SetScale call:[MarkChildrenGlobalDirty,PublishGameObjectEvent] noreturn:[MarkChildrenGlobalDirty]
+SetGlobalScale call:[GetGlobalScale,GetParent,SetScale] noreturn:[SetScale]
+GetGlobalPosition call:[GetGlobalMatrix,vec3] noreturn:[vec3]
+GetGlobalRotation call:[GetGlobalRotationQuat,degrees,eulerAngles] noreturn:[degrees]
+GetGlobalScale call:[GetGlobalMatrix,length,vec3]
+GetGlobalRotationQuat call:[GetGlobalMatrix,normalize,quat_cast,rotationMat,vec3] noreturn:[quat_cast]
+GetLocalMatrix call:[UpdateLocalMatrix] noreturn:[UpdateLocalMatrix]
+GetGlobalMatrix call:[UpdateGlobalMatrix] noreturn:[UpdateGlobalMatrix]
+GetWorldMatrixRecursive call:[GetComponent,GetParent,GetWorldMatrixRecursive,UpdateLocalMatrix] noreturn:[UpdateLocalMatrix]
+UpdateLocalMatrix call:[mat4,mat4_cast,scale,translate]
+UpdateGlobalMatrix call:[GetComponent,GetGlobalMatrix,GetParent,UpdateLocalMatrix] noreturn:[UpdateLocalMatrix]
+MarkChildrenGlobalDirty call:[GetChildren,GetComponent,MarkChildrenGlobalDirty,PublishGameObjectEvent] noreturn:[MarkChildrenGlobalDirty,PublishGameObjectEvent]
+UpdateQuaternionFromEuler call:[quat,radians] noreturn:[quat]
+UpdateEulerFromQuaternion call:[degrees,eulerAngles] noreturn:[degrees]
+Serialize
+Deserialize call:[UpdateQuaternionFromEuler,contains,is_array,size,vec3]

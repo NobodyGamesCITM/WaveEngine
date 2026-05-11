@@ -1,0 +1,101 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+GetUID
+GetType
+GetAssetFile
+GetLibraryFile
+GetReferenceCount
+IsLoadedToMemory
+SetAssetFile
+SetLibraryFile
+GetResourceDirect call:[end,find,return]
+GetResourceDirect call:[end,find,return]
+GetAllResources
+GetResourceStats call:[GetReferenceCount,GetType,IsLoadedToMemory] noreturn:[GetReferenceCount]
+RegisterResource call:[GetType,IsLoadedToMemory,LogExternal,UnloadFromMemory,end,find] noreturn:[LogExternal,UnloadFromMemory]
+IsShuttingDown
+GetWidth
+GetHeight
+GetDepth
+GetGPU_ID
+GetFormat
+AddBoneData
+NormalizeWeights
+IsValid
+IsSkinned call:[size]
+GetMesh
+GetNumVertices call:[size] noreturn:[size]
+GetNumIndices call:[size] noreturn:[size]
+GetNumTriangles call:[size]
+IsValid call:[empty,is_null] noreturn:[empty]
+GetModelHierarchy call:[IsValid,json] noreturn:[json]
+GetProgramID
+GetSourceCode
+GetShader
+GetGLFilterMode
+GetMaxTextureSizeValue
+TextureData
+operator=
+TextureData
+IsValid
+IsValid call:[empty,is_null] noreturn:[empty]
+GetPrefabHierarchy call:[IsValid,json] noreturn:[json]
+IsValid call:[empty,is_null] noreturn:[empty]
+GetSceneHierarchy call:[IsValid,json] noreturn:[json]
+IsValid call:[empty] noreturn:[empty]
+GetScriptContent
+GetLastLoadTime
+IsValid call:[empty] noreturn:[empty]
+GetDuration
+GetTicksPerSecond
+GetChanels
+GetAnimationIsValid call:[IsValid] noreturn:[IsValid]
+GetMaterial
+Resource
+Resource
+ModuleResources
+ModuleResources
+Awake
+Start call:[CheckForAssetsModifications,Initialize,LoadResourcesFromMetaFiles,LogInternal]
+Update
+CleanUp call:[IsLoadedToMemory,LogInternal,UnloadFromMemory,clear] noreturn:[UnloadFromMemory]
+LoadResourcesFromMetaFiles call:[GetAssetType,GetAssetsRoot,GetLibraryPath,Load,LogInternal,ResourceAnimation,ResourceMaterial,ResourceMesh,ResourceModel,ResourcePrefab,ResourceScene,ResourceScript,ResourceShader,ResourceTexture,SetAssetFile,SetLibraryFile,c_str,exists,extension,is_regular_file,path,recursive_directory_iterator,string] noreturn:[LogInternal]
+Find call:[GetAssetFile,GetType]
+ImportFile call:[CreateNewResourceWithUID,GetCombinedHash,GetLibraryPath,GetOrCreateMeta,GetResourceTypeFromExtension,ImportMaterial,ImportMesh,ImportModel,ImportPrefab,ImportScene,ImportScript,ImportTexture,IsLoadedToMemory,LoadInMemory,LogInternal,UnloadFromMemory,UpdateLocalHash,c_str,end,erase,exists,extension,find,path,string] noreturn:[LoadInMemory,erase]
+CreateNewResourceWithUID call:[GetLibraryPath,LogInternal,ResourceMaterial,ResourceMesh,ResourceModel,ResourcePrefab,ResourceScene,ResourceScript,ResourceShader,ResourceTexture,SetAssetFile,SetLibraryFile] noreturn:[SetLibraryFile]
+GenerateNewUID call:[dis,end,find,gen,rd,while] noreturn:[dis]
+RequestResource call:[RequestResource] noreturn:[RequestResource]
+RequestResource call:[IsLoadedToMemory,LoadInMemory,LoadResourceFromLibrary,LogInternal,end,find]
+PeekResource call:[end,find]
+ReleaseResource call:[IsLoadedToMemory,UnloadFromMemory,end,find] noreturn:[UnloadFromMemory]
+GetResourceTypeFromExtension call:[begin,end,transform]
+CreateNewResource call:[CreateNewResourceWithUID,GenerateNewUID] noreturn:[CreateNewResourceWithUID]
+GenerateLibraryPath call:[GetLibraryPath,GetUID] noreturn:[GetLibraryPath]
+LoadResourceFromLibrary
+SaveResourceMetadata
+LoadResourceMetadata
+ImportTexture call:[GetOrCreateMeta,ImportFromFile,Load,Save,begin,end,exists,extension,path,string,transform] noreturn:[ImportFromFile,Load,Save]
+ImportMesh call:[LogInternal]
+ImportMaterial call:[GetOrCreateMeta,ImportMaterial,Load,Save,exists] noreturn:[Load,Save]
+ImportModel call:[GetOrCreateMeta,ImportFromFile,Load,Save,exists] noreturn:[ImportFromFile,Load,Save]
+ImportScene call:[GetOrCreateMeta,ImportFromFile,Load,Save,exists] noreturn:[ImportFromFile,Load,Save]
+ImportScript call:[GetOrCreateMeta,ImportFromFile,Load,Save,exists] noreturn:[ImportFromFile,Load,Save]
+ImportPrefab call:[GetLibraryPath,GetOrCreateMeta,GetUID,ImportFromFile,Load,Save,exists] noreturn:[ImportFromFile,Load,Save]
+RemoveResource call:[GetReferenceCount,IsLoadedToMemory,LogInternal,UnloadFromMemory,end,erase,find] noreturn:[LogInternal,UnloadFromMemory]
+IsResourceLoaded call:[IsLoadedToMemory,end,find] noreturn:[IsLoadedToMemory]
+GetResourceReferenceCount call:[GetReferenceCount,end,find] noreturn:[GetReferenceCount]
+GetResource call:[end,find]
+CheckForAssetsModifications call:[DoesFileExist,GetAssetType,GetAssetsRoot,GetCombinedHash,GetLibraryPath,GetLocalHash,ImportFile,LoadMeta,LogInternal,c_str,exists,extension,filename,generic_string,is_regular_file,path,recursive_directory_iterator,string,what] noreturn:[ImportFile,LogInternal]

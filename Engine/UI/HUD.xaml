@@ -1,0 +1,662 @@
+<Grid x:Name="LayoutRoot"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+d:DesignWidth="1920" d:DesignHeight="1080">
+
+    <Grid.Background>
+        <SolidColorBrush Color="#00000000"/>
+    </Grid.Background>
+
+    <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Width="1920" Height="1080">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="562*"/>
+                <ColumnDefinition Width="1358*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="241*"/>
+                <RowDefinition Height="839*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HUD superior izquierda -->
+            <Grid x:Name="HudGrid" HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="20,20,0,0"
+                  Width="500"
+                  Height="168">
+
+                <Image x:Name="HUD_Base" Source="Textures/MainHUD.PNG"
+                       Width="500" Height="168"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Stretch="Fill"/>
+
+                <!-- Barra de vida -->
+                <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
+                      HorizontalAlignment="Left"
+                      ClipToBounds="True">
+                    <Grid x:Name="HealthBarGrid"
+                          HorizontalAlignment="Left"
+                          Width="334">
+                        <Image x:Name="HealthBar" Source="Textures/Health_Bar.PNG"
+                               HorizontalAlignment="Left"
+                               Stretch="Fill"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Barra de stamina -->
+                <Grid x:Name="StaminaBarContainer" Margin="163,54,86,93"
+                      HorizontalAlignment="Left"
+                      ClipToBounds="True">
+                    <Grid x:Name="StaminaBarGrid"
+                          HorizontalAlignment="Left"
+                          Width="251">
+                        <Image x:Name="StaminaBar" Source="Textures/Stamina_Bar.PNG"
+                               HorizontalAlignment="Left"
+                               Stretch="Fill"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Pociones usadas -->
+                <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Height="100" Width="200" Margin="177,59,0,0">
+                    <Image x:Name="UsedPotion1" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion2" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion3" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion4" Source="Textures/Pocion_Used.PNG" Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+
+                <!-- Pociones disponibles -->
+                <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Height="100" Width="200" Margin="177,59,0,0">
+                    <Image x:Name="Potion1" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion2" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion3" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion4" Source="Textures/Pocion.PNG" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/><SkewTransform/>
+                                <RotateTransform Angle="25"/><TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+
+                <!--
+                    MasksContainer
+                    ═══════════════════════════════════════════════════════════
+                    3 slots posicionales. HUDController decide qué imagen
+                    mostrar en cada slot según la máscara equipada y el orden
+                    de obtención. Todos los Viewbox tienen x:Name propio.
+
+                    Active (grande, arriba)     → máscara equipada actualmente
+                    Left   (pequeño, abajo izq) → 1ª obtenida que no está en Active
+                    Right  (pequeño, abajo der) → 2ª obtenida que no está en Active
+
+                    Elementos controlados por Lua:
+                      Active_Hermes  Active_Ares  Active_Apolo
+                      Left_Hermes    Left_Ares    Left_Apolo
+                      Right_Hermes   Right_Ares   Right_Apolo
+                    ═══════════════════════════════════════════════════════════
+                -->
+                <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
+
+                    <!-- SLOT GRANDE: máscara equipada -->
+                    <Viewbox x:Name="Active_Hermes" Visibility="Collapsed" Margin="23,18,31,36">
+                        <Image Source="Textures/Hermes.PNG" Width="47" Height="46"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Active_Ares" Visibility="Collapsed" Margin="23,18,31,36">
+                        <Image Source="Textures/Ares.PNG" Width="47" Height="46"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Active_Apolo" Visibility="Collapsed" Margin="23,18,31,36">
+                        <Image Source="Textures/Apolo.PNG" Width="47" Height="46"/>
+                    </Viewbox>
+
+                    <!-- SLOT PEQUEÑO IZQUIERDA: primera obtenida no equipada -->
+                    <Viewbox x:Name="Left_Hermes" Visibility="Collapsed" Margin="13,96,170,21">
+                        <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Left_Ares" Visibility="Collapsed" Margin="13,96,170,21">
+                        <Image Source="Textures/Ares.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Left_Apolo" Visibility="Collapsed" Margin="13,96,170,21">
+                        <Image Source="Textures/Apolo.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+
+                    <!-- SLOT PEQUEÑO DERECHA: segunda obtenida no equipada -->
+                    <Viewbox x:Name="Right_Hermes" Visibility="Collapsed" Margin="163,92,14,19">
+                        <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Right_Ares" Visibility="Collapsed" Margin="163,92,14,19">
+                        <Image Source="Textures/Ares.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+                    <Viewbox x:Name="Right_Apolo" Visibility="Collapsed" Margin="163,92,14,19">
+                        <Image Source="Textures/Apolo.PNG" Width="40" Height="40" Opacity="0.6"/>
+                    </Viewbox>
+
+                </Grid>
+
+                <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
+                    <Image x:Name="UsedPotion5" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion6" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion7" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="UsedPotion8" Height="50" Width="50" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+
+                <StackPanel x:Name="BerserkPotionStackpanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="200" Margin="163,115,0,-47">
+                    <Image x:Name="Potion5" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion6" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion7" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Potion8" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Source="Textures/Berserk.PNG">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="25"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+
+            </Grid>
+
+            <!-- Prompt de interacción -->
+            <Canvas Width="1920" Height="1080"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0" Grid.RowSpan="2">
+                <StackPanel x:Name="InteractPrompt"
+                            Visibility="Collapsed"
+                            Orientation="Horizontal"
+                            Canvas.Left="0"
+                            Canvas.Top="0">
+                    <Border CornerRadius="6" Padding="16,8,16,8">
+                        <Border.Background>
+                            <SolidColorBrush Color="#CC000000"/>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="InputKeyBorder"
+                                    CornerRadius="4"
+                                    Padding="4,4,4,4"
+                                    Margin="0,0,10,0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#22FFFFFF"/>
+                                </Border.Background>
+                                <Grid>
+                                    <Image x:Name="InputKeyText"
+                                           Source="Textures/F.PNG"
+                                           Width="40" Height="40"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                    <Image x:Name="InputGamepadIcon"
+                                           Source="Textures/A.PNG"
+                                           Width="40" Height="40"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                            <TextBlock x:Name="InteractText"
+                                       Text="Interactuar"
+                                       FontSize="22"
+                                       FontFamily="Arial"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Canvas>
+
+            <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869">
+                <StackPanel x:Name="InputKeyText001" Visibility="Collapsed" Orientation="Horizontal" Canvas.Left="0" Canvas.Top="0">
+                    <Border CornerRadius="6" Padding="20,8,20,8">
+                        <Border.Background>
+                            <SolidColorBrush Color="#CC000000"/>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="InputKeyBorder" CornerRadius="4" Padding="8,4,8,4" Margin="0,0,10,0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                </Border.Background>
+                                <Grid>
+                                    <TextBlock x:Name="InputKeyText" Text="F" FontSize="22" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="#FF000000"/>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <Image x:Name="InputGamepadIcon" Source="Textures/inputA.png" Width="28" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                            <TextBlock x:Name="InteractText" Text="Interactuar" FontSize="22" FontFamily="Arial" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="#FFFFFFFF"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Canvas>
+
+            <!-- Hints de controles -->
+            <Grid VerticalAlignment="Bottom"
+                  HorizontalAlignment="Center"
+                  Margin="0,0,562,40"
+                  Width="600" Grid.Column="1" Grid.Row="1">
+                <Border x:Name="ControlsHintPanel"
+                        CornerRadius="8"
+                        Padding="12,8,12,8"
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed">
+                    <Border.Background>
+                        <SolidColorBrush Color="#AA000000"/>
+                    </Border.Background>
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+
+                        <StackPanel x:Name="HintSlot1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,16,0"
+                                    Visibility="Collapsed">
+                            <Grid Margin="0,0,6,0">
+                                <Image x:Name="HintImg_Caminar"         Source="Textures/Caminar.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_AtaqueNormal"    Source="Textures/AtaqueNormal.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_AtaqueFuerte"    Source="Textures/AtaqueFuerte.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Correr"          Source="Textures/Correr.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_CambiarMascaras" Source="Textures/CanviarMascaras.PNG" Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Health"          Source="Textures/Health.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg_Berserk"         Source="Textures/Berserk.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                            </Grid>
+                            <Grid>
+                                <Image x:Name="HintKey_WASD"  Source="Textures/wasd.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_E"     Source="Textures/E.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Q"     Source="Textures/Q.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Ctrl"  Source="Textures/Ctrl.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_Shift" Source="Textures/Shift.PNG" Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_R"     Source="Textures/R.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_F"     Source="Textures/F.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey_8"     Source="Textures/8.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="HintSlot2"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Visibility="Collapsed">
+                            <Grid Margin="0,0,6,0">
+                                <Image x:Name="HintImg2_Roll"         Source="Textures/Roll.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
+                                <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="150" Height="150" Visibility="Collapsed"/>
+                            </Grid>
+                            <Grid>
+                                <Image x:Name="HintKey2_Ctrl" Source="Textures/Ctrl.PNG" Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintKey2_E"    Source="Textures/E.PNG"    Width="120" Height="120" Visibility="Collapsed"/>
+                            </Grid>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════
+                 CINEMÁTICA - Panel a pantalla completa
+                 ═══════════════════════════════════════ -->
+            <Grid x:Name="CinematicPanel" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FF000000"/>
+                </Grid.Background>
+
+                <!-- PÁGINA 1: viñeta grande izq + 2 derechas -->
+                <Grid x:Name="Page1" Visibility="Collapsed">
+                    <Border x:Name="Page1_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Un visionado grande a Telémaco en Ítaca, con un burro, y se ve desde arriba la escena. Atenea en forma de Búho bajando a velocidad."
+                                   FontSize="26" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="40,40,40,40">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page1_V2" Visibility="Collapsed" BorderThickness="2" Margin="924,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea saluda a Telémaco y le explica quién es. Telémaco también la saluda."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page1_V3" Visibility="Collapsed" BorderThickness="2" Margin="924,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea le explica que viene a buscarlo ya que su padre se encuentra prisionero en el inframundo tras morir a manos de Aquiles."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+                <!-- PÁGINA 2: 2 viñetas arriba + 1 grande abajo (texto off amarillo) -->
+                <Grid x:Name="Page2" Visibility="Collapsed">
+                    <Border x:Name="Page2_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,984,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Telémaco se muestra afectado por ello, e incluso duda de sus posibilidades. Aunque sabe que quiere volver a ver a su padre."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page2_V2" Visibility="Collapsed" BorderThickness="2" Margin="940,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Atenea le habla de la isla y de lo que le espera, y lo alienta. Telémaco se llena de valentía."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page2_V3" Visibility="Collapsed" BorderThickness="2" Margin="40,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF1A1500"/></Border.Background>
+                        <TextBlock Text="«Te traeré de vuelta, padre. No consentiré que las sombras lo dominen. Parto en su busca, y no volveré sin él.»"
+                                   FontSize="28" FontFamily="Times New Roman" FontStyle="Italic" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="60,30,60,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFE082"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+                <!-- PÁGINA 3: viñeta grande izq + 2 derechas -->
+                <Grid x:Name="Page3" Visibility="Collapsed">
+                    <Border x:Name="Page3_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Vistazo introductorio al juego. Primer plano de la barca de Telémaco, junto al búho, y a lo lejos la isla de Perséfone."
+                                   FontSize="26" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="40,40,40,40">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page3_V2" Visibility="Collapsed" BorderThickness="2" Margin="924,40,40,562">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="Fuerte tormenta y marea por llegar. El mismo plano, pero sin la isla al fondo."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="Page3_V3" Visibility="Collapsed" BorderThickness="2" Margin="924,518,40,40">
+                        <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
+                        <Border.Background><SolidColorBrush Color="#FF111111"/></Border.Background>
+                        <TextBlock Text="El barco es dado la vuelta y Telémaco cae al agua agarrado a un tablón. Atenea como búho se acerca al pobre chico."
+                                   FontSize="24" FontFamily="Times New Roman" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="30,30,30,30">
+                            <TextBlock.Foreground><SolidColorBrush Color="#FFFFFFFF"/></TextBlock.Foreground>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+            </Grid>
+
+            <!-- Overlay negro para fade de cinemática (siempre encima del resto) -->
+            <Grid x:Name="CinematicFade" Visibility="Collapsed" IsHitTestVisible="False" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FF000000"/>
+                </Grid.Background>
+            </Grid>
+
+
+        </Grid>
+    </Viewbox>
+
+    <!--
+    ═══════════════════════════════════════════════════════════════════════════
+    MissionGrid — contador de estatuas destruidas
+    ═══════════════════════════════════════════════════════════════════════════
+
+    Comportamiento:
+      · Empieza oculto (Visibility="Collapsed" en MissionViewBox).
+      · Lua llama a HUD_RefreshStatuesDestroyed() cuando TotalStatuesToDestroy > 0.
+      · Al recoger un coleccionable: MissionExpand + MissionCountBump → visible 3 s
+        → MissionCollapse → queda encogido/tenue (solo se ve "N/Total").
+
+    Storyboards:
+      MissionExpand   — ScaleX 0.55→1, ScaleY 0.7→1, Opacity 0.35→1  (0.35 s)
+      MissionCollapse — ScaleX 1→0.55, ScaleY 1→0.7,  Opacity 1→0.35 (0.5 s)
+      MissionCountBump— ScaleX 1.15→1, ScaleY 1.15→1                  (0.4 s)
+
+    RenderTransformOrigin="1,0.5" ancla desde la derecha, así el número
+    queda visible aunque el texto de la izquierda desaparezca al colapsar.
+    ═══════════════════════════════════════════════════════════════════════════
+    -->
+    <Grid x:Name="MissionGrid">
+        <Grid.Resources>
+
+            <!-- ── Expand: aparece tras recoger un coleccionable ── -->
+            <Storyboard x:Name="MissionExpand">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    From="0.55" To="1.0"
+                    Duration="0:0:0.35">
+                    <DoubleAnimation.EasingFunction>
+                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    From="0.7" To="1.0"
+                    Duration="0:0:0.35">
+                    <DoubleAnimation.EasingFunction>
+                        <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="TextViewBox"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0.35" To="1.0"
+                    Duration="0:0:0.3"/>
+            </Storyboard>
+
+            <!-- ── Collapse: se contrae tras 3 s, solo queda el número tenue ── -->
+            <Storyboard x:Name="MissionCollapse">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    To="0.55"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    To="0.7"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="TextViewBox"
+                    Storyboard.TargetProperty="Opacity"
+                    To="0.35"
+                    Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+            <!-- ── CountBump: rebote elástico del número al actualizarse ── -->
+            <Storyboard x:Name="MissionCountBump">
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleX"
+                    From="1.18" To="1.0"
+                    Duration="0:0:0.45">
+                    <DoubleAnimation.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="MissionScaleTransform"
+                    Storyboard.TargetProperty="ScaleY"
+                    From="1.18" To="1.0"
+                    Duration="0:0:0.45">
+                    <DoubleAnimation.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1599*"/>
+            <ColumnDefinition Width="288*"/>
+            <ColumnDefinition Width="33*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="214*"/>
+            <RowDefinition Height="125*"/>
+            <RowDefinition Height="741*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Fondo decorativo del panel de misión -->
+        <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right">
+            <Image x:Name="MissionBackgroundImage" Source="Textures/MissionBackground.PNG"/>
+        </Viewbox>
+        <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="./#ForgottenUncial" TextAlignment="Center" Text="0/3" />
+        </Viewbox>
+
+    </Grid>
+
+</Grid>

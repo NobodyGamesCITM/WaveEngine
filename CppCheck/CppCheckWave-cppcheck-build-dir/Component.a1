@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16627825417260546789">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Component.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Component.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/GameObject.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/GameObject.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/GameObject.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/GameObject.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Globals.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;imgui.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Component.cpp" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;ImGuizmo.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;ImGuizmo.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Component.cpp" line="4" column="2"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;GameObject&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;GameObject&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="../Engine/src/Component.cpp">
+            <location file="../Engine/src/GameObject.h" line="26" column="5"/>
+            <symbol>GameObject</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="PrefabInstance" file="../Engine/src/PrefabInstance.h" configuration="" line="3" col="1" hash="3202003643668716051"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/GameObject.h:58:10" my-argnr="1" my-argname="newName" file="../Engine/src/GameObject.h" line="58" col="55" value="0"/>
+    <unsafe-usage my-id="../Engine/src/GameObject.h:95:10" my-argnr="1" my-argname="newTag" file="../Engine/src/GameObject.h" line="95" col="52" value="0"/>
+    <unsafe-usage my-id="../Engine/src/GameObject.h:96:10" my-argnr="1" my-argname="t" file="../Engine/src/GameObject.h" line="96" col="65" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/Component.h" functionName="GetType" lineNumber="67" column="19"/>
+    <functiondecl file="../Engine/src/Component.h" functionName="IsActive" lineNumber="71" column="10"/>
+    <functiondecl file="../Engine/src/Component.h" functionName="SetActive" lineNumber="72" column="10"/>
+    <functiondecl file="../Engine/src/Globals.h" functionName="GenerateUID" lineNumber="8" column="12"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetUID" lineNumber="29" column="15"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetName" lineNumber="57" column="24"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetName" lineNumber="58" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="IsActive" lineNumber="59" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetActive" lineNumber="60" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetParent" lineNumber="61" column="17"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetChildren" lineNumber="62" column="37"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetComponents" lineNumber="63" column="36"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetSelected" lineNumber="67" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="IsSelected" lineNumber="68" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="IsMarkedForDeletion" lineNumber="71" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="MarkCleaning" lineNumber="72" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="IsCleaning" lineNumber="73" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetParentDirect" lineNumber="83" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="GetTag" lineNumber="94" column="24"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetTag" lineNumber="95" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="CompareTag" lineNumber="96" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="SetPersistency" lineNumber="97" column="10"/>
+    <functiondecl file="../Engine/src/GameObject.h" functionName="IsPersistent" lineNumber="100" column="10"/>
+    <functioncall functionName="Component"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="optional"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="uniform_int_distribution"/>
+    <functioncall functionName="unique_ptr"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

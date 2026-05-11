@@ -1,0 +1,14 @@
+GetPreferredEditor
+SetPreferredEditor call:[Save] noreturn:[Save]
+GetCustomEditorPath
+SetCustomEditorPath call:[Save] noreturn:[Save]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Initialize call:[Load] noreturn:[Load]
+Save call:[LogExternal,LogInternal,close,dump,file,is_open] noreturn:[LogExternal,LogInternal]
+Load call:[LogExternal,LogInternal,close,contains,exists,file,is_open,what] noreturn:[LogExternal,LogInternal,close]
+GetEditorExecutablePath
+OpenFileWithPreferredEditor call:[GetEditorExecutablePath,LogInternal,absolute,c_str,empty,string,system]

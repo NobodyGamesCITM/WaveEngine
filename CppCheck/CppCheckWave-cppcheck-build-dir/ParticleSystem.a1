@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="1640278224143801830">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/gtc/quaternion.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/gtc/quaternion.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glad/glad.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glad/glad.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.cpp" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.cpp" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdlib&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdlib&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.cpp" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/gtx/vector_angle.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/gtx/vector_angle.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ParticleSystem.cpp" line="6" column="2"/>
+        </error>
+        <error id="normalCheckLevelMaxBranches" severity="information" msg="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." verbose="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." file0="../Engine/src/ParticleSystem.cpp">
+            <location file="../Engine/src/ParticleSystem.cpp" line="0" column="0"/>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;EmitterInstance::EvaluateGradient&apos; can be static." verbose="The member function &apos;EmitterInstance::EvaluateGradient&apos; can be static." cwe="398" file0="../Engine/src/ParticleSystem.cpp">
+            <location file="../Engine/src/ParticleSystem.cpp" line="273" column="28"/>
+            <location file="../Engine/src/ParticleSystem.h" line="248" column="15"/>
+            <symbol>EmitterInstance::EvaluateGradient</symbol>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;EmitterInstance::EvaluateSizeCurve&apos; can be static." verbose="The member function &apos;EmitterInstance::EvaluateSizeCurve&apos; can be static." cwe="398" file0="../Engine/src/ParticleSystem.cpp">
+            <location file="../Engine/src/ParticleSystem.cpp" line="292" column="24"/>
+            <location file="../Engine/src/ParticleSystem.h" line="251" column="11"/>
+            <symbol>EmitterInstance::EvaluateSizeCurve</symbol>
+        </error>
+        <error id="dangerousTypeCast" severity="warning" msg="Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast" verbose="Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast" cwe="398" file0="../Engine/src/ParticleSystem.cpp">
+            <location file="../Engine/src/ParticleSystem.cpp" line="321" column="71"/>
+        </error>
+        <error id="dangerousTypeCast" severity="warning" msg="Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast" verbose="Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast" cwe="398" file0="../Engine/src/ParticleSystem.cpp">
+            <location file="../Engine/src/ParticleSystem.cpp" line="410" column="82"/>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="../Engine/src/ParticleSystem.h:251:11" call-funcname="EvaluateSizeCurve" call-argnr="2" file="../Engine/src/ParticleSystem.cpp" line="334" col="43" call-argexpr="spawner" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0" warning="true">
+  <path file="..\Engine\src\ParticleSystem.cpp" line="329" col="21" info="Assuming that condition &apos;spawner&apos; is not redundant"/>
+</function-call><function-call call-id="../Engine/src/ParticleSystem.h:251:11" call-funcname="EvaluateSizeCurve" call-argnr="2" file="../Engine/src/ParticleSystem.cpp" line="428" col="35" call-argexpr="spawner" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0" warning="true">
+  <path file="..\Engine\src\ParticleSystem.cpp" line="423" col="13" info="Assuming that condition &apos;spawner&apos; is not redundant"/>
+</function-call>  </FileInfo>
+  <FileInfo check="Class">
+<class name="ColorKey" file="../Engine/src/ParticleSystem.h" configuration="" line="10" col="1" hash="17744563192778715121"/>
+<class name="SizeKey" file="../Engine/src/ParticleSystem.h" configuration="" line="16" col="1" hash="14391038628927889318"/>
+<class name="Burst" file="../Engine/src/ParticleSystem.h" configuration="" line="22" col="1" hash="885238480164502282"/>
+<class name="Particle" file="../Engine/src/ParticleSystem.h" configuration="" line="38" col="1" hash="10336743399785503451"/>
+<class name="ModuleEmitterSpawn" file="../Engine/src/ParticleSystem.h" configuration="" line="98" col="1" hash="7666200537442808529"/>
+<class name="ModuleEmitterMovement" file="../Engine/src/ParticleSystem.h" configuration="" line="144" col="1" hash="7390171758845826517"/>
+<class name="ModuleEmitterNoise" file="../Engine/src/ParticleSystem.h" configuration="" line="155" col="1" hash="4216213920137519449"/>
+<class name="EmitterInstance" file="../Engine/src/ParticleSystem.h" configuration="" line="167" col="1" hash="12005656849618721801"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:138:10" my-argnr="1" my-argname="emitter" file="../Engine/src/ParticleSystem.cpp" line="112" col="9" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:138:10" my-argnr="2" my-argname="particle" file="../Engine/src/ParticleSystem.cpp" line="41" col="5" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:150:10" my-argnr="1" my-argname="emitter" file="../Engine/src/ParticleSystem.cpp" line="157" col="20" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:138:10" my-argnr="1" my-argname="emitter" file="../Engine/src/ParticleSystem.cpp" line="112" col="9" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:150:10" my-argnr="1" my-argname="emitter" file="../Engine/src/ParticleSystem.cpp" line="157" col="20" value="0"/>
+    <unsafe-usage my-id="../Engine/src/ParticleSystem.h:248:15" my-argnr="2" my-argname="gradient" file="../Engine/src/ParticleSystem.cpp" line="274" col="9" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="RandomFloat" lineNumber="9" column="7"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Init" lineNumber="196" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Reset" lineNumber="204" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="ResetValues" lineNumber="216" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Play" lineNumber="251" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Stop" lineNumber="261" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="IsAlive" lineNumber="267" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="EvaluateGradient" lineNumber="273" column="28"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="EvaluateSizeCurve" lineNumber="292" column="24"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Update" lineNumber="316" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="KillDeadParticles" lineNumber="439" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Burst" lineNumber="446" column="23"/>
+    <functiondecl file="../Engine/src/ParticleSystem.cpp" functionName="Draw" lineNumber="456" column="23"/>
+    <functioncall functionName="Burst"/>
+    <functioncall functionName="EmitterInstance"/>
+    <functioncall functionName="EvaluateGradient"/>
+    <functioncall functionName="EvaluateSizeCurve"/>
+    <functioncall functionName="GL_BLEND"/>
+    <functioncall functionName="GL_CULL_FACE"/>
+    <functioncall functionName="GL_FALSE"/>
+    <functioncall functionName="GL_MODULATE"/>
+    <functioncall functionName="GL_ONE"/>
+    <functioncall functionName="GL_ONE_MINUS_SRC_ALPHA"/>
+    <functioncall functionName="GL_ONE_MINUS_SRC_COLOR"/>
+    <functioncall functionName="GL_QUADS"/>
+    <functioncall functionName="GL_SRC_ALPHA"/>
+    <functioncall functionName="GL_SRC_COLOR"/>
+    <functioncall functionName="GL_TEXTURE0"/>
+    <functioncall functionName="GL_TEXTURE_2D"/>
+    <functioncall functionName="GL_TEXTURE_ENV"/>
+    <functioncall functionName="GL_TEXTURE_ENV_MODE"/>
+    <functioncall functionName="GL_TRUE"/>
+    <functioncall functionName="KillDeadParticles"/>
+    <functioncall functionName="ModuleEmitterMovement"/>
+    <functioncall functionName="ModuleEmitterNoise"/>
+    <functioncall functionName="ModuleEmitterSpawn"/>
+    <functioncall functionName="ParticleModule"/>
+    <functioncall functionName="RandomFloat"/>
+    <functioncall functionName="ResetDefaults"/>
+    <functioncall functionName="Spawn"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="atan2"/>
+    <functioncall functionName="back"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="cbrt"/>
+    <functioncall functionName="clamp"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="cos"/>
+    <functioncall functionName="cross"/>
+    <functioncall functionName="degrees"/>
+    <functioncall functionName="distance"/>
+    <functioncall functionName="dot"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="front"/>
+    <functioncall functionName="glActiveTexture"/>
+    <functioncall functionName="glBegin"/>
+    <functioncall functionName="glBindTexture"/>
+    <functioncall functionName="glBlendFunc"/>
+    <functioncall functionName="glColor4f"/>
+    <functioncall functionName="glDepthMask"/>
+    <functioncall functionName="glDisable"/>
+    <functioncall functionName="glEnable"/>
+    <functioncall functionName="glEnd"/>
+    <functioncall functionName="glTexCoord2f"/>
+    <functioncall functionName="glTexEnvi"/>
+    <functioncall functionName="glVertex3f"/>
+    <functioncall functionName="length"/>
+    <functioncall functionName="mat4"/>
+    <functioncall functionName="mix"/>
+    <functioncall functionName="normalize"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="radians"/>
+    <functioncall functionName="rand"/>
+    <functioncall functionName="remove_if"/>
+    <functioncall functionName="reserve"/>
+    <functioncall functionName="rotate"/>
+    <functioncall functionName="sin"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="sort"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="two_pi"/>
+    <functioncall functionName="vec3"/>
+    <functioncall functionName="vec4"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

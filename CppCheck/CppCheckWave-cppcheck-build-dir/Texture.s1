@@ -1,0 +1,23 @@
+GetID
+GetWidth
+GetHeight
+GetChannels
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+TextureData
+operator=
+TextureData
+IsValid
+Texture
+Texture call:[glDeleteTextures] noreturn:[glDeleteTextures]
+CreateCheckerboard call:[LogExternal,LogInternal,glBindTexture,glGenTextures,glPixelStorei,glTexImage2D,glTexParameteri] noreturn:[LogInternal]
+InitDevIL call:[LogExternal,LogInternal,ilGetInteger,ilInit,iluInit] noreturn:[LogInternal]
+NormalizePath
+IsAbsolutePath call:[empty,length]
+FileExists call:[file,good] noreturn:[good]
+Bind call:[glBindTexture] noreturn:[glBindTexture]
+Unbind call:[glBindTexture] noreturn:[glBindTexture]

@@ -1,0 +1,38 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+GetUID
+GetType
+GetAssetFile
+GetLibraryFile
+GetReferenceCount
+IsLoadedToMemory
+SetAssetFile
+SetLibraryFile
+GetResourceDirect call:[end,find,return]
+GetResourceDirect call:[end,find,return]
+GetAllResources
+GetResourceStats call:[GetReferenceCount,GetType,IsLoadedToMemory] noreturn:[GetReferenceCount]
+RegisterResource call:[GetType,IsLoadedToMemory,LogExternal,UnloadFromMemory,end,find] noreturn:[LogExternal,UnloadFromMemory]
+IsShuttingDown
+GetProgramID
+GetSourceCode
+GetShader
+ResourceShader
+ResourceShader call:[UnloadFromMemory] noreturn:[UnloadFromMemory]
+LoadInMemory
+UnloadFromMemory call:[clear] noreturn:[clear]
+Compile call:[LoadFromSource,LogInternal,c_str,empty,find,getline,ss] noreturn:[LoadFromSource]
+SetSourceCode

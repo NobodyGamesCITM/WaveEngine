@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="9913655490709375904">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/PrefabManager.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/PrefabManager.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/PrefabManager.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Prefab.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;nlohmann/json.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Prefab.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="8" column="2"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Prefab&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Prefab&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="../Engine/src/PrefabManager.cpp">
+            <location file="../Engine/src/Prefab.h" line="9" column="5"/>
+            <symbol>Prefab</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="14" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="19" col="5" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="27" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="36" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="43" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="48" col="5" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/PrefabManager.cpp" line="59" col="5" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="LogInfo" file="../Engine/src/Log.h" configuration="" line="16" col="1" hash="16815889805938457247"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/PrefabManager.h:13:10" my-argnr="2" my-argname="filepath" file="../Engine/src/PrefabManager.cpp" line="13" col="31" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/Prefab.h" functionName="IsValid" lineNumber="15" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetInstance" lineNumber="35" column="24"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="AddLog" lineNumber="40" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Clear" lineNumber="75" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetLogs" lineNumber="77" column="33"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Shutdown" lineNumber="79" column="10"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="GetInstance" lineNumber="5" column="31"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="LoadPrefab" lineNumber="10" column="21"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="InstantiatePrefab" lineNumber="24" column="28"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="CreatePrefab" lineNumber="34" column="21"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="HasPrefab" lineNumber="53" column="21"/>
+    <functiondecl file="../Engine/src/PrefabManager.cpp" functionName="Clear" lineNumber="57" column="21"/>
+    <functioncall functionName="ConsoleLog"/>
+    <functioncall functionName="Instantiate"/>
+    <functioncall functionName="LoadFromFile"/>
+    <functioncall functionName="LogInternal"/>
+    <functioncall functionName="SaveFromGameObject"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="hash"/>
+    <functioncall functionName="make_unique"/>
+    <functioncall functionName="move"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="shrink_to_fit"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="unique_ptr"/>
+    <functioncall functionName="unordered_map"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

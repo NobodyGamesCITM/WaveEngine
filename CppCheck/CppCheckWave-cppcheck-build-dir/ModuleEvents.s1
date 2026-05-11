@@ -1,0 +1,38 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+Event
+Event
+Event
+Event
+Event call:[strncpy_s] noreturn:[strncpy_s]
+Event call:[strncpy_s] noreturn:[strncpy_s]
+Event
+Event
+Event
+Event
+GetQueuedEventCount call:[size] noreturn:[size]
+ModuleEvents
+ModuleEvents
+Awake
+CleanUp call:[ClearQueue]
+Subscribe call:[begin,end,find,push_back] noreturn:[push_back]
+Unsubscribe call:[begin,end,erase,remove] noreturn:[erase]
+UnsubscribeAll call:[begin,end,erase,remove] noreturn:[erase]
+PublishImmediate call:[OnEvent,end,find] noreturn:[OnEvent]
+Publish call:[push] noreturn:[push]
+ProcessEvents call:[LogExternal,PublishImmediate,empty,front,pop] noreturn:[PublishImmediate]
+ClearQueue call:[empty,pop] noreturn:[pop]
+GetListenerCount call:[end,find,size] noreturn:[size]

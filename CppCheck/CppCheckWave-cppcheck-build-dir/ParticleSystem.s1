@@ -1,0 +1,28 @@
+ParticleModule
+ModuleEmitterSpawn
+Update
+ModuleEmitterMovement
+Spawn
+ModuleEmitterNoise
+Spawn
+RandomFloat call:[rand]
+ResetDefaults call:[clear,vec3,vec4]
+Spawn call:[RandomFloat,back,cbrt,cos,cross,dir,empty,front,length,normalize,offset,radians,rotate,sin,sqrt,vec3] noreturn:[cbrt,normalize,rotate,sqrt,vec3]
+ResetDefaults call:[vec3] noreturn:[vec3]
+Update
+ResetDefaults
+Update call:[cos,sin]
+EmitterInstance call:[reserve] noreturn:[reserve]
+EmitterInstance call:[clear] noreturn:[clear]
+Init call:[ModuleEmitterMovement,ModuleEmitterNoise,ModuleEmitterSpawn,empty,push_back] noreturn:[push_back]
+Reset call:[clear]
+ResetValues call:[ResetDefaults,clear] noreturn:[ResetDefaults]
+Play
+Stop
+IsAlive call:[empty] noreturn:[empty]
+EvaluateGradient call:[back,empty,front,mix,size,vec4] noreturn:[mix,vec4]
+EvaluateSizeCurve call:[back,clamp,empty,front,mix,size] noreturn:[mix]
+Update call:[Burst,EvaluateGradient,EvaluateSizeCurve,KillDeadParticles,Spawn,Update,distance,empty,mix,push_back,size] noreturn:[EvaluateGradient,KillDeadParticles,Spawn,Update,mix,push_back]
+KillDeadParticles call:[begin,end,erase,remove_if] noreturn:[erase]
+Burst call:[Spawn,push_back,size] noreturn:[Spawn,push_back]
+Draw call:[abs,atan2,begin,cos,cross,degrees,distance,dot,empty,end,glActiveTexture,glBegin,glBindTexture,glBlendFunc,glColor4f,glDepthMask,glDisable,glEnable,glEnd,glTexCoord2f,glTexEnvi,glVertex3f,length,normalize,push_back,radians,reserve,sin,size,sort,vec3,vec4] noreturn:[degrees,glBindTexture,glBlendFunc,glDisable,glVertex3f,normalize,push_back,vec3,vec4]

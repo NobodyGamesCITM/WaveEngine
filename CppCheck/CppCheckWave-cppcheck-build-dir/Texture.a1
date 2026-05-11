@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="10265564436701529765">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glad/glad.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glad/glad.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.cpp" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.cpp" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;IL/il.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;IL/il.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.cpp" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;IL/ilu.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;IL/ilu.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.cpp" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Texture.cpp" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="8" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Globals.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextureImporter.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextureImporter.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/LibraryManager.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;filesystem&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;filesystem&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/LibraryManager.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/LibraryManager.h" line="6" column="2"/>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;Texture::Unbind&apos; can be static." verbose="The member function &apos;Texture::Unbind&apos; can be static." cwe="398" file0="../Engine/src/Texture.cpp">
+            <location file="../Engine/src/Texture.cpp" line="123" column="15"/>
+            <location file="../Engine/src/Texture.h" line="19" column="10"/>
+            <symbol>Texture::Unbind</symbol>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::replace_if algorithm instead of a raw loop." verbose="Consider using std::replace_if algorithm instead of a raw loop." cwe="398" file0="../Engine/src/Texture.cpp">
+            <location file="../Engine/src/Texture.cpp" line="90" column="15"/>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/Texture.cpp" line="60" col="5" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/Log.h:29:6" call-funcname="LogInternal" call-argnr="1" file="../Engine/src/Texture.cpp" line="79" col="9" call-argexpr="LOG_INFO" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="Texture" file="../Engine/src/Texture.h" configuration="" line="6" col="1" hash="11542062458637116918"/>
+<class name="LogInfo" file="../Engine/src/Log.h" configuration="" line="16" col="1" hash="16815889805938457247"/>
+<class name="TextureHeader" file="../Engine/src/TextureImporter.h" configuration="" line="12" col="1" hash="14566931995814954611"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/Texture.cpp:84:13" my-argnr="1" my-argname="path" file="../Engine/src/Texture.cpp" line="86" col="30" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="../Engine/src/Texture.cpp:96:6" my-argnr="1" my-argname="path" file="../Engine/src/Texture.cpp" line="99" col="9" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/Texture.h" functionName="GetID" lineNumber="21" column="12"/>
+    <functiondecl file="../Engine/src/Texture.h" functionName="GetWidth" lineNumber="24" column="9"/>
+    <functiondecl file="../Engine/src/Texture.h" functionName="GetHeight" lineNumber="25" column="9"/>
+    <functiondecl file="../Engine/src/Texture.h" functionName="GetChannels" lineNumber="26" column="9"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetInstance" lineNumber="35" column="24"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="AddLog" lineNumber="40" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Clear" lineNumber="75" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetLogs" lineNumber="77" column="33"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Shutdown" lineNumber="79" column="10"/>
+    <functiondecl file="../Engine/src/Globals.h" functionName="GenerateUID" lineNumber="8" column="12"/>
+    <functiondecl file="../Engine/src/TextureImporter.h" functionName="IsValid" lineNumber="69" column="10"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="CreateCheckerboard" lineNumber="24" column="15"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="InitDevIL" lineNumber="63" column="15"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="NormalizePath" lineNumber="84" column="13"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="IsAbsolutePath" lineNumber="96" column="6"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="FileExists" lineNumber="112" column="6"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="Bind" lineNumber="118" column="15"/>
+    <functiondecl file="../Engine/src/Texture.cpp" functionName="Unbind" lineNumber="123" column="15"/>
+    <functioncall functionName="ConsoleLog"/>
+    <functioncall functionName="GL_NEAREST"/>
+    <functioncall functionName="GL_REPEAT"/>
+    <functioncall functionName="GL_RGBA"/>
+    <functioncall functionName="GL_TEXTURE_2D"/>
+    <functioncall functionName="GL_TEXTURE_MAG_FILTER"/>
+    <functioncall functionName="GL_TEXTURE_MIN_FILTER"/>
+    <functioncall functionName="GL_TEXTURE_WRAP_S"/>
+    <functioncall functionName="GL_TEXTURE_WRAP_T"/>
+    <functioncall functionName="GL_UNPACK_ALIGNMENT"/>
+    <functioncall functionName="GL_UNSIGNED_BYTE"/>
+    <functioncall functionName="GLubyte"/>
+    <functioncall functionName="IL_VERSION_NUM"/>
+    <functioncall functionName="LogExternal"/>
+    <functioncall functionName="LogInternal"/>
+    <functioncall functionName="Texture"/>
+    <functioncall functionName="TextureData"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="glBindTexture"/>
+    <functioncall functionName="glDeleteTextures"/>
+    <functioncall functionName="glGenTextures"/>
+    <functioncall functionName="glPixelStorei"/>
+    <functioncall functionName="glTexImage2D"/>
+    <functioncall functionName="glTexParameteri"/>
+    <functioncall functionName="good"/>
+    <functioncall functionName="hash"/>
+    <functioncall functionName="ilGetInteger"/>
+    <functioncall functionName="ilInit"/>
+    <functioncall functionName="iluInit"/>
+    <functioncall functionName="length"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="shrink_to_fit"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="uniform_int_distribution"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

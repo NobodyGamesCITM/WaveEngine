@@ -1,0 +1,36 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+GetUID
+GetType
+GetAssetFile
+GetLibraryFile
+GetReferenceCount
+IsLoadedToMemory
+SetAssetFile
+SetLibraryFile
+GetResourceDirect call:[end,find,return]
+GetResourceDirect call:[end,find,return]
+GetAllResources
+GetResourceStats call:[GetReferenceCount,GetType,IsLoadedToMemory] noreturn:[GetReferenceCount]
+RegisterResource call:[GetType,IsLoadedToMemory,LogExternal,UnloadFromMemory,end,find] noreturn:[LogExternal,UnloadFromMemory]
+IsShuttingDown
+IsValid call:[empty,is_null] noreturn:[empty]
+GetPrefabHierarchy call:[IsValid,json] noreturn:[json]
+GetGLFilterMode
+GetMaxTextureSizeValue
+ImportFromFile call:[LogExternal,SaveToCustomFormat,c_str,file,is_open,what] noreturn:[LogExternal,SaveToCustomFormat]
+SaveToCustomFormat call:[GetLibraryPath,LogInternal,c_str,close,data,file,is_open,size,to_msgpack,what,write]
+LoadFromCustomFormat call:[GetLibraryPath,LogInternal,c_str,close,data,file,from_msgpack,is_open,msgpackData,read,seekg,tellg,what] noreturn:[LogInternal,close]

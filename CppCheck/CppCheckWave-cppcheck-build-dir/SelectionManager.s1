@@ -1,0 +1,60 @@
+GetSelectionAnchor
+SetSelectionAnchor
+GetSelectedObjects
+HasSelection call:[empty] noreturn:[empty]
+GetSelectionCount call:[size]
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+Event
+Event
+Event
+Event
+Event call:[strncpy_s] noreturn:[strncpy_s]
+Event call:[strncpy_s] noreturn:[strncpy_s]
+Event
+Event
+Event
+Event
+GetQueuedEventCount call:[size] noreturn:[size]
+GetUID
+GetName
+SetName
+IsActive
+SetActive
+GetParent
+GetChildren
+GetComponents
+SetSelected
+IsSelected
+IsMarkedForDeletion
+MarkCleaning
+IsCleaning
+SetParentDirect
+GetTag
+SetTag
+CompareTag
+SetPersistency
+IsPersistent
+SetSelectedObject call:[GetName,LogExternal,SetSelected,c_str,clear,push_back] noreturn:[LogExternal,SetSelected]
+AddToSelection call:[GetName,IsSelected,LogExternal,SetSelected,c_str,push_back,size] noreturn:[LogExternal]
+RemoveFromSelection call:[GetName,LogExternal,SetSelected,begin,c_str,end,erase,find] noreturn:[LogExternal]
+ToggleSelection call:[AddToSelection,IsSelected,RemoveFromSelection] noreturn:[AddToSelection,RemoveFromSelection]
+ClearSelection call:[LogExternal,SetSelected,clear,empty] noreturn:[LogExternal,SetSelected]
+GetSelectedObject call:[empty]
+GetFilteredObjects call:[GetParent,begin,end,find,push_back,selectedSet] noreturn:[GetParent,push_back]
+IsSelected call:[IsSelected] noreturn:[IsSelected]
+SelectRange call:[AddToSelection,ClearSelection,begin,empty,end,find,max,min,next] noreturn:[AddToSelection]
+OnEvent call:[RemoveFromSelection]

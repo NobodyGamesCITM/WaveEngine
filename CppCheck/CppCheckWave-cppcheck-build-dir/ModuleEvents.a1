@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="13266666801787287305">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Module.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;random&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Globals.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdio&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdarg&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Log.h" line="8" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Event.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;glm/glm.hpp&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/Event.h" line="3" column="2"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;SDL3/SDL.h&quot; not found." verbose="Include file: &quot;SDL3/SDL.h&quot; not found.">
+            <location file="../Engine/src/Event.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ModuleEvents.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ModuleEvents.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ModuleEvents.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;queue&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;queue&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/ModuleEvents.h" line="8" column="2"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Event::data&apos; is not initialized in the constructor." verbose="Member variable &apos;Event::data&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/Event.h" line="120" column="5"/>
+            <symbol>Event::data</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Event::data&apos; is not initialized in the constructor." verbose="Member variable &apos;Event::data&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/Event.h" line="155" column="5"/>
+            <symbol>Event::data</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ModuleEvents::processingEvents&apos; is not initialized in the constructor." verbose="Member variable &apos;ModuleEvents::processingEvents&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/ModuleEvents.cpp" line="6" column="15"/>
+            <symbol>ModuleEvents::processingEvents</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Struct &apos;Event&apos; has a constructor with 1 argument that is not explicit." verbose="Struct &apos;Event&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/Event.h" line="120" column="5"/>
+            <symbol>Event</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Awake&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Awake&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/ModuleEvents.h" line="19" column="10" info="Function in derived class"/>
+            <location file="../Engine/src/Module.h" line="26" column="15" info="Virtual function in base class"/>
+            <symbol>Awake</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;CleanUp&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;CleanUp&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="../Engine/src/ModuleEvents.cpp">
+            <location file="../Engine/src/ModuleEvents.h" line="21" column="10" info="Function in derived class"/>
+            <location file="../Engine/src/Module.h" line="62" column="15" info="Virtual function in base class"/>
+            <symbol>CleanUp</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="LogInfo" file="../Engine/src/Log.h" configuration="" line="16" col="1" hash="16815889805938457247"/>
+<class name="Module" file="../Engine/src/Module.h" configuration="" line="11" col="1" hash="970872074667072622"/>
+<class name="Event" file="../Engine/src/Event.h" configuration="" line="10" col="1" hash="9562824401157052070"/>
+<class name="Event::UnsignedIntData" file="../Engine/src/Event.h" configuration="" line="71" col="5" hash="5389310265053671891"/>
+<class name="Event::Point2dData" file="../Engine/src/Event.h" configuration="" line="75" col="5" hash="3902067881866598048"/>
+<class name="Event::StringData" file="../Engine/src/Event.h" configuration="" line="80" col="5" hash="13530878042566473916"/>
+<class name="Event::TwoStringData" file="../Engine/src/Event.h" configuration="" line="84" col="5" hash="369958449954808787"/>
+<class name="Event::GameObjectData" file="../Engine/src/Event.h" configuration="" line="89" col="5" hash="8472238516279069663"/>
+<class name="Event::SDLEvent" file="../Engine/src/Event.h" configuration="" line="93" col="5" hash="16712419691626835381"/>
+<class name="Event::RayData" file="../Engine/src/Event.h" configuration="" line="98" col="5" hash="3833823725772504174"/>
+<class name="Event::Bool" file="../Engine/src/Event.h" configuration="" line="102" col="5" hash="14251019429713146944"/>
+<class name="ModuleEvents" file="../Engine/src/ModuleEvents.h" configuration="" line="13" col="1" hash="18110125343501508059"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="../Engine/src/ModuleEvents.h:27:10" my-argnr="1" my-argname="event" file="../Engine/src/ModuleEvents.cpp" line="64" col="24" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/Globals.h" functionName="GenerateUID" lineNumber="8" column="12"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetInstance" lineNumber="35" column="24"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="AddLog" lineNumber="40" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Clear" lineNumber="75" column="10"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="GetLogs" lineNumber="77" column="33"/>
+    <functiondecl file="../Engine/src/Log.h" functionName="Shutdown" lineNumber="79" column="10"/>
+    <functiondecl file="../Engine/src/Module.h" functionName="Init" lineNumber="20" column="7"/>
+    <functiondecl file="../Engine/src/ModuleEvents.h" functionName="GetQueuedEventCount" lineNumber="35" column="9"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="Awake" lineNumber="16" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="CleanUp" lineNumber="22" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="Subscribe" lineNumber="28" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="Unsubscribe" lineNumber="38" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="UnsubscribeAll" lineNumber="48" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="PublishImmediate" lineNumber="62" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="Publish" lineNumber="80" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="ProcessEvents" lineNumber="87" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="ClearQueue" lineNumber="111" column="20"/>
+    <functiondecl file="../Engine/src/ModuleEvents.cpp" functionName="GetListenerCount" lineNumber="119" column="19"/>
+    <functioncall functionName="ClearQueue"/>
+    <functioncall functionName="ConsoleLog"/>
+    <functioncall functionName="Event"/>
+    <functioncall functionName="LogExternal"/>
+    <functioncall functionName="Module"/>
+    <functioncall functionName="ModuleEvents"/>
+    <functioncall functionName="OnEvent"/>
+    <functioncall functionName="PublishImmediate"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="front"/>
+    <functioncall functionName="hash"/>
+    <functioncall functionName="pop"/>
+    <functioncall functionName="push"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="queue"/>
+    <functioncall functionName="remove"/>
+    <functioncall functionName="shared_ptr"/>
+    <functioncall functionName="shrink_to_fit"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="strncpy_s"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="uniform_int_distribution"/>
+    <functioncall functionName="vector"/>
+  </FileInfo>
+</analyzerinfo>

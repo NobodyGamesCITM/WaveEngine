@@ -139,7 +139,6 @@ bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile
         iluScale(newW, newH, 1);
         imgWidth = newW;
         imgHeight = newH;
-        LOG_DEBUG("[TextureImporter] Scaled to POT: %dx%d", imgWidth, imgHeight);
     }
 
     // Leer alpha ANTES de convertir
@@ -184,10 +183,6 @@ bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile
     texture.pixels = compressedPixels;
     texture.compressed = true;
 
-    LOG_DEBUG("[TextureImporter] Compressed %dx%d -> %u bytes (%.1f%% of raw)",
-        imgWidth, imgHeight, compressedSize,
-        100.0f * compressedSize / (imgWidth * imgHeight * 4));
-
     return SaveToCustomFormat(texture, meta.uid);
 }
 
@@ -224,10 +219,7 @@ bool TextureImporter::SaveToCustomFormat(const TextureData& texture, const UID& 
     }
 
     file.close();
-    LOG_DEBUG("[TextureImporter] Saved %ux%u DXT%s (%u bytes) -> %s",
-        texture.width, texture.height,
-        (texture.channels == 4) ? "5" : "1",
-        texture.dataSize, fullPath.c_str());
+
     return true;
 }
 

@@ -1,0 +1,38 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+GetUID
+GetType
+GetAssetFile
+GetLibraryFile
+GetReferenceCount
+IsLoadedToMemory
+SetAssetFile
+SetLibraryFile
+GetResourceDirect call:[end,find,return]
+GetResourceDirect call:[end,find,return]
+GetAllResources
+GetResourceStats call:[GetReferenceCount,GetType,IsLoadedToMemory] noreturn:[GetReferenceCount]
+RegisterResource call:[GetType,IsLoadedToMemory,LogExternal,UnloadFromMemory,end,find] noreturn:[LogExternal,UnloadFromMemory]
+IsShuttingDown
+IsValid call:[empty] noreturn:[empty]
+GetDuration
+GetTicksPerSecond
+GetChanels
+GetAnimationIsValid call:[IsValid] noreturn:[IsValid]
+ResourceAnimation
+ResourceAnimation call:[UnloadFromMemory] noreturn:[UnloadFromMemory]
+LoadInMemory call:[IsLoadedToMemory,IsValid,LoadFromCustomFormat,LogExternal,empty,find_last_of,substr] noreturn:[substr]
+UnloadFromMemory call:[clear] noreturn:[clear]

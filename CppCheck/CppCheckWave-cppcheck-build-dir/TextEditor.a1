@@ -1,0 +1,538 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="5135579797671071649">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.cpp" line="1" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.cpp" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.cpp" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.cpp" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cmath&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cmath&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.cpp" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_set&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="8" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="9" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;regex&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="../Engine/src/TextEditor.h" line="10" column="2"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;imgui.h&quot; not found." verbose="Include file: &quot;imgui.h&quot; not found.">
+            <location file="../Engine/src/TextEditor.h" line="11" column="2"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;imgui.h&quot; not found." verbose="Include file: &quot;imgui.h&quot; not found.">
+            <location file="../Engine/src/TextEditor.cpp" line="9" column="2"/>
+        </error>
+        <error id="normalCheckLevelMaxBranches" severity="information" msg="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." verbose="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="0" column="0"/>
+        </error>
+        <error id="functionStatic" severity="style" msg="The member function &apos;TextEditor::ProcessInputs&apos; can be static." verbose="The member function &apos;TextEditor::ProcessInputs&apos; can be static." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2129" column="18"/>
+            <location file="../Engine/src/TextEditor.h" line="314" column="7"/>
+            <symbol>TextEditor::ProcessInputs</symbol>
+        </error>
+        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;currentIndex&lt;(int)line.size()&apos; is always true" verbose="Condition &apos;currentIndex&lt;(int)line.size()&apos; is always true" cwe="571" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2301" column="25" info="Condition &apos;currentIndex&lt;(int)line.size()&apos; is always true"/>
+            <location file="../Engine/src/TextEditor.cpp" line="2300" column="8" info="Compound assignment &apos;+=&apos;, assigned value is symbolic=(int)line.size()"/>
+            <location file="../Engine/src/TextEditor.cpp" line="2298" column="28" info="Assuming that condition &apos;currentIndex+1&lt;(int)line.size()&apos; is not redundant"/>
+        </error>
+        <error id="selfAssignment" severity="style" msg="Redundant assignment of &apos;inComment&apos; to itself." verbose="Redundant assignment of &apos;inComment&apos; to itself." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2344" column="17"/>
+            <symbol>inComment</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="96" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="202" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;aValue&apos; can be declared as reference to const" verbose="Parameter &apos;aValue&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="308" column="38" info="Parameter &apos;aValue&apos; can be declared as reference to const"/>
+            <symbol>aValue</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="334" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="381" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="415" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="454" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="467" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="496" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="514" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="533" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="544" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="563" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;glyph&apos; can be declared as reference to const" verbose="Variable &apos;glyph&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="1017" column="11" info="Variable &apos;glyph&apos; can be declared as reference to const"/>
+            <symbol>glyph</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="1634" column="9" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2101" column="14" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;v&apos; can be declared as reference to const" verbose="Variable &apos;v&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2198" column="13" info="Variable &apos;v&apos; can be declared as reference to const"/>
+            <symbol>v</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;line&apos; can be declared as reference to const" verbose="Variable &apos;line&apos; can be declared as reference to const" cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="2393" column="8" info="Variable &apos;line&apos; can be declared as reference to const"/>
+            <symbol>line</symbol>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::transform algorithm instead of a raw loop." verbose="Consider using std::transform algorithm instead of a raw loop." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="66" column="14"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::accumulate algorithm instead of a raw loop." verbose="Consider using std::accumulate algorithm instead of a raw loop." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="87" column="5"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::transform algorithm instead of a raw loop." verbose="Consider using std::transform algorithm instead of a raw loop." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="536" column="5"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::transform algorithm instead of a raw loop." verbose="Consider using std::transform algorithm instead of a raw loop." cwe="398" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="1922" column="9"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;lineSize&apos; is assigned a value that is never used." verbose="Variable &apos;lineSize&apos; is assigned a value that is never used." cwe="563" file0="../Engine/src/TextEditor.cpp">
+            <location file="../Engine/src/TextEditor.cpp" line="1444" column="23"/>
+            <symbol>lineSize</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="1" file="../Engine/src/TextEditor.cpp" line="134" col="21" call-argexpr="line" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="126" col="11" info="Assignment &apos;line=0&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="134" col="21" call-argexpr="column" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="127" col="13" info="Assignment &apos;column=0&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:333:6" call-funcname="GetCharacterColumn" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="215" col="44" call-argexpr="cindex" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="213" col="13" info="Assignment &apos;cindex=0&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:144:3" call-funcname="Glyph" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="298" col="47" call-argexpr="PaletteIndex::Default" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="372" col="40" call-argexpr="columnCoord" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="330" col="20" info="Assignment &apos;columnCoord=0&apos;, assigned value is 0"/>
+  <path file="..\Engine\src\TextEditor.cpp" line="332" col="18" info="Assuming condition is false"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:333:6" call-funcname="GetCharacterColumn" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="406" col="49" call-argexpr="cindex" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0" warning="true">
+  <path file="..\Engine\src\TextEditor.cpp" line="387" col="16" info="Assuming that condition &apos;cindex&gt;0&apos; is not redundant"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:340:7" call-funcname="EnterCharacter" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="760" col="18" call-argexpr="false" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:250:7" call-funcname="SetSelection" call-argnr="3" file="../Engine/src/TextEditor.cpp" line="822" col="18" call-argexpr="mSelectionMode" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="819" col="37" info="Assignment &apos;mSelectionMode=SelectionMode::Normal&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:250:7" call-funcname="SetSelection" call-argnr="3" file="../Engine/src/TextEditor.cpp" line="838" col="17" call-argexpr="mSelectionMode" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="837" col="36" info="Assignment &apos;mSelectionMode=SelectionMode::Normal&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:144:3" call-funcname="Glyph" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1169" col="36" call-argexpr="PaletteIndex::Default" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:144:3" call-funcname="Glyph" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1200" col="33" call-argexpr="PaletteIndex::Default" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:333:6" call-funcname="GetCharacterColumn" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1280" col="56" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1290" col="23" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.cpp:161:19" call-funcname="ImTextCharToUtf8" call-argnr="1" file="../Engine/src/TextEditor.cpp" line="1344" col="27" call-argexpr="buf" call-argvaluetype="7" call-argvalue="7" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:144:3" call-funcname="Glyph" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1366" col="45" call-argexpr="PaletteIndex::Default" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1445" col="39" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:333:6" call-funcname="GetCharacterColumn" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1593" col="64" call-argexpr="cindex" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0">
+  <path file="..\Engine\src\TextEditor.cpp" line="1577" col="15" info="Assignment &apos;cindex=0&apos;, assigned value is 0"/>
+</function-call><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="1" file="../Engine/src/TextEditor.cpp" line="1677" col="31" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1677" col="31" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1710" col="31" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="1" file="../Engine/src/TextEditor.cpp" line="1901" col="26" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1901" col="26" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="1901" col="45" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="2092" col="43" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/><function-call call-id="../Engine/src/TextEditor.h:72:3" call-funcname="Coordinates" call-argnr="2" file="../Engine/src/TextEditor.cpp" line="2125" col="14" call-argexpr="0" call-argvaluetype="0" call-argvalue="0" call-argvalue-ufr="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="TextEditor::Breakpoint" file="../Engine/src/TextEditor.h" configuration="" line="49" col="2" hash="7897829918578912581"/>
+<class name="TextEditor::Coordinates" file="../Engine/src/TextEditor.h" configuration="" line="68" col="2" hash="62794896201770751"/>
+<class name="TextEditor::Identifier" file="../Engine/src/TextEditor.h" configuration="" line="122" col="2" hash="17462612574363133372"/>
+<class name="TextEditor::Glyph" file="../Engine/src/TextEditor.h" configuration="" line="136" col="2" hash="17720432635570178087"/>
+<class name="TextEditor::LanguageDefinition" file="../Engine/src/TextEditor.h" configuration="" line="151" col="2" hash="4765129999331598973"/>
+<class name="TextEditor::EditorState" file="../Engine/src/TextEditor.h" configuration="" line="272" col="2" hash="9867974847912839246"/>
+<class name="TextEditor::UndoRecord" file="../Engine/src/TextEditor.h" configuration="" line="279" col="2" hash="10394477087091985501"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:326:6" my-argnr="2" my-argname="aValue" file="../Engine/src/TextEditor.cpp" line="265" col="10" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.cpp:2699:13" my-argnr="1" my-argname="in_begin" file="../Engine/src/TextEditor.cpp" line="2703" col="11" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:79:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="82" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:86:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="89" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:93:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="95" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:100:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="102" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:107:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="109" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:114:8" my-argnr="1" my-argname="o" file="../Engine/src/TextEditor.h" line="116" col="17" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:321:14" my-argnr="1" my-argname="aStart" file="../Engine/src/TextEditor.cpp" line="80" col="16" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:321:14" my-argnr="2" my-argname="aEnd" file="../Engine/src/TextEditor.cpp" line="81" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:323:14" my-argnr="1" my-argname="aValue" file="../Engine/src/TextEditor.cpp" line="120" col="14" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:324:7" my-argnr="1" my-argname="aCoordinates" file="../Engine/src/TextEditor.cpp" line="200" col="6" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:326:6" my-argnr="2" my-argname="aValue" file="../Engine/src/TextEditor.cpp" line="265" col="10" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:328:14" my-argnr="1" my-argname="aPosition" file="../Engine/src/TextEditor.cpp" line="326" col="15" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:332:6" my-argnr="1" my-argname="aCoordinates" file="../Engine/src/TextEditor.cpp" line="494" col="6" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:336:7" my-argnr="1" my-argname="aAt" file="../Engine/src/TextEditor.cpp" line="560" col="6" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:198:7" my-argnr="1" my-argname="aText" file="../Engine/src/TextEditor.cpp" line="1159" col="18" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:201:7" my-argnr="1" my-argname="aLines" file="../Engine/src/TextEditor.cpp" line="1186" col="6" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:236:7" my-argnr="1" my-argname="aValue" file="../Engine/src/TextEditor.cpp" line="1465" col="13" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.h:318:8" my-argnr="1" my-argname="aFrom" file="../Engine/src/TextEditor.cpp" line="2393" col="22" value="0"/>
+    <unsafe-usage my-id="../Engine/src/TextEditor.cpp:2699:13" my-argnr="1" my-argname="in_begin" file="../Engine/src/TextEditor.cpp" line="2703" col="11" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="Invalid" lineNumber="77" column="22"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetLanguageDefinition" lineNumber="189" column="28"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetPalette" lineNumber="191" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetErrorMarkers" lineNumber="194" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetBreakpoints" lineNumber="195" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetTotalLines" lineNumber="207" column="6"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsOverwrite" lineNumber="208" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsReadOnly" lineNumber="211" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsTextChanged" lineNumber="212" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsCursorPositionChanged" lineNumber="213" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsColorizerEnabled" lineNumber="215" column="7"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetCursorPosition" lineNumber="218" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetHandleMouseInputs" lineNumber="221" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsHandleMouseInputsEnabled" lineNumber="222" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetHandleKeyboardInputs" lineNumber="224" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsHandleKeyboardInputsEnabled" lineNumber="225" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetImGuiChildIgnored" lineNumber="227" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsImGuiChildIgnored" lineNumber="228" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="SetShowWhitespaces" lineNumber="230" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="IsShowingWhitespaces" lineNumber="231" column="14"/>
+    <functiondecl file="../Engine/src/TextEditor.h" functionName="GetTabSize" lineNumber="234" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="equals" lineNumber="15" column="6"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetLanguageDefinition" lineNumber="60" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetPalette" lineNumber="71" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetText" lineNumber="76" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetActualCursorCoordinates" lineNumber="113" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SanitizeCoordinates" lineNumber="118" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="UTF8CharLength" lineNumber="145" column="12"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="ImTextCharToUtf8" lineNumber="161" column="19"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Advance" lineNumber="198" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="DeleteRange" lineNumber="219" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="InsertTextAt" lineNumber="259" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="AddUndo" lineNumber="308" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="ScreenPosToCoordinates" lineNumber="323" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="FindWordStart" lineNumber="375" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="FindWordEnd" lineNumber="409" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="FindNextWord" lineNumber="442" column="37"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetCharacterIndex" lineNumber="492" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetCharacterColumn" lineNumber="510" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetLineCharacterCount" lineNumber="529" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetLineMaxColumn" lineNumber="540" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="IsOnWordBoundary" lineNumber="558" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="RemoveLine" lineNumber="574" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="RemoveLine" lineNumber="605" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="InsertLine" lineNumber="635" column="31"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetWordUnderCursor" lineNumber="654" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetWordAt" lineNumber="660" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetGlyphColor" lineNumber="676" column="19"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="HandleKeyboardInputs" lineNumber="697" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="HandleMouseInputs" lineNumber="777" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Render" lineNumber="853" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Render" lineNumber="1120" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetText" lineNumber="1155" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetTextLines" lineNumber="1182" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="EnterCharacter" lineNumber="1213" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetReadOnly" lineNumber="1386" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetColorizerEnable" lineNumber="1391" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetCursorPosition" lineNumber="1396" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetSelectionStart" lineNumber="1406" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetSelectionEnd" lineNumber="1413" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetSelection" lineNumber="1420" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SetTabSize" lineNumber="1458" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="InsertText" lineNumber="1463" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="InsertText" lineNumber="1468" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="DeleteSelection" lineNumber="1484" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveUp" lineNumber="1498" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveDown" lineNumber="1524" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="IsUTFSequence" lineNumber="1552" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveLeft" lineNumber="1557" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveRight" lineNumber="1623" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveTop" lineNumber="1674" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveHome" lineNumber="1707" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="MoveEnd" lineNumber="1732" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Delete" lineNumber="1757" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Backspace" lineNumber="1815" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SelectWordUnderCursor" lineNumber="1893" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SelectAll" lineNumber="1899" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="HasSelection" lineNumber="1904" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Copy" lineNumber="1909" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Cut" lineNumber="1928" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Paste" lineNumber="1953" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="CanUndo" lineNumber="1983" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="CanRedo" lineNumber="1988" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Undo" lineNumber="1993" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Redo" lineNumber="1999" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetDarkPalette" lineNumber="2005" column="41"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetLightPalette" lineNumber="2033" column="41"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetRetroBluePalette" lineNumber="2061" column="41"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetText" lineNumber="2090" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetTextLines" lineNumber="2095" column="38"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetSelectedText" lineNumber="2116" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetCurrentLineText" lineNumber="2121" column="25"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="ProcessInputs" lineNumber="2129" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Colorize" lineNumber="2133" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="ColorizeRange" lineNumber="2143" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="ColorizeInternal" lineNumber="2248" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TextDistanceToLineStart" lineNumber="2391" column="19"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="EnsureCursorVisible" lineNumber="2420" column="18"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GetPageSize" lineNumber="2453" column="17"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Undo" lineNumber="2481" column="30"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Redo" lineNumber="2501" column="30"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TokenizeCStyleString" lineNumber="2520" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TokenizeCStyleCharacterLiteral" lineNumber="2549" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TokenizeCStyleIdentifier" lineNumber="2576" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TokenizeCStyleNumber" lineNumber="2595" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="TokenizeCStylePunctuation" lineNumber="2699" column="13"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="CPlusPlus" lineNumber="2737" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="HLSL" lineNumber="2806" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="GLSL" lineNumber="2878" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="C" lineNumber="2927" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="SQL" lineNumber="2993" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="AngelScript" lineNumber="3057" column="71"/>
+    <functiondecl file="../Engine/src/TextEditor.cpp" functionName="Lua" lineNumber="3107" column="71"/>
+    <functioncall functionName="AddCircleFilled"/>
+    <functioncall functionName="AddLine"/>
+    <functioncall functionName="AddRect"/>
+    <functioncall functionName="AddRectFilled"/>
+    <functioncall functionName="AddText"/>
+    <functioncall functionName="AddUndo"/>
+    <functioncall functionName="Advance"/>
+    <functioncall functionName="Alpha"/>
+    <functioncall functionName="Backspace"/>
+    <functioncall functionName="BeginChild"/>
+    <functioncall functionName="BeginTooltip"/>
+    <functioncall functionName="Breakpoint"/>
+    <functioncall functionName="CalcTextSizeA"/>
+    <functioncall functionName="CanRedo"/>
+    <functioncall functionName="CanUndo"/>
+    <functioncall functionName="ColorConvertFloat4ToU32"/>
+    <functioncall functionName="ColorConvertU32ToFloat4"/>
+    <functioncall functionName="Colorize"/>
+    <functioncall functionName="ColorizeInternal"/>
+    <functioncall functionName="ColorizeRange"/>
+    <functioncall functionName="Coordinates"/>
+    <functioncall functionName="Copy"/>
+    <functioncall functionName="Cut"/>
+    <functioncall functionName="Delete"/>
+    <functioncall functionName="DeleteRange"/>
+    <functioncall functionName="DeleteSelection"/>
+    <functioncall functionName="Dummy"/>
+    <functioncall functionName="EndChild"/>
+    <functioncall functionName="EndTooltip"/>
+    <functioncall functionName="EnsureCursorVisible"/>
+    <functioncall functionName="EnterCharacter"/>
+    <functioncall functionName="FLT_MAX"/>
+    <functioncall functionName="FindNextWord"/>
+    <functioncall functionName="FindWordEnd"/>
+    <functioncall functionName="FindWordStart"/>
+    <functioncall functionName="GetActualCursorCoordinates"/>
+    <functioncall functionName="GetCharacterColumn"/>
+    <functioncall functionName="GetCharacterIndex"/>
+    <functioncall functionName="GetClipboardText"/>
+    <functioncall functionName="GetCursorPosition"/>
+    <functioncall functionName="GetCursorScreenPos"/>
+    <functioncall functionName="GetDarkPalette"/>
+    <functioncall functionName="GetFont"/>
+    <functioncall functionName="GetFontSize"/>
+    <functioncall functionName="GetGlyphColor"/>
+    <functioncall functionName="GetIO"/>
+    <functioncall functionName="GetLineMaxColumn"/>
+    <functioncall functionName="GetMousePos"/>
+    <functioncall functionName="GetPageSize"/>
+    <functioncall functionName="GetScrollX"/>
+    <functioncall functionName="GetScrollY"/>
+    <functioncall functionName="GetSelectedText"/>
+    <functioncall functionName="GetStyle"/>
+    <functioncall functionName="GetText"/>
+    <functioncall functionName="GetTextLineHeightWithSpacing"/>
+    <functioncall functionName="GetTime"/>
+    <functioncall functionName="GetWindowContentRegionMax"/>
+    <functioncall functionName="GetWindowDrawList"/>
+    <functioncall functionName="GetWindowHeight"/>
+    <functioncall functionName="GetWindowWidth"/>
+    <functioncall functionName="GetWordAt"/>
+    <functioncall functionName="Glyph"/>
+    <functioncall functionName="HLSL"/>
+    <functioncall functionName="HandleKeyboardInputs"/>
+    <functioncall functionName="HandleMouseInputs"/>
+    <functioncall functionName="HasSelection"/>
+    <functioncall functionName="ImGuiCol_ChildBg"/>
+    <functioncall functionName="ImGuiCol_Text"/>
+    <functioncall functionName="ImGuiItemFlags_NoTabStop"/>
+    <functioncall functionName="ImGuiKey_A"/>
+    <functioncall functionName="ImGuiKey_Backspace"/>
+    <functioncall functionName="ImGuiKey_C"/>
+    <functioncall functionName="ImGuiKey_Delete"/>
+    <functioncall functionName="ImGuiKey_DownArrow"/>
+    <functioncall functionName="ImGuiKey_End"/>
+    <functioncall functionName="ImGuiKey_Enter"/>
+    <functioncall functionName="ImGuiKey_Home"/>
+    <functioncall functionName="ImGuiKey_Insert"/>
+    <functioncall functionName="ImGuiKey_LeftArrow"/>
+    <functioncall functionName="ImGuiKey_PageDown"/>
+    <functioncall functionName="ImGuiKey_PageUp"/>
+    <functioncall functionName="ImGuiKey_RightArrow"/>
+    <functioncall functionName="ImGuiKey_Tab"/>
+    <functioncall functionName="ImGuiKey_UpArrow"/>
+    <functioncall functionName="ImGuiKey_V"/>
+    <functioncall functionName="ImGuiKey_X"/>
+    <functioncall functionName="ImGuiKey_Y"/>
+    <functioncall functionName="ImGuiKey_Z"/>
+    <functioncall functionName="ImGuiMouseCursor_TextInput"/>
+    <functioncall functionName="ImGuiStyleVar_ItemSpacing"/>
+    <functioncall functionName="ImGuiWindowFlags_NoMove"/>
+    <functioncall functionName="ImTextCharToUtf8"/>
+    <functioncall functionName="ImU32"/>
+    <functioncall functionName="ImVec2"/>
+    <functioncall functionName="ImVec4"/>
+    <functioncall functionName="InsertLine"/>
+    <functioncall functionName="InsertText"/>
+    <functioncall functionName="InsertTextAt"/>
+    <functioncall functionName="IsKeyPressed"/>
+    <functioncall functionName="IsMouseClicked"/>
+    <functioncall functionName="IsMouseDoubleClicked"/>
+    <functioncall functionName="IsMouseDown"/>
+    <functioncall functionName="IsMouseDragging"/>
+    <functioncall functionName="IsMouseHoveringRect"/>
+    <functioncall functionName="IsMousePosValid"/>
+    <functioncall functionName="IsOnWordBoundary"/>
+    <functioncall functionName="IsReadOnly"/>
+    <functioncall functionName="IsUTFSequence"/>
+    <functioncall functionName="IsWindowFocused"/>
+    <functioncall functionName="IsWindowHovered"/>
+    <functioncall functionName="LanguageDefinition"/>
+    <functioncall functionName="Max"/>
+    <functioncall functionName="MoveBottom"/>
+    <functioncall functionName="MoveDown"/>
+    <functioncall functionName="MoveEnd"/>
+    <functioncall functionName="MoveHome"/>
+    <functioncall functionName="MoveLeft"/>
+    <functioncall functionName="MoveRight"/>
+    <functioncall functionName="MoveTop"/>
+    <functioncall functionName="MoveUp"/>
+    <functioncall functionName="Normal"/>
+    <functioncall functionName="PaletteIndex"/>
+    <functioncall functionName="Paste"/>
+    <functioncall functionName="PopItemFlag"/>
+    <functioncall functionName="PopStyleColor"/>
+    <functioncall functionName="PopStyleVar"/>
+    <functioncall functionName="PushItemFlag"/>
+    <functioncall functionName="PushStyleColor"/>
+    <functioncall functionName="PushStyleVar"/>
+    <functioncall functionName="Redo"/>
+    <functioncall functionName="RemoveLine"/>
+    <functioncall functionName="Render"/>
+    <functioncall functionName="SanitizeCoordinates"/>
+    <functioncall functionName="ScreenPosToCoordinates"/>
+    <functioncall functionName="SelectAll"/>
+    <functioncall functionName="Separator"/>
+    <functioncall functionName="SetClipboardText"/>
+    <functioncall functionName="SetCursorPosition"/>
+    <functioncall functionName="SetLanguageDefinition"/>
+    <functioncall functionName="SetMouseCursor"/>
+    <functioncall functionName="SetPalette"/>
+    <functioncall functionName="SetScrollX"/>
+    <functioncall functionName="SetScrollY"/>
+    <functioncall functionName="SetSelection"/>
+    <functioncall functionName="SetWindowFocus"/>
+    <functioncall functionName="Text"/>
+    <functioncall functionName="TextDistanceToLineStart"/>
+    <functioncall functionName="TextEditor"/>
+    <functioncall functionName="TextUnformatted"/>
+    <functioncall functionName="TokenizeCStyleCharacterLiteral"/>
+    <functioncall functionName="TokenizeCStyleIdentifier"/>
+    <functioncall functionName="TokenizeCStyleNumber"/>
+    <functioncall functionName="TokenizeCStylePunctuation"/>
+    <functioncall functionName="TokenizeCStyleString"/>
+    <functioncall functionName="UTF8CharLength"/>
+    <functioncall functionName="Undo"/>
+    <functioncall functionName="UndoRecord"/>
+    <functioncall functionName="array"/>
+    <functioncall functionName="assert"/>
+    <functioncall functionName="assign"/>
+    <functioncall functionName="at"/>
+    <functioncall functionName="back"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="ceil"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="count"/>
+    <functioncall functionName="duration_cast"/>
+    <functioncall functionName="emplace_back"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="equals"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="floor"/>
+    <functioncall functionName="front"/>
+    <functioncall functionName="insert"/>
+    <functioncall functionName="isalnum"/>
+    <functioncall functionName="isascii"/>
+    <functioncall functionName="isblank"/>
+    <functioncall functionName="isspace"/>
+    <functioncall functionName="mChar"/>
+    <functioncall functionName="mColorIndex"/>
+    <functioncall functionName="mInteractiveEnd"/>
+    <functioncall functionName="mInteractiveStart"/>
+    <functioncall functionName="mPreprocessor"/>
+    <functioncall functionName="make_pair"/>
+    <functioncall functionName="map"/>
+    <functioncall functionName="match_continuous"/>
+    <functioncall functionName="max"/>
+    <functioncall functionName="milliseconds"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="move"/>
+    <functioncall functionName="now"/>
+    <functioncall functionName="numeric_limits"/>
+    <functioncall functionName="optimize"/>
+    <functioncall functionName="pair"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="regex"/>
+    <functioncall functionName="regex_search"/>
+    <functioncall functionName="reserve"/>
+    <functioncall functionName="resize"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="snprintf"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="strlen"/>
+    <functioncall functionName="swap"/>
+    <functioncall functionName="time_since_epoch"/>
+    <functioncall functionName="toupper"/>
+    <functioncall functionName="transform"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="unordered_map"/>
+    <functioncall functionName="unordered_set"/>
+    <functioncall functionName="value_type"/>
+    <functioncall functionName="vector"/>
+    <functioncall functionName="x"/>
+  </FileInfo>
+</analyzerinfo>

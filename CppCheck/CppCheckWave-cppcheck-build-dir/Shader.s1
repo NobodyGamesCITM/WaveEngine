@@ -1,0 +1,20 @@
+GetProgramID
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Shader
+Shader call:[Delete] noreturn:[Delete]
+Use call:[glUseProgram] noreturn:[glUseProgram]
+LoadFromSource call:[CompileShader,LogInternal,glAttachShader,glCreateProgram,glDeleteProgram,glDeleteShader,glGetProgramInfoLog,glGetProgramiv,glLinkProgram] noreturn:[glAttachShader,glDeleteProgram,glDeleteShader]
+CompileShader call:[LogInternal,glCompileShader,glCreateShader,glDeleteShader,glGetShaderInfoLog,glGetShaderiv,glShaderSource]
+GetUniformLocation call:[c_str,end,find,glGetUniformLocation]
+Delete call:[glDeleteProgram]
+SetVec3 call:[GetUniformLocation,glUniform3fv] noreturn:[glUniform3fv]
+SetFloat call:[GetUniformLocation,glUniform1f] noreturn:[glUniform1f]
+SetMat4 call:[GetUniformLocation,glUniformMatrix4fv] noreturn:[glUniformMatrix4fv]
+SetInt call:[GetUniformLocation,glUniform1i] noreturn:[glUniform1i]
+SetVec4 call:[GetUniformLocation,glUniform4fv] noreturn:[glUniform4fv]
+SetVec2 call:[GetUniformLocation,glUniform2fv] noreturn:[glUniform2fv]
+SetBool call:[GetUniformLocation,glUniform1i] noreturn:[glUniform1i]

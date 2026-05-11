@@ -1,0 +1,7 @@
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+LogExternal call:[string,to_string,va_end,va_start,vsnprintf]
+LogInternal call:[AddLog,GetInstance,va_end,va_start,vsnprintf] noreturn:[AddLog]

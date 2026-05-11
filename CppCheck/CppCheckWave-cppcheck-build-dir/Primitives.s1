@@ -1,0 +1,43 @@
+GenerateUID call:[dis,gen,rd] noreturn:[dis]
+GetInstance
+AddLog call:[begin,end,erase,push_back,size] noreturn:[erase,push_back]
+Clear call:[clear] noreturn:[clear]
+GetLogs
+Shutdown call:[clear,shrink_to_fit] noreturn:[shrink_to_fit]
+Module
+Init
+Awake
+Start
+PreUpdate
+Update
+FixedUpdate
+PostUpdate
+CleanUp
+GetUID
+GetType
+GetAssetFile
+GetLibraryFile
+GetReferenceCount
+IsLoadedToMemory
+SetAssetFile
+SetLibraryFile
+GetResourceDirect call:[end,find,return]
+GetResourceDirect call:[end,find,return]
+GetAllResources
+GetResourceStats call:[GetReferenceCount,GetType,IsLoadedToMemory] noreturn:[GetReferenceCount]
+RegisterResource call:[GetType,IsLoadedToMemory,LogExternal,UnloadFromMemory,end,find] noreturn:[LogExternal,UnloadFromMemory]
+IsShuttingDown
+AddBoneData
+NormalizeWeights
+IsValid
+IsSkinned call:[size]
+GetMesh
+GetNumVertices call:[size] noreturn:[size]
+GetNumIndices call:[size] noreturn:[size]
+GetNumTriangles call:[size]
+CreateTriangle
+CreateCube call:[push_back]
+CreatePyramid call:[push_back] noreturn:[push_back]
+CreatePlane call:[push_back]
+CreateSphere call:[cosf,normalize,push_back,sinf,vec2,vec3] noreturn:[push_back]
+CreateCylinder call:[cosf,push_back,sinf,size] noreturn:[push_back]

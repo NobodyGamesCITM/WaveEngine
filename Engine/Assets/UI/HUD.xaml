@@ -584,8 +584,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
     </Grid>
     <Canvas>
-        <Grid x:Name="InteractPrompt" Width="50" Height="50" Visibility="Collapsed">
-            <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="50" Height="50">
+        <Grid x:Name="LockOnPrompt" Width="30" Height="30">
+            <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
+            <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
+        </Grid>
+        <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
+            <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -598,7 +602,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <noesis:CompositeTransform3D/>
                 </Image.Transform3D>
             </Image>
-            <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="20" Height="20">
+            <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

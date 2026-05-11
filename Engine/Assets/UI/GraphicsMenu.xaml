@@ -6,6 +6,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:system="clr-namespace:System;assembly=mscorlib"
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
@@ -14,212 +15,102 @@
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- ═══════════════════════════════════════════════
-                 TOGGLE STYLE  (FullScreen / AntiAliasing)
-                 ═══════════════════════════════════════════════ -->
-            <Style x:Key="SettingToggleStyle" TargetType="CheckBox">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="White"/>
+            <!-- Toggle simple -->
+            <Style x:Key="SettingToggleStyle" TargetType="ToggleButton">
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
-                <Setter Property="FontSize" Value="28"/>
-                <Setter Property="Focusable" Value="True"/>
+                <Setter Property="FontSize" Value="26"/>
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="CheckBox">
-                            <Grid Height="54">
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <TextBlock x:Name="LabelText"
+                                
+                                <TextBlock x:Name="Label"
                                            Text="{TemplateBinding Content}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Left">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="LabelShift" X="0"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-
-                                <Grid Grid.Column="1" VerticalAlignment="Center" Width="84" Height="38">
-
-                                    <Border x:Name="Track"
-                                            CornerRadius="19"
-                                            Background="#44111111"
-                                            BorderThickness="2">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush x:Name="TrackBorder" Color="#88888888"/>
-                                        </Border.BorderBrush>
-                                        <Border.Effect>
-                                            <DropShadowEffect x:Name="TrackGlow"
-                                                              Color="#C8A84B"
-                                                              BlurRadius="0"
-                                                              ShadowDepth="0"
-                                                              Opacity="0"/>
-                                        </Border.Effect>
-                                    </Border>
-
-                                    <Border x:Name="TrackFill"
-                                            CornerRadius="19"
-                                            Opacity="0"
-                                            HorizontalAlignment="Stretch">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                <GradientStop Offset="0" Color="#FFC8A84B"/>
-                                                <GradientStop Offset="1" Color="#FFFFE08A"/>
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                    </Border>
-
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border x:Name="Track"
+                                        Grid.Column="1"
+                                        Width="60" Height="30"
+                                        CornerRadius="15"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1">
                                     <Ellipse x:Name="Thumb"
-                                             Width="28" Height="28"
+                                             Width="24" Height="24"
+                                             Fill="White"
                                              HorizontalAlignment="Left"
                                              VerticalAlignment="Center"
-                                             Margin="5,0,0,0"
-                                             RenderTransformOrigin="0.5,0.5">
-                                        <Ellipse.Fill>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                                <GradientStop Offset="1" Color="#FFCCCCCC"/>
-                                            </LinearGradientBrush>
-                                        </Ellipse.Fill>
-                                        <Ellipse.Effect>
-                                            <DropShadowEffect x:Name="ThumbShadow"
-                                                              Color="#000000"
-                                                              BlurRadius="6"
-                                                              ShadowDepth="1"
-                                                              Opacity="0.5"/>
-                                        </Ellipse.Effect>
-                                        <Ellipse.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform x:Name="ThumbScale" ScaleX="1" ScaleY="1"/>
-                                                <TranslateTransform x:Name="ThumbSlide" X="0"/>
-                                            </TransformGroup>
-                                        </Ellipse.RenderTransform>
-                                    </Ellipse>
-
-                                    <Path x:Name="CheckMark"
-                                          Data="M 18,15 L 26,23 L 40,9"
-                                          Stroke="#FFFFC840"
-                                          StrokeThickness="3"
-                                          StrokeStartLineCap="Round"
-                                          StrokeEndLineCap="Round"
-                                          StrokeLineJoin="Round"
-                                          Opacity="0"
-                                          Stretch="None"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Top"/>
-                                </Grid>
+                                             Margin="2,0,0,0"/>
+                                </Border>
                             </Grid>
-
                             <ControlTemplate.Triggers>
-
-                                <!-- ── CHECKED (ON) ── -->
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbSlide" Storyboard.TargetProperty="X"
-                                                                 To="46" Duration="0:0:0.22">
-                                                    <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="TrackFill" Storyboard.TargetProperty="Opacity"
-                                                                 To="1" Duration="0:0:0.2"/>
-                                                <ColorAnimation Storyboard.TargetName="TrackBorder" Storyboard.TargetProperty="Color"
-                                                                To="#FFC8A84B" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow" Storyboard.TargetProperty="BlurRadius"
-                                                                 To="14" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow" Storyboard.TargetProperty="Opacity"
-                                                                 To="0.85" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity"
-                                                                 To="1" BeginTime="0:0:0.15" Duration="0:0:0.15"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbSlide" Storyboard.TargetProperty="X"
-                                                                 To="0" Duration="0:0:0.2">
-                                                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="TrackFill" Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.18"/>
-                                                <ColorAnimation Storyboard.TargetName="TrackBorder" Storyboard.TargetProperty="Color"
-                                                                To="#88888888" Duration="0:0:0.18"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow" Storyboard.TargetProperty="BlurRadius"
-                                                                 To="0" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="TrackGlow" Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity"
-                                                                 To="0" Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
+                                    <Setter TargetName="Track" Property="Background" Value="#FFC8A84B"/>
+                                    <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter TargetName="Thumb" Property="Margin" Value="0,0,2,0"/>
                                 </Trigger>
-
-                                <!-- ── FOCUSED ── -->
                                 <Trigger Property="IsFocused" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard x:Name="ToggleFocusSB">
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift" Storyboard.TargetProperty="X"
-                                                                 To="8" Duration="0:0:0.2">
-                                                    <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.4"/></DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <StopStoryboard BeginStoryboardName="ToggleFocusSB"/>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LabelShift" Storyboard.TargetProperty="X"
-                                                                 To="0" Duration="0:0:0.15"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                    <Setter TargetName="LabelText" Property="Foreground">
-                                        <Setter.Value>
-                                            <SolidColorBrush Color="#FFFFC840"/>
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
                                 </Trigger>
-
-                                <!-- ── PRESSED ── -->
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbScale" Storyboard.TargetProperty="ScaleX"
-                                                                 To="0.9" Duration="0:0:0.05"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ThumbScale" Storyboard.TargetProperty="ScaleX"
-                                                                 To="1" Duration="0:0:0.15">
-                                                    <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="6"/></DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
-
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
 
-            <!-- ═══════════════════════════════════════════════
-                 TEXT BUTTON (BACK)
-                 ═══════════════════════════════════════════════ -->
+            <!-- Resolution selector simple -->
+            <Style x:Key="ResolutionSelectorStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+                <Setter Property="FontSize" Value="26"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock x:Name="Label"
+                                           Text="RESOLUTION"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border Grid.Column="1"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="12,8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="◄" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="{Binding CurrentResolutionText}"
+                                                   Foreground="White"
+                                                   Width="140"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="►" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- TEXT BUTTON (BACK) - Original -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -325,165 +216,19 @@
                 </Setter>
             </Style>
 
-            <!-- ═══════════════════════════════════════════════
-                 STORYBOARDS
-                 ═══════════════════════════════════════════════ -->
+            <!-- Storyboards -->
             <Storyboard x:Key="Intro">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MainMenu_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" Storyboard.TargetName="MainMenu_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-25"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <!-- FIX: animamos FullScreenRow y AntiAliasingRow (Grid wrappers),
-                     no los CheckBox directamente. Esto evita que el storyboard Intro
-                     compita con el IsFocused trigger del SettingToggleStyle por el
-                     ownership de Opacity/TranslateTransform en el mismo elemento. -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FullScreenRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="FullScreenRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AntiAliasingRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.28" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="AntiAliasingRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.28" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ResolutionRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.68" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ResolutionRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.72" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.42" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.76" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.42" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.82" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.4"/>
             </Storyboard>
 
             <Storyboard x:Key="FadeOut">
-                <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity"
-                                 To="1" Duration="0:0:1.5">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
+                                 To="0" Duration="0:0:0.3"/>
                 <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.4">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="FullScreenRow" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.25"/>
-                <DoubleAnimation Storyboard.TargetName="FullScreenRow"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.0" Duration="0:0:0.3"/>
-                <DoubleAnimation Storyboard.TargetName="AntiAliasingRow" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.05" Duration="0:0:0.25"/>
-                <DoubleAnimation Storyboard.TargetName="AntiAliasingRow"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.05" Duration="0:0:0.3"/>
-                <DoubleAnimation Storyboard.TargetName="ResolutionRow" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.1" Duration="0:0:0.25"/>
-                <DoubleAnimation Storyboard.TargetName="ResolutionRow"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.1" Duration="0:0:0.3"/>
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.15" Duration="0:0:0.25"/>
-                <DoubleAnimation Storyboard.TargetName="BackButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.15" Duration="0:0:0.3"/>
-            </Storyboard>
-
-            <Storyboard x:Key="OnResolutionChanged">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ResolutionValue" Storyboard.TargetProperty="Opacity">
-                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.18" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ResValueSlide" Storyboard.TargetProperty="X">
-                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value="40"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.22" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.4"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
+                                 To="0" Duration="0:0:0.3"/>
             </Storyboard>
         </ResourceDictionary>
     </Grid.Resources>
@@ -496,45 +241,34 @@
 
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <Grid x:Name="LayoutRoot" Opacity="0" RenderTransformOrigin="0.5,0.5">
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleX="1" ScaleY="1"/>
-        </Grid.RenderTransform>
+    <Grid x:Name="LayoutRoot" Opacity="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="771*"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
-        <Viewbox x:Name="BackgroundViewBox" Grid.Column="1">
+        <Viewbox Grid.Column="1">
             <Image Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Grid x:Name="Menu" Grid.Column="1" Margin="69,114,69,79">
+        <Grid Grid.Column="1" Margin="69,114,69,79">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45*"/>
                 <RowDefinition Height="95*"/>
                 <RowDefinition Height="387*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1" Opacity="0">
-                <Viewbox.RenderTransform>
-                    <TranslateTransform X="0" Y="0"/>
-                </Viewbox.RenderTransform>
-                <Grid Height="80" Width="445">
-                    <TextBlock TextAlignment="Center" FontSize="65" Width="445" Text="GRAPHICS"
-                               FontFamily="./#ForgottenUncial">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </Grid>
+            <Viewbox Grid.Row="1" Stretch="Uniform">
+                <TextBlock Text="GRAPHICS"
+                           FontFamily="./#ForgottenUncial"
+                           FontSize="65"
+                           Foreground="White"
+                           TextAlignment="Center"
+                           Width="445"/>
             </Viewbox>
 
-            <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="398" Width="500">
+            <Viewbox Grid.Row="2" Stretch="Uniform" Height="398" Width="500">
                 <Grid Height="322" Width="480">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>
@@ -548,341 +282,35 @@
                         <RowDefinition Height="24*"/>
                     </Grid.RowDefinitions>
 
-                    <Rectangle Grid.Row="0" VerticalAlignment="Bottom" Height="1" Margin="8,0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="Transparent"/>
-                                <GradientStop Offset="0.3" Color="#55C8A84B"/>
-                                <GradientStop Offset="0.7" Color="#55C8A84B"/>
-                                <GradientStop Offset="1" Color="Transparent"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
-                    <!-- ══ FULLSCREEN ROW WRAPPER ══
-                         El Intro ahora anima este Grid (FullScreenRow), no el CheckBox.
-                         Así el IsFocused trigger interno del CheckBox nunca compite
-                         con el Intro por ownership de Opacity/TranslateTransform. -->
-                    <Grid x:Name="FullScreenRow"
-                          Grid.Row="1"
-                          Opacity="0"
-                          Margin="12,0,12,0"
-                          VerticalAlignment="Center">
-                        <Grid.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Grid.RenderTransform>
-                        <CheckBox x:Name="FullScreen"
-                                  Style="{StaticResource SettingToggleStyle}"
+                    <ToggleButton Grid.Row="1" 
                                   Content="FULLSCREEN"
-                                  IsChecked="{Binding Path=IsFullScreen}">
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </CheckBox>
-                    </Grid>
-
-                    <Rectangle Grid.Row="2" Height="1" Margin="8,0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="Transparent"/>
-                                <GradientStop Offset="0.3" Color="#33FFFFFF"/>
-                                <GradientStop Offset="0.7" Color="#33FFFFFF"/>
-                                <GradientStop Offset="1" Color="Transparent"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
-                    <!-- ══ ANTIALIASING ROW WRAPPER ══ -->
-                    <Grid x:Name="AntiAliasingRow"
-                          Grid.Row="3"
-                          Opacity="0"
-                          Margin="12,0,12,0"
-                          VerticalAlignment="Center">
-                        <Grid.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Grid.RenderTransform>
-                        <CheckBox x:Name="AntiAliasing"
                                   Style="{StaticResource SettingToggleStyle}"
+                                  IsChecked="{Binding IsFullscreen}"/>
+
+                    <ToggleButton Grid.Row="3" 
                                   Content="ANTI-ALIASING"
-                                  IsChecked="{Binding Path=IsAntiAliasing}">
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </CheckBox>
-                    </Grid>
+                                  Style="{StaticResource SettingToggleStyle}"
+                                  IsChecked="{Binding IsAntiAliasing}"/>
 
-                    <Rectangle Grid.Row="4" Height="1" Margin="8,0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="Transparent"/>
-                                <GradientStop Offset="0.3" Color="#33FFFFFF"/>
-                                <GradientStop Offset="0.7" Color="#33FFFFFF"/>
-                                <GradientStop Offset="1" Color="Transparent"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
+                    <Button Grid.Row="5"
+                            Style="{StaticResource ResolutionSelectorStyle}"
+                            Command="{Binding Commands[CycleResolution]}"/>
 
-                    <!-- ══ RESOLUTION SELECTOR ══ -->
-                    <Grid x:Name="ResolutionRow"
-                          Grid.Row="5"
-                          Opacity="0"
-                          Margin="12,0,12,0"
-                          VerticalAlignment="Center">
-                        <Grid.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Grid.RenderTransform>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock x:Name="ResolutionLabel"
-                                   Text="RESOLUTION"
-                                   FontFamily="./#ForgottenUncial"
-                                   FontSize="28"
-                                   Foreground="White"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"/>
-
-                        <Border Grid.Column="1"
-                                x:Name="ResolutionBox"
-                                CornerRadius="6"
-                                Background="#33000000"
-                                VerticalAlignment="Center">
-                            <Border.BorderBrush>
-                                <SolidColorBrush x:Name="ResBoxBorder" Color="#88888888"/>
-                            </Border.BorderBrush>
-                            <Border.BorderThickness>2</Border.BorderThickness>
-                            <Border.Effect>
-                                <DropShadowEffect x:Name="ResBoxGlow"
-                                                  Color="#C8A84B"
-                                                  BlurRadius="0"
-                                                  ShadowDepth="0"
-                                                  Opacity="0"/>
-                            </Border.Effect>
-
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-
-                                <Button x:Name="ResolutionPrev"
-                                        Command="{Binding Path=Commands[ResolutionPrev]}"
-                                        Width="40" Height="48"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0"
-                                        Focusable="False">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid>
-                                                <TextBlock x:Name="PrevArrow"
-                                                           Text="◄"
-                                                           FontSize="18"
-                                                           Foreground="#FFFFC840"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center">
-                                                    <TextBlock.RenderTransform>
-                                                        <TranslateTransform x:Name="PrevArrowSlide" X="0"/>
-                                                    </TextBlock.RenderTransform>
-                                                </TextBlock>
-                                            </Grid>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="PrevArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="-5" Duration="0:0:0.07"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="PrevArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="0" Duration="0:0:0.15">
-                                                                    <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="6"/></DoubleAnimation.EasingFunction>
-                                                                </DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard x:Name="PrevHoverSB">
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="PrevArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 From="0" To="-4" Duration="0:0:0.45"
-                                                                                 AutoReverse="True" RepeatBehavior="Forever"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <StopStoryboard BeginStoryboardName="PrevHoverSB"/>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="PrevArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="0" Duration="0:0:0.1"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-
-                                <Border Width="180" Height="36" ClipToBounds="True" Background="Transparent">
-                                    <TextBlock x:Name="ResolutionValue"
-                                               Text="{Binding Path=CurrentResolutionText, FallbackValue='1920 x 1080'}"
-                                               FontFamily="./#ForgottenUncial"
-                                               FontSize="24"
-                                               TextAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               Margin="2,0">
-                                        <TextBlock.Foreground>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Offset="0" Color="#FFFFEEBB"/>
-                                                <GradientStop Offset="1" Color="#FFFFC840"/>
-                                            </LinearGradientBrush>
-                                        </TextBlock.Foreground>
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect Color="#FFC870"
-                                                              BlurRadius="8"
-                                                              ShadowDepth="0"
-                                                              Opacity="0.6"/>
-                                        </TextBlock.Effect>
-                                        <TextBlock.RenderTransform>
-                                            <TranslateTransform x:Name="ResValueSlide" X="0"/>
-                                        </TextBlock.RenderTransform>
-                                    </TextBlock>
-                                </Border>
-
-                                <Button x:Name="ResolutionNext"
-                                        Command="{Binding Path=Commands[ResolutionNext]}"
-                                        Width="40" Height="48"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0"
-                                        Focusable="False">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid>
-                                                <TextBlock x:Name="NextArrow"
-                                                           Text="►"
-                                                           FontSize="18"
-                                                           Foreground="#FFFFC840"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center">
-                                                    <TextBlock.RenderTransform>
-                                                        <TranslateTransform x:Name="NextArrowSlide" X="0"/>
-                                                    </TextBlock.RenderTransform>
-                                                </TextBlock>
-                                            </Grid>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="NextArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="5" Duration="0:0:0.07"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="NextArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="0" Duration="0:0:0.15">
-                                                                    <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="6"/></DoubleAnimation.EasingFunction>
-                                                                </DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard x:Name="NextHoverSB">
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="NextArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 From="0" To="4" Duration="0:0:0.45"
-                                                                                 AutoReverse="True" RepeatBehavior="Forever"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <StopStoryboard BeginStoryboardName="NextHoverSB"/>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="NextArrowSlide" Storyboard.TargetProperty="X"
-                                                                                 To="0" Duration="0:0:0.1"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                            </StackPanel>
-                        </Border>
-
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </Grid>
-
-                    <Rectangle Grid.Row="6" Height="1" Margin="8,0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="Transparent"/>
-                                <GradientStop Offset="0.3" Color="#33FFFFFF"/>
-                                <GradientStop Offset="0.7" Color="#33FFFFFF"/>
-                                <GradientStop Offset="1" Color="Transparent"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
-                    <!-- ══ BACK ══ -->
                     <Button x:Name="BackButton"
+                            Grid.Row="7"
                             Style="{StaticResource TextButtonStyle}"
                             Content="BACK"
-                            Command="{Binding Path=Commands[BackButton]}"
-                            Grid.Row="7"
-                            Opacity="0"
+                            Command="{Binding Commands[BackButton]}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
-                        </Button.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
                     </Button>
-
-                    <Rectangle Grid.Row="8" VerticalAlignment="Top" Height="1" Margin="8,0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="Transparent"/>
-                                <GradientStop Offset="0.3" Color="#55C8A84B"/>
-                                <GradientStop Offset="0.7" Color="#55C8A84B"/>
-                                <GradientStop Offset="1" Color="Transparent"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
                 </Grid>
             </Viewbox>
         </Grid>
-
-        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
-
 </Grid>

@@ -152,7 +152,6 @@ function StartTransition(self, sceneName)
         _G._MidRunTransition = true
         Engine.Log("[SceneTransition] Transición iniciada por script hacia: " .. tostring(sceneName))
 
-        -- Guardar estado de pociones para persistencia entre niveles
         if _G.PotionSystem and _G.PotionSystem.public then
             local ps = _G.PotionSystem.public
             _G._SavedPotionCount  = ps.potionCount
@@ -160,6 +159,8 @@ function StartTransition(self, sceneName)
             _G._SavedBerserkCount = ps.berserkCount
             _G._SavedMaxBerserk   = ps.maxBerserk
         end
+
+        _G._SavedCurrentMask = _G._PlayerController_currentMask
         
         if sceneName then
             self.public.targetScene = sceneName
@@ -186,6 +187,5 @@ function SetMusicVolume(volume)
     if volume then 
         Audio.SetMusicVolume(volume)
     else
-        --Engine.Log("Could not set music volume!")
     end
 end

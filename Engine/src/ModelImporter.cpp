@@ -138,6 +138,20 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
             if (animData.IsValid())
             {
                 AnimationImporter::SaveToCustomFormat(animData, animUID);
+                
+                ModuleResources* resources = Application::GetInstance().resources.get();
+                if (resources) {
+                    if (resources->GetResource(animUID) == nullptr) {
+                        Resource* animResource = resources->CreateNewResourceWithUID(
+                            file_path.c_str(),
+                            Resource::ANIMATION,
+                            animUID
+                        );
+                        if (animResource) {
+                            animResource->SetLibraryFile(LibraryManager::GetLibraryPath(animUID));
+                        }
+                    }
+                }
             }
             else
             {

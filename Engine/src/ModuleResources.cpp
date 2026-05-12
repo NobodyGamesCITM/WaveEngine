@@ -410,7 +410,6 @@ UID ModuleResources::ImportFile(const char* newFileInAssets, bool forceReimport)
         }
     }
 
-
     return meta.uid;
 }
 
@@ -441,6 +440,9 @@ Resource* ModuleResources::CreateNewResourceWithUID(const char* assetsFile, Reso
         break;
     case Resource::SCENE:
         resource = new ResourceScene(uid);
+        break;
+    case Resource::ANIMATION:
+        resource = new ResourceAnimation(uid);
         break;
     default:
         LOG_CONSOLE("ERROR: Unsupported resource type");

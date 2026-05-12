@@ -745,8 +745,8 @@ end
 local function UpdateDeath(self, dt)
 
     if fase1 == true then
-        hp      = 400
-        posture = 250
+        hp      = 200 --Antes 400
+        posture = 100 -- Antes 150
         isDead  = false
 
         self.public.detectRange    = 27.0
@@ -804,6 +804,14 @@ local function UpdateDeath(self, dt)
                 self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
             else
                 if not isDead then
+                      local door = GameObject.Find("Puerta_Final") 
+                    if door then
+                        local doorScript = door:GetComponent("Script")
+                        if doorScript and doorScript.OpenDoor then
+                            doorScript:OpenDoor()
+                        end
+                    end
+
                     local colision = self.gameObject:GetComponent("Box Collider")
                     if colision then 
                         colision:Disable() 
@@ -812,13 +820,7 @@ local function UpdateDeath(self, dt)
                     isDead = true
                     Engine.Log("[Aquiles] DEAD i enterrat")
 
-                    local door = GameObject.Find("Puerta_Final") 
-                    if door then
-                        local doorScript = door:GetComponent("Script")
-                        if doorScript and doorScript.OpenDoor then
-                            doorScript:OpenDoor()
-                        end
-                    end
+                  
 
                     rb       = nil
                     anim     = nil
@@ -861,7 +863,7 @@ end
 function Start(self)
 
     self.public = {
-        maxHp           = 300,
+        maxHp           = 200, --Antes 300
         maxPosture      = 100,
 
         detectRange     = 25.0,
@@ -967,6 +969,43 @@ function Update(self, dt)
         if bloodPs then bloodPs:Play() end
         hp = 1
         return
+    end
+
+    if pendingWallHit then
+        pendingWallHit = false
+        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
+            StopMovement()
+            if self.chargeFeedbackGO then
+                GameObject.Destroy(self.chargeFeedbackGO)
+                self.chargeFeedbackGO = nil
+            end
+            wallAnimStarted = false 
+            wallStunTimer = self.public.wallStunTime
+            ChangeState(State.WALL)
+        end
+    end
+
+    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
+        if not playerAttackHandled and playerGO and not isDead then
+            local myPos = self.transform.position
+            local pp    = playerGO.transform.position
+            if pp then
+                local dx   = pp.x - myPos.x
+                local dz   = pp.z - myPos.z
+                local dist = sqrt(dx * dx + dz * dz)
+                if dist <= (self.public.chargeRange * 0.5) then
+                    playerAttackHandled = true
+                    local attack = _PlayerController_lastAttack
+                    if attack == "light" then
+                        TakeDamage(self, DAMAGE_LIGHT, pp)
+                    elseif attack == "charge" or attack == "heavy" then
+                        TakeDamage(self, DAMAGE_HEAVY, pp)
+                    end
+                end
+            end
+        end
+    else
+        playerAttackHandled = false
     end
 
     if not playerGO then

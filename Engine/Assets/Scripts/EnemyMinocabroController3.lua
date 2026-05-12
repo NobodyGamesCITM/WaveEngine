@@ -62,8 +62,8 @@ end
 
 local function StopMovement(self)
     if not self.rb then return end
-    local vel = self.rb:GetLinearVelocity()
-    self.rb:SetLinearVelocity(0, vel.y, 0)
+    --local vel = self.rb:GetLinearVelocity()
+    self.rb:SetLinearVelocity(0, 0, 0)
     self.smoothDx, self.smoothDz = 0, 0
     if self.dustPs then self.dustPs:Stop() end
 end
@@ -233,8 +233,8 @@ local function UpdatePatrol(self, dt)
     local dx, dz = self.nav:GetMoveDirection(0.3)
     if dx and dz then
         RotateTowards(self, dx, dz, self.public.rotationSpeed or 5, dt)
-        local vel = self.rb:GetLinearVelocity()
-        self.rb:SetLinearVelocity(dx * 4.0, vel.y, dz * 4.0)
+       -- local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(dx * 4.0, 0, dz * 4.0)
     end
 
     if not self.nav:IsMoving() then
@@ -289,8 +289,8 @@ local function UpdateChase(self, myPos, pp, dist, dt)
         local dx, dz = self.nav:GetMoveDirection(0.3)
         if dx and dz then
             RotateTowards(self, dx, dz, self.public.rotationSpeed or 5, dt)
-            local cv = self.rb:GetLinearVelocity()
-            self.rb:SetLinearVelocity(dx * moveSpeed, cv.y, dz * moveSpeed)
+            --local cv = self.rb:GetLinearVelocity()
+            self.rb:SetLinearVelocity(dx * moveSpeed, 0, dz * moveSpeed)
         end
     end
 end
@@ -310,8 +310,8 @@ local function UpdateReposition(self, myPos, pp, dist, dt)
 
     local vel = self.public.moveSpeed
 
-    local currentVel = self.rb:GetLinearVelocity()
-    self.rb:SetLinearVelocity(dx*vel,currentVel.y,dz*vel)
+    --local currentVel = self.rb:GetLinearVelocity()
+    self.rb:SetLinearVelocity(dx*vel,0,dz*vel)
 
     RotateTowards(self, lookDx, lookDz, self.public.rotationSpeed, dt)
 
@@ -361,62 +361,6 @@ local function UpdateAnticipation(self, pp, dt)
 
     end
 
-    if self.chargeFeedbackGO then
-        --Maximum possible distance
-        local maxChargeDistance = self.public.chargeSpeed * self.public.chargeDuration
-        
-        -- Vcetor distance player
-        local vectorToPlayerX = pp.x - myPos.x
-        local vectorToPlayerZ = pp.z - myPos.z
-        local currentDistToPlayer = sqrt(vectorToPlayerX * vectorToPlayerX + vectorToPlayerZ * vectorToPlayerZ)
-
-        local indicatorLength = maxChargeDistance
-        if currentDistToPlayer < maxChargeDistance then
-            indicatorLength = currentDistToPlayer
-        end
-
-        local distance = sqrt(dx*dx + dz*dz)
-        local directionX, directionZ = dx, dz
-        if distance > 0.001 then 
-            directionX = dx / distance 
-            directionZ = dz / distance 
-        end
-
-        local numTiles = math.floor(indicatorLength / TILE_SIZE)
-        if #self.chargeFeedbackTiles ~= numTiles then
-
-            -- Destroy old ones
-            for _, tile in ipairs(self.chargeFeedbackTiles) do
-                if tile then GameObject.Destroy(tile) end
-            end
-
-            self.chargeFeedbackTiles = {}
-
-            for i = 1, numTiles do
-                local tile = Prefab.Instantiate("MinocabroFeedback")
-                if tile then
-                    table.insert(self.chargeFeedbackTiles, tile)
-                end
-            end
-        end
-
-        local dirX, dirZ = 0, 0
-        if distance > 0.001 then 
-            dirX = dx / distance 
-            dirZ = dz / distance 
-        end
-
-        -- Place tiles
-        for i, tile in ipairs(self.chargeFeedbackTiles) do
-           if tile then
-                local offset = (i - 0.5) * TILE_SIZE
-                tile.transform:SetPosition(myPos.x + dirX * offset, pp.y + 0.2, myPos.z + dirZ * offset)
-                tile.transform:SetRotation(0, atan2(dirX, dirZ) * (180.0 / pi), 0)
-                tile.transform:SetScale(3.744, 0.15, 3.744)
-            end
-        end
-    end
-
 
     self.preparationTimer = self.preparationTimer + dt
 
@@ -426,7 +370,7 @@ local function UpdateAnticipation(self, pp, dt)
             local backDx = -(dx / len)
             local backDz = -(dz / len)
             local vel = self.rb:GetLinearVelocity()
-            self.rb:SetLinearVelocity(backDx * 2.0, vel.y, backDz * 2.0)
+            self.rb:SetLinearVelocity(backDx * 2.0, 0, backDz * 2.0)
         end
     else
         StopMovement(self)
@@ -535,8 +479,8 @@ local function UpdateWall(self, dt)
     if self.dustPs then self.dustPs:Stop() end
 
     if self.rb then
-        local vel = self.rb:GetLinearVelocity()
-        self.rb:SetLinearVelocity(0, vel.y, 0)
+        --local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(0, 0, 0)
         self.rb:SetRotation(0, self.currentYaw, 0)
     end
 
@@ -562,7 +506,7 @@ local function UpdateRecovery(self, dt)
 
     if self.dustPs then self.dustPs:Stop() end
 
-    DestroyChargeFeedback(self)
+    --DestroyChargeFeedback(self)
 
     if self.playerGO and not self.cameFromWall then
         local myPos = self.transform.worldPosition
@@ -577,8 +521,8 @@ local function UpdateRecovery(self, dt)
     self.slideVelZ = self.slideVelZ + (0 - self.slideVelZ) * min(1.0, dt * friction)
  
     if self.rb then
-        local vel = self.rb:GetLinearVelocity()
-        self.rb:SetLinearVelocity(self.slideVelX, vel.y, self.slideVelZ)
+        --local vel = self.rb:GetLinearVelocity()
+        self.rb:SetLinearVelocity(self.slideVelX, 0, self.slideVelZ)
     end
 
     if self.attackCol then self.attackCol:Disable() end
@@ -651,7 +595,7 @@ local function UpdateDeath(self, dt)
             end
         end
 
-        DestroyChargeFeedback(self)
+        --DestroyChargeFeedback(self)
 
         if self.isDead then
             self.rb = nil
@@ -802,10 +746,10 @@ function Start(self)
 
     Engine.Log("[Minocabro] Start OK  HP=" .. self.hp)
 
-    Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
-    self.chargeFeedbackGO = nil
-    self.chargeFeedbackActive = false 
-    self.chargeFeedbackTiles = {}
+    --Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
+    --self.chargeFeedbackGO = nil
+    --self.chargeFeedbackActive = false 
+    --self.chargeFeedbackTiles = {}
 
     mesh = GameObject.FindInChildren(self.gameObject,"Mesh")
     BaseMat = mesh:GetComponent("Material")
@@ -857,7 +801,7 @@ function Update(self, dt)
         self.pendingWallHit = false
         if self.currentState ~= State.WALL and self.currentState ~= State.RECOVERY then
             StopMovement(self)
-            DestroyChargeFeedback(self)
+            --DestroyChargeFeedback(self)
 
             self.wallStunTimer = self.public.wallStunTime
             ChangeState(self, State.WALL)

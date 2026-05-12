@@ -344,6 +344,21 @@ local function dodgePlayer(self, dist, dt)
 end
 
 local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
+
+    local myPos = self.transform.worldPosition
+    local pPos  = playerGO.transform.worldPosition
+    local dist  = Dist(myPos, pPos) 
+
+    if dist <= self.public.minDistanceToPlayer and not isDashing then
+
+        Engine.Log("Estoy muy cerca")
+        rb:SetLinearVelocity(0, 0, 0)
+        if anim and not anim:IsPlayingAnimation("Idle") then 
+            anim:Play("Idle", 0.2) 
+        end
+        return
+    end
+
     isDashing = isDashing or false
     local speedOverride = speedOverride or self.public.moveSpeed
 
@@ -730,11 +745,11 @@ end
 local function UpdateDeath(self, dt)
 
     if fase1 == true then
-        hp      = 500
+        hp      = 400
         posture = 250
         isDead  = false
 
-        self.public.detectionRange    = 27
+        self.public.detectRange    = 27.0
         self.public.chargeDamage      = 45
         self.public.chargeSpeed       = 25.0
         self.public.chargeCooldown    = 1.5
@@ -789,6 +804,11 @@ local function UpdateDeath(self, dt)
                 self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
             else
                 if not isDead then
+                    local colision = self.gameObject:GetComponent("Box Collider")
+                    if colision then 
+                        colision:Disable() 
+                        self.rb:SetUseGravity(false)
+                    end
                     isDead = true
                     Engine.Log("[Aquiles] DEAD i enterrat")
 
@@ -845,7 +865,7 @@ function Start(self)
         maxPosture      = 100,
 
         detectRange     = 25.0,
-        Lance360Range   = 2.0,
+        Lance360Range   = 4.0, --Antes 2
         chargeRange     = 18.0,
         dashApproachRange = 9.0,
 
@@ -854,7 +874,7 @@ function Start(self)
         stopSmoothing   = 6.0,
 
         lanceDuration       = 0.8,
-        lanceCooldown       = 1.2,
+        lanceCooldown       = 0.8, -- Antes1.2
         lanceDamage         = 20,
 
         preparationTime = 1.0,
@@ -876,6 +896,9 @@ function Start(self)
         wallStunDuration = 2.0,
         recoveryLance    = 0.5,
         recoveryCharge   = 1.0,
+
+
+        minDistanceToPlayer=6.0,
     }
 
     currentMaxHp = self.public.maxHp
@@ -933,48 +956,17 @@ function Update(self, dt)
         FindAquilesParticles(self)
     end
 
+    if Input.GetKey("0") then
+        fase1 = false
+        TakeDamage(self, hp, self.transform.worldPosition)
+        return
+    end
+
     if Input.GetKey("K") then
         SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
         if bloodPs then bloodPs:Play() end
         hp = 1
         return
-    end
-
-    if pendingWallHit then
-        pendingWallHit = false
-        if currentState ~= State.WALL and currentState ~= State.RECOVERY then
-            StopMovement()
-            if self.chargeFeedbackGO then
-                GameObject.Destroy(self.chargeFeedbackGO)
-                self.chargeFeedbackGO = nil
-            end
-            wallAnimStarted = false 
-            wallStunTimer = self.public.wallStunTime
-            ChangeState(State.WALL)
-        end
-    end
-
-    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
-        if not playerAttackHandled and playerGO and not isDead then
-            local myPos = self.transform.position
-            local pp    = playerGO.transform.position
-            if pp then
-                local dx   = pp.x - myPos.x
-                local dz   = pp.z - myPos.z
-                local dist = sqrt(dx * dx + dz * dz)
-                if dist <= (self.public.chargeRange * 0.5) then
-                    playerAttackHandled = true
-                    local attack = _PlayerController_lastAttack
-                    if attack == "light" then
-                        TakeDamage(self, DAMAGE_LIGHT, pp)
-                    elseif attack == "charge" or attack == "heavy" then
-                        TakeDamage(self, DAMAGE_HEAVY, pp)
-                    end
-                end
-            end
-        end
-    else
-        playerAttackHandled = false
     end
 
     if not playerGO then
@@ -1024,7 +1016,7 @@ function Update(self, dt)
 end
 
 function OnTriggerEnter(self, other)
-    if isDead then return end
+    if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE then 
@@ -1056,7 +1048,11 @@ function OnTriggerEnter(self, other)
             self.alreadyHit = true
             hitCooldown = 0.2
             BaseMat.SetTexture("6600101727014948682")
-            TakeDamage(self, dmg, ap)
+            if currentState == State.STUN  then
+                TakeDamage(self, dmg-5, ap)
+            else
+                TakeDamage(self, dmg, ap)
+            end
         end
     end
 
@@ -1067,10 +1063,18 @@ function OnTriggerEnter(self, other)
                 alreadyHit = true
                 BaseMat.SetTexture("6600101727014948682")
                 local attackerPos = other.transform.worldPosition
-                if attack == "light" then
-                    TakeDamage(self, DAMAGE_LIGHT, attackerPos)
-                elseif attack == "heavy" or attack == "charge" then
-                    TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+                if currentState == State.STUN  then
+                    if attack == "light" then
+                        TakeDamage(self, DAMAGE_LIGHT-5, attackerPos)
+                    elseif attack == "heavy" or attack == "charge" then
+                        TakeDamage(self, DAMAGE_HEAVY-5, attackerPos)
+                    end
+                else
+                    if attack == "light" then
+                        TakeDamage(self, DAMAGE_LIGHT, attackerPos)
+                    elseif attack == "heavy" or attack == "charge" then
+                        TakeDamage(self, DAMAGE_HEAVY, attackerPos)
+                    end
                 end
             end
         end

@@ -71,33 +71,30 @@ void ComponentSkybox::BuildCubemapFromResources()
     int width = faces[0]->GetWidth();
     int height = faces[0]->GetHeight();
 
+    for (unsigned int i = 0; i < 6; i++) {
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    }
+
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
+    GLuint tempFBO;
+    glGenFramebuffers(1, &tempFBO);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, tempFBO);
+
     for (unsigned int i = 0; i < 6; i++)
     {
-        size_t dataSize = (size_t)width * height * 4;
-        unsigned char* pixels = new unsigned char[dataSize];
-
-        glBindTexture(GL_TEXTURE_2D, faces[i]->GetGPU_ID());
-        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, faces[i]->GetGPU_ID(), 0);
 
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapID);
-        glTexImage2D(
-            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA,
-            width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            LOG_DEBUG("[Skybox] OpenGL ERROR face %d: 0x%X", i, err);
-
-        delete[] pixels;
+        glCopyTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, 0, 0, width, height);
     }
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+    glDeleteFramebuffers(1, &tempFBO);
 }
 
 void ComponentSkybox::SetActive(bool b)

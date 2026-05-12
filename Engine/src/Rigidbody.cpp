@@ -9,14 +9,13 @@
 #include "imgui.h"
 
 
-Rigidbody::Rigidbody(GameObject* owner) 
-    : Component(owner, ComponentType::RIGIDBODY),
-      lastPose(physx::PxIdentity),
-      currentPose(physx::PxIdentity),
-      kinematicTargetPos(0.0f),
-      kinematicTargetRot(1.0f, 0.0f, 0.0f, 0.0f)
+Rigidbody::Rigidbody(GameObject* owner) : Component(owner, ComponentType::RIGIDBODY)
 {
     name = "Rigidbody";
+    lastPose = physx::PxTransform(physx::PxIdentity);
+    currentPose = physx::PxTransform(physx::PxIdentity);
+    kinematicTargetPos = glm::vec3(0.0f);
+    kinematicTargetRot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     CreateBody();
 }
 

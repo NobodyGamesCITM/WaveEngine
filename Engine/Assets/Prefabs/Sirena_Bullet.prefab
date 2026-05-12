@@ -47,7 +47,7 @@
                 ],
                 "name": "pSphere1",
                 "tag": "",
-                "uid": 2786983222489223635
+                "uid": 4461810616409165723
             }
         ],
         "components": [
@@ -80,21 +80,9 @@
                 "Radius": 8.0,
                 "Restitution": 0.6000000238418579,
                 "StaticFriction": 0.5,
-                "Trigger": false,
+                "Trigger": true,
                 "active": true,
                 "type": 11
-            },
-            {
-                "active": true,
-                "publicVariables": [
-                    {
-                        "name": "maxLifetime",
-                        "type": 0,
-                        "value": 8.0
-                    }
-                ],
-                "scriptUID": 6797048061387793298,
-                "type": 6
             },
             {
                 "AngularDamping": 0.0,
@@ -119,6 +107,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 17378102960383577666
+        "uid": 9020624366305133916
     }
 ]

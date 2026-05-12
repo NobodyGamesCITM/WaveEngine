@@ -5,10 +5,8 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
-local ALL_MASK_TYPES_ORDER = { "Hermes", "Apolo", "Ares" }
-local MASK_NAMES = { "Hermes", "Ares", "Apolo" }
-
-local obtainedOrder = {}
+-- Fixed display order for masks: Apollo (Left), Hermes (Middle), Ares (Right)
+local MASK_DISPLAY_ORDER = { "Apolo", "Hermes", "Ares" }
 
 local prevHasHermes  = false
 local prevHasAres    = false
@@ -26,6 +24,8 @@ local lastDisplayedTotal = -1
 local missionVisible     = false
 local missionHideTimer   = 0.0
 local MISSION_HIDE_DELAY = 3.0  
+
+local myCanvas = nil
 
 -- ─── Helpers
 local function Lerp(a, b, t)
@@ -51,69 +51,52 @@ end
 
 -- ─── Pociones
 local function RefreshPotionUI(potions, berserkPotions)
-    for i = 1, 4 do
-        UI.SetElementVisibility("Potion" .. i,     i <= potions)
-        UI.SetElementVisibility("UsedPotion" .. i, i > potions)
+    local ps = _G.PotionSystem and _G.PotionSystem.public
+    local maxH = ps and ps.maxPotions or 0
+    local maxB = ps and ps.maxBerserk or 0
+
+    for i = 1, 10 do
+        local slotVisible = i <= maxH
+        UI.SetElementVisibility("Potion" .. i,     slotVisible and i <= potions)
+        UI.SetElementVisibility("UsedPotion" .. i, slotVisible and i > potions)
     end
-    for i = 1, 4 do
-        local slotIndex = i + 4
-        UI.SetElementVisibility("Potion" .. slotIndex,     i <= (berserkPotions or 0))
-        UI.SetElementVisibility("UsedPotion" .. slotIndex, i > (berserkPotions or 0))
+    for i = 1, 10 do
+        local slotVisible = i <= maxB
+        UI.SetElementVisibility("Berserk" .. i,         slotVisible and i <= (berserkPotions or 0))
+        UI.SetElementVisibility("UsedBerserk" .. i,     slotVisible and i > (berserkPotions or 0))
     end
 end
 
--- ─── Máscaras
 local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
-    local hasMap = { Hermes = hasHermes, Ares = hasAres, Apolo = hasApolo }
 
-    obtainedOrder = {}
-    for _, maskType in ipairs(ALL_MASK_TYPES_ORDER) do
-        if hasMap[maskType] then
-            table.insert(obtainedOrder, maskType)
-        end
+    -- Apollo (izquierda)
+    if hasApolo then
+        local isActive = (activeMask == "Apolo")
+        UI.SetElementVisibility("Image_Apolo_Active",   isActive)
+        UI.SetElementVisibility("Image_Apolo_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Apolo_Active",   false)
+        UI.SetElementVisibility("Image_Apolo_Inactive", false)
     end
 
-    if #obtainedOrder == 0 then
-        for _, prefix in ipairs({ "Active", "Left", "Right" }) do
-            for _, maskName in ipairs(MASK_NAMES) do
-                UI.SetElementVisibility(prefix .. "_" .. maskName, false)
-            end
-        end
-        return
+    -- Hermes (centro)
+    if hasHermes then
+        local isActive = (activeMask == "Hermes")
+        UI.SetElementVisibility("Image_Hermes_Active",   isActive)
+        UI.SetElementVisibility("Image_Hermes_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Hermes_Active",   false)
+        UI.SetElementVisibility("Image_Hermes_Inactive", false)
     end
 
-    local activeSlotMask = nil
-    if activeMask ~= "" then
-        for _, m in ipairs(obtainedOrder) do
-            if m == activeMask then
-                activeSlotMask = activeMask
-                break
-            end
-        end
-    end
-
-    if not activeSlotMask then
-        activeSlotMask = obtainedOrder[1]
-    end
-
-    local sideSlots = {}
-    for _, m in ipairs(obtainedOrder) do
-        if m ~= activeSlotMask then
-            table.insert(sideSlots, m)
-        end
-    end
-
-    local slotAssign = {
-        Active = activeSlotMask,
-        Left   = sideSlots[1] or nil,
-        Right  = sideSlots[2] or nil,
-    }
-
-    for _, prefix in ipairs({ "Active", "Left", "Right" }) do
-        local assigned = slotAssign[prefix]
-        for _, maskName in ipairs(MASK_NAMES) do
-            UI.SetElementVisibility(prefix .. "_" .. maskName, assigned == maskName)
-        end
+    -- Ares (derecha)
+    if hasAres then
+        local isActive = (activeMask == "Ares")
+        UI.SetElementVisibility("Image_Ares_Active",   isActive)
+        UI.SetElementVisibility("Image_Ares_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Ares_Active",   false)
+        UI.SetElementVisibility("Image_Ares_Inactive", false)
     end
 end
 
@@ -121,19 +104,18 @@ end
 local function RefreshMissionUI()
     local currentLevel = _G.CurrentLevel or ""
 
-    if currentLevel ~= "Level_01" then
+    if currentLevel ~= "Level1" then
         UI.SetElementVisibility("MissionGrid", false)
         return
     end
 
     local varName      = _G.MissionVarName or "keysCollected"
     local currentCount = _G[varName] or 0
-    local total        = _G.TotalStatuesToDestroy or 0
+    local total        = _G.TotalStatuesToDestroy or 3
 
     local countInt = math.floor(currentCount)
     local totalInt = math.floor(total)
 
-    -- Solo mostrar si hay estatuas configuradas
     if totalInt <= 0 then
         UI.SetElementVisibility("MissionGrid", false)
         return
@@ -141,10 +123,14 @@ local function RefreshMissionUI()
 
     UI.SetElementVisibility("MissionGrid", true)
 
+    UI.SetElementText("MissionText", tostring(countInt) .. "/" .. tostring(totalInt))
+
     if countInt ~= lastDisplayedCount then
         if lastDisplayedCount ~= -1 then
-            UI.PlayStoryboard("MissionExpand")
-            UI.PlayStoryboard("MissionCountBump")
+            if myCanvas then
+                myCanvas:PlayStoryboard("MissionExpand")
+                myCanvas:PlayStoryboard("MissionCountBump")
+            end
             missionVisible   = true
             missionHideTimer = MISSION_HIDE_DELAY
         end
@@ -176,15 +162,19 @@ function ForceRefreshHUD()
 
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Reset mask state for a full refresh
-    obtainedOrder  = {}
-    prevHasHermes  = false
-    prevHasAres    = false
-    prevHasApolo   = false
-    prevActiveMask = ""
-    RefreshMaskUI(false, false, false, "")
+    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
 
-    -- Ocultar MissionGrid hasta que RefreshMissionUI lo active
+    local activeMask = _G._PlayerController_currentMask or ""
+
+    RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
+
+    prevHasHermes  = hasHermes
+    prevHasAres    = hasAres
+    prevHasApolo   = hasApolo
+    prevActiveMask = activeMask
+
     UI.SetElementVisibility("MissionGrid", false)
     lastDisplayedCount = -1
     lastDisplayedTotal = -1
@@ -192,10 +182,10 @@ end
 _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
+    myCanvas = self.gameObject:GetComponent("Canvas")
     ForceRefreshHUD()
-    missionVisible     = false
-    missionHideTimer   = 0.0
-    
+    missionVisible   = false
+    missionHideTimer = 0.0
     RefreshMissionUI()
 end
 
@@ -218,12 +208,12 @@ function Update(self, dt)
     RefreshMissionUI()
 
     -- Máscaras
-    local hasHermes  = (_G._MaskState_Hermes == true)
-    local hasAres    = (_G._MaskState_Ares   == true)
-    local hasApolo   = (_G._MaskState_Apolo  == true)
+    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
+
     local activeMask = _G._PlayerController_currentMask or ""
 
-    -- Solo refrescar si hay cambios
     if hasHermes ~= prevHasHermes or hasAres ~= prevHasAres
        or hasApolo ~= prevHasApolo or activeMask ~= prevActiveMask then
         RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
@@ -238,7 +228,7 @@ function Update(self, dt)
         if missionHideTimer <= 0 then
             missionHideTimer = 0
             missionVisible   = false
-            UI.PlayStoryboard("MissionCollapse")
+            if myCanvas then myCanvas:PlayStoryboard("MissionCollapse") end
         end
     end
 end

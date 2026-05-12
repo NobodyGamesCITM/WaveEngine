@@ -19,7 +19,7 @@ public:
     // Canvas registry
     void RegisterCanvas(ComponentCanvas* c) { canvas.push_back(c); }
     void UnregisterCanvas(ComponentCanvas* c) { canvas.erase(std::remove(canvas.begin(), canvas.end(), c), canvas.end()); }
-    const std::vector<ComponentCanvas*>& GetCanvas() const { return canvas; }
+    std::vector<ComponentCanvas*> GetCanvas() { return canvas; }
 
     Noesis::Ptr<Noesis::RenderDevice> GetRenderDevice() { return renderDevice; }
 

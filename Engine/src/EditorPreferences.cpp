@@ -77,7 +77,7 @@ void EditorPreferences::Load()
     file.close();
 }
 
-const std::string EditorPreferences::GetEditorExecutablePath()
+std::string EditorPreferences::GetEditorExecutablePath()
 {
     switch (preferredEditor)
     {

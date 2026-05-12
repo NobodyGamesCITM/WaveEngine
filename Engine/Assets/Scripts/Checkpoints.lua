@@ -79,12 +79,9 @@ end
 
 local function FindCheckPointAudioSources(self)
 
-    local saveSource = GameObject.FindInChildren(self.gameObject, "VoiceSource") --will reuse an already existent player audiosource for practicality
+    local saveSource = GameObject.FindInChildren(self.gameObject, "VoiceSource")
     if saveSource then 
         self.saveSFX = saveSource:GetComponent("Audio Source")
-        --if not self.saveSFX then Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component not found!")
-        -- else Engine.Log("[Checkpoints] Save (Player's VoiceSource) Audio Source Component FOUND!") 
-        end
     else
         --Engine.Log("[Checkpoints] Unable to retrieve Save (Player's VoiceSource) Source GameObject!")
     end
@@ -120,10 +117,10 @@ function Update(self, deltaTime)
         FindCheckPointAudioSources(self)
     end
 
-    if interact == true then 
+    if _G.interact == true then 
         --Engine.Log("[Checkpoints] Interacted with checkpoint")
         local obj = GameObject.Find("Player")
-        local playerPos = obj.transform.position
+        local playerPos = obj.transform.worldPosition
 
         for i, checkpoint in ipairs(checkpoints) do
             
@@ -132,6 +129,10 @@ function Update(self, deltaTime)
             if (math.abs(pos.x - playerPos.x) < self.public.near) then
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
+
+                    if _G.RestorePotions then
+                        _G.RestorePotions()
+                    end
 
                     if currentCheckpoint == checkpoint then
                         --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
@@ -156,10 +157,9 @@ function Update(self, deltaTime)
                     ActivateParticles(self, "LastCheckpointVFX", currentCheckpoint)
                     ActivateParticles(self, "BlueSparkles", currentCheckpoint)
                     StopParticles(self, "YellowSparkles", currentCheckpoint)
-                    Restore(self)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
-                    else --Engine.Log("[Checkpoints] Could not play SaveSFX!") end
+                    end
                 end
             end
         end
@@ -167,10 +167,18 @@ function Update(self, deltaTime)
 end 
 
 
-
-function Restore(self)
+function _G.RestorePotions()
     if _G.PotionSystem then
-        _G.PotionSystem.public.potionCount = 4
-        _G.PotionSystem.public.berserkCount = 4
+        _G.PotionSystem.public.potionCount = _G.PotionSystem.public.maxPotions or 0
+        _G.PotionSystem.public.berserkCount = _G.PotionSystem.public.maxBerserk or 0
+    end
+
+    if _G.PlayerInstance then
+        _G.PlayerInstance.public.health = 100
+        _G.PlayerInstance.public.stamina = 100
+    end
+
+    if _G.ForceRefreshHUD then
+        _G.ForceRefreshHUD()
     end
 end

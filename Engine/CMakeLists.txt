@@ -574,33 +574,33 @@ endif()
 # Game (standalone)
 set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${GAMEOBJECTS_SRC} ${LIGHTING_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
-add_executable(Game ${SRCS})
-target_precompile_headers(Game PRIVATE src/pch.h)
+add_executable(SonOfIthaca ${SRCS})
+target_precompile_headers(SonOfIthaca PRIVATE src/pch.h)
 
-target_compile_definitions(Game PRIVATE WAVE_GAME)
+target_compile_definitions(SonOfIthaca PRIVATE WAVE_GAME)
 
-target_link_libraries(Game PRIVATE SDL3::SDL3)
-target_link_libraries(Game PRIVATE glad::glad)
-target_link_libraries(Game PRIVATE glm::glm)
-target_link_libraries(Game PRIVATE assimp::assimp)
-target_link_libraries(Game PRIVATE DevIL::IL)
-target_link_libraries(Game PRIVATE DevIL::ILU)
-target_link_libraries(Game PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(Game PRIVATE Tracy::TracyClient)
-target_link_libraries(Game PRIVATE unofficial::omniverse-physx-sdk::sdk)
-target_link_libraries(Game PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(Game PRIVATE RecastNavigation::Recast)
-target_link_libraries(Game PRIVATE RecastNavigation::Detour)
-target_link_libraries(Game PRIVATE RecastNavigation::DetourCrowd)
-target_link_libraries(Game PRIVATE imgui::imgui)
-target_link_libraries(Game PRIVATE imguizmo::imguizmo)
+target_link_libraries(SonOfIthaca PRIVATE SDL3::SDL3)
+target_link_libraries(SonOfIthaca PRIVATE glad::glad)
+target_link_libraries(SonOfIthaca PRIVATE glm::glm)
+target_link_libraries(SonOfIthaca PRIVATE assimp::assimp)
+target_link_libraries(SonOfIthaca PRIVATE DevIL::IL)
+target_link_libraries(SonOfIthaca PRIVATE DevIL::ILU)
+target_link_libraries(SonOfIthaca PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(SonOfIthaca PRIVATE Tracy::TracyClient)
+target_link_libraries(SonOfIthaca PRIVATE unofficial::omniverse-physx-sdk::sdk)
+target_link_libraries(SonOfIthaca PRIVATE ${LUA_LIBRARIES})
+target_link_libraries(SonOfIthaca PRIVATE RecastNavigation::Recast)
+target_link_libraries(SonOfIthaca PRIVATE RecastNavigation::Detour)
+target_link_libraries(SonOfIthaca PRIVATE RecastNavigation::DetourCrowd)
+target_link_libraries(SonOfIthaca PRIVATE imgui::imgui)
+target_link_libraries(SonOfIthaca PRIVATE imguizmo::imguizmo)
 
 
-target_include_directories(Game PRIVATE ${LUA_INCLUDE_DIR})
+target_include_directories(SonOfIthaca PRIVATE ${LUA_INCLUDE_DIR})
 
-target_sources(Game PRIVATE ${WWISE_IO_SOURCES})
+target_sources(SonOfIthaca PRIVATE ${WWISE_IO_SOURCES})
 
-target_link_libraries(Game PRIVATE 
+target_link_libraries(SonOfIthaca PRIVATE 
     "${WWISE_LIB_DIR}/AkSoundEngine.lib"
     "${WWISE_LIB_DIR}/AkMemoryMgr.lib"
     "${WWISE_LIB_DIR}/AkStreamMgr.lib"
@@ -618,14 +618,14 @@ target_link_libraries(Game PRIVATE
     dxguid.lib
 )
 
-target_compile_definitions(Game PRIVATE 
+target_compile_definitions(SonOfIthaca PRIVATE 
     AK_WIN 
     WIN32 
     $<$<CONFIG:Debug>:_DEBUG>
     $<$<CONFIG:Release>:AK_OPTIMIZED>
 )
 
-target_include_directories(Game PRIVATE BEFORE
+target_include_directories(SonOfIthaca PRIVATE BEFORE
     "${WWISE_SDK_DIR}/include"
     "${WWISE_SDK_DIR}"
     "${WWISE_SDK_DIR}/include/Common"
@@ -633,18 +633,18 @@ target_include_directories(Game PRIVATE BEFORE
     "${CMAKE_CURRENT_SOURCE_DIR}/Audio/GeneratedSoundBanks"
 )
 
-target_sources(Game PRIVATE
+target_sources(SonOfIthaca PRIVATE
     ${NOESIS_APP_PROVIDERS_SOURCES}
     ${NOESIS_RENDER_SOURCES}
     ${NOESIS_INTERACTIVITY_SOURCES}
     ${NOESIS_MEDIAELEMENT_SOURCES}
 ) 
-target_include_directories(Game PRIVATE
+target_include_directories(SonOfIthaca PRIVATE
     "${NOESIS_SDK_DIR}/Include"
     ${NOESIS_PACKAGE_INCLUDE_DIRS}
 )
 
-target_compile_definitions(Game PRIVATE
+target_compile_definitions(SonOfIthaca PRIVATE
     NS_APP_PROVIDERS_API=
     NS_APP_FRAMEWORK_API=
     NS_APP_INTERACTIVITY_API=
@@ -653,24 +653,24 @@ target_compile_definitions(Game PRIVATE
 ) 
 
 if(MSVC)
-    target_compile_options(Game PRIVATE /FS /MP)
+    target_compile_options(SonOfIthaca PRIVATE /FS /MP)
 endif()
 
 if(WIN32)
     set(NOESIS_LIB "${NOESIS_SDK_DIR}/Lib/windows_x86_64/Noesis.lib")
     set(NOESIS_DLL "${NOESIS_SDK_DIR}/Bin/windows_x86_64/Noesis.dll")
 
-    target_link_libraries(Game PRIVATE ${NOESIS_LIB})
+    target_link_libraries(SonOfIthaca PRIVATE ${NOESIS_LIB})
 
-    add_custom_command(TARGET Game POST_BUILD
+    add_custom_command(TARGET SonOfIthaca POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${NOESIS_DLL}"
-        $<TARGET_FILE_DIR:Game>
+        $<TARGET_FILE_DIR:SonOfIthaca>
     )
 endif()
 
 add_custom_command(TARGET Engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target Game --config $<CONFIG>
-    COMMENT "[WaveEngine] Building Game..."
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target SonOfIthaca --config $<CONFIG>
+    COMMENT "[WaveEngine] Building SonOfIthaca..."
     VERBATIM
 )

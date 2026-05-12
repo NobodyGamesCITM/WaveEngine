@@ -3,6 +3,9 @@
 #include <NsGui/FrameworkElement.h>
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/TextBlock.h>
+#include <NsGui/CheckBox.h>
+#include <NsCore/Nullable.h>
+#include <NsGui/Canvas.h>
 #include <algorithm>
 #include <functional>
 #include <NsDrawing/Thickness.h>
@@ -101,6 +104,14 @@ void UIManager::SetElementText(const std::string& elementName, const std::string
         tb->SetText(text.c_str());
 }
 
+void UIManager::SetCheckBox(const std::string& elementName, bool checked) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+
+    if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(fe))
+        cb->SetIsChecked(checked);
+}
+
 void UIManager::SetElementVisibility(const std::string& elementName, bool visible) {
     auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
     if (!fe) return;
@@ -109,7 +120,7 @@ void UIManager::SetElementVisibility(const std::string& elementName, bool visibl
         : Noesis::Visibility_Hidden);
 }
 
-const std::unordered_set<std::string>& UIManager::GetCanvasButtons() {
+std::unordered_set<std::string> UIManager::GetCanvasButtons() {
     return m_canvasButtons;
 }
 
@@ -122,4 +133,11 @@ void UIManager::SetElementMargin(const std::string& elementName, float left, flo
 void UIManager::SetCanvasOpacity(ComponentCanvas* canvas, float opacity) {
     if (!canvas) return;
     canvas->SetOpacity(std::clamp(opacity, 0.0f, 1.0f));
+}
+
+void UIManager::SetCanvasPosition(const std::string& elementName, float left, float top) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+    Noesis::Canvas::SetLeft(fe, left);
+    Noesis::Canvas::SetTop(fe, top);
 }

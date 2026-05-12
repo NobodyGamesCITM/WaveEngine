@@ -87,7 +87,7 @@ private:
     void ShowMenuBar();
     void ShowPlayToolbar();
     void DrawAboutWindow();
-    void CreatePrimitiveGameObject(const std::string& name, const Mesh& mesh);
+    void CreatePrimitiveGameObject(const std::string& name, Mesh mesh);
     void HandleDeleteKey();
     void UpdateCurrentWindow();
     const char* EditorWindowTypeToString(EditorWindowType type);

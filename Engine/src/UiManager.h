@@ -23,7 +23,7 @@ public:
     void ClearCanvasButtons();
 
     //llamable des de Lua
-    const std::unordered_set<std::string>& GetCanvasButtons();
+    std::unordered_set<std::string> GetCanvasButtons();
 
     //Canvas registry
     void RegisterCanvas(ComponentCanvas* canvas);
@@ -33,10 +33,11 @@ public:
     void SetElementHeight(const std::string& elementName, float height);
     void SetElementWidth(const std::string& elementName, float width);
     void SetElementText(const std::string& elementName, const std::string& text);
+    void SetCheckBox(const std::string& elementName, bool checked);
     void SetElementVisibility(const std::string& elementName, bool visible);
     void SetElementMargin(const std::string& elementName, float left, float top, float right, float bottom);
     void SetCanvasOpacity(ComponentCanvas* canvas, float opacity);
-
+    void SetCanvasPosition(const std::string& elementName, float left, float top);
 private:
     UIManager() = default;
     ~UIManager() = default;

@@ -49,7 +49,7 @@ bool Window::Start()
 
     // Create window WITH OpenGL flag
 #ifdef WAVE_GAME
-    const char* windowTitle = "Wave Game";
+    const char* windowTitle = "Son of Ithaca";
 #else
     const char* windowTitle = "Wave Engine";
 #endif

@@ -155,13 +155,15 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
             }
             else
             {
-                LOG_DEBUG("Failed to import animation '%s'.", animName.c_str());
+                LOG_DEBUG("ERROR: Failed to import animation '%s'.", animName.c_str());
             }
         }
     }
 
     if (hasMeshes)
     {
+        LOG_CONSOLE("Found %d meshes, %d materials", scene->mNumMeshes, scene->mNumMaterials);
+
         glm::vec3 minBounds(std::numeric_limits<float>::max());
         glm::vec3 maxBounds(std::numeric_limits<float>::lowest());
         glm::mat4 identity(1.0f);
@@ -181,18 +183,22 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
             glm::vec3 currentScale = rootTransform->GetScale();
             glm::vec3 newScale = currentScale * meta.importSettings.importScale;
             rootTransform->SetScale(newScale);
+            LOG_DEBUG("[FileSystem] Applied import scale: %.3f", meta.importSettings.importScale);
         }
 
         glm::quat axisRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f); // Identity quaternion
 
         if (meta.importSettings.upAxis == 1) {
             axisRotation = glm::angleAxis(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * axisRotation;
+            LOG_DEBUG("[FileSystem] Applying Z-Up conversion");
         }
         if (meta.importSettings.frontAxis == 1) {
             axisRotation = glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * axisRotation;
+            LOG_DEBUG("[FileSystem] Applying Y-Forward conversion");
         }
         else if (meta.importSettings.frontAxis == 2) {
             axisRotation = glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * axisRotation;
+            LOG_DEBUG("[FileSystem] Applying X-Forward conversion");
         }
 
         glm::quat currentRotation = rootTransform->GetRotationQuat();
@@ -205,6 +211,8 @@ bool ModelImporter::ImportFromFile(const std::string& file_path, const MetaFile&
     meta.Save(metaPath);
 
     aiReleaseImport(scene);
+
+    LOG_CONSOLE("Model loaded successfully: %s", file_path.c_str());
 
     nlohmann::json gameObjectHierarchy;
     rootObj->Serialize(gameObjectHierarchy);
@@ -291,6 +299,7 @@ GameObject* ModelImporter::ProcessNode(aiNode* node, const aiScene* scene, const
                 {
                     // Cargamos el recurso material usando el UID
                     matComp->SetMaterial(matUID);
+                    LOG_DEBUG("Assigned material UID %llu to mesh %s", matUID, meshName.c_str());
                 }
             }
         }
@@ -373,6 +382,8 @@ void ModelImporter::NormalizeModelScale(GameObject* rootObject, float targetSize
             glm::vec3 currentScale = t->GetScale();
             t->SetScale(currentScale * scale);
         }
+
+        LOG_CONSOLE("Model scaled to fit viewport (scale: %.4f)", scale);
     }
 }
 
@@ -436,6 +447,7 @@ bool ModelImporter::SaveToCustomFormat(const Model& model, const UID& uid)
             file.write(reinterpret_cast<const char*>(msgpackData.data()), msgpackData.size());
             file.close();
 
+            LOG_CONSOLE("[ModelImporter] Guardado modelo binario: %s", fullPath.c_str());
             return true;
         }
         catch (const nlohmann::json::exception& e)
@@ -470,6 +482,7 @@ Model ModelImporter::LoadFromCustomFormat(const UID& uid)
             try
             {
                 model.modelJson = nlohmann::json::from_msgpack(msgpackData);
+                LOG_CONSOLE("[ModelImporter] Modelo binario cargado: %s", fullPath.c_str());
             }
             catch (const nlohmann::json::parse_error& e)
             {
@@ -524,6 +537,7 @@ void ModelImporter::FillMaterialTextures(const aiScene* scene, aiMaterial* aiMat
                         out.write((char*)embeddedTex->pcData, embeddedTex->mWidth * embeddedTex->mHeight * 4);
                     }
                     out.close();
+                    LOG_DEBUG("Extracted embedded texture to: %s", finalPath.c_str());
                 }
                 else
                 {

@@ -188,10 +188,12 @@ bool ModuleEditor::Update()
     UpdateCurrentWindow();
 
     // Check for meta file changes
-    metaFileCheckTimer += ImGui::GetIO().DeltaTime;
-    if (metaFileCheckTimer >= metaFileCheckInterval) {
-        MetaFileManager::CheckForChanges();
-        metaFileCheckTimer = 0.0f;
+    if (Application::GetInstance().GetPlayState() == Application::PlayState::EDITING) {
+        metaFileCheckTimer += ImGui::GetIO().DeltaTime;
+        if (metaFileCheckTimer >= metaFileCheckInterval) {
+            MetaFileManager::CheckForChanges();
+            metaFileCheckTimer = 0.0f;
+        }
     }
 
     return true;
@@ -750,7 +752,7 @@ void ModuleEditor::DrawAboutWindow()
     ImGui::End();
 }
 
-void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, const Mesh& mesh)
+void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
 {
     GameObject* Object = new GameObject(name);
     ComponentMesh* meshComp = static_cast<ComponentMesh*>(
@@ -1145,18 +1147,18 @@ void ModuleEditor::BuildGame()
     fs::path exeDir = fs::path(exePath).parent_path();
 	// Example: exePath = C:\WaveEngine\Engine\build\Release\Engine.exe --> exeDir = C:\WaveEngine\Engine\build\Release
 
-    fs::path gameExeSrc = exeDir / "Game.exe";
+    fs::path gameExeSrc = exeDir / "SonOfIthaca.exe";
     if (!fs::exists(gameExeSrc))
     {
-        LOG_CONSOLE("[Build] ERROR: Game.exe not found at %s", gameExeSrc.string().c_str());
+        LOG_CONSOLE("[Build] ERROR: SonOfIthaca.exe not found at %s", gameExeSrc.string().c_str());
         return;
     }
 
-    try 
+    try
     {
-        // Copy Game.exe
-        fs::copy_file(gameExeSrc, dest / "Game.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
-        LOG_CONSOLE("[Build] Copied Game.exe");
+        // Copy SonOfIthaca.exe
+        fs::copy_file(gameExeSrc, dest / "SonOfIthaca.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
+        LOG_CONSOLE("[Build] Copied SonOfIthaca.exe");
 
         // Copy all dlls 
         int dllCount = 0;
@@ -1170,15 +1172,17 @@ void ModuleEditor::BuildGame()
         }
         LOG_CONSOLE("[Build] Copied %d DLL(s)", dllCount);
 
-        // Copy UI folder
-        fs::path uiFolder(FileSystem::GetProjectRoot() + "\\UI");
-        if (fs::exists(uiFolder)) {
-            fs::copy(uiFolder, dest / "UI", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
-            LOG_CONSOLE("[Build] Copied UI/ folder");
+        // Copy Assets/ folder
+        fs::path assetsSrc(FileSystem::GetAssetsRoot());
+        if (fs::exists(assetsSrc))
+        {
+            fs::copy(assetsSrc, dest / "Assets", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            LOG_CONSOLE("[Build] Copied Assets/ folder");
         }
         else
         {
-            LOG_CONSOLE("[Build] WARNING: UI folder not found");
+            LOG_CONSOLE("[Build] WARNING: Assetsfolder not found");
+            LOG_CONSOLE("[Build] WARNING: Assets folder not found");
         }
 
         // Copy Audio folder

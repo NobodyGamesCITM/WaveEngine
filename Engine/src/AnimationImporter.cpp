@@ -108,6 +108,7 @@ bool AnimationImporter::SaveToCustomFormat(const Animation& animData, const UID&
     }
 
     file.close();
+    LOG_CONSOLE("[AnimationImporter] Saved animation binary: %s", fullPath.c_str());
     return true;
 }
 

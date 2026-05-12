@@ -5,6 +5,7 @@ public = {
     actionText = "Abrir cofre",
     itemText   = "¡Poción obtenida!",
     chestAnim  = "Open",
+    potionType = "Health", -- "Health" o "Berserk"
     updateWhenPaused = true,  
 }
 
@@ -40,8 +41,18 @@ end
 
 local function onChestOpened(self)
     if _G.PotionSystem and _G.PotionSystem.public then
-        _G.PotionSystem.public.potionCount =
-            (_G.PotionSystem.public.potionCount or 0) + 1
+        local ps = _G.PotionSystem.public
+        
+        -- Incrementamos tanto el contador actual como el máximo (capacidad)
+        if self.public.potionType == "Berserk" then
+            ps.berserkCount = (ps.berserkCount or 0) + 1
+            ps.maxBerserk = (ps.maxBerserk or 0) + 1
+            Engine.Log("[Chest] Poción de Berserk obtenida. Nueva capacidad: " .. ps.maxBerserk)
+        else
+            ps.potionCount = (ps.potionCount or 0) + 1
+            ps.maxPotions = (ps.maxPotions or 0) + 1
+            Engine.Log("[Chest] Poción de Vida obtenida. Nueva capacidad: " .. ps.maxPotions)
+        end
 
         if _G.ForceRefreshHUD then
             _G.ForceRefreshHUD()
@@ -173,5 +184,3 @@ function Update(self, dt)
         self.popupTimer   = 0.0
     end
 end
-
-

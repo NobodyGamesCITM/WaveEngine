@@ -96,6 +96,53 @@ function Start(self)
             Engine.Log("[CinematicManager] ERROR: Mascara desconocida para CinematicManager.")
         end
     end
+
+    _G.PlayStatueCinematic = function(statueId)
+        local track = {}
+
+        if statueId == "Circle" then
+            track = {
+                -- Estatua del Círculo
+                { time = 0.00, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
+                { time = 2.98, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
+                { time = 2.99, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
+                
+                -- HARD CUT Portal
+                { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } },
+                { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } },
+                { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }
+            }
+        elseif statueId == "Arch" then
+            track = {
+                -- Estatua Arco
+                { time = 0.00, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
+                { time = 2.98, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
+                { time = 2.99, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
+                
+                -- HARD CUT Portal
+                { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
+                { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
+                { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }  
+            }
+        elseif statueId == "T" then
+            track = {
+                -- Estatua T
+                { time = 0.00, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
+                { time = 2.98, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
+                { time = 2.99, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
+                
+                -- HARD CUT Portal
+                { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
+                { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
+                { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }  
+            }
+        else
+            Engine.Log("[CinematicManager] ERROR: statueId desconocido: " .. tostring(statueId))
+            return
+        end
+
+        SendTrackToCamera(track, 0)
+    end
 end
 
 function Update(self, dt)

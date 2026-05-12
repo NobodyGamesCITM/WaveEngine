@@ -2645,6 +2645,11 @@ void InspectorWindow::DrawLightComponent(Component* component)
         if (Application::GetInstance().renderer && Application::GetInstance().renderer->GetLightManager())
         {
             ImGui::Checkbox("IsShadowActive", &Application::GetInstance().renderer->GetLightManager()->shadowsEnabled);
+
+            float shadowDist = Application::GetInstance().renderer->GetShadowCullDistance();
+            if (ImGui::SliderFloat("Cull Distance", &shadowDist, 10.0f, 500.0f))
+                Application::GetInstance().renderer->SetShadowCullDistance(shadowDist);
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip("Max distance from camera to cast shadows");
         }
     }
 }

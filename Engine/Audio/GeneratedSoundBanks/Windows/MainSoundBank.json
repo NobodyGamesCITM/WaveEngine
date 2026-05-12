@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{6DD18EDC-B955-2312-383B-50A7A4756086}",
+    "Hash": "{3C4CA064-B3EF-DE74-C3DD-D55A31961F0D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -45,7 +45,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "water_out.wav",
-      "CachePath": "50/{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem"
+      "CachePath": "E1/{E16D0086-FF74-76F8-2D96-844E1C682C40}.wem"
      },
      {
       "Id": "55975540",
@@ -198,6 +198,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_06.wav",
       "CachePath": "63/{63DE341F-D470-9497-426E-74076A8C943D}.wem"
+     },
+     {
+      "Id": "141089093",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "soundreality-whoosh-super-cape-390707.wav",
+      "CachePath": "2F/{2F2F4F24-B24A-1799-98FE-96224BF84E04}.wem"
      },
      {
       "Id": "146106055",
@@ -566,14 +574,6 @@
       "Location": "Memory",
       "ShortName": "shield_dmg_02.wav",
       "CachePath": "E2/{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem"
-     },
-     {
-      "Id": "483035979",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "player_roll_01.wav",
-      "CachePath": "8C/{8C12206E-98C6-A28E-30D3-2BAF38FDEDA7}.wem"
      },
      {
       "Id": "486410471",
@@ -973,7 +973,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "siren_sing.wav",
-      "CachePath": "CA/{CA2FD2A4-9365-887A-C847-414A5878E629}.wem"
+      "CachePath": "C7/{C7251900-52FF-9BAD-65BB-EE9522435C45}.wem"
      },
      {
       "Id": "786254834",
@@ -1403,14 +1403,6 @@
        "LibId": "8519683"
       },
       {
-       "Id": "215501508",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_water\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{C8E01705-A7B4-4146-8E37-1EDA5EB9A392}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
-      {
        "Id": "394741058",
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\hermes_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
@@ -1423,14 +1415,6 @@
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\apolo_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
        "GUID": "{08E0627A-7EBC-4639-8453-BC0723231960}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
-      {
-       "Id": "457788401",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_sing\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{388303F6-6925-43C2-BB5A-874A187EF7EA}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
       },
@@ -1980,7 +1964,7 @@
       "Name": "SFX_DoorMove",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorMove",
       "GUID": "{9D486567-4554-4275-B8DE-2D663F79B9F8}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -1993,7 +1977,7 @@
       "Name": "SFX_DoorStop",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorStop",
       "GUID": "{44D2366F-762A-4133-980D-A8110E41216E}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "2.0620506",
       "DurationMax": "2.3145738",
@@ -2148,9 +2132,6 @@
        },
        {
         "Id": "156765714"
-       },
-       {
-        "Id": "760390763"
        }
       ],
       "PluginRefs": {
@@ -2902,11 +2883,11 @@
       "GUID": "{791AC566-9B37-4B72-B77D-D35D4FB37976}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.39234555",
-      "DurationMax": "0.659844",
+      "DurationMin": "0.7913438",
+      "DurationMax": "1.1354073",
       "MediaRefs": [
        {
-        "Id": "483035979"
+        "Id": "141089093"
        }
       ]
      },
@@ -3046,14 +3027,7 @@
        {
         "Id": "44994569"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "215501508"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "3651743467",
@@ -3081,14 +3055,7 @@
        {
         "Id": "786202757"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "457788401"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "1939684258",
@@ -3592,6 +3559,6 @@
     ]
    }
   ],
-  "FileHash": "{4166D3B1-4808-80B0-BAA3-2F92BB15CA43}"
+  "FileHash": "{47BF67F6-A83A-CEFD-5F42-93F3E6592B68}"
  }
 }

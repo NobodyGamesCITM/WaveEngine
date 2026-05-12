@@ -20,7 +20,7 @@
 namespace fs = std::filesystem;
 
 bool LibraryManager::s_initialized = false;
-std::unordered_map<UID, AssetRegistryEntry> LibraryManager::s_assetRegistry;
+std::unordered_map<unsigned long long, uint32_t> LibraryManager::s_assetRegistry;
 
 void LibraryManager::Initialize() {
     if (s_initialized) {
@@ -54,7 +54,6 @@ bool LibraryManager::FileExists(const fs::path& path) {
 }
 
 void LibraryManager::ClearLibrary() {
-    
     std::string libraryPath = FileSystem::GetLibraryRoot();
 
     LOG_CONSOLE("[LibraryManager] Clearing Library folder...");
@@ -81,74 +80,35 @@ void LibraryManager::ClearLibrary() {
 
 
 void LibraryManager::LoadRegistry() {
-    
     std::string registryPath = FileSystem::GetLibraryRoot() + "/AssetRegistry.json";
     if (fs::exists(registryPath)) {
         std::ifstream file(registryPath);
         nlohmann::json j;
         file >> j;
-
         for (auto& element : j.items()) {
-            AssetRegistryEntry entry;
-            entry.hash = element.value()["hash"].get<uint32_t>();
-            entry.type = element.value()["type"].get<int>();
-            entry.path = element.value()["path"].get<std::string>();
-
-            s_assetRegistry[std::stoull(element.key())] = entry;
+            s_assetRegistry[std::stoull(element.key())] = element.value().get<uint32_t>();
         }
         LOG_CONSOLE("[LibraryManager] Asset Registry loaded.");
     }
 }
 
 void LibraryManager::SaveRegistry() {
-
-    if (s_assetRegistry.empty()) {
-        LOG_CONSOLE("[LibraryManager] WARNING: Attempted to save an EMPTY registry. Aborting.");
-        return;
-    }
-
     std::string registryPath = FileSystem::GetLibraryRoot() + "/AssetRegistry.json";
-
-    try {
-        nlohmann::json j;
-
-        for (const auto& pair : s_assetRegistry) {
-            j[std::to_string(pair.first)] = {
-                {"hash", pair.second.hash},
-                {"type", pair.second.type},
-                {"path", pair.second.path}
-            };
-        }
-
-        std::ofstream file(registryPath);
-        if (file.is_open()) {
-
-            file << j.dump(4, ' ', false, nlohmann::json::error_handler_t::replace);
-
-            file.close();
-        }
-        else {
-            LOG_CONSOLE("[LibraryManager] ERROR: Could not open file to write: %s", registryPath.c_str());
-        }
+    nlohmann::json j;
+    for (const auto& pair : s_assetRegistry) {
+        j[std::to_string(pair.first)] = pair.second;
     }
-    catch (const std::exception& e) {
-
-        LOG_CONSOLE("[LibraryManager] CRITICAL ERROR generating JSON: %s", e.what());
-    }
+    std::ofstream file(registryPath);
+    file << j.dump(4);
 }
 
 uint32_t LibraryManager::GetLocalHash(unsigned long long uid) {
     auto it = s_assetRegistry.find(uid);
-    return (it != s_assetRegistry.end()) ? it->second.hash : 0;
+    return (it != s_assetRegistry.end()) ? it->second : 0;
 }
 
-void LibraryManager::UpdateRegistry(UID uid, uint32_t newHash, int type, std::string path) {
-    AssetRegistryEntry entry;
-    entry.hash = newHash;
-    entry.type = type;
-    entry.path = path;
-
-    s_assetRegistry[uid] = entry;
+void LibraryManager::UpdateLocalHash(unsigned long long uid, uint32_t newHash) {
+    s_assetRegistry[uid] = newHash;
     SaveRegistry();
 }
 

@@ -5,7 +5,7 @@ local pi    = math.pi
 local sqrt  = math.sqrt
 local abs   = math.abs
 
-local GRAVITY = 14.0
+local GRAVITY = 150.0
 
 --States
 local State = {
@@ -38,8 +38,8 @@ public = {
 local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
 local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
 
-local bulletAsset = nil
-local shell = nil
+--local bulletAsset = nil
+--local shell = nil
 -- Helpers
 local function shortAngleDiff(a, b)
     local d = b - a
@@ -78,10 +78,16 @@ local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     return vX, vY, vZ, T
 end
 
+
+
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
 
     if self.isDead then return end
+
+    if _G.TriggerCameraShake then
+        _G.TriggerCameraShake(0.1, 0.5, 5.0)
+    end
 
     self.hp = self.hp - amount
     Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
@@ -114,6 +120,7 @@ local function TakeDamage(self, amount, attackerPos)
                     self.deathSFX:PlayAudioEvent() 
                 end
             	if self.anim then self.anim:Play("Die") end
+                if self.bloodPs then self.bloodPs:Play() end
 			end
 		end
 
@@ -125,15 +132,17 @@ local function TakeDamage(self, amount, attackerPos)
             SafeDestroyShell(shell)
         end
         self.activeShells = {}
-
         Engine.Log("[Mortar] DEAD")
+
     else
         if self.hurtSFX then 
             if self.singSFX then self.singSFX:StopAudioEvent() end
             if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
-            Engine.Log("[SIREN AUDIO] Hurt SFX Played")
-            self.isSinging = false    
+            --Engine.Log("[SIREN AUDIO] Hurt SFX Played")
+           
+            --self.isSinging = false    
             if self.anim then self.anim:Play("Hurt") end
+            if self.bloodPs then self.bloodPs:Play() end
         end
     
        
@@ -155,17 +164,53 @@ end
 -- FireShell: lanza un proyectil parabólico hacia la posición dada
 local function FireShell(self, tx, ty, tz)
     local myPos = self.transform.worldPosition
-    local sx    = myPos.x
-    local sy    = myPos.y + self.public.barrelOffsetY
-    local sz    = myPos.z
 
-    local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
+    local predictedX, predictedZ = tx, tz
+    
+    if self.playerGO then
+        local playerRb = self.playerGO:GetComponent("Rigidbody")
+        if playerRb then
+            local vel = playerRb:GetLinearVelocity()
+            local predictionTime = self.public.predictTime
+            
+            predictedX = tx + (vel.x * predictionTime)
+            predictedZ = tz + (vel.z * predictionTime)
+        end
+    end
+
+
+    local dx = predictedX - myPos.x
+    local dz = predictedZ - myPos.z
+    local distXZ = sqrt(dx*dx + dz*dz)
+
+    local dirX = dx / distXZ
+    local dirZ = dz / distXZ
+
+    local forwardOffset = 1.5
+
+    local sx = myPos.x + (dirX * forwardOffset)
+    local sz = myPos.z + (dirZ * forwardOffset)
+    local sy = myPos.y + self.public.barrelOffsetY
+
+    --local sx    = myPos.x
+    --local sy    = myPos.y + self.public.barrelOffsetY
+    --local sz    = myPos.z
+
+    local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, predictedX, ty+ 0.3, predictedZ)
+
+    if not self.windupFeedback then
+        Prefab.Load("Sirenfeedback", finalPath_Feedback)
+        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
+        --self.windupFeedback:SetActive(false)
+        self.windupFeedbackSet = false
+        self.windupFeedback:SetActive(false)
+
+    end
 
     --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
-    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
     
-    pSphere:SetActive(true)
-    if bulletAsset then
+    self.shell:SetActive(true)
+    if self.bulletAsset then
         --local shell = Prefab.Instantiate("Sirena_Bullet")
 
         local feedback = self.windupFeedback
@@ -173,15 +218,15 @@ local function FireShell(self, tx, ty, tz)
         self.windupFeedbackSet = false
 
         table.insert(self.activeShells, {
-            go         = shell,
+            go         = self.shell,
             shadowGo         = feedback,
             age        = 0,
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
             vx = vx, vy = vy, vz = vz,
-            targetX    = tx,
+            targetX    = predictedX, --tx,
             targetY    = ty,
-            targetZ    = tz,
+            targetZ    = predictedZ, --tz,
             hasHit     = false,
             feedbackSet = false,
         })
@@ -191,6 +236,7 @@ local function FireShell(self, tx, ty, tz)
         Engine.Log("[Mortar] Error al cargar el proyectil.")
     end
 end
+
 
 -- SafeMoveShell
 local function SafeMoveShell(s, x, y, z, t)
@@ -211,28 +257,25 @@ local function SafeMoveShell(s, x, y, z, t)
         tr:SetRotation(pitch, heading, 0)
     end)
 
-    if not ok then
-        s.goInvalid = true
-        s.go        = nil
-    end
+    --if not ok then
+       -- s.goInvalid = true
+      --  s.go        = nil
+    --end
 end
 
 -- SafeDestroyShell
 local function SafeDestroyShell(s)
 
-    if not s.go then return end
+    --self.shell:SetActive(false)
+    --if not s.go then return end
 
-    s.go:SetActive(false)
-
-    local pSphere = GameObject.FindInChildren(shell,"pSphere1")
-    
-    pSphere:SetActive(false)  
+   -- s.go:SetActive(false)
 
     --GameObject.Destroy(s.go)
 
-    s.go = nil
+    --s.go = nil
 
-    if not s.go or s.goInvalid then return end
+   -- if not s.go or s.goInvalid then return end
     --pcall(function() GameObject.Destroy(s.go) end)
     --s.go = nil
 end
@@ -294,11 +337,12 @@ local function UpdateShells(self, dt)
                 local scale = self.public.blastRadius
                 tr:SetScale(scale*2, 0.03, scale*2)
                 s.feedbackSet = true
+                tr:SetActive(false)
 
             end
         end
         
-        s.age = s.age + (dt*2)
+        s.age = s.age + dt
 
         local t = s.age
         local x = s.sx + s.vx * t
@@ -347,11 +391,24 @@ local function UpdateShells(self, dt)
                     end
                 end
             end
-
-            SafeDestroyShell(s)
+            self.shell:SetActive(false)
+            --SafeDestroyShell(s)
             table.remove(self.activeShells, i)
         end
     end
+
+
+
+ --   if self.windupFeedback then
+       -- pcall(function()
+           -- local scale = self.public.blastRadius * 2
+           -- self.windupFeedback.transform:SetPosition(pX, pY + 0.3, pZ)
+
+            --self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
+           -- self.windupFeedback.transform:SetScale(scale, 0.03, scale)
+           -- self.windupFeedbackSet = true
+       -- end)
+    --end
 end
 
 
@@ -359,7 +416,9 @@ local function UpdateHide(self, dt)
     UpdateHeight(self, 0, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
-        if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+        if self.wavesPs then self.wavesPs:Play() end
+        if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip")then self.dipSFX:PlayAudioEvent() end
+
         self.isFullyHidden = false
         self.hideAnimTimer = 0
     end
@@ -390,8 +449,8 @@ end
 
 local function UpdateIdle(self, dist, dt)
     
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.2)
+    if anim and not anim:IsPlayingAnimation("Hide") then
+        anim:Play("Hide", 0.2)
     end
         
     UpdateHeight(self, 0, dt)
@@ -400,9 +459,10 @@ local function UpdateIdle(self, dist, dt)
         if not self.isShowing and not self.playerInRange then
             if self.anim then 
                 self.anim:Play("Show")
+                if self.waterPs then self.waterPs:Play() end
                 Engine.Log("[SIREN] Ejecutando Show")
             end
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
             
             self.isShowing = true
             self.playerInRange = true
@@ -420,10 +480,10 @@ local function UpdateIdle(self, dist, dt)
             
             if self.anim then self.anim:Play("Look") end
             
-            if not self.isSinging then
-                if self.singSFX then self.singSFX:PlayAudioEvent() end
-                self.isSinging = true
-            end
+           
+            if self.singSFX and not Audio.IsEventPlaying("SFX_SirenSing") then self.singSFX:PlayAudioEvent() end
+            
+            
             
             self.windUpTimer = 0
             ChangeState(self, State.WINDUP)
@@ -437,14 +497,14 @@ local function UpdateIdle(self, dist, dt)
             
             if self.anim and not self.anim:IsPlayingAnimation("Hide") then
                 self.anim:Play("Hide")
-                if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+                if self.wavesPs then self.wavesPs:Play() end
+                if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
             end
             self.playerInRange = false
             self.isShowing = false
-            if self.isSinging then
-                if self.singSFX then self.singSFX:StopAudioEvent() end
-                self.isSinging = false
-            end
+            
+            if self.singSFX and Audio.IsEventPlaying("SFX_SirenSing") then self.singSFX:StopAudioEvent() end
+            
 
             if self.windupFeedback then
                 pcall(function() GameObject.Destroy(self.windupFeedback) end)
@@ -458,23 +518,25 @@ end
 
 local function UpdateWindUp(self, pp, dist, dt)
     UpdateHeight(self, self.public.riseHeight, dt)
-    FacePlayer(self, pp, dt)
+
+    local pX, pY, pZ = pp.x, pp.y, pp.z
+    local playerRb = self.playerGO:GetComponent("Rigidbody")
+    
+    if playerRb then
+        local vel = playerRb:GetLinearVelocity()
+        local predictionTime = self.public.predictTime
+        pX = pp.x + (vel.x * predictionTime)
+        pZ = pp.z + (vel.z * predictionTime)
+    end
+
+    FacePlayer(self, {x=pX,y=pY,z=pZ}, dt)
+
+    --FacePlayer(self, pp, dt)
     self.windUpTimer = self.windUpTimer + dt
 
-    if not self.windupFeedback then
-        Prefab.Load("Sirenfeedback", finalPath_Feedback)
-        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
-        self.windupFeedbackSet = false
-    end
 
-    if self.windupFeedback then
-        pcall(function()
-            local scale = self.public.blastRadius * 2
-            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
-            self.windupFeedback.transform:SetScale(scale, 0.03, scale)
-            self.windupFeedbackSet = true
-        end)
-    end
+
+
 
 
     if dist > self.public.detectRange or dist < self.public.minRange then
@@ -491,16 +553,25 @@ local function UpdateWindUp(self, pp, dist, dt)
     end
 
     if self.windUpTimer >= self.public.windUpTime then
-        FireShell(self, pp.x, pp.y, pp.z)
-        if self.anim then self.anim:Play("Shoot") end
+        FireShell(self, pX, pY, pZ)
+
+        --FireShell(self, pp.x, pp.y, pp.z)
+        if self.anim then 
+            self.anim:Play("Shoot") 
+        end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
+
         if self.anim then 
-            self.anim:Play("Hide") 
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            --self.anim:Play("Hide") 
+            if self.wavesPs then self.wavesPs:Play() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
         Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
+
+
         ChangeState(self, State.COOLDOWN)
+
     end
 
 
@@ -511,7 +582,8 @@ local function UpdateCooldown(self, dist, dt)
     if self.cooldownTimer < (self.public.cooldownTime - 0.4) then
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.wavesPs then self.wavesPs:Play() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
     end
 
@@ -525,7 +597,8 @@ local function UpdateCooldown(self, dist, dt)
 
         if self.anim and not self.anim:IsPlayingAnimation("Show") then
             self.anim:Play("Show")
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.waterPs then self.waterPs:Play() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             self.currentState = State.WINDUP
@@ -572,6 +645,45 @@ local function FindSirenAudioComponents(self)  -- local: no interfiere con otros
 
 end
 
+local function FindSirenParticles(self)
+    
+    local bloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops")
+    if bloodVFX then 
+        self.bloodPs = bloodVFX:GetComponent("ParticleSystem") 
+        if not self.bloodPs then 
+            Engine.Log("[Siren] Blood Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Blood Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Blood Drops VFX GameObject") 
+    end
+
+    local waterVFX = GameObject.FindInChildren(self.gameObject, "WaterDrops")
+    if waterVFX then 
+        self.waterPs = waterVFX:GetComponent("ParticleSystem") 
+        if not self.waterPs then 
+            Engine.Log("[Siren] Water Drops Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Water Drops Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
+    end
+
+    local wavesVFX = GameObject.FindInChildren(self.gameObject, "WaterCircles")
+    if wavesVFX then 
+        self.wavesPs = wavesVFX:GetComponent("ParticleSystem") 
+        if not self.wavesPs then 
+            Engine.Log("[Siren] Waves Particle System NOT found!")
+        else
+            Engine.Log("[Siren] Waves Particle System FOUND!")
+        end
+    else 
+        Engine.Log("[Siren] Could not retrieve Water Circles VFX GameObject") 
+    end
+end
+
 -- Start
 function Start(self)
     Game.SetTimeScale(1.0)
@@ -584,21 +696,23 @@ function Start(self)
         detectRange      = 22.0,   -- distancia máxima para disparar
         minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
 
-        windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
+        windUpTime       = 0.8,    -- segundos de telegrafía antes del disparo. Antes estaba 1.6
         flightTime       = 4.0,    -- duración del arco en el aire
-        cooldownTime     = 4.5,    -- espera entre disparos
+        cooldownTime     = 1.5,    -- espera entre disparos. Antes estaba 4.5
+        shootTime        = 3.0,    -- tiempo de disparo
 
         blastRadius      = 3.0,   -- radio de daño en el impacto
         attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
 
         barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
-        rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
+        rotationSpeed    = 15.0,    -- velocidad de giro para encarar al player Antes estaba a 6
 
-        projectilePrefab = "Sirena_Bullet",  -- nombre del prefab del proyectil
         maxLifetime      = 10.0,
         riseHeight       = 1.0,
-        riseSpeed        = 3.0,
+        riseSpeed        = 6.0, -- Antes estaba a 3
         level2 = isLevel2,
+
+        predictTime=0.3,
     }
 
     self.hp             = self.public.maxHp
@@ -625,17 +739,27 @@ function Start(self)
 
     FindSirenAudioComponents(self)
 
+    --particle system components
+    self.bloodPs = nil
+    self.waterPs = nil
+    self.wavesPs = nil
+
+    FindSirenParticles(self)
+
+
     self.windUpTimer   = 0
+    self.shootTimer    = 0
     self.cooldownTimer = 0
     self.hideCooldownTimer = 0
     self.hideDurationTimer = 0
     self.deathTimer     = 2.5
     self.deathTime = 2.5
-    self.activeShells  = {}
+    self.activeShells = {}
 
     self.hasDeathPlayed = false
+    --self.firedShell = false
     self.hasHurtPlayed = false
-    self.isSinging = false
+    --self.isSinging = false
     self.isShowing = false
     self.alreadyHit = false
 
@@ -652,7 +776,9 @@ function Start(self)
     Engine.Log("[Mortar] Initialized. HP=" .. self.hp
              .. " detectRange=" .. self.public.detectRange)
     
-   self.anim:Play("Hide")
+    self.anim:Play("Hide")
+    if self.wavesPs then self.wavesPs:Play() end
+   
 
     sirenMesh = GameObject.FindInChildren(self.gameObject,"SirenMesh")
 
@@ -677,10 +803,12 @@ function Start(self)
     self.targetDeathYisEnter=false
 
 
-    bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
+    self.bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
 
-    shell = Prefab.Instantiate("Sirena_Bullet")
-    pSphere1 = GameObject.FindInChildren(shell,"pSphere1")
+    self.shell = Prefab.Instantiate("Sirena_Bullet")
+    self.shell:SetActive(true)
+    self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
+ 
 
 end
 
@@ -699,7 +827,7 @@ function Update(self, dt)
         return  
     end
 
-    if Input.GetKey("0") then
+    if Input.GetKey("K") then
         TakeDamage(self, self.hp, self.transform.worldPosition)
         return
     end
@@ -806,7 +934,7 @@ function Update(self, dt)
     if _EnemyPendingDamage and _EnemyPendingDamage[self.gameObject.name] then
         TakeDamage(self, _EnemyPendingDamage[self.gameObject.name], self.transform.worldPosition)
         _EnemyPendingDamage[self.gameObject.name] = nil
-    end
+    end 
 
     --just in case hideCooldownTimer is nil
     self.hideCooldownTimer = (self.hideCooldownTimer or 0) - dt
@@ -864,7 +992,7 @@ function OnTriggerEnter(self, other)
 
     if other:CompareTag("Bullet") then
         -- La bala golpea a la sirena
-        if not alreadyHit then
+        if not self.alreadyHit then
             local ap  = other.transform.worldPosition
             self.alreadyHit = true
             hitCooldown = 0.2
@@ -890,3 +1018,4 @@ function OnTriggerExit(self, other)
         end
     end
 end
+

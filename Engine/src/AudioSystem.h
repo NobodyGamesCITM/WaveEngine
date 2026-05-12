@@ -51,7 +51,7 @@ public:
 	// ----------------------- STATES ---------------------- //
 	void SetState(AkStateGroupID stateGroup, AkStateID state);
 	void SetState(const char* stateGroup, const char* state);
-	const std::string& GetState(const char* stateGroup);
+	std::string GetState(const char* stateGroup);
 
 
 	// ---------------------- SWITCHES ---------------------- //
@@ -108,7 +108,7 @@ public:
 
 	void ReloadSoundBanks();
 
-	const std::vector<AudioEvent*>& GetAudioEvents() const { return audioEvents; }
+	std::vector<AudioEvent*> GetAudioEvents() { return audioEvents; }
 
 	// Reverb zone registration
 	void RegisterReverbZone(ReverbZone* zone);
@@ -183,7 +183,7 @@ public:
 	void DiscoverAuxBuses();
 
 	//soundbankpath getter
-	const std::wstring& GetMainSoundBankPath() { return mainSoundBankPath; }
+	std::wstring GetMainSoundBankPath() { return mainSoundBankPath; }
 
 private:
     // Registered audio components (sources + listener wrappers)

@@ -399,11 +399,13 @@ local States = {}
 
 local function ChangeState(self, newState, force)
     if not force and Player.currentState == newState then return end
-    if newState == State.RUNNING and staminaLock == true then return end
-    if Player.maskAnimTimer > 0 then return end
-    if Player.healAnimTimer > 0 then return end
-    if Player.AnimTimer > 0 then return end
-        
+    if not force and newState ~= State.DEAD then
+        if newState == State.RUNNING and staminaLock == true then return end
+        if Player.maskAnimTimer > 0 then return end
+        if Player.healAnimTimer > 0 then return end
+        if Player.AnimTimer > 0 then return end
+    end
+
     if Player.currentState and States[Player.currentState].Exit then
         States[Player.currentState].Exit(self)
     end
@@ -512,6 +514,14 @@ end
 States[State.DEAD] = {
     Enter  = function(self)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+
+        -- Resetear bloqueos de animación y movimiento al morir
+        Player.healAnimTimer = 0
+        Player.healPending = false
+        Player.maskAnimTimer = 0
+        Player.AnimTimer = 0
+        self.public.canMove = true
+
         _G._PlayerController_isDead = true
         _G._PlayerController_deathAnimDone = false  
         Player.deathAnimTimer = 1.5                  
@@ -1279,7 +1289,7 @@ local function TakeDamage(self, amount, attackerPos)
     if self.public.health <= 0 then
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.17
-        ChangeState(self, State.DEAD)
+        ChangeState(self, State.DEAD, true)
     end
 end
 
@@ -1694,12 +1704,19 @@ function Update(self, dt)
         InitParticles(self)
         FindMasks(self)
 
+        local maskToRestore = Mask.NONE
+
         if _G._MidRunTransition then
             _G._MidRunTransition = false
             _G._UnlockedMasks = _G._UnlockedMasks or {}
             if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
             if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
             if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
+
+            if _G._SavedCurrentMask == "Apolo" then maskToRestore = Mask.APOLLO
+            elseif _G._SavedCurrentMask == "Hermes" then maskToRestore = Mask.HERMES
+            elseif _G._SavedCurrentMask == "Ares" then maskToRestore = Mask.ARES
+            end
         else
             _G._UnlockedMasks    = {}
             _G._MaskState_Apolo  = false
@@ -1707,9 +1724,8 @@ function Update(self, dt)
             _G._MaskState_Ares   = false
         end
 
-        Player.currentMask = Mask.NONE
-        _G._PlayerController_currentMask = ""
-        EquipMask(self, Player.currentMask)
+        Player.currentMask = nil
+        EquipMask(self, maskToRestore)
         UpdateSwordMaterial()
 
         self.public.staminaCost    = 20.0   
@@ -1717,12 +1733,10 @@ function Update(self, dt)
         Player.baseSpeed = self.public.speed
         Player.currentSpeed = self.public.speed
 
-        -- Resetear hit vignette al cambiar de escena
         hitVigTimer = 0.0
         accumulatedAlpha = 0.0
         if postProcess then postProcess:SetVignetteEnabled(false) end
         
-        -- Re-obtener postProcess por si la camara cambio
         local camObj = GameObject.Find("MainCamera")
         if camObj then
             postProcess = camObj:GetComponent("PostProcessing")
@@ -1982,7 +1996,6 @@ function Update(self, dt)
         end
     end
 
-    -- Hit vignette update
     UpdateHitVignette(dt)
 end
 
@@ -2106,6 +2119,11 @@ function ResetPlayer(self)
     self.public.health  = 100
     self.public.stamina = 100
     self.public.berserkActive = false
+    self.public.canMove = true
+
+    Player.healAnimTimer = 0
+    Player.maskAnimTimer = 0
+    Player.AnimTimer = 0
 
     attackCooldown = 0
     rollCooldown   = 0
@@ -2125,8 +2143,6 @@ function ResetPlayer(self)
     local savedMask = Player.currentMask
     InitParticles(self)
     FindMasks(self)
-
-    --Player.currentSurface = "Dirt"
 
     local p = lastCheckpoint or Player.spawnPos
     if p then

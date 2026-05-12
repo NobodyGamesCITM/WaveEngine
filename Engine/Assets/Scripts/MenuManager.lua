@@ -1,6 +1,6 @@
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local MIN_LOADING_SCREEN_DURATION = 1.7
-local FADE_DURATION      = 0.4
+local FADE_DURATION      = 0.5
 local SCENE_FADE_DURATION = 2.0
 
 Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
@@ -136,6 +136,7 @@ function Initialize(self)
             self.lastPauseState = "paused"
         end
 
+        -- ForceStartXAML sí usa fadeIn porque no hay animación Intro del XAML compitiendo
         SetPhase(self, "fadeIn")
         Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
         return true
@@ -268,7 +269,7 @@ function Update(self, dt)
     end
 
     if self.phase == "idle" then
-        -- ── NUEVO: restaurar máscaras un frame después de volver al HUD ──
+        -- restaurar máscaras un frame después de volver al HUD
         if self.pendingHUDRefresh then
             self.pendingHUDRefresh = false
             if _G.ForceRefreshHUD then
@@ -419,7 +420,7 @@ function Update(self, dt)
 
     if self.phase == "fadeOut" then
         local duration = self.pendingScene and SCENE_FADE_DURATION or FADE_DURATION
-        local t     = math.min(self.fadeTimer / duration, 1.0)
+        local t = math.min(self.fadeTimer / duration, 1.0)
 
         if not self.pendingScene then
             local alpha = 1.0 - EaseInOutQuad(t)
@@ -428,8 +429,6 @@ function Update(self, dt)
             local volume = (self.public.fullVolume or 100) * (1 - EaseInOutQuad(t))
             if volume then 
                 Audio.SetMusicVolume(volume)
-            else
-                --Engine.Log("Could not set music volume!")
             end
         end
 
@@ -487,7 +486,6 @@ function Update(self, dt)
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
                 self.lastPauseState = "running"
-                -- ── NUEVO: marcar refresh pendiente para restaurar máscaras ──
                 self.pendingHUDRefresh = true
                 Engine.Log("[MenuManager] HUD restaurado desde pausa, pendingHUDRefresh=true")
             else
@@ -498,7 +496,6 @@ function Update(self, dt)
                 end
                 Game.Resume()
                 self.lastPauseState = "running"
-                -- ── NUEVO: también refrescar al volver desde muerte/otros menús ──
                 self.pendingHUDRefresh = true
             end
 
@@ -511,11 +508,11 @@ function Update(self, dt)
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
+
         self.canvas:SetOpacity(1.0)
         SetPhase(self, "idle")
 
     elseif self.phase == "fadeIn" then
-        self.fadeTimer = self.fadeTimer + dt
         local duration = FADE_IN_DURATION
         local t = math.min(self.fadeTimer / duration, 1.0)
         local alpha = EaseInOutQuad(t)

@@ -1848,14 +1848,16 @@ function Update(self, dt)
         if Player.AnimTimer <= 0 then
             _G.PlayerInAnim = false
             Player.AnimTimer = 0
-            Player.isGetMaskAnim = false
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
 
-            if Player.isGetMaskAnim and _G.ShowMaskObtained and Player.currentMask ~= Mask.NONE then  
-                _G.ShowMaskObtained(Player.currentMask:lower())
+            if _G.ShowMaskObtained and Player.pendingObtainMask then
+                _G.ShowMaskObtained(Player.pendingObtainMask:lower())
             end
+
+            Player.isGetMaskAnim = false
+            Player.pendingObtainMask = nil
 
             if Player.pendingMaskInfoDialog then
                 Player.pendingMaskInfoDialog = false

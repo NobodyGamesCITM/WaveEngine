@@ -6,6 +6,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:system="clr-namespace:System;assembly=mscorlib"
   d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
@@ -14,6 +15,102 @@
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- Toggle simple -->
+            <Style x:Key="SettingToggleStyle" TargetType="ToggleButton">
+                <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+                <Setter Property="FontSize" Value="26"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock x:Name="Label"
+                                           Text="{TemplateBinding Content}"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border x:Name="Track"
+                                        Grid.Column="1"
+                                        Width="60" Height="30"
+                                        CornerRadius="15"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1">
+                                    <Ellipse x:Name="Thumb"
+                                             Width="24" Height="24"
+                                             Fill="White"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"
+                                             Margin="2,0,0,0"/>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="Track" Property="Background" Value="#FFC8A84B"/>
+                                    <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter TargetName="Thumb" Property="Margin" Value="0,0,2,0"/>
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Resolution selector simple -->
+            <Style x:Key="ResolutionSelectorStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+                <Setter Property="FontSize" Value="26"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock x:Name="Label"
+                                           Text="RESOLUTION"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"/>
+                                
+                                <Border Grid.Column="1"
+                                        Background="#333333"
+                                        BorderBrush="#555555"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="12,8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="◄" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBlock Text="{Binding CurrentResolutionText}"
+                                                   Foreground="White"
+                                                   Width="140"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="►" Foreground="#FFFFC840" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- TEXT BUTTON (BACK) - Original -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -66,10 +163,8 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.25">
                                                     <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
-
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowRTrans" Storyboard.TargetProperty="X" From="15" To="5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
@@ -120,64 +215,102 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <!-- Storyboards -->
+            <Storyboard x:Key="Intro">
+                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.4"/>
+            </Storyboard>
+
+            <Storyboard x:Key="FadeOut">
+                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
+                                 To="0" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
+                                 To="0" Duration="0:0:0.3"/>
+            </Storyboard>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="250"/>
-        <ColumnDefinition Width="771*"/>
-        <ColumnDefinition Width="250"/>
-    </Grid.ColumnDefinitions>
-    <Viewbox x:Name="BackgroundViewBox" Grid.Column="1">
-        <Image Source="Textures/Menu.PNG"/>
-    </Viewbox>
-    <Grid x:Name="Menu" Grid.Column="1" Margin="69,114,69,79">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="95*"/>
-            <RowDefinition Height="387*"/>
-        </Grid.RowDefinitions>
-        <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1">
-            <Grid Height="80" Width="445">
-                <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445" Text="GRAPHICS" FontFamily="Arial">
-                    <TextBlock.Foreground>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                            <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                            <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                        </LinearGradientBrush>
-                    </TextBlock.Foreground>
-                </TextBlock>
-            </Grid>
-        </Viewbox>
-        <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="398" Width="500">
-            <Grid Height="322">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="73*"/>
-                    <RowDefinition Height="107*"/>
-                    <RowDefinition Height="138*"/>
-                    <RowDefinition Height="101*"/>
-                    <RowDefinition Height="81*"/>
-                </Grid.RowDefinitions>
-                <RadioButton x:Name="FullScreen" Content="FullScreen" FontSize="20" FontFamily="Arial" Padding="0,0,0,25"/>
-                <RadioButton x:Name="AntiAliasing" Content="AntiAliasing" FontFamily="Arial" Padding="0,0,0,25" Margin="0,0,0.02,0" Grid.Row="1"/>
-                <Button x:Name="ResolutionButton" Style="{StaticResource TextButtonStyle}" Command="{Binding Path=Commands[ResolutionButton]}" Content="RESOLUTION" Padding="0,0,0,25" Margin="0" Grid.Row="2">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="Loaded">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </Button>
-                <Button x:Name="BackButton" Style="{StaticResource TextButtonStyle}" Content="BACK" Command="{Binding Path=Commands[BackButton]}" Padding="0,0,0,25" Margin="0" Grid.Row="3">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </Viewbox>
-    </Grid>
 
+    <Grid.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Intro}"/>
+        </EventTrigger>
+    </Grid.Triggers>
+
+    <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
+
+    <Grid x:Name="LayoutRoot" Opacity="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="771*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Grid.Column="1">
+            <Image Source="Textures/Menu.PNG"/>
+        </Viewbox>
+
+        <Grid Grid.Column="1" Margin="69,114,69,79">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="95*"/>
+                <RowDefinition Height="387*"/>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="1" Stretch="Uniform">
+                <TextBlock Text="GRAPHICS"
+                           FontFamily="./#ForgottenUncial"
+                           FontSize="65"
+                           Foreground="White"
+                           TextAlignment="Center"
+                           Width="445"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="2" Stretch="Uniform" Height="398" Width="500">
+                <Grid Height="322" Width="480">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="68*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="68*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="68*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="68*"/>
+                        <RowDefinition Height="24*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToggleButton Grid.Row="1" 
+                                  Content="FULLSCREEN"
+                                  Style="{StaticResource SettingToggleStyle}"
+                                  IsChecked="{Binding IsFullscreen}"/>
+
+                    <ToggleButton Grid.Row="3" 
+                                  Content="ANTI-ALIASING"
+                                  Style="{StaticResource SettingToggleStyle}"
+                                  IsChecked="{Binding IsAntiAliasing}"/>
+
+                    <Button Grid.Row="5"
+                            Style="{StaticResource ResolutionSelectorStyle}"
+                            Command="{Binding Commands[CycleResolution]}"/>
+
+                    <Button x:Name="BackButton"
+                            Grid.Row="7"
+                            Style="{StaticResource TextButtonStyle}"
+                            Content="BACK"
+                            Command="{Binding Commands[BackButton]}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </Viewbox>
+        </Grid>
+    </Grid>
 </Grid>

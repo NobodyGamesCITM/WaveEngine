@@ -21,10 +21,13 @@ void FileSystem::Initialize()
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     fs::path execPath(buffer);
 
-    fs::path currentSearchPath = execPath.parent_path();
     bool assetsFound = false;
-    int maxLevels = 5;
 
+#ifndef WAVE_GAME
+
+    fs::path currentSearchPath = execPath.parent_path();
+
+    int maxLevels = 5;
     for (int i = 0; i < maxLevels; ++i) {
         fs::path candidatePath = currentSearchPath / "Assets";
 
@@ -43,6 +46,17 @@ void FileSystem::Initialize()
 
         if (currentSearchPath == currentSearchPath.parent_path()) break;
     }
+
+#else
+
+
+    fs::path execDir = execPath.parent_path();
+    s_projectRoot = execDir;
+    s_assetsRoot = execDir / "Assets";
+    s_libraryRoot = execDir / "Library";
+    assetsFound = true;
+
+#endif
 
     if (!assetsFound) {
         LOG_CONSOLE("[FileSystem] FATAL ERROR: Could not find Assets folder. Engine cannot run properly.");

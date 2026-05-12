@@ -119,6 +119,7 @@ bool AudioSystem::InitStreamingManager() {
     if (g_lowLevelIO.Init(deviceSettings) != AK_Success) return false;
 
     std::string projectRoot = FileSystem::GetProjectRoot();
+
     std::wstring wProjectRoot(projectRoot.begin(), projectRoot.end());
     mainSoundBankPath = wProjectRoot + std::wstring(L"\\Audio\\GeneratedSoundBanks\\Windows\\");
     g_lowLevelIO.SetBasePath(mainSoundBankPath.c_str());

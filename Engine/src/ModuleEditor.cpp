@@ -152,7 +152,7 @@ bool ModuleEditor::Update()
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
     ImGui::End();
-    
+
     sceneWindow->Draw();
     gameWindow->Draw();
     configWindow->Draw();
@@ -188,12 +188,10 @@ bool ModuleEditor::Update()
     UpdateCurrentWindow();
 
     // Check for meta file changes
-    if (Application::GetInstance().GetPlayState() == Application::PlayState::EDITING) {
-        metaFileCheckTimer += ImGui::GetIO().DeltaTime;
-        if (metaFileCheckTimer >= metaFileCheckInterval) {
-            MetaFileManager::CheckForChanges();
-            metaFileCheckTimer = 0.0f;
-        }
+    metaFileCheckTimer += ImGui::GetIO().DeltaTime;
+    if (metaFileCheckTimer >= metaFileCheckInterval) {
+        MetaFileManager::CheckForChanges();
+        metaFileCheckTimer = 0.0f;
     }
 
     return true;
@@ -249,7 +247,7 @@ void ModuleEditor::ShowMenuBar()
                 std::string searchPath = "";
                 if (FileSystem::DoesFileExist("../Assets/Scenes"))  searchPath = "../Assets/Scenes/scene.scene";
                 else searchPath = "../Assets/scene.scene";
-                    
+
                 std::string filepath = OpenSaveFile(searchPath);
                 if (!filepath.empty())
                 {
@@ -401,7 +399,7 @@ void ModuleEditor::ShowMenuBar()
             {
                 materialEditorWindow->SetOpen(materialEditorOpen);
             }
-            
+
             bool scriptEditorOpen = scriptEditorWindow->IsOpen();
             if (ImGui::MenuItem("Script Editor", NULL, &scriptEditorOpen))
             {
@@ -450,12 +448,12 @@ void ModuleEditor::ShowMenuBar()
                     canvasGO->CreateComponent(ComponentType::CANVAS);
                     Application::GetInstance().scene->GetRoot()->AddChild(canvasGO);
                     LOG_CONSOLE("Canvas GameObject created");
-				}
+                }
                 ImGui::EndMenu();
             }
 
             ImGui::Separator();
- 
+
             if (ImGui::MenuItem("Empty GameObject"))
             {
                 GameObject* empty = Application::GetInstance().scene->CreateGameObject("GameObject");
@@ -463,7 +461,7 @@ void ModuleEditor::ShowMenuBar()
 
                 Application::GetInstance().selectionManager->SetSelectedObject(empty);
             }
-            
+
             ImGui::Separator();
 
             if (ImGui::MenuItem("Add Auto Rotate Component"))
@@ -560,7 +558,7 @@ void ModuleEditor::ShowMenuBar()
         if (ImGui::Button("Save", ImVec2(145, 0)))
         {
             std::string filename = layoutNameBuffer;
-			if (filename.find(".ini") == std::string::npos) // npos means not found
+            if (filename.find(".ini") == std::string::npos) // npos means not found
             {
                 filename += ".ini";
             }
@@ -752,7 +750,7 @@ void ModuleEditor::DrawAboutWindow()
     ImGui::End();
 }
 
-void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
+void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, const Mesh& mesh)
 {
     GameObject* Object = new GameObject(name);
     ComponentMesh* meshComp = static_cast<ComponentMesh*>(
@@ -775,7 +773,7 @@ void ModuleEditor::CreatePrimitiveGameObject(const std::string& name, Mesh mesh)
         selectedMesh = mesh;
 
     meshComp->SetMesh(selectedMesh);
-    meshComp->SetPrimitiveType(name); 
+    meshComp->SetPrimitiveType(name);
 
     //ComponentMaterial* materialComp = static_cast<ComponentMaterial*>(
     //    Object->CreateComponent(ComponentType::MATERIAL)
@@ -992,10 +990,10 @@ std::vector<std::string> ModuleEditor::GetSavedLayouts()
     }
 
     for (const auto& entry : std::filesystem::directory_iterator(layoutDirectory))
-    { 
+    {
         // is_regular_file: check if is a file 
         // extension: check for example my_layout.ini has .ini extension
-		if (entry.is_regular_file() && entry.path().extension() == ".ini") 
+        if (entry.is_regular_file() && entry.path().extension() == ".ini")
         {
             layouts.push_back(entry.path().filename().string());
         }
@@ -1010,22 +1008,22 @@ std::string ModuleEditor::OpenSaveFile(const std::string& defaultPath)
     char szFile[260] = { 0 };
 
     std::string sceneDir;
-	if (!defaultPath.empty()) // Default path
+    if (!defaultPath.empty()) // Default path
         sceneDir = defaultPath;
-	else // Current path
+    else // Current path
         sceneDir = (std::filesystem::current_path().parent_path() / "Assets").string();
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn); 
+    ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
     ofn.lpstrFile = szFile; // Path
     ofn.nMaxFile = sizeof(szFile); // Path size
     ofn.lpstrFilter = "SCENE Files\0*.scene\0All Files\0*.*\0";
-	ofn.nFilterIndex = 1; // Default filter: .json
-	ofn.lpstrFileTitle = NULL; // Filename
-    ofn.nMaxFileTitle = 0; 
-	ofn.lpstrInitialDir = sceneDir.c_str(); // Open on
-	ofn.lpstrDefExt = "json"; // Default extension if not specified
+    ofn.nFilterIndex = 1; // Default filter: .json
+    ofn.lpstrFileTitle = NULL; // Filename
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = sceneDir.c_str(); // Open on
+    ofn.lpstrDefExt = "json"; // Default extension if not specified
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT; // Folder must exist, prompt if overwriting
 
     if (GetSaveFileNameA(&ofn) == TRUE)
@@ -1088,22 +1086,22 @@ std::string ModuleEditor::OpenFolderDialog()
 {
     std::string result; // string use UTF-8, while windows use UTF-16
     // HRESULT is a Windows API type used for error handling.
-	// CoInitializeEx initializes the COM(Component Object Model. Basically a system created by windows to act has intermediary) library for use by the calling thread.
-    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED); 
+    // CoInitializeEx initializes the COM(Component Object Model. Basically a system created by windows to act has intermediary) library for use by the calling thread.
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
     if (FAILED(hr)) return result;
 
-	IFileDialog* pDialog = nullptr; 
+    IFileDialog* pDialog = nullptr;
     hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileDialog, (void**)&pDialog); // https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-cocreateinstance
     if (SUCCEEDED(hr))
     {
         // Create the file dialog 
         DWORD options;
         pDialog->GetOptions(&options);
-		pDialog->SetOptions(options | FOS_PICKFOLDERS); // FOS_PICKFOLDERS: only select folders
+        pDialog->SetOptions(options | FOS_PICKFOLDERS); // FOS_PICKFOLDERS: only select folders
         pDialog->SetTitle(L"Select Export Folder"); // L means wchar_t*, windows use UTF-16 
 
         // Show the dialog 
-		hr = pDialog->Show(NULL); // NULL means that the dialog has no parent window
+        hr = pDialog->Show(NULL); // NULL means that the dialog has no parent window
         if (SUCCEEDED(hr))
         {
             IShellItem* pItem = nullptr; // IShellItem stores the selected folder
@@ -1114,9 +1112,9 @@ std::string ModuleEditor::OpenFolderDialog()
                 hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszPath); // Function to get the path
                 if (SUCCEEDED(hr))
                 {
-                    int len = WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, NULL, 0, NULL, NULL); 
+                    int len = WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, NULL, 0, NULL, NULL);
                     result.resize(len - 1); // remove \0
-					WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, &result[0], len, NULL, NULL); // Convert from UTF-16 to UTF-8
+                    WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, &result[0], len, NULL, NULL); // Convert from UTF-16 to UTF-8
                     CoTaskMemFree(pszPath);
                 }
                 pItem->Release();
@@ -1145,26 +1143,26 @@ void ModuleEditor::BuildGame()
     char exePath[MAX_PATH]; // Windows has a MAX_PATH limit of 260 characters
     GetModuleFileNameA(NULL, exePath, MAX_PATH); // https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamea
     fs::path exeDir = fs::path(exePath).parent_path();
-	// Example: exePath = C:\WaveEngine\Engine\build\Release\Engine.exe --> exeDir = C:\WaveEngine\Engine\build\Release
+    // Example: exePath = C:\WaveEngine\Engine\build\Release\Engine.exe --> exeDir = C:\WaveEngine\Engine\build\Release
 
-    fs::path gameExeSrc = exeDir / "SonOfIthaca.exe";
+    fs::path gameExeSrc = exeDir / "Game.exe";
     if (!fs::exists(gameExeSrc))
     {
-        LOG_CONSOLE("[Build] ERROR: SonOfIthaca.exe not found at %s", gameExeSrc.string().c_str());
+        LOG_CONSOLE("[Build] ERROR: Game.exe not found at %s", gameExeSrc.string().c_str());
         return;
     }
 
     try
     {
-        // Copy SonOfIthaca.exe
-        fs::copy_file(gameExeSrc, dest / "SonOfIthaca.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
-        LOG_CONSOLE("[Build] Copied SonOfIthaca.exe");
+        // Copy Game.exe
+        fs::copy_file(gameExeSrc, dest / "Game.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
+        LOG_CONSOLE("[Build] Copied Game.exe");
 
         // Copy all dlls 
         int dllCount = 0;
         for (const auto& entry : fs::directory_iterator(exeDir)) // https://en.cppreference.com/w/cpp/filesystem/directory_iterator
         {
-			if (entry.is_regular_file() && entry.path().extension() == ".dll") // is a file and has .dll
+            if (entry.is_regular_file() && entry.path().extension() == ".dll") // is a file and has .dll
             {
                 fs::copy_file(entry.path(), dest / entry.path().filename(), fs::copy_options::overwrite_existing);
                 dllCount++;
@@ -1172,17 +1170,15 @@ void ModuleEditor::BuildGame()
         }
         LOG_CONSOLE("[Build] Copied %d DLL(s)", dllCount);
 
-        // Copy Assets/ folder
-        fs::path assetsSrc(FileSystem::GetAssetsRoot());
-        if (fs::exists(assetsSrc))
-        {
-            fs::copy(assetsSrc, dest / "Assets", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
-            LOG_CONSOLE("[Build] Copied Assets/ folder");
+        // Copy UI folder
+        fs::path uiFolder(FileSystem::GetProjectRoot() + "\\UI");
+        if (fs::exists(uiFolder)) {
+            fs::copy(uiFolder, dest / "UI", fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+            LOG_CONSOLE("[Build] Copied UI/ folder");
         }
         else
         {
-            LOG_CONSOLE("[Build] WARNING: Assetsfolder not found");
-            LOG_CONSOLE("[Build] WARNING: Assets folder not found");
+            LOG_CONSOLE("[Build] WARNING: UI folder not found");
         }
 
         // Copy Audio folder
@@ -1355,7 +1351,7 @@ GameObject* ModuleEditor::CloneGameObject(GameObject* original)
         if (node.contains("children") && node["children"].is_array())
             for (auto& child : node["children"])
                 stripUIDs(child);
-    };
+        };
     stripUIDs(objJson);
 
     if (objJson.contains("name"))

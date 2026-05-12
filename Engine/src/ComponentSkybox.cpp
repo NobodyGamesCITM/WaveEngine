@@ -40,7 +40,7 @@ void ComponentSkybox::SetFaceTexture(SkyboxFace face, UID textureUID)
         facesResourcesUID[index] = textureUID;
 
         bool allFacesLoaded = true;
-        for (int i = 0; i < 6; i++) 
+        for (int i = 0; i < 6; i++)
         {
             if (faces[i] == nullptr || faces[i]->GetGPU_ID() == 0) {
                 allFacesLoaded = false;
@@ -48,7 +48,7 @@ void ComponentSkybox::SetFaceTexture(SkyboxFace face, UID textureUID)
             }
         }
 
-        if (allFacesLoaded) 
+        if (allFacesLoaded)
         {
             BuildCubemapFromResources();
         }
@@ -71,30 +71,33 @@ void ComponentSkybox::BuildCubemapFromResources()
     int width = faces[0]->GetWidth();
     int height = faces[0]->GetHeight();
 
-    for (unsigned int i = 0; i < 6; i++) {
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    }
-
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    GLuint tempFBO;
-    glGenFramebuffers(1, &tempFBO);
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, tempFBO);
-
     for (unsigned int i = 0; i < 6; i++)
     {
-        glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, faces[i]->GetGPU_ID(), 0);
+        size_t dataSize = (size_t)width * height * 4;
+        unsigned char* pixels = new unsigned char[dataSize];
+
+        glBindTexture(GL_TEXTURE_2D, faces[i]->GetGPU_ID());
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapID);
-        glCopyTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, 0, 0, width, height);
+        glTexImage2D(
+            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA,
+            width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            LOG_DEBUG("[Skybox] OpenGL ERROR face %d: 0x%X", i, err);
+
+        delete[] pixels;
     }
 
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-    glDeleteFramebuffers(1, &tempFBO);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
 void ComponentSkybox::SetActive(bool b)
@@ -153,7 +156,7 @@ void ComponentSkybox::CleanUp()
     if (cubemapID != 0) glDeleteTextures(1, &cubemapID);
 
     for (unsigned int i = 0; i < 6; i++) {
-        
+
         if (facesResourcesUID[i] != 0)
         {
             Application::GetInstance().resources.get()->ReleaseResource(facesResourcesUID[i]);
@@ -163,7 +166,7 @@ void ComponentSkybox::CleanUp()
     }
 }
 
-void ComponentSkybox::OnEditor() 
+void ComponentSkybox::OnEditor()
 {
     const char* facesNames[] = { "Right face", "Left face", "Top face", "Bottom face", "Front face", "Back face" };
     float availableWidth = ImGui::GetContentRegionAvail().x;
@@ -214,7 +217,7 @@ void ComponentSkybox::Serialize(nlohmann::json& componentObj) const
 {
     const char* facesNames[] = { "Right face", "Left face", "Top face", "Bottom face", "Front face", "Back face" };
     componentObj["active"] = active;
-    
+
     for (int i = 0; i < 6; i++)
     {
         componentObj[facesNames[i]] = facesResourcesUID[i];

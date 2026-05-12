@@ -1992,9 +1992,9 @@ function MaskScroll(self)
     local newMask = nil
 
     if Input.GetKeyDown("Left") or Input.GetGamepadButtonDown("DPadLeft") then
-        newMask = _G._MaskState_Hermes and Mask.HERMES or nil
-    elseif Input.GetKeyDown("Up") or Input.GetGamepadButtonDown("DPadUp") then
         newMask = _G._MaskState_Apolo and Mask.APOLLO or nil
+    elseif Input.GetKeyDown("Up") or Input.GetGamepadButtonDown("DPadUp") then
+        newMask = _G._MaskState_Hermes and Mask.HERMES or nil
     elseif Input.GetKeyDown("Right") or Input.GetGamepadButtonDown("DPadRight") then
         newMask = _G._MaskState_Ares and Mask.ARES or nil
     elseif Input.GetKeyDown("Down") or Input.GetGamepadButtonDown("DPadDown") then

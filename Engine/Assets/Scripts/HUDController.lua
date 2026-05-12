@@ -5,10 +5,8 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
-local ALL_MASK_TYPES_ORDER = { "Hermes", "Apolo", "Ares" }
-local MASK_NAMES = { "Hermes", "Ares", "Apolo" }
-
-local obtainedOrder = {}
+-- Fixed display order for masks: Apollo (Left), Hermes (Middle), Ares (Right)
+local MASK_DISPLAY_ORDER = { "Apolo", "Hermes", "Ares" }
 
 local prevHasHermes  = false
 local prevHasAres    = false
@@ -69,58 +67,36 @@ local function RefreshPotionUI(potions, berserkPotions)
     end
 end
 
--- ─── Máscaras
 local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
-    local hasMap = { Hermes = hasHermes, Ares = hasAres, Apolo = hasApolo }
 
-    obtainedOrder = {}
-    for _, maskType in ipairs(ALL_MASK_TYPES_ORDER) do
-        if hasMap[maskType] then
-            table.insert(obtainedOrder, maskType)
-        end
+    -- Apollo (izquierda)
+    if hasApolo then
+        local isActive = (activeMask == "Apolo")
+        UI.SetElementVisibility("Image_Apolo_Active",   isActive)
+        UI.SetElementVisibility("Image_Apolo_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Apolo_Active",   false)
+        UI.SetElementVisibility("Image_Apolo_Inactive", false)
     end
 
-    if #obtainedOrder == 0 then
-        for _, prefix in ipairs({ "Active", "Left", "Right" }) do
-            for _, maskName in ipairs(MASK_NAMES) do
-                UI.SetElementVisibility(prefix .. "_" .. maskName, false)
-            end
-        end
-        return
+    -- Hermes (centro)
+    if hasHermes then
+        local isActive = (activeMask == "Hermes")
+        UI.SetElementVisibility("Image_Hermes_Active",   isActive)
+        UI.SetElementVisibility("Image_Hermes_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Hermes_Active",   false)
+        UI.SetElementVisibility("Image_Hermes_Inactive", false)
     end
 
-    local activeSlotMask = nil
-    if activeMask ~= "" then
-        for _, m in ipairs(obtainedOrder) do
-            if m == activeMask then
-                activeSlotMask = activeMask
-                break
-            end
-        end
-    end
-
-    if not activeSlotMask and activeMask ~= "" then
-        activeSlotMask = obtainedOrder[1]
-    end
-
-    local sideSlots = {}
-    for _, m in ipairs(obtainedOrder) do
-        if m ~= activeSlotMask then
-            table.insert(sideSlots, m)
-        end
-    end
-
-    local slotAssign = {
-        Active = activeSlotMask,
-        Left   = sideSlots[1] or nil,
-        Right  = sideSlots[2] or nil,
-    }
-
-    for _, prefix in ipairs({ "Active", "Left", "Right" }) do
-        local assigned = slotAssign[prefix]
-        for _, maskName in ipairs(MASK_NAMES) do
-            UI.SetElementVisibility(prefix .. "_" .. maskName, assigned == maskName)
-        end
+    -- Ares (derecha)
+    if hasAres then
+        local isActive = (activeMask == "Ares")
+        UI.SetElementVisibility("Image_Ares_Active",   isActive)
+        UI.SetElementVisibility("Image_Ares_Inactive", not isActive)
+    else
+        UI.SetElementVisibility("Image_Ares_Active",   false)
+        UI.SetElementVisibility("Image_Ares_Inactive", false)
     end
 end
 

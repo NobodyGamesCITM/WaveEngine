@@ -232,41 +232,42 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
+                <!-- ═══════════════════════════════════════════════
+                     MÁSCARAS — posiciones FIJAS:
+                       Columna 0 = Apollo  (izquierda)
+                       Columna 1 = Hermes  (centro)
+                       Columna 2 = Ares    (derecha)
+                     El Lua solo alterna _Active / _Inactive,
+                     nunca mueve ningún elemento de columna.
+                ════════════════════════════════════════════════ -->
                 <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <!-- SLOT GRANDE: máscara equipada -->
-                    <Viewbox x:Name="Active_Hermes" Visibility="Collapsed" Margin="23,18,31,36">
-                        <Image Source="Textures/Hermes.PNG" Width="47" Height="46"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Active_Ares" Visibility="Collapsed" Margin="23,18,31,36">
-                        <Image Source="Textures/Ares.PNG" Width="47" Height="46"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Active_Apolo" Visibility="Collapsed" Margin="23,18,31,36">
-                        <Image Source="Textures/Apolo.PNG" Width="47" Height="46"/>
-                    </Viewbox>
+                    <!-- Apollo — izquierda (columna 0) -->
+                    <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Apolo_Inactive" Source="Textures/Apolo.PNG"
+                               Opacity="0.4" Height="45" Margin="2,35,-2,-35"/>
+                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35"/>
+                    </Grid>
 
-                    <!-- SLOT PEQUEÑO IZQUIERDA: primera obtenida no equipada -->
-                    <Viewbox x:Name="Left_Hermes" Margin="13,96,170,21" Visibility="Collapsed">
-                        <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Left_Ares" Visibility="Collapsed" Margin="13,96,170,21">
-                        <Image Source="Textures/Ares.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Left_Apolo" Visibility="Collapsed" Margin="13,96,170,21">
-                        <Image Source="Textures/Apolo.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
+                    <!-- Hermes — centro (columna 1) -->
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Hermes_Inactive" Source="Textures/Hermes.PNG"
+                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12"/>
+                        <Image x:Name="Image_Hermes_Active"   Source="Textures/Hermes.PNG"
+                               Height="75" Width="75" Margin="-3,-12,3,12"/>
+                    </Grid>
 
-                    <!-- SLOT PEQUEÑO DERECHA: segunda obtenida no equipada -->
-                    <Viewbox x:Name="Right_Hermes" Visibility="Collapsed" Margin="163,92,14,19">
-                        <Image Source="Textures/Hermes.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Right_Ares" Visibility="Collapsed" Margin="163,92,14,19">
-                        <Image Source="Textures/Ares.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
-                    <Viewbox x:Name="Right_Apolo" Visibility="Collapsed" Margin="163,92,14,19">
-                        <Image Source="Textures/Apolo.PNG" Width="40" Height="40" Opacity="0.6"/>
-                    </Viewbox>
-
+                    <!-- Ares — derecha (columna 2) -->
+                    <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Ares_Inactive" Source="Textures/Ares.PNG"
+                               Opacity="0.4" Height="45" Margin="-4,35,4,-35"/>
+                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35"/>
+                    </Grid>
                 </Grid>
 
                 <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="400" Margin="222,103,-122,-35">
@@ -438,7 +439,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </Grid>
 
             <!-- Prompt de interacción -->
-
             <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869"/>
 
             <!-- Hints de controles -->
@@ -664,7 +664,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <Image Source="Textures/8.PNG" Margin="704,787,1124,201"/>
             </Grid>
 
-
         </Grid>
     </Viewbox>
 
@@ -672,26 +671,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     ═══════════════════════════════════════════════════════════════════════════
     MissionGrid — contador de estatuas destruidas
     ═══════════════════════════════════════════════════════════════════════════
-
-    Comportamiento:
-      · Empieza oculto (Visibility="Collapsed" en MissionViewBox).
-      · Lua llama a HUD_RefreshStatuesDestroyed() cuando TotalStatuesToDestroy > 0.
-      · Al recoger un coleccionable: MissionExpand + MissionCountBump → visible 3 s
-        → MissionCollapse → queda encogido/tenue (solo se ve "N/Total").
-
-    Storyboards:
-      MissionExpand   — ScaleX 0.55→1, ScaleY 0.7→1, Opacity 0.35→1  (0.35 s)
-      MissionCollapse — ScaleX 1→0.55, ScaleY 1→0.7,  Opacity 1→0.35 (0.5 s)
-      MissionCountBump— ScaleX 1.15→1, ScaleY 1.15→1                  (0.4 s)
-
-    RenderTransformOrigin="1,0.5" ancla desde la derecha, así el número
-    queda visible aunque el texto de la izquierda desaparezca al colapsar.
-    ═══════════════════════════════════════════════════════════════════════════
     -->
     <Grid x:Name="MissionGrid">
         <Grid.Resources>
 
-            <!-- ── Expand: aparece tras recoger un coleccionable ── -->
             <Storyboard x:Name="MissionExpand">
                 <DoubleAnimation
                     Storyboard.TargetName="MissionScaleTransform"
@@ -718,7 +701,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     Duration="0:0:0.3"/>
             </Storyboard>
 
-            <!-- ── Collapse: se contrae tras 3 s, solo queda el número tenue ── -->
             <Storyboard x:Name="MissionCollapse">
                 <DoubleAnimation
                     Storyboard.TargetName="MissionScaleTransform"
@@ -749,7 +731,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </DoubleAnimation>
             </Storyboard>
 
-            <!-- ── CountBump: rebote elástico del número al actualizarse ── -->
             <Storyboard x:Name="MissionCountBump">
                 <DoubleAnimation
                     Storyboard.TargetName="MissionScaleTransform"
@@ -784,7 +765,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <RowDefinition Height="741*"/>
         </Grid.RowDefinitions>
 
-        <!-- Fondo decorativo del panel de misión -->
         <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right">
             <Image x:Name="MissionBackgroundImage" Source="Textures/MissionBackground.PNG"/>
         </Viewbox>
@@ -793,6 +773,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         </Viewbox>
 
     </Grid>
+
     <Canvas>
         <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
             <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>

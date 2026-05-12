@@ -6104,6 +6104,9 @@
 									<ObjectLists>
 										<ObjectList Name="Effects">
 											<EffectSlot Name="" ID="{587A4B2B-B478-41D3-9315-3F2EFAF32DE8}" ShortID="85886903">
+												<PropertyList>
+													<Property Name="Render" Type="bool" Value="True"/>
+												</PropertyList>
 												<ReferenceList>
 													<Reference Name="Effect">
 														<Custom>
@@ -6216,6 +6219,9 @@
 									<ObjectLists>
 										<ObjectList Name="Effects">
 											<EffectSlot Name="" ID="{DC42C726-5B0A-4512-AE95-0045947BA0DD}" ShortID="490304318">
+												<PropertyList>
+													<Property Name="Render" Type="bool" Value="True"/>
+												</PropertyList>
 												<ReferenceList>
 													<Reference Name="Effect">
 														<Custom>

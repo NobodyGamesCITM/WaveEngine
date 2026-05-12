@@ -139,7 +139,8 @@ local function TakeDamage(self, amount, attackerPos)
             if self.singSFX then self.singSFX:StopAudioEvent() end
             if self.hurtSFX then self.hurtSFX:PlayAudioEvent() end
             --Engine.Log("[SIREN AUDIO] Hurt SFX Played")
-            self.isSinging = false    
+           
+            --self.isSinging = false    
             if self.anim then self.anim:Play("Hurt") end
             if self.bloodPs then self.bloodPs:Play() end
         end
@@ -416,7 +417,7 @@ local function UpdateHide(self, dt)
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
         if self.wavesPs then self.wavesPs:Play() end
-        if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+        if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip")then self.dipSFX:PlayAudioEvent() end
 
         self.isFullyHidden = false
         self.hideAnimTimer = 0
@@ -461,7 +462,7 @@ local function UpdateIdle(self, dist, dt)
                 if self.waterPs then self.waterPs:Play() end
                 Engine.Log("[SIREN] Ejecutando Show")
             end
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
             
             self.isShowing = true
             self.playerInRange = true
@@ -479,10 +480,10 @@ local function UpdateIdle(self, dist, dt)
             
             if self.anim then self.anim:Play("Look") end
             
-            if not self.isSinging then
-                if self.singSFX then self.singSFX:PlayAudioEvent() end
-                self.isSinging = true
-            end
+           
+            if self.singSFX and not Audio.IsEventPlaying("SFX_SirenSing") then self.singSFX:PlayAudioEvent() end
+            
+            
             
             self.windUpTimer = 0
             ChangeState(self, State.WINDUP)
@@ -497,14 +498,13 @@ local function UpdateIdle(self, dist, dt)
             if self.anim and not self.anim:IsPlayingAnimation("Hide") then
                 self.anim:Play("Hide")
                 if self.wavesPs then self.wavesPs:Play() end
-                if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+                if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
             end
             self.playerInRange = false
             self.isShowing = false
-            if self.isSinging then
-                if self.singSFX then self.singSFX:StopAudioEvent() end
-                self.isSinging = false
-            end
+            
+            if self.singSFX and Audio.IsEventPlaying("SFX_SirenSing") then self.singSFX:StopAudioEvent() end
+            
 
             if self.windupFeedback then
                 pcall(function() GameObject.Destroy(self.windupFeedback) end)
@@ -565,7 +565,7 @@ local function UpdateWindUp(self, pp, dist, dt)
         if self.anim then 
             --self.anim:Play("Hide") 
             if self.wavesPs then self.wavesPs:Play() end
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
         Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
 
@@ -583,7 +583,7 @@ local function UpdateCooldown(self, dist, dt)
         if self.anim and not self.anim:IsPlayingAnimation("Hide") then
             self.anim:Play("Hide")
             if self.wavesPs then self.wavesPs:Play() end
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
     end
 
@@ -598,7 +598,7 @@ local function UpdateCooldown(self, dist, dt)
         if self.anim and not self.anim:IsPlayingAnimation("Show") then
             self.anim:Play("Show")
             if self.waterPs then self.waterPs:Play() end
-            if self.dipSFX then self.dipSFX:PlayAudioEvent() end
+            if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             self.currentState = State.WINDUP
@@ -759,7 +759,7 @@ function Start(self)
     self.hasDeathPlayed = false
     --self.firedShell = false
     self.hasHurtPlayed = false
-    self.isSinging = false
+    --self.isSinging = false
     self.isShowing = false
     self.alreadyHit = false
 

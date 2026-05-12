@@ -130,10 +130,8 @@ Effect plug-ins	ID	Name	Type				Notes
 	100648286	Time Stretch (Custom)	Wwise Time Stretch			
 	130504718	Time Stretch (Custom)	Wwise Time Stretch			
 	139464527	Time Stretch (Custom)	Wwise Time Stretch			
-	215501508	Time Stretch (Custom)	Wwise Time Stretch			
 	394741058	Time Stretch (Custom)	Wwise Time Stretch			
 	447967320	Time Stretch (Custom)	Wwise Time Stretch			
-	457788401	Time Stretch (Custom)	Wwise Time Stretch			
 	765864838	Time Stretch (Custom)	Wwise Time Stretch			
 	972658868	Time Stretch (Custom)	Wwise Time Stretch			
 	1144018367	Plate_Large	Wwise RoomVerb			
@@ -150,7 +148,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	12684693	minocabro_precharge_04	.cache\A3\{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_04		115496
 	16598906	yodguard-spear_thrust-5-382405	.cache\35\{35F9AD34-65EE-7863-7AA8-1E6A8F8474B3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-5-382405		399032
 	38515333	riser_00	.cache\11\{111F6F3B-8F01-356E-77FB-AD35E04ED587}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\RisingSFX\riser_00		217808
-	44994569	siren_water	.cache\50\{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		46376
+	44994569	siren_water	.cache\E1\{E16D0086-FF74-76F8-2D96-844E1C682C40}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		84608
 	55975540	shield_dmg_01	.cache\35\{35A0F70F-10EC-36AE-4D47-E8D760DB2617}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_01		57176
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
 	62622933	metal-rock_impact_01	.cache\2C\{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_01		26360
@@ -170,7 +168,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	131567107	minocabro_idlegrunt_01	.cache\15\{1594A7F7-635C-BF04-2D41-33C0156C3E93}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_01		142280
 	136280820	minocabro_idlegrunt_04	.cache\D1\{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_04		146240
 	137281643	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
-	141089093	player_roll_01	.cache\34\{34E948BE-04A7-D875-51FF-9D9B2EC30BE8}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		58904
+	141089093	player_roll_01	.cache\2F\{2F2F4F24-B24A-1799-98FE-96224BF84E04}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		58904
 	146106055	unlock_statue	.cache\56\{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Unlock_Statue\unlock_statue		111752
 	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	156508010	water_walk_01	.cache\4F\{4F812048-3F6E-21DC-05EC-66495E06C8EF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_01		13364
@@ -266,7 +264,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	759655859	Splatoon - Disturbing Boss Sounds	.cache\35\{35A3F13E-17D8-6405-06F3-7B6532779FD8}.wem		\Containers\Default Work Unit\Objects\Ambiance\CreepySounds\Splatoon - Disturbing Boss Sounds		2610872
 	760390763	epic_mask_bgm	.cache\F4\{F473FBEA-99CD-1F7E-F450-3E586ACD94F4}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\epic_mask_bgm		1588976
 	781091657	Ambiance_Stream_Calm_Loop_Stereo	.cache\B8\{B8426694-4372-E0F4-597B-DEAC77781EE6}.wem		\Containers\Default Work Unit\Objects\Ambiance\CalmWater\Ambiance_Stream_Calm_Loop_Stereo		918296
-	786202757	siren_sing	.cache\CA\{CA2FD2A4-9365-887A-C847-414A5878E629}.wem		\Containers\Default Work Unit\Objects\Siren\siren_sing		268712
+	786202757	siren_sing	.cache\C7\{C7251900-52FF-9BAD-65BB-EE9522435C45}.wem		\Containers\Default Work Unit\Objects\Siren\siren_sing		457424
 	786254834	grass_run_03	.cache\8A\{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_03		7532
 	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
 	794836068	unequip_mask	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Switch\unequip_mask		18800

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{0E42B43D-CCFE-5025-D7D6-F22FCE2009ED}",
+    "Hash": "{3C4CA064-B3EF-DE74-C3DD-D55A31961F0D}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -45,7 +45,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "water_out.wav",
-      "CachePath": "50/{50E5E9E0-67CE-49C2-3127-1861345B0E2D}.wem"
+      "CachePath": "E1/{E16D0086-FF74-76F8-2D96-844E1C682C40}.wem"
      },
      {
       "Id": "55975540",
@@ -205,7 +205,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "soundreality-whoosh-super-cape-390707.wav",
-      "CachePath": "34/{34E948BE-04A7-D875-51FF-9D9B2EC30BE8}.wem"
+      "CachePath": "2F/{2F2F4F24-B24A-1799-98FE-96224BF84E04}.wem"
      },
      {
       "Id": "146106055",
@@ -973,7 +973,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "siren_sing.wav",
-      "CachePath": "CA/{CA2FD2A4-9365-887A-C847-414A5878E629}.wem"
+      "CachePath": "C7/{C7251900-52FF-9BAD-65BB-EE9522435C45}.wem"
      },
      {
       "Id": "786254834",
@@ -1403,14 +1403,6 @@
        "LibId": "8519683"
       },
       {
-       "Id": "215501508",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_water\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{C8E01705-A7B4-4146-8E37-1EDA5EB9A392}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
-      {
        "Id": "394741058",
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\hermes_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
@@ -1423,14 +1415,6 @@
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Player\\Mask_Switch\\apolo_mask\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
        "GUID": "{08E0627A-7EBC-4639-8453-BC0723231960}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
-      {
-       "Id": "457788401",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Siren\\siren_sing\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{388303F6-6925-43C2-BB5A-874A187EF7EA}",
        "LibName": "Wwise Time Stretch",
        "LibId": "8519683"
       },
@@ -3043,14 +3027,7 @@
        {
         "Id": "44994569"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "215501508"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "3651743467",
@@ -3078,14 +3055,7 @@
        {
         "Id": "786202757"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "457788401"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "1939684258",
@@ -3589,6 +3559,6 @@
     ]
    }
   ],
-  "FileHash": "{EE8B541B-F3E2-27BB-9087-B8DB7A59AB4D}"
+  "FileHash": "{47BF67F6-A83A-CEFD-5F42-93F3E6592B68}"
  }
 }

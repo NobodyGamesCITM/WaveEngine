@@ -5,7 +5,7 @@ local pi    = math.pi
 local sqrt  = math.sqrt
 local abs   = math.abs
 
-local GRAVITY = 14.0
+local GRAVITY = 150.0
 
 --States
 local State = {
@@ -163,11 +163,48 @@ end
 -- FireShell: lanza un proyectil parabólico hacia la posición dada
 local function FireShell(self, tx, ty, tz)
     local myPos = self.transform.worldPosition
-    local sx    = myPos.x
-    local sy    = myPos.y + self.public.barrelOffsetY
-    local sz    = myPos.z
 
-    local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, tx, ty + 0.3, tz)
+    local predictedX, predictedZ = tx, tz
+    
+    if self.playerGO then
+        local playerRb = self.playerGO:GetComponent("Rigidbody")
+        if playerRb then
+            local vel = playerRb:GetLinearVelocity()
+            local predictionTime = self.public.predictTime
+            
+            predictedX = tx + (vel.x * predictionTime)
+            predictedZ = tz + (vel.z * predictionTime)
+        end
+    end
+
+
+    local dx = predictedX - myPos.x
+    local dz = predictedZ - myPos.z
+    local distXZ = sqrt(dx*dx + dz*dz)
+
+    local dirX = dx / distXZ
+    local dirZ = dz / distXZ
+
+    local forwardOffset = 1.5
+
+    local sx = myPos.x + (dirX * forwardOffset)
+    local sz = myPos.z + (dirZ * forwardOffset)
+    local sy = myPos.y + self.public.barrelOffsetY
+
+    --local sx    = myPos.x
+    --local sy    = myPos.y + self.public.barrelOffsetY
+    --local sz    = myPos.z
+
+    local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, predictedX, ty+ 0.3, predictedZ)
+
+    if not self.windupFeedback then
+        Prefab.Load("Sirenfeedback", finalPath_Feedback)
+        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
+        --self.windupFeedback:SetActive(false)
+        self.windupFeedbackSet = false
+        self.windupFeedback:SetActive(false)
+
+    end
 
     --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
     
@@ -186,9 +223,9 @@ local function FireShell(self, tx, ty, tz)
             flightTime = T,
             sx = sx, sy = sy, sz = sz,
             vx = vx, vy = vy, vz = vz,
-            targetX    = tx,
+            targetX    = predictedX, --tx,
             targetY    = ty,
-            targetZ    = tz,
+            targetZ    = predictedZ, --tz,
             hasHit     = false,
             feedbackSet = false,
         })
@@ -299,11 +336,12 @@ local function UpdateShells(self, dt)
                 local scale = self.public.blastRadius
                 tr:SetScale(scale*2, 0.03, scale*2)
                 s.feedbackSet = true
+                tr:SetActive(false)
 
             end
         end
         
-        s.age = s.age + (dt*2)
+        s.age = s.age + dt
 
         local t = s.age
         local x = s.sx + s.vx * t
@@ -357,6 +395,19 @@ local function UpdateShells(self, dt)
             table.remove(self.activeShells, i)
         end
     end
+
+
+
+ --   if self.windupFeedback then
+       -- pcall(function()
+           -- local scale = self.public.blastRadius * 2
+           -- self.windupFeedback.transform:SetPosition(pX, pY + 0.3, pZ)
+
+            --self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
+           -- self.windupFeedback.transform:SetScale(scale, 0.03, scale)
+           -- self.windupFeedbackSet = true
+       -- end)
+    --end
 end
 
 
@@ -397,8 +448,8 @@ end
 
 local function UpdateIdle(self, dist, dt)
     
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle", 0.2)
+    if anim and not anim:IsPlayingAnimation("Hide") then
+        anim:Play("Hide", 0.2)
     end
         
     UpdateHeight(self, 0, dt)
@@ -467,23 +518,25 @@ end
 
 local function UpdateWindUp(self, pp, dist, dt)
     UpdateHeight(self, self.public.riseHeight, dt)
-    FacePlayer(self, pp, dt)
+
+    local pX, pY, pZ = pp.x, pp.y, pp.z
+    local playerRb = self.playerGO:GetComponent("Rigidbody")
+    
+    if playerRb then
+        local vel = playerRb:GetLinearVelocity()
+        local predictionTime = self.public.predictTime
+        pX = pp.x + (vel.x * predictionTime)
+        pZ = pp.z + (vel.z * predictionTime)
+    end
+
+    FacePlayer(self, {x=pX,y=pY,z=pZ}, dt)
+
+    --FacePlayer(self, pp, dt)
     self.windUpTimer = self.windUpTimer + dt
 
-    if not self.windupFeedback then
-        Prefab.Load("Sirenfeedback", finalPath_Feedback)
-        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
-        self.windupFeedbackSet = false
-    end
 
-    if self.windupFeedback then
-        pcall(function()
-            local scale = self.public.blastRadius * 2
-            self.windupFeedback.transform:SetPosition(pp.x, pp.y + 0.3, pp.z)
-            self.windupFeedback.transform:SetScale(scale, 0.03, scale)
-            self.windupFeedbackSet = true
-        end)
-    end
+
+
 
 
     if dist > self.public.detectRange or dist < self.public.minRange then
@@ -500,14 +553,17 @@ local function UpdateWindUp(self, pp, dist, dt)
     end
 
     if self.windUpTimer >= self.public.windUpTime then
+        FireShell(self, pX, pY, pZ)
 
-        FireShell(self, pp.x, pp.y, pp.z)
-        if self.anim then self.anim:Play("Shoot") end
+        --FireShell(self, pp.x, pp.y, pp.z)
+        if self.anim then 
+            self.anim:Play("Shoot") 
+        end
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime
 
         if self.anim then 
-            self.anim:Play("Hide") 
+            --self.anim:Play("Hide") 
             if self.wavesPs then self.wavesPs:Play() end
             if self.dipSFX then self.dipSFX:PlayAudioEvent() end
         end
@@ -640,21 +696,23 @@ function Start(self)
         detectRange      = 22.0,   -- distancia máxima para disparar
         minRange         = 5.0,    -- punto ciego: si el player está muy cerca no dispara
 
-        windUpTime       = 1.6,    -- segundos de telegrafía antes del disparo
+        windUpTime       = 0.8,    -- segundos de telegrafía antes del disparo. Antes estaba 1.6
         flightTime       = 4.0,    -- duración del arco en el aire
-        cooldownTime     = 4.5,    -- espera entre disparos
+        cooldownTime     = 1.5,    -- espera entre disparos. Antes estaba 4.5
         shootTime        = 3.0,    -- tiempo de disparo
 
         blastRadius      = 3.0,   -- radio de daño en el impacto
         attackDamage     = 30,     -- daño máximo (en el centro de la explosión)
 
         barrelOffsetY    = 1.8,    -- altura del punto de disparo sobre el pivot
-        rotationSpeed    = 6.0,    -- velocidad de giro para encarar al player
+        rotationSpeed    = 15.0,    -- velocidad de giro para encarar al player Antes estaba a 6
 
         maxLifetime      = 10.0,
         riseHeight       = 1.0,
-        riseSpeed        = 3.0,
+        riseSpeed        = 6.0, -- Antes estaba a 3
         level2 = isLevel2,
+
+        predictTime=0.3,
     }
 
     self.hp             = self.public.maxHp

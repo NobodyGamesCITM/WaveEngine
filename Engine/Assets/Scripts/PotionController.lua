@@ -291,9 +291,6 @@ function Update(self, dt)
     UpdateLowHealthVignette(dt)
     ApplyVignetteEffects()
 
-    self.public.maxPotions = math.max(self.public.maxPotions or 0, self.public.potionCount or 0)
-    self.public.maxBerserk = math.max(self.public.maxBerserk or 0, self.public.berserkCount or 0)
-
     -- Logica de curacion
     if potionHealing and _G.PlayerInstance then
         local healThisTick = POTION_HEAL_RATE * dt

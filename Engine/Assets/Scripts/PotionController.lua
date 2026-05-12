@@ -64,10 +64,19 @@ end
 
 function Start(self)
     _G.PotionSystem = self
-    self.public.potionCount  = 0
-    self.public.berserkCount = 0
-    self.public.maxPotions   = 0
-    self.public.maxBerserk   = 0
+
+    if _G._MidRunTransition then
+        self.public.potionCount  = _G._SavedPotionCount or 0
+        self.public.berserkCount = _G._SavedBerserkCount or 0
+        self.public.maxPotions   = _G._SavedMaxPotions or 0
+        self.public.maxBerserk   = _G._SavedMaxBerserk or 0
+    else
+        self.public.potionCount  = 0
+        self.public.berserkCount = 0
+        self.public.maxPotions   = 0
+        self.public.maxBerserk   = 0
+    end
+
     _G._berserkVigActive = false
     _G._healVigActive    = false
 

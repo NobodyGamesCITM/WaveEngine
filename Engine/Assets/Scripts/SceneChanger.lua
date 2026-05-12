@@ -151,6 +151,15 @@ function StartTransition(self, sceneName)
     if currentState == State.IDLE or currentState == State.FADE_OUT then
         _G._MidRunTransition = true
         Engine.Log("[SceneTransition] Transición iniciada por script hacia: " .. tostring(sceneName))
+
+        -- Guardar estado de pociones para persistencia entre niveles
+        if _G.PotionSystem and _G.PotionSystem.public then
+            local ps = _G.PotionSystem.public
+            _G._SavedPotionCount  = ps.potionCount
+            _G._SavedMaxPotions   = ps.maxPotions
+            _G._SavedBerserkCount = ps.berserkCount
+            _G._SavedMaxBerserk   = ps.maxBerserk
+        end
         
         if sceneName then
             self.public.targetScene = sceneName

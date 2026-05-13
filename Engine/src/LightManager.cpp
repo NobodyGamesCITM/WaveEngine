@@ -305,7 +305,10 @@ void LightManager::BuildShadowMap(
     glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    RenderShadowPass(meshes, skinnedMeshes);
+    { 
+        ZoneScopedNC("ShadowPass::Draw", 0x7B241C); 
+        RenderShadowPass(meshes, skinnedMeshes); 
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, prevFBO);
     glViewport(prevViewport[0], prevViewport[1], prevViewport[2], prevViewport[3]);

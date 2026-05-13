@@ -72,6 +72,7 @@ EditorCamera::~EditorCamera()
 
 bool EditorCamera::Update()
 {
+	ZoneScopedNC("EditorCamera::Update", 0x1C2833);
 	bool ret = true;
 #ifndef WAVE_GAME
 	lockCamera = ImGuizmo::IsUsing() || !Application::GetInstance().editor->GetSceneWindow()->IsHovered();

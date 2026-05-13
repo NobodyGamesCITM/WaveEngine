@@ -33,6 +33,7 @@ bool ModuleNavMesh::Start() {
 
 bool ModuleNavMesh::Update() {
 
+    ZoneScopedNC("NavMesh::Update", 0xD35400);
     Application::PlayState currentState = Application::GetInstance().GetPlayState();
 
     if (currentState == Application::PlayState::PLAYING && !baked) {

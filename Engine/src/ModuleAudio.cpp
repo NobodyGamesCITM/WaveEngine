@@ -18,6 +18,7 @@ bool ModuleAudio::Start() {
 
 
 bool ModuleAudio::Update() {
+    ZoneScopedNC("Audio::Update", 0x1ABC9C);
     /*audioSystem->Update();*/
 
 
@@ -81,6 +82,7 @@ bool ModuleAudio::Update() {
 //}
 
 bool ModuleAudio::PostUpdate() {
+    ZoneScopedNC("Audio::PostUpdate", 0x17A589);
     audioSystem->Update();
     
     return true;

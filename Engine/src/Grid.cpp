@@ -19,6 +19,7 @@ bool Grid::Start()
 
 bool Grid::Update()
 {
+    ZoneScopedNC("Grid::Update", 0x16A085);
     if (enabled)
     {
         Draw();

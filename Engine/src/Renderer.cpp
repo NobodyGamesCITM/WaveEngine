@@ -221,6 +221,7 @@ bool Renderer::Start()
 
 bool Renderer::PreUpdate()
 {
+    ZoneScopedNC("Renderer::PreUpdate", 0x9B59B6);
     bool ret = true;
 
     stencilList.clear();
@@ -437,6 +438,7 @@ void Renderer::RemovePostProcessing(ComponentPostProcessing* component)
 
 bool Renderer::PostUpdate()
 {
+    ZoneScopedNC("Renderer::PostUpdate", 0x7D3C98);
     bool ret = true;
 
     int width = 0, height = 0;
@@ -459,6 +461,7 @@ bool Renderer::PostUpdate()
 
 bool Renderer::RenderScene(CameraLens* camera)
 {
+    ZoneScopedNC("RenderScene", 0x9B59B6);
     if (!camera) return false;
 
     int width = 0, height = 0;
@@ -494,13 +497,16 @@ bool Renderer::RenderScene(CameraLens* camera)
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboMatrices);
 
     // Primero actualizar las matrices de skinning
-    for (ComponentMesh* mesh : meshes)
-        if(mesh) mesh->UpdateSkinningMatrices();
-
-    for (ComponentSkinnedMesh* mesh : skinnedMeshes)
     {
-        if (mesh && mesh->owner && mesh->owner->IsActive())
-            mesh->UpdateSkinningMatrices();
+        ZoneScopedNC("UpdateSkinning", 0xF0A500);
+        for (ComponentMesh* mesh : meshes)
+            if(mesh) mesh->UpdateSkinningMatrices();
+
+        for (ComponentSkinnedMesh* mesh : skinnedMeshes)
+        {
+            if (mesh && mesh->owner && mesh->owner->IsActive())
+                mesh->UpdateSkinningMatrices();
+        }
     }
 
     if (lightManager)
@@ -529,7 +535,7 @@ bool Renderer::RenderScene(CameraLens* camera)
             skinnedShadowCasters.push_back(m);
         }
 
-        lightManager->BuildShadowMap(shadowCasters, skinnedShadowCasters, camera);
+        { ZoneScopedNC("ShadowMap", 0xC0392B); lightManager->BuildShadowMap(shadowCasters, skinnedShadowCasters, camera); }
     }
 
     //Build Render List
@@ -539,7 +545,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     particlesList.clear();
     silhouetteList.clear();
     canvasList.clear();
-    BuildRenderLists(camera);
+    { ZoneScopedNC("BuildRenderLists", 0x1ABC9C); BuildRenderLists(camera); }
 
     if (showZBuffer) {
         depthShader->Use();
@@ -558,19 +564,19 @@ bool Renderer::RenderScene(CameraLens* camera)
     glDisable(GL_BLEND);
     glEnable(GL_CULL_FACE);
     
-    DrawRenderList(opaqueList, camera);
+    { ZoneScopedNC("DrawOpaque", 0x2471A3);             DrawRenderList(opaqueList, camera); }
 
-    DrawSkybox(camera);
+    { ZoneScopedNC("DrawSkybox", 0x1A5276);             DrawSkybox(camera); }
 
-    DrawWaterList(waterList, camera);
+    { ZoneScopedNC("DrawWater", 0x117A65);              DrawWaterList(waterList, camera); }
 
-    BuildSilhouetteStencil(camera);
+    { ZoneScopedNC("BuildSilhouetteStencil", 0x626567); BuildSilhouetteStencil(camera); }
 
     glEnable(GL_BLEND);
     glDepthMask(GL_FALSE);
-    DrawRenderList(transparentList, camera);
-    DrawParticlesList(camera);
-    DrawSilhouetteList(camera);
+    { ZoneScopedNC("DrawTransparent", 0x7D6608);        DrawRenderList(transparentList, camera); }
+    { ZoneScopedNC("DrawParticles", 0xA04000);          DrawParticlesList(camera); }
+    { ZoneScopedNC("DrawSilhouette", 0x4A235A);         DrawSilhouetteList(camera); }
 
 
     if (camera->GetDebugCamera()) {
@@ -595,6 +601,7 @@ bool Renderer::RenderScene(CameraLens* camera)
 
 
     if (usingMSAA) {
+        ZoneScopedNC("MSAA Resolve", 0x512E5F);
         GLuint targetFBO = (camera->fboID != 0) ? camera->fboID : 0;
         glBindFramebuffer(GL_READ_FRAMEBUFFER, camera->msaaFBO);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO);
@@ -603,8 +610,8 @@ bool Renderer::RenderScene(CameraLens* camera)
         glDisable(GL_MULTISAMPLE);
     }
 
-    DrawPostProcessing(camera);
-    DrawCanvasList(camera);
+    { ZoneScopedNC("PostProcessing", 0x1C2833); DrawPostProcessing(camera); }
+    { ZoneScopedNC("DrawCanvas", 0x145A32);     DrawCanvasList(camera); }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     return true;
@@ -612,6 +619,8 @@ bool Renderer::RenderScene(CameraLens* camera)
 
 void Renderer::BuildRenderLists(const CameraLens* camera)
 {
+    {
+    ZoneScopedNC("BuildList::StaticMeshes", 0x1F618D);
     for (ComponentMesh* mesh : meshes)
     {
         if (!mesh || !mesh->owner || !mesh->owner->transform) continue;
@@ -653,8 +662,11 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
                 silhouetteList.push_back(renderObject);
         }
     }
+    }
 
     // Al final de BuildRenderLists, después del loop de meshes:
+    {
+    ZoneScopedNC("BuildList::SkinnedMeshes", 0x154360);
     for (ComponentSkinnedMesh* mesh : skinnedMeshes)
     {
         if (!mesh || !mesh->owner || !mesh->owner->transform) continue;
@@ -686,7 +698,10 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
                 silhouetteList.push_back(renderObject);
         }
     }
+    }
 
+    {
+    ZoneScopedNC("BuildList::Particles+Canvas", 0x0E6655);
     for (ComponentParticleSystem* ps : particles)
     {
         if (!ps || !ps->owner || !ps->owner->transform) continue;
@@ -718,11 +733,16 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
 
         canvasList.push_back(canvasObject);
     }
+    }
+
+    {
+    ZoneScopedNC("BuildList::Sort", 0x0A3D62);
     std::sort(opaqueList.begin(), opaqueList.end(), [](const RenderObject& a, const RenderObject& b) {
         auto* matA = a.mesh->GetAttachedMaterial() ? a.mesh->GetAttachedMaterial()->GetMaterial() : nullptr;
         auto* matB = b.mesh->GetAttachedMaterial() ? b.mesh->GetAttachedMaterial()->GetMaterial() : nullptr;
         return matA < matB;
         });
+    }
 }
 
 void Renderer::DrawPostProcessing(CameraLens* camera)

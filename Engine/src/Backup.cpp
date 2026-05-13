@@ -39,6 +39,7 @@ bool Backup::Start()
 
 bool Backup::Update()
 {
+	ZoneScopedNC("Backup::Update", 0xBDC3C7);
 	// Don't generate backups while in Play or Paused mode
 	if (Application::GetInstance().GetPlayState() != Application::PlayState::EDITING)
 		return true;

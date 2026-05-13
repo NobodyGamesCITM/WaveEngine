@@ -55,3 +55,6 @@
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
 #endif
+
+// Tracy profiler
+#include <tracy/Tracy.hpp>

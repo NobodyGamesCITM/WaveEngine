@@ -172,6 +172,8 @@ bool Application::Start()
 
 bool Application::Update()
 {
+    ZoneScoped;
+
     // Check if exit was requested from menu first
     if (!isRunning) {
         LOG_DEBUG("Exit requested by user");
@@ -196,11 +198,13 @@ bool Application::Update()
     if (ret == true)
         ret = PostUpdate();
 
+    FrameMark;
     return ret;
 }
 
 bool Application::FixedUpdate()
 {
+    ZoneScopedNC("FixedUpdate", 0xE74C3C);
     if (playState == PlayState::PAUSED) {
         return true;
     }
@@ -218,6 +222,7 @@ bool Application::FixedUpdate()
 
 bool Application::PreUpdate()
 {
+    ZoneScopedNC("PreUpdate", 0x3498DB);
     //Iterates the module list and calls PreUpdate on each module
     bool result = true;
     for (const auto& module : moduleList) {
@@ -233,6 +238,7 @@ bool Application::PreUpdate()
 // Call modules on each loop iteration
 bool Application::DoUpdate()
 {
+    ZoneScopedNC("DoUpdate", 0x2ECC71);
     bool result = true;
     for (const auto& module : moduleList) {
 #ifndef WAVE_GAME
@@ -249,6 +255,7 @@ bool Application::DoUpdate()
 // Call modules after each loop iteration
 bool Application::PostUpdate()
 {
+    ZoneScopedNC("PostUpdate", 0xE67E22);
     //Iterates the module list and calls PostUpdate on each module
     bool result = true;
 

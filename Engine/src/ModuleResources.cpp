@@ -72,6 +72,7 @@ bool ModuleResources::Start() {
 }
 
 bool ModuleResources::Update() {
+    ZoneScopedNC("Resources::Update", 0x8E44AD);
     return true;
 }
 

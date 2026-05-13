@@ -78,6 +78,7 @@ bool Window::Start()
 
 bool Window::PostUpdate()
 {
+    ZoneScopedNC("Window::SwapBuffers", 0x626567);
     Render();
     return true;
 }

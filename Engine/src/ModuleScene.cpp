@@ -48,6 +48,7 @@ bool ModuleScene::Start()
 
 bool ModuleScene::Update()
 {
+    ZoneScopedNC("Scene::Update", 0x27AE60);
     // Update all GameObjects
     if (root)
     {
@@ -59,6 +60,7 @@ bool ModuleScene::Update()
 
 bool ModuleScene::FixedUpdate()
 {
+    ZoneScopedNC("Scene::FixedUpdate", 0x1E8449);
     // Update all GameObjects
     if (root)
     {
@@ -70,6 +72,7 @@ bool ModuleScene::FixedUpdate()
 
 bool ModuleScene::PostUpdate()
 {
+    ZoneScopedNC("Scene::PostUpdate", 0x196F3D);
     // Cleanup marked objects
     if (root)
     {

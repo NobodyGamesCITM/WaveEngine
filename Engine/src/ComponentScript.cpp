@@ -62,7 +62,10 @@ void ComponentScript::Update()
         deltaTime = app.time->GetRealDeltaTime();
     }
 
-    CallUpdate(deltaTime);
+    { 
+        ZoneScopedNC("Script::CallUpdate", 0xF39C12); 
+        CallUpdate(deltaTime); 
+    }
 
     if (pendingDestroy) {
         owner->MarkForDeletion();
@@ -285,6 +288,7 @@ bool ComponentScript::ReloadScript()
 
 void ComponentScript::CallStart()
 {
+    ZoneScopedNC("Script::CallStart", 0xE74C3C);
     if (!HasScript() || startCalled) return;
 
     SyncPublicVariablesToLua();

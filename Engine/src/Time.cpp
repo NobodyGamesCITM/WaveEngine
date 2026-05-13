@@ -26,6 +26,7 @@ bool Time::Start()
 
 bool Time::PreUpdate()
 {
+	ZoneScopedNC("Time::PreUpdate", 0x95A5A6);
 	float currentFrame = SDL_GetTicks() / 1000.0f;
 	deltaTime = currentFrame - lastFrame;
 	totalTime = currentFrame;
@@ -70,6 +71,7 @@ bool Time::PreUpdate()
 
 bool Time::PostUpdate()
 {
+	ZoneScopedNC("Time::PostUpdate", 0x7F8C8D);
 	return true;
 }
 

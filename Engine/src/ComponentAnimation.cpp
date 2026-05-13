@@ -162,6 +162,7 @@ void ComponentAnimation::SetAnimationLoop(const std::string& name, bool loop)
 
 void ComponentAnimation::Update()
 {
+    ZoneScopedNC("Anim::Update", 0xD35400);
     if (!playing || !currentAnimation.resource) return;
 
     float dt = Application::GetInstance().time->GetDeltaTime();
@@ -240,6 +241,7 @@ glm::vec3 ComponentAnimation::GetScaleValue(const Channel& channel, float curren
 
 void ComponentAnimation::UpdateTransformations()
 {
+    ZoneScopedNC("Anim::UpdateBones", 0xAA5400);
     float factor = isBlending ? glm::clamp(currentBlendTime / blendDuration, 0.0f, 1.0f) : 1.0f;
 
     for (size_t i = 0; i < skeletonCache.size(); ++i) {

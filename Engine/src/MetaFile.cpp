@@ -252,7 +252,7 @@ uint32_t MetaFileManager::GetCombinedHash(const std::string& assetPath)
 }
 
 void MetaFileManager::CheckForChanges() {
-    
+    ZoneScopedNC("MetaFile::CheckForChanges", 0xAB2346);
     std::string assetsPath = FileSystem::GetAssetsRoot();
 
     if (!std::filesystem::exists(assetsPath)) {

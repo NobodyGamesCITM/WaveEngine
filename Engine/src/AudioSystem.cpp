@@ -213,6 +213,7 @@ bool AudioSystem::Awake() {
 }
 
 bool AudioSystem::Update() { 
+    ZoneScopedNC("AudioSystem::Update", 0x0E8A7A);
     if (!AK::SoundEngine::IsInitialized()) return true;
 
 

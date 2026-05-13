@@ -32,6 +32,7 @@ bool ModuleGame::Start()
 
 bool ModuleGame::PostUpdate()
 {
+    ZoneScopedNC("Game::PostUpdate", 0xF1C40F);
     auto* renderer = Application::GetInstance().renderer.get();
     auto* cameraModule = Application::GetInstance().camera.get();
   

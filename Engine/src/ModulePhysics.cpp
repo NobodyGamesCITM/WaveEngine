@@ -74,6 +74,8 @@ bool ModulePhysics::Start() {
 
 bool ModulePhysics::FixedUpdate() {
 
+    ZoneScopedNC("Physics::FixedUpdate", 0xE74C3C);
+
     gScene->simulate(Application::GetInstance().time.get()->GetFixedDeltaTime());
 
     gScene->fetchResults(true);

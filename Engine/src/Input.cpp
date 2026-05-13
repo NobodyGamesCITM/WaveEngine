@@ -293,6 +293,7 @@ static void DispatchInputToCanvases(Input* input)
 
 bool Input::PreUpdate()
 {
+    ZoneScopedNC("Input::PreUpdate", 0x2980B9);
     static SDL_Event event;
     int numKeys;
     const bool* keys = SDL_GetKeyboardState(&numKeys);

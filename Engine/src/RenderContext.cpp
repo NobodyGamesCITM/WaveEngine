@@ -57,6 +57,7 @@ bool RenderContext::Start()
 
 bool RenderContext::PreUpdate()
 {
+    ZoneScopedNC("RenderContext::PreUpdate", 0x5B2C6F);
     // Clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

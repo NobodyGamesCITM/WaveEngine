@@ -114,6 +114,7 @@ bool ModuleEditor::Start()
 
 bool ModuleEditor::PreUpdate()
 {
+    ZoneScopedNC("Editor::PreUpdate", 0x5D6D7E);
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
@@ -123,6 +124,7 @@ bool ModuleEditor::PreUpdate()
 
 bool ModuleEditor::Update()
 {
+    ZoneScopedNC("Editor::Update", 0x4A235A);
     if (editorCamera)
         editorCamera->Update();
 
@@ -199,6 +201,7 @@ bool ModuleEditor::Update()
 
 bool ModuleEditor::PostUpdate()
 {
+    ZoneScopedNC("Editor::PostUpdate (ImGui)", 0x6C3483);
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     return true;

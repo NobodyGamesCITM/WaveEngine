@@ -211,13 +211,13 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.9460227489471436,
+                    "aspectRatio": 1.7244318723678589,
                     "farPlane": 1000.0,
                     "fov": 50.0,
                     "nearPlane": 0.30000001192092896,
                     "type": 4,
                     "uiCullingMask": 0,
-                    "usesPostProcessing": false
+                    "usesPostProcessing": true
                 },
                 {
                     "active": true,
@@ -250,14 +250,14 @@
                     },
                     "bloom": {
                         "clamp": 65472.0,
-                        "diffusion": 7.0,
+                        "diffusion": 10.0,
                         "enabled": true,
-                        "intensity": 1.0,
-                        "softKnee": 0.5,
-                        "threshold": 1.0,
+                        "intensity": 1.350000023841858,
+                        "softKnee": 1.0,
+                        "threshold": 0.36000001430511475,
                         "tint": [
-                            1.0,
-                            1.0,
+                            0.0,
+                            0.9411764144897461,
                             1.0
                         ]
                     },
@@ -272,26 +272,26 @@
                             1.0,
                             1.0
                         ],
-                        "contrast": 1.0,
-                        "enabled": false,
+                        "contrast": 1.059999942779541,
+                        "enabled": true,
                         "exposure": 1.0,
                         "gamma": 1.0,
                         "saturation": 1.0,
-                        "temperature": 0.0,
+                        "temperature": -1300.0,
                         "tint": 0.0,
-                        "toneMapper": 0
+                        "toneMapper": 2
                     },
                     "depthOfField": {
-                        "distance": 10.0,
-                        "enabled": false,
+                        "distance": 500.0,
+                        "enabled": true,
                         "farTint": [
                             0.0,
                             0.0,
                             0.0
                         ],
-                        "range": 3.0,
+                        "range": 8.0,
                         "strength": 1.0,
-                        "tiltShift": false,
+                        "tiltShift": true,
                         "tintIntensity": 0.0
                     },
                     "grain": {

@@ -39,7 +39,7 @@ local function ProcessHit(self, attackType, playerObj)
     
     Engine.Log("[PuzzleEntity] IMPACTO Tipo: " .. attackType .. " en " .. self.public.entityType)
     
-    local isHeavy = (attackType == "heavy" or attackType == "charge")
+    local isHeavy = (attackType == "charge")
     local isLight = (attackType == "light")
 
     -- Statue LightAttack Rotation

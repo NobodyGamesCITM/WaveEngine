@@ -29,7 +29,6 @@ local changeSource
 local swordMat = nil
 local surfaces = {"Grass", "Water", "Dirt", "Stone", "Bones"}
 
-_PlayerController_triggerCameraShake = false
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
 _G._PlayerController_currentMask     = ""
@@ -41,6 +40,8 @@ _G._MaskCount = 0
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
 local ATTACK_BUFFER = 0.5
+local hurtTimer = 0.0
+local HURT_DURATION = 0.5
 
 -- MASKS
 local Mask = {
@@ -176,7 +177,6 @@ public = {
     heavyDuration       = 0.7,
     heavyAttackDelay    = 0.35,
     heavyUpImpulse      = 2.0,
-    triggerCameraShake  = false,
     attackBufferDuration = 0.4,
     canMove             = true,
     berserkActive       = false,
@@ -838,7 +838,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if Player.currentMask == Mask.HERMES then
+        if Player.currentMask == Mask.HERMES and Player.isDrowning then
             self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
         end
 
@@ -1252,11 +1252,12 @@ local function TakeDamage(self, amount, attackerPos)
     if anim then
         anim:Play("Idle", 0.0)
         anim:Play("Hurt", 0.0)
+        hurtTimer = HURT_DURATION
     end
 
     self.public.health = math.max(0, self.public.health - amount)
 
-    _PlayerController_triggerCameraShake = true
+    _G.TriggerCameraShake(0.2, 0.8, 8.0)
     if Input.HasGamepad() then Input.RumbleGamepad(1.0, 0.2, 150) end
 
     -- Activar hit vignette roja acumulada
@@ -1798,6 +1799,23 @@ function Update(self, dt)
         end
     end
 
+    if hurtTimer > 0 then
+        hurtTimer = hurtTimer - dt
+        if hurtTimer <= 0 then
+            hurtTimer = 0
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then
+                if Player.currentState == State.RUNNING then
+                    anim:Play("Running", 0.2)
+                elseif Player.currentState == State.WALK then
+                    anim:Play("Walk", 0.2)
+                elseif Player.currentState == State.IDLE then
+                    anim:Play("Idle", 0.2)
+                end
+            end
+        end
+    end
+
     if Player.AnimTimer > 0 then
         _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -1889,11 +1907,6 @@ function Update(self, dt)
             self.public.attackBufferDuration = ATTACK_BUFFER
             attackBuffer = false
         end
-    end
-        
-    if _PlayerController_triggerCameraShake == true then
-        self.public.triggerCameraShake = true
-        _PlayerController_triggerCameraShake = false
     end
 
     if Player.godMode then

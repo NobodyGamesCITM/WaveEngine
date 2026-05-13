@@ -54,41 +54,7 @@ local function NavigateBack(self)
     Engine.Log("[MenuManager] Returning back to: " .. self.nextXaml)
 end
 
-function Initialize(self)
-    if not self.public then
-        self.public = {
-            updateWhenPaused = true,
-            currentScene = { type = "Scene", value = "" },
-            fullVolume = 100.0,
-            lowerVolume = 60.0
-        }
-    end
-
-    _G.CinematicActive = false
-    Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
-    
-    self.canvas = self.gameObject:GetComponent("Canvas")
-    
-    if not self.phase or self.phase == "idle" then
-        self.phase = "idle"
-        self.fadeTimer = 0.0
-    end
-
-    -- Inicialización de flags de estado
-    self.fading = false
-    self.history = {}
-    self.pendingScene = nil
-    self.loggedReady = false
-    self.lastPauseState = nil
-    self.waitingForSplash = false
-    self.loadingScreenTimer = 0.0
-    self.loadingXAMLStarted = false
-    self.deathTimer = 0.0
-    self.pendingHUDRefresh = false 
-
-    _G.GlobalMenuManagerInstance = self
-    self.NavigateTo = NavigateTo
-
+local function InitAudioSources(self)
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then 
         self.musicComp = self.musicSource:GetComponent("Audio Source")
@@ -103,14 +69,52 @@ function Initialize(self)
     if self.pressSource then
         self.pressSFX = self.pressSource:GetComponent("Audio Source")
     end
+end
+
+function Initialize(self)
+    if not self.public then
+        self.public = {
+            updateWhenPaused = true,
+            currentScene = { type = "Scene", value = "" },
+            fullVolume = 100.0,
+            lowerVolume = 60.0
+        }
+    end
+
+    _G.CinematicActive = false
+    Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
+
+    self.canvas = self.gameObject:GetComponent("Canvas")
 
     if not self.canvas then
         Engine.Log("[MenuManager] ERROR: No ComponentCanvas found during initialization")
         return false
     end
 
-    if _G.SkipSplash and not _G.ForceStartXAML and not self.waitingForSplash then
+    if not self.phase then self.phase = "idle" end
+    if not self.fadeTimer then self.fadeTimer = 0.0 end
+    if not self.current then self.current = "" end  
+    if not self.history then self.history = {} end
+    if not self.deathTimer then self.deathTimer = 0.0 end
+
+    -- Inicialización de flags de estado
+    self.fading = false
+    self.pendingScene = nil
+    self.loggedReady = false
+    self.lastPauseState = nil
+    self.waitingForSplash = false
+    self.loadingScreenTimer = 0.0
+    self.loadingXAMLStarted = false
+    self.pendingHUDRefresh = false 
+
+    _G.GlobalMenuManagerInstance = self
+    self.NavigateTo = NavigateTo
+
+    InitAudioSources(self)
+
+    if _G.SkipSplash and not _G.ForceStartXAML then
         self.waitingForSplash = true
+        Engine.Log("[MenuManager] Waiting for ForceStartXAML (SkipSplash active)...")
         return true
     end
 
@@ -136,17 +140,11 @@ function Initialize(self)
             self.lastPauseState = "paused"
         end
 
-        -- ForceStartXAML sí usa fadeIn porque no hay animación Intro del XAML compitiendo
         SetPhase(self, "fadeIn")
         Engine.Log("[MenuManager] Re-initialization COMPLETE (forced XAML).")
         return true
     end
 
-    self.current = self.canvas:GetCurrentXAML() or ""
-    if self.current == "" and _G.CurrentXAML then
-        self.current = _G.CurrentXAML
-    end
-    
     local sceneVal = ""
     if type(self.public.currentScene) == "table" then 
         sceneVal = self.public.currentScene.value or ""
@@ -156,13 +154,27 @@ function Initialize(self)
 
     local isGameplayScene = (sceneVal:find("Level1") ~= nil or sceneVal:find("Level2") ~= nil)
 
+    local function isTransientXAML(x)
+        return not x or x == ""
+            or x:find("LoadingScreen.xaml") ~= nil
+            or x:find("FadePanel.xaml") ~= nil
+    end
+
     if isGameplayScene then
-        if self.current == "" or self.current:find("MainMenu.xaml") or self.current:find("LoadingScreen.xaml") or self.current:find("FadePanel.xaml") then
-            Engine.Log("[MenuManager] Inicializando HUD en escena de juego.")
-            self.current = "HUD.xaml"
-            self.canvas:LoadXAML("HUD.xaml")
-            _G.CurrentXAML = "HUD.xaml"
+        Engine.Log("[MenuManager] Inicializando HUD en escena de juego.")
+        self.current = "HUD.xaml"
+        _G.CurrentXAML = "HUD.xaml"
+        self.canvas:LoadXAML("HUD.xaml")
+    else
+        self.current = self.canvas:GetCurrentXAML() or ""
+        if isTransientXAML(self.current) then
+            if _G.CurrentXAML and not isTransientXAML(_G.CurrentXAML) then
+                self.current = _G.CurrentXAML
+            else
+                self.current = "MainMenu.xaml"
+            end
         end
+        _G.CurrentXAML = self.current
     end
 
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
@@ -188,10 +200,25 @@ function Initialize(self)
 end
 
 function Start(self)
+    self.canvas = self.gameObject:GetComponent("Canvas")
+    if not self.canvas then
+        Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
+        return
+    end
     Initialize(self)
 end
 
 function Update(self, dt)
+    if not self.canvas then
+        self.canvas = self.gameObject:GetComponent("Canvas")
+        if not self.canvas then return end
+        Engine.Log("[MenuManager] Canvas recovered in Update.")
+    end
+
+    if not self.musicComp or not self.selectSFX or not self.pressSFX then
+        InitAudioSources(self)
+    end
+
     if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = self.public.currentScene 
         local musicState = "None"
@@ -206,13 +233,8 @@ function Update(self, dt)
         end
         
         Audio.SetMusicState(tostring(musicState))
-        self.musicSource = GameObject.Find("MusicSource")
-        if not self.musicSource then 
-        else 
-            self.musicComp = self.musicSource:GetComponent("Audio Source")
-            if self.musicComp then 
-                self.musicComp:PlayAudioEvent() 
-            end
+        if self.musicComp then 
+            self.musicComp:PlayAudioEvent() 
         end
     end
 
@@ -224,7 +246,7 @@ function Update(self, dt)
         return
     end
 
-    if not self.canvas or _G._MenuManager_NeedReinit then
+    if _G._MenuManager_NeedReinit then
         _G._MenuManager_NeedReinit = false
         Initialize(self)
         if self.waitingForSplash then return end 
@@ -262,14 +284,37 @@ function Update(self, dt)
         self.sceneLoadedFlag = false
     end
 
-    if not self.canvas then return end
+    if not self.phase then self.phase = "idle" end
+    if not self.fadeTimer then self.fadeTimer = 0.0 end
+    if not self.history then self.history = {} end
+    if not self.deathTimer then self.deathTimer = 0.0 end
+
+    local function currentIsTransient()
+        return not self.current or self.current == ""
+            or self.current:find("LoadingScreen.xaml") ~= nil
+            or self.current:find("FadePanel.xaml") ~= nil
+    end
+    if currentIsTransient() then
+        local sv = ""
+        if type(self.public.currentScene) == "table" then
+            sv = self.public.currentScene.value or ""
+        elseif type(self.public.currentScene) == "string" then
+            sv = self.public.currentScene
+        end
+        if sv:find("Level1") or sv:find("Level2") then
+            self.current = "HUD.xaml"
+        else
+            self.current = "MainMenu.xaml"
+        end
+        _G.CurrentXAML = self.current
+        Engine.Log("[MenuManager] current era transitorio, corregido a: " .. self.current)
+    end
 
     if self.phase ~= "idle" then
         self.fadeTimer = self.fadeTimer + dt
     end
 
     if self.phase == "idle" then
-        -- restaurar máscaras un frame después de volver al HUD
         if self.pendingHUDRefresh then
             self.pendingHUDRefresh = false
             if _G.ForceRefreshHUD then
@@ -302,7 +347,6 @@ function Update(self, dt)
         local playerIsDead = (playerHealth <= 0)
 
         if not _G.CinematicActive then
-            -- Gestión del timer de muerte
             if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
                 self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
                 Engine.Log("[MenuManager] Death timer: " .. tostring(self.deathTimer))

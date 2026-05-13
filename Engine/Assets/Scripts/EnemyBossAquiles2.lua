@@ -1058,7 +1058,7 @@ function OnTriggerEnter(self, other)
     if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then
-        if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE then 
+        if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 
         end
 

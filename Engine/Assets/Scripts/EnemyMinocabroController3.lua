@@ -656,21 +656,21 @@ function Start(self)
         tooCloseRange   = 3.5,
         chargeRange     = 12.0,
 
-        preparationTime = 1.5,
-        chargeSpeed     = 18.0,
-        chargeDuration  = 0.8,
+        preparationTime = 0.8,--ANTES 1.5
+        chargeSpeed     = 30.0,
+        chargeDuration  = 0.4,
         knockbackForce  = 8.0,
         wallStunTime    = 5.0,
         wallSpeedThresh = 1.5,
 
         --Movement
-        moveSpeed       = 10.0,
+        moveSpeed       = 15.0,
         rotationSpeed   = 3.0,
 
         stopSmoothing   = 8.0,
 
         hurtStunTime = 0.8,
-        afterStunTime = 2.2,
+        afterStunTime = 1.5, --Antes 2.2
 
         enemyDamageMin = 5,
         enemyDamageMax = 35,

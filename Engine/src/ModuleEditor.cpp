@@ -190,10 +190,12 @@ bool ModuleEditor::Update()
     UpdateCurrentWindow();
 
     // Check for meta file changes
-    metaFileCheckTimer += ImGui::GetIO().DeltaTime;
-    if (metaFileCheckTimer >= metaFileCheckInterval) {
-        MetaFileManager::CheckForChanges();
-        metaFileCheckTimer = 0.0f;
+    if (Application::GetInstance().GetPlayState() == Application::PlayState::EDITING) {
+        metaFileCheckTimer += ImGui::GetIO().DeltaTime;
+        if (metaFileCheckTimer >= metaFileCheckInterval) {
+            MetaFileManager::CheckForChanges();
+            metaFileCheckTimer = 0.0f;
+        }
     }
 
     return true;

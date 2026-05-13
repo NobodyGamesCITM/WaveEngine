@@ -56,7 +56,7 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
-    dodgeChance     = 50.0
+    dodgeChance     = 30.0
 }
 local OnStartPos = false
 
@@ -137,7 +137,7 @@ local function TakeDamage(self, amount, attackerPos)
         _G.TriggerCameraShake(0.1, 0.5, 5.0)
     end
 
-    if  Skeleton.hp <= 0 and not pendingDeath then
+    if  Skeleton.hp <= 0 and Skeleton.currentState ~= State.DEAD then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
         Game.SetTimeScale(0.3)
@@ -195,6 +195,7 @@ local function SelectPlaySFX(audioComp, eventName)
 end
 
 function Start(self)
+    Skeleton.hp = self.public.maxHp
     currentYaw = (self.transform.worldRotation and self.transform.worldRotation.y) or 0
     playerGO = GameObject.Find("Player")
 
@@ -451,21 +452,20 @@ cnt = 0.0,
     Enter = function(self)
         alreadyHit = true
         attackTimer = 0
+        States[State.HIT].cnt = 0.0
+        hitCooldown = 0.7
         Skeleton.nav:StopMovement()
         BaseMat.SetTexture("17109277834976977864")
         if Skeleton.bonesPS then Skeleton.bonesPS:Play() end
-    end,
-    Update = function(self, dt)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Hit", 0.0) end)
         end
-        if hitCooldown > 0.0 then 
-             States[State.HIT].cnt =  States[State.HIT].cnt + 0.1
-            if States[State.HIT].cnt >= hitCooldown then 
-                ChangeState(self, State.ATTACK)
-                hitCooldown = 0.0
-            end
+    end,
+    Update = function(self, dt)
+        States[State.HIT].cnt = States[State.HIT].cnt + dt
+        if States[State.HIT].cnt >= hitCooldown then 
+            ChangeState(self, State.ATTACK)
         end
     end,
     Exit = function(self)
@@ -480,22 +480,55 @@ cnt = 0.0,
         end
     end
 }
+local function NormFlat(dx, dz)
+    local len = sqrt(dx*dx + dz*dz)
+    if len < 0.001 then return 0, 0 end
+    return dx/len, dz/len
+end
 
 States[State.DODGE] = {
     cnt = 0.0,
-    dur = 10.0,
+    dur = 0.2,
     Enter = function(self)
+        States[State.DODGE].cnt = 0.0
         attackTimer = 0
         Skeleton.nav:StopMovement()
+
+        local playerPos = playerGO.transform.position
+        local myPos = self.transform.position
+        local rdx, rdz = NormFlat(myPos.x - playerPos.x, myPos.z - playerPos.z)
+
+        local latX1, latZ1 =  rdz, -rdx
+        local latX2, latZ2 = -rdz,  rdx
+
+        local pvX = playerPos.x 
+        local pvZ = playerPos.z 
+        local dot1 = pvX * latX1 + pvZ * latZ1
+        local dot2 = pvX * latX2 + pvZ * latZ2
+
+        local lx, lz
+        if dot1 <= dot2 then lx, lz = latX1, latZ1
+        else                  lx, lz = latX2, latZ2  end
+
+        local s  = 0.8
+        local bx = lx * s + (-rdx) * (1 - s)
+        local bz = lz * s + (-rdz) * (1 - s)
+        local bl = sqrt(bx * bx + bz * bz)
+        if bl > 0.001 then bx = bx / bl; bz = bz / bl end
+        targetVelX = bx * 10
+        targetVelZ = bz * 10
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Dodge", 0.0) end)
         end
     end,
     Update = function(self, dt)
-        States[State.DODGE].cnt =  States[State.DODGE].cnt + 0.1
+        States[State.DODGE].cnt =  States[State.DODGE].cnt + dt
         if States[State.DODGE].cnt >= States[State.DODGE].dur then 
             ChangeState(self, State.ATTACK)
+        else 
+            ApplyMoveVelocity(dt, -1.5)
         end
     end
 }
@@ -533,12 +566,16 @@ States[State.DEAD] = {
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                _G.TriggerExplorationMusic()
-            else Skeleton.rb:SetLinearVelocity(0,0, 0) end
-        else Skeleton.rb:SetLinearVelocity(0, 0, 0) end
+            else 
+                Skeleton.rb:SetLinearVelocity(0,0, 0) 
+            end
+        else 
+            Skeleton.rb:SetLinearVelocity(0, 0, 0) 
+        end
     end
 }
 
-function Update(self, dt)
+function Update(self, dt)    
     if not Skeleton.nav then
         Skeleton.nav = self.gameObject:GetComponent("Navigation")
     end
@@ -583,41 +620,42 @@ end
 
 function OnTriggerEnter(self, other)
     if Skeleton.isDead then return end
-    if other:CompareTag("Player") then
-        --Engine.Log("El jugador golpea al esqueleto, alreadyHit = "..tostring(alreadyHit))
-        if not alreadyHit then
-            local attack = _PlayerController_lastAttack
-            if attack ~= nil and attack ~= "" then
-                local ap  = other.transform.worldPosition
-                local dmg = 0
-                if     attack == "light"  then dmg = 10
-                elseif attack == "heavy" or attack == "charge" then dmg = 25 end
-                if dmg > 0 then
-                    local bnum = math.random(1,100)
-                    Engine.Log(tostring(bnum))
-                    if bnum > self.public.dodgeChance and self.public.level2 then
-                        hitCooldown = 1.0
-                        ChangeState(self,State.DODGE)
-                    else TakeDamage(self, dmg, ap) end
+    if Skeleton.currentState ~= State.DEAD or Skeleton.currentState ~= State.HIT or Skeleton.currentState ~= State.DODGE then 
+        if other:CompareTag("Player") then
+            if not alreadyHit then
+                local attack = _PlayerController_lastAttack
+                if attack ~= nil and attack ~= "" then
+                    local ap  = other.transform.worldPosition
+                    local dmg = 0
+                    if     attack == "light"  then dmg = 10
+                    elseif attack == "heavy" or attack == "charge" then dmg = 25 end
+                    if dmg > 0 then
+                        if  math.random(1,100) < self.public.dodgeChance and self.public.level2 then
+                            ChangeState(self,State.DODGE)
+                        else TakeDamage(self, dmg, ap) end
+                    end
                 end
             end
         end
-    end
 
-    if other:CompareTag("Bullet") then
-        -- La bala golpea al esqueleto
-        if not alreadyHit then
-            local ap  = other.transform.worldPosition
-            local dmg = 15
-            hitCooldown = 1.0
-            TakeDamage(self, dmg, ap)
+        if other:CompareTag("Bullet") then
+            -- La bala golpea al esqueleto
+            if not alreadyHit then
+                local ap  = other.transform.worldPosition
+                local dmg = 15
+                TakeDamage(self, dmg, ap)
+            end
         end
+    else 
+        return
     end
 end
 
 function OnTriggerExit(self, other)
     if Skeleton.isDead then return end
-    if other:CompareTag("Player") then
-        ChangeState(self, State.ATTACK)
+    if Skeleton.currentState ~= State.DEAD or Skeleton.currentState ~= State.HIT or Skeleton.currentState ~= State.DODGE then 
+        if other:CompareTag("Player") then
+            --ChangeState(self, State.ATTACK)
+        end
     end
 end

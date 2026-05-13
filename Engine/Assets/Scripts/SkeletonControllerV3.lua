@@ -15,6 +15,7 @@ local State = {
     GUARD      = "Guard",
     DEAD       = "Dead",
     HIT        = "Hit",
+    DODGE      = "Dodge"
 }
 local States = {}
 
@@ -55,6 +56,7 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
+    dodgeChance     = 50.0
 }
 local OnStartPos = false
 
@@ -451,10 +453,7 @@ cnt = 0.0,
         attackTimer = 0
         Skeleton.nav:StopMovement()
         BaseMat.SetTexture("17109277834976977864")
-        if Skeleton.bonesPS then Skeleton.bonesPS:Play() 
-        else 
-            Engine.Log("nooooooooooooooooo")
-        end
+        if Skeleton.bonesPS then Skeleton.bonesPS:Play() end
     end,
     Update = function(self, dt)
         local anim = self.gameObject:GetComponent("Animation")
@@ -482,6 +481,25 @@ cnt = 0.0,
     end
 }
 
+States[State.DODGE] = {
+    cnt = 0.0,
+    dur = 10.0,
+    Enter = function(self)
+        attackTimer = 0
+        Skeleton.nav:StopMovement()
+        local anim = self.gameObject:GetComponent("Animation")
+        if anim then 
+            pcall(function() anim:Play("Dodge", 0.0) end)
+        end
+    end,
+    Update = function(self, dt)
+        States[State.DODGE].cnt =  States[State.DODGE].cnt + 0.1
+        if States[State.DODGE].cnt >= States[State.DODGE].dur then 
+            ChangeState(self, State.ATTACK)
+        end
+    end
+}
+
 States[State.DEAD] = {
     deadAnim = false,
     Enter = function(self)
@@ -495,14 +513,15 @@ States[State.DEAD] = {
     Update = function(self, dt)
         if not Skeleton.isDead  then
             Skeleton.isDead = true
-            
             local colision = self.gameObject:GetComponent("Sphere Collider")
             if colision then 
                 colision:Disable()
                 Skeleton.rb:SetUseGravity(false)
             else  Engine.Log("Sphere not found") end
+
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
             else BaseMat.SetTexture("6526428321459400712") end
+
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 pcall(function() anim:Play("Death", 0.5) end)
@@ -514,13 +533,8 @@ States[State.DEAD] = {
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                _G.TriggerExplorationMusic()
-            else
-               Skeleton.rb:SetLinearVelocity(0,0, 0)
-               
-            end
-        else 
-            Skeleton.rb:SetLinearVelocity(0, 0, 0)
-        end
+            else Skeleton.rb:SetLinearVelocity(0,0, 0) end
+        else Skeleton.rb:SetLinearVelocity(0, 0, 0) end
     end
 }
 
@@ -565,12 +579,10 @@ function Update(self, dt)
         --Engine.Log("Triggering Combat Music from Skeleton Detection Range")
         _G.TriggerCombatMusic()
     end
-
 end
 
 function OnTriggerEnter(self, other)
     if Skeleton.isDead then return end
-
     if other:CompareTag("Player") then
         --Engine.Log("El jugador golpea al esqueleto, alreadyHit = "..tostring(alreadyHit))
         if not alreadyHit then
@@ -581,7 +593,12 @@ function OnTriggerEnter(self, other)
                 if     attack == "light"  then dmg = 10
                 elseif attack == "heavy" or attack == "charge" then dmg = 25 end
                 if dmg > 0 then
-                    TakeDamage(self, dmg, ap)
+                    local bnum = math.random(1,100)
+                    Engine.Log(tostring(bnum))
+                    if bnum > self.public.dodgeChance and self.public.level2 then
+                        hitCooldown = 1.0
+                        ChangeState(self,State.DODGE)
+                    else TakeDamage(self, dmg, ap) end
                 end
             end
         end

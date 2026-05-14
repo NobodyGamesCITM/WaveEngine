@@ -40,6 +40,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2443085627	SFX_DeactivateStatue			\Default Work Unit\Player\GetMaskAnim\Iteration1\SFX_DeactivateStatue	
 	2470589267	SFX_GM_StatueOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_StatueOn	
 	2620143605	SFX_DoorStop			\Default Work Unit\Puzzles\SFX_DoorStop	
+	2630782753	SFX_ChainBreak			\Default Work Unit\Other\SFX_ChainBreak	
 	2637687044	SFX_MinoDie			\Default Work Unit\Minocabro\SFX_MinoDie	
 	2660566025	SFX_SkeletonSteps			\Default Work Unit\Skeleton\SFX_SkeletonSteps	
 	2665412091	SFX_GM_MaskOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_MaskOn	
@@ -147,6 +148,7 @@ Effect plug-ins	ID	Name	Type				Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	12684693	minocabro_precharge_04	.cache\A3\{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_04		115496
 	16598906	yodguard-spear_thrust-5-382405	.cache\35\{35F9AD34-65EE-7863-7AA8-1E6A8F8474B3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-5-382405		399032
+	23815065	Sonic Rings Dropping Sound Effect	.cache\28\{2847164B-289F-2080-3633-7630B0EFC513}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\Sonic Rings Dropping Sound Effect		88568
 	38515333	riser_00	.cache\11\{111F6F3B-8F01-356E-77FB-AD35E04ED587}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\RisingSFX\riser_00		217808
 	44994569	siren_water	.cache\E1\{E16D0086-FF74-76F8-2D96-844E1C682C40}.wem		\Containers\Default Work Unit\Objects\Siren\siren_water		84608
 	55975540	shield_dmg_01	.cache\35\{35A0F70F-10EC-36AE-4D47-E8D760DB2617}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_01		57176
@@ -160,6 +162,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	84435203	minocabro_footstep_01	.cache\12\{125C6D41-DD53-0963-EE50-561DAFAFB7B7}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_01		30392
 	89671109	minocabro_footstep_02	.cache\8C\{8CB2A334-8F2D-D73A-DFF4-ED095CC5A732}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_02		33488
 	94067801	yodguard-spear_thrust-2-382404	.cache\B7\{B7BE4C46-60B4-1A03-3C67-70949A737EF3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-2-382404		434240
+	94450633	chain_break_02	.cache\C5\{C5388525-11B1-8F50-0862-F1318736190D}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_02		38456
 	96160614	player_hit	.cache\2F\{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem		\Containers\Default Work Unit\Objects\Player\player_hit		28016
 	119201350	metal-rock_impact_03	.cache\8A\{8A5F8066-2C2C-9DE3-A539-D5F7610DF123}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_03		64088
 	119259710	aquiles_step_04	.cache\40\{40F9D7FF-CFD4-EED1-17E6-16EFEA0CC7E9}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_04		52496
@@ -180,6 +183,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	207196639	aquiles_step_02	.cache\A2\{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		59552
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	210183454	hermes_spin_01	.cache\C3\{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_01		8000
+	213938119	chain_break_00	.cache\E8\{E803B572-0CA7-8A6E-B5C3-875845CEF659}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_00		38744
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
@@ -190,6 +194,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	271606854	pressure_plate	.cache\1A\{1A5E6608-A521-1F98-200C-39EF63BDEE48}.wem		\Containers\Default Work Unit\Objects\Puzzles\pressure_plate		13040
 	273412701	Mino_StunnedGrowl	.cache\48\{48AAF9F8-63A6-1243-88EF-17BAAEB125CA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_StunnedGrowl		123272
 	278946100	minocabro_precharge_01	.cache\5B\{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_01		137888
+	280608782	chain_break_01	.cache\7A\{7AE4798E-1B1A-3F7F-48F8-E35A934673F8}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_01		52856
 	281166023	minocabro_hurt_02	.cache\BF\{BF222142-8DC0-F421-A977-3DBE384408D4}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
 	294731171	minocabro_footstep_06	.cache\A5\{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_06		30032
 	307199709	door_end	.cache\ED\{EDB2A2B9-AF89-A392-C392-03C1B4846002}.wem		\Containers\Default Work Unit\Objects\Puzzles\door_end		108512

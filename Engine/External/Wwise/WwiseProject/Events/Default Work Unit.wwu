@@ -813,6 +813,24 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_ChainBreak" ID="{12E07506-D9AB-490C-8839-C14192AF5CDA}">
+							<ChildrenList>
+								<Action Name="" ID="{C865997E-1B03-4A03-B526-9A9A85248A4E}" ShortID="737348009">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="ChainBreak" ID="{944EBDB7-AACB-4963-B8BE-2046105E92AB}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{CFE9B84B-1282-452D-B89D-9CF9629B83E5}" ShortID="195920833">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="deactivate_statue" ID="{04BC33DF-AB07-4825-8580-E854DEB8039C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Minocabro" ID="{F66EFF77-03CF-410B-87CB-DC01709386E1}" ShortID="748498657">

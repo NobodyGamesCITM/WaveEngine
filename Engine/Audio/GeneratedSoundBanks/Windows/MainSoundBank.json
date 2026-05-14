@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{3C4CA064-B3EF-DE74-C3DD-D55A31961F0D}",
+    "Hash": "{F5FEBA4C-C50F-06C5-8302-210A95ED1FAC}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -30,6 +30,14 @@
       "Location": "Memory",
       "ShortName": "yodguard-spear_thrust-5-382405.wav",
       "CachePath": "35/{35F9AD34-65EE-7863-7AA8-1E6A8F8474B3}.wem"
+     },
+     {
+      "Id": "23815065",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sonic Rings Dropping Sound Effect.wav",
+      "CachePath": "28/{2847164B-289F-2080-3633-7630B0EFC513}.wem"
      },
      {
       "Id": "38515333",
@@ -134,6 +142,14 @@
       "Location": "Memory",
       "ShortName": "yodguard-spear_thrust-2-382404.wav",
       "CachePath": "B7/{B7BE4C46-60B4-1A03-3C67-70949A737EF3}.wem"
+     },
+     {
+      "Id": "94450633",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "chain_break_02.wav",
+      "CachePath": "C5/{C5388525-11B1-8F50-0862-F1318736190D}.wem"
      },
      {
       "Id": "96160614",
@@ -296,6 +312,14 @@
       "CachePath": "C3/{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem"
      },
      {
+      "Id": "213938119",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "chain_break_00.wav",
+      "CachePath": "E8/{E803B572-0CA7-8A6E-B5C3-875845CEF659}.wem"
+     },
+     {
       "Id": "218509929",
       "Language": "SFX",
       "Streaming": "false",
@@ -374,6 +398,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_precharge_01.wav",
       "CachePath": "5B/{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem"
+     },
+     {
+      "Id": "280608782",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "chain_break_01.wav",
+      "CachePath": "7A/{7AE4798E-1B1A-3F7F-48F8-E35A934673F8}.wem"
      },
      {
       "Id": "281166023",
@@ -1910,6 +1942,33 @@
       "MediaRefs": [
        {
         "Id": "781091657"
+       }
+      ]
+     },
+     {
+      "Id": "2630782753",
+      "Name": "SFX_ChainBreak",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_ChainBreak",
+      "GUID": "{12E07506-D9AB-490C-8839-C14192AF5CDA}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.1186118",
+      "DurationMax": "1.6112739",
+      "MediaRefs": [
+       {
+        "Id": "23815065"
+       },
+       {
+        "Id": "79161646"
+       },
+       {
+        "Id": "94450633"
+       },
+       {
+        "Id": "213938119"
+       },
+       {
+        "Id": "280608782"
        }
       ]
      },
@@ -3559,6 +3618,6 @@
     ]
    }
   ],
-  "FileHash": "{47BF67F6-A83A-CEFD-5F42-93F3E6592B68}"
+  "FileHash": "{1D58EC84-E560-4C15-1171-8B6E2BFABCFA}"
  }
 }

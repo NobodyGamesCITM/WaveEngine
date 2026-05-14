@@ -54,9 +54,9 @@ function Update(self, dt)
             if _G.HideControlsHint then _G.HideControlsHint() end
 
             if initialChains then initialChains:SetActive(false) end
-            if brokenChains then brokenChains:SetActive(true) end
+            --if brokenChains then brokenChains:SetActive(true) end
 
-            if statueSFX then statueSFX:SelectPlayAudioEvent("SFX_GM_StatueOn") end
+            --if statueSFX then statueSFX:SelectPlayAudioEvent("SFX_GM_StatueOn") end
 
             if _G.PortalManagerInstance then
                 Engine.Log("[KeyStatue] Avisando al PortalManager...")

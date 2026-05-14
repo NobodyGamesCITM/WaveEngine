@@ -28,6 +28,7 @@ namespace AK
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_ARESMASK = 3161303428U;
         static const AkUniqueID SFX_CALMWATER = 2864737081U;
+        static const AkUniqueID SFX_CHAINBREAK = 2630782753U;
         static const AkUniqueID SFX_CHECKPOINTSAVE = 3854015376U;
         static const AkUniqueID SFX_CREEPYSOUNDS = 112594585U;
         static const AkUniqueID SFX_DEACTIVATESTATUE = 2443085627U;

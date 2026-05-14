@@ -67,6 +67,7 @@ local attackTimer = 0
 local pendingDeath = false
 local stepTimer = 0.5
 local deathTimer = 0
+local revive = false
 
 local targetVelX = 0
 local targetVelZ = 0
@@ -74,6 +75,9 @@ local currentYaw = 0
 
 local hitGiven = false
 local BaseMat = nil
+
+local setAlive = false
+local setDead = false
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
@@ -222,6 +226,15 @@ function Start(self)
 
     self.CheckAlive = function(self)
         return Skeleton.isDead
+    end
+    self.SetAlive = function(self)
+        setAlive = true
+        Skeleton.isDead = false
+        revive = false
+    end
+    self.SetDead = function(self)
+        setDead = true
+        revive = true
     end
 
     Engine.RequestResource("17109277834976977864")
@@ -542,6 +555,8 @@ States[State.DEAD] = {
         if anim then 
             pcall(function() anim:Play("Hit", 0.0) end)
         end
+        if revive then States[State.DEAD].deadAnim = true  
+        else States[State.DEAD].deadAnim = false end
     end,
     Update = function(self, dt)
         if not Skeleton.isDead  then
@@ -572,6 +587,14 @@ States[State.DEAD] = {
         else 
             Skeleton.rb:SetLinearVelocity(0, 0, 0) 
         end
+    end,
+    Exit = function(self)
+        Skeleton.isDead = false
+        local colision = self.gameObject:GetComponent("Sphere Collider")
+        if colision then 
+            colision:Enable()
+            Skeleton.rb:SetUseGravity(true)
+        else  Engine.Log("Sphere not found") end
     end
 }
 
@@ -610,6 +633,15 @@ function Update(self, dt)
         end
     else
         stepTimer = 0
+    end
+
+    if setAlive then
+        ChangeState(self, State.IDLE)
+        setAlive = false
+    end
+    if setDead then
+        ChangeState(self, State.DEAD)
+        setDead = false
     end
 
     if CheckDistance(self,self.public.detectDist,true) then

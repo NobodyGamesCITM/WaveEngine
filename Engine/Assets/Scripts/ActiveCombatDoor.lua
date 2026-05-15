@@ -1,6 +1,3 @@
-local initCombat = false
-local endCombat = false
-local reviveEnemies = false
 public = {
     doorsTag = "Door_Combat_1",
     enemiesTag = "Enemy_Combat_1",
@@ -9,6 +6,10 @@ public = {
 local doors = nil
 local enemies = nil
 local init = true
+
+local initCombat = false
+local endCombat = false
+local reviveEnemies = false
 function Start(self)
     doors = GameObject.FindByTag(self.public.doorsTag)
     enemies = GameObject.FindByTag(self.public.enemiesTag)

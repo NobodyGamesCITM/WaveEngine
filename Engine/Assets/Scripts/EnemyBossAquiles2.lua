@@ -411,6 +411,9 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
 
     if dist > self.public.detectRange then
         StopMovement()
+        if _G.BossBar_SetVisibility then
+            _G.BossBar_SetVisibility(false)
+        end
         ChangeState(State.IDLE)
         return
     end
@@ -1011,7 +1014,12 @@ function Update(self, dt)
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
-    if not playerGO or _G._PlayerController_isDead then return end
+    if not playerGO or _G._PlayerController_isDead then 
+        if _G.BossBar_SetVisibility then
+            _G.BossBar_SetVisibility(false)
+        end
+        return 
+    end
 
     if hitCooldown > 0 then
         hitCooldown = hitCooldown - dt

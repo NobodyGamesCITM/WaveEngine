@@ -296,11 +296,51 @@ bool ModuleLoader::LoadMaterialToGameObject(GameObject* obj, UID materialUID)
 
 bool ModuleLoader::LoadScene(const std::string& scenePath)
 {
+#ifndef WAVE_GAME
+
     UID uid = Application::GetInstance().resources.get()->Find(scenePath.c_str(), Resource::SCENE);
 
-    if (uid != 0) 
+    if (uid != 0)
         return LoadScene(uid);
-    else return false;
+    else
+        return false;
+
+#else
+
+    std::filesystem::path path(scenePath);
+    std::string sceneName = path.stem().string();
+
+    std::string mappingPath = FileSystem::GetLibraryRoot() + "/scenes.json";
+
+    if (!std::filesystem::exists(mappingPath))
+    {
+        LOG_CONSOLE("[Loader] ERROR: scenes.json not found in Library. Cannot load scene by name: %s", sceneName.c_str());
+        return false;
+    }
+
+    std::ifstream file(mappingPath);
+    if (!file.is_open())
+    {
+        LOG_CONSOLE("[Loader] ERROR: Could not open Library/scenes.json");
+        return false;
+    }
+
+    nlohmann::json scenesJson;
+    file >> scenesJson;
+    file.close();
+
+    if (!scenesJson.contains(sceneName))
+    {
+        LOG_CONSOLE("[Loader] ERROR: Scene '%s' is not registered in scenes.json", sceneName.c_str());
+        return false;
+    }
+
+    UID sceneUID = scenesJson[sceneName].get<UID>();
+    LOG_CONSOLE("[Loader] Scene '%s' resolved to UID: %llu. Loading from Library...", sceneName.c_str(), sceneUID);
+
+    return LoadScene(sceneUID);
+
+#endif
 }
 
 bool ModuleLoader::LoadScene(UID sceneUID)

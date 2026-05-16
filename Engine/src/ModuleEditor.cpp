@@ -1215,6 +1215,32 @@ void ModuleEditor::BuildGame()
             LOG_CONSOLE("[Build] Startup scene set to '%s'", sceneSrc.c_str());
         }
 
+        nlohmann::json scenesMapJson;
+        const auto& registry = LibraryManager::GetRegistry();
+
+        for (const auto& [uid, entry] : registry)
+        {
+            std::filesystem::path assetPath(entry.path);
+            if (assetPath.extension() == ".scene")
+            {
+                std::string sceneName = assetPath.stem().string();
+                scenesMapJson[sceneName] = uid;
+                LOG_CONSOLE("[Build] Registered scene mapping: %s -> %llu", sceneName.c_str(), uid);
+            }
+        }
+
+        std::ofstream scenesMapFile(dest / "Library" / "scenes.json");
+        if (scenesMapFile.is_open())
+        {
+            scenesMapFile << scenesMapJson.dump(4);
+            scenesMapFile.close();
+            LOG_CONSOLE("[Build] Created Library/scenes.json successfully!");
+        }
+        else
+        {
+            LOG_CONSOLE("[Build] WARNING: Could not create Library/scenes.json");
+        }
+
         nlohmann::json config;
         config["startup_scene"] = startupSceneUID;
         std::ofstream configFile(dest / "build_config.json");

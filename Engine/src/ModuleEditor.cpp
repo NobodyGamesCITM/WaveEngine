@@ -1147,7 +1147,7 @@ void ModuleEditor::BuildGame()
     fs::path exeDir = fs::path(exePath).parent_path();
     // Example: exePath = C:\WaveEngine\Engine\build\Release\Engine.exe --> exeDir = C:\WaveEngine\Engine\build\Release
 
-    fs::path gameExeSrc = exeDir / "Game.exe";
+    fs::path gameExeSrc = exeDir / "SonOfIthaca.exe";
     if (!fs::exists(gameExeSrc))
     {
         LOG_CONSOLE("[Build] ERROR: Game.exe not found at %s", gameExeSrc.string().c_str());
@@ -1157,8 +1157,8 @@ void ModuleEditor::BuildGame()
     try
     {
         // Copy Game.exe
-        fs::copy_file(gameExeSrc, dest / "Game.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
-        LOG_CONSOLE("[Build] Copied Game.exe");
+        fs::copy_file(gameExeSrc, dest / "SonOfIthaca.exe", fs::copy_options::overwrite_existing); // https://en.cppreference.com/w/cpp/filesystem/copy_file
+        LOG_CONSOLE("[Build] Copied SonOfIthaca.exe");
 
         // Copy all dlls 
         int dllCount = 0;
@@ -1213,6 +1213,32 @@ void ModuleEditor::BuildGame()
         {
             startupSceneUID = MetaFileManager::GetUIDFromAsset(sceneSrc);
             LOG_CONSOLE("[Build] Startup scene set to '%s'", sceneSrc.c_str());
+        }
+
+        nlohmann::json scenesMapJson;
+        const auto& registry = LibraryManager::GetRegistry();
+
+        for (const auto& [uid, entry] : registry)
+        {
+            std::filesystem::path assetPath(entry.path);
+            if (assetPath.extension() == ".scene")
+            {
+                std::string sceneName = assetPath.stem().string();
+                scenesMapJson[sceneName] = uid;
+                LOG_CONSOLE("[Build] Registered scene mapping: %s -> %llu", sceneName.c_str(), uid);
+            }
+        }
+
+        std::ofstream scenesMapFile(dest / "Library" / "scenes.json");
+        if (scenesMapFile.is_open())
+        {
+            scenesMapFile << scenesMapJson.dump(4);
+            scenesMapFile.close();
+            LOG_CONSOLE("[Build] Created Library/scenes.json successfully!");
+        }
+        else
+        {
+            LOG_CONSOLE("[Build] WARNING: Could not create Library/scenes.json");
         }
 
         nlohmann::json config;

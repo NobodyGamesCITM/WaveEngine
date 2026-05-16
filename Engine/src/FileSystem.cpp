@@ -54,7 +54,15 @@ void FileSystem::Initialize()
     s_projectRoot = execDir;
     s_assetsRoot = execDir / "Assets";
     s_libraryRoot = execDir / "Library";
-    assetsFound = true;
+    if (fs::exists(s_projectRoot) && fs::is_directory(s_projectRoot)) {
+
+        assetsFound = true;
+        LOG_CONSOLE("[FileSystem] Project root found at: %s", s_projectRoot.string().c_str());
+    }
+    else
+    {
+        LOG_CONSOLE("[FileSystem] Project root not found");
+    }
 
 #endif
 

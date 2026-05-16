@@ -744,11 +744,15 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postProcessFBO);
     glBlitFramebuffer(0, 0, camera->textureWidth, camera->textureHeight,
         0, 0, camera->textureWidth, camera->textureHeight,
-        GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 
     glBindFramebuffer(GL_FRAMEBUFFER, camera->fboID);
 
     postProcessShader->Use();
+    
+    glm::mat4 invVP = glm::inverse(camera->GetProjectionMatrix() * camera->GetViewMatrix());
+    postProcessShader->SetMat4("uInverseVP", invVP);
+    postProcessShader->SetVec3("uCamPos", camera->position);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, postProcessTexture);
@@ -757,7 +761,11 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, camera->depthTexture != 0 ? camera->depthTexture : 0); 
     postProcessShader->SetInt("depthTexture", 1);
-    
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, waterMaskTexture);
+    postProcessShader->SetInt("waterMaskTexture", 3);
+
     glm::vec2 resolution = glm::vec2((float)camera->textureWidth, (float)camera->textureHeight);
     postProcessShader->SetVec2("uResolution", resolution);
     postProcessShader->SetVec2("uTexelSize", 1.0f / resolution);
@@ -803,6 +811,17 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         postProcessShader->SetVec4("vignetteColor", activePP->lens.vignetteColor);
     }
 
+    postProcessShader->SetBool("fogEnabled", activePP->fog.enabled);
+    if (activePP->fog.enabled) {
+        postProcessShader->SetInt("fogMode",          activePP->fog.mode);
+        postProcessShader->SetVec3("fogColor",        activePP->fog.color);
+        postProcessShader->SetFloat("fogDensity",     activePP->fog.density);
+        postProcessShader->SetFloat("fogStart",       activePP->fog.start);
+        postProcessShader->SetFloat("fogEnd",         activePP->fog.end);
+        postProcessShader->SetBool("fogUseHeight",    activePP->fog.useHeight);
+        postProcessShader->SetFloat("fogHeightStart", activePP->fog.heightStart);
+        postProcessShader->SetFloat("fogHeightFalloff", activePP->fog.heightFalloff);
+    }
     // --- Global Depth Uniforms ---
     postProcessShader->SetFloat("nearPlane", camera->GetNearPlane());
     postProcessShader->SetFloat("farPlane", camera->GetFarPlane());
@@ -853,6 +872,18 @@ void Renderer::DrawPostProcessing(CameraLens* camera)
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, finalBlurTexture);
         postProcessShader->SetInt("blurredTexture", 2);
+    }
+
+    postProcessShader->SetBool("fogEnabled", activePP->fog.enabled);
+    if (activePP->fog.enabled) {
+        postProcessShader->SetInt("fogMode",            activePP->fog.mode);
+        postProcessShader->SetVec3("fogColor",          activePP->fog.color);
+        postProcessShader->SetFloat("fogDensity",       activePP->fog.density);
+        postProcessShader->SetFloat("fogStart",         activePP->fog.start);
+        postProcessShader->SetFloat("fogEnd",           activePP->fog.end);
+        postProcessShader->SetBool("fogUseHeight",      activePP->fog.useHeight);
+        postProcessShader->SetFloat("fogHeightStart",   activePP->fog.heightStart);
+        postProcessShader->SetFloat("fogHeightFalloff", activePP->fog.heightFalloff);
     }
 
     postProcessShader->SetBool("blurEnabled", activePP->blur.enabled);
@@ -1065,7 +1096,7 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     if (camera->fboID == 0) {
         Application::GetInstance().window->GetWindowSize(w, h);
     }
-
+    
     if (waterDepthFBO == 0 || w != waterDepthW || h != waterDepthH) {
         if (waterDepthFBO != 0) {
             glDeleteFramebuffers(1, &waterDepthFBO);
@@ -1086,14 +1117,46 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
         waterDepthH = h;
     }
 
-    bool usingMSAA = msaaEnabled && camera->msaaFBO != 0;
-    GLuint currentFBO = usingMSAA ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
+    bool msaaActive = msaaEnabled && camera->msaaFBO != 0;
+    GLuint sceneFBO = msaaActive ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
 
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, currentFBO);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, sceneFBO);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, waterDepthFBO);
     glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, currentFBO);
+    // --- Water Mask Pass ---
+    ResizeWaterMask(w, h);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, sceneFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, waterMaskFBO);
+    glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, waterMaskFBO);
+    glViewport(0, 0, w, h);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    outlineShader->Use();
+    GLuint outlineProg = outlineShader->GetProgramID();
+    glUniformMatrix4fv(glGetUniformLocation(outlineProg, "view"),       1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
+    glUniformMatrix4fv(glGetUniformLocation(outlineProg, "projection"), 1, GL_FALSE, glm::value_ptr(camera->GetProjectionMatrix()));
+    outlineShader->SetVec3("outlineColor",      glm::vec3(1.0f));
+    outlineShader->SetFloat("outlineThickness", 0.0f);
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    glDisable(GL_CULL_FACE);
+
+    for (const RenderObject& obj : list) {
+        glUniformMatrix4fv(glGetUniformLocation(outlineProg, "model"), 1, GL_FALSE, glm::value_ptr(obj.globalModelMatrix));
+        DrawMesh(obj.mesh);
+    }
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_CULL_FACE);
+
+    // --- Draw Water to Scene ---
+    glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+    glViewport(0, 0, w, h);
 
     glDepthMask(GL_FALSE);
     waterShader->Use();
@@ -1111,14 +1174,33 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     glBindTexture(GL_TEXTURE_2D, waterDepthTex);
     waterShader->SetInt("uSceneDepthMap", 1);
 
-    waterShader->SetVec3("uWaterColor", glm::vec3(0.05f, 0.45f, 0.8f));
-    waterShader->SetVec3("uFoamColor", glm::vec3(0.6f, 0.9f, 1.0f));
+    waterShader->SetVec3("uWaterColor",    glm::vec3(0.05f, 0.45f, 0.8f));
+    waterShader->SetVec3("uFoamColor",     glm::vec3(0.6f, 0.9f, 1.0f));
+    waterShader->SetFloat("uFoamOffset",    0.2f);
+    waterShader->SetFloat("uFoamThickness", 0.1f);
 
     float time = Application::GetInstance().time->GetTotalTime();
     waterShader->SetFloat("uTime", time);
 
-    waterShader->SetFloat("uFoamOffset", 0.2f);
-    waterShader->SetFloat("uFoamThickness", 0.1f);
+    ComponentPostProcessing* activePP = nullptr;
+    for (auto* pp : postProcessingComponents) {
+        if (pp->IsActive() && pp->owner && pp->owner->IsActive()) { activePP = pp; break; }
+    }
+
+    if (activePP && activePP->fog.enabled) {
+        waterShader->SetBool("fogEnabled", true);
+        waterShader->SetInt("fogMode",            activePP->fog.mode);
+        waterShader->SetVec3("fogColor",          activePP->fog.color);
+        waterShader->SetFloat("fogDensity",       activePP->fog.density);
+        waterShader->SetFloat("fogStart",         activePP->fog.start);
+        waterShader->SetFloat("fogEnd",           activePP->fog.end);
+        waterShader->SetBool("fogUseHeight",      activePP->fog.useHeight);
+        waterShader->SetFloat("fogHeightStart",   activePP->fog.heightStart);
+        waterShader->SetFloat("fogHeightFalloff", activePP->fog.heightFalloff);
+        waterShader->SetVec3("uViewPos",          camera->position);
+    } else {
+        waterShader->SetBool("fogEnabled", false);
+    }
 
     for (const RenderObject& obj : list) {
         waterShader->SetMat4("model", obj.globalModelMatrix);
@@ -1127,7 +1209,6 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
 
     glDepthMask(GL_TRUE);
 }
-
 void Renderer::DrawSkybox(const CameraLens* camera)
 {
     if (!activeSkybox || activeSkybox->GetCubemapID() == 0) return;
@@ -1475,7 +1556,15 @@ bool Renderer::CleanUp()
         glDeleteVertexArrays(1, &normalLinesVAO);
         glDeleteBuffers(1, &normalLinesVBO);
     }
-
+    if (waterMaskFBO != 0) {
+        glDeleteFramebuffers(1, &waterMaskFBO);
+        glDeleteTextures(1, &waterMaskTexture);
+        glDeleteRenderbuffers(1, &waterMaskRBO);
+        waterMaskFBO     = 0;
+        waterMaskTexture = 0;
+        waterMaskW       = 0;
+        waterMaskH       = 0;
+    }
     if (waterDepthFBO != 0) {
         glDeleteFramebuffers(1, &waterDepthFBO);
         glDeleteTextures(1, &waterDepthTex);
@@ -1941,4 +2030,32 @@ void Renderer::AddLight(ComponentLight* light)
 void Renderer::RemoveLight(ComponentLight* light)
 {
     if (lightManager) lightManager->UnregisterLight(light);
+}
+
+void Renderer::ResizeWaterMask(int width, int height)
+{
+    if (waterMaskFBO == 0) {
+        glGenFramebuffers(1, &waterMaskFBO);
+        glGenTextures(1, &waterMaskTexture);
+        glGenRenderbuffers(1, &waterMaskRBO);
+    }
+
+    if (waterMaskW != width || waterMaskH != height) {
+        glBindTexture(GL_TEXTURE_2D, waterMaskTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, waterMaskFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, waterMaskTexture, 0);
+        
+        glBindRenderbuffer(GL_RENDERBUFFER, waterMaskRBO);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, waterMaskRBO);
+
+        waterMaskW = width;
+        waterMaskH = height;
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

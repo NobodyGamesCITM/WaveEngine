@@ -89,7 +89,6 @@ local seenPresets   = {}
 local currentPreset = nil
 local timer         = 0.0
 local duration      = nil
-local lastMaskCount = 0
 local changeMaskTutorialActive  = false
 local changeMaskTutorialPending = false
 
@@ -108,15 +107,21 @@ end
 local function hideHints()
     UI.SetElementVisibility("ControlsHintPanel", false)
     hideAll()
-    currentPreset = nil
-    timer         = 0.0
-    duration      = nil
+    currentPreset    = nil
+    timer            = 0.0
+    duration         = nil
+    _G._IsHintActive = false   --UIQueueManager
 end
 
-local function showPreset(presetName)
-    if ONCE_ONLY[presetName] and seenPresets[presetName] then
-        Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
-        return
+-- overrideDuration: cuando el UIQueueManager re-encola un hint interrumpido
+-- pasa el tiempo restante para que no empiece de cero
+local function showPreset(presetName, overrideDuration)
+
+    if not overrideDuration then
+        if ONCE_ONLY[presetName] and seenPresets[presetName] then
+            Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
+            return
+        end
     end
 
     local preset = PRESETS[presetName]
@@ -131,7 +136,7 @@ local function showPreset(presetName)
 
     currentPreset = presetName
     timer         = 0.0
-    duration      = preset.duration
+    duration      = overrideDuration or preset.duration  -- usa el tiempo restante si existe
 
     hideAll()
 
@@ -141,7 +146,6 @@ local function showPreset(presetName)
         UI.SetElementVisibility(slot.key,  true)
     end
 
-    -- Margen: centrado con 1 slot, sin margen extra con 2 slots
     if #preset.slots == 1 then
         UI.SetElementMargin("HintSlot1", 200, 0, 0, 0)
     else
@@ -149,16 +153,28 @@ local function showPreset(presetName)
     end
 
     UI.SetElementVisibility("ControlsHintPanel", true)
-    Engine.Log("[ControlsHint] Mostrando: " .. presetName)
+    _G._IsHintActive = true    -- UIQueueManager
+    Engine.Log("[ControlsHint] Mostrando: " .. presetName
+        .. (overrideDuration and (" (restante: " .. string.format("%.1f", overrideDuration) .. "s)") or ""))
 end
 
 function Start(self)
+    _G._IsHintActive = false   -- UIQueueManager
     hideAll()
     UI.SetElementVisibility("ControlsHintPanel", false)
     UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
 
     _G.ShowControlsHint = showPreset
     _G.HideControlsHint = hideHints
+
+    _G._HintTimeRemaining = function()
+        if not currentPreset or not duration then return 0 end
+        return math.max(0, duration - timer)
+    end
+    _G._HintCurrentPreset = function()
+        return currentPreset
+    end
+
     _G.ShowChangeMaskTutorial = function()
         Engine.Log("[ChangeMaskTutorial] Llamado!")
         UI.SetElementVisibility("ChangeMaskTutorialPanel", true)

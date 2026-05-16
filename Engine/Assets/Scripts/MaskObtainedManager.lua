@@ -38,10 +38,6 @@ local function closeMaskPanel()
     hideAll()
     UI.SetElementVisibility("MaskObtainedPanel", false)
 
-   -- if pendingHint and _G.ShowControlsHint then
-        --_G.ShowControlsHint(pendingHint)
-    --end
-
     Engine.Log("[MaskObtained] _MaskCount al cerrar: " .. tostring(_G._MaskCount))
 
     if _G._MaskCount == 2 then
@@ -55,6 +51,10 @@ local function closeMaskPanel()
 
     active      = false
     pendingHint = nil
+
+    -- UIQueueManager
+    _G._IsMaskActive = false
+    Engine.Log("[MaskObtained] _IsMaskActive = false")
 end
 
 local function showMaskObtained(maskKey)
@@ -69,21 +69,22 @@ local function showMaskObtained(maskKey)
     UI.SetElementText("MaskObtainedName", data.name)
     UI.SetElementVisibility("MaskObtainedName", true)
     UI.SetElementVisibility(data.maskImg, true)
-
     UI.SetElementVisibility(data.panel, true)
-
     UI.SetElementVisibility("MaskObtainedPanel", true)
 
     active      = true
     pendingHint = data.hint
 
-    Engine.Log("[MaskObtained] Mostrando: " .. maskKey)
+    -- UIQueueManager
+    _G._IsMaskActive = true
+    Engine.Log("[MaskObtained] Mostrando: " .. maskKey .. " | _IsMaskActive = true")
 end
 
 function Start(self)
     hideAll()
     UI.SetElementVisibility("MaskObtainedPanel", false)
 
+    _G._IsMaskActive    = false
     _G.ShowMaskObtained = showMaskObtained
 
     Engine.Log("[MaskObtained] Ready")

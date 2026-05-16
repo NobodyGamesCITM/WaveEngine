@@ -30,39 +30,6 @@ bool ModuleLoader::Start()
         return false;
     }
 
-    std::string defaultScenePath = "../Scene/testMarc.json";
-    if (fs::exists(defaultScenePath)) {
-        LOG_CONSOLE("[FileSystem] Loading default scene: %s", defaultScenePath.c_str());
-        if (Application::GetInstance().scene->LoadScene(defaultScenePath)) {
-            LOG_CONSOLE("[FileSystem] Default scene loaded successfully");
-            return true;
-        }
-        else {
-            LOG_CONSOLE("[FileSystem] WARNING: Failed to load default scene, using fallback geometry");
-        }
-    }
-
-    fs::path assetsPath = FileSystem::GetAssetsRoot();
-
-    if (!fs::exists(assetsPath) || !fs::is_directory(assetsPath)) {
-        LOG_CONSOLE("[FileSystem] WARNING: Assets folder not accessible");
-
-        GameObject* pyramidObject = new GameObject("Pyramid");
-        ComponentMesh* meshComp = static_cast<ComponentMesh*>(pyramidObject->CreateComponent(ComponentType::MESH));
-        Mesh pyramidMesh = Primitives::CreatePyramid();
-        meshComp->SetMesh(pyramidMesh);
-
-        GameObject* root = Application::GetInstance().scene->GetRoot();
-        root->AddChild(pyramidObject);
-        
-
-        return true;
-    }
-
-    // Cargar street
-    fs::path streetPath = assetsPath / "Street" / "street2.fbx";
-    LoadModel(streetPath.generic_string());
-
     // Crear cámara de escena
     Application& app = Application::GetInstance();
     GameObject* cameraGO = app.scene->CreateGameObject("Camera");

@@ -39,7 +39,7 @@ d:DesignWidth="1280" d:DesignHeight="720">
         <Grid Width="1280" Height="720">
 
             <Grid x:Name="ItemObtainedPanel"
-                  Visibility="Collapsed"
+                  Visibility="Hidden"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Width="300"
@@ -85,20 +85,25 @@ d:DesignWidth="1280" d:DesignHeight="720">
                         </Rectangle.Fill>
                     </Rectangle>
 
-                    <!-- Imagen de la poción -->
+                    <!-- Imagen de la poción: dos imágenes superpuestas, se alterna visibilidad -->
                     <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image x:Name="PotionImage"
+                        <Image x:Name="PotionImageHealth"
                                Source="Textures/Pocion.PNG"
                                Width="120" Height="120"
-                               Opacity="1"
+                               Visibility="Visible"
                                RenderTransformOrigin="0.5,0.5">
                             <Image.RenderTransform>
-                             <TransformGroup>
-                                <ScaleTransform x:Name="PotionScale" ScaleX="1" ScaleY="1"/>
-                                <RotateTransform x:Name="PotionRotate" Angle="0" CenterX="60" CenterY="60"/>
+                                <TransformGroup>
+                                    <ScaleTransform x:Name="PotionScale" ScaleX="1" ScaleY="1"/>
+                                    <RotateTransform x:Name="PotionRotate" Angle="0" CenterX="60" CenterY="60"/>
                                 </TransformGroup>
                             </Image.RenderTransform>
                         </Image>
+                        <Image x:Name="PotionImageBerserk"
+                               Source="Textures/Berserk.png"
+                               Width="120" Height="120"
+                               Visibility="Hidden"
+                               RenderTransformOrigin="0.5,0.5"/>
                     </Grid>
 
                     <!-- Separador inferior -->
@@ -125,7 +130,7 @@ d:DesignWidth="1280" d:DesignHeight="720">
                                Width="32" Height="32"
                                VerticalAlignment="Center"
                                Margin="0,0,8,0"
-                               Visibility="Collapsed"/>
+                               Visibility="Hidden"/>
 
                         <TextBlock Text="Reclamar"
                                    FontSize="20"

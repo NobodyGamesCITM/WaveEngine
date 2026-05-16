@@ -1,4 +1,3 @@
-
 public = {
     updateWhenPaused = true,
 }
@@ -17,6 +16,18 @@ local function updateInputIcon()
     end
 end
 
+-- Muestra el icono correcto según el tipo de poción
+local function updateItemIcon(potionType)
+    if potionType == "Berserk" then
+        UI.SetElementVisibility("PotionImageHealth",  false)
+        UI.SetElementVisibility("PotionImageBerserk", true)
+    else
+        -- "Health" o cualquier otro valor
+        UI.SetElementVisibility("PotionImageHealth",  true)
+        UI.SetElementVisibility("PotionImageBerserk", false)
+    end
+end
+
 local function hide()
     UI.SetElementVisibility("ItemObtainedPanel", false)
     active = false
@@ -28,11 +39,14 @@ local function hide()
     Engine.Log("[ItemObtained] Cerrado")
 end
 
-local function show(itemText, itemIcon, onClose)
+-- potionType: "Health" | "Berserk"  (opcional, por defecto "Health")
+local function show(itemText, potionType, onClose)
     _G.OnItemObtainedClosed = onClose
     UI.SetElementText("ItemObtainedText", itemText or "¡Objeto obtenido!")
-    updateInputIcon()
+    -- Panel visible primero para que Noesis encuentre los hijos
     UI.SetElementVisibility("ItemObtainedPanel", true)
+    updateInputIcon()
+    updateItemIcon(potionType)
     if canvas then
         canvas:PlayStoryboard("PotionAppear", "ItemObtainedPanel")
         Engine.Log("[ItemObtained] Storyboard PotionAppear lanzado")
@@ -41,7 +55,7 @@ local function show(itemText, itemIcon, onClose)
     end
     active = true
     _G.ItemObtainedActive = true
-    Engine.Log("[ItemObtained] Mostrado: " .. tostring(itemText))
+    Engine.Log("[ItemObtained] Mostrado: " .. tostring(itemText) .. " | Tipo: " .. tostring(potionType))
 end
 
 function Start(self)

@@ -11,7 +11,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <Grid Width="1920" Height="1080">
 
             <Grid x:Name="ItemObtainedPanel"
-                  Visibility="Collapsed">
+                  Visibility="Hidden">
 
                 <!-- Texto arriba: Poción obtenida -->
                 <TextBlock x:Name="ItemObtainedText"
@@ -26,6 +26,16 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         <SolidColorBrush Color="#FFFFFFFF"/>
                     </TextBlock.Foreground>
                 </TextBlock>
+
+                <!-- Icono del ítem obtenido (centro de pantalla) -->
+                <Grid HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                    <Image x:Name="ItemObtainedIconBerserk"
+                           Source="Textures/Berserk.png"
+                           Width="128" Height="128"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                </Grid>
 
                 <!-- Prompt abajo: icono F + Reclamar -->
                 <StackPanel Orientation="Horizontal"
@@ -49,7 +59,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                    Width="36" Height="36"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Visibility="Collapsed"/>
+                                   Visibility="Hidden"/>
                         </Grid>
                     </Border>
                     <TextBlock Text="Reclamar"

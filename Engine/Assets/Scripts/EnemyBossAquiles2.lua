@@ -223,57 +223,77 @@ local function TakeDamage(self, amount, attackerPos)
         rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
     end
 
+    -- Have posture
+    local hasPosture = (posture>0)
+
+    local dmg = 0
+
+    --Bajar escudo
+    if hasPosture and not inOpportunity then
+        posture = posture - amount
+        PlaySFX(armorSFX)
+        if sparksPs then sparksPs:Play() end
+
+        -- Escudo se rompe
+        if posture >= self.public.maxPosture then
+            StopMovement()
+            ChangeState(State.IDLE)
+        end
+
+        Engine.Log("Aquiles HP = " .. tostring(hp))
+        Engine.Log("Aquiles Escudo = " .. tostring(posture))
+        return
+    end
+
+    -- Baja vida
+    if hasPosture and inOpportunity then
+        dmg = amount * self.public.opportunityDamageMultiplier
+
+    -- Baja vida pero poca
+    elseif not hasPosture and not inOpportunity then
+        dmg = amount * 0.4 
+        
+
+    -- Baja vida
+    else
+        dmg = amount * self.public.opportunityDamageMultiplier
+    end
+
+    hp = hp - dmg
+
+    Engine.Log("Aquiles HP = " .. tostring(hp))
+    Engine.Log("Aquiles Escudo = " .. tostring(posture))
+
+
+    SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
+    if bloodPs then bloodPs:Play() end
+
+    
     if inOpportunity then
-        local totalDamage = amount * self.public.opportunityDamageMultiplier
-        hp = hp - totalDamage
-        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
-        if bloodPs then bloodPs:Play() end
-        if currentState == State.LANCE_360 or currentState == State.CHARGE then
-            return
-        end
-
         if currentState == State.WALL then
-            if anim then anim:Play("Stuck_Hit", 0.1) end
+            anim:Play("Stuck_Hit", 0.1)
         elseif currentState == State.STUN then
-            if anim then anim:Play("Stun_Hit", 0.1) end
+            anim:Play("Stun_Hit", 0.1)
         end
-        opportunityHitTimer = 0.4
-
+    else
         if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
             StopMovement()
             hurtTimer = self.public.hurtStunTime
-            if anim then anim:Play("Hit", 0.1) end
-        end
-        
-        if hp <= 0 then
-            ChangeState(State.DEAD)
-            if anim then anim:Play("Death") end
-            SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
-            if _G.BossBar_SetVisibility then
-                _G.BossBar_SetVisibility(false)
-            end
-            return
-        end
-    else
-        posture = posture + amount
-        if posture >= self.public.maxPosture then
-            posture = 0
-            PlaySFX(armorSFX)
-            if sparksPs then sparksPs:Play() end
-
-            if currentState == State.LANCE_360 or currentState == State.CHARGE then
-                return
-            end
-        
-            StopMovement()
-            ChangeState(State.IDLE)
-            return
+            anim:Play("Hit", 0.1)
         end
     end
 
-    if _G.BossBar_RefreshHealth then
-        _G.BossBar_RefreshHealth(hp, currentMaxHp)
+    -- Dead
+    if hp <= 0 then
+        ChangeState(State.DEAD)
+        anim:Play("Death")
+        SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+        if _G.BossBar_SetVisibility then
+            _G.BossBar_SetVisibility(false)
+        end
+        return
     end
+
 
     if not inOpportunity and currentState == State.COMBAT_MOVE then
         hitsReceivedCounter = hitsReceivedCounter + 1
@@ -351,7 +371,7 @@ local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
 
     if dist <= self.public.minDistanceToPlayer and not isDashing then
 
-        Engine.Log("Estoy muy cerca")
+        --Engine.Log("Estoy muy cerca")
         rb:SetLinearVelocity(0, 0, 0)
         if anim and not anim:IsPlayingAnimation("Idle") then 
             anim:Play("Idle", 0.2) 
@@ -461,15 +481,15 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             preparationTimer = 0
             chargeCDTimer = self.public.chargeCooldown
             ChangeState(State.ANTICIPATION)
-            Engine.Log("Me estoy moviendo")
+            --Engine.Log("Me estoy moviendo")
             return 
         else 
             if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
             MovementWalk(self, dx, dz, dt)
-            Engine.Log("Estoy aqui")
+            --Engine.Log("Estoy aqui")
         end
     else
-        Engine.Log("Mentira estoy aqui")
+        --Engine.Log("Mentira estoy aqui")
         if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
         MovementWalk(self, dx, dz, dt)
     end
@@ -479,7 +499,7 @@ local function UpdateLance360(self, myPos, pp, dt)
     if not lanceAnimStarted then
         lanceAnimStarted = true
         anim:Play("360Attack", 0.1)
-        currentYaw = self.transform.eulerAngles.y
+        currentYaw = self.transform.worldRotation.y
     end
     
     currentYaw = currentYaw + 500.0 * dt
@@ -754,17 +774,17 @@ local function UpdateDeath(self, dt)
 
         self.public.detectRange    = 27.0
         self.public.chargeDamage      = 45
-        self.public.chargeSpeed       = 25.0
+        self.public.chargeSpeed       = 40.0 --Antes 25
         self.public.chargeCooldown    = 1.5
         self.public.lanceDamage       = 30
-        self.public.lanceCooldown     = 1
+        self.public.lanceCooldown     = 0.4
         self.public.moveSpeed         = 8
-        self.public.preparationTime   = 0.5
+        self.public.preparationTime   = 0.5 
         self.public.wallStunTime      = 1.0
         self.public.afterStunTime     = 0.7
         self.public.stunDuration      = 1.5
-        self.public.predictionTime    = 0.5
-        self.public.chargeDuration    = 0.85
+        self.public.predictionTime    = 0.2 --Antes a 0.5
+
 
         currentState = State.IDLE
         fase1 = false
@@ -869,7 +889,7 @@ function Start(self)
         maxHp           = 200, --Antes 300
         maxPosture      = 100,
 
-        detectRange     = 25.0,
+        detectRange     = 30.0, --Antes 25
         Lance360Range   = 4.0, --Antes 2
         chargeRange     = 18.0,
         dashApproachRange = 9.0,
@@ -883,8 +903,8 @@ function Start(self)
         lanceDamage         = 20,
 
         preparationTime = 1.0,
-        chargeSpeed     = 22.0,
-        chargeDuration  = 1.0,
+        chargeSpeed     = 30.0, -- antes 22
+        chargeDuration  = 0.4,
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
@@ -895,12 +915,12 @@ function Start(self)
         knockbackForce  = 10.0,
         stunDuration    = 2.0,
         hurtStunTime    = 0.4,
-        predictionTime  = 0.4,
+        predictionTime  = 0.2, --Antes 0.4
 
         opportunityDamageMultiplier = 1.0,
         wallStunDuration = 2.0,
         recoveryLance    = 0.5,
-        recoveryCharge   = 1.0,
+        recoveryCharge   = 0.5, -- Antes 1.0
 
 
         minDistanceToPlayer=6.0,
@@ -988,29 +1008,6 @@ function Update(self, dt)
         end
     end
 
-    if _PlayerController_lastAttack ~= nil and _PlayerController_lastAttack ~= "" then
-        if not playerAttackHandled and playerGO and not isDead then
-            local myPos = self.transform.position
-            local pp    = playerGO.transform.position
-            if pp then
-                local dx   = pp.x - myPos.x
-                local dz   = pp.z - myPos.z
-                local dist = sqrt(dx * dx + dz * dz)
-                if dist <= (self.public.chargeRange * 0.5) then
-                    playerAttackHandled = true
-                    local attack = _PlayerController_lastAttack
-                    if attack == "light" then
-                        TakeDamage(self, DAMAGE_LIGHT, pp)
-                    elseif attack == "charge" or attack == "heavy" then
-                        TakeDamage(self, DAMAGE_HEAVY, pp)
-                    end
-                end
-            end
-        end
-    else
-        playerAttackHandled = false
-    end
-
     if not playerGO then
         playerGO = GameObject.Find("Player")
     end
@@ -1095,11 +1092,9 @@ function OnTriggerEnter(self, other)
             self.alreadyHit = true
             hitCooldown = 0.2
             BaseMat.SetTexture("6600101727014948682")
-            if currentState == State.STUN  then
-                TakeDamage(self, dmg-5, ap)
-            else
-                TakeDamage(self, dmg, ap)
-            end
+            
+            TakeDamage(self, dmg, ap)
+            
         end
     end
 
@@ -1110,18 +1105,10 @@ function OnTriggerEnter(self, other)
                 alreadyHit = true
                 BaseMat.SetTexture("6600101727014948682")
                 local attackerPos = other.transform.worldPosition
-                if currentState == State.STUN  then
-                    if attack == "light" then
-                        TakeDamage(self, DAMAGE_LIGHT-5, attackerPos)
-                    elseif attack == "heavy" or attack == "charge" then
-                        TakeDamage(self, DAMAGE_HEAVY-5, attackerPos)
-                    end
-                else
-                    if attack == "light" then
-                        TakeDamage(self, DAMAGE_LIGHT, attackerPos)
-                    elseif attack == "heavy" or attack == "charge" then
-                        TakeDamage(self, DAMAGE_HEAVY, attackerPos)
-                    end
+                if attack == "light" then
+                    TakeDamage(self, DAMAGE_LIGHT, attackerPos)
+                elseif attack == "heavy" or attack == "charge" then
+                    TakeDamage(self, DAMAGE_HEAVY, attackerPos)
                 end
             end
         end

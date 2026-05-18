@@ -1452,6 +1452,10 @@ function Start(self)
         end
     end
 
+    _G.SetPlayerCanMove = function(value)
+        self.public.canMove = value
+    end
+
     _G._PlayerController_isDead = false
 
     giveApoloMask       = false

@@ -148,57 +148,57 @@
 
                 <!-- START -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="StartButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="StartButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
                 <!-- CONTINUE -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContinueButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="1">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ContinueButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
                 <!-- SETTINGS -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SettingsButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="1">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SettingsButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
                 <!-- EXIT -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ExitButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:1.15" Value="1">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ExitButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>

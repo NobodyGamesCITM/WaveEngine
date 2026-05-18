@@ -3429,7 +3429,7 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureEnabled); lua_setfield(L, -2, "SetAutoExposureEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureMin);    lua_setfield(L, -2, "SetAutoExposureMin");
     lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureMax);    lua_setfield(L, -2, "SetAutoExposureMax");
-    lua_pushcfunction(L, Lua_PostExposure_SetAutoExposureSpeed);    lua_setfield(L, -2, "SetAutoExposureSpeed");
+    lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureSpeed);    lua_setfield(L, -2, "SetAutoExposureSpeed");
 
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurEnabled);       lua_setfield(L, -2, "SetBlurEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurIntensity);     lua_setfield(L, -2, "SetBlurIntensity");

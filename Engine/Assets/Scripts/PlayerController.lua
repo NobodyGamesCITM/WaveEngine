@@ -76,6 +76,8 @@ local Player = {
 	smokePS         = nil,
 	bubblesPS         = nil,
 	hermesRunPS         = nil,
+	thinBloodPs         = nil,
+	wideBloodPs         = nil,
 	aresPs         = nil,
 	apoloPs         = nil,
 	hermesPs         = nil,
@@ -1255,6 +1257,9 @@ local function TakeDamage(self, amount, attackerPos)
         hurtTimer = HURT_DURATION
     end
 
+    if Player.thinBloodPs then Player.thinBloodPs:Play() end
+    if Player.wideBloodPs then Player.wideBloodPs:Play() end
+
     self.public.health = math.max(0, self.public.health - amount)
 
     _G.TriggerCameraShake(0.2, 0.8, 8.0)
@@ -1420,6 +1425,22 @@ function Start(self)
         Player.bubblesPS = bubblesObj:GetComponent("ParticleSystem")
         if Player.bubblesPS then
             Player.bubblesPS:Stop()
+        end
+    end
+
+    local bloodThinObj = GameObject.FindInChildren(self.gameObject, "BloodDrops01")
+    if bloodThinObj then
+        Player.thinBloodPs = bloodThinObj:GetComponent("ParticleSystem")
+        if Player.thinBloodPs then
+            Player.thinBloodPs:Stop()
+        end
+    end
+
+    local bloodWideObj = GameObject.FindInChildren(self.gameObject, "BloodDrops02")
+    if bloodWideObj then
+        Player.wideBloodPs = bloodWideObj:GetComponent("ParticleSystem")
+        if Player.wideBloodPs then
+            Player.wideBloodPs:Stop()
         end
     end
 

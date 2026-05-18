@@ -10,6 +10,7 @@ local init = true
 local initCombat = false
 local endCombat = false
 local reviveEnemies = false
+
 function Start(self)
     doors = GameObject.FindByTag(self.public.doorsTag)
     enemies = GameObject.FindByTag(self.public.enemiesTag)
@@ -72,10 +73,23 @@ function Update (self, deltaTime)
             end
             endCombat = true         
         end 
-    end    
+        playerHealth = _G.PlayerInstance.public.health
+        if playerHealth <= 0 then
+            for i, door in ipairs(doors) do
+                if door then
+                    local doorScript = door:GetComponent("Script")
+                    if doorScript then
+                        doorScript:OpenDoor()
+                    end
+                end
+            end
+            initCombat = false
+            self.public.aresCombat  = false
+        end   
+    end 
 end
 function OnTriggerEnter(self, other)
-    if aresCombat then return end
+    if self.public.aresCombat  then return end
     if not initCombat then
         for i, door in ipairs(doors) do
             if door then

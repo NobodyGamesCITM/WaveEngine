@@ -406,19 +406,25 @@ States[State.CHASE] = {
 }
 
 States[State.ATTACK] = {
+    attacking = false,
     Enter = function(self)
         Skeleton.nav:StopMovement()
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Orbit", 0.5) end)
         end
-
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
         attackTimer = attackTimer + dt
+        if CheckDistance(self,self.public.nearDist, false) and not States[State.ATTACK].attacking then
+            ChangeState(self, State.CHASE)
+            hitGiven = false
+            attackTimer = 0
+            return
+        end
         --Engine.Log(tostring(attackTimer))
-        if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven and playerGO then
+        if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 local anim = self.gameObject:GetComponent("Animation")
@@ -426,9 +432,10 @@ States[State.ATTACK] = {
                     pcall(function() anim:Play("Attack", 0.0) end)
                 end
             end
+            States[State.ATTACK].attacking = true
         end
 
-        if attackTimer >= self.public.attackColDelay and not hitGiven and playerGO then
+        if attackTimer >= self.public.attackColDelay and not hitGiven and not CheckDistance(self,self.public.nearDist, false) then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 PlaySFX(self.attackSFX)
@@ -445,13 +452,9 @@ States[State.ATTACK] = {
             end
             hitGiven = false
             attackTimer   = 0
+            States[State.ATTACK].attacking = false
         end
-        if CheckDistance(self,self.public.nearDist, false) then
-            ChangeState(self, State.CHASE)
-            hitGiven = false
-            attackTimer = 0
-            return
-        end
+
         if _G.PlayerInAnim then 
             ChangeState(self, State.IDLE)
         end

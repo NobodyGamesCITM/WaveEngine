@@ -155,10 +155,13 @@ local function TakeDamage(self, amount, attackerPos)
         self.rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
     end
 
-    if self.hp <= 0 then
-        if self.anim then self.anim:Play("Death") end
+    if self.hp <= 0 and self.currentState ~= State.DEAD then
         Game.SetTimeScale(0.3)
         _impactFrameTimer = 0.2
+    end
+
+    if self.hp <= 0 then
+        if self.anim then self.anim:Play("Death") end
         ChangeState(self, State.DEAD)
     else
         

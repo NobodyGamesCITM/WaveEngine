@@ -2755,6 +2755,30 @@ static int Lua_PostProcessing_SetBloomThreshold(lua_State* L) {
     if (pp) pp->bloom.threshold = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetBloomSoftKnee(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.softKnee = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetBloomClamp(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.clamp = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetBloomDiffusion(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->bloom.diffusion = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetBloomTint(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->bloom.tint.x = (float)luaL_checknumber(L, 2);
+        pp->bloom.tint.y = (float)luaL_checknumber(L, 3);
+        pp->bloom.tint.z = (float)luaL_checknumber(L, 4);
+    }
+    return 0;
+}
 
 static int Lua_PostProcessing_SetColorGradingEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
@@ -2783,6 +2807,30 @@ static int Lua_PostProcessing_SetSaturation(lua_State* L) {
 static int Lua_PostProcessing_SetTemperature(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) pp->colorGrading.temperature = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetColorGradingTint(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.tint = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetToneMapper(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.toneMapper = (int)luaL_checkinteger(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetColorFilter(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->colorGrading.colorFilter.x = (float)luaL_checknumber(L, 2);
+        pp->colorGrading.colorFilter.y = (float)luaL_checknumber(L, 3);
+        pp->colorGrading.colorFilter.z = (float)luaL_checknumber(L, 4);
+    }
+    return 0;
+}
+static int Lua_PostProcessing_SetGamma(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->colorGrading.gamma = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
@@ -2829,6 +2877,16 @@ static int Lua_PostProcessing_SetCAIntensity(lua_State* L) {
     if (pp) pp->lens.chromaticAberrationIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetDistortionEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.distortionEnabled = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetDistortionIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->lens.distortionIntensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 
 static int Lua_PostProcessing_SetDoFEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
@@ -2841,10 +2899,70 @@ static int Lua_PostProcessing_SetDoFDistance(lua_State* L) {
     if (pp) pp->depthOfField.focusDistance = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetDoFRange(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.focusRange = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetDoFStrength(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.blurStrength = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetDoFTiltShift(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.tiltShift = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetDoFFarTint(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->depthOfField.farTint.x = (float)luaL_checknumber(L, 2);
+        pp->depthOfField.farTint.y = (float)luaL_checknumber(L, 3);
+        pp->depthOfField.farTint.z = (float)luaL_checknumber(L, 4);
+    }
+    return 0;
+}
+static int Lua_PostProcessing_SetDoFTintIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->depthOfField.tintIntensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 
 static int Lua_PostProcessing_SetGrainEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) pp->grain.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetGrainIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->grain.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetGrainSize(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->grain.size = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetAutoExposureEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->autoExposure.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetAutoExposureMin(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->autoExposure.minBrightness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetAutoExposureMax(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->autoExposure.maxBrightness = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetAutoExposureSpeed(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->autoExposure.speed = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
@@ -2859,6 +2977,11 @@ static int Lua_PostProcessing_SetBlurIntensity(lua_State* L) {
     if (pp) pp->blur.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
+static int Lua_PostProcessing_SetBlurSpread(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->blur.spread = (float)luaL_checknumber(L, 2);
+    return 0;
+}
 static int Lua_PostProcessing_SetRadialBlurEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) pp->radialBlur.enabled = lua_toboolean(L, 2);
@@ -2868,6 +2991,75 @@ static int Lua_PostProcessing_SetRadialBlurEnabled(lua_State* L) {
 static int Lua_PostProcessing_SetRadialBlurIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
     if (pp) pp->radialBlur.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetRadialBlurCenter(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->radialBlur.center.x = (float)luaL_checknumber(L, 2);
+        pp->radialBlur.center.y = (float)luaL_checknumber(L, 3);
+    }
+    return 0;
+}
+
+static int Lua_PostProcessing_SetSharpenEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->sharpen.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetSharpenIntensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->sharpen.intensity = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+
+static int Lua_PostProcessing_SetFogEnabled(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.enabled = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogMode(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.mode = (int)luaL_checkinteger(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogColor(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) {
+        pp->fog.color.x = (float)luaL_checknumber(L, 2);
+        pp->fog.color.y = (float)luaL_checknumber(L, 3);
+        pp->fog.color.z = (float)luaL_checknumber(L, 4);
+    }
+    return 0;
+}
+static int Lua_PostProcessing_SetFogDensity(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.density = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogStart(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.start = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogEnd(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.end = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogHeightFalloff(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.heightFalloff = (float)luaL_checknumber(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogUseHeight(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.useHeight = lua_toboolean(L, 2);
+    return 0;
+}
+static int Lua_PostProcessing_SetFogHeightStart(lua_State* L) {
+    ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
+    if (pp) pp->fog.heightStart = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
@@ -3196,28 +3388,69 @@ void ScriptManager::RegisterPostProcessingAPI() {
     lua_pushcfunction(L, Lua_PostProcessing_SetBloomEnabled);      lua_setfield(L, -2, "SetBloomEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetBloomIntensity);    lua_setfield(L, -2, "SetBloomIntensity");
     lua_pushcfunction(L, Lua_PostProcessing_SetBloomThreshold);    lua_setfield(L, -2, "SetBloomThreshold");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomSoftKnee);     lua_setfield(L, -2, "SetBloomSoftKnee");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomClamp);        lua_setfield(L, -2, "SetBloomClamp");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomDiffusion);    lua_setfield(L, -2, "SetBloomDiffusion");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBloomTint);         lua_setfield(L, -2, "SetBloomTint");
     
     lua_pushcfunction(L, Lua_PostProcessing_SetColorGradingEnabled); lua_setfield(L, -2, "SetColorGradingEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetExposure);          lua_setfield(L, -2, "SetExposure");
     lua_pushcfunction(L, Lua_PostProcessing_SetContrast);          lua_setfield(L, -2, "SetContrast");
     lua_pushcfunction(L, Lua_PostProcessing_SetSaturation);        lua_setfield(L, -2, "SetSaturation");
     lua_pushcfunction(L, Lua_PostProcessing_SetTemperature);       lua_setfield(L, -2, "SetTemperature");
+    lua_pushcfunction(L, Lua_PostProcessing_SetColorGradingTint);  lua_setfield(L, -2, "SetColorGradingTint");
+    lua_pushcfunction(L, Lua_PostProcessing_SetToneMapper);        lua_setfield(L, -2, "SetToneMapper");
+    lua_pushcfunction(L, Lua_PostProcessing_SetColorFilter);       lua_setfield(L, -2, "SetColorFilter");
+    lua_pushcfunction(L, Lua_PostProcessing_SetGamma);             lua_setfield(L, -2, "SetGamma");
 
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteEnabled);   lua_setfield(L, -2, "SetVignetteEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteIntensity); lua_setfield(L, -2, "SetVignetteIntensity");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteSmoothness); lua_setfield(L, -2, "SetVignetteSmoothness");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteRoundness); lua_setfield(L, -2, "SetVignetteRoundness");
     lua_pushcfunction(L, Lua_PostProcessing_SetVignetteColor);     lua_setfield(L, -2, "SetVignetteColor");
+
     lua_pushcfunction(L, Lua_PostProcessing_SetCAEnabled);         lua_setfield(L, -2, "SetCAEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetCAIntensity);       lua_setfield(L, -2, "SetCAIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDistortionEnabled); lua_setfield(L, -2, "SetDistortionEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDistortionIntensity); lua_setfield(L, -2, "SetDistortionIntensity");
 
     lua_pushcfunction(L, Lua_PostProcessing_SetDoFEnabled);        lua_setfield(L, -2, "SetDoFEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetDoFDistance);       lua_setfield(L, -2, "SetDoFDistance");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFRange);          lua_setfield(L, -2, "SetDoFRange");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFStrength);       lua_setfield(L, -2, "SetDoFStrength");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFTiltShift);      lua_setfield(L, -2, "SetDoFTiltShift");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFFarTint);        lua_setfield(L, -2, "SetDoFFarTint");
+    lua_pushcfunction(L, Lua_PostProcessing_SetDoFTintIntensity);  lua_setfield(L, -2, "SetDoFTintIntensity");
+
     lua_pushcfunction(L, Lua_PostProcessing_SetGrainEnabled);      lua_setfield(L, -2, "SetGrainEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetGrainIntensity);    lua_setfield(L, -2, "SetGrainIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetGrainSize);         lua_setfield(L, -2, "SetGrainSize");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureEnabled); lua_setfield(L, -2, "SetAutoExposureEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureMin);    lua_setfield(L, -2, "SetAutoExposureMin");
+    lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureMax);    lua_setfield(L, -2, "SetAutoExposureMax");
+    lua_pushcfunction(L, Lua_PostProcessing_SetAutoExposureSpeed);    lua_setfield(L, -2, "SetAutoExposureSpeed");
+
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurEnabled);       lua_setfield(L, -2, "SetBlurEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetBlurIntensity);     lua_setfield(L, -2, "SetBlurIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetBlurSpread);        lua_setfield(L, -2, "SetBlurSpread");
+
     lua_pushcfunction(L, Lua_PostProcessing_SetRadialBlurEnabled);lua_setfield(L, -2, "SetRadialBlurEnabled");
     lua_pushcfunction(L, Lua_PostProcessing_SetRadialBlurIntensity); lua_setfield(L, -2, "SetRadialBlurIntensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetRadialBlurCenter);  lua_setfield(L, -2, "SetRadialBlurCenter");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetSharpenEnabled);    lua_setfield(L, -2, "SetSharpenEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetSharpenIntensity);  lua_setfield(L, -2, "SetSharpenIntensity");
+
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogEnabled);        lua_setfield(L, -2, "SetFogEnabled");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogMode);           lua_setfield(L, -2, "SetFogMode");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogColor);          lua_setfield(L, -2, "SetFogColor");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogDensity);        lua_setfield(L, -2, "SetFogDensity");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogStart);          lua_setfield(L, -2, "SetFogStart");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogEnd);            lua_setfield(L, -2, "SetFogEnd");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogHeightFalloff);  lua_setfield(L, -2, "SetFogHeightFalloff");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogUseHeight);      lua_setfield(L, -2, "SetFogUseHeight");
+    lua_pushcfunction(L, Lua_PostProcessing_SetFogHeightStart);    lua_setfield(L, -2, "SetFogHeightStart");
     
     lua_pop(L, 1);
 }

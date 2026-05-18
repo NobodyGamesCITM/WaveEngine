@@ -4,19 +4,19 @@ public = {
 
 PRESETS = {
     intro = {
-        duration = 6.0,
+        duration = 3.0,
         slots = {
             { img = "HintImg_Caminar",       key = "HintKey_WASD"  },
         },
     },
     run = {
-        duration = 5.0,
+        duration = 2.0,
         slots = {
             { img = "HintImg_Correr",        key = "HintKey_Shift" },
         },
     },
     combat = {
-        duration = 5.0,
+        duration = 8.0,
         slots = {
             { img = "HintImg_AtaqueNormal",  key = "HintKey_E"    },
             { img = "HintImg2_Roll",         key = "HintKey2_Ctrl" },
@@ -35,7 +35,7 @@ PRESETS = {
         },
     },
     potion_health = {
-        duration = 5.0,
+        duration = 10.0,
         slots = {
             { img = "HintImg_Health",        key = "HintKey_R"    },
         },

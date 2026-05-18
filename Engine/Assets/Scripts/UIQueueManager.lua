@@ -1,14 +1,11 @@
-
 public = {
     updateWhenPaused = true,
 }
 
-
---  Cola con prioridad
---  Prioridad más baja = se ejecuta antes.
---    1 → mask      (máxima prioridad)
---    2 → dialog / ambient
---    3 → hint      (mínima prioridad)
+-- Cola con prioridad
+--   1 → mask      (máxima prioridad)
+--   2 → dialog / ambient
+--   3 → hint      (mínima prioridad)
 
 local queue   = {}
 local running = false
@@ -20,6 +17,14 @@ local PRIORITY = {
     hint    = 3,
 }
 
+local function highestQueuedPriority()
+    local min = 99
+    for _, item in ipairs(queue) do
+        if item.priority < min then min = item.priority end
+    end
+    return min
+end
+
 local function purgeHints()
     for i = #queue, 1, -1 do
         if queue[i].type == "hint" then
@@ -29,7 +34,9 @@ local function purgeHints()
 end
 
 local function hideActiveHint()
-    if _G._IsHintActive and _G.HideControlsHint then
+    if _G._RealHideControlsHint then
+        _G._RealHideControlsHint()
+    elseif _G.HideControlsHint then
         _G.HideControlsHint()
     end
 end
@@ -56,16 +63,25 @@ local function enqueue(item)
 end
 
 
--- Estado activo
 
 local function isBusy()
-    return (_G._IsDialogActive == true)
-        or (_G._IsMaskActive   == true)
-        or (_G._IsHintActive   == true)
+    if _G._IsDialogActive == true then return true end
+    if _G._IsMaskActive   == true then return true end
+
+    if _G._IsHintActive == true then
+        if highestQueuedPriority() <= 2 then
+            hideActiveHint()
+            purgeHints()
+            return false
+        end
+        return true
+    end
+
+    return false
 end
 
 
--- Dispatch: lanza el primer elemento de la cola
+-- Dispatch
 
 local function dispatch(item)
     running = true
@@ -99,26 +115,23 @@ local function dispatch(item)
 end
 
 
--- Diálogo normal
+-- API interceptada
 
 local function queueDialog(sequenceId)
     if not sequenceId or sequenceId == "" then return end
     enqueue({ type = "dialog", id = sequenceId })
 end
 
--- Diálogo ambient
 local function queueAmbient(sequenceId, skipTime)
     if not sequenceId or sequenceId == "" then return end
     enqueue({ type = "ambient", id = sequenceId, skipTime = skipTime })
 end
 
--- Controls hint
 local function queueHint(preset)
     if not preset or preset == "" then return end
     enqueue({ type = "hint", preset = preset })
 end
 
--- Máscara obtenida
 local function queueMask(maskKey)
     if not maskKey or maskKey == "" then return end
     enqueue({ type = "mask", mask = maskKey })
@@ -145,8 +158,12 @@ local function tryInit()
     end
 
     if _G.ShowControlsHint and not _G._RealShowControlsHint then
-        _G._RealShowControlsHint = _G.ShowControlsHint
-        _G.ShowControlsHint      = queueHint
+        _G._RealShowControlsHint  = _G.ShowControlsHint
+        _G.ShowControlsHint       = queueHint
+    end
+
+    if _G.HideControlsHint and not _G._RealHideControlsHint then
+        _G._RealHideControlsHint = _G.HideControlsHint
     end
 
     if _G.ShowMaskObtained and not _G._RealShowMaskObtained then

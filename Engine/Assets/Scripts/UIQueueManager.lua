@@ -10,7 +10,7 @@ public = {
 --    2 → dialog / ambient
 --    3 → hint      (mínima prioridad)
 
-local queue   = {}   
+local queue   = {}
 local running = false
 
 local PRIORITY = {
@@ -20,9 +20,27 @@ local PRIORITY = {
     hint    = 3,
 }
 
--- Inserta manteniendo el orden por prioridad 
+local function purgeHints()
+    for i = #queue, 1, -1 do
+        if queue[i].type == "hint" then
+            table.remove(queue, i)
+        end
+    end
+end
+
+local function hideActiveHint()
+    if _G._IsHintActive and _G.HideControlsHint then
+        _G.HideControlsHint()
+    end
+end
+
 local function enqueue(item)
     item.priority = PRIORITY[item.type] or 99
+
+    if item.priority <= 2 then
+        purgeHints()
+        hideActiveHint()
+    end
 
     local inserted = false
     for i = 1, #queue do
@@ -35,13 +53,10 @@ local function enqueue(item)
     if not inserted then
         queue[#queue + 1] = item
     end
-
-    Engine.Log("[UIQueue] Encolado (p" .. item.priority .. "): "
-        .. item.type .. " " .. (item.id or item.preset or item.mask or ""))
 end
 
 
---  Estado activo 
+-- Estado activo
 
 local function isBusy()
     return (_G._IsDialogActive == true)
@@ -50,22 +65,23 @@ local function isBusy()
 end
 
 
---  Dispatch: lanza el primer elemento de la cola
+-- Dispatch: lanza el primer elemento de la cola
 
 local function dispatch(item)
     running = true
 
     if item.type == "dialog" then
         _G.DialogAmbientMode = false
-        if _G._IsHintActive and _G.HideControlsHint then
-            _G.HideControlsHint()
-        end
+        hideActiveHint()
+        purgeHints()
         if _G._RealTriggerSequence then
             _G._RealTriggerSequence(item.id)
         end
 
     elseif item.type == "ambient" then
         _G.DialogAmbientMode = true
+        hideActiveHint()
+        purgeHints()
         if _G._RealTriggerSequence then
             _G._RealTriggerSequence(item.id)
         end
@@ -84,6 +100,7 @@ end
 
 
 -- Diálogo normal
+
 local function queueDialog(sequenceId)
     if not sequenceId or sequenceId == "" then return end
     enqueue({ type = "dialog", id = sequenceId })
@@ -108,74 +125,56 @@ local function queueMask(maskKey)
 end
 
 
+-- Inicialización diferida
+
 local initialized = false
 local initTimer   = 0.0
-local INIT_DELAY  = 0.05   -- espera50 ms para que los demás hagan Start que singo fallaba
+local INIT_DELAY  = 0.05
 
-function Start(self)
-    Engine.Log("[UIQueue] Start - esperando que los managers inicialicen...")
-end
+function Start(self) end
 
 local function tryInit()
-
-
     if _G.TriggerSequence and not _G._RealTriggerSequence then
-        _G._RealTriggerSequence  = _G.TriggerSequence
-        _G.TriggerSequence       = queueDialog
-        Engine.Log("[UIQueue] TriggerSequence interceptado")
+        _G._RealTriggerSequence = _G.TriggerSequence
+        _G.TriggerSequence      = queueDialog
     end
 
     if _G.ShowAmbientDialog and not _G._RealShowAmbientDialog then
-        _G._RealShowAmbientDialog  = _G.ShowAmbientDialog
-        _G.ShowAmbientDialog       = queueAmbient
-        Engine.Log("[UIQueue] ShowAmbientDialog interceptado")
+        _G._RealShowAmbientDialog = _G.ShowAmbientDialog
+        _G.ShowAmbientDialog      = queueAmbient
     end
 
     if _G.ShowControlsHint and not _G._RealShowControlsHint then
-        _G._RealShowControlsHint  = _G.ShowControlsHint
-        _G.ShowControlsHint       = queueHint
-        Engine.Log("[UIQueue] ShowControlsHint interceptado")
+        _G._RealShowControlsHint = _G.ShowControlsHint
+        _G.ShowControlsHint      = queueHint
     end
 
     if _G.ShowMaskObtained and not _G._RealShowMaskObtained then
-        _G._RealShowMaskObtained  = _G.ShowMaskObtained
-        _G.ShowMaskObtained       = queueMask
-        Engine.Log("[UIQueue] ShowMaskObtained interceptado")
+        _G._RealShowMaskObtained = _G.ShowMaskObtained
+        _G.ShowMaskObtained      = queueMask
     end
 
-    -- Inicializado cuando los cuatro estan listos
-    local ok = _G._RealTriggerSequence
-            and _G._RealShowControlsHint
-            and _G._RealShowMaskObtained
-    if ok then
+    if _G._RealTriggerSequence and _G._RealShowControlsHint and _G._RealShowMaskObtained then
         initialized = true
-        Engine.Log("[UIQueue] Inicializado y operativo")
     end
 end
 
 function Update(self, dt)
-    -- Fase de inicializacion dif
     if not initialized then
         initTimer = initTimer + dt
-        if initTimer >= INIT_DELAY then
-            tryInit()
-        end
+        if initTimer >= INIT_DELAY then tryInit() end
         return
     end
 
-    -- Si hay algo activo, espera a que termine
     if isBusy() then
         running = true
         return
     end
 
-    -- El elemento anterior terminó
     if running then
         running = false
-        Engine.Log("[UIQueue] Elemento terminado, cola restante: " .. #queue)
     end
 
-    -- Lanza el siguiente si existe
     if #queue > 0 then
         local next = table.remove(queue, 1)
         dispatch(next)

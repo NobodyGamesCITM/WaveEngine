@@ -1,4 +1,3 @@
-
 public = {
     radius           = 3.0,
     sequenceId       = "intro",
@@ -7,18 +6,46 @@ public = {
     isAmbient        = false,
 }
 
+local function fire(self)
+    if self._isAmbient == true or self._isAmbient == "true" then
+        if _G.ShowAmbientDialog then
+            _G.ShowAmbientDialog(self._sequenceId, self._skipTime)
+        else
+            self._triggered   = false
+            self._pendingFire = true
+        end
+    else
+        _G.DialogAmbientMode = false
+        if _G.TriggerSequence then
+            _G.TriggerSequence(self._sequenceId)
+        else
+            self._triggered   = false
+            self._pendingFire = true
+        end
+    end
+end
+
 function Start(self)
-    self._radius     = self.public.radius
-    self._sequenceId = self.public.sequenceId
-    self._skipTime   = self.public.skipTime
-    self._isAmbient  = self.public.isAmbient
-    self._triggered  = false
-
-    local goName = (self.gameObject and self.gameObject.name) or "UnknownGO"
-
+    self._radius      = self.public.radius
+    self._sequenceId  = self.public.sequenceId
+    self._skipTime    = self.public.skipTime
+    self._isAmbient   = self.public.isAmbient
+    self._triggered   = false
+    self._pendingFire = false
 end
 
 function Update(self, dt)
+    if self._pendingFire then
+        local ready = (self._isAmbient == true or self._isAmbient == "true")
+                      and _G.ShowAmbientDialog
+                   or ((self._isAmbient ~= true and self._isAmbient ~= "true")
+                      and _G.TriggerSequence)
+        if not ready then return end
+        self._pendingFire = false
+        fire(self)
+        return
+    end
+
     if self._triggered then return end
 
     local player = GameObject.Find("Player")
@@ -33,24 +60,5 @@ function Update(self, dt)
     if dist >= self._radius then return end
 
     self._triggered = true
-    local goName = (self.gameObject and self.gameObject.name) or "UnknownGO"
-    
-    Engine.Log("[DialogTrigger] [" .. goName .. "] TRIGGERED! seq=" .. tostring(self._sequenceId) .. " | eval_ambient=" .. tostring(self._isAmbient))
-
-    if self._isAmbient == true or self._isAmbient == "true" then
-        Engine.Log("[DialogTrigger] [" .. goName .. "] -> Ejecutando ruta AMBIENT")
-        if _G.ShowAmbientDialog then
-            _G.ShowAmbientDialog(self._sequenceId, self._skipTime)
-        else
-            Engine.Log("[DialogTrigger] WARN: ShowAmbientDialog no disponible")
-        end
-    else
-        Engine.Log("[DialogTrigger] [" .. goName .. "] -> Ejecutando ruta NORMAL")
-        _G.DialogAmbientMode = false
-        if _G.TriggerSequence then
-            _G.TriggerSequence(self._sequenceId)
-        else
-            Engine.Log("[DialogTrigger] WARN: TriggerSequence no disponible")
-        end
-    end
+    fire(self)
 end

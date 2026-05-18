@@ -1,5 +1,4 @@
 local TYPEWRITER_SPEED = 0.03
-local DEFAULT_SEQUENCE = "intro"
 
 public = {
     updateWhenPaused = true
@@ -85,7 +84,6 @@ local function loadDialogs()
         return false
     end
     allDialogs = result
-    Engine.Log("[DialogSystem] Dialogs loaded OK")
     return true
 end
 
@@ -113,16 +111,11 @@ local function loadDialogEntry(entry)
 end
 
 local function startSequence(sequenceId)
-    Engine.Log("[DialogSystem] >>> TriggerSequence llamado: " .. tostring(sequenceId))
-
-    if not loadDialogs() then
-        Engine.Log("[DialogSystem] BLOQUEADO: loadDialogs() falló")
-        return
-    end
+    if not loadDialogs() then return end
 
     local seq = allDialogs[sequenceId]
     if not seq then
-        Engine.Log("[DialogSystem] BLOQUEADO: secuencia no encontrada -> " .. tostring(sequenceId))
+        Engine.Log("[DialogSystem] ERROR: secuencia no encontrada -> " .. tostring(sequenceId))
         return
     end
 
@@ -131,16 +124,14 @@ local function startSequence(sequenceId)
     state.currentIndex    = 1
     _G._IsDialogActive    = true
     _G.DialogActive       = true
-    
-    wasAmbient            = _G.DialogAmbientMode or false
-    _G.DialogAmbientMode  = false -- Se resetea la global por seguridad
 
-    Engine.Log("[DialogSystem] Evaluado final -> wasAmbient=" .. tostring(wasAmbient))
+    wasAmbient           = _G.DialogAmbientMode or false
+    _G.DialogAmbientMode = false
 
     if not wasAmbient then
-        Engine.Log("[DialogSystem] Aplicando bloqueos de jugador (Modo Normal)")
         _G._DialogBlockingPlayer = true
         if _G.SetPlayerCanMove then _G.SetPlayerCanMove(false) end
+    end
 
     UI.SetElementVisibility("DialogBox", true)
 
@@ -166,7 +157,7 @@ function ForceCloseDialog()
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
-    _G.DialogActive = false
+    _G.DialogActive          = false
     _G._DialogBlockingPlayer = false
     if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
     wasAmbient = false
@@ -204,21 +195,16 @@ local function closeDialog()
     lastDisplayedChars    = -1
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
-    _G.DialogActive = false
+    _G.DialogActive          = false
     _G._DialogBlockingPlayer = false
     if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
     wasAmbient = false
-    Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
-    
     if not state.active then return end
-    
-    if wasAmbient then 
-        return 
-    end
-    
+    if wasAmbient then return end
+
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
@@ -226,7 +212,7 @@ local function onAdvancePressed()
         updateUI()
         return
     end
-    
+
     local nextIndex = state.currentIndex + 1
     if nextIndex <= #state.currentSequence then
         state.currentIndex = nextIndex
@@ -241,27 +227,34 @@ function TriggerSequence(sequenceId)
 end
 
 function Start(self)
-    canvas = self.gameObject:GetComponent("Canvas")
-    if not canvas then
-        Engine.Log("[DialogSystem] ERROR: No ComponentCanvas found")
-        return
-    end
-    UI.SetElementVisibility("Portrait_Telemaco", false)
-    UI.SetElementVisibility("Portrait_Atenea", false)
-    UI.SetElementVisibility("Portrait_JohnCartel", false)
-    UI.SetElementVisibility("DialogBox", false)
-    UI.SetElementVisibility("ContinueIcon", false)
-    UI.SetElementText("DialogText", "")
-    UI.SetElementText("CharacterName", "")
+    _G.TriggerSequence   = TriggerSequence
     _G.ForceCloseDialog  = ForceCloseDialog
     _G.SuspendDialog     = SuspendDialog
     _G.ResumeDialog      = ResumeDialog
-    _G.TriggerSequence   = TriggerSequence
     _G.DialogActive      = false
     _G.DialogAmbientMode = false
     _G.AdvanceDialog     = onAdvancePressed
     _G.UpdatePauseState  = function() end
-    Engine.Log("[DialogSystem] Ready")
+
+    canvas = self.gameObject:GetComponent("Canvas")
+    if not canvas then
+        Engine.Log("[DialogSystem] ERROR: Canvas no encontrado")
+        return
+    end
+
+    local ok, err = pcall(function()
+        UI.SetElementVisibility("Portrait_Telemaco", false)
+        UI.SetElementVisibility("Portrait_Atenea", false)
+        UI.SetElementVisibility("Portrait_JohnCartel", false)
+        UI.SetElementVisibility("DialogBox", false)
+        UI.SetElementVisibility("ContinueIcon", false)
+        UI.SetElementText("DialogText", "")
+        UI.SetElementText("CharacterName", "")
+    end)
+
+    if not ok then
+        Engine.Log("[DialogSystem] WARN al limpiar UI: " .. tostring(err))
+    end
 end
 
 function Update(self, dt)

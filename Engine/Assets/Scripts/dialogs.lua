@@ -69,16 +69,16 @@ return {
         }
     },
 
-    statuesComplete = {
-        id = "statuesComplete",
-        dialogs = {
-            {
-                character = "Atenea",
-                portrait  = "Textures/Atenea.png",
-                text      = "Bien hecho, Telémaco. La puerta al inframundo se ha abierto, apresúrate antes de que vuelva a sellarse."
-            }
-        }
-    },
+ --   statuesComplete = {
+  --      id = "statuesComplete",
+   --     dialogs = {
+    --        {
+      --          character = "Atenea",
+       --         portrait  = "Textures/Atenea.png",
+        --        text      = "Bien hecho, Telémaco. La puerta al inframundo se ha abierto, apresúrate antes de que vuelva a sellarse."
+--}
+      --  }
+    --},
 
     portalWarning = {
         id = "portalWarning",

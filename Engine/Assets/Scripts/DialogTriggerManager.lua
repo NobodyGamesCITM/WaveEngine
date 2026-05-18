@@ -1,5 +1,9 @@
+
 public = {
     updateWhenPaused = true,
+    isAmbient        = true,
+    sequenceId       = "",    
+    skipTime         = 5.0,
 }
 
 local active   = false
@@ -7,34 +11,42 @@ local timer    = 0.0
 local duration = 0.0
 
 local function hide()
+    if not active then return end
     if _G.ForceCloseDialog then
         _G.ForceCloseDialog()
     end
     active = false
-    Engine.Log("[AmbientDialog] Cerrado")
+    Engine.Log("[DialogTriggerManager] Ambient cerrado")
 end
 
 local function show(sequenceId, skipTime)
-    if not sequenceId or sequenceId == "" then return end
+    if not sequenceId or sequenceId == "" then
+        Engine.Log("[DialogTriggerManager] WARN: sequenceId vacío, ignorado")
+        return
+    end
+
     if active then hide() end
 
-    
-    _G.DialogAmbientMode = true 
+    _G.DialogAmbientMode = true
 
     if _G.TriggerSequence then
         _G.TriggerSequence(sequenceId)
+    else
+        Engine.Log("[DialogTriggerManager] WARN: TriggerSequence no disponible")
+        return
     end
 
     active   = true
     timer    = 0.0
     duration = skipTime or 5.0
+    Engine.Log("[DialogTriggerManager] Ambient iniciado: " .. sequenceId
+        .. " (" .. tostring(duration) .. "s)")
 end
-
 
 function Start(self)
     _G.ShowAmbientDialog = show
     _G.HideAmbientDialog = hide
-    Engine.Log("[AmbientDialog] Ready")
+    Engine.Log("[DialogTriggerManager] Ready")
 end
 
 function Update(self, dt)
@@ -42,5 +54,17 @@ function Update(self, dt)
     timer = timer + dt
     if timer >= duration then
         hide()
+    end
+end
+
+
+function Trigger(self)
+    if self.public.isAmbient then
+        show(self.public.sequenceId, self.public.skipTime)
+    else
+        _G.DialogAmbientMode = false
+        if _G.TriggerSequence then
+            _G.TriggerSequence(self.public.sequenceId)
+        end
     end
 end

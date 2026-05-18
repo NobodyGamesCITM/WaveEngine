@@ -5,26 +5,26 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Telémaco, al fin despiertas. El océano te fue adverso, mas no hay tiempo que perder. Adéntrate en el bosque de Perséfone y no te dejes engañar por su falsa calma, el mal mora en él."
+                text      = "Telémaco, al fin despiertas. El océano fue en tu contra, pero no hay tiempo que perder. Adéntrate en el bosque y no te dejes engañar por su aspecto pacífico, el mal habita en él. Sé cauto, pues un solo paso en falso podría ser el último."
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Uf... de acuerdo. Espérame dondequiera que estés, padre."
+                text      = " Uf… de acuerdo. ¡Allá voy!"
             }
         }
     },
 
-    tutorialEnd = {
-        id = "tutorialEnd",
-        dialogs = {
-            {
-                character = "Atenea",
-                portrait  = "Textures/Atenea.png",
-                text      = "Te desenvuelves bien, Telémaco. Sé cauto y diestro, pues un solo paso en falso podría ser el último."
-            }
-        }
-    },
+    --tutorialEnd = {
+       -- id = "tutorialEnd",
+    --    dialogs = {
+    --        {
+    --            character = "Atenea",
+           --     portrait  = "Textures/Atenea.png",
+         --       text      = "Te desenvuelves bien, Telémaco. Sé cauto y diestro, pues un solo paso en falso podría ser el último."
+      --      }
+  --      }
+ --   },
 
     checkpointInfo = {
         id = "checkpointInfo",
@@ -32,12 +32,12 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Telémaco, has hallado uno de mis altares. Si los activas, te ofrecerán amparo. Mantén los ojos bien abiertos, los encontrarás cuando más los necesites."
+                text      = " Has hallado uno de mis altares, si los activas te resguardarán. Mantén los ojos bien abiertos, los encontrarás donde más los necesites."
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Lo tendré presente. Saber que velas por mí, aun desde la distancia, me da fuerzas."
+                text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias."
             }
         }
     },
@@ -48,12 +48,12 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Ante tus ojos se alza el antiguo santuario divino de la isla. Otrora lugar de culto a Hades, y por ello sirve de puente hacia el inframundo. Su puerta permanece ahora sellada. Para reactivar el ritual deberás hallar las tres estatuas de Cerbero, guardián de sus umbrales, y cesar su custodia. Solo así podrás llegar hasta Odiseo."
+                text      = "El santuario de la isla, antiguamente lugar de culto a Hades, sirve de puente hacia el inframundo. Para abrirlo deberás encontrar y desactivar las estatuas de Cerbero."
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Parece una misión ardua... pero no me rendiré ahora."
+                text      = "Será una misión ardua, pero no me rendiré ahora."
             }
         }
     },
@@ -64,7 +64,7 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Estas máscaras, antiguas reliquias de los dioses, fueron concebidas como dones para sus fieles. Al vestirlas, te concederán por un tiempo su poder divino. No dudes en valerte de ellas."
+                text      = "Los dioses otorgaron estas máscaras como favor a sus fieles. Vístelas, sin su poder divino no vencerás."
             }
         }
     },
@@ -86,12 +86,12 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Telémaco, extrema cautela. Antaño, el inframundo obedecía un orden, hoy es un reino caótico y cruel. El mal que habita supera con creces al de esta isla. Lleva contigo cuanto has aprendido, pues a partir de aquí caminarás solo. Yo no puedo seguirte al otro lado. Y si ante ti se alza un peligro que excede tus fuerzas, no dudes en volver sobre tus pasos."
+                text      = "Extrema cautela, Telémaco. Antaño, el inframundo tenía un orden, ahora el caos y la crueldad reinan en él. Recuerda lo aprendido, pues sólo tú cruzarás el portal. No dudes en regresar si encuentras una considerable amenaza."
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Me asusta oírlo... y más aún saber que estaré solo. Pero no puedo retroceder ahora. Cruzaré esa puerta, reuniré el valor que haga falta y te aseguro que volverás a verme en el mundo de los vivos junto a mi padre."
+                text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo."
             }
         }
     }

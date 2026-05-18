@@ -54,9 +54,12 @@ end
 
 local function dispatch(item)
     running = true
-    Engine.Log("[UIQueue] Lanzando: " .. item.type)
 
     if item.type == "dialog" then
+        _G.DialogAmbientMode = false
+        if _G._IsHintActive and _G.HideControlsHint then
+            _G.HideControlsHint()
+        end
         if _G._RealTriggerSequence then
             _G._RealTriggerSequence(item.id)
         end

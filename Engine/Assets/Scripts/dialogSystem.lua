@@ -113,9 +113,7 @@ local function loadDialogEntry(entry)
 end
 
 local function startSequence(sequenceId)
-    
     Engine.Log("[DialogSystem] >>> TriggerSequence llamado: " .. tostring(sequenceId))
-    Engine.Log("[DialogSystem] >>> CurrentXAML = " .. tostring(_G.CurrentXAML))
 
     if not loadDialogs() then
         Engine.Log("[DialogSystem] BLOQUEADO: loadDialogs() falló")
@@ -133,12 +131,17 @@ local function startSequence(sequenceId)
     state.currentIndex    = 1
     _G._IsDialogActive    = true
     _G.DialogActive       = true
-    if _G.UpdatePauseState then _G.UpdatePauseState() end
+    
     wasAmbient            = _G.DialogAmbientMode or false
-    _G.DialogAmbientMode  = false
+    _G.DialogAmbientMode  = false -- Se resetea la global por seguridad
 
-    Engine.Log("[DialogSystem] Canvas: " .. tostring(canvas))
-    Engine.Log("[DialogSystem] DialogBox -> SetVisible true")
+    Engine.Log("[DialogSystem] Evaluado final -> wasAmbient=" .. tostring(wasAmbient))
+
+    if not wasAmbient then
+        Engine.Log("[DialogSystem] Aplicando bloqueos de jugador (Modo Normal)")
+        _G._DialogBlockingPlayer = true
+        if _G.SetPlayerCanMove then _G.SetPlayerCanMove(false) end
+
     UI.SetElementVisibility("DialogBox", true)
 
     if wasAmbient then
@@ -146,7 +149,6 @@ local function startSequence(sequenceId)
     end
 
     loadDialogEntry(state.currentSequence[1])
-    Engine.Log("[DialogSystem] Started OK: " .. sequenceId)
 end
 
 function ForceCloseDialog()
@@ -165,9 +167,9 @@ function ForceCloseDialog()
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
     _G.DialogActive = false
-    if _G.UpdatePauseState then _G.UpdatePauseState() end
+    _G._DialogBlockingPlayer = false
+    if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
     wasAmbient = false
-    Engine.Log("[DialogSystem] Force closed")
 end
 
 function SuspendDialog()
@@ -203,14 +205,20 @@ local function closeDialog()
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
     _G.DialogActive = false
-   if _G.UpdatePauseState then _G.UpdatePauseState() end
+    _G._DialogBlockingPlayer = false
+    if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
     wasAmbient = false
     Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
+    
     if not state.active then return end
-    if wasAmbient then return end
+    
+    if wasAmbient then 
+        return 
+    end
+    
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
@@ -218,6 +226,7 @@ local function onAdvancePressed()
         updateUI()
         return
     end
+    
     local nextIndex = state.currentIndex + 1
     if nextIndex <= #state.currentSequence then
         state.currentIndex = nextIndex
@@ -251,6 +260,7 @@ function Start(self)
     _G.DialogActive      = false
     _G.DialogAmbientMode = false
     _G.AdvanceDialog     = onAdvancePressed
+    _G.UpdatePauseState  = function() end
     Engine.Log("[DialogSystem] Ready")
 end
 

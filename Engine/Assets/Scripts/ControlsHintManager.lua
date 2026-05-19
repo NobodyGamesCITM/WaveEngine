@@ -6,7 +6,7 @@ PRESETS = {
     intro = {
         duration = 3.0,
         slots = {
-            { img = "HintImg_Caminar",         key = "HintKey_WASD",   gp = "HintGP_LeftStick" },
+            { img = "HintImg_Caminar",         key = "HintKey_WASD",   gp = "HintGP_Joystick" },
         },
     },
     run = {
@@ -83,7 +83,7 @@ local ALL_KEYS = {
     "HintKey_Joystick",
     "HintKey2_Ctrl",
     "HintKey2_E",
-    "HintGP_LeftStick",
+    "HintGP_Joystick",
     "HintGP_X",
     "HintGP_Y",
     "HintGP_B",

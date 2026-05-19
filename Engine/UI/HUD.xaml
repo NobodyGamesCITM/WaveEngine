@@ -472,7 +472,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             <Grid>
                                 <Image x:Name="HintGP_X" Source="Textures/X.PNG" Width="70" Height="70" Visibility="Collapsed"/>
                                 <Image x:Name="HintGP_Cruz" Source="Textures/Cruceta.PNG" Width="70" Height="70" Visibility="Collapsed"/>
-                                <Image x:Name="HintGP_Joystick" Source="Textures/joystick.PNG" Width="70" Height="70" Margin="15,15,15,15" Visibility="Collapsed"/>
+                                <Image x:Name="HintGP_Joystick" Source="Textures/joystick.PNG" Width="70" Height="70" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_WASD"  Source="Textures/wasd.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_E"     Source="Textures/E.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_Q"     Source="Textures/Q.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
@@ -495,6 +495,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                 <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="150" Height="150" Visibility="Collapsed"/>
                             </Grid>
                             <Grid>
+                                <Image x:Name="HintGP2_B" Source="Textures/B.PNG" Width="70"/>
                                 <Image x:Name="HintKey2_Ctrl" Source="Textures/Ctrl.PNG" Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey2_E"    Source="Textures/E.PNG"    Width="120" Height="120" Visibility="Collapsed"/>
                             </Grid>

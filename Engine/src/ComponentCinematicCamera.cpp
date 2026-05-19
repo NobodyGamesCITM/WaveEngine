@@ -41,6 +41,7 @@ void ComponentCinematicCamera::ClearTargets() {
 
 void ComponentCinematicCamera::TriggerShake(float duration, float magnitude, float frequency) {
     shakeTimer = duration;
+    shakeDuration = duration;
     shakeMagnitude = magnitude;
     shakeFreq = frequency;
 }
@@ -276,7 +277,10 @@ void ComponentCinematicCamera::ApplyShake(float dt, glm::vec3& outPos) {
     if (shakeTimer <= 0.0f) return;
 
     shakeTimer -= dt;
-    float progress = shakeTimer / (shakeTimer + dt);
+
+    if (shakeTimer < 0.0f) shakeTimer = 0.0f;
+
+    float progress = (shakeDuration > 0.0f) ? (shakeTimer / shakeDuration) : 0.0f;
     float amplitude = shakeMagnitude * progress;
 
     float time = Application::GetInstance().time->GetTotalTime();

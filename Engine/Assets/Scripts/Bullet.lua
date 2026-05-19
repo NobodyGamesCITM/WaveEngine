@@ -12,6 +12,7 @@ local initialized = nil
 local rb = nil
 local hasHit = false
 local pendingDamage = false
+local sleep = false
 
 function Start(self)
     self.direction = { x = 0, y = 0, z = 1 }
@@ -35,11 +36,20 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if hasHit then
-        if pendingDamage then
+    if _G.nextBulletData then
+        sleep = false
+        hasHit = false
+        timeAlive = 0
+        self.initialized = false
+    end
 
-        end
-        self:Destroy()
+    if sleep then return end
+
+    if hasHit then
+        sleep = true
+        self.transform:SetPosition(0, -1000, 0)
+        local ps = self.gameObject:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
         return
     end
 
@@ -109,7 +119,10 @@ function Update(self, dt)
 
     timeAlive = timeAlive + dt
     if timeAlive >= lifetime then
-        self:Destroy()
+        sleep = true
+        self.transform:SetPosition(0, -1000, 0)
+        local ps = self.gameObject:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
         return
     end
 end

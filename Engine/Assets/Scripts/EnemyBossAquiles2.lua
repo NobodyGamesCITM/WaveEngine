@@ -27,7 +27,9 @@ local currentState = State.IDLE
 local hp           = 0
 local posture       = 0     
 local isDead       = false
-local deathTimer = 3.5
+local deathTimer = 20.1
+local deathAnimDone = false
+local blockHits = false
 
 local rb       = nil
 local anim     = nil
@@ -207,6 +209,7 @@ end
 
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
+    if blockHits then return end
 
     if _G.TriggerCameraShake then
         _G.TriggerCameraShake(0.1, 0.5, 5.0)
@@ -285,8 +288,16 @@ local function TakeDamage(self, amount, attackerPos)
 
     -- Dead
     if hp <= 0 then
+        if not fase1 then
+            _G._AquilesDefeated = true
+            Game.SetTimeScale(0.1)
+            _impactFrameTimer = 0.3
+            blockHits = true
+        else
+            Game.SetTimeScale(0.2)
+            _impactFrameTimer = 0.1
+        end
         ChangeState(State.DEAD)
-        anim:Play("Death")
         SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
         if _G.BossBar_SetVisibility then
             _G.BossBar_SetVisibility(false)
@@ -796,11 +807,16 @@ local function UpdateDeath(self, dt)
 
         return
     else
+        
         deathTimer = deathTimer - dt
         
         if rb then
             rb:SetLinearVelocity(0, 0, 0)
             rb:SetBody(2)
+        end
+        if deathTimer <= 19.0 and deathAnimDone == false then
+            anim:Play("Death")
+            deathAnimDone = true
         end
 
         if deathTimer <= 0 then
@@ -817,9 +833,6 @@ local function UpdateDeath(self, dt)
                 
                 DestroyChargeFeedback(self)
                 Audio.SetMusicState("AfterBoss")
-                
-                Game.SetTimeScale(0.2)
-                _impactFrameTimer = 0.1
             end
 
             local pos = self.transform.position
@@ -987,10 +1000,11 @@ function Update(self, dt)
         return
     end
 
-    if Input.GetKey("K") then
-        SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
-        if bloodPs then bloodPs:Play() end
-        hp = 1
+    if Input.GetKeyDown("K") then
+        local damage = hp - 1
+        if damage > 0 then
+            TakeDamage(self, damage, self.transform.worldPosition)
+        end
         return
     end
 
@@ -1060,6 +1074,7 @@ function Update(self, dt)
 end
 
 function OnTriggerEnter(self, other)
+    if blockHits then return end
     if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then

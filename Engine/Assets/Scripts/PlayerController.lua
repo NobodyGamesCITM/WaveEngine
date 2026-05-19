@@ -1383,6 +1383,7 @@ function Start(self)
 
     self.public.stamina = 100
     self.public.health  = 100
+    --self.public.health  = 100000
 
     self.stepTimer = 0
 
@@ -2031,6 +2032,22 @@ function Update(self, dt)
         if _impactFrameTimer <= 0 then
             _impactFrameTimer = 0
             Game.SetTimeScale(1.0)
+
+            if _G._AquilesDefeated and Player.currentState ~= State.DEAD then
+                _G._AquilesDefeated = false
+                if States[Player.currentState] and States[Player.currentState].Exit then
+                    States[Player.currentState].Exit(self)
+                end
+                Player.currentState = State.IDLE
+                if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+                self.public.canMove = false
+                Player.AnimTimer = 20.0
+                local anim = self.gameObject:GetComponent("Animation")
+                if anim then
+                    pcall(function() anim:Play("WinBoss", 0.0) end)
+                end
+            end
+
         end
     end
 

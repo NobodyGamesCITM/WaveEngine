@@ -565,16 +565,19 @@ local function UpdateDeath(self, dt)
         else
             --Engine.Log("[Minocabro] DeathSFX Part 1 already playing!")
         end
+        
+    else
+        --Engine.Log("[Minocabro] Unable to retrieve Voice Audio Source component")
+    end
 
-        if not Audio.IsEventPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
-            self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall") 
+    if not Audio.IsEventPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
+        if self.stepSFX then self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall")
             --Engine.Log("[Minocabro] Playing Death SFX Part 2")
         else
             --Engine.Log("[Minocabro] DeathSFX Part2 already playing!")
         end
-        
     else
-        --Engine.Log("[Minocabro] Unable to retrieve Voice Audio Source component")
+        --Engine.Log("[Minocabro] Unable to retrieve Step Audio Source component")
     end
     
 
@@ -991,5 +994,6 @@ function OnTriggerExit(self, other)
         end
     end
 end
+
 
 

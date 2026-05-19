@@ -1383,7 +1383,7 @@ function Start(self)
 
     self.public.stamina = 100
     self.public.health  = 100
-    --self.public.health  = 100000
+    self.public.health  = 100000
 
     self.stepTimer = 0
 

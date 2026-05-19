@@ -143,6 +143,18 @@ function Start(self)
 
         SendTrackToCamera(track, 0)
     end
+	
+	_G.PlayWinBossCinematic = function()
+        local track = {
+            { time = 0.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 5.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 8.0, pos = { 130.677, 0.217, -645.161 }, rot = { 0, 0, 0 } },
+            { time = 10.0, pos = { 136.165, 0.217, -653.307 }, rot = { 180, 57.172, 180 } },
+            { time = 12.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } },
+            { time = 22.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
 end
 
 function Update(self, dt)

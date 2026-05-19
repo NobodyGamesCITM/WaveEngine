@@ -1146,8 +1146,9 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
     glDepthMask(GL_FALSE);
     glDisable(GL_CULL_FACE);
 
+    GLint modelLoc = glGetUniformLocation(outlineProg, "model");
     for (const RenderObject& obj : list) {
-        glUniformMatrix4fv(glGetUniformLocation(outlineProg, "model"), 1, GL_FALSE, glm::value_ptr(obj.globalModelMatrix));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(obj.globalModelMatrix));
         DrawMesh(obj.mesh);
     }
 

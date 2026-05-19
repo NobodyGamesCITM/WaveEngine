@@ -797,7 +797,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <Canvas Margin="-7,0,7,0" Grid.ColumnSpan="3" Grid.RowSpan="3">
             <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
                 <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
-                <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
+                <Image x:Name="LockOn_Keyboard" Source="Textures/R.PNG" Width="30" Height="30"/>
             </Grid>
             <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
                 <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">

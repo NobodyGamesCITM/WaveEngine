@@ -1251,7 +1251,7 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.AnimTimer > 0 then return end
 
     local anim = self.gameObject:GetComponent("Animation")
-    if anim then
+    if anim and Player.AnimTimer == 0 then
         anim:Play("Idle", 0.0)
         anim:Play("Hurt", 0.0)
         hurtTimer = HURT_DURATION
@@ -2041,10 +2041,15 @@ function Update(self, dt)
                 Player.currentState = State.IDLE
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 self.public.canMove = false
-                Player.AnimTimer = 20.0
+                self.transform:SetPosition(131.348, -1.259, -650.359)
+                if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+                Player.AnimTimer = 22.0
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then
                     pcall(function() anim:Play("WinBoss", 0.0) end)
+                end
+                if _G.PlayWinBossCinematic then
+                    _G.PlayWinBossCinematic()
                 end
             end
 

@@ -1853,7 +1853,7 @@ function Update(self, dt)
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 
-                self.transform:SetPosition(200.729, 32.377, -168.781) 
+                self.transform:SetPosition(199.921, 35.586, -178.304) 
                 if Player.rb then Player.rb:SetRotation(0, 88.814, 0) end
             end
             if Player.pendingObtainMask == Mask.ARES then

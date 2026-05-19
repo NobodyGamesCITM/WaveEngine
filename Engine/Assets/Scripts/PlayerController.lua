@@ -2250,7 +2250,7 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface))
+                    --Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface))
                 end
             end
         end

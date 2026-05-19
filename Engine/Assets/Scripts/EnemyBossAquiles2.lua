@@ -802,6 +802,12 @@ local function UpdateDeath(self, dt)
             rb:SetLinearVelocity(0, 0, 0)
             rb:SetBody(2)
         end
+        if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
+            anim:Play("Death")
+            self.transform:SetPosition(131.563, -0.926, -657.100)
+            self.transform:SetRotation(-180, 76.951, -180)
+            deathAnimDone = true
+        end
 
         if deathTimer <= 0 then
             if self.targetDeathYisEnter == false then

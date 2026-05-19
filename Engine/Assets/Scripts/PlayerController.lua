@@ -2056,6 +2056,9 @@ function Update(self, dt)
                 if anim then
                     pcall(function() anim:Play("WinBoss", 0.0) end)
                 end
+                if _G.PlayWinBossCinematic then
+                    _G.PlayWinBossCinematic()
+                end
             end
 
         end

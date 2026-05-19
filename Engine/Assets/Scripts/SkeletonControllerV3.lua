@@ -27,7 +27,9 @@ local Skeleton = {
     hp              = 30,
     isDead          = false,
     initPos         = nil,
-    bonesPS         = nil
+    bonesPS         = nil,
+    bonePS          = nil,
+    teethPS         = nil,
 }
 
 public = {
@@ -56,7 +58,9 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
-    dodgeChance     = 30.0
+    dodgeChance     = 30.0,
+
+    stunTime    = 0.3,
 }
 local OnStartPos = false
 
@@ -250,6 +254,18 @@ function Start(self)
         Skeleton.bonesPS = vfxBones:GetComponent("ParticleSystem")
         if Skeleton.bonesPS then Skeleton.bonesPS:Stop() end
         vfxBones:SetActive(false)
+    end
+    local vfxBone = GameObject.FindInChildren(self.gameObject, "VFXBone")
+    if vfxBone then
+        Skeleton.bonePS = vfxBone:GetComponent("ParticleSystem")
+        if Skeleton.bonePS then Skeleton.bonePS:Stop() end
+        vfxBone:SetActive(false)
+    end
+    local vfxTeeth = GameObject.FindInChildren(self.gameObject, "VFXTeeth")
+    if vfxTeeth then
+        Skeleton.teethPS = vfxTeeth:GetComponent("ParticleSystem")
+        if Skeleton.teethPS then Skeleton.teethPS:Stop() end
+        vfxTeeth:SetActive(false)
     end
 end
 
@@ -469,10 +485,15 @@ cnt = 0.0,
         alreadyHit = true
         attackTimer = 0
         States[State.HIT].cnt = 0.0
-        hitCooldown = 0.7
+        hitCooldown = self.public.stunTime
         Skeleton.nav:StopMovement()
         BaseMat.SetTexture("17109277834976977864")
-        if Skeleton.bonesPS then Skeleton.bonesPS:Play() end
+
+        local randNum = math.random(1,3)
+        if Skeleton.bonesPS and randNum == 1 then Skeleton.bonesPS:Play() end
+        if Skeleton.bonePS and randNum == 2 then Skeleton.bonePS:Play() end
+        if Skeleton.teethPS and randNum == 3 then Skeleton.teethPS:Play() end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Hit", 0.0) end)

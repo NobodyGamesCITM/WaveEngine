@@ -656,12 +656,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </StackPanel>
                 <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Margin="327,300,0,120" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="101" Height="202" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q1" Source="Textures/Q.PNG" Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q1" Source="Textures/Y.PNG" Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="280" Height="193" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Margin="300,200,0,70" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Image x:Name="MaskKey_Q2" Source="Textures/Q.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q2" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Width="423" Height="258"/>
                 </StackPanel>
             </Grid>

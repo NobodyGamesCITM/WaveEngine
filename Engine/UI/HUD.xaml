@@ -446,8 +446,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                   HorizontalAlignment="Center"
                   Margin="0,0,562,40"
                   Width="600" Grid.Column="1" Grid.Row="1">
-                <Border x:Name="ControlsHintPanel" Visibility="Collapsed"
-                        CornerRadius="8"
+                <Border x:Name="ControlsHintPanel" Visibility="Collapsed" CornerRadius="8"
                         Padding="12,8,12,8"
                         HorizontalAlignment="Center">
                     <Border.Background>
@@ -471,6 +470,9 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                 <Image x:Name="HintImg_Berserk"         Source="Textures/Berserk.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
                             </Grid>
                             <Grid>
+                                <Image x:Name="HintGP_X" Source="Textures/X.PNG" Width="70" Height="70" Visibility="Collapsed"/>
+                                <Image x:Name="HintGP_Cruz" Source="Textures/Cruceta.PNG" Width="70" Height="70" Visibility="Collapsed"/>
+                                <Image x:Name="HintGP_Joystick" Source="Textures/joystick.PNG" Width="70" Height="70" Margin="15,15,15,15" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_WASD"  Source="Textures/wasd.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_E"     Source="Textures/E.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_Q"     Source="Textures/Q.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
@@ -479,6 +481,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                 <Image x:Name="HintKey_R"     Source="Textures/R.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_F"     Source="Textures/F.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
                                 <Image x:Name="HintKey_8"     Source="Textures/8.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
+                                <Image x:Name="HintGP_LT" Source="Textures/LT.PNG" Width="70" Height="70" Visibility="Collapsed"/>
                             </Grid>
                         </StackPanel>
 
@@ -771,42 +774,41 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
             <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="./#ForgottenUncial" TextAlignment="Center" Text="0/3" />
         </Viewbox>
+        <Canvas Margin="-7,0,7,0" Grid.ColumnSpan="3" Grid.RowSpan="3">
+            <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
+                <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
+            </Grid>
+            <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Transform3D>
+                        <noesis:CompositeTransform3D/>
+                    </Image.Transform3D>
+                </Image>
+                <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Transform3D>
+                        <noesis:CompositeTransform3D/>
+                    </Image.Transform3D>
+                </Image>
+            </Grid>
+        </Canvas>
 
     </Grid>
-
-    <Canvas>
-        <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
-            <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
-            <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
-        </Grid>
-        <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
-            <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-                <Image.Transform3D>
-                    <noesis:CompositeTransform3D/>
-                </Image.Transform3D>
-            </Image>
-            <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-                <Image.Transform3D>
-                    <noesis:CompositeTransform3D/>
-                </Image.Transform3D>
-            </Image>
-        </Grid>
-    </Canvas>
 
 </Grid>

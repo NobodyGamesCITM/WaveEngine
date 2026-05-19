@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{F5FEBA4C-C50F-06C5-8302-210A95ED1FAC}",
+    "Hash": "{171CA537-FBF4-1F8C-2CE0-8A1FBC5C74A0}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -37,7 +37,15 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Sonic Rings Dropping Sound Effect.wav",
-      "CachePath": "28/{2847164B-289F-2080-3633-7630B0EFC513}.wem"
+      "CachePath": "C2/{C2190D72-6814-B92B-D9AC-8605BDA4A622}.wem"
+     },
+     {
+      "Id": "36645458",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_04.wav",
+      "CachePath": "09/{09273C9C-321F-61B0-5CB1-5FFDE1F51E71}.wem"
      },
      {
       "Id": "38515333",
@@ -96,6 +104,14 @@
       "CachePath": "20/{20689C57-7370-61C4-252A-08FF85B687BA}.wem"
      },
      {
+      "Id": "78736786",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_05.wav",
+      "CachePath": "A6/{A6617771-C3FB-F9A7-A372-7F36FB329E4E}.wem"
+     },
+     {
       "Id": "79161646",
       "Language": "SFX",
       "Streaming": "false",
@@ -149,7 +165,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "chain_break_02.wav",
-      "CachePath": "C5/{C5388525-11B1-8F50-0862-F1318736190D}.wem"
+      "CachePath": "EB/{EB511021-77B8-10BC-CF01-D7C9403D130E}.wem"
      },
      {
       "Id": "96160614",
@@ -158,6 +174,14 @@
       "Location": "Memory",
       "ShortName": "player_hit.wav",
       "CachePath": "2F/{2FBC8C4A-D963-2675-C90D-CAA76DFC2416}.wem"
+     },
+     {
+      "Id": "108762799",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_01.wav",
+      "CachePath": "93/{9341B35D-CAAB-0314-4537-E2836B5D401A}.wem"
      },
      {
       "Id": "119201350",
@@ -317,7 +341,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "chain_break_00.wav",
-      "CachePath": "E8/{E803B572-0CA7-8A6E-B5C3-875845CEF659}.wem"
+      "CachePath": "CD/{CDA3AAD9-F800-E375-0F42-C39FC5EE0CA5}.wem"
      },
      {
       "Id": "218509929",
@@ -344,6 +368,14 @@
       "CachePath": "D0/{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem"
      },
      {
+      "Id": "245550775",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_02.wav",
+      "CachePath": "B5/{B52A5EFC-9106-5B80-4E84-0A0E1D2CDAE1}.wem"
+     },
+     {
       "Id": "248587822",
       "Language": "SFX",
       "Streaming": "false",
@@ -358,6 +390,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_run_01.wav",
       "CachePath": "44/{44A3DFA2-4ED9-48C9-BB11-1095A26AB9BC}.wem"
+     },
+     {
+      "Id": "254338618",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_04.wav",
+      "CachePath": "D0/{D0759F5C-FC12-B2B6-973E-53D2445B1C48}.wem"
      },
      {
       "Id": "255095212",
@@ -405,7 +445,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "chain_break_01.wav",
-      "CachePath": "7A/{7AE4798E-1B1A-3F7F-48F8-E35A934673F8}.wem"
+      "CachePath": "AD/{ADBB6FD7-245E-C680-4F61-79C8CEF2FAF2}.wem"
      },
      {
       "Id": "281166023",
@@ -488,6 +528,14 @@
       "CachePath": "E0/{E0CAF796-89CD-B896-F309-D2DD1000C298}.wem"
      },
      {
+      "Id": "349512848",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_03.wav",
+      "CachePath": "BE/{BE286CD5-7E2F-7434-CFC4-7756EAD539C6}.wem"
+     },
+     {
       "Id": "353618428",
       "Language": "SFX",
       "Streaming": "false",
@@ -518,6 +566,22 @@
       "Location": "Memory",
       "ShortName": "Aquiles_DeathSound_01.wav",
       "CachePath": "7A/{7A38771B-445E-5F37-FA53-4AA81853351E}.wem"
+     },
+     {
+      "Id": "372812432",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_05.wav",
+      "CachePath": "3E/{3E34DAEC-ED2C-009C-81B3-9195BB0D3A69}.wem"
+     },
+     {
+      "Id": "395188084",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_04.wav",
+      "CachePath": "B5/{B559E8A6-62D5-D696-83A3-68482B76F4DD}.wem"
      },
      {
       "Id": "406806222",
@@ -592,6 +656,14 @@
       "CachePath": "EA/{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem"
      },
      {
+      "Id": "475675298",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_06.wav",
+      "CachePath": "2A/{2AC7B201-0B0D-ADB4-9494-1B17FCB0EF66}.wem"
+     },
+     {
       "Id": "479303077",
       "Language": "SFX",
       "Streaming": "false",
@@ -632,6 +704,14 @@
       "CachePath": "3D/{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem"
      },
      {
+      "Id": "507868531",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_06.wav",
+      "CachePath": "C9/{C97CB935-4BFB-6521-D05F-53CDF5267682}.wem"
+     },
+     {
       "Id": "511744790",
       "Language": "SFX",
       "Streaming": "false",
@@ -646,6 +726,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_03.wav",
       "CachePath": "97/{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem"
+     },
+     {
+      "Id": "514297256",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_02.wav",
+      "CachePath": "34/{343D579D-4455-4C98-604D-8003E00A79A1}.wem"
      },
      {
       "Id": "520645407",
@@ -670,6 +758,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_hoof_04.wav",
       "CachePath": "13/{130DEF8E-D1F9-7D82-405A-F09EC962B5ED}.wem"
+     },
+     {
+      "Id": "531762456",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_01.wav",
+      "CachePath": "D3/{D36DB3FC-A1A7-5A06-7A13-7AF585527789}.wem"
      },
      {
       "Id": "533026546",
@@ -726,6 +822,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_01.wav",
       "CachePath": "3F/{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem"
+     },
+     {
+      "Id": "580278920",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_06.wav",
+      "CachePath": "2C/{2CBE52B2-46B2-9CA1-93CB-EB574B54FCEB}.wem"
      },
      {
       "Id": "585738113",
@@ -856,6 +960,14 @@
       "CachePath": "92/{922EE9CB-FA52-7412-0CE8-4E88583F4725}.wem"
      },
      {
+      "Id": "649248772",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_02.wav",
+      "CachePath": "2D/{2D5C1C1D-57E4-72B5-0D47-7AD0B5E309F2}.wem"
+     },
+     {
       "Id": "653184964",
       "Language": "SFX",
       "Streaming": "false",
@@ -888,6 +1000,14 @@
       "CachePath": "85/{85480C67-C83E-070A-9714-960378316322}.wem"
      },
      {
+      "Id": "663951859",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_walk_04.wav",
+      "CachePath": "95/{95C49D45-51A6-1249-ACE6-34404A59FC6D}.wem"
+     },
+     {
       "Id": "664468680",
       "Language": "SFX",
       "Streaming": "false",
@@ -902,6 +1022,14 @@
       "Location": "Memory",
       "ShortName": "Wwizard_Armor.wav",
       "CachePath": "F6/{F68F65FC-D7BA-C687-9C48-656E904E5184}.wem"
+     },
+     {
+      "Id": "673992347",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_05.wav",
+      "CachePath": "3E/{3E04040D-B49D-33CB-3671-09BBEDCB1FED}.wem"
      },
      {
       "Id": "675021197",
@@ -934,6 +1062,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_06.wav",
       "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+     },
+     {
+      "Id": "717187454",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_03.wav",
+      "CachePath": "21/{21ACA74F-9726-8D5D-B6DE-81B7F25E100B}.wem"
      },
      {
       "Id": "726491942",
@@ -974,6 +1110,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_wallcrash_boulder.wav",
       "CachePath": "9D/{9DD305E0-6FCF-959F-B0C3-790C87EAFFB6}.wem"
+     },
+     {
+      "Id": "755070505",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_run_01.wav",
+      "CachePath": "20/{2009753A-3905-D69C-4D82-AF2B6FC0F6E7}.wem"
      },
      {
       "Id": "759655859",
@@ -1112,6 +1256,14 @@
       "CachePath": "04/{0415CD86-202A-8E4B-D891-641347BBD750}.wem"
      },
      {
+      "Id": "839908236",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_03.wav",
+      "CachePath": "99/{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem"
+     },
+     {
       "Id": "841807102",
       "Language": "SFX",
       "Streaming": "false",
@@ -1200,6 +1352,14 @@
       "CachePath": "FB/{FB3EDD18-81A0-0BF1-588E-E224CEF19412}.wem"
      },
      {
+      "Id": "902777621",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_02.wav",
+      "CachePath": "69/{6912727A-55F1-76E5-1A74-12B0D64BF233}.wem"
+     },
+     {
       "Id": "908137877",
       "Language": "SFX",
       "Streaming": "false",
@@ -1214,6 +1374,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_02.wav",
       "CachePath": "5C/{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem"
+     },
+     {
+      "Id": "914533615",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_sand_walk_06.wav",
+      "CachePath": "8B/{8B7F6936-4919-27D2-9133-D4E680863521}.wem"
      },
      {
       "Id": "915946584",
@@ -1237,7 +1405,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_collapse.wav",
-      "CachePath": "15/{154AA8AB-9565-0C06-32D7-8E16F5F8907C}.wem"
+      "CachePath": "8F/{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem"
      },
      {
       "Id": "964848831",
@@ -1312,6 +1480,14 @@
       "CachePath": "68/{6897335D-343C-DA09-0C5A-B425F621D239}.wem"
      },
      {
+      "Id": "995547947",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_03.wav",
+      "CachePath": "3F/{3FB49B9D-2007-DA74-BA61-5F50DE56E269}.wem"
+     },
+     {
       "Id": "1000988990",
       "Language": "SFX",
       "Streaming": "false",
@@ -1350,6 +1526,22 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_02.wav",
       "CachePath": "D9/{D9E41754-8D72-EB32-8656-806E11273942}.wem"
+     },
+     {
+      "Id": "1048801786",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_05.wav",
+      "CachePath": "85/{859CF0E8-439C-06C7-C96A-66FCF1E114FE}.wem"
+     },
+     {
+      "Id": "1051108445",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "BAS_Player_Footstep_wood_run_01.wav",
+      "CachePath": "1D/{1DAC6BE6-76E9-340B-B9FF-B8439DEEA9BC}.wem"
      },
      {
       "Id": "1053237588",
@@ -2457,12 +2649,42 @@
       "GUID": "{527F17F1-9C7A-456D-8822-3CB81C90A7E8}",
       "MaxAttenuation": "40",
       "DurationType": "OneShot",
-      "DurationMin": "2.46259",
-      "DurationMax": "3.46259",
+      "DurationMin": "2.2530546",
+      "DurationMax": "3.7304277",
       "MediaRefs": [
        {
         "Id": "618455848"
        },
+       {
+        "Id": "946854841"
+       }
+      ]
+     },
+     {
+      "Id": "3164505444",
+      "Name": "SFX_MinoDieCry",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoDieCry",
+      "GUID": "{1F244A86-91E6-4259-8207-3AC52A875CED}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "2.2181785",
+      "DurationMax": "2.7151692",
+      "MediaRefs": [
+       {
+        "Id": "618455848"
+       }
+      ]
+     },
+     {
+      "Id": "3603037357",
+      "Name": "SFX_MinoFall",
+      "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoFall",
+      "GUID": "{A2C4F39B-CAAB-45C8-9741-CE5BDD8D8D06}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "0.7530547",
+      "DurationMax": "1.2304277",
+      "MediaRefs": [
        {
         "Id": "946854841"
        }
@@ -2647,7 +2869,7 @@
       "GUID": "{124A9E6E-4896-44A7-A67E-FECF644D2CE8}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.24799708",
+      "DurationMin": "0.21042962",
       "DurationMax": "0.5771882",
       "SwitchContainers": [
        {
@@ -2663,7 +2885,8 @@
            "GroupType": "Switch",
            "GroupId": "1062779386",
            "Id": "2108779966",
-           "GUID": "{618A7081-0280-42FA-B525-21EB4D80599D}"
+           "GUID": "{618A7081-0280-42FA-B525-21EB4D80599D}",
+           "Default": "true"
           },
           "MediaRefs": [
            {
@@ -2855,6 +3078,73 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "4064446173",
+         "Id": "2058049674",
+         "GUID": "{77061F7C-D591-420D-AE99-80A4B2E61BAA}"
+        },
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1062779386",
+           "Id": "2108779966",
+           "GUID": "{618A7081-0280-42FA-B525-21EB4D80599D}",
+           "Default": "true"
+          },
+          "MediaRefs": [
+           {
+            "Id": "78736786"
+           },
+           {
+            "Id": "349512848"
+           },
+           {
+            "Id": "531762456"
+           },
+           {
+            "Id": "580278920"
+           },
+           {
+            "Id": "649248772"
+           },
+           {
+            "Id": "663951859"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1062779386",
+           "Id": "712161704",
+           "GUID": "{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"
+          },
+          "MediaRefs": [
+           {
+            "Id": "254338618"
+           },
+           {
+            "Id": "475675298"
+           },
+           {
+            "Id": "902777621"
+           },
+           {
+            "Id": "995547947"
+           },
+           {
+            "Id": "1048801786"
+           },
+           {
+            "Id": "1051108445"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4064446173",
          "Id": "2654748154",
          "GUID": "{1D925BC7-2359-487D-87FC-118493BB9693}"
         },
@@ -2913,6 +3203,73 @@
            },
            {
             "Id": "908137877"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4064446173",
+         "Id": "803837735",
+         "GUID": "{AB1B4DF4-2E16-4588-BB5F-71913278A564}"
+        },
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1062779386",
+           "Id": "2108779966",
+           "GUID": "{618A7081-0280-42FA-B525-21EB4D80599D}",
+           "Default": "true"
+          },
+          "MediaRefs": [
+           {
+            "Id": "36645458"
+           },
+           {
+            "Id": "108762799"
+           },
+           {
+            "Id": "245550775"
+           },
+           {
+            "Id": "673992347"
+           },
+           {
+            "Id": "839908236"
+           },
+           {
+            "Id": "914533615"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1062779386",
+           "Id": "712161704",
+           "GUID": "{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"
+          },
+          "MediaRefs": [
+           {
+            "Id": "372812432"
+           },
+           {
+            "Id": "395188084"
+           },
+           {
+            "Id": "507868531"
+           },
+           {
+            "Id": "514297256"
+           },
+           {
+            "Id": "717187454"
+           },
+           {
+            "Id": "755070505"
            }
           ]
          }
@@ -3584,10 +3941,22 @@
       "GUID": "{DBA9047E-FC14-4AF3-A510-8FCFF1786D4E}",
       "Switches": [
        {
+        "Id": "803837735",
+        "Name": "Sand",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Sand",
+        "GUID": "{AB1B4DF4-2E16-4588-BB5F-71913278A564}"
+       },
+       {
         "Id": "1216965916",
         "Name": "Stone",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Stone",
         "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
+       },
+       {
+        "Id": "2058049674",
+        "Name": "Wood",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Wood",
+        "GUID": "{77061F7C-D591-420D-AE99-80A4B2E61BAA}"
        },
        {
         "Id": "2087559222",
@@ -3618,6 +3987,6 @@
     ]
    }
   ],
-  "FileHash": "{1D58EC84-E560-4C15-1171-8B6E2BFABCFA}"
+  "FileHash": "{96C26E6F-03D8-16C5-CEF2-DD32A7CB867E}"
  }
 }

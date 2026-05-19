@@ -559,15 +559,23 @@ local function UpdateDeath(self, dt)
     end
 
     if self.voiceSFX then
-        if not Audio.IsEventPlaying("SFX_MinoDie") and self.deathTimer >= 3.0 then 
-            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") 
-            Engine.Log("[Minocabro] Playing Death SFX")
+        if not Audio.IsEventPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 then 
+            self.voiceSFX:StopAudioEvent()
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDieCry") 
+            Engine.Log("[Minocabro] Playing Death SFX Part 1")
         else
-            Engine.Log("[Minocabro] DeathSFX already playing!")
+            Engine.Log("[Minocabro] DeathSFX Part 1 already playing!")
+        end
+
+        if not Audio.IsEventPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
+            self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall") 
+            Engine.Log("[Minocabro] Playing Death SFX Part 2")
+        else
+            Engine.Log("[Minocabro] DeathSFX Part2 already playing!")
         end
         
     else
-        Engine.Log("[Minocabro] Unable to play Death SFX")
+        Engine.Log("[Minocabro] Unable to retrieve Voice Audio Source component")
     end
     
 

@@ -27,7 +27,7 @@ local itemSource
 --local equipSource
 local changeSource
 local swordMat = nil
-local surfaces = {"Grass", "Water", "Dirt", "Stone", "Bones"}
+local surfaces = {"Grass", "Water", "Dirt", "Stone", "Bones", "Sand", "Wood"}
 
 _PlayerController_lastAttack         = ""
 _impactFrameTimer                    = 0
@@ -2250,12 +2250,13 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
+                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface))
                 end
             end
         end
     end
 
-    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") or other:CompareTag("Sand") or other:CompareTag("Wood")  then
         Player.isGrounded = true
     end
 end
@@ -2277,7 +2278,7 @@ function OnCollisionExit(self, other)
         --Player.previousSurface = "Water"
     end
 
-    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") then
+    if other:CompareTag("Dirt") or other:CompareTag("Grass") or other:CompareTag("Stone") or other:CompareTag("Sand") or other:CompareTag("Wood") then
         Player.respawnPos = self.transform.worldPosition
         Player.isGrounded = false
     end

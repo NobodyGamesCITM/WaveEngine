@@ -4,17 +4,17 @@ public = {
 
 local MASK_DATA = {
     hermes = {
-        name    = "LA MÁSCARA DE HERMES",
+        name    = "MÁSCARA DE HERMES",
         maskImg = "MaskImg_Hermes",
         panel   = "MaskPanel_Hermes",
     },
     apolo = {
-        name    = "LA MÁSCARA DE APOLO",
+        name    = "MÁSCARA DE APOLO",
         maskImg = "MaskImg_Apolo",
         panel   = "MaskPanel_Apolo",
     },
     ares = {
-        name    = "LA MÁSCARA DE ARES",
+        name    = "MÁSCARA DE ARES",
         maskImg = "MaskImg_Ares",
         panel   = "MaskPanel_Ares",
     },

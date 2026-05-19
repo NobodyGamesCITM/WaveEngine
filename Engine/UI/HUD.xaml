@@ -615,7 +615,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Grid.Background>
             </Grid>
             <Grid x:Name="MaskObtainedPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#91000000" IsHitTestVisible="False">
-                <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
+                <Image Source="Textures/PopUp.PNG" Margin="455,189,440,189"/>
+                <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Visibility="Hidden" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -626,24 +627,42 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </TextBlock.RenderTransform>
                 </TextBlock>
                 <Grid>
-                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Margin="743,126,743,485" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Margin="683,125,683,484" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="731,123,731,482" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Margin="524,368,1112,405" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Margin="521,386,1071,415" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="557,389,1107,418" Visibility="Collapsed">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <TextBlock x:Name="MaskObtainedName" Margin="314,368,0,647" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FF5F5341" StrokeThickness="70" FontFamily="Arial" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" TextDecorations="Underline"/>
                 </Grid>
-                <TextBlock x:Name="MaskObtainedName" Margin="362,599,362,342" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FFFFFFFF" StrokeThickness="70" FontFamily="Times New Roman" FontSize="75" TextWrapping="Wrap"/>
-                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="624" Height="381" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="487" Height="254" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="466" Margin="496,300,158,100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="MaskKey_Q" Source="Textures/Y.PNG" Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="355" Height="185" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                 </StackPanel>
-                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="198" Height="261" Margin="100,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q1" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="431" Height="301" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="145" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Margin="327,300,0,120" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="101" Height="202" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Q1" Source="Textures/Y.PNG" Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="280" Height="193" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332"/>
-                    <Image x:Name="MaskKey_Q2" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Margin="300,200,0,70" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="MaskKey_Q2" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Width="423" Height="258"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="ChangeMaskTutorialPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#00000000" IsHitTestVisible="False">
@@ -665,7 +684,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Rectangle.OpacityMask>
                 </Rectangle>
                 <Image Source="Textures/CanviarMascaras.PNG" Margin="831,672,591,105"/>
-                <Image Source="Textures/8.PNG" Margin="704,787,1124,201"/>
+                <Image Source="Textures/Cruceta.PNG" Margin="704,787,1124,201"/>
             </Grid>
 
         </Grid>

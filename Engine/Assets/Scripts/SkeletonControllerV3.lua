@@ -585,7 +585,7 @@ States[State.DEAD] = {
     Update = function(self, dt)
         if not Skeleton.isDead  then
             Skeleton.isDead = true
-            local colision = self.gameObject:GetComponent("Sphere Collider")
+            local colision = self.gameObject:GetComponent("Box Collider")
             if colision then 
                 colision:Disable()
                 Skeleton.rb:SetUseGravity(false)
@@ -614,7 +614,7 @@ States[State.DEAD] = {
     end,
     Exit = function(self)
         Skeleton.isDead = false
-        local colision = self.gameObject:GetComponent("Sphere Collider")
+        local colision = self.gameObject:GetComponent("Box Collider")
         if colision then 
             colision:Enable()
             Skeleton.rb:SetUseGravity(true)

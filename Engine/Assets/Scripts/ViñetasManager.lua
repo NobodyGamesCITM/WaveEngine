@@ -11,9 +11,6 @@ local sequence = {
     { page = "Page2", panel = "Page2_V1" },
     { page = "Page2", panel = "Page2_V2" },
     { page = "Page2", panel = "Page2_V3" },
-    { page = "Page3", panel = "Page3_V1" },
-    { page = "Page3", panel = "Page3_V2" },
-    { page = "Page3", panel = "Page3_V3" },
 }
 
 local currentStep = 0
@@ -63,7 +60,7 @@ end
 function Start(self)
     _G.CinematicActive = true
     if _G.UpdatePauseState then _G.UpdatePauseState() end
-
+    Game.Pause()
     hidePanelsOfPage("Page1")
     hidePanelsOfPage("Page2")
     hidePanelsOfPage("Page3")

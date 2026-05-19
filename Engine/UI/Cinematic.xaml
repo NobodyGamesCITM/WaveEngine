@@ -40,50 +40,25 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Border x:Name="Page1_V1"
                             Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
                             Visibility="Visible">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <TextBlock Text="[IMAGEN: Telémaco en Ítaca desde arriba, con un burro en la orilla del mar. Atenea como búho en primer plano, bajando en picado.]"
-                                   FontSize="26" FontFamily="Times New Roman" FontStyle="Italic"
-                                   TextWrapping="Wrap" HorizontalAlignment="Center"
-                                   VerticalAlignment="Bottom" TextAlignment="Center"
-                                   Margin="60,40,60,60">
-                            <TextBlock.Foreground><SolidColorBrush Color="#FF555555"/></TextBlock.Foreground>
-                        </TextBlock>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/1.png" Stretch="Uniform"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <Border x:Name="Page1_V2"
                             Grid.Column="2" Grid.Row="0"
                             Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24">
-                            <Border Background="#FFFFFFFF" CornerRadius="8" Padding="14,10">
-                                <TextBlock Text="Telémaco, vástago de Odiseo. Escucha, Atenea te dirige la palabra."
-                                           FontSize="21" FontFamily="Times New Roman"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FF111111"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                            <Border Background="#FFFFFFFF" CornerRadius="8" Padding="14,10" Margin="0,14,0,0">
-                                <TextBlock Text="¿Atenea? ¿La diosa? ¡Por los doce olímpicos! ¿Qué designio te conduce a visitarme?"
-                                           FontSize="21" FontFamily="Times New Roman"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FF111111"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/2.png" Stretch="UniformToFill"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <Border x:Name="Page1_V3"
                             Grid.Column="2" Grid.Row="2"
                             Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <Border Background="#FF1A1500" CornerRadius="6" Padding="18,12"
-                                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24">
-                            <TextBlock Text="Tu padre es la causa de mi visita. Atiende. Temo traerte una funesta noticia, Telémaco… tu padre ha perecido. Aquiles, implacable en su furia, abatió su cuerpo y guarda ahora su alma en una lóbrega prisión del inframundo."
-                                       FontSize="20" FontFamily="Times New Roman" FontStyle="Italic"
-                                       TextWrapping="Wrap" TextAlignment="Center">
-                                <TextBlock.Foreground><SolidColorBrush Color="#FFFFE082"/></TextBlock.Foreground>
-                            </TextBlock>
-                        </Border>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/3.png" Stretch="UniformToFill"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -110,119 +85,25 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Border x:Name="Page2_V1"
                             Grid.Column="0" Grid.Row="0"
                             Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="28">
-                            <Border Background="#FFFFFFFF" CornerRadius="8" Padding="14,10">
-                                <TextBlock Text="No… no es posible. Padre ha… ¿fallecido? ¿Qué haremos ahora? ¿Qué le diré a madre?"
-                                           FontSize="21" FontFamily="Times New Roman"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FF111111"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                            <Border Background="#FFFFFFFF" CornerRadius="8" Padding="14,10" Margin="0,12,0,0">
-                                <TextBlock Text="¿Ir por él… yo? No sería capaz, no poseo la fuerza ni la grandeza de mi padre. Carezco de la experiencia necesaria, no sabría por dónde empezar."
-                                           FontSize="21" FontFamily="Times New Roman"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FF111111"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/4.png" Stretch="UniformToFill"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <Border x:Name="Page2_V2"
                             Grid.Column="2" Grid.Row="0"
                             Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="28">
-                            <Border Background="#FFFFFFFF" CornerRadius="8" Padding="14,10">
-                                <TextBlock Text="No te rindas al llanto, Telémaco. Su alma no está perdida si obramos ahora."
-                                           FontSize="21" FontFamily="Times New Roman"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FF111111"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                            <Border Background="#FF1A1500" CornerRadius="6" Padding="14,10" Margin="0,12,0,0">
-                                <TextBlock Text="Parte hacia la isla de Perséfone, solo desde allí hallarás paso al inframundo. La sangre de Odiseo corre por tus venas. No naciste para inclinar la cabeza, sino para alzarte. Venga a tu padre y sé el héroe que el destino reclama."
-                                           FontSize="19" FontFamily="Times New Roman" FontStyle="Italic"
-                                           TextWrapping="Wrap" TextAlignment="Center">
-                                    <TextBlock.Foreground><SolidColorBrush Color="#FFFFE082"/></TextBlock.Foreground>
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/5.png" Stretch="UniformToFill"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <Border x:Name="Page2_V3"
                             Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"
                             Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF0D0D0D"/></Border.Background>
-                        <Border Background="#FF1A1500" CornerRadius="6" Padding="24,16"
-                                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="160,30,160,30">
-                            <TextBlock Text="Tienes razón, Atenea. No hay tiempo que perder, su vida pende de un hilo. Mi padre volverá a Ítaca, junto a madre. Muchos inviernos lleva ya privado de nuestro amparo, y mucho ha sufrido nuestro hogar por su ausencia. No consentiré que las sombras lo dominen. Parto en su busca, y no volveré sin él."
-                                       FontSize="26" FontFamily="Times New Roman" FontStyle="Italic"
-                                       TextWrapping="Wrap" TextAlignment="Center">
-                                <TextBlock.Foreground><SolidColorBrush Color="#FFFFE082"/></TextBlock.Foreground>
-                            </TextBlock>
-                        </Border>
-                    </Border>
-                </Grid>
-
-                <!-- PAGE 3: V1 ancha arriba / V2 izquierda abajo / V3 derecha abajo -->
-                <Grid x:Name="Page3" Visibility="Hidden">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="3"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-
-                    <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Column="1" Grid.Row="2">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-
-                    <Border x:Name="Page3_V1"
-                            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <TextBlock Text="[IMAGEN: Primer plano de la barca de Telémaco. El búho vuela a su alrededor. A lo lejos, la isla de Perséfone.]"
-                                   FontSize="24" FontFamily="Times New Roman" FontStyle="Italic"
-                                   TextWrapping="Wrap" HorizontalAlignment="Center"
-                                   VerticalAlignment="Bottom" TextAlignment="Center"
-                                   Margin="80,40,80,36">
-                            <TextBlock.Foreground><SolidColorBrush Color="#FF555555"/></TextBlock.Foreground>
-                        </TextBlock>
-                    </Border>
-
-                    <Border x:Name="Page3_V2"
-                            Grid.Column="0" Grid.Row="2"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <TextBlock Text="[IMAGEN: El mismo plano, sin isla al fondo. Fuerte tormenta y marea. Ola gigante con el símbolo de Poseidón en azul eléctrico.]"
-                                   FontSize="22" FontFamily="Times New Roman" FontStyle="Italic"
-                                   TextWrapping="Wrap" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" TextAlignment="Center"
-                                   Margin="40">
-                            <TextBlock.Foreground><SolidColorBrush Color="#FF555555"/></TextBlock.Foreground>
-                        </TextBlock>
-                    </Border>
-
-                    <Border x:Name="Page3_V3"
-                            Grid.Column="2" Grid.Row="2"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#FF000000"/></Border.Background>
-                        <TextBlock Text="[IMAGEN: Barco partido en dos. Telémaco agarrado a un tablón, casi inconsciente. Restos flotando. Atenea como búho se acerca.]"
-                                   FontSize="22" FontFamily="Times New Roman" FontStyle="Italic"
-                                   TextWrapping="Wrap" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" TextAlignment="Center"
-                                   Margin="40">
-                            <TextBlock.Foreground><SolidColorBrush Color="#FF555555"/></TextBlock.Foreground>
-                        </TextBlock>
+                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
+                        <Image Source="Textures/6.png" Stretch="UniformToFill"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
 

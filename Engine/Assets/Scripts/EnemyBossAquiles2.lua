@@ -111,6 +111,8 @@ local fase1 = true
 
 local currentMaxHp = 300
 
+local AquilesFeedback = "/Prefabs/AquilesFeedback.prefab"
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -590,7 +592,7 @@ local function UpdateAnticipation(self, pp, dt)
             end
             self.chargeFeedbackTiles = {}
             for i = 1, numTiles do
-                local tile = Prefab.Instantiate("AquilesFeedback")
+                local tile = Prefab.Instantiate(AquilesFeedback)
                 if tile then
                     table.insert(self.chargeFeedbackTiles, tile)
                 end
@@ -965,7 +967,7 @@ function Start(self)
     lanceCDTimer  = 0
     chargeCDTimer = 0
 
-    Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
+    --Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO     = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles  = {}

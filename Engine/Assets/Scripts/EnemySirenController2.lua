@@ -386,13 +386,13 @@ function Start(self)
         Engine.Log("[SIREN AUDIO] Unable to retrieve SirenWaterSource GameObject")
     end
 
-
-
     Prefab.Load("Sirena_Bullet", finalPath)
     if Mortar.rb then
         Mortar.rb:SetLinearVelocity(0, 0, 0)
     end
-
+    self.CheckAlive = function(self)
+        return isDead
+    end
     Engine.Log("[Mortar] Initialized. HP=" .. hp
              .. " detectRange=" .. self.public.detectRange)
 end

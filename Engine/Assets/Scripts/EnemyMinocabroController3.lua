@@ -22,9 +22,8 @@ _EnemyDamage_minocabro = 35
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
-
 local hitCooldown = 0
-
+local deadEn = false
 local TILE_SIZE = 3.744
 
 local BaseMat = nil
@@ -594,7 +593,7 @@ local function UpdateDeath(self, dt)
                 self.rb:SetUseGravity(false)
             end
         end
-
+        
         local pos = self.transform.position
         
         if pos.y > self.targetDeathY then
@@ -602,6 +601,7 @@ local function UpdateDeath(self, dt)
         else
             if not self.isDead then
                 self.isDead = true
+                deadEn = true
                 Engine.Log("[Minocabro] Enterrat al seu lloc correcte.")
             end
         end
@@ -773,6 +773,10 @@ function Start(self)
 
     self.targetDeathY=nil
     self.targetDeathYisEnter=false
+
+    self.CheckAlive = function(self)
+        return deadEn
+    end
 end
 
 function Update(self, dt)

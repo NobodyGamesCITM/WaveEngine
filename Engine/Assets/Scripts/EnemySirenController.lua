@@ -35,8 +35,8 @@ public = {
 
 -- Public (movido a self.public dentro de Start para evitar conflictos entre enemigos)
 
-local finalPath  = Engine.GetAssetsPath() .. "/Prefabs/Sirena_Bullet.prefab"
-local finalPath_Feedback  = Engine.GetAssetsPath() .. "/Prefabs/Sirenfeedback.prefab"
+local finalPath  = "/Prefabs/Sirena_Bullet.prefab"
+local finalPath_Feedback = "/Prefabs/Sirenfeedback.prefab"
 
 --local bulletAsset = nil
 --local shell = nil
@@ -199,42 +199,32 @@ local function FireShell(self, tx, ty, tz)
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, predictedX, ty+ 0.3, predictedZ)
 
     if not self.windupFeedback then
-        Prefab.Load("Sirenfeedback", finalPath_Feedback)
-        self.windupFeedback = Prefab.Instantiate("Sirenfeedback")
+        self.windupFeedback = Prefab.Instantiate(finalPath_Feedback)
         --self.windupFeedback:SetActive(false)
         self.windupFeedbackSet = false
         self.windupFeedback:SetActive(false)
 
     end
 
-    --local bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
     
     self.shell:SetActive(true)
-    if self.bulletAsset then
-        --local shell = Prefab.Instantiate("Sirena_Bullet")
+    local feedback = self.windupFeedback
+    self.windupFeedback = nil
+    self.windupFeedbackSet = false
 
-        local feedback = self.windupFeedback
-        self.windupFeedback = nil
-        self.windupFeedbackSet = false
-
-        table.insert(self.activeShells, {
-            go         = self.shell,
-            shadowGo         = feedback,
-            age        = 0,
-            flightTime = T,
-            sx = sx, sy = sy, sz = sz,
-            vx = vx, vy = vy, vz = vz,
-            targetX    = predictedX, --tx,
-            targetY    = ty,
-            targetZ    = predictedZ, --tz,
-            hasHit     = false,
-            feedbackSet = false,
-        })
-        
-        --Engine.Log("[Mortar] FIRE! Dist=" .. string.format("%.1f", sqrt((tx-sx)^2+(tz-sz)^2)) .. " T=" .. string.format("%.2f", T))
-    else
-        Engine.Log("[Mortar] Error al cargar el proyectil.")
-    end
+    table.insert(self.activeShells, {
+        go         = self.shell,
+        shadowGo         = feedback,
+        age        = 0,
+        flightTime = T,
+        sx = sx, sy = sy, sz = sz,
+        vx = vx, vy = vy, vz = vz,
+        targetX    = predictedX, --tx,
+        targetY    = ty,
+        targetZ    = predictedZ, --tz,
+        hasHit     = false,
+        feedbackSet = false,
+    })
 end
 
 
@@ -766,9 +756,6 @@ function Start(self)
     self.windupFeedback = nil
     self.windupFeedbackSet = false
 
-    Prefab.Load("Sirena_Bullet", finalPath)
-    Prefab.Load("Sirenfeedback", finalPath_Feedback)
-
     if self.rb then
         self.rb:SetLinearVelocity(0, 0, 0)
     end
@@ -803,9 +790,8 @@ function Start(self)
     self.targetDeathYisEnter=false
 
 
-    self.bulletAsset = Prefab.Load("Sirena_Bullet", finalPath)
 
-    self.shell = Prefab.Instantiate("Sirena_Bullet")
+    self.shell = Prefab.Instantiate(finalPath)
     self.shell:SetActive(true)
     self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
  

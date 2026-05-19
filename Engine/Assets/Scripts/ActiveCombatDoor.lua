@@ -25,7 +25,7 @@ function Start(self)
 end
 
 function Update (self, deltaTime) 
-    if init then 
+    if init and self.public.aresCombat then 
         for i, enemy in ipairs(enemies) do
             if enemy then
                 local enemyScript = enemy:GetComponent("Script")

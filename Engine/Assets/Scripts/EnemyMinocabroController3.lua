@@ -22,9 +22,8 @@ _EnemyDamage_minocabro = 35
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
 
-
 local hitCooldown = 0
-
+local deadEn = false
 local TILE_SIZE = 3.744
 
 local BaseMat = nil
@@ -559,15 +558,23 @@ local function UpdateDeath(self, dt)
     end
 
     if self.voiceSFX then
-        if not Audio.IsEventPlaying("SFX_MinoDie") and self.deathTimer >= 3.0 then 
-            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDie") 
-            Engine.Log("[Minocabro] Playing Death SFX")
+        if not Audio.IsEventPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 then 
+            self.voiceSFX:StopAudioEvent()
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDieCry") 
+            --Engine.Log("[Minocabro] Playing Death SFX Part 1")
         else
-            Engine.Log("[Minocabro] DeathSFX already playing!")
+            --Engine.Log("[Minocabro] DeathSFX Part 1 already playing!")
+        end
+
+        if not Audio.IsEventPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
+            self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall") 
+            --Engine.Log("[Minocabro] Playing Death SFX Part 2")
+        else
+            --Engine.Log("[Minocabro] DeathSFX Part2 already playing!")
         end
         
     else
-        Engine.Log("[Minocabro] Unable to play Death SFX")
+        --Engine.Log("[Minocabro] Unable to retrieve Voice Audio Source component")
     end
     
 
@@ -586,7 +593,7 @@ local function UpdateDeath(self, dt)
                 self.rb:SetUseGravity(false)
             end
         end
-
+        
         local pos = self.transform.position
         
         if pos.y > self.targetDeathY then
@@ -594,6 +601,7 @@ local function UpdateDeath(self, dt)
         else
             if not self.isDead then
                 self.isDead = true
+                deadEn = true
                 Engine.Log("[Minocabro] Enterrat al seu lloc correcte.")
             end
         end
@@ -613,21 +621,25 @@ local function FindMinocabroParticles(self)
     if self.thinBloodVFX then 
         self.thinBloodPs = self.thinBloodVFX:GetComponent("ParticleSystem") 
         if not self.thinBloodPs then 
-            Engine.Log("[Minocabro] Thin Blood Particle System NOT found!")
+            --Engine.Log("[Minocabro] Thin Blood Particle System NOT found!")
         else
-            Engine.Log("[Minocabro] Thin Blood Particle System FOUND!")
+            --Engine.Log("[Minocabro] Thin Blood Particle System FOUND!")
         end
-    else Engine.Log("[Minocabro] Could not retrieve Thin Blood Drops VFX GameObject") end
+    else 
+        --Engine.Log("[Minocabro] Could not retrieve Thin Blood Drops VFX GameObject") 
+    end
 
     self.wideBloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops02")
     if self.wideBloodVFX then 
         self.wideBloodPs = self.wideBloodVFX:GetComponent("ParticleSystem") 
         if not self.wideBloodPs then 
-            Engine.Log("[Minocabro] Wide Blood Particle System NOT found!")
+            --Engine.Log("[Minocabro] Wide Blood Particle System NOT found!")
         else
-            Engine.Log("[Minocabro] Wide Blood Particle System FOUND!")
+            --Engine.Log("[Minocabro] Wide Blood Particle System FOUND!")
         end
-    else Engine.Log("[Minocabro] Could not retrieve Wide Blood Drops VFX GameObject") end
+    else 
+        --Engine.Log("[Minocabro] Could not retrieve Wide Blood Drops VFX GameObject") 
+    end
 
     self.dustVFX = GameObject.FindInChildren(self.gameObject, "RunDust")
     if self.dustVFX then 
@@ -635,19 +647,23 @@ local function FindMinocabroParticles(self)
         if not self.dustPs then 
             Engine.Log("[Minocabro] Running Dust Particle System NOT found!")
         else
-            Engine.Log("[Minocabro] Running Dust Particle System FOUND!")
+            --Engine.Log("[Minocabro] Running Dust Particle System FOUND!")
         end
-    else Engine.Log("[Minocabro] Could not retrieve Running Dust VFX GameObject") end
+    else 
+        --Engine.Log("[Minocabro] Could not retrieve Running Dust VFX GameObject") 
+    end
 
     self.hoofVFX = GameObject.FindInChildren(self.gameObject, "HoofDust")
     if self.hoofVFX then 
         self.hoofPs = self.hoofVFX:GetComponent("ParticleSystem") 
         if not self.hoofPs then 
-            Engine.Log("[Minocabro] Hoof Dust Particle System NOT found!")
+            --Engine.Log("[Minocabro] Hoof Dust Particle System NOT found!")
         else
-            Engine.Log("[Minocabro] Hoof Dust Particle System FOUND!")
+            --Engine.Log("[Minocabro] Hoof Dust Particle System FOUND!")
         end
-    else Engine.Log("[Minocabro] Could not retrieve Hoof Dust VFX GameObject") end
+    else 
+        --Engine.Log("[Minocabro] Could not retrieve Hoof Dust VFX GameObject") 
+    end
 
 end
           
@@ -721,11 +737,15 @@ function Start(self)
    
     if self.stepSource then
         self.stepSFX = self.stepSource:GetComponent("Audio Source")
-    else Engine.Log("[Minocabro] WARNING: Audio Source for steps not found") end
+    else 
+        --Engine.Log("[Minocabro] WARNING: Audio Source for steps not found") 
+    end
 
     if self.voiceSource then
         self.voiceSFX = self.voiceSource:GetComponent("Audio Source")
-    else Engine.Log("[Minocabro] WARNING: Audio Source for voice not found") end
+    else 
+        --Engine.Log("[Minocabro] WARNING: Audio Source for voice not found") 
+    end
 
 
     self.stepTimer = 0.5
@@ -765,6 +785,10 @@ function Start(self)
 
     self.targetDeathY=nil
     self.targetDeathYisEnter=false
+
+    self.CheckAlive = function(self)
+        return deadEn
+    end
 end
 
 function Update(self, dt)

@@ -442,10 +442,22 @@
       "GUID": "{DBA9047E-FC14-4AF3-A510-8FCFF1786D4E}",
       "Switches": [
        {
+        "Id": "803837735",
+        "Name": "Sand",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Sand",
+        "GUID": "{AB1B4DF4-2E16-4588-BB5F-71913278A564}"
+       },
+       {
         "Id": "1216965916",
         "Name": "Stone",
         "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Stone",
         "GUID": "{2248773D-BAEB-4A4A-A9BD-67AD17DF26FE}"
+       },
+       {
+        "Id": "2058049674",
+        "Name": "Wood",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Surface_Type\\Wood",
+        "GUID": "{77061F7C-D591-420D-AE99-80A4B2E61BAA}"
        },
        {
         "Id": "2087559222",
@@ -953,6 +965,6 @@
     ]
    }
   ],
-  "FileHash": "{46BC027C-9249-B9C4-D1EE-30330C13B6F3}"
+  "FileHash": "{04DCC026-CCAA-A289-CADD-27F7D613AE30}"
  }
 }

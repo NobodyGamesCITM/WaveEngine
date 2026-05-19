@@ -890,6 +890,13 @@
 						</Event>
 						<Event Name="SFX_MinoDie" ID="{527F17F1-9C7A-456D-8822-3CB81C90A7E8}">
 							<ChildrenList>
+								<Action Name="" ID="{8C5F9DAD-9F92-4B39-9D23-803DB3E5CA30}" ShortID="306358466">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mino_DeathGrowl" ID="{DF3E9ACA-3C0F-42F8-BBF4-EC4F82FA2C36}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{3F65F0B2-95A1-4ED7-97F5-38D48E4171E8}" ShortID="449690780">
 									<PropertyList>
 										<Property Name="Delay" Type="Real64" Value="2">
@@ -909,13 +916,6 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Mino_Collapse" ID="{1385364D-6475-4BED-9722-EC3509285157}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-								<Action Name="" ID="{8C5F9DAD-9F92-4B39-9D23-803DB3E5CA30}" ShortID="306358466">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="Mino_DeathGrowl" ID="{DF3E9ACA-3C0F-42F8-BBF4-EC4F82FA2C36}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -959,6 +959,31 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Mino_StunnedGrowl" ID="{61AF9C9E-A568-4A09-91C1-6FF2D970B70A}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_MinoFall" ID="{A2C4F39B-CAAB-45C8-9741-CE5BDD8D8D06}">
+							<ChildrenList>
+								<Action Name="" ID="{BC629968-73DE-4489-A03A-16DA20DCC325}" ShortID="907316165">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mino_Collapse" ID="{1385364D-6475-4BED-9722-EC3509285157}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_MinoDieCry" ID="{1F244A86-91E6-4259-8207-3AC52A875CED}">
+							<ChildrenList>
+								<Action Name="" ID="{62073114-6231-49E1-BC3D-6B69F5DC12B4}" ShortID="782702831">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mino_DeathGrowl" ID="{DF3E9ACA-3C0F-42F8-BBF4-EC4F82FA2C36}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

@@ -499,6 +499,7 @@ Resource* ModuleResources::RequestResource(UID uid) {
 
         if (!resource->IsLoadedToMemory()) {
             if (!resource->LoadInMemory()) {
+                LOG_CONSOLE("ERROR: Failed to load resource %llu into memory", uid);
                 return nullptr;
             }
         }
@@ -514,6 +515,7 @@ Resource* ModuleResources::RequestResource(UID uid) {
         return resource;
     }
 
+    LOG_CONSOLE("ERROR: Resource %llu not found", uid);
     return nullptr;
 }
 

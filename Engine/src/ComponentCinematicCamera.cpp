@@ -46,7 +46,7 @@ void ComponentCinematicCamera::TriggerShake(float duration, float magnitude, flo
 }
 
 void ComponentCinematicCamera::Update() {
-    float dt = Application::GetInstance().time->GetRealDeltaTime();
+    float dt = Application::GetInstance().time->GetDeltaTime();
     if (dt <= 0.0f) return;
 
 

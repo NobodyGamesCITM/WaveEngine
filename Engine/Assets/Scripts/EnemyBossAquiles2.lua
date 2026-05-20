@@ -227,19 +227,15 @@ local function TakeDamage(self, amount, attackerPos)
         if len > 0.001 then dx = dx/len; dz = dz/len end
         rb:AddForce((dx * self.public.knockbackForce) / 10, 0, (dz * self.public.knockbackForce) / 10, 2)
     end
-
-    -- Have posture
     local hasPosture = (posture>0)
 
     local dmg = 0
 
-    --Bajar escudo
     if hasPosture and not inOpportunity then
         posture = posture - amount
         PlaySFX(armorSFX)
         if sparksPs then sparksPs:Play() end
 
-        -- Escudo se rompe
         if posture >= self.public.maxPosture then
             StopMovement()
             ChangeState(State.IDLE)
@@ -254,12 +250,9 @@ local function TakeDamage(self, amount, attackerPos)
     if hasPosture and inOpportunity then
         dmg = amount * self.public.opportunityDamageMultiplier
 
-    -- Baja vida pero poca
     elseif not hasPosture and not inOpportunity then
         dmg = amount * 0.4 
         
-
-    -- Baja vida
     else
         dmg = amount * self.public.opportunityDamageMultiplier
     end
@@ -268,6 +261,10 @@ local function TakeDamage(self, amount, attackerPos)
 
     Engine.Log("Aquiles HP = " .. tostring(hp))
     Engine.Log("Aquiles Escudo = " .. tostring(posture))
+
+    if _G.BossBar_RefreshHealth then
+        _G.BossBar_RefreshHealth(hp, currentMaxHp)
+    end
 
 
     SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
@@ -781,13 +778,13 @@ end
 local function UpdateDeath(self, dt)
 
     if fase1 == true then
-        hp      = 200 --Antes 400
-        posture = 100 -- Antes 150
+        hp      = 500 
+        posture = 100 
         isDead  = false
 
         self.public.detectRange    = 27.0
         self.public.chargeDamage      = 45
-        self.public.chargeSpeed       = 40.0 --Antes 25
+        self.public.chargeSpeed       = 40.0 
         self.public.chargeCooldown    = 1.5
         self.public.lanceDamage       = 30
         self.public.lanceCooldown     = 0.4
@@ -796,7 +793,7 @@ local function UpdateDeath(self, dt)
         self.public.wallStunTime      = 1.0
         self.public.afterStunTime     = 0.7
         self.public.stunDuration      = 1.5
-        self.public.predictionTime    = 0.2 --Antes a 0.5
+        self.public.predictionTime    = 0.2 
 
 
         currentState = State.IDLE

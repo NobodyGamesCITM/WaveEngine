@@ -2416,7 +2416,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>20</Value>
+												<Value>10</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -2430,7 +2430,15 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>15</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-480</Value>
+											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{2FB140F2-D859-47D0-AEC6-93B5083E1748}">
@@ -4222,7 +4230,30 @@
 												<RandomSequenceContainer Name="Sand_Run" ID="{625965A6-D48C-400A-97B4-DAF303CB0F55}" ShortID="518901961">
 													<PropertyList>
 														<Property Name="Color" Type="int16" Value="6"/>
+														<Property Name="Highpass" Type="int16">
+															<ValueList>
+																<Value>37</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>19</Value>
+															</ValueList>
+														</Property>
 														<Property Name="OverrideColor" Type="bool" Value="True"/>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{6634D7BD-DBEE-429A-AFEE-252C3E1A25AD}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -10717,6 +10748,53 @@
 					</ChildrenList>
 					<ActiveSourceList>
 						<ActiveSource Name="Hud-potion" ID="{5BC097A0-94CF-4EAF-8061-44EBB811ACC8}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="SFX_PortalFireOn" ID="{8034BB22-4B86-4A29-8C10-754D4E1B3FB9}" ShortID="437989521">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{2ACE5C40-7ABB-43A1-A4C3-D65D5E0BECB9}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="400"/>
+											<Property Name="Min" Type="Real64" Value="-400"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-10</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="freesound_community-lighting-a-fire-14421" ID="{30602D6A-6E72-4A0E-94CE-FE92B641AA27}">
+							<PropertyList>
+								<Property Name="FadeOutDuration" Type="Real64" Value="4.44970748525776"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimEnd" Type="Real64" Value="5.00599021869613"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>freesound_community-lighting-a-fire-14421.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="788641501"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="freesound_community-lighting-a-fire-14421" ID="{30602D6A-6E72-4A0E-94CE-FE92B641AA27}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

@@ -78,7 +78,41 @@ local function ComputeLaunchVelocity(sx, sy, sz, tx, ty, tz)
     return vX, vY, vZ, T
 end
 
+-- local function FindFeedbackParticles(self, feedBackOBJ)
 
+--     if not feedBackOBJ then 
+--         Engine.Log("[SIREN FEEDBACK] WindupFeedback not found") 
+--         return
+--     end
+
+--     if not self.quaverPs then
+
+--         local quaverVFX = GameObject.FindInChildren(feedBackOBJ, "QuaverNotes")
+
+--         if quaverVFX then 
+--             self.quaverPs = quaverVFX:GetComponent("ParticleSystem")
+--             if not self.quaverPs then 
+--                 Engine.Log("[SIREN FEEDBACK] Unable to retrieve SirenFeedback QuaverNotes Particle System") 
+--             else 
+--                 Engine.Log("[SIREN FEEDBACK] QuaverNotes Particle System FOUND!") 
+--             end
+--         else Engine.Log("[SIREN FEEDBACK] Quaver Object not found") end
+--     end
+
+--     if not self.semiQuaverPs then
+
+--         local semiQuaverVFX = GameObject.FindInChildren(feedBackOBJ, "SemiQuaverNotes")
+
+--         if semiQuaverVFX then 
+--             self.semiQuaverPs = semiQuaverVFX:GetComponent("ParticleSystem")
+--             if not self.semiQuaverPs then 
+--                 Engine.Log("[SIREN FEEDBACK] Unable to retrieve SirenFeedback SEMIQuaverNotes Particle System") 
+--             else 
+--                 Engine.Log("[SIREN FEEDBACK] SEMIQuaverNotes Particle System FOUND!") 
+--             end
+--         else Engine.Log("[SIREN FEEDBACK] SemiQuaver Object not found") end
+--     end
+-- end
 
 -- TakeDamage
 local function TakeDamage(self, amount, attackerPos)
@@ -198,23 +232,17 @@ local function FireShell(self, tx, ty, tz)
 
     local vx, vy, vz, T = ComputeLaunchVelocity(sx, sy, sz, predictedX, ty+ 0.3, predictedZ)
 
-    if not self.windupFeedback then
-        self.windupFeedback = Prefab.Instantiate(finalPath_Feedback)
-        --self.windupFeedback:SetActive(false)
-        self.windupFeedbackSet = false
-        self.windupFeedback:SetActive(false)
-
-    end
-
-    
     self.shell:SetActive(true)
     local feedback = self.windupFeedback
-    self.windupFeedback = nil
+    -- local quaverPs = self.quaverPs
+    -- local semiQuaverPs = self.semiQuaverPs
     self.windupFeedbackSet = false
 
     table.insert(self.activeShells, {
         go         = self.shell,
         shadowGo         = feedback,
+        quavers = quaverPs,
+        semiQuavers = semiQuaverPs,
         age        = 0,
         flightTime = T,
         sx = sx, sy = sy, sz = sz,
@@ -321,14 +349,29 @@ local function UpdateShells(self, dt)
         local s = self.activeShells[i]
 
         if s.shadowGo and not s.feedbackSet then
+            s.shadowGo:SetActive(true)
+            local quaverNotes = GameObject.FindInChildren(s.shadowGo, "QuaverNotes") 
+            local quaverPs = nil
+
+            if quaverNotes then 
+                quaverPs = quaverNotes:GetComponent("ParticleSystem")
+                if quaverPs then quaverPs:Play() end
+            end
+
+            local semiQuaverNotes = GameObject.FindInChildren(s.shadowGo, "SemiQuaverNotes") 
+            local semiQuaverPs = nil
+
+            if semiQuaverNotes then 
+                semiQuaverPs = semiQuaverNotes:GetComponent("ParticleSystem")
+                if semiQuaverPs then semiQuaverPs:Play() end
+            end
+            
             local tr = s.shadowGo.transform
             if tr then
                 tr:SetPosition(s.targetX, s.targetY + 0.1, s.targetZ)
                 local scale = self.public.blastRadius
                 tr:SetScale(scale*2, 0.03, scale*2)
                 s.feedbackSet = true
-                tr:SetActive(false)
-
             end
         end
         
@@ -347,7 +390,24 @@ local function UpdateShells(self, dt)
             s.hasHit = true
 
             if s.shadowGo then
-                pcall(function() GameObject.Destroy(s.shadowGo) end)
+                s.shadowGo:SetActive(false)
+
+                local quaverNotes = GameObject.FindInChildren(s.shadowGo, "QuaverNotes") 
+                local quaverPs = nil
+
+                if quaverNotes then 
+                    quaverPs = quaverNotes:GetComponent("ParticleSystem")
+                    if quaverPs then quaverPs:Stop() end
+                end
+
+                local semiQuaverNotes = GameObject.FindInChildren(s.shadowGo, "SemiQuaverNotes") 
+                local semiQuaverPs = nil
+
+                if semiQuaverNotes then 
+                    semiQuaverPs = semiQuaverNotes:GetComponent("ParticleSystem")
+                    if semiQuaverPs then semiQuaverPs:Stop() end
+                end
+                
             end
 
             Engine.Log("[Mortar] Impact at ("
@@ -497,13 +557,17 @@ local function UpdateIdle(self, dist, dt)
             
 
             if self.windupFeedback then
-                pcall(function() GameObject.Destroy(self.windupFeedback) end)
-                self.windupFeedback = nil
+
+                -- FindFeedbackParticles(self, self.windupFeedback)
+                -- if self.quaverPs then self.quaverPs:Stop() end
+                -- if self.semiQuaverPs then self.semiQuaverPs:Stop() end
+
+                self.windupFeedback:SetActive(false)
                 self.windupFeedbackSet = false
             end
 
         end
-    end 
+    end
 end
 
 local function UpdateWindUp(self, pp, dist, dt)
@@ -531,8 +595,11 @@ local function UpdateWindUp(self, pp, dist, dt)
 
     if dist > self.public.detectRange or dist < self.public.minRange then
         if self.windupFeedback then
-            pcall(function() GameObject.Destroy(self.windupFeedback) end)
-            self.windupFeedback = nil
+            -- FindFeedbackParticles(self, self.windupFeedback)
+            -- if self.quaverPs then self.quaverPs:Stop() end
+            -- if self.semiQuaverPs then self.semiQuaverPs:Stop() end
+
+            self.windupFeedback:SetActive(false)
             self.windupFeedbackSet = false
         end
 
@@ -674,6 +741,8 @@ local function FindSirenParticles(self)
     end
 end
 
+
+
 -- Start
 function Start(self)
     Game.SetTimeScale(1.0)
@@ -754,7 +823,10 @@ function Start(self)
     self.alreadyHit = false
 
     self.windupFeedback = nil
+    -- self.quaverPs = nil
+    -- self.semiQuaverPs = nil
     self.windupFeedbackSet = false
+    self.feedbackPreloaded = false
 
     if self.rb then
         self.rb:SetLinearVelocity(0, 0, 0)
@@ -794,13 +866,24 @@ function Start(self)
     self.shell = Prefab.Instantiate(finalPath)
     self.shell:SetActive(true)
     self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
- 
+
 
 end
 
 -- Update
 function Update(self, dt)
     if not self.gameObject then return end
+
+    if not self.feedbackPreloaded then
+        self.feedbackPreloaded = true
+        self.windupFeedback = Prefab.Instantiate(finalPath_Feedback)
+
+        -- if self.windupFeedback then 
+        --     FindFeedbackParticles(self)
+        -- end
+    end
+
+    
 
 
     if self.pendingDestroy and self.deathTimer <= 0 then
@@ -821,9 +904,15 @@ function Update(self, dt)
 
     if self.isDead then
         if self.windupFeedback then
-            pcall(function() GameObject.Destroy(self.windupFeedback) end)
-            self.windupFeedback = nil
+
+            -- FindFeedbackParticles(self, self.windupFeedback)
+            -- if self.quaverPs then self.quaverPs:Stop() end
+            -- if self.semiQuaverPs then self.semiQuaverPs:Stop() end
+
+            self.windupFeedback:SetActive(false)
             self.windupFeedbackSet = false
+            
+            
         end
         self.deathTimer = self.deathTimer - dt
 
@@ -947,6 +1036,7 @@ function Update(self, dt)
     elseif self.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
+   
 
 end
 
@@ -1004,4 +1094,5 @@ function OnTriggerExit(self, other)
         end
     end
 end
+
 

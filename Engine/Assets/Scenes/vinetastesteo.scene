@@ -1,0 +1,129 @@
+{
+    "gameObjects": [
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        1.5,
+                        10.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "aspectRatio": 1.523127794265747,
+                    "farPlane": 1000.0,
+                    "fov": 60.0,
+                    "nearPlane": 0.30000001192092896,
+                    "type": 4,
+                    "uiCullingMask": 0,
+                    "usesPostProcessing": false
+                }
+            ],
+            "name": "Camera",
+            "tag": "",
+            "uid": 13589794233935221802
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "opacity": 1.0,
+                            "type": 30,
+                            "uiLayer": 0,
+                            "xamlPath": "Cinematic.xaml"
+                        }
+                    ],
+                    "name": "vinetas",
+                    "tag": "",
+                    "uid": 11649637157547914260
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "delayBetweenPages",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "delayBetweenPanels",
+                            "type": 0,
+                            "value": 3.5
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        }
+                    ],
+                    "scriptUID": 8907801543014719185,
+                    "type": 6
+                }
+            ],
+            "name": "Vinetasmanager",
+            "tag": "",
+            "uid": 4322893983214200553
+        }
+    ],
+    "version": 1
+}

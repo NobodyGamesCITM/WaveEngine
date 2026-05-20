@@ -12,6 +12,7 @@ local initialized = nil
 local rb = nil
 local hasHit = false
 local pendingDamage = false
+local sleep = false
 
 function Start(self)
     self.direction = { x = 0, y = 0, z = 1 }
@@ -29,17 +30,28 @@ function Start(self)
 
     self.initialized = true
     rb = self.gameObject:GetComponent("Rigidbody")
+    if rb then rb:SetUseGravity(false) end
     if _BulletRegistry == nil then _BulletRegistry = {} end
     bulletId = tostring(self.gameObject) .. tostring(os.clock())
     _BulletRegistry[tostring(self.gameObject)] = bulletId
 end
 
 function Update(self, dt)
-    if hasHit then
-        if pendingDamage then
+    if _G.nextBulletData then
+        sleep = false
+        hasHit = false
+        timeAlive = 0
+        self.initialized = false
+        self.wasRedirected = nil
+    end
 
-        end
-        self:Destroy()
+    if sleep then return end
+
+    if hasHit then
+        sleep = true
+        self.transform:SetPosition(0, -1000, 0)
+        local ps = self.gameObject:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
         return
     end
 
@@ -58,6 +70,7 @@ function Update(self, dt)
 
             self.initialized = true
             self.pendingRedirect = nil
+            self.wasRedirected = nil
             return
         else
             Engine.Log("[Bullet] WARNING: No spawn data - using defaults")
@@ -109,7 +122,10 @@ function Update(self, dt)
 
     timeAlive = timeAlive + dt
     if timeAlive >= lifetime then
-        self:Destroy()
+        sleep = true
+        self.transform:SetPosition(0, -1000, 0)
+        local ps = self.gameObject:GetComponent("ParticleSystem")
+        if ps then ps:Stop() end
         return
     end
 end

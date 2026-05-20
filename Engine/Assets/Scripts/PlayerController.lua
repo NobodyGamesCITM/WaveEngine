@@ -1036,7 +1036,6 @@ States[State.SHOOTING] = {
             angle = Player.lastAngle,
             scale = self.public.bulletScale,
         }
-        Prefab.Instantiate(self.public.bulletPrefab)
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -1587,6 +1586,9 @@ InitParticles = function(self)
         swordMat = swordGameObject:GetComponent("Material")
     end
     UpdateSwordMaterial()
+
+    Player.bullet = nil
+    Player.bulletReady = false
 end
 
 function UpdateHitVignette(dt)
@@ -1628,6 +1630,12 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
+    if not Player.bulletReady then
+        Player.bulletReady = true
+        _G.nextBulletData = { x=0, y=-1000, z=0, dirX=0, dirZ=1, angle=0, scale=self.public.bulletScale or 1.0 }
+        Player.bullet = Prefab.Instantiate(self.public.bulletPrefab)
+    end
+
     if _G.interact == true then _G.interact = false end
     if self.public.interact == true then self.public.interact = false end
 
@@ -2074,6 +2082,7 @@ function MaskScroll(self)
         newMask = _G._MaskState_Ares and Mask.ARES or nil
     elseif Input.GetKeyDown("Down") or Input.GetGamepadButtonDown("DPadDown") then
         newMask = Mask.NONE
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
     end
 
     if newMask == nil then return end
@@ -2083,8 +2092,8 @@ function MaskScroll(self)
     local oldMask = Player.currentMask
     EquipMask(self, newMask)
 
-    if Player.changeMaskSFX and oldMask ~= Player.currentMask then 
-        Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
+    if oldMask ~= Player.currentMask then 
+        --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
         ChangeState(self, State.IDLE)
     end
 

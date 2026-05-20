@@ -47,7 +47,7 @@
                 ],
                 "name": "pSphere1",
                 "tag": "",
-                "uid": 4461810616409165723
+                "uid": 17234979102233787518
             }
         ],
         "components": [
@@ -55,7 +55,7 @@
                 "active": true,
                 "position": [
                     0.0,
-                    0.0,
+                    -1000.0,
                     0.0
                 ],
                 "rotation": [
@@ -107,6 +107,6 @@
         ],
         "name": "Sirena_Bullet",
         "tag": "Sirena_Bullet",
-        "uid": 9020624366305133916
+        "uid": 12579182523175771375
     }
 ]

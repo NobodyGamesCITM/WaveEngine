@@ -198,8 +198,16 @@ void ComponentCinematicCamera::Update() {
         }
     }
     else {
-        // Lerp
-        ApplySmoothing(dt);
+        if (!hasSnappedToFirstTarget && hasTarget) {
+            currentPos = targetPos;
+            currentRot = targetRot;
+            currentFov = targetFov;
+            hasSnappedToFirstTarget = true;
+        }
+        else {
+            // Lerp
+            ApplySmoothing(dt);
+        }
     }
 
     // Shake

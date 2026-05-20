@@ -362,7 +362,9 @@ static const std::unordered_map<std::string, SDL_Scancode> keyMap = {
 	{"F2", SDL_SCANCODE_F2}, {"F3", SDL_SCANCODE_F3}, {"F4", SDL_SCANCODE_F4},
 	{"F5", SDL_SCANCODE_F5}, {"F6", SDL_SCANCODE_F6}, {"F7", SDL_SCANCODE_F7},
 	{"F8", SDL_SCANCODE_F8}, {"F9", SDL_SCANCODE_F9}, {"F10", SDL_SCANCODE_F10},
-	{"F11", SDL_SCANCODE_F11}, {"F12", SDL_SCANCODE_F12}
+	{"F11", SDL_SCANCODE_F11}, {"F12", SDL_SCANCODE_F12},
+    {"Left", SDL_SCANCODE_LEFT}, {"Right", SDL_SCANCODE_RIGHT}, 
+    {"Up", SDL_SCANCODE_UP}, {"Down", SDL_SCANCODE_DOWN}
 };
 
 static int Lua_Input_GetKey(lua_State* L) {

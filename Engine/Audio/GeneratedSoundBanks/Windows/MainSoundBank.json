@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{171CA537-FBF4-1F8C-2CE0-8A1FBC5C74A0}",
+    "Hash": "{734E7C15-47F7-AD38-2817-F8A1D0643BA2}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1158,6 +1158,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_run_03.wav",
       "CachePath": "8A/{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem"
+     },
+     {
+      "Id": "788641501",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lighting-a-fire-14421.wav",
+      "CachePath": "EF/{EF02D263-5FE5-6D70-9E0D-0C30B0072794}.wem"
      },
      {
       "Id": "794308838",
@@ -2812,8 +2820,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_OpenChest",
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
       "DurationType": "OneShot",
-      "DurationMin": "6.274119",
-      "DurationMax": "6.274119",
+      "DurationMin": "5.274119",
+      "DurationMax": "5.274119",
       "MediaRefs": [
        {
         "Id": "70539538"
@@ -2869,7 +2877,7 @@
       "GUID": "{124A9E6E-4896-44A7-A67E-FECF644D2CE8}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.21042962",
+      "DurationMin": "0.20616162",
       "DurationMax": "0.5771882",
       "SwitchContainers": [
        {
@@ -3319,6 +3327,20 @@
       "MediaRefs": [
        {
         "Id": "661717650"
+       }
+      ]
+     },
+     {
+      "Id": "2951163788",
+      "Name": "SFX_PortalFireOn",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_PortalFireOn",
+      "GUID": "{27CA6ACC-AA16-4D22-9734-065BB1C67090}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.9732568",
+      "DurationMax": "6.3071523",
+      "MediaRefs": [
+       {
+        "Id": "788641501"
        }
       ]
      },
@@ -3987,6 +4009,6 @@
     ]
    }
   ],
-  "FileHash": "{96C26E6F-03D8-16C5-CEF2-DD32A7CB867E}"
+  "FileHash": "{16343205-B871-4B91-986B-A43D57B295ED}"
  }
 }

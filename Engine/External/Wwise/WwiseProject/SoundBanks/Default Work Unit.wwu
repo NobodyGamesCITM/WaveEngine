@@ -76,6 +76,7 @@
 						<ObjectRef Name="SFX_AquilesSteps" ID="{277F7057-B177-4CE2-BE5F-B45532FA2A5A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GM_MaskOn" ID="{E5063C11-CF69-4CFA-BEF1-C90C191DAAB5}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonHit" ID="{A037AFEA-4E4D-4D0C-B300-90505F93E833}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_PortalFireOn" ID="{27CA6ACC-AA16-4D22-9734-065BB1C67090}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="MUS_BGM" ID="{6921382D-4CAF-4D5A-B5F9-AF66E9C46744}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_CreepySounds" ID="{213D3FC0-8CE6-4D66-856D-43D6ECE5C1CB}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SirenDie" ID="{E791CBC6-D4D4-4D83-8063-AF76692411BA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

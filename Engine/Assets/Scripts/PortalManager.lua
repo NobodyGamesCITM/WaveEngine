@@ -20,11 +20,13 @@ public = {
 local portalState = 0 
 local activeFires = 0
 local portalMatComp = nil
+local portalSource = nil
 local brokenChains  = nil
 local inCinematic = false
 local cinTimer = 0.0
 local pendingMaterialUpdate = false
 local fireParticles = {}
+local fireSources = {}
 
 local function UpdatePortalVisuals(self)
     if not portalMatComp then 
@@ -52,8 +54,10 @@ local function UpdatePortalVisuals(self)
         Engine.Log("[PortalManager] Material del portal actualizado al UID: " .. cleanUID)
     end
 
-    if activeFires <= 3 and fireParticles[activeFires] then
+    if activeFires <= 3 and fireParticles[activeFires] and fireSources[activeFires] then
         fireParticles[activeFires]:Play()
+        fireSources[activeFires]:PlayAudioEvent()
+        if portalSource then portalSource:PlayAudioEvent() end
         Engine.Log("[PortalManager] Fuego " .. activeFires .. " encendido.")
     end
 end
@@ -66,6 +70,7 @@ function Start(self)
     local portalObj = GameObject.Find(self.public.portalMeshName)
     if portalObj then
         portalMatComp = portalObj:GetComponent("Material")
+        portalSource = portalObj:GetComponent("Audio Source")
     else
         Engine.Log("[PortalManager] ERROR: No se encontró el mesh del portal.")
     end
@@ -74,8 +79,13 @@ function Start(self)
         local fireObj = GameObject.Find("Fire" .. i)
         if fireObj then
             local ps = fireObj:GetComponent("ParticleSystem")
+            local audiosource = fireObj:GetComponent("Audio Source")
+
             if ps then ps:Stop() end 
+            if audiosource then audiosource:StopAudioEvent() end
+            
             fireParticles[i] = ps
+            fireSources[i] = audiosource
         end
     end
 

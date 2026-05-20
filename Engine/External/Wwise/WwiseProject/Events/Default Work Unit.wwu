@@ -250,9 +250,6 @@
 						<Event Name="SFX_OpenChest" ID="{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}">
 							<ChildrenList>
 								<Action Name="" ID="{B491DA21-0AC5-46FB-A0F3-1B532DC2E13E}" ShortID="631083595">
-									<PropertyList>
-										<Property Name="Delay" Type="Real64" Value="0.5"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Open_Chest" ID="{270D2A81-9CCC-40CE-9F86-F0E22B2CFF29}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
@@ -261,7 +258,7 @@
 								</Action>
 								<Action Name="" ID="{27029A68-61EC-4214-8E7E-4405225C9B9C}" ShortID="452456793">
 									<PropertyList>
-										<Property Name="Delay" Type="Real64" Value="3"/>
+										<Property Name="Delay" Type="Real64" Value="2"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
@@ -826,6 +823,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="deactivate_statue" ID="{04BC33DF-AB07-4825-8580-E854DEB8039C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_PortalFireOn" ID="{27CA6ACC-AA16-4D22-9734-065BB1C67090}">
+							<ChildrenList>
+								<Action Name="" ID="{FB05E06B-E5CC-47DF-A1EA-19E7FF1BF10E}" ShortID="707869263">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_PortalFireOn" ID="{8034BB22-4B86-4A29-8C10-754D4E1B3FB9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

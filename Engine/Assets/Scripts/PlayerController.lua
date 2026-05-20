@@ -2082,6 +2082,7 @@ function MaskScroll(self)
         newMask = _G._MaskState_Ares and Mask.ARES or nil
     elseif Input.GetKeyDown("Down") or Input.GetGamepadButtonDown("DPadDown") then
         newMask = Mask.NONE
+        if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") end
     end
 
     if newMask == nil then return end
@@ -2091,8 +2092,8 @@ function MaskScroll(self)
     local oldMask = Player.currentMask
     EquipMask(self, newMask)
 
-    if Player.changeMaskSFX and oldMask ~= Player.currentMask then 
-        Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
+    if oldMask ~= Player.currentMask then 
+        --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
         ChangeState(self, State.IDLE)
     end
 

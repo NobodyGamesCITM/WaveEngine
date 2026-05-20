@@ -67,6 +67,7 @@ namespace AK
         static const AkUniqueID SFX_PLAYERHIT = 515751749U;
         static const AkUniqueID SFX_PLAYERROLL = 2179511499U;
         static const AkUniqueID SFX_PLAYERSHOT = 3486629458U;
+        static const AkUniqueID SFX_PORTALFIREON = 2951163788U;
         static const AkUniqueID SFX_POTIONDRINK = 3128226246U;
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;

@@ -205,7 +205,17 @@ function Initialize(self)
     end
 
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
-    self.canvas:SetOpacity(1.0)
+
+    -- ── TÍTULO DE INICIO ─────────────────────────────────────────────
+    -- Si TitleTrigger tiene el control, NO tocamos la opacidad.
+    -- Él gestiona todo el canvas durante su secuencia.
+    if not _G.TitleTrigger_Active then
+        self.canvas:SetOpacity(1.0)
+    else
+        Engine.Log("[MenuManager] TitleTrigger activo: omitiendo SetOpacity en Initialize.")
+    end
+    -- ────────────────────────────────────────────────────────────────
+
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
     return true
 end
@@ -220,6 +230,10 @@ function Start(self)
 end
 
 function Update(self, dt)
+    -- ── Si el TitleTrigger tiene el control, no tocamos el canvas ────
+    if _G.TitleTrigger_Active then return end
+    -- ────────────────────────────────────────────────────────────────
+
     if not self.canvas then
         self.canvas = self.gameObject:GetComponent("Canvas")
         if not self.canvas then return end
@@ -331,15 +345,14 @@ function Update(self, dt)
                     tostring(_G.SavedSoundEffectsVolume) .. " Music=" .. tostring(_G.SavedMusicVolume))
             end
 
-        if UI.SliderValueChanged("SoundEffectsSlider") then
-            local val = UI.GetSliderValue("SoundEffectsSlider")
-            _G.SavedSoundEffectsVolume = val
-            Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))  -- añade esto
-            Audio.SetSFXVolume(val)
-            Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
-        end
+            if UI.SliderValueChanged("SoundEffectsSlider") then
+                local val = UI.GetSliderValue("SoundEffectsSlider")
+                _G.SavedSoundEffectsVolume = val
+                Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))
+                Audio.SetSFXVolume(val)
+                Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+            end
 
-            -- Music slider → solo música
             if UI.SliderValueChanged("MusicSlider") then
                 local val = UI.GetSliderValue("MusicSlider")
                 _G.SavedMusicVolume = val

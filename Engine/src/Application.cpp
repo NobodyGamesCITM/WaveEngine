@@ -267,9 +267,9 @@ bool Application::PostUpdate()
 
     // Limpiar el estado de los botones pulsados en este frame
     UIManager::GetInstance().ClearFrameClicks();
-    // Limpiar el estado de los botones en focus en este frame
     UIManager::GetInstance().ClearFrameFocused();
-
+    UIManager::GetInstance().ClearSliderChanges();
+    
     if (result) {
         result = window->PostUpdate();
     }

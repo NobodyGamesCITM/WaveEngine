@@ -1066,8 +1066,6 @@ static int Lua_Audio_SetMusicVolume(lua_State* L) {
     return 0;
 }
 
-
-
 static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     AudioListener* listener = *static_cast<AudioListener**>(lua_touserdata(L, -1));
@@ -1077,24 +1075,17 @@ static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     return 0;
 }
 
-
-
 // UI
-// UI.WasClicked("ButtonName") → bool
 static int Lua_UI_WasClicked(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);
     lua_pushboolean(L, UIManager::GetInstance().WasButtonJustClicked(name));
     return 1;
 }
-
-// UI
-// UI.WasFocused("ButtonName") → bool
 static int Lua_UI_WasFocused(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);
     lua_pushboolean(L, UIManager::GetInstance().WasButtonJustFocused(name));
     return 1;
 }
-
 static int Lua_UI_GetCanvasButtons(lua_State* L) {
     
     std::unordered_set<std::string> allButtons 
@@ -1116,15 +1107,12 @@ static int Lua_UI_SetElementText(lua_State* L) {
         });
     return 0;
 }
-// UI.SetElementHeight("GridName", 42.0)
 static int Lua_UI_SetElementHeight(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
     float height = static_cast<float>(luaL_checknumber(L, 2));
     UIManager::GetInstance().SetElementHeight(name, height);
     return 0;
 }
-
-// UI.SetElementWidth("GridName", 42.0)
 static int Lua_UI_SetElementWidth(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
     float width = static_cast<float>(luaL_checknumber(L, 2));
@@ -1132,7 +1120,6 @@ static int Lua_UI_SetElementWidth(lua_State* L) {
     return 0;
 }
 
-// UI.SetElementText("TextBlockName", "Hello")
 static int Lua_UI_SetElementMargin(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
     float left = (float)luaL_checknumber(L, 2);
@@ -1145,7 +1132,6 @@ static int Lua_UI_SetElementMargin(lua_State* L) {
     return 0;
 }
 
-// UI.SetElementVisibility("ImageName", true/false)
 static int Lua_UI_SetElementVisibility(lua_State* L) {
     std::string name(luaL_checkstring(L, 1));
     bool visible = lua_toboolean(L, 2) != 0;
@@ -1160,6 +1146,38 @@ static int Lua_UI_SetCheckBox(lua_State* L) {
     bool checked = lua_toboolean(L, 2);
     UIManager::GetInstance().SetCheckBox(name, checked);
     return 0;
+}
+
+static int Lua_UI_GetSliderValue(lua_State* L) {
+    const char* name = luaL_checkstring(L, 1);
+    lua_pushnumber(L, UIManager::GetInstance().GetSliderValue(name));
+    return 1;
+}
+
+static int Lua_UI_SliderValueChanged(lua_State* L) {
+    const char* name = luaL_checkstring(L, 1);
+    lua_pushboolean(L, UIManager::GetInstance().SliderValueChanged(name));
+    return 1;
+}
+
+static int Lua_UI_SetSliderValue(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float value = static_cast<float>(luaL_checknumber(L, 2));
+    Application::GetInstance().scripts->EnqueueOperation([name, value]() {
+        UIManager::GetInstance().SetSliderValue(name, value);
+    });
+    return 0;
+}
+
+static int Lua_UI_GetCanvasSliders(lua_State* L) {
+    std::unordered_set<std::string> sliders = UIManager::GetInstance().GetCanvasSliders();
+    lua_newtable(L);
+    int index = 1;
+    for (const auto& s : sliders) {
+        lua_pushstring(L, s.c_str());
+        lua_rawseti(L, -2, index++);
+    }
+    return 1;
 }
 
 // Game API
@@ -1328,7 +1346,10 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SetElementText);        lua_setfield(L, -2, "SetElementText");
     lua_pushcfunction(L, Lua_UI_SetElementMargin);      lua_setfield(L, -2, "SetElementMargin");
     lua_pushcfunction(L, Lua_UI_SetCheckBox);           lua_setfield(L, -2, "SetCheckBox");
-
+     lua_pushcfunction(L, Lua_UI_GetSliderValue);        lua_setfield(L, -2, "GetSliderValue");
+    lua_pushcfunction(L, Lua_UI_SliderValueChanged);    lua_setfield(L, -2, "SliderValueChanged");
+    lua_pushcfunction(L, Lua_UI_SetSliderValue);        lua_setfield(L, -2, "SetSliderValue");
+    lua_pushcfunction(L, Lua_UI_GetCanvasSliders);      lua_setfield(L, -2, "GetCanvasSliders");
     lua_pushcfunction(L, +[](lua_State* L) -> int {
         std::string name(luaL_checkstring(L, 1));
         float left = (float)luaL_checknumber(L, 2);

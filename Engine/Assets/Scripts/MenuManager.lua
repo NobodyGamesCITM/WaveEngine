@@ -518,7 +518,7 @@ function Update(self, dt)
         self.lastPauseState = nil
 
         if self.current == "HUD.xaml" then
-            Engine.Log("[UI MENU] current scene: " .. tostring(self.public.currentScene.value))
+            --Engine.Log("[UI MENU] current scene: " .. tostring(self.public.currentScene.value))
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
             elseif self.public.currentScene == "Blockout2Nuevo.scene" or self.public.currentScene == "Level2.scene" then

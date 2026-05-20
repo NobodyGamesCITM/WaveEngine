@@ -15,9 +15,10 @@
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="150"/>
-      <RowDefinition Height="780*"/>
-      <RowDefinition Height="101"/>
-      <RowDefinition Height="55"/>
+      <RowDefinition Height="634*"/>
+      <RowDefinition Height="30*"/>
+      <RowDefinition Height="120"/>
+      <RowDefinition Height="146"/>
     </Grid.RowDefinitions>
     <Grid.Background>
       <RadialGradientBrush>
@@ -25,10 +26,10 @@
         <GradientStop Offset="1" Color="#A6000000"/>
       </RadialGradientBrush>
     </Grid.Background>
-    <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1">
+    <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="55.644,0">
       <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold" FontFamily="./#ForgottenUncial" Foreground="#FFFFFFFF"/>
     </Viewbox>
-    <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="2">
+    <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="3" Margin="70.484,0">
       <Image x:Name="Logo" Source="Textures/Logo.png"/>
     </Viewbox>
   </Grid>

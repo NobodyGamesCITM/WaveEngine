@@ -559,6 +559,13 @@ States[State.DODGE] = {
         if anim then 
             pcall(function() anim:Play("Dodge", 0.0) end)
         end
+
+        if self.dodgeSFX then 
+            self.dodgeSFX:PlayAudioEvent() 
+            --Engine.Log("[SKELETON] Played DodgeSFX")
+        else
+            --Engine.Log("[SKELETON] Couldn't play DodgeSFX")
+        end
     end,
     Update = function(self, dt)
         States[State.DODGE].cnt =  States[State.DODGE].cnt + dt

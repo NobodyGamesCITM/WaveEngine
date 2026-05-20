@@ -2416,7 +2416,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>20</Value>
+												<Value>10</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -2430,7 +2430,15 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>15</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-480</Value>
+											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{2FB140F2-D859-47D0-AEC6-93B5083E1748}">

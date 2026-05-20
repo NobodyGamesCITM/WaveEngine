@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{734E7C15-47F7-AD38-2817-F8A1D0643BA2}",
+    "Hash": "{EED958C1-730C-174B-A1DC-208FCEDD79B6}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1165,7 +1165,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "freesound_community-lighting-a-fire-14421.wav",
-      "CachePath": "EF/{EF02D263-5FE5-6D70-9E0D-0C30B0072794}.wem"
+      "CachePath": "46/{46B9707E-5E9B-B423-1D75-FA78A5CD1E5D}.wem"
      },
      {
       "Id": "794308838",
@@ -3529,8 +3529,8 @@
       "GUID": "{DA76B251-C881-42D8-83F3-5DBFC2F4E27A}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.36760736",
-      "DurationMax": "0.5835403",
+      "DurationMin": "0.48506084",
+      "DurationMax": "0.7699861",
       "MediaRefs": [
        {
         "Id": "353618428"
@@ -4009,6 +4009,6 @@
     ]
    }
   ],
-  "FileHash": "{16343205-B871-4B91-986B-A43D57B295ED}"
+  "FileHash": "{2171A60C-D6BB-A1BB-D451-80CFB5BCCD2B}"
  }
 }

@@ -1046,17 +1046,28 @@ static int Lua_Audio_SetGlobalVolume(lua_State* L) {
     if (!audio || !audio->audioSystem) {
         LOG_CONSOLE("[Audio] ERROR: SetGlobalVolume called with null audio system");
         return 0;
-    }
+    } 
     audio->audioSystem->SetGlobalVolume(volume);
 
     AK::SoundEngine::RenderAudio();
     return 0;
 }
 
+static int Lua_Audio_SetVolumes(lua_State* L) {
+    float sfxVolume   = static_cast<float>(luaL_checknumber(L, 1));
+    float musicVolume = static_cast<float>(luaL_checknumber(L, 2));
+    auto* audio = Application::GetInstance().audio.get();
+    if (!audio || !audio->audioSystem) return 0;
+    audio->audioSystem->SetSFXVolume(sfxVolume);
+    audio->audioSystem->SetMusicVolume(musicVolume);
+    AK::SoundEngine::RenderAudio(); 
+    return 0;
+}
+
 static int Lua_Audio_SetMusicVolume(lua_State* L) {
     //lua_getfield(L, 1, "ptr");  
     float volume = static_cast<float>(luaL_checknumber(L, 1));
-    //AudioSource* source = *static_cast<AudioSource**>(lua_touserdata(L, -1));
+
     auto* audio = Application::GetInstance().audio.get();
     if (!audio || !audio->audioSystem) {
         LOG_CONSOLE("[Audio] ERROR: SetMusicVolume called with null audio system");
@@ -1304,9 +1315,18 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetGlobalVolume");
     lua_pushcfunction(L, Lua_Audio_SetMusicVolume);
     lua_setfield(L, -2, "SetMusicVolume");
+    lua_pushcfunction(L, Lua_Audio_SetVolumes);
+    lua_setfield(L, -2, "SetVolumes");
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        float vol = static_cast<float>(luaL_checknumber(L, 1));
+        auto* audio = Application::GetInstance().audio.get();
+        if (audio && audio->audioSystem)
+            audio->audioSystem->SetSFXVolume((int)vol);
+        AK::SoundEngine::RenderAudio();
+        return 0;
+    });
+    lua_setfield(L, -2, "SetSFXVolume");
     lua_setglobal(L, "Audio");
-
-    
     
     //Navigation
 
@@ -3637,8 +3657,6 @@ void ScriptManager::RegisterPrefabAPI() {
     lua_setglobal(L, "Prefab");
 
 }
-
-
 
 static GameWindow* GetGameWindow() {
 #ifndef WAVE_GAME

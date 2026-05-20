@@ -73,13 +73,12 @@ public:
 	
 	*/
 
-
 	void SetGlobalVolume(float volume);
 	float GetGlobalVolume() { return globalVolume; }
 	
-	void SetMasterVolume(int volume);
+	void SetMasterVolume(int vol);
 	/*void SetDialogVolume(int volume);*/
-	void SetSFXVolume(int volume);
+	void SetSFXVolume(float volume);
 	float GetSFXVolume() { return sfxVolume; }
 
 	void SetMusicVolume(int volume);

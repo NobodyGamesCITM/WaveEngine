@@ -8,14 +8,28 @@ Engine.Log("[MenuManager] LUA FILE LOADED / CHUNK EXECUTED")
 local assetsPath = Engine.GetAssetsPath()
 local scenesPath = Engine.GetScenesPath()
 
+if not _G.SavedSoundEffectsVolume then _G.SavedSoundEffectsVolume = 80.0 end
+if not _G.SavedMusicVolume        then _G.SavedMusicVolume        = 80.0 end
+
 public = {
     updateWhenPaused = true,
-	currentScene    = { type = "Scene", value = "" },
+    currentScene    = { type = "Scene", value = "" },
     fullVolume = 100.0,
     lowerVolume = 60.0
 }
 local FADE_IN_DURATION = 0.4
 local DEATH_MENU_DELAY = 1.5
+
+local function ApplyFullVolume(self)
+    Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
+    Audio.SetMusicVolume(_G.SavedMusicVolume)
+end
+
+local function ApplyLowerVolume(self)
+    local factor = (self.public.lowerVolume or 60.0) / (self.public.fullVolume or 100.0)
+    Audio.SetSFXVolume(_G.SavedSoundEffectsVolume * factor)
+    Audio.SetMusicVolume(_G.SavedMusicVolume * factor)
+end
 
 local function EaseInOutQuad(t)
     if t < 0.5 then
@@ -32,8 +46,8 @@ local function SetPhase(self, newPhase)
 end
 
 local function NavigateTo(self, xaml)
-    if self.pressSFX then 
-        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") 
+    if self.pressSFX then
+        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow")
     end
     if not self.history then self.history = {} end
     if self.current and not self.current:find("SplashScreen.xaml") then
@@ -45,8 +59,8 @@ local function NavigateTo(self, xaml)
 end
 
 local function NavigateBack(self)
-    if self.pressSFX then 
-        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") 
+    if self.pressSFX then
+        self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow")
     end
     if not self.history or #self.history == 0 then return end
     self.nextXaml = table.remove(self.history)
@@ -56,15 +70,13 @@ end
 
 local function InitAudioSources(self)
     self.musicSource = GameObject.Find("MusicSource")
-    if self.musicSource then 
+    if self.musicSource then
         self.musicComp = self.musicSource:GetComponent("Audio Source")
     end
-
     self.selectSource = GameObject.Find("UISelectSound")
     if self.selectSource then
         self.selectSFX = self.selectSource:GetComponent("Audio Source")
     end
-
     self.pressSource = GameObject.Find("UIPressSound")
     if self.pressSource then
         self.pressSFX = self.pressSource:GetComponent("Audio Source")
@@ -85,32 +97,32 @@ function Initialize(self)
     Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
 
     self.canvas = self.gameObject:GetComponent("Canvas")
-
     if not self.canvas then
         Engine.Log("[MenuManager] ERROR: No ComponentCanvas found during initialization")
         return false
     end
 
-    if not self.phase then self.phase = "idle" end
-    if not self.fadeTimer then self.fadeTimer = 0.0 end
-    if not self.current then self.current = "" end  
-    if not self.history then self.history = {} end
-    if not self.deathTimer then self.deathTimer = 0.0 end
+    if not self.phase      then self.phase      = "idle" end
+    if not self.fadeTimer  then self.fadeTimer   = 0.0   end
+    if not self.current    then self.current     = ""    end
+    if not self.history    then self.history     = {}    end
+    if not self.deathTimer then self.deathTimer  = 0.0   end
 
-    -- Inicialización de flags de estado
-    self.fading = false
-    self.pendingScene = nil
-    self.loggedReady = false
-    self.lastPauseState = nil
-    self.waitingForSplash = false
-    self.loadingScreenTimer = 0.0
-    self.loadingXAMLStarted = false
-    self.pendingHUDRefresh = false 
+    self.fading                = false
+    self.pendingScene          = nil
+    self.loggedReady           = false
+    self.lastPauseState        = nil
+    self.waitingForSplash      = false
+    self.loadingScreenTimer    = 0.0
+    self.loadingXAMLStarted    = false
+    self.pendingHUDRefresh     = false
+    self.soundsMenuInitialized = false
 
     _G.GlobalMenuManagerInstance = self
     self.NavigateTo = NavigateTo
 
     InitAudioSources(self)
+    ApplyFullVolume(self)
 
     if _G.SkipSplash and not _G.ForceStartXAML then
         self.waitingForSplash = true
@@ -126,11 +138,11 @@ function Initialize(self)
         _G.SkipSplash = nil
         self.waitingForSplash = false
         Engine.Log("[MenuManager] ForceStartXAML aplicado: " .. path)
-        
+
         self.canvas:LoadXAML(path)
         self.canvas:SetOpacity(0.0)
         self.fading = true
-        
+
         if path:find("MainMenu.xaml") or path:find("Splash.scene") then
             Game.Resume()
             self.lastPauseState = "running"
@@ -146,7 +158,7 @@ function Initialize(self)
     end
 
     local sceneVal = ""
-    if type(self.public.currentScene) == "table" then 
+    if type(self.public.currentScene) == "table" then
         sceneVal = self.public.currentScene.value or ""
     elseif type(self.public.currentScene) == "string" then
         sceneVal = self.public.currentScene
@@ -182,17 +194,16 @@ function Initialize(self)
         self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
-        if sceneVal == "Level1.scene" then 
+        if sceneVal == "Level1.scene" then
             Audio.SetMusicState("Level1")
-        elseif sceneVal == "Level2.scene" then 
-            Audio.SetMusicState("Level2") 
+        elseif sceneVal == "Level2.scene" then
+            Audio.SetMusicState("Level2")
         end
-            
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
     end
-    
+
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
     self.canvas:SetOpacity(1.0)
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
@@ -220,21 +231,20 @@ function Update(self, dt)
     end
 
     if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = self.public.currentScene 
+        local sceneVal = self.public.currentScene
         local musicState = "None"
-        if sceneVal == "Level1.scene" then 
-           musicState = "Level1"
-        elseif sceneVal == "Level2.scene" then 
-           musicState = "Level2"
+        if sceneVal == "Level1.scene" then
+            musicState = "Level1"
+        elseif sceneVal == "Level2.scene" then
+            musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
         else
-            Engine.Log("[Menu Manager] Current Scene = "..tostring(sceneVal))
+            Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal))
         end
-        
         Audio.SetMusicState(tostring(musicState))
-        if self.musicComp then 
-            self.musicComp:PlayAudioEvent() 
+        if self.musicComp then
+            self.musicComp:PlayAudioEvent()
         end
     end
 
@@ -249,7 +259,7 @@ function Update(self, dt)
     if _G._MenuManager_NeedReinit then
         _G._MenuManager_NeedReinit = false
         Initialize(self)
-        if self.waitingForSplash then return end 
+        if self.waitingForSplash then return end
     end
 
     local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
@@ -266,10 +276,6 @@ function Update(self, dt)
                 self.lastPauseState = "paused"
             end
         end
-        if self.current:find("MainMenu.xaml") then
-            Audio.SetMusicState("MainMenu")
-            Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
-        end
     elseif not _G.DialogActive and not _G.CinematicActive then
         if self.lastPauseState ~= "running" then
             Game.Resume()
@@ -284,10 +290,10 @@ function Update(self, dt)
         self.sceneLoadedFlag = false
     end
 
-    if not self.phase then self.phase = "idle" end
-    if not self.fadeTimer then self.fadeTimer = 0.0 end
-    if not self.history then self.history = {} end
-    if not self.deathTimer then self.deathTimer = 0.0 end
+    if not self.phase      then self.phase      = "idle" end
+    if not self.fadeTimer  then self.fadeTimer   = 0.0   end
+    if not self.history    then self.history     = {}    end
+    if not self.deathTimer then self.deathTimer  = 0.0   end
 
     local function currentIsTransient()
         return not self.current or self.current == ""
@@ -315,22 +321,52 @@ function Update(self, dt)
     end
 
     if self.phase == "idle" then
+
+        if self.current == "SoundsMenu.xaml" then
+            if not self.soundsMenuInitialized then
+                self.soundsMenuInitialized = true
+                UI.SetSliderValue("SoundEffectsSlider", _G.SavedSoundEffectsVolume)
+                UI.SetSliderValue("MusicSlider",        _G.SavedMusicVolume)
+                Engine.Log("[MenuManager] SoundsMenu cargado: SFX=" ..
+                    tostring(_G.SavedSoundEffectsVolume) .. " Music=" .. tostring(_G.SavedMusicVolume))
+            end
+
+        if UI.SliderValueChanged("SoundEffectsSlider") then
+            local val = UI.GetSliderValue("SoundEffectsSlider")
+            _G.SavedSoundEffectsVolume = val
+            Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))  -- añade esto
+            Audio.SetSFXVolume(val)
+            Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+        end
+
+            -- Music slider → solo música
+            if UI.SliderValueChanged("MusicSlider") then
+                local val = UI.GetSliderValue("MusicSlider")
+                _G.SavedMusicVolume = val
+                Audio.SetMusicVolume(val)
+                Engine.Log("[MenuManager] Music volume: " .. tostring(val))
+            end
+        else
+            if self.soundsMenuInitialized then
+                self.soundsMenuInitialized = false
+            end
+        end
+
         if self.pendingHUDRefresh then
             self.pendingHUDRefresh = false
             if _G.ForceRefreshHUD then
                 _G.ForceRefreshHUD()
-                Engine.Log("[MenuManager] pendingHUDRefresh: ForceRefreshHUD ejecutado.")
             end
         end
 
         if not self.loggedReady then
-            Engine.Log("[MenuManager] READY AND WAITING FOR ESCAPE (Object: " .. self.gameObject.name .. ", XAML: " .. tostring(self.current) .. ")")
+            Engine.Log("[MenuManager] READY (Object: " .. self.gameObject.name .. ", XAML: " .. tostring(self.current) .. ")")
             self.loggedReady = true
         end
 
         if not self.deathTimer then self.deathTimer = 0.0 end
 
-        local playerHealth = 101  
+        local playerHealth = 101
         if _G.PlayerInstance and _G.PlayerInstance.public then
             playerHealth = _G.PlayerInstance.public.health
         else
@@ -356,15 +392,12 @@ function Update(self, dt)
                     NavigateTo(self, "LoseMenu.xaml")
                 end
             else
-                if not playerIsDead then
-                    self.deathTimer = 0.0
-                end
+                if not playerIsDead then self.deathTimer = 0.0 end
             end
 
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
                 Engine.Log("[MenuManager] Input detected! Current XAML: '" .. tostring(self.current) .. "'")
-                
-                local isHUD = (self.current == "HUD.xaml") or self.current:find("HUD.xaml")
+                local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml")
                 local isPause = (self.current == "PauseMenu.xaml") or self.current:find("PauseMenu.xaml")
 
                 if isHUD then
@@ -372,12 +405,11 @@ function Update(self, dt)
                     if _G.SuspendDialog then _G.SuspendDialog() end
                     NavigateTo(self, "PauseMenu.xaml")
                     Game.Pause()
-                    Audio.SetGlobalVolume(self.public.lowerVolume or 60.0)
-
+                    ApplyLowerVolume(self)
                 elseif isPause then
                     Engine.Log("[MenuManager] Logic: Resume to HUD")
                     NavigateTo(self, "HUD.xaml")
-                    Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+                    ApplyFullVolume(self)
                 else
                     Engine.Log("[MenuManager] Logic: No HUD/Pause detected, ignoring Escape key.")
                 end
@@ -386,73 +418,60 @@ function Update(self, dt)
 
         if UI.WasClicked("StartButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] StartButton clicked: Iniciando fade out para cargar nivel...")
+                Engine.Log("[MenuManager] StartButton clicked.")
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
             end
         end
-        if UI.WasClicked("SettingsButton") then
-            NavigateTo(self, "SettingsMenu.xaml")
-        end
+        if UI.WasClicked("SettingsButton") then NavigateTo(self, "SettingsMenu.xaml") end
         if UI.WasClicked("ExitButton") then
             if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end
             Game.Exit()
         end
-
-        if UI.WasClicked("ResumeButton") then
-            NavigateTo(self, "HUD.xaml")
-        end
-
+        if UI.WasClicked("ResumeButton")   then NavigateTo(self, "HUD.xaml") end
         if UI.WasClicked("TryAgainButton") then
             _G._PlayerController_isDead = false
             self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
         end
-
         if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] BackToMenuButton: Iniciando FadeOut y regreso a Splash")
+                Engine.Log("[MenuManager] BackToMenuButton.")
                 _G._PlayerController_isDead = false
                 self.deathTimer = 0.0
                 if _G.PlayerInstance then
-                    _G.PlayerInstance.public.health = 100
+                    _G.PlayerInstance.public.health  = 100
                     _G.PlayerInstance.public.stamina = 100
                 end
-                _G.SkipSplash = true               
+                _G.SkipSplash     = true
                 self.pendingScene = "Splash.scene"
-                self.fading = true                  
+                self.fading       = true
                 self.canvas:PlayStoryboard("FadeOut")
             end
         end
-
-        if UI.WasClicked("SoundButton") then
-            NavigateTo(self, "SoundsMenu.xaml")
-        end
-        if UI.WasClicked("GraphicsButton") then
-            NavigateTo(self, "GraphicsMenu.xaml")
-        end
+        if UI.WasClicked("SoundButton")    then NavigateTo(self, "SoundsMenu.xaml")   end
+        if UI.WasClicked("GraphicsButton") then NavigateTo(self, "GraphicsMenu.xaml") end
 
         local allCanvasButtons = UI.GetCanvasButtons()
-
         for i, button in ipairs(allCanvasButtons) do
             if UI.WasFocused(tostring(button)) then
-                if self.selectSFX then 
-                    self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect") 
-                end
+                if self.selectSFX then self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect") end
             end
-
             if UI.WasClicked(tostring(button)) then
-                if self.pressSFX then 
-                    self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") 
-                end
+                if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end
             end
         end
 
         local isEscapeHandled = (self.current == "HUD.xaml" or self.current == "PauseMenu.xaml")
-        local canGoBack = self.history and #self.history > 0 and self.current ~= "MainMenu.xaml" and self.current ~= "LoseMenu.xaml"
-        if canGoBack and (UI.WasClicked("BackButton") or (Input.GetGamepadButtonDown("East") and self.current ~= "HUD.xaml") or
-           (Input.GetKeyDown("Escape") and not isEscapeHandled)) then
+        local canGoBack = self.history and #self.history > 0
+            and self.current ~= "MainMenu.xaml"
+            and self.current ~= "LoseMenu.xaml"
+        if canGoBack and (
+            UI.WasClicked("BackButton") or
+            (Input.GetGamepadButtonDown("East") and self.current ~= "HUD.xaml") or
+            (Input.GetKeyDown("Escape") and not isEscapeHandled)
+        ) then
             NavigateBack(self)
         end
 
@@ -460,27 +479,22 @@ function Update(self, dt)
             self.fading = false
             SetPhase(self, "fadeOut")
         end
-    end
 
-    if self.phase == "fadeOut" then
+    elseif self.phase == "fadeOut" then
         local duration = self.pendingScene and SCENE_FADE_DURATION or FADE_DURATION
         local t = math.min(self.fadeTimer / duration, 1.0)
 
         if not self.pendingScene then
-            local alpha = 1.0 - EaseInOutQuad(t)
-            self.canvas:SetOpacity(alpha)
+            self.canvas:SetOpacity(1.0 - EaseInOutQuad(t))
         else
-            local volume = (self.public.fullVolume or 100) * (1 - EaseInOutQuad(t))
-            if volume then 
-                Audio.SetMusicVolume(volume)
-            end
+            Audio.SetMusicVolume(_G.SavedMusicVolume * (1.0 - EaseInOutQuad(t)))
         end
 
         if t >= 1.0 then
-            if not self.pendingScene then 
-                self.canvas:SetOpacity(0.0) 
+            if not self.pendingScene then
+                self.canvas:SetOpacity(0.0)
             else
-                Audio.SetMusicVolume(0) 
+                Audio.SetMusicVolume(0)
             end
             SetPhase(self, "swap")
         end
@@ -489,8 +503,8 @@ function Update(self, dt)
         if self.pendingScene then
             SetPhase(self, "loadingScreenAnimating")
             self.loadingScreenTimer = 0.0
-            self.loadingXAMLStarted = false 
-            return 
+            self.loadingXAMLStarted = false
+            return
         end
 
         if self.nextXaml == "PauseMenu.xaml" then
@@ -501,15 +515,17 @@ function Update(self, dt)
             if _G.ForceCloseDialog then _G.ForceCloseDialog() end
         end
 
-        if self.nextXaml == "PauseMenu.xaml" or self.nextXaml == "GraphicsMenu.xaml" or self.nextXaml == "LoseMenu.xaml" or self.nextXaml == "SettingsMenu.xaml" or self.nextXaml == "SoundsMenu.xaml" then
-            Audio.SetGlobalVolume(self.public.lowerVolume or 60.0)
+        if self.nextXaml == "PauseMenu.xaml"  or self.nextXaml == "GraphicsMenu.xaml"
+        or self.nextXaml == "LoseMenu.xaml"   or self.nextXaml == "SettingsMenu.xaml"
+        or self.nextXaml == "SoundsMenu.xaml" then
+            ApplyLowerVolume(self)
         elseif self.nextXaml == "MainMenu.xaml" or self.nextXaml == "HUD.xaml" then
-            Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+            ApplyFullVolume(self)
         end
 
         local previous = self.current
         self.canvas:LoadXAML(self.nextXaml)
-        self.current = self.nextXaml
+        self.current   = self.nextXaml
         _G.CurrentXAML = self.current
 
         if self.current == "PauseMenu.xaml" and _G.HUD_RefreshStatuesDestroyed then
@@ -518,20 +534,18 @@ function Update(self, dt)
         self.lastPauseState = nil
 
         if self.current == "HUD.xaml" then
-            --Engine.Log("[UI MENU] current scene: " .. tostring(self.public.currentScene.value))
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
-            elseif self.public.currentScene == "Blockout2Nuevo.scene" or self.public.currentScene == "Level2.scene" then
-                if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then 
+            elseif self.public.currentScene == "Blockout2Nuevo.scene"
+                or self.public.currentScene == "Level2.scene" then
+                if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then
                     Audio.SetMusicState("Level2")
                 end
             end
-
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
-                self.lastPauseState = "running"
+                self.lastPauseState    = "running"
                 self.pendingHUDRefresh = true
-                Engine.Log("[MenuManager] HUD restaurado desde pausa, pendingHUDRefresh=true")
             else
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
@@ -539,36 +553,30 @@ function Update(self, dt)
                     _G._PlayerController_isDead = false
                 end
                 Game.Resume()
-                self.lastPauseState = "running"
+                self.lastPauseState    = "running"
                 self.pendingHUDRefresh = true
             end
-
         elseif self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
-            Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
-            self.history = {}
+            self.history        = {}
             Game.Resume()
-            self.lastPauseState = "running" 
+            self.lastPauseState = "running"
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
-
         self.canvas:SetOpacity(1.0)
         SetPhase(self, "idle")
 
     elseif self.phase == "fadeIn" then
-        local duration = FADE_IN_DURATION
-        local t = math.min(self.fadeTimer / duration, 1.0)
-        local alpha = EaseInOutQuad(t)
+        local t = math.min(self.fadeTimer / FADE_IN_DURATION, 1.0)
+        self.canvas:SetOpacity(EaseInOutQuad(t))
 
-        self.canvas:SetOpacity(alpha)
-
-        local vol = math.min(t * (self.public.fullVolume or 100.0), (self.public.fullVolume or 100.0))
-        Audio.SetGlobalVolume(vol)
+        Audio.SetSFXVolume(_G.SavedSoundEffectsVolume * t)
+        Audio.SetMusicVolume(_G.SavedMusicVolume * t)
 
         if t >= 1.0 then
             self.canvas:SetOpacity(1.0)
-            Audio.SetGlobalVolume(self.public.fullVolume or 100.0)
+            ApplyFullVolume(self)
             SetPhase(self, "idle")
             Engine.Log("[MenuManager] Fade IN completado.")
         end
@@ -576,26 +584,18 @@ function Update(self, dt)
     elseif self.phase == "loadingScreenAnimating" then
         if self.pendingScene then
             if not self.loadingXAMLStarted then
-                Engine.Log("[MenuManager] LoadingScreenAnimating phase: Mostrando LoadingScreen...")
-                if self.canvas then
-                    self.canvas:LoadXAML("LoadingScreen.xaml")
-                end
+                Engine.Log("[MenuManager] Mostrando LoadingScreen...")
+                if self.canvas then self.canvas:LoadXAML("LoadingScreen.xaml") end
                 self.loadingXAMLStarted = true
             end
-
             self.loadingScreenTimer = self.loadingScreenTimer + dt
-            if self.loadingScreenTimer < MIN_LOADING_SCREEN_DURATION then
-                return
-            end
-            Engine.Log("[MenuManager] LoadingScreenAnimating phase: Duración mínima cumplida. Procediendo a cargar la escena " .. self.pendingScene)
+            if self.loadingScreenTimer < MIN_LOADING_SCREEN_DURATION then return end
+            Engine.Log("[MenuManager] Cargando escena: " .. self.pendingScene)
             self.loadingXAMLStarted = false
-
             Engine.LoadScene(self.pendingScene)
             self.pendingScene = nil
-
             return
         end
-
         SetPhase(self, "idle")
     end
 end

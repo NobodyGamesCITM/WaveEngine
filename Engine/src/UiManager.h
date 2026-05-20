@@ -15,7 +15,7 @@ public:
     void RegisterButton(const std::string& name);
     void RegisterClickedButton(const std::string& name);
     void RegisterFocusedButton(const std::string& name);
-    
+
     bool WasButtonJustClicked(const std::string& name) const;
     bool WasButtonJustFocused(const std::string& name) const;
 
@@ -33,6 +33,12 @@ public:
     void ClearSliderChanges();
     void SetSliderValue(const std::string& elementName, float value);
     std::unordered_set<std::string> GetCanvasSliders();
+
+    void SetFocusedSlider(const std::string& name);
+    void ClearFocusedSlider();
+    const std::string& GetFocusedSlider() const;
+    bool HasFocusedSlider() const;
+    void StepFocusedSlider(float delta); 
 
     // Canvas registry
     void RegisterCanvas(ComponentCanvas* canvas);
@@ -64,4 +70,5 @@ private:
     std::unordered_set<std::string>         m_canvasSliders;
     std::unordered_map<std::string, float>  m_sliderValues;
     std::unordered_set<std::string>         m_changedSliders;
+    std::string                             m_focusedSlider;
 };

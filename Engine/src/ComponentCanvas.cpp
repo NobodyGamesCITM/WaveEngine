@@ -75,9 +75,29 @@ static void OnSliderValueChanged(Noesis::BaseComponent* sender,
     {
         const char* n = sl->GetName();
         if (n && strlen(n) > 0)
-        {
             UIManager::GetInstance().RegisterSliderValue(n, args.newValue);
-        }
+    }
+}
+
+static void OnSliderGotFocus(Noesis::BaseComponent* sender,
+    const Noesis::RoutedEventArgs&)
+{
+    if (auto* sl = Noesis::DynamicCast<Noesis::Slider*>(sender))
+    {
+        const char* n = sl->GetName();
+        if (n && strlen(n) > 0)
+            UIManager::GetInstance().SetFocusedSlider(n);
+    }
+}
+
+static void OnSliderLostFocus(Noesis::BaseComponent* sender,
+    const Noesis::RoutedEventArgs&)
+{
+    if (auto* sl = Noesis::DynamicCast<Noesis::Slider*>(sender))
+    {
+        const char* n = sl->GetName();
+        if (n && UIManager::GetInstance().GetFocusedSlider() == n)
+            UIManager::GetInstance().ClearFocusedSlider();
     }
 }
 
@@ -94,16 +114,19 @@ static void HookEvents(Noesis::Visual* element)
             UIManager::GetInstance().RegisterButton(name);
 
             button->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
-                {
-                    if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
-                        UIManager::GetInstance().RegisterClickedButton(btn->GetName());
-                };
+            {
+                if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
+                    UIManager::GetInstance().RegisterClickedButton(btn->GetName());
+            };
 
             button->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
                 {
-                    if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
-                        UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
-                };
+                    UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
+                    UIManager::GetInstance().ClearFocusedSlider();
+                }
+            };
         }
     }
 
@@ -117,8 +140,11 @@ static void HookEvents(Noesis::Visual* element)
             UIManager::GetInstance().RegisterSliderValue(name, (float)slider->GetValue());
 
             slider->ValueChanged() += &OnSliderValueChanged;
+            slider->GotFocus()     += &OnSliderGotFocus;
+            slider->LostFocus()    += &OnSliderLostFocus;
         }
     }
+
     uint32_t childCount = Noesis::VisualTreeHelper::GetChildrenCount(element);
     for (uint32_t i = 0; i < childCount; ++i)
     {
@@ -157,6 +183,7 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     currentXAML = filename;
     view->Activate();
     UIManager::GetInstance().ClearCanvasButtons();
+    UIManager::GetInstance().ClearFocusedSlider();
     needsHookEvents = true;
     UIManager::GetInstance().UnregisterCanvas(this);
     UIManager::GetInstance().RegisterCanvas(this);
@@ -320,6 +347,23 @@ void ComponentCanvas::OnGamepadLeftStick(float x, float y)
 void ComponentCanvas::TryNavigateStick(float x, float y)
 {
     if (!view) return;
+
+    if (UIManager::GetInstance().HasFocusedSlider())
+    {
+        if (fabs(x) >= fabs(y))
+        {
+            const float BASE_STEP = 0.15f;
+            float step = (x > 0.0f ? 1.0f : -1.0f) * BASE_STEP;
+            UIManager::GetInstance().StepFocusedSlider(step);
+            return; 
+        }
+        else
+        {
+            view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
+            return;
+        }
+    }
+
     if (fabs(y) >= fabs(x))
         view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
     else
@@ -365,8 +409,8 @@ void ComponentCanvas::OnGamepadTrigger(float left, float right)
 void ComponentCanvas::Serialize(nlohmann::json& componentObj) const
 {
     componentObj["xamlPath"] = currentXAML;
-    componentObj["opacity"] = opacity;
-    componentObj["uiLayer"] = uiLayer;
+    componentObj["opacity"]  = opacity;
+    componentObj["uiLayer"]  = uiLayer;
 }
 
 void ComponentCanvas::Deserialize(const nlohmann::json& componentObj)

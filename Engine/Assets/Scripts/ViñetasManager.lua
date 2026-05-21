@@ -2,6 +2,7 @@ public = {
     updateWhenPaused   = true,
     delayBetweenPanels = 3.5,
     delayBetweenPages  = 1.0,
+    debugSkip          = true
 }
 
 local sequence = {
@@ -83,6 +84,11 @@ end
 function Update(self, dt)
     if not initialized then return end
     if state == "done" then return end
+
+    if self.public.debugSkip and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A")) then
+        loadStep(#sequence + 1)
+        return
+    end
 
     _G.CinematicActive = true
     timer = timer + math.min(dt, 0.05)

@@ -282,42 +282,68 @@
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
 
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MainMenu_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" Storyboard.TargetName="MainMenu_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-25"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                <!-- Title -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="MainMenu_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SoundEffectsSlider">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MainMenu_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SoundEffectsSlider">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+
+                <!-- SoundEffectsSlider -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SoundEffectsSlider">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SoundEffectsSlider">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.6"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- MusicSlider -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="MusicSlider">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MusicSlider">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.7"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- BackButton -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
@@ -353,52 +379,35 @@
                                  To="1" Duration="0:0:1.5">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
                                  To="0" Duration="0:0:0.4">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.0" Duration="0:0:0.3">
+                <!-- MainMenu_Viewbox Out -->
+                <DoubleAnimation Storyboard.TargetName="MainMenu_Viewbox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.2">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
+                <!-- Sliders and Back Button Out -->
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="MusicSlider"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="Opacity"
-                                 To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="BackButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.1" Duration="0:0:0.3">
+                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.1" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
             </Storyboard>
@@ -413,10 +422,7 @@
 
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <Grid x:Name="LayoutRoot" Opacity="0" RenderTransformOrigin="0.5,0.5">
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleX="1" ScaleY="1"/>
-        </Grid.RenderTransform>
+    <Grid x:Name="LayoutRoot" RenderTransformOrigin="0.5,0.5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="275"/>
             <ColumnDefinition Width="672*"/>
@@ -434,9 +440,14 @@
                 <RowDefinition Height="468*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1" Opacity="0">
+            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
                 <Viewbox.RenderTransform>
-                    <TranslateTransform X="0" Y="0"/>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
                 </Viewbox.RenderTransform>
                 <Grid Height="80" Width="445">
                     <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445"
@@ -466,9 +477,15 @@
                             Style="{StaticResource MenuSliderStyle}"
                             Tag="SOUND EFFECTS"
                             Value="{Binding Path=SoundEffectsVolume, Mode=TwoWay}"
-                            Opacity="0" Margin="0,0,0,10">
+                            Margin="0,0,0,10"
+                            RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
                         </Slider.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="Loaded">
@@ -484,9 +501,15 @@
                             Style="{StaticResource MenuSliderStyle}"
                             Tag="MUSIC"
                             Value="{Binding Path=MusicVolume, Mode=TwoWay}"
-                            Opacity="0" Margin="0,0,0,10">
+                            Margin="0,0,0,10"
+                            RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
                         </Slider.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
@@ -495,11 +518,17 @@
                         </b:Interaction.Triggers>
                     </Slider>
 
-                    <Button x:Name="BackButton" Grid.Row="5" Opacity="0"
+                    <Button x:Name="BackButton" Grid.Row="5"
                             Style="{StaticResource TextButtonStyle}" Content="BACK"
-                            Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30">
+                            Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30"
+                            RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
-                            <TranslateTransform X="0" Y="0"/>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">

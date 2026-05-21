@@ -218,17 +218,138 @@
 
             <!-- Storyboards -->
             <Storyboard x:Key="Intro">
-                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
-                                 To="1" Duration="0:0:0.3"/>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
-                                 To="1" Duration="0:0:0.4"/>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Title -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="Graphics_Title_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="Graphics_Title_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Fullscreen -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="FullscreenToggle">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="FullscreenToggle">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.6"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- AA -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="AntiAliasingToggle">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="AntiAliasingToggle">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.7"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Resolution -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ResolutionButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ResolutionButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Back -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.9"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
 
             <Storyboard x:Key="FadeOut">
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.3"/>
-                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Title Out -->
+                <DoubleAnimation Storyboard.TargetName="Graphics_Title_Viewbox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Fullscreen Out -->
+                <DoubleAnimation Storyboard.TargetName="FullscreenToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="FullscreenToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- AA Out -->
+                <DoubleAnimation Storyboard.TargetName="AntiAliasingToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="AntiAliasingToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Resolution Out -->
+                <DoubleAnimation Storyboard.TargetName="ResolutionButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ResolutionButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.1" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Back Out -->
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.15" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.15" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
             </Storyboard>
         </ResourceDictionary>
     </Grid.Resources>
@@ -241,7 +362,7 @@
 
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <Grid x:Name="LayoutRoot" Opacity="0">
+    <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="771*"/>
@@ -252,14 +373,22 @@
             <Image Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Grid Grid.Column="1" Margin="69,114,69,79">
+        <Grid Grid.Column="1" Margin="69,114,69,79" RenderTransformOrigin="0.5,0.5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45*"/>
                 <RowDefinition Height="95*"/>
                 <RowDefinition Height="387*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Viewbox x:Name="Graphics_Title_Viewbox" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
+                <Viewbox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Viewbox.RenderTransform>
                 <TextBlock Text="GRAPHICS"
                            FontFamily="./#ForgottenUncial"
                            FontSize="65"
@@ -282,19 +411,49 @@
                         <RowDefinition Height="24*"/>
                     </Grid.RowDefinitions>
 
-                    <ToggleButton Grid.Row="1" 
+                    <ToggleButton x:Name="FullscreenToggle" Grid.Row="1" 
                                   Content="FULLSCREEN"
                                   Style="{StaticResource SettingToggleStyle}"
-                                  IsChecked="{Binding IsFullscreen}"/>
+                                  IsChecked="{Binding IsFullscreen}"
+                                  RenderTransformOrigin="0.5,0.5">
+                        <ToggleButton.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
 
-                    <ToggleButton Grid.Row="3" 
+                    <ToggleButton x:Name="AntiAliasingToggle" Grid.Row="3" 
                                   Content="ANTI-ALIASING"
                                   Style="{StaticResource SettingToggleStyle}"
-                                  IsChecked="{Binding IsAntiAliasing}"/>
+                                  IsChecked="{Binding IsAntiAliasing}"
+                                  RenderTransformOrigin="0.5,0.5">
+                        <ToggleButton.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
 
-                    <Button Grid.Row="5"
+                    <Button x:Name="ResolutionButton" Grid.Row="5"
                             Style="{StaticResource ResolutionSelectorStyle}"
-                            Command="{Binding Commands[CycleResolution]}"/>
+                            Command="{Binding Commands[CycleResolution]}"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
 
                     <Button x:Name="BackButton"
                             Grid.Row="7"
@@ -302,7 +461,16 @@
                             Content="BACK"
                             Command="{Binding Commands[BackButton]}"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
@@ -312,5 +480,7 @@
                 </Grid>
             </Viewbox>
         </Grid>
+
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

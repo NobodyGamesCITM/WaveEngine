@@ -37,7 +37,7 @@ local function loadStep(index)
         show("CinematicFade", false)
         _G.CinematicActive = false
         if _G.UpdatePauseState then _G.UpdatePauseState() end
-        Game.Unpause() 
+        Game.Resume()
         Engine.Log("[Cinematic] Terminado")
         return
     end
@@ -90,7 +90,6 @@ function Update(self, dt)
         return
     end
 
-    _G.CinematicActive = true
     timer = timer + math.min(dt, 0.05)
 
     if state == "wait" then

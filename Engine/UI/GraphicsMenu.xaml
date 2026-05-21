@@ -15,7 +15,6 @@
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Toggle simple -->
             <Style x:Key="SettingToggleStyle" TargetType="ToggleButton">
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
                 <Setter Property="FontSize" Value="26"/>
@@ -64,7 +63,6 @@
                 </Setter>
             </Style>
 
-            <!-- Resolution selector simple -->
             <Style x:Key="ResolutionSelectorStyle" TargetType="Button">
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
                 <Setter Property="FontSize" Value="26"/>
@@ -110,7 +108,6 @@
                 </Setter>
             </Style>
 
-            <!-- TEXT BUTTON (BACK) - Original -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -118,7 +115,7 @@
                 <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
                 <Setter Property="FontSize" Value="36"/>
                 <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Foreground" Value="#F0F0F0"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
@@ -138,7 +135,7 @@
                                            FontFamily="{TemplateBinding FontFamily}"
                                            FontSize="{TemplateBinding FontSize}"
                                            FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
+                                           Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
 
@@ -163,6 +160,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.25">
                                                     <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" From="-15" To="-5" Duration="0:0:0.6" AutoReverse="True" RepeatBehavior="Forever"/>
@@ -176,6 +174,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#F0F0F0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowL" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowR" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                                 <DoubleAnimation Storyboard.TargetName="ArrowLTrans" Storyboard.TargetProperty="X" To="-30" Duration="0:0:0.2"/>
@@ -193,7 +192,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" To="0.85" Duration="0:0:0.05"/>
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="0.85" Duration="0:0:0.05"/>
-                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFBBBBBB" Duration="0:0:0.05"/>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#AAAAAA" Duration="0:0:0.05"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
@@ -206,6 +205,7 @@
                                                 <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.3">
                                                     <DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/></DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="TextContent" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFFFFF" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>
@@ -216,7 +216,6 @@
                 </Setter>
             </Style>
 
-            <!-- Storyboards -->
             <Storyboard x:Key="Intro">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
@@ -225,7 +224,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Title -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="Graphics_Title_Viewbox">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="0"/>
@@ -241,7 +239,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Fullscreen -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="FullscreenToggle">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="0"/>
@@ -257,7 +254,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- AA -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="AntiAliasingToggle">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="0"/>
@@ -273,7 +269,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Resolution -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="ResolutionButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="0"/>
@@ -289,7 +284,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Back -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0"/>
@@ -314,12 +308,10 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Title Out -->
                 <DoubleAnimation Storyboard.TargetName="Graphics_Title_Viewbox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.2">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Fullscreen Out -->
                 <DoubleAnimation Storyboard.TargetName="FullscreenToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
@@ -327,7 +319,6 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- AA Out -->
                 <DoubleAnimation Storyboard.TargetName="AntiAliasingToggle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
@@ -335,7 +326,6 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Resolution Out -->
                 <DoubleAnimation Storyboard.TargetName="ResolutionButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
@@ -343,7 +333,6 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Back Out -->
                 <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.15" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
@@ -481,6 +470,6 @@
             </Viewbox>
         </Grid>
 
-        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="4" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

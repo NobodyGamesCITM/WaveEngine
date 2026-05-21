@@ -333,10 +333,10 @@
                      RenderTransformOrigin="0.5,0.5">
                 <Viewbox.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform/>
+                        <ScaleTransform ScaleY="0"/>
                         <SkewTransform/>
                         <RotateTransform/>
-                        <TranslateTransform/>
+                        <TranslateTransform X="-200"/>
                     </TransformGroup>
                 </Viewbox.RenderTransform>
                 <Grid Height="80" Width="445">
@@ -363,10 +363,10 @@
                             RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
+                                <ScaleTransform ScaleY="0"/>
                                 <SkewTransform/>
                                 <RotateTransform/>
-                                <TranslateTransform/>
+                                <TranslateTransform X="-200"/>
                             </TransformGroup>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>
@@ -386,10 +386,10 @@
                             RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
+                                <ScaleTransform ScaleY="0"/>
                                 <SkewTransform/>
                                 <RotateTransform/>
-                                <TranslateTransform/>
+                                <TranslateTransform X="-200"/>
                             </TransformGroup>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>
@@ -406,10 +406,10 @@
                             RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform/>
+                                <ScaleTransform ScaleY="0"/>
                                 <SkewTransform/>
                                 <RotateTransform/>
-                                <TranslateTransform/>
+                                <TranslateTransform X="-200"/>
                             </TransformGroup>
                         </Button.RenderTransform>
                         <b:Interaction.Triggers>

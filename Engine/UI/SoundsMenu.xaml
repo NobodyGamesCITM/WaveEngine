@@ -13,8 +13,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- ── SLIDER STYLE ── -->
             <Style x:Key="MenuSliderStyle" TargetType="Slider">
                 <Setter Property="Minimum" Value="0"/>
                 <Setter Property="Maximum" Value="100"/>
@@ -32,7 +30,6 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <!-- Label -->
                                 <TextBlock x:Name="SliderLabel"
                                            Grid.Row="0"
                                            Text="{TemplateBinding Tag}"
@@ -43,33 +40,27 @@
                                            HorizontalAlignment="Center"
                                            Margin="0,0,0,6"/>
 
-                                <!-- Track area -->
                                 <Grid Grid.Row="1" Height="28">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Track background -->
                                     <Border Height="6" VerticalAlignment="Center"
                                             Background="#55FFFFFF" CornerRadius="3"/>
 
-                                    <!-- Fill (progreso) -->
                                     <Border x:Name="TrackFill" Height="6" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" CornerRadius="3"
                                             Background="#F0F0F0"/>
 
-                                    <!-- PART_Track -->
                                     <Track x:Name="PART_Track">
                                         <Track.Thumb>
                                             <Thumb x:Name="SliderThumb">
                                                 <Thumb.Template>
                                                     <ControlTemplate TargetType="Thumb">
                                                         <Grid>
-                                                            <!-- Glow -->
                                                             <Ellipse x:Name="ThumbGlow"
                                                                      Width="26" Height="26"
                                                                      Fill="#33F0F0F0"/>
-                                                            <!-- Círculo principal -->
                                                             <Ellipse x:Name="ThumbCircle"
                                                                      Width="18" Height="18"
                                                                      Fill="#F0F0F0"
@@ -77,7 +68,6 @@
                                                                      VerticalAlignment="Center"/>
                                                         </Grid>
                                                         <ControlTemplate.Triggers>
-                                                            <!-- Hover: blanco puro -->
                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                 <Trigger.EnterActions>
                                                                     <BeginStoryboard>
@@ -96,7 +86,6 @@
                                                                     </BeginStoryboard>
                                                                 </Trigger.ExitActions>
                                                             </Trigger>
-                                                            <!-- Drag/Press: gris oscuro -->
                                                             <Trigger Property="IsDragging" Value="True">
                                                                 <Trigger.EnterActions>
                                                                     <BeginStoryboard>
@@ -156,7 +145,6 @@
                 </Setter>
             </Style>
 
-            <!-- ── BACK BUTTON STYLE ── -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -199,7 +187,6 @@
                             </StackPanel>
 
                             <ControlTemplate.Triggers>
-                                <!-- Hover/Focus: blanco puro -->
                                 <Trigger Property="IsFocused" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard x:Name="HoverFocusStoryboard">
@@ -235,8 +222,6 @@
                                     <Setter TargetName="ArrowL" Property="Visibility" Value="Visible"/>
                                     <Setter TargetName="ArrowR" Property="Visibility" Value="Visible"/>
                                 </Trigger>
-
-                                <!-- Press: gris oscuro -->
                                 <Trigger Property="IsPressed" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
@@ -267,31 +252,25 @@
                 </Setter>
             </Style>
 
-            <!-- ── STORYBOARDS ── -->
             <Storyboard x:Key="Intro">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                               Storyboard.TargetName="DimOverlay">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <!-- Title -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="MainMenu_Viewbox">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                               Storyboard.TargetName="MainMenu_Viewbox">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MainMenu_Viewbox">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                               Storyboard.TargetName="MainMenu_Viewbox">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0">
@@ -299,15 +278,16 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- SoundEffectsSlider -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SoundEffectsSlider">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                               Storyboard.TargetName="SoundEffectsSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SoundEffectsSlider">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                               Storyboard.TargetName="SoundEffectsSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.6"  Value="0">
@@ -315,15 +295,16 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- MusicSlider -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="MusicSlider">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                               Storyboard.TargetName="MusicSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MusicSlider">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                               Storyboard.TargetName="MusicSlider">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.7"  Value="0">
@@ -331,45 +312,20 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- BackButton -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BackButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                               Storyboard.TargetName="BackButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BackButton">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                               Storyboard.TargetName="BackButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="-200"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.8"  Value="0">
                         <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MusicSlider">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="MusicSlider">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
@@ -384,30 +340,42 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- MainMenu_Viewbox Out -->
-                <DoubleAnimation Storyboard.TargetName="MainMenu_Viewbox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.2">
+                <DoubleAnimation Storyboard.TargetName="MainMenu_Viewbox"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" Duration="0:0:0.2">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Sliders and Back Button Out -->
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="MusicSlider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                <DoubleAnimation Storyboard.TargetName="SoundEffectsSlider"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                <DoubleAnimation Storyboard.TargetName="MusicSlider"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="BackButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.1" Duration="0:0:0.3">
+                <DoubleAnimation Storyboard.TargetName="MusicSlider"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <DoubleAnimation Storyboard.TargetName="BackButton"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="BackButton"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.1" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
             </Storyboard>
@@ -539,7 +507,6 @@
                 </Grid>
             </Viewbox>
         </Grid>
-
         <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
 </Grid>

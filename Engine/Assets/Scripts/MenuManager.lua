@@ -205,16 +205,12 @@ function Initialize(self)
     end
 
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
-
-    -- ── TÍTULO DE INICIO ─────────────────────────────────────────────
-    -- Si TitleTrigger tiene el control, NO tocamos la opacidad.
-    -- Él gestiona todo el canvas durante su secuencia.
-    if not _G.TitleTrigger_Active then
+    if not _G.TitleTrigger_HUDShouldStartHidden then
         self.canvas:SetOpacity(1.0)
     else
-        Engine.Log("[MenuManager] TitleTrigger activo: omitiendo SetOpacity en Initialize.")
+        self.canvas:SetOpacity(0.0)
+        Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
     end
-    -- ────────────────────────────────────────────────────────────────
 
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
     return true
@@ -230,9 +226,7 @@ function Start(self)
 end
 
 function Update(self, dt)
-    -- ── Si el TitleTrigger tiene el control, no tocamos el canvas ────
     if _G.TitleTrigger_Active then return end
-    -- ────────────────────────────────────────────────────────────────
 
     if not self.canvas then
         self.canvas = self.gameObject:GetComponent("Canvas")
@@ -576,8 +570,12 @@ function Update(self, dt)
             self.lastPauseState = "running"
         end
 
-        Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml)
-        self.canvas:SetOpacity(1.0)
+        Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
+        if _G.TitleTrigger_HUDShouldStartHidden and self.nextXaml == "HUD.xaml" then
+            self.canvas:SetOpacity(0.0)
+        else
+            self.canvas:SetOpacity(1.0)
+        end
         SetPhase(self, "idle")
 
     elseif self.phase == "fadeIn" then

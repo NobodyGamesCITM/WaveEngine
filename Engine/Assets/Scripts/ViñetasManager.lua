@@ -36,6 +36,7 @@ local function loadStep(index)
         show("CinematicFade", false)
         _G.CinematicActive = false
         if _G.UpdatePauseState then _G.UpdatePauseState() end
+        Game.Unpause() 
         Engine.Log("[Cinematic] Terminado")
         return
     end

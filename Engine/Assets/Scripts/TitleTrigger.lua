@@ -1,12 +1,8 @@
 -- TitleTrigger.lua
--- Detecta al player por distancia (no necesita collider físico).
--- Controla el canvas del UIManager para mostrar SonOfIthaca.xaml
--- antes del HUD.
-
 local TRIGGER_RADIUS     = 5.0
-local FADE_IN_DURATION   = 1.2
-local HOLD_DURATION      = 2.5
-local FADE_OUT_DURATION  = 1.0
+local FADE_IN_DURATION   = 1.75
+local HOLD_DURATION      = 2.0
+local FADE_OUT_DURATION  = 1.5
 local HUD_FADE_DURATION  = 0.8
 
 local triggered = false
@@ -68,7 +64,6 @@ function Update(self, dt)
 
     myPos = self.transform.worldPosition
 
-    -- Esperar deteccion del player
     if phase == "idle" then
         if triggered then return end
 
@@ -103,7 +98,6 @@ function Update(self, dt)
         if not canvas then return end
     end
 
-    -- Fade in del titulo
     if phase == "fadeIn" then
         local t = math.min(timer / FADE_IN_DURATION, 1.0)
         canvas:SetOpacity(EaseInOutQuad(t))
@@ -114,7 +108,6 @@ function Update(self, dt)
             Engine.Log("[TitleTrigger] Fade in completado.")
         end
 
-    -- Hold
     elseif phase == "hold" then
         if timer >= HOLD_DURATION then
             phase = "fadeOut"
@@ -122,17 +115,14 @@ function Update(self, dt)
             Engine.Log("[TitleTrigger] Hold terminado, fade out.")
         end
 
-    -- Fade out del titulo
     elseif phase == "fadeOut" then
         local t = math.min(timer / FADE_OUT_DURATION, 1.0)
         canvas:SetOpacity(1.0 - EaseInOutQuad(t))
         if t >= 1.0 then
-            -- Canvas invisible: cargamos HUD y preparamos todo ANTES del fade in
             canvas:SetOpacity(0.0)
             canvas:LoadXAML("HUD.xaml")
             canvas:SetOpacity(0.0)
 
-            -- Sincronizamos el MenuManager mientras el canvas esta invisible
             local mm = _G.GlobalMenuManagerInstance
             if mm then
                 mm.current     = "HUD.xaml"
@@ -141,9 +131,6 @@ function Update(self, dt)
                 mm.loggedReady = false
             end
 
-            -- ForceRefreshHUD con canvas en opacidad 0:
-            -- las mascaras/barras quedan en estado correcto ANTES
-            -- de que el usuario vea nada, eliminando el flash.
             if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
 
             phase = "hudFade"
@@ -151,7 +138,6 @@ function Update(self, dt)
             Engine.Log("[TitleTrigger] HUD preparado (invisible), iniciando fade in.")
         end
 
-    -- Fade in del HUD
     elseif phase == "hudFade" then
         local t = math.min(timer / HUD_FADE_DURATION, 1.0)
         canvas:SetOpacity(EaseInOutQuad(t))

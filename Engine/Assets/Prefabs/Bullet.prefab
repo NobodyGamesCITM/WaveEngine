@@ -10,7 +10,7 @@
                         "active": true,
                         "position": [
                             0.0,
-                            -1000.0,
+                            0.0,
                             0.0
                         ],
                         "rotation": [
@@ -106,7 +106,7 @@
                 ],
                 "name": "Trail",
                 "tag": "",
-                "uid": 15761181221822473708
+                "uid": 13056407179151684455
             },
             {
                 "active": true,
@@ -203,7 +203,7 @@
                 ],
                 "name": "Ps",
                 "tag": "",
-                "uid": 16656826524525499081
+                "uid": 6229536718285887832
             }
         ],
         "components": [
@@ -230,11 +230,23 @@
                 "active": true,
                 "castShadows": true,
                 "primitiveType": "Sphere",
+                "silhouetteColor": [
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    1.0
+                ],
+                "silhouetteEnabled": false,
                 "type": 1
             },
             {
                 "active": true,
                 "publicVariables": [
+                    {
+                        "name": "damage",
+                        "type": 0,
+                        "value": 15.0
+                    },
                     {
                         "name": "lifetime",
                         "type": 0,
@@ -244,11 +256,6 @@
                         "name": "speed",
                         "type": 0,
                         "value": 30.0
-                    },
-                    {
-                        "name": "damage",
-                        "type": 0,
-                        "value": 15.0
                     }
                 ],
                 "scriptUID": 12957541813524735499,
@@ -291,6 +298,7 @@
             {
                 "active": true,
                 "materialUID": 11054474360918427049,
+                "overrideTiling": false,
                 "type": 3
             },
             {
@@ -380,6 +388,6 @@
         ],
         "name": "Bullet",
         "tag": "Bullet",
-        "uid": 6735561454524827404
+        "uid": 4230073415568307287
     }
 ]

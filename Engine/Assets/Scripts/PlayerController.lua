@@ -10,6 +10,7 @@ local attackTimer = 0
 local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
+local winBossCinematic = false
 
 -- Hit vignette
 local hitVigTimer      = 0.0
@@ -118,7 +119,7 @@ local Player = {
 
     staminaLock = false,
 
-    maskAnimDuration = 1.0,
+    maskAnimDuration = 0.3,
     maskAnimTimer = 0.0,
 
     healAnimTimer = 0.0,
@@ -1382,7 +1383,7 @@ function Start(self)
 
     self.public.stamina = 100
     self.public.health  = 100
-    --self.public.health  = 100000
+    self.public.health  = 100000
 
     self.stepTimer = 0
 
@@ -1827,7 +1828,7 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             if anim then 
-                pcall(function() anim:Play("Idle", 0.5) end)
+                pcall(function() anim:Play("Idle", 0.05) end)
             end
             ChangeState(self, State.IDLE, true)
         end
@@ -1854,6 +1855,11 @@ function Update(self, dt)
         _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
+
+        if WinBoss then
+            self.transform:SetPosition(131.348, -1.259, -650.359)
+            if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+        end
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
@@ -1924,6 +1930,8 @@ function Update(self, dt)
 
             Player.isGetMaskAnim = false
             Player.pendingObtainMask = nil
+
+            if WinBoss then WinBoss = false end
 
             if Player.pendingMaskInfoDialog then
                 Player.pendingMaskInfoDialog = false
@@ -2059,6 +2067,7 @@ function Update(self, dt)
                 if _G.PlayWinBossCinematic then
                     _G.PlayWinBossCinematic()
                 end
+                winBossCinematic = true
             end
 
         end
@@ -2101,7 +2110,7 @@ function MaskScroll(self)
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
             anim:Stop("Mask")
-            anim:Play("Mask", 0.7)
+            anim:Play("Mask", 0.1)
         end
         Player.maskAnimTimer = Player.maskAnimDuration
         self.public.canMove = false

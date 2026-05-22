@@ -143,6 +143,7 @@ function Update(self, dt)
         canvas:SetOpacity(EaseInOutQuad(t))
         if t >= 1.0 then
             canvas:SetOpacity(1.0)
+            _G.TitleTrigger_HUDShouldStartHidden = false
             _G.TitleTrigger_Active = false
             phase = "done"
             Engine.Log("[TitleTrigger] Secuencia completada. HUD activo.")

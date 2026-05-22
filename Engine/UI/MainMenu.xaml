@@ -267,11 +267,14 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Grid.Background>
-        <LinearGradientBrush EndPoint="0.949027,0.792452" StartPoint="0,0.469519">
-            <GradientStop Color="#00000000" Offset="0.58000004"/>
+        <LinearGradientBrush EndPoint="0.949027,0.792452" StartPoint="-0.0148285,0.566729">
             <GradientStop Color="#FF000000" Offset="1"/>
-            <GradientStop Color="#FF000000" Offset="0.82900006"/>
+            <GradientStop Color="#FF000000" Offset="0.89900005"/>
             <GradientStop Color="#00000000"/>
+            <GradientStop Color="#68000000" Offset="0.721"/>
+            <GradientStop Color="#20000000" Offset="0.57000005"/>
+            <GradientStop Color="#09000000" Offset="0.43600002"/>
+            <GradientStop Color="#03000000" Offset="0.33800003"/>
         </LinearGradientBrush>
     </Grid.Background>
 
@@ -287,17 +290,19 @@
     <Grid x:Name="RootContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="726*"/>
-            <ColumnDefinition Width="225*"/>
-            <ColumnDefinition Width="329*"/>
+            <ColumnDefinition Width="305*"/>
+            <ColumnDefinition Width="249*"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="18*"/>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="680*"/>
+            <RowDefinition Height="39*"/>
+            <RowDefinition Height="98*"/>
+            <RowDefinition Height="466*"/>
+            <RowDefinition Height="96*"/>
+            <RowDefinition Height="21*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox Stretch="Uniform" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right">
+        <Viewbox Stretch="Uniform" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
             <Grid HorizontalAlignment="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="151*"/>
@@ -401,7 +406,7 @@
             </Grid>
         </Viewbox>
 
-        <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="4" Grid.RowSpan="5"
+        <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="3" Grid.RowSpan="5"
                    Fill="Black" Opacity="0" IsHitTestVisible="False"/>
 
     </Grid>

@@ -21,7 +21,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <RowDefinition Height="839*"/>
             </Grid.RowDefinitions>
 
-            <!-- HUD superior izquierda -->
             <Grid x:Name="HudGrid" HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Margin="20,20,0,0"
@@ -34,7 +33,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                        VerticalAlignment="Top"
                        Stretch="Fill"/>
 
-                <!-- Barra de vida -->
                 <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
                       HorizontalAlignment="Left"
                       ClipToBounds="True">
@@ -47,7 +45,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Grid>
                 </Grid>
 
-                <!-- Barra de stamina -->
                 <Grid x:Name="StaminaBarContainer" Margin="163,54,86,93"
                       HorizontalAlignment="Left"
                       ClipToBounds="True">
@@ -60,7 +57,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Grid>
                 </Grid>
 
-                <!-- Pociones usadas -->
                 <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Height="100" Width="400" Margin="229,35,-129,0">
@@ -146,7 +142,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
-                <!-- Pociones disponibles -->
                 <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Height="100" Width="400" Margin="229,35,-129,0">
@@ -232,14 +227,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
-                <!-- ═══════════════════════════════════════════════
-                     MÁSCARAS — posiciones FIJAS:
-                       Columna 0 = Apollo  (izquierda)
-                       Columna 1 = Hermes  (centro)
-                       Columna 2 = Ares    (derecha)
-                     El Lua solo alterna _Active / _Inactive,
-                     nunca mueve ningún elemento de columna.
-                ════════════════════════════════════════════════ -->
                 <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -250,23 +237,23 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <!-- Apollo — izquierda (columna 0) -->
                     <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Apolo_Inactive" Source="Textures/Apolo.PNG"
-                               Opacity="0.4" Height="45" Margin="2,35,-2,-35"/>
-                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35"/>
+                               Opacity="0.4" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
                     </Grid>
 
                     <!-- Hermes — centro (columna 1) -->
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Hermes_Inactive" Source="Textures/Hermes.PNG"
-                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12"/>
+                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
                         <Image x:Name="Image_Hermes_Active"   Source="Textures/Hermes.PNG"
-                               Height="75" Width="75" Margin="-3,-12,3,12"/>
+                               Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
                     </Grid>
 
                     <!-- Ares — derecha (columna 2) -->
                     <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Ares_Inactive" Source="Textures/Ares.PNG"
-                               Opacity="0.4" Height="45" Margin="-4,35,4,-35"/>
-                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35"/>
+                               Opacity="0.4" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
                     </Grid>
                 </Grid>
 
@@ -438,10 +425,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
             </Grid>
 
-            <!-- Prompt de interacción -->
             <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869"/>
 
-            <!-- Hints de controles -->
             <Grid VerticalAlignment="Bottom"
                   HorizontalAlignment="Center"
                   Margin="0,0,562,40"
@@ -505,9 +490,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Border>
             </Grid>
 
-            <!-- ═══════════════════════════════════════
-                 CINEMÁTICA - Panel a pantalla completa
-                 ═══════════════════════════════════════ -->
             <Grid x:Name="CinematicPanel" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
@@ -544,7 +526,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </Grid>
 
-                <!-- PÁGINA 2: 2 viñetas arriba + 1 grande abajo (texto off amarillo) -->
                 <Grid x:Name="Page2" Visibility="Collapsed">
                     <Border x:Name="Page2_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,984,562">
                         <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
@@ -575,7 +556,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </Grid>
 
-                <!-- PÁGINA 3: viñeta grande izq + 2 derechas -->
                 <Grid x:Name="Page3" Visibility="Collapsed">
                     <Border x:Name="Page3_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
                         <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
@@ -608,7 +588,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
             </Grid>
 
-            <!-- Overlay negro para fade de cinemática (siempre encima del resto) -->
             <Grid x:Name="CinematicFade" Visibility="Collapsed" IsHitTestVisible="False" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
@@ -690,11 +669,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         </Grid>
     </Viewbox>
 
-    <!--
-    ═══════════════════════════════════════════════════════════════════════════
-    MissionGrid — contador de estatuas destruidas
-    ═══════════════════════════════════════════════════════════════════════════
-    -->
     <Grid x:Name="MissionGrid">
         <Grid.Resources>
 

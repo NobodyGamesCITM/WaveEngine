@@ -239,11 +239,17 @@ function Update(self, dt)
     end
 
     if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = self.public.currentScene
+        local sceneVal = ""
+        if type(self.public.currentScene) == "table" then
+            sceneVal = self.public.currentScene.value or ""
+        elseif type(self.public.currentScene) == "string" then
+            sceneVal = self.public.currentScene
+        end
+
         local musicState = "None"
-        if sceneVal == "Level1.scene" then
+        if sceneVal:find("Level1") then
             musicState = "Level1"
-        elseif sceneVal == "Level2.scene" then
+        elseif sceneVal:find("Level2") or sceneVal:find("Blockout2") then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -407,6 +413,9 @@ function Update(self, dt)
                 local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml")
                 local isPause = (self.current == "PauseMenu.xaml") or self.current:find("PauseMenu.xaml")
 
+                if _G.TitleTrigger_HUDShouldStartHidden and isHUD then
+                    return
+                end
                 if isHUD then
                     Engine.Log("[MenuManager] Logic: Open PauseMenu")
                     if _G.SuspendDialog then _G.SuspendDialog() end

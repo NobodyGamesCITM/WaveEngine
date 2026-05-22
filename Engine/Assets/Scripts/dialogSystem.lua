@@ -62,6 +62,7 @@ local state = {
     displayedChars  = 0,
     timer           = 0.0,
     isComplete      = false,
+    inputConsumed   = false,   
 }
 
 local function setPortrait(character)
@@ -106,6 +107,7 @@ local function loadDialogEntry(entry)
     state.timer          = 0.0
     state.isComplete     = false
     lastDisplayedChars   = -1
+    state.inputConsumed  = false
     UI.SetElementVisibility("ContinueIcon", false)
     updateUI()
 end
@@ -205,12 +207,15 @@ local function onAdvancePressed()
     if not state.active then return end
     if wasAmbient then return end
 
+    if state.inputConsumed then return end
+    state.inputConsumed = true
+
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
         lastDisplayedChars   = -1
         updateUI()
-        return
+        return  
     end
 
     local nextIndex = state.currentIndex + 1
@@ -262,6 +267,10 @@ function Update(self, dt)
         local seq = _DialogSystem_pendingSequence
         _DialogSystem_pendingSequence = ""
         startSequence(seq)
+    end
+
+    if state.active then
+        state.inputConsumed = false
     end
 
     if not state.active or state.isComplete then return end

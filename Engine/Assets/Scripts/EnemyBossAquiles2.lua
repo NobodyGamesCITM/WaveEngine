@@ -35,8 +35,14 @@ local rb       = nil
 local anim     = nil
 local playerGO = nil
 local attackCol    = nil
+local attackCol    = nil
 
 local aquilesMesh = nil
+
+
+local colliderLance= nil
+local attacklanceCol = nil
+local activelance=false
 
 local voiceSFX = nil
 local stepSFX = nil
@@ -180,9 +186,15 @@ local function ChangeState(newState)
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
+            if newState == State.CHARGE then
+                attacklanceCol:Enable()
+                activelance=true
+            end
             attackCol:Enable()
         else
             attackCol:Disable()
+            attacklanceCol:Disable()
+
         end
     end
 
@@ -658,6 +670,7 @@ local function UpdateCharge(self, dt)
     if rb then
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
+    
 
     if chargeTimer >= self.public.chargeDuration then
         slideVelX = chargeDirX * 8.0
@@ -961,6 +974,11 @@ function Start(self)
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end
 
+    colliderLance= GameObject.FindInChildren(self.gameObject, "AQ_SpearSource")
+    attacklanceCol = colliderLance:GetComponent("Sphere Collider")
+    if attacklanceCol then attacklanceCol:Disable()
+    else Engine.Log("No encontrado") end
+
     if anim then anim:Play("Idle") end
     
     lanceCDTimer  = 0
@@ -981,6 +999,7 @@ function Start(self)
 end
 
 function Update(self, dt)
+
     if not self.gameObject then return end
     if isDead then return end
 
@@ -1079,9 +1098,19 @@ function OnTriggerEnter(self, other)
     if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then
+        local lancePos = colliderLance.transform.worldPosition
+        local wallPos = other.transform.worldPosition
+
+        local dx = lancePos.x - wallPos.x
+        local dz = lancePos.z - wallPos.z
+        local distLance = sqrt(dx*dx + dz*dz)
+
+        if distLance > 1.0 then return end
+        
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 
         end
+        Engine.Log("Estoy dentro")
 
         if rb then rb:SetLinearVelocity(0, 0, 0) end
         StopMovement()
@@ -1099,6 +1128,7 @@ function OnTriggerEnter(self, other)
         ChangeState(State.WALL)
         pendingWallHit = true
         return 
+       
     end
 
     if other:CompareTag("Bullet") then
@@ -1156,6 +1186,7 @@ function OnTriggerEnter(self, other)
             end
         end
     end
+
 end
 
 function OnTriggerExit(self, other)

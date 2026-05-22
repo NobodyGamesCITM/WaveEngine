@@ -177,6 +177,7 @@ function Initialize(self)
         self.current = "HUD.xaml"
         _G.CurrentXAML = "HUD.xaml"
         self.canvas:LoadXAML("HUD.xaml")
+        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
     else
         self.current = self.canvas:GetCurrentXAML() or ""
         if isTransientXAML(self.current) then
@@ -561,7 +562,9 @@ function Update(self, dt)
             if previous == "PauseMenu.xaml" then
                 Game.Resume()
                 self.lastPauseState    = "running"
-                self.pendingHUDRefresh = true
+                if _G.ForceRefreshHUD then
+                    _G.ForceRefreshHUD()
+                end
             else
                 if _G.ResetPlayer and _G.PlayerInstance then
                     _G.ResetPlayer(_G.PlayerInstance)
@@ -570,7 +573,9 @@ function Update(self, dt)
                 end
                 Game.Resume()
                 self.lastPauseState    = "running"
-                self.pendingHUDRefresh = true
+                if _G.ForceRefreshHUD then
+                    _G.ForceRefreshHUD()
+                end
             end
         elseif self.current:find("MainMenu.xaml") then
             Audio.SetMusicState("MainMenu")
@@ -582,10 +587,11 @@ function Update(self, dt)
         Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
         if _G.TitleTrigger_HUDShouldStartHidden and self.nextXaml == "HUD.xaml" then
             self.canvas:SetOpacity(0.0)
+            SetPhase(self, "idle")
         else
-            self.canvas:SetOpacity(1.0)
+            self.canvas:SetOpacity(0.0)
+            SetPhase(self, "fadeIn")
         end
-        SetPhase(self, "idle")
 
     elseif self.phase == "fadeIn" then
         local t = math.min(self.fadeTimer / FADE_IN_DURATION, 1.0)

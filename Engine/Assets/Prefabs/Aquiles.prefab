@@ -55,6 +55,40 @@
                                                                                         "playOnAwake": false,
                                                                                         "type": 26,
                                                                                         "volume": 100.0
+                                                                                    },
+                                                                                    {
+                                                                                        "AngularDamping": 0.0,
+                                                                                        "FreezePos": [
+                                                                                            false,
+                                                                                            false,
+                                                                                            false
+                                                                                        ],
+                                                                                        "FreezeRot": [
+                                                                                            false,
+                                                                                            false,
+                                                                                            false
+                                                                                        ],
+                                                                                        "LinearDamping": 0.0,
+                                                                                        "Mass": 1.0,
+                                                                                        "Type": 0,
+                                                                                        "UseCCD": false,
+                                                                                        "UseGravity": true,
+                                                                                        "active": true,
+                                                                                        "type": 8
+                                                                                    },
+                                                                                    {
+                                                                                        "Center": [
+                                                                                            0.0,
+                                                                                            0.0,
+                                                                                            0.0
+                                                                                        ],
+                                                                                        "DynamicFriction": 0.5,
+                                                                                        "Radius": 2.0,
+                                                                                        "Restitution": 0.6000000238418579,
+                                                                                        "StaticFriction": 0.5,
+                                                                                        "Trigger": true,
+                                                                                        "active": true,
+                                                                                        "type": 11
                                                                                     }
                                                                                 ],
                                                                                 "name": "AQ_SpearSource",
@@ -3498,7 +3532,7 @@
                                 "speedMax": 8.0,
                                 "speedMin": 5.0,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
+                                "texturePath": "C:\\Users\\janap\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
                                 "textureRows": 1,
                                 "textureUID": 9349459316526766944,
                                 "type": 7
@@ -3623,7 +3657,7 @@
                                 "speedMax": 9.899999618530273,
                                 "speedMin": 7.5,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
+                                "texturePath": "C:\\Users\\janap\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
                                 "textureRows": 1,
                                 "textureUID": 6536179688999681322,
                                 "type": 7
@@ -3830,14 +3864,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "lockOnSize",
-                        "type": 0,
-                        "value": 14.0
-                    },
-                    {
                         "name": "doorName",
                         "type": 1,
                         "value": "Puerta_Final"
+                    },
+                    {
+                        "name": "lockOnSize",
+                        "type": 0,
+                        "value": 14.0
                     }
                 ],
                 "scriptUID": 2892393956142374010,

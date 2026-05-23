@@ -9,13 +9,14 @@ local abs   = math.abs
 -- States
 local State = {
     IDLE        = "Idle",
-    COMBAT_MOVE      = "COMBAT_MOVE",
-    LANCE_360       = "Lance360", 
+    COMBAT_MOVE = "COMBAT_MOVE",
+    LANCE_360   = "Lance360",
     ANTICIPATION = "Anticipation",
     CHARGE      = "Charge",
+    DASH        = "Dash",
     WALL        = "Wall",
-    RECOVERY = "Recovery",
-    STUN        = "Stun", 
+    RECOVERY    = "Recovery",
+    STUN        = "Stun",
     DEAD        = "Dead",
 }
 public = {
@@ -87,6 +88,13 @@ local hasDashed = false
 
 local pressureTimer = 0
 local PRESSURE_THRESHOLD = 0.8
+
+-- Dash
+local dashDirX      = 0
+local dashDirZ      = 0
+local dashTimer     = 0
+local DASH_DURATION = 0.35
+local DASH_SPEED    = 14.0
 
 local DAMAGE_LIGHT = 10
 local DAMAGE_HEAVY = 25
@@ -178,11 +186,12 @@ end
 
 local function ChangeState(newState)
     currentState = newState
-    pressureTimer = 0 
-    chargeAnimStarted = false
-    lanceAnimStarted = false
+    pressureTimer = 0
+    chargeAnimStarted    = false
+    lanceAnimStarted     = false
     anticipationAnimStarted = false
-    recoveryAnimStarted = false
+    recoveryAnimStarted  = false
+    dashTimer = 0
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
@@ -345,88 +354,37 @@ local function TakeDamage(self, amount, attackerPos)
     end
 end
 
-local function dodgePlayer(self, dist, dt)
-    if dist <= self.public.Lance360Range then
-        ActiveDodge = false
-        pressureTimer = 0
-        return
-    end
-    if dist < 4.5 then
-        pressureTimer = pressureTimer + dt
-    else
-        pressureTimer = pressureTimer - dt * 1.5
-    end
-    pressureTimer = math.max(0, pressureTimer)
-
-    if pressureTimer >= PRESSURE_THRESHOLD then
-        pressureTimer = 0
-        StopMovement()
-
-        local myPos = self.transform.worldPosition 
-        local dx = myPos.x - pp.x   
-        local dz = myPos.z - pp.z
-        local len = sqrt(dx*dx + dz*dz)
-
-        if len > 0.001 then
-            local perpX =  dz / len  
-            local perpZ = -dx / len
-            slideVelX = perpX * 5.0
-            slideVelZ = perpZ * 5.0
-        end
-
-        wallStunTimer = 0.4
-        ChangeState(State.DASH)
-        PlaySFX(dashSFX)
-        if anim then anim:Play("Dash", 0.1) end
-        ActiveDodge = true
-        return
-    else
-        ActiveDodge = false
-    end
+local function StartDash(self, dirX, dirZ)
+    dashDirX  = dirX
+    dashDirZ  = dirZ
+    dashTimer = 0
+    StopMovement()
+    PlaySFX(dashSFX)
+    PlayAnim("Dash", 0.1)
+    ActiveDodge = true
+    ChangeState(State.DASH)
 end
 
-local function MovementWalk(self, dx, dz, dt, speedOverride, isDashing)
-
+local function MovementWalk(self, dx, dz, dt, speedOverride)
     local myPos = self.transform.worldPosition
     local pPos  = playerGO.transform.worldPosition
-    local dist  = Dist(myPos, pPos) 
+    local dist  = Dist(myPos, pPos)
 
-    if dist <= self.public.minDistanceToPlayer and not isDashing then
-
-        --Engine.Log("Estoy muy cerca")
+    if dist <= self.public.minDistanceToPlayer then
         rb:SetLinearVelocity(0, 0, 0)
-        if anim and not anim:IsPlayingAnimation("Idle") then 
-            anim:Play("Idle", 0.2) 
-        end
+        if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
         return
-    end
-
-    isDashing = isDashing or false
-    local speedOverride = speedOverride or self.public.moveSpeed
-
-    if not isDashing then
-        hasDashed = false
-        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
-        stepTimer = stepTimer + dt
-        if stepTimer >= (self.public.stepInterval / 10 * speedOverride) then
-            PlaySFX(stepSFX)
-            stepTimer = 0
-        end
-    else
-        if anim and not anim:IsPlayingAnimation("Dash") then 
-            anim:Play("Dash", 0.2) 
-        end
-        if not hasDashed then
-            PlaySFX(dashSFX)
-            hasDashed = true
-        elseif hasDashed and not Audio.IsEventPlaying("SFX_AquilesDash") then
-            if anim and not anim:IsPlayingAnimation("Walk") then 
-                anim:Play("Walk", 0.2) 
-            end
-        end
     end
 
     local vel = speedOverride or self.public.moveSpeed
+    if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+
+    stepTimer = stepTimer + dt
+    if stepTimer >= (self.public.stepInterval / 10 * vel) then
+        PlaySFX(stepSFX)
+        stepTimer = 0
+    end
+
     local cv = rb:GetLinearVelocity()
     RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
     rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
@@ -453,9 +411,7 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
 
     if dist > self.public.detectRange then
         StopMovement()
-        if _G.BossBar_SetVisibility then
-            _G.BossBar_SetVisibility(false)
-        end
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
         ChangeState(State.IDLE)
         return
     end
@@ -465,7 +421,7 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
         return
     end
 
-    if lanceCDTimer > 0 then lanceCDTimer = lanceCDTimer - dt end
+    if lanceCDTimer  > 0 then lanceCDTimer  = lanceCDTimer  - dt end
     if chargeCDTimer > 0 then chargeCDTimer = chargeCDTimer - dt end
 
     local dx = pp.x - myPos.x
@@ -473,8 +429,8 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
+    -- Attack lance
     if dist < self.public.Lance360Range then
-        ActiveDodge   = false
         pressureTimer = 0
         if lanceCDTimer <= 0 then
             StopMovement()
@@ -482,39 +438,39 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             lanceAnimStarted = false
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
-            return 
         else
-            StopMovement()
-            RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-            if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+            StartDash(self, -dx, -dz)
+
         end
         return
     end
-    
-    dodgePlayer(self, dist, dt)
 
+    -- Dash
     if dist < self.public.dashApproachRange then
-        MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, true)
-    elseif dist <= self.public.chargeRange then
+        if chargeCDTimer > 0 and lanceCDTimer <= 0 then
+            StartDash(self, dx, dz)
+        else
+            MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, false)
+        end
+        return
+    end
+
+    -- Attack charge
+    if dist <= self.public.chargeRange then
         if chargeCDTimer <= 0 then
             StopMovement()
-            chargeDirX = dx
-            chargeDirZ = dz
+            chargeDirX       = dx
+            chargeDirZ       = dz
             preparationTimer = 0
-            chargeCDTimer = self.public.chargeCooldown
+            chargeCDTimer    = self.public.chargeCooldown
             ChangeState(State.ANTICIPATION)
-            --Engine.Log("Me estoy moviendo")
-            return 
-        else 
-            if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+        else
             MovementWalk(self, dx, dz, dt)
-            --Engine.Log("Estoy aqui")
         end
-    else
-        --Engine.Log("Mentira estoy aqui")
-        if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
-        MovementWalk(self, dx, dz, dt)
+        return
     end
+
+    MovementWalk(self, dx, dz, dt)
 end
 
 local function UpdateLance360(self, myPos, pp, dt)
@@ -711,22 +667,46 @@ local function UpdateWall(self, dt)
     end
 end
 
-local function UpdateDash(self, dt)
-    local friction = self.public.stopSmoothing
-    slideVelX = slideVelX + (0 - slideVelX) * min(1.0, dt * friction)
-    slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
+
+local function UpdateDash(self, myPos, pp, dt)
+    dashTimer = dashTimer + dt
 
     if rb then
         local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(slideVelX, vel.y, slideVelZ)
+        rb:SetLinearVelocity(dashDirX * DASH_SPEED, vel.y, dashDirZ * DASH_SPEED)
+        RotateTowards(self, dashDirX, dashDirZ, self.public.rotationSpeed * 2.0, dt)
     end
 
-    if not anim:IsPlayingAnimation("Dash") then
+    if dashTimer >= DASH_DURATION then
+        StopMovement()
         ActiveDodge   = false
         pressureTimer = 0
-        slideVelX     = 0
-        slideVelZ     = 0
-        ChangeState(State.COMBAT_MOVE)
+
+        local dist = Dist(myPos, pp)
+
+        if dist < self.public.Lance360Range and lanceCDTimer <= 0 then  --Acercarse
+            lanceTimer       = 0
+            lanceAnimStarted = false
+            Engine.Log("Me acerco")
+
+            ChangeState(State.LANCE_360)
+            SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
+        
+        elseif dist >= self.public.Lance360Range and chargeCDTimer <= 0 then -- Alejarse
+            local dx = pp.x - myPos.x
+            local dz = pp.z - myPos.z
+            local len = sqrt(dx*dx + dz*dz)
+            if len > 0.001 then dx = dx/len; dz = dz/len end
+            chargeDirX       = dx
+            chargeDirZ       = dz
+            preparationTimer = 0
+            chargeCDTimer    = self.public.chargeCooldown
+            Engine.Log("Me alejo")
+            ChangeState(State.ANTICIPATION)
+
+        else
+            ChangeState(State.COMBAT_MOVE)
+        end
     end
 end
 
@@ -984,7 +964,6 @@ function Start(self)
     lanceCDTimer  = 0
     chargeCDTimer = 0
 
-    --Prefab.Load("AquilesFeedback", Engine.GetAssetsPath() .. "/Prefabs/AquilesFeedback.prefab")
     self.chargeFeedbackGO     = nil
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles  = {}
@@ -1086,6 +1065,7 @@ function Update(self, dt)
     elseif currentState == State.LANCE_360    then UpdateLance360(self, myPos, pp, dt)
     elseif currentState == State.ANTICIPATION then UpdateAnticipation(self, pp, dt)
     elseif currentState == State.CHARGE       then UpdateCharge(self, dt)
+    elseif currentState == State.DASH         then UpdateDash(self, myPos, pp, dt)
     elseif currentState == State.WALL         then UpdateWall(self, dt)
     elseif currentState == State.RECOVERY     then UpdateRecovery(self, dt)
     elseif currentState == State.STUN         then UpdateStun(self, dt)

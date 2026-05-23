@@ -257,9 +257,15 @@ local function TakeDamage(self, amount, attackerPos)
         PlaySFX(armorSFX)
         if sparksPs then sparksPs:Play() end
 
-        if posture >= self.public.maxPosture then
+        if posture > 0 then
             StopMovement()
             ChangeState(State.IDLE)
+        else
+            StopMovement()
+            stunTimer=self.public.stunDuration
+            rb:SetBody(2)
+            isKinematic = true
+            ChangeState(State.STUN)
         end
 
         Engine.Log("Aquiles HP = " .. tostring(hp))
@@ -360,9 +366,24 @@ local function StartDash(self, dirX, dirZ)
     dashTimer = 0
     StopMovement()
     PlaySFX(dashSFX)
-    PlayAnim("Dash", 0.1)
+    --PlayAnim("Dash", 0.1)
     ActiveDodge = true
     ChangeState(State.DASH)
+
+    local myPos = self.transform.worldPosition
+    local pp    = playerGO.transform.worldPosition
+    local toPlayerX = pp.x - myPos.x
+    local toPlayerZ = pp.z - myPos.z
+    
+    local dot = (dirX * toPlayerX) + (dirZ * toPlayerZ)
+    
+    if anim then
+        if dot < 0 then
+            anim:Play("Dash_Backwards", 0.1)
+        else
+            anim:Play("Dash", 0.1)
+        end
+    end
 end
 
 local function MovementWalk(self, dx, dz, dt, speedOverride)
@@ -671,10 +692,15 @@ end
 local function UpdateDash(self, myPos, pp, dt)
     dashTimer = dashTimer + dt
 
+    local dx = pp.x - myPos.x
+    local dz = pp.z - myPos.z
+    local len = sqrt(dx*dx + dz*dz)
+    if len > 0.001 then dx = dx/len; dz = dz/len end
+
     if rb then
         local vel = rb:GetLinearVelocity()
         rb:SetLinearVelocity(dashDirX * DASH_SPEED, vel.y, dashDirZ * DASH_SPEED)
-        RotateTowards(self, dashDirX, dashDirZ, self.public.rotationSpeed * 2.0, dt)
+        RotateTowards(self, dx, dz, self.public.rotationSpeed * 2.0, dt)    
     end
 
     if dashTimer >= DASH_DURATION then
@@ -747,23 +773,23 @@ end
 local function UpdateStun(self, dt)
     rb:SetLinearVelocity(0, 0, 0)
 
-    if opportunityHitTimer > 0 then
-        opportunityHitTimer = opportunityHitTimer - dt
-        return
-    end
-
     if not stunAnimStarted then
         anim:Play("Stun_Start", 0.15)
         stunAnimStarted = true
-    elseif anim and not anim:IsPlayingAnimation("Stun_Start") and not anim:IsPlayingAnimation("Stun_Loop") then
+        return  
+    end
+
+    if anim:IsPlayingAnimation("Stun_Start") then
+        return
+    end
+
+    if not anim:IsPlayingAnimation("Stun_Loop") then
         anim:Play("Stun_Loop", 0.1)
     end
 
     stunTimer = stunTimer - dt
     if stunTimer <= 0 then
         posture = 0
-        rb:SetBody(2)
-        isKinematic = true
         ChangeState(State.COMBAT_MOVE)
     end
 end
@@ -920,7 +946,7 @@ function Start(self)
         stepInterval    = 0.6,
 
         knockbackForce  = 10.0,
-        stunDuration    = 2.0,
+        stunDuration    = 1.5,
         hurtStunTime    = 0.4,
         predictionTime  = 0.2, --Antes 0.4
 
@@ -998,6 +1024,7 @@ function Update(self, dt)
         TakeDamage(self, hp, self.transform.worldPosition)
         return
     end
+
 
     if Input.GetKeyDown("K") then
         local damage = hp - 1
@@ -1085,7 +1112,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 1.0 then return end
+        if distLance > 2.0 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 

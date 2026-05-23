@@ -3747,6 +3747,12 @@
                         "speed": 1.0
                     },
                     {
+                        "UID": 11102918167868684093,
+                        "loop": true,
+                        "name": "Dash_Backwards",
+                        "speed": 1.0
+                    },
+                    {
                         "UID": 17077349500638660246,
                         "loop": false,
                         "name": "Death",
@@ -3864,14 +3870,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": "Puerta_Final"
-                    },
-                    {
                         "name": "lockOnSize",
                         "type": 0,
                         "value": 14.0
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": "Puerta_Final"
                     }
                 ],
                 "scriptUID": 2892393956142374010,

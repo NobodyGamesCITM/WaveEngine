@@ -7842,7 +7842,7 @@
 								<Sound Name="Aquiles_Death" ID="{CE8CC6EA-B76A-4900-99A1-0F81EF4EFE36}" ShortID="733479612">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -7872,6 +7872,11 @@
 													</Modifier>
 												</ModifierInfo>
 											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>10</Value>
+											</ValueList>
 										</Property>
 									</PropertyList>
 									<ReferenceList>
@@ -8957,6 +8962,9 @@
 										</Sound>
 										<Sound Name="metal_bend_creak" ID="{74372D53-D286-4C72-8D56-5B663402A752}" ShortID="775229979">
 											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>7</Value>
@@ -8985,6 +8993,27 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{8E3257BB-F939-48C4-B36D-A1158050582F}" ShortID="632636160">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{E21FAD8D-BB8C-4E8C-A1A3-68753E914E40}" ShortID="969948601" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="-400"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="207"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="metal_bend_creak" ID="{438FD698-A24C-44BB-B58D-88A52E85B4EB}" Platform="Linked"/>
 											</ActiveSourceList>

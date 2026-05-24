@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{7DCC156F-2798-5F75-9EA5-DFF5883C05EE}",
+    "Hash": "{F9DB687F-8C18-CFB2-3296-52256CB9B91C}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -918,6 +918,14 @@
       "Location": "Memory",
       "ShortName": "AIGUA2.wav",
       "CachePath": "B6/{B626E2FC-F892-8794-FD38-ED0C475537AA}.wem"
+     },
+     {
+      "Id": "637650185",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "metal_bend_creak.wav",
+      "CachePath": "2A/{2A6517F3-5C19-E6A0-ACBA-744CEB7FEB53}.wem"
      },
      {
       "Id": "642231808",
@@ -3468,11 +3476,13 @@
       "Name": "SFX_SpearGrab",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearGrab",
       "GUID": "{08BBB6A4-EA87-4E49-A829-69EB032D90B3}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "7.8629475",
       "DurationMax": "7.8629475",
       "MediaRefs": [
+       {
+        "Id": "637650185"
+       },
        {
         "Id": "759840250"
        },
@@ -4022,6 +4032,6 @@
     ]
    }
   ],
-  "FileHash": "{ADCB80E2-8524-AC6F-6453-E637A2EDE0A0}"
+  "FileHash": "{0AF39423-CE97-85C3-2066-A81E3EFD0DAC}"
  }
 }

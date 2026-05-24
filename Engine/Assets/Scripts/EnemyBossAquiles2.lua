@@ -159,6 +159,10 @@ local function PlaySFX(audioComp)
     if audioComp then audioComp:PlayAudioEvent() end
 end
 
+local function StopSFX(audioComp)
+    if audioComp then audioComp:StopAudioEvent() end
+end
+
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(eventName) end
 end
@@ -1150,6 +1154,9 @@ function Update(self, dt)
         end
 
         if winBossCinematicTimer <= 9.3 and winBossCinematicTimer >= 9.0 and not playedDeathCry then
+            if Audio.IsEventPlaying("SFX_DeepBreaths") then 
+                StopSFX(voiceSFX) 
+            end
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
             playedDeathCry = true
         end

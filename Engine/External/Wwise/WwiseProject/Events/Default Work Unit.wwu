@@ -916,6 +916,16 @@
 												</Reference>
 											</ReferenceList>
 										</Action>
+										<Action Name="" ID="{C7FE1C03-E293-46F8-B389-48DCF15DA39E}" ShortID="125894464">
+											<PropertyList>
+												<Property Name="Delay" Type="Real64" Value="0.7"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="metal_bend_creak" ID="{74372D53-D286-4C72-8D56-5B663402A752}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
 									</ChildrenList>
 								</Event>
 								<Event Name="SFX_SpearPull" ID="{3B87FED3-F8DC-42BB-91B8-CC268262DDB9}">

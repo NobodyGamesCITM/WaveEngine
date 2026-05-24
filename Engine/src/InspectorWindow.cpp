@@ -1274,104 +1274,108 @@ void InspectorWindow::DrawCanvasComponent(Component* component)
  
     bool open = ImGui::CollapsingHeader(canvasComp->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(canvasComp, true);
-    if (!open) return;
- 
-    char buffer[MAX_PATH];
-    GetModuleFileNameA(NULL, buffer, MAX_PATH);
-    std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
- 
-    // Helper: resuelve ".." y comprueba existencia
-    auto tryPath = [](const std::filesystem::path& p) -> std::filesystem::path {
-        std::error_code ec;
-        auto resolved = std::filesystem::weakly_canonical(p, ec);
-        if (!ec && std::filesystem::exists(resolved))
-            return resolved;
-        return {};
-    };
- 
-    std::filesystem::path uiDir;
- 
-    // 1. <exeDir>/UI
-    if (uiDir.empty()) uiDir = tryPath(exeDir / "UI");
-    // 2. <exeDir>/../UI  (build/UI)
-    if (uiDir.empty()) uiDir = tryPath(exeDir / "../UI");
-    // 3. <exeDir>/../../UI  (Engine/UI)  <-- ruta correcta para build/Release
-    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../UI");
-    // 4. <exeDir>/../../Engine/UI
-    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../Engine/UI");
-    // 5. <exeDir>/../../../Engine/UI
-    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../../Engine/UI");
- 
-    // Fallback sin resolver (para que el mensaje de error muestre la ruta intentada)
-    if (uiDir.empty())
-        uiDir = std::filesystem::weakly_canonical(exeDir / "../../UI");
- 
-    // Scan valid XAML files
-    std::vector<std::string> xamlFiles;
-    if (std::filesystem::exists(uiDir))
-    {
-        for (const auto& entry : std::filesystem::directory_iterator(uiDir))
+    if (open) {
+
+        char buffer[MAX_PATH];
+        GetModuleFileNameA(NULL, buffer, MAX_PATH);
+        std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
+
+        // Helper: resuelve ".." y comprueba existencia
+        auto tryPath = [](const std::filesystem::path& p) -> std::filesystem::path {
+            std::error_code ec;
+            auto resolved = std::filesystem::weakly_canonical(p, ec);
+            if (!ec && std::filesystem::exists(resolved))
+                return resolved;
+            return {};
+        };
+
+        std::filesystem::path uiDir;
+
+        // 1. <exeDir>/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "UI");
+        // 2. <exeDir>/../UI  (build/UI)
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../UI");
+        // 3. <exeDir>/../../UI  (Engine/UI)  <-- ruta correcta para build/Release
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../UI");
+        // 4. <exeDir>/../../Engine/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../Engine/UI");
+        // 5. <exeDir>/../../../Engine/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../../Engine/UI");
+
+        // Fallback sin resolver (para que el mensaje de error muestre la ruta intentada)
+        if (uiDir.empty())
+            uiDir = std::filesystem::weakly_canonical(exeDir / "../../UI");
+
+        // Scan valid XAML files
+        std::vector<std::string> xamlFiles;
+        if (std::filesystem::exists(uiDir))
         {
-            if (!entry.is_regular_file() || entry.path().extension() != ".xaml") continue;
-            std::ifstream file(entry.path());
-            std::string line;
-            bool valid = false;
-            while (std::getline(file, line))
+            for (const auto& entry : std::filesystem::directory_iterator(uiDir))
             {
-                if (line.find("ResourceDictionary") != std::string::npos) break;
-                if (line.find("FrameworkElement") != std::string::npos ||
-                    line.find("UserControl") != std::string::npos ||
-                    line.find("Window") != std::string::npos ||
-                    line.find("Grid") != std::string::npos ||
-                    line.find("Canvas") != std::string::npos ||
-                    line.find("StackPanel") != std::string::npos)
+                if (!entry.is_regular_file() || entry.path().extension() != ".xaml") continue;
+                std::ifstream file(entry.path());
+                std::string line;
+                bool valid = false;
+                while (std::getline(file, line))
                 {
-                    valid = true; break;
+                    if (line.find("ResourceDictionary") != std::string::npos) break;
+                    if (line.find("FrameworkElement") != std::string::npos ||
+                        line.find("UserControl") != std::string::npos ||
+                        line.find("Window") != std::string::npos ||
+                        line.find("Grid") != std::string::npos ||
+                        line.find("Canvas") != std::string::npos ||
+                        line.find("StackPanel") != std::string::npos)
+                    {
+                        valid = true; break;
+                    }
                 }
+                if (valid) xamlFiles.push_back(entry.path().filename().string());
             }
-            if (valid) xamlFiles.push_back(entry.path().filename().string());
         }
-    }
- 
-    std::string currentName = canvasComp->GetCurrentXAML().empty() ? "None"
-        : std::filesystem::path(canvasComp->GetCurrentXAML()).filename().string();
- 
-    ImGui::Text("XAML File:");
-    ImGui::SetNextItemWidth(-1);
-    if (ImGui::BeginCombo("##XAMLSelector", currentName.c_str()))
-    {
-        if (ImGui::Selectable("None", canvasComp->GetCurrentXAML().empty()))
-            canvasComp->UnloadXAML();
- 
-        for (const auto& file : xamlFiles)
+
+        std::string currentName = canvasComp->GetCurrentXAML().empty() ? "None"
+            : std::filesystem::path(canvasComp->GetCurrentXAML()).filename().string();
+
+        ImGui::Text("XAML File:");
+        ImGui::SetNextItemWidth(-1);
+        if (ImGui::BeginCombo("##XAMLSelector", currentName.c_str()))
         {
-            bool sel = (currentName == file);
-            if (ImGui::Selectable(file.c_str(), sel))
-                LOG_CONSOLE(canvasComp->LoadXAML(file.c_str()) ?
-                    "[Canvas] Loaded: %s" : "[Canvas] Failed: %s", file.c_str());
-            if (sel) ImGui::SetItemDefaultFocus();
+            if (ImGui::Selectable("None", canvasComp->GetCurrentXAML().empty()))
+                canvasComp->UnloadXAML();
+
+            for (const auto& file : xamlFiles)
+            {
+                bool sel = (currentName == file);
+                if (ImGui::Selectable(file.c_str(), sel))
+                    LOG_CONSOLE(canvasComp->LoadXAML(file.c_str()) ?
+                        "[Canvas] Loaded: %s" : "[Canvas] Failed: %s", file.c_str());
+                if (sel) ImGui::SetItemDefaultFocus();
+            }
+
+            if (xamlFiles.empty())
+                ImGui::TextDisabled("No valid .xaml files found in: %s", uiDir.string().c_str());
+
+            ImGui::EndCombo();
         }
- 
-        if (xamlFiles.empty())
-            ImGui::TextDisabled("No valid .xaml files found in: %s", uiDir.string().c_str());
- 
-        ImGui::EndCombo();
+
+        float opacity = canvasComp->GetOpacity();
+        if (ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f)) canvasComp->SetOpacity(opacity);
+
+        int UILayer = canvasComp->GetUILayer();
+        if (ImGui::InputInt("UI Layer", &UILayer))
+            canvasComp->SetUILayer(UILayer);
+
+        ImGui::Separator();
+
+        unsigned int texID = canvasComp->GetTextureID();
+        if (texID != 0)
+            ImGui::Image((ImTextureID)(uintptr_t)texID, ImVec2(256, 144), ImVec2(0, 1), ImVec2(1, 0));
+        else
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No XAML loaded");
     }
+       
  
-    float opacity = canvasComp->GetOpacity();
-    if (ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f)) canvasComp->SetOpacity(opacity);
- 
-    int UILayer = canvasComp->GetUILayer();
-    if (ImGui::InputInt("UI Layer", &UILayer))
-        canvasComp->SetUILayer(UILayer);
- 
-    ImGui::Separator();
- 
-    unsigned int texID = canvasComp->GetTextureID();
-    if (texID != 0)
-        ImGui::Image((ImTextureID)(uintptr_t)texID, ImVec2(256, 144), ImVec2(0, 1), ImVec2(1, 0));
-    else
-        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No XAML loaded");
+    
 
     ImGui::PopID();
 }
@@ -1961,6 +1965,8 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
         ImGui::Unindent();
     }
+
+    
 }
 
 void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)

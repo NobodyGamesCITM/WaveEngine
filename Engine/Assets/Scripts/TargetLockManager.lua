@@ -46,6 +46,7 @@ local function IsTargetDead(target)
     end
     return false
 end
+_G.IsTargetDead = IsTargetDead
 
 -- Search the closest objective
 local function FindBestTarget(self)

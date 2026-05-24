@@ -185,6 +185,13 @@ public = {
     berserkActive       = false,
 }
 
+local function GetAnimName(base)
+    if Player.currentMask == Mask.HERMES then
+        return "Hermes" .. base
+    end
+    return base
+end
+
 function TriggerDrinkAnimation(self, isInternalHeal)
     if Player.healAnimTimer > 0 or Player.maskAnimTimer > 0 or Player.currentState == State.DEAD or Player.AnimTimer > 0  then
         return false
@@ -573,7 +580,7 @@ States[State.DEAD] = {
 
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then 
-                    pcall(function() anim:Play("Idle", 0.0) end)
+                    pcall(function() anim:Play(GetAnimName("Idle"), 0.0) end)
                 end
             end
         end
@@ -581,7 +588,7 @@ States[State.DEAD] = {
         if Player.hermesRespawnCooldown > 0 then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                pcall(function() anim:Play("Idle", 0.0) end)
+                pcall(function() anim:Play(GetAnimName("Idle"), 0.0) end)
             end
             Player.hermesRespawnCooldown = Player.hermesRespawnCooldown - dt
             if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -608,7 +615,7 @@ States[State.IDLE] = {
         end
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            pcall(function() anim:Play("Idle", 0.5) end)
+            pcall(function() anim:Play(GetAnimName("Idle"), 0.5) end)
         end
     end,
     
@@ -660,11 +667,12 @@ States[State.WALK] = {
         if not _G.TargetLockManager_IsLocked then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                local hasWalk = pcall(function() anim:Play("Walk", 0.5) end)
+                local walkAnim = GetAnimName("Walk")
+                local hasWalk = pcall(function() anim:Play(walkAnim, 0.5) end)
                 if hasWalk then
-                    pcall(function() anim:SetSpeed("Walk", 1) end)
+                    pcall(function() anim:SetSpeed(walkAnim, 1) end)
                 else
-                    pcall(function() anim:Play("Idle", 0.5) end)
+                    pcall(function() anim:Play(GetAnimName("Idle"), 0.5) end)
                 end
             end
         end
@@ -758,7 +766,7 @@ States[State.WALK] = {
             if Player.currentOrbitAnim ~= nil then
                 Player.currentOrbitAnim = nil
                 local anim = self.gameObject:GetComponent("Animation")
-                if anim then pcall(function() anim:Play("Walk", 0.2) end) end
+                if anim then pcall(function() anim:Play(GetAnimName("Walk"), 0.2) end) end
             end
         end
         
@@ -776,8 +784,9 @@ States[State.RUNNING] = {
         if not _G.TargetLockManager_IsLocked then
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                anim:Play("Running", 0.5) 
-                anim:SetSpeed("Running", 2.0)
+                local runAnim = GetAnimName("Running")
+                anim:Play(runAnim, 0.5)
+                anim:SetSpeed(runAnim, 2.0)
             end
         end
 
@@ -899,8 +908,9 @@ States[State.RUNNING] = {
                 Player.currentOrbitAnim = nil
                 local anim = self.gameObject:GetComponent("Animation")
                 if anim then
-                    pcall(function() anim:Play("Running", 0.2) end)
-                    pcall(function() anim:SetSpeed("Running", 2.0) end)
+                    local runAnim = GetAnimName("Running")
+                    pcall(function() anim:Play(runAnim, 0.2) end)
+                    pcall(function() anim:SetSpeed(runAnim, 2.0) end)
                 end
             end
         end
@@ -1161,9 +1171,9 @@ States[State.ATTACK_LIGHT] = {
         ActivateTrail(self)
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim and attackNum == 1 then anim:Play("Attack1", 0.0) end
-        if anim and attackNum == 2 then anim:Play("Attack2", 0.0) end
-        if anim and attackNum == 3 then anim:Play("Attack3", 0.0) end
+        if anim and attackNum == 1 then anim:Play(GetAnimName("Attack1"), 0.0) end
+        if anim and attackNum == 2 then anim:Play(GetAnimName("Attack2"), 0.0) end
+        if anim and attackNum == 3 then anim:Play(GetAnimName("Attack3"), 0.0) end
     end,
     Update = function(self, dt)
         attackTimer = attackTimer + dt
@@ -1288,7 +1298,7 @@ local function TakeDamage(self, amount, attackerPos)
         self.public.canMove = true
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
-            pcall(function() anim:Play("Idle", 0.5) end)
+            pcall(function() anim:Play(GetAnimName("Idle"), 0.5) end)
         end
     end
 
@@ -1828,7 +1838,7 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             if anim then 
-                pcall(function() anim:Play("Idle", 0.05) end)
+                pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
             end
             ChangeState(self, State.IDLE, true)
         end
@@ -1841,11 +1851,11 @@ function Update(self, dt)
             local anim = self.gameObject:GetComponent("Animation")
             if anim then
                 if Player.currentState == State.RUNNING then
-                    anim:Play("Running", 0.2)
+                    anim:Play(GetAnimName("Running"), 0.2)
                 elseif Player.currentState == State.WALK then
-                    anim:Play("Walk", 0.2)
+                    anim:Play(GetAnimName("Walk"), 0.2)
                 elseif Player.currentState == State.IDLE then
-                    anim:Play("Idle", 0.2)
+                    anim:Play(GetAnimName("Idle"), 0.2)
                 end
             end
         end
@@ -1913,7 +1923,7 @@ function Update(self, dt)
             Player.getMaskIdleTransitionDone = true
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                pcall(function() anim:Play("Idle", 1.5) end)
+                pcall(function() anim:Play(GetAnimName("Idle"), 1.5) end)
             end
         end
 
@@ -1989,7 +1999,7 @@ function Update(self, dt)
 
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                pcall(function() anim:Play("Idle", 0.5) end)
+                pcall(function() anim:Play(GetAnimName("Idle"), 0.5) end)
             end
         end
     end
@@ -2103,7 +2113,7 @@ function MaskScroll(self)
 
     if oldMask ~= Player.currentMask then 
         --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
-        ChangeState(self, State.IDLE)
+        ChangeState(self, State.IDLE, true)
     end
 
     if oldMask ~= Player.currentMask and Player.currentMask ~= Mask.NONE then

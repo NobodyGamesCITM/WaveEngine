@@ -18,7 +18,7 @@ public = {
     lowerVolume = 60.0
 }
 local FADE_IN_DURATION = 0.4
-local DEATH_MENU_DELAY = 1.5
+local DEATH_MENU_DELAY = 6.2
 
 local function ApplyFullVolume(self)
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)

@@ -523,6 +523,7 @@ local function UpdateIdle(self, dist, dt)
         if self.playerInRange then
             Engine.Log("Triggering Combat Music from Siren detection range")
            -- _G.TriggerCombatMusic()
+           if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
         end
 
         if self.isShowing then
@@ -666,19 +667,19 @@ local function UpdateCooldown(self, dist, dt)
 end
 
 local function FindSirenAudioComponents(self)  -- local: no interfiere con otros scripts
-    Engine.Log("[SIREN AUDIO] Searching in: " .. tostring(self.gameObject.name))
+    --Engine.Log("[SIREN AUDIO] Searching in: " .. tostring(self.gameObject.name))
     
     local singSource = GameObject.FindInChildren(self.gameObject, "SingSource")
-    Engine.Log("[SIREN AUDIO] SingSource found: " .. tostring(singSource ~= nil))
+    --Engine.Log("[SIREN AUDIO] SingSource found: " .. tostring(singSource ~= nil))
     
     local dieSource = GameObject.FindInChildren(self.gameObject, "SirenDieSource")
-    Engine.Log("[SIREN AUDIO] DieSource found: " .. tostring(dieSource ~= nil))
+    --Engine.Log("[SIREN AUDIO] DieSource found: " .. tostring(dieSource ~= nil))
     
     local hurtSource = GameObject.FindInChildren(self.gameObject, "SirenHurtSource")
-    Engine.Log("[SIREN AUDIO] HurtSource found: " .. tostring(hurtSource ~= nil))
+    --Engine.Log("[SIREN AUDIO] HurtSource found: " .. tostring(hurtSource ~= nil))
     
     local dipSource = GameObject.FindInChildren(self.gameObject, "DipSource")
-    Engine.Log("[SIREN AUDIO] DipSource found: " .. tostring(dipSource ~= nil))
+    --Engine.Log("[SIREN AUDIO] DipSource found: " .. tostring(dipSource ~= nil))
 
 
     self.singSFX  = singSource:GetComponent("Audio Source")
@@ -890,7 +891,7 @@ function Update(self, dt)
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)
         Engine.Log("Destroyed Siren")
-        _G.TriggerExplorationMusic()
+        if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
         --self:Destroy() 
 
         return  

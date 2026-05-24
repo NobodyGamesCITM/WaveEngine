@@ -270,11 +270,12 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
     {
         if (audioEvents[i]->playingID == 0L)
         {
+            audioEvents[i]->playingID = 1L; //1L = event slot is now taken
+            audioEvents[i]->eventID = event; //<-- new: storing the eventID passed as argument into the AudioEvent struct eventID field
             AK::SoundEngine::PostEvent(event, goID, AkCallbackType::AK_EndOfEvent, audioEvents[i]->eventCallback, (void*)audioEvents[i]);
 
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
-            audioEvents[i]->playingID = 1L; //1L = event slot is now taken
-            audioEvents[i]->eventID = event; //<-- new: storing the eventID passed as argument into the AudioEvent struct eventID field
+            
 
             return;
         }

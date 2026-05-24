@@ -519,7 +519,7 @@ local function UpdateDeath(self,dt)
         _impactFrameTimer = 0.1
         self.isDead = true
 
-        _G.TriggerExplorationMusic()
+        if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
 
         self:Destroy()
   
@@ -704,7 +704,7 @@ function Update(self, dt)
 
     if dist <= self.public.detectRange then
         Engine.Log("Triggering Combat Music from Minocabro's detection range")
-        _G.TriggerCombatMusic()
+        if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
     end
 
     -- State machine

@@ -14,9 +14,11 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_ACTIVATESTATUE_OLD = 3262857116U;
+        static const AkUniqueID MUS_FINALBLOW = 2772329599U;
+        static const AkUniqueID MUS_FINALNOTE = 3925037099U;
         static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
-        static const AkUniqueID SFX_APOLOMASK = 200801602U;
+        static const AkUniqueID SFX_AQUILESBIGSTEP = 3630147201U;
+        static const AkUniqueID SFX_AQUILESCOLLAPSE = 3452078074U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
         static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;
         static const AkUniqueID SFX_AQUILESHURT = 565814488U;
@@ -26,16 +28,15 @@ namespace AK
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
-        static const AkUniqueID SFX_ARESMASK = 3161303428U;
         static const AkUniqueID SFX_CALMWATER = 2864737081U;
         static const AkUniqueID SFX_CHAINBREAK = 2630782753U;
         static const AkUniqueID SFX_CHECKPOINTSAVE = 3854015376U;
         static const AkUniqueID SFX_CREEPYSOUNDS = 112594585U;
-        static const AkUniqueID SFX_DEACTIVATESTATUE = 2443085627U;
+        static const AkUniqueID SFX_DEEPBREATHS = 2285415424U;
         static const AkUniqueID SFX_DOORMOVE = 2318810U;
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
+        static const AkUniqueID SFX_FINISHHIM = 376918614U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
-        static const AkUniqueID SFX_GETMASK = 3673223703U;
         static const AkUniqueID SFX_GM_FALLDOWN = 118434115U;
         static const AkUniqueID SFX_GM_KNOCKBACK = 605795181U;
         static const AkUniqueID SFX_GM_MASKFLY = 336495419U;
@@ -44,12 +45,10 @@ namespace AK
         static const AkUniqueID SFX_GM_STATUEON = 2470589267U;
         static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
         static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
-        static const AkUniqueID SFX_HERMESMASK = 3607278939U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
-        static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
+        static const AkUniqueID SFX_INTROROAR = 1929205333U;
+        static const AkUniqueID SFX_KNEELDOWN = 3671466604U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
-        static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
-        static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
         static const AkUniqueID SFX_MASKSWITCH = 2001794665U;
         static const AkUniqueID SFX_MINOCHARGE = 3041839238U;
         static const AkUniqueID SFX_MINOCRASH = 385136311U;
@@ -72,7 +71,6 @@ namespace AK
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;
         static const AkUniqueID SFX_SEAWATER = 2754480747U;
-        static const AkUniqueID SFX_SHOWSWORD = 1498826869U;
         static const AkUniqueID SFX_SIRENDIE = 4188719418U;
         static const AkUniqueID SFX_SIRENDIP = 4188719407U;
         static const AkUniqueID SFX_SIRENHURT = 3651743467U;
@@ -82,9 +80,16 @@ namespace AK
         static const AkUniqueID SFX_SKELETONHIT = 1803491951U;
         static const AkUniqueID SFX_SKELETONSTEPS = 2660566025U;
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;
+        static const AkUniqueID SFX_SPEARGRAB = 2588314402U;
+        static const AkUniqueID SFX_SPEARPLUNGE = 2152488377U;
+        static const AkUniqueID SFX_SPEARPREP = 1860584701U;
+        static const AkUniqueID SFX_SPEARPULL = 1742302713U;
         static const AkUniqueID SFX_STATUETURN = 3395391508U;
+        static const AkUniqueID SFX_SWORDPREP = 2568247301U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
+        static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
+        static const AkUniqueID SFX_UNSHEATHE = 796310264U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;

@@ -31,7 +31,7 @@ local function ActivateParticles(self, vfxName, checkpoint)
 
     if VFXobj then
         VFXobj:SetActive(true)
-        Engine.Log("Activated " ..tostring(vfxName).. " Particles GameObject")
+        --Engine.Log("Activated " ..tostring(vfxName).. " Particles GameObject")
         local particleComp = VFXobj:GetComponent("ParticleSystem")
         
         if particleComp then 

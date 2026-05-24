@@ -16,6 +16,7 @@ ComponentCameraZone::ComponentCameraZone(GameObject* owner) : Component(owner, C
 ComponentCameraZone::~ComponentCameraZone() {
     auto it = std::find(activeZones.begin(), activeZones.end(), this);
     if (it != activeZones.end()) {
+        this->showDebug = false;
         activeZones.erase(it);
     }
 }
@@ -68,9 +69,14 @@ void ComponentCameraZone::DrawDebug() {
 
 void ComponentCameraZone::DrawAllDebug() {
     for (auto* zone : activeZones) {
-        if (zone->owner->IsActive()) {
-            zone->DrawDebug();
+        if (!zone) 
+            return;
+        else {
+            if (zone->owner->IsActive()) {
+                zone->DrawDebug();
+            }
         }
+        
     }
 }
 

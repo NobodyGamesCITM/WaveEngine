@@ -611,7 +611,7 @@ States[State.DEAD] = {
                 States[State.DEAD].deadAnim = true 
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
-               _G.TriggerExplorationMusic()
+               if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
             else 
                 Skeleton.rb:SetLinearVelocity(0,0, 0) 
             end
@@ -677,7 +677,7 @@ function Update(self, dt)
 
     if CheckDistance(self,self.public.detectDist,true) then
         --Engine.Log("Triggering Combat Music from Skeleton Detection Range")
-        _G.TriggerCombatMusic()
+        if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
     end
 end
 

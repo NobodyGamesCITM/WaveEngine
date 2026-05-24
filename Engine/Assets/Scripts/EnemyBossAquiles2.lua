@@ -113,6 +113,14 @@ local lanceAnimStarted = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
+local playedBigStep = false
+local playedDeepBreaths = false
+local playedDeathCry = false
+local playedKneelDown = false
+local playedCollapse = false
+
+
+
 local hitCooldown = 0
 local finishedTransition = false
 
@@ -126,6 +134,9 @@ local fase1 = true
 local currentMaxHp = 300
 
 local AquilesFeedback = "/Prefabs/AquilesFeedback.prefab"
+
+local isWinBossPlaying = false
+local winBossCinematicTimer = 22.0
 
 -- Helpers
 local function lerp(a, b, t)
@@ -192,6 +203,8 @@ local function ChangeState(newState)
     anticipationAnimStarted = false
     recoveryAnimStarted  = false
     dashTimer = 0
+
+
 
     if attackCol then
         if newState == State.CHARGE or newState == State.LANCE_360 then
@@ -316,6 +329,8 @@ local function TakeDamage(self, amount, attackerPos)
     if hp <= 0 then
         if not fase1 then
             _G._AquilesDefeated = true
+           
+            Engine.Log("[AQUILES] Globally Killed Aquiles")
             Game.SetTimeScale(0.1)
             _impactFrameTimer = 0.3
             blockHits = true
@@ -402,7 +417,7 @@ local function MovementWalk(self, dx, dz, dt, speedOverride)
 
     stepTimer = stepTimer + dt
     if stepTimer >= (self.public.stepInterval / 10 * vel) then
-        PlaySFX(stepSFX)
+        SelectPlaySFX(stepSFX, "SFX_AquilesSteps")
         stepTimer = 0
     end
 
@@ -833,11 +848,15 @@ local function UpdateDeath(self, dt)
             rb:SetBody(2)
         end
         if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
-            anim:Play("Death")
+            if anim then anim:Play("CinematicDeath") end
             self.transform:SetPosition(131.563, -0.926, -657.100)
             self.transform:SetRotation(-180, 76.951, -180)
             deathAnimDone = true
         end
+
+        -- if deathAnimDone then 
+        --     if anim then anim:Play("Idle") end
+        -- end
 
         if deathTimer <= 0 then
             if self.targetDeathYisEnter == false then
@@ -848,6 +867,7 @@ local function UpdateDeath(self, dt)
                 local colision = self.gameObject:GetComponent("Box Collider")
                 if colision then 
                     colision:Disable() 
+                    
                     rb:SetUseGravity(false)
                 end
                 
@@ -871,7 +891,7 @@ local function UpdateDeath(self, dt)
                     local colision = self.gameObject:GetComponent("Box Collider")
                     if colision then 
                         colision:Disable() 
-                        self.rb:SetUseGravity(false)
+                        if rb then rb:SetUseGravity(false) end
                     end
                     isDead = true
                     Engine.Log("[Aquiles] DEAD i enterrat")
@@ -966,6 +986,10 @@ function Start(self)
     isDead       = false
     currentState = State.IDLE
 
+    --cinematics
+    isWinBossPlaying = false
+    winBossCinematicTimer = 22.0
+
     rb   = self.gameObject:GetComponent("Rigidbody")
     anim = self.gameObject:GetComponent("Animation")
 
@@ -1027,11 +1051,12 @@ function Update(self, dt)
 
 
     if Input.GetKeyDown("K") then
-        local damage = hp - 1
+        local damage = hp + 1
         if damage > 0 then
             TakeDamage(self, damage, self.transform.worldPosition)
         end
         return
+        
     end
 
     if pendingWallHit then
@@ -1076,6 +1101,8 @@ function Update(self, dt)
         end
     end
 
+    
+
     local myPos
     local pp
 
@@ -1098,6 +1125,56 @@ function Update(self, dt)
     elseif currentState == State.STUN         then UpdateStun(self, dt)
     elseif currentState == State.DEAD         then UpdateDeath(self, dt)
     end
+
+
+    -- winboss cinematic
+
+    if _G.PlayWinBossCinematic and _G._AquilesDefeated and not isWinBossPlaying then 
+        isWinBossPlaying = true
+        winBossCinematicTimer = 22.0
+        
+    end
+
+    if isWinBossPlaying then 
+
+        winBossCinematicTimer = winBossCinematicTimer - dt
+
+        if winBossCinematicTimer <= 21.8 and winBossCinematicTimer >= 21.00 and not playedDeepBreaths then 
+            SelectPlaySFX(voiceSFX, "SFX_DeepBreaths")
+            playedDeepBreaths = true
+        end
+
+        if winBossCinematicTimer <= 21.00 and winBossCinematicTimer >= 20.8 and not playedBigStep then
+            SelectPlaySFX(stepSFX, "SFX_AquilesBigStep")
+            playedBigStep = true
+        end
+
+        if winBossCinematicTimer <= 9.3 and winBossCinematicTimer >= 9.0 and not playedDeathCry then
+            SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+            playedDeathCry = true
+        end
+
+        if winBossCinematicTimer <= 5.00 and winBossCinematicTimer >= 4.9 and not playedKneelDown then
+            SelectPlaySFX(spearSFX, "SFX_KneelDown")
+            playedKneelDown = true
+        end
+
+        if winBossCinematicTimer <= 4.00 and winBossCinematicTimer >= 3.9 and not playedCollapse then
+            SelectPlaySFX(armorSFX, "SFX_AquilesCollapse")
+            playedCollapse = true
+        end
+        
+        if winBossCinematicTimer < 0 then 
+            isWinBossPlaying = false
+            playedDeepBreaths = false
+            playedBigStep = false
+            playedDeathCry = false
+            playedKneelDown = false
+            playedCollapse = false
+            winBossCinematicTimer = 0
+        end
+    end
+    
 end
 
 function OnTriggerEnter(self, other)
@@ -1213,3 +1290,4 @@ function OnTriggerExit(self, other)
         end 
     end
 end
+

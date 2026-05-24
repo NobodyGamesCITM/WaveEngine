@@ -10,11 +10,19 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{EED958C1-730C-174B-A1DC-208FCEDD79B6}",
+    "Hash": "{7DCC156F-2798-5F75-9EA5-DFF5883C05EE}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
     "Media": [
+     {
+      "Id": "12524470",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "demon-beast-howling-2.wav",
+      "CachePath": "10/{107EEBE5-6A91-A813-9543-76FA77897BD2}.wem"
+     },
      {
       "Id": "12684693",
       "Language": "SFX",
@@ -22,14 +30,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_precharge_04.wav",
       "CachePath": "A3/{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem"
-     },
-     {
-      "Id": "16598906",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "yodguard-spear_thrust-5-382405.wav",
-      "CachePath": "35/{35F9AD34-65EE-7863-7AA8-1E6A8F8474B3}.wem"
      },
      {
       "Id": "23815065",
@@ -184,6 +184,14 @@
       "CachePath": "93/{9341B35D-CAAB-0314-4537-E2836B5D401A}.wem"
      },
      {
+      "Id": "117544309",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "unsheathe_sword_00.wav",
+      "CachePath": "38/{383E1CCF-2E9A-A9AE-1672-4ADA7B6B391E}.wem"
+     },
+     {
       "Id": "119201350",
       "Language": "SFX",
       "Streaming": "false",
@@ -200,20 +208,20 @@
       "CachePath": "40/{40F9D7FF-CFD4-EED1-17E6-16EFEA0CC7E9}.wem"
      },
      {
-      "Id": "124812761",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_water_run_06.wav",
-      "CachePath": "4E/{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem"
-     },
-     {
       "Id": "126486740",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "minocabro_hoof_03.wav",
       "CachePath": "7F/{7FF7E742-1809-4DB8-353E-908C44CEE054}.wem"
+     },
+     {
+      "Id": "129580590",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "deep_breath_02.wav",
+      "CachePath": "29/{2932B347-EEDF-6D63-047C-3585617DEBE7}.wem"
      },
      {
       "Id": "131567107",
@@ -230,14 +238,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_idlegrunt_04.wav",
       "CachePath": "D1/{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem"
-     },
-     {
-      "Id": "137281643",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_grass_walk_06.wav",
-      "CachePath": "63/{63DE341F-D470-9497-426E-74076A8C943D}.wem"
      },
      {
       "Id": "141089093",
@@ -280,12 +280,12 @@
       "CachePath": "53/{53F3078C-4293-A98F-7D9F-D7CFA7CA110D}.wem"
      },
      {
-      "Id": "169106791",
+      "Id": "174466694",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_stone_run_06.wav",
-      "CachePath": "09/{09C22463-433E-F299-C516-08A343F5E175}.wem"
+      "ShortName": "doomsday_epicbgm_00.wav",
+      "CachePath": "52/{527E3F14-E569-6A92-5529-96D9EE07FE3B}.wem"
      },
      {
       "Id": "175711509",
@@ -432,6 +432,14 @@
       "CachePath": "48/{48AAF9F8-63A6-1243-88EF-17BAAEB125CA}.wem"
      },
      {
+      "Id": "276549122",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "deep_breath_01.wav",
+      "CachePath": "85/{85B6FEF5-14B9-E624-958D-860AB4904D99}.wem"
+     },
+     {
       "Id": "278946100",
       "Language": "SFX",
       "Streaming": "false",
@@ -480,12 +488,28 @@
       "CachePath": "EF/{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem"
      },
      {
+      "Id": "316416343",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_collapse_00.wav",
+      "CachePath": "1C/{1C922FDD-0BC3-9D77-D3B7-606328260B21}.wem"
+     },
+     {
       "Id": "324318935",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "hermes_spin_05.wav",
       "CachePath": "B6/{B61958A6-11FD-D8BF-F218-6E7B21A885C0}.wem"
+     },
+     {
+      "Id": "325250937",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "finisher_hit_00.wav",
+      "CachePath": "92/{920015C5-8655-8219-D7EE-F8568CE4CB82}.wem"
      },
      {
       "Id": "328752554",
@@ -510,14 +534,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_hoof_01.wav",
       "CachePath": "8D/{8D1B2545-A4BE-F337-F21E-60D770D49360}.wem"
-     },
-     {
-      "Id": "333608203",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_dirt_walk_06.wav",
-      "CachePath": "CC/{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem"
      },
      {
       "Id": "334760662",
@@ -552,12 +568,28 @@
       "CachePath": "E7/{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem"
      },
      {
+      "Id": "358544840",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "metal-rock_impact_01.wav",
+      "CachePath": "6E/{6E890459-1C8E-5BAE-406D-C27F4E35AA22}.wem"
+     },
+     {
       "Id": "362843339",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_run_01.wav",
       "CachePath": "13/{137B0283-6182-0727-3344-3A629EB6416C}.wem"
+     },
+     {
+      "Id": "368021273",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "deep_breath_00.wav",
+      "CachePath": "49/{491570C4-7C91-F7A1-F787-697122669C52}.wem"
      },
      {
       "Id": "369878516",
@@ -582,6 +614,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_sand_run_04.wav",
       "CachePath": "B5/{B559E8A6-62D5-D696-83A3-68482B76F4DD}.wem"
+     },
+     {
+      "Id": "403864752",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "voicebosch-falling-pebbles-rocks-and-boulders-168593.wav",
+      "CachePath": "1B/{1BD0614C-CDBF-1B6E-C91E-C38E03220A28}.wem"
      },
      {
       "Id": "406806222",
@@ -616,14 +656,6 @@
       "CachePath": "8A/{8AFB042F-4E5E-CF03-0416-DE888B7ED984}.wem"
      },
      {
-      "Id": "425570416",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_water_walk_06.wav",
-      "CachePath": "E6/{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem"
-     },
-     {
       "Id": "426226260",
       "Language": "SFX",
       "Streaming": "false",
@@ -640,6 +672,14 @@
       "CachePath": "21/{216D4506-9725-1778-07CC-AB40635CD8AE}.wem"
      },
      {
+      "Id": "447279618",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "totalwar_epicbgm_02.wav",
+      "CachePath": "2A/{2AD2F4C1-3EEC-FF6D-9137-4D933A0EB8B4}.wem"
+     },
+     {
       "Id": "459666570",
       "Language": "SFX",
       "Streaming": "false",
@@ -654,14 +694,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_wallcrash_rubble.wav",
       "CachePath": "EA/{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem"
-     },
-     {
-      "Id": "475675298",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_wood_run_06.wav",
-      "CachePath": "2A/{2AC7B201-0B0D-ADB4-9494-1B17FCB0EF66}.wem"
      },
      {
       "Id": "479303077",
@@ -704,14 +736,6 @@
       "CachePath": "3D/{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem"
      },
      {
-      "Id": "507868531",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_sand_run_06.wav",
-      "CachePath": "C9/{C97CB935-4BFB-6521-D05F-53CDF5267682}.wem"
-     },
-     {
       "Id": "511744790",
       "Language": "SFX",
       "Streaming": "false",
@@ -736,22 +760,6 @@
       "CachePath": "34/{343D579D-4455-4C98-604D-8003E00A79A1}.wem"
      },
      {
-      "Id": "520645407",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "mask_pickup.wav",
-      "CachePath": "4C/{4CE567D1-0149-933E-ACC3-B614D63543EA}.wem"
-     },
-     {
-      "Id": "526649077",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "maskAres_02.wav",
-      "CachePath": "78/{7834B940-17B0-C512-5FA8-8FB447233987}.wem"
-     },
-     {
       "Id": "531473372",
       "Language": "SFX",
       "Streaming": "false",
@@ -774,14 +782,6 @@
       "Location": "Memory",
       "ShortName": "forest_ambient.wav",
       "CachePath": "17/{17071574-C850-84B6-CCE7-EB5C946E6022}.wem"
-     },
-     {
-      "Id": "540918898",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "aquiles_step_07.wav",
-      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
      },
      {
       "Id": "546082658",
@@ -824,14 +824,6 @@
       "CachePath": "3F/{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem"
      },
      {
-      "Id": "580278920",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_wood_walk_06.wav",
-      "CachePath": "2C/{2CBE52B2-46B2-9CA1-93CB-EB574B54FCEB}.wem"
-     },
-     {
       "Id": "585738113",
       "Language": "SFX",
       "Streaming": "false",
@@ -862,14 +854,6 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_run_03.wav",
       "CachePath": "EE/{EE4BD707-A4F4-CEAC-89A3-5CF6DD87A5A7}.wem"
-     },
-     {
-      "Id": "599602142",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_dirt_run_06.wav",
-      "CachePath": "3F/{3F3B2D8E-433F-4FBB-63F3-6F54BCE29836}.wem"
      },
      {
       "Id": "603466762",
@@ -912,6 +896,14 @@
       "CachePath": "B8/{B8393BF5-BF7E-7D51-9C91-AB43F22A4D1B}.wem"
      },
      {
+      "Id": "626607359",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "deep_breath_03.wav",
+      "CachePath": "68/{683DA476-D412-6B1E-CA6A-640EF5C10B4A}.wem"
+     },
+     {
       "Id": "629385577",
       "Language": "SFX",
       "Streaming": "false",
@@ -926,14 +918,6 @@
       "Location": "Memory",
       "ShortName": "AIGUA2.wav",
       "CachePath": "B6/{B626E2FC-F892-8794-FD38-ED0C475537AA}.wem"
-     },
-     {
-      "Id": "639013023",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_stone_walk_06.wav",
-      "CachePath": "69/{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem"
      },
      {
       "Id": "642231808",
@@ -1056,14 +1040,6 @@
       "CachePath": "5C/{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem"
      },
      {
-      "Id": "717026493",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "aquiles_step_06.wav",
-      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
-     },
-     {
       "Id": "717187454",
       "Language": "SFX",
       "Streaming": "false",
@@ -1128,12 +1104,12 @@
       "CachePath": "35/{35A3F13E-17D8-6405-06F3-7B6532779FD8}.wem"
      },
      {
-      "Id": "760390763",
+      "Id": "759840250",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "epic_mask_bgm.wav",
-      "CachePath": "F4/{F473FBEA-99CD-1F7E-F450-3E586ACD94F4}.wem"
+      "ShortName": "hands-grabbing-a-club-made-of-wood-tyttc-1.wav",
+      "CachePath": "1E/{1EC2BC21-78CB-7049-F944-8B1E11EC1D7B}.wem"
      },
      {
       "Id": "781091657",
@@ -1184,12 +1160,12 @@
       "CachePath": "D0/{D08E576C-107D-5583-50CF-0F7F7379C941}.wem"
      },
      {
-      "Id": "804853606",
+      "Id": "800726981",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "aquiles_step_05.wav",
-      "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
+      "ShortName": "large_slash_00.wav",
+      "CachePath": "A5/{A5384AD1-3666-22DD-9A97-5DE54F3A968A}.wem"
      },
      {
       "Id": "815791911",
@@ -1230,6 +1206,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_precharge_02.wav",
       "CachePath": "CA/{CA82DE09-5149-7B26-36A5-779B77FBF7F8}.wem"
+     },
+     {
+      "Id": "822570630",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lance_fall_00.wav",
+      "CachePath": "7C/{7C24B570-8F20-AAFE-FD74-4219AAF30255}.wem"
      },
      {
       "Id": "823794324",
@@ -1304,12 +1288,12 @@
       "CachePath": "64/{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem"
      },
      {
-      "Id": "861888802",
+      "Id": "859917828",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "aquiles_step_08.wav",
-      "CachePath": "FB/{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem"
+      "ShortName": "riser_01.wav",
+      "CachePath": "E7/{E76CE077-0319-CFFB-22FA-D40251302CF0}.wem"
      },
      {
       "Id": "863671011",
@@ -1334,6 +1318,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_01.wav",
       "CachePath": "85/{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem"
+     },
+     {
+      "Id": "871849665",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "encounter_riser_00.wav",
+      "CachePath": "30/{308BA59D-99C0-1972-E3F5-C7BE2A1C0AA7}.wem"
      },
      {
       "Id": "872826203",
@@ -1376,20 +1368,20 @@
       "CachePath": "0E/{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem"
      },
      {
+      "Id": "913414124",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lucas_lesc-grab-clothes-foley-308655.wav",
+      "CachePath": "0A/{0A5A2A4D-01FA-02B2-A510-4AD140173A5D}.wem"
+     },
+     {
       "Id": "914187209",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_stone_walk_02.wav",
       "CachePath": "5C/{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem"
-     },
-     {
-      "Id": "914533615",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_sand_walk_06.wav",
-      "CachePath": "8B/{8B7F6936-4919-27D2-9133-D4E680863521}.wem"
      },
      {
       "Id": "915946584",
@@ -1456,14 +1448,6 @@
       "CachePath": "98/{98BF5890-2D11-B08A-B236-05C7C2337EC9}.wem"
      },
      {
-      "Id": "980240822",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "minocabro_precharge_03.wav",
-      "CachePath": "0C/{0CE467A5-C14A-8B27-258C-11A0A2299F4F}.wem"
-     },
-     {
       "Id": "981963331",
       "Language": "SFX",
       "Streaming": "false",
@@ -1504,14 +1488,6 @@
       "CachePath": "13/{1347AC88-5287-053B-C775-5E44884DE2FD}.wem"
      },
      {
-      "Id": "1001637293",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "BAS_Player_Footstep_grass_run_06.wav",
-      "CachePath": "8B/{8B0B6A17-482F-B2F4-DC60-6CF3845300B0}.wem"
-     },
-     {
       "Id": "1023245561",
       "Language": "SFX",
       "Streaming": "false",
@@ -1534,6 +1510,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_02.wav",
       "CachePath": "D9/{D9E41754-8D72-EB32-8656-806E11273942}.wem"
+     },
+     {
+      "Id": "1046410207",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "heartbeat-sound-snmqh-3.wav",
+      "CachePath": "D2/{D23D9F74-2D05-8905-B058-5270E7BD4F52}.wem"
      },
      {
       "Id": "1048801786",
@@ -1872,33 +1856,32 @@
       ]
      },
      {
-      "Id": "3262857116",
-      "Name": "SFX_ActivateStatue_Old",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_ActivateStatue_Old",
-      "GUID": "{78CD194E-8299-4128-9E57-965A6B7D168F}",
-      "MaxAttenuation": "20",
-      "DurationType": "Infinite",
+      "Id": "2772329599",
+      "Name": "MUS_FinalBlow",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\MUS_FinalBlow",
+      "GUID": "{E07390FF-7325-467B-ADDE-17B3B84492E1}",
+      "DurationType": "OneShot",
+      "DurationMin": "20.300879",
+      "DurationMax": "20.300879",
       "MediaRefs": [
        {
-        "Id": "82093474"
-       },
-       {
-        "Id": "146106055"
-       },
-       {
-        "Id": "156765714"
-       },
-       {
-        "Id": "760390763"
+        "Id": "447279618"
        }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "3250156175"
-        }
-       ]
-      }
+      ]
+     },
+     {
+      "Id": "3925037099",
+      "Name": "MUS_FinalNote",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\MUS_FinalNote",
+      "GUID": "{4B74D4A6-07FD-4ED5-AF9F-9C420421056A}",
+      "DurationType": "OneShot",
+      "DurationMin": "8.292004",
+      "DurationMax": "8.292004",
+      "MediaRefs": [
+       {
+        "Id": "174466694"
+       }
+      ]
      },
      {
       "Id": "3810757633",
@@ -1914,17 +1897,34 @@
       ]
      },
      {
-      "Id": "200801602",
-      "Name": "SFX_ApoloMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ApoloMask",
-      "GUID": "{467B3DA6-3AD0-4E56-BE38-E5F74690B1CC}",
-      "MaxAttenuation": "20",
+      "Id": "3630147201",
+      "Name": "SFX_AquilesBigStep",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_AquilesBigStep",
+      "GUID": "{E0F98816-8662-4ED2-BA70-AA9633F0BEBE}",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
-      "DurationMin": "1.3778541",
-      "DurationMax": "1.3778541",
+      "DurationMin": "0.9962501",
+      "DurationMax": "1.4984728",
       "MediaRefs": [
        {
-        "Id": "966255002"
+        "Id": "62622933"
+       },
+       {
+        "Id": "864792433"
+       }
+      ]
+     },
+     {
+      "Id": "3452078074",
+      "Name": "SFX_AquilesCollapse",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_AquilesCollapse",
+      "GUID": "{44819C89-61C8-47B9-BAD3-4AC548FC2718}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.4",
+      "DurationMax": "2.4",
+      "MediaRefs": [
+       {
+        "Id": "316416343"
        }
       ]
      },
@@ -2029,9 +2029,6 @@
       "DurationMax": "9.024594",
       "MediaRefs": [
        {
-        "Id": "16598906"
-       },
-       {
         "Id": "94067801"
        },
        {
@@ -2042,9 +2039,6 @@
        },
        {
         "Id": "841807102"
-       },
-       {
-        "Id": "1055980740"
        }
       ]
      },
@@ -2055,7 +2049,7 @@
       "GUID": "{277F7057-B177-4CE2-BE5F-B45532FA2A5A}",
       "MaxAttenuation": "60",
       "DurationType": "OneShot",
-      "DurationMin": "0.66850454",
+      "DurationMin": "0.8338818",
       "DurationMax": "1.4883147",
       "MediaRefs": [
        {
@@ -2066,18 +2060,6 @@
        },
        {
         "Id": "512620298"
-       },
-       {
-        "Id": "540918898"
-       },
-       {
-        "Id": "717026493"
-       },
-       {
-        "Id": "804853606"
-       },
-       {
-        "Id": "861888802"
        },
        {
         "Id": "864792433"
@@ -2114,21 +2096,6 @@
       "MediaRefs": [
        {
         "Id": "667551602"
-       }
-      ]
-     },
-     {
-      "Id": "3161303428",
-      "Name": "SFX_AresMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_AresMask",
-      "GUID": "{56BDF681-B2A1-4C83-8B34-FEAF64861A63}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "1.5036666",
-      "DurationMax": "1.5036666",
-      "MediaRefs": [
-       {
-        "Id": "526649077"
        }
       ]
      },
@@ -2204,17 +2171,25 @@
       ]
      },
      {
-      "Id": "2443085627",
-      "Name": "SFX_DeactivateStatue",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_DeactivateStatue",
-      "GUID": "{684B36A3-8718-47E5-AAFC-5C50D1066CEE}",
-      "MaxAttenuation": "20",
+      "Id": "2285415424",
+      "Name": "SFX_DeepBreaths",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_DeepBreaths",
+      "GUID": "{F5F388EC-3B1A-408E-B9AD-626437DA0401}",
       "DurationType": "OneShot",
-      "DurationMin": "1.1186118",
-      "DurationMax": "1.1186118",
+      "DurationMin": "15.375061",
+      "DurationMax": "15.375061",
       "MediaRefs": [
        {
-        "Id": "79161646"
+        "Id": "129580590"
+       },
+       {
+        "Id": "276549122"
+       },
+       {
+        "Id": "368021273"
+       },
+       {
+        "Id": "626607359"
        }
       ]
      },
@@ -2223,7 +2198,6 @@
       "Name": "SFX_DoorMove",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorMove",
       "GUID": "{9D486567-4554-4275-B8DE-2D663F79B9F8}",
-      "MaxAttenuation": "60",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -2236,13 +2210,32 @@
       "Name": "SFX_DoorStop",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_DoorStop",
       "GUID": "{44D2366F-762A-4133-980D-A8110E41216E}",
-      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "2.0620506",
       "DurationMax": "2.3145738",
       "MediaRefs": [
        {
         "Id": "307199709"
+       }
+      ]
+     },
+     {
+      "Id": "376918614",
+      "Name": "SFX_FinishHim",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_FinishHim",
+      "GUID": "{33915AEF-7FC6-4A30-B1ED-3D62D517A258}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.2494583",
+      "DurationMax": "3.2494583",
+      "MediaRefs": [
+       {
+        "Id": "96160614"
+       },
+       {
+        "Id": "325250937"
+       },
+       {
+        "Id": "800726981"
        }
       ]
      },
@@ -2261,37 +2254,6 @@
         "Id": "1041846858"
        }
       ]
-     },
-     {
-      "Id": "3673223703",
-      "Name": "SFX_GetMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_GetMask",
-      "GUID": "{54FC191C-1D25-4E12-BB1B-D6277EBB870B}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "12.161278",
-      "DurationMax": "12.161278",
-      "MediaRefs": [
-       {
-        "Id": "38515333"
-       },
-       {
-        "Id": "575356994"
-       },
-       {
-        "Id": "664468680"
-       },
-       {
-        "Id": "1066110828"
-       }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "130504718"
-        }
-       ]
-      }
      },
      {
       "Id": "118434115",
@@ -2435,21 +2397,6 @@
       ]
      },
      {
-      "Id": "3607278939",
-      "Name": "SFX_HermesMask",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesMask",
-      "GUID": "{7A30299E-4B7A-49E3-971C-36E6298A0621}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "0.62693876",
-      "DurationMax": "0.62693876",
-      "MediaRefs": [
-       {
-        "Id": "728535981"
-       }
-      ]
-     },
-     {
       "Id": "4252929259",
       "Name": "SFX_HermesSpin",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesSpin",
@@ -2483,14 +2430,36 @@
       ]
      },
      {
-      "Id": "1263671132",
-      "Name": "SFX_ItemPickup",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_ItemPickup",
-      "GUID": "{A411D77F-A786-48C7-9CB0-676A8D54F240}",
-      "MaxAttenuation": "20",
+      "Id": "1929205333",
+      "Name": "SFX_IntroRoar",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_IntroRoar",
+      "GUID": "{D5863E64-2C6F-4E18-A749-FC032FFB53E0}",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
-      "DurationMin": "0",
-      "DurationMax": "0"
+      "DurationMin": "6.760807",
+      "DurationMax": "9.024594",
+      "MediaRefs": [
+       {
+        "Id": "12524470"
+       },
+       {
+        "Id": "841807102"
+       }
+      ]
+     },
+     {
+      "Id": "3671466604",
+      "Name": "SFX_KneelDown",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_KneelDown",
+      "GUID": "{D133707E-0FC5-440A-B7F7-125BC59B2203}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.6146458",
+      "DurationMax": "1.6146458",
+      "MediaRefs": [
+       {
+        "Id": "822570630"
+       }
+      ]
      },
      {
       "Id": "3212792312",
@@ -2502,36 +2471,6 @@
       "MediaRefs": [
        {
         "Id": "994023216"
-       }
-      ]
-     },
-     {
-      "Id": "115335488",
-      "Name": "SFX_Mask_PickUp",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_Mask_PickUp",
-      "GUID": "{E0980B18-F280-4D87-B820-788C5140CDAE}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "0.9919313",
-      "DurationMax": "0.9919313",
-      "MediaRefs": [
-       {
-        "Id": "520645407"
-       }
-      ]
-     },
-     {
-      "Id": "4011307621",
-      "Name": "SFX_MaskChange",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_MaskChange",
-      "GUID": "{6F7924D3-404C-4878-8045-8C6184257404}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "0.37730473",
-      "DurationMax": "0.37730473",
-      "MediaRefs": [
-       {
-        "Id": "794836068"
        }
       ]
      },
@@ -2753,7 +2692,7 @@
       "GUID": "{87F93940-23E6-4308-8CC3-1107DAB901AC}",
       "DurationType": "OneShot",
       "DurationMin": "2.5642729",
-      "DurationMax": "3.4981484",
+      "DurationMax": "3.418645",
       "MediaRefs": [
        {
         "Id": "12684693"
@@ -2775,9 +2714,6 @@
        },
        {
         "Id": "822076345"
-       },
-       {
-        "Id": "980240822"
        }
       ]
      },
@@ -2819,6 +2755,7 @@
       "Name": "SFX_OpenChest",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_OpenChest",
       "GUID": "{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "5.274119",
       "DurationMax": "5.274119",
@@ -2877,7 +2814,7 @@
       "GUID": "{124A9E6E-4896-44A7-A67E-FECF644D2CE8}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.20616162",
+      "DurationMin": "0.21042962",
       "DurationMax": "0.5771882",
       "SwitchContainers": [
        {
@@ -2904,9 +2841,6 @@
             "Id": "578288656"
            },
            {
-            "Id": "639013023"
-           },
-           {
             "Id": "680497514"
            },
            {
@@ -2925,9 +2859,6 @@
            "GUID": "{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"
           },
           "MediaRefs": [
-           {
-            "Id": "169106791"
-           },
            {
             "Id": "362843339"
            },
@@ -2969,9 +2900,6 @@
             "Id": "235060958"
            },
            {
-            "Id": "333608203"
-           },
-           {
             "Id": "412634728"
            },
            {
@@ -2998,9 +2926,6 @@
            },
            {
             "Id": "558767652"
-           },
-           {
-            "Id": "599602142"
            },
            {
             "Id": "872826203"
@@ -3034,9 +2959,6 @@
           "MediaRefs": [
            {
             "Id": "71226100"
-           },
-           {
-            "Id": "137281643"
            },
            {
             "Id": "835964148"
@@ -3074,9 +2996,6 @@
            },
            {
             "Id": "786254834"
-           },
-           {
-            "Id": "1001637293"
            }
           ]
          }
@@ -3109,9 +3028,6 @@
             "Id": "531762456"
            },
            {
-            "Id": "580278920"
-           },
-           {
             "Id": "649248772"
            },
            {
@@ -3129,9 +3045,6 @@
           "MediaRefs": [
            {
             "Id": "254338618"
-           },
-           {
-            "Id": "475675298"
            },
            {
             "Id": "902777621"
@@ -3179,9 +3092,6 @@
             "Id": "328752554"
            },
            {
-            "Id": "425570416"
-           },
-           {
             "Id": "986604710"
            }
           ]
@@ -3194,9 +3104,6 @@
            "GUID": "{67C6D7EF-6693-4464-B5F3-DF359B3CC3F9}"
           },
           "MediaRefs": [
-           {
-            "Id": "124812761"
-           },
            {
             "Id": "232432669"
            },
@@ -3247,9 +3154,6 @@
            },
            {
             "Id": "839908236"
-           },
-           {
-            "Id": "914533615"
            }
           ]
          },
@@ -3266,9 +3170,6 @@
            },
            {
             "Id": "395188084"
-           },
-           {
-            "Id": "507868531"
            },
            {
             "Id": "514297256"
@@ -3335,6 +3236,7 @@
       "Name": "SFX_PortalFireOn",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_PortalFireOn",
       "GUID": "{27CA6ACC-AA16-4D22-9734-065BB1C67090}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "3.9732568",
       "DurationMax": "6.3071523",
@@ -3413,27 +3315,6 @@
       "MediaRefs": [
        {
         "Id": "494683163"
-       }
-      ]
-     },
-     {
-      "Id": "1498826869",
-      "Name": "SFX_ShowSword",
-      "ObjectPath": "\\Events\\Default Work Unit\\Player\\GetMaskAnim\\Iteration1\\SFX_ShowSword",
-      "GUID": "{DD2BFB5B-BD00-435C-B3E5-7EACF8A5EB3E}",
-      "MaxAttenuation": "20",
-      "DurationType": "OneShot",
-      "DurationMin": "6.02",
-      "DurationMax": "6.02",
-      "MediaRefs": [
-       {
-        "Id": "629385577"
-       },
-       {
-        "Id": "699991876"
-       },
-       {
-        "Id": "825492870"
        }
       ]
      },
@@ -3583,6 +3464,72 @@
       ]
      },
      {
+      "Id": "2588314402",
+      "Name": "SFX_SpearGrab",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearGrab",
+      "GUID": "{08BBB6A4-EA87-4E49-A829-69EB032D90B3}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "7.8629475",
+      "DurationMax": "7.8629475",
+      "MediaRefs": [
+       {
+        "Id": "759840250"
+       },
+       {
+        "Id": "913414124"
+       }
+      ]
+     },
+     {
+      "Id": "2152488377",
+      "Name": "SFX_SpearPlunge",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPlunge",
+      "GUID": "{2CDD8FC0-2D15-4653-A9DA-4EA318359ED9}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.1840833",
+      "DurationMax": "1.1840833",
+      "MediaRefs": [
+       {
+        "Id": "119201350"
+       }
+      ]
+     },
+     {
+      "Id": "1860584701",
+      "Name": "SFX_SpearPrep",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPrep",
+      "GUID": "{6EA91C80-7E4A-4175-AFD2-944C76E148C7}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "16.08",
+      "DurationMax": "16.08",
+      "MediaRefs": [
+       {
+        "Id": "1055980740"
+       }
+      ]
+     },
+     {
+      "Id": "1742302713",
+      "Name": "SFX_SpearPull",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPull",
+      "GUID": "{3B87FED3-F8DC-42BB-91B8-CC268262DDB9}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "2.1144025",
+      "DurationMax": "2.1144025",
+      "MediaRefs": [
+       {
+        "Id": "358544840"
+       },
+       {
+        "Id": "403864752"
+       }
+      ]
+     },
+     {
       "Id": "3395391508",
       "Name": "SFX_StatueTurn",
       "ObjectPath": "\\Events\\Default Work Unit\\Puzzles\\SFX_StatueTurn",
@@ -3600,6 +3547,28 @@
        "Custom": [
         {
          "Id": "139464527"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2568247301",
+      "Name": "SFX_SwordPrep",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_SwordPrep",
+      "GUID": "{A962B0D3-1200-4E50-9CF0-5633F346A3E5}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "4.3885713",
+      "DurationMax": "4.3885713",
+      "MediaRefs": [
+       {
+        "Id": "38515333"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "130504718"
         }
        ]
       }
@@ -3631,10 +3600,51 @@
       ]
      },
      {
+      "Id": "972774466",
+      "Name": "SFX_TurnaroundRiser",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_TurnaroundRiser",
+      "GUID": "{E2A8634E-4678-4545-8759-17A2139F522A}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "871849665"
+       },
+       {
+        "Id": "1046410207"
+       }
+      ],
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "3164629247"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "796310264",
+      "Name": "SFX_Unsheathe",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_Unsheathe",
+      "GUID": "{ACAE157E-205C-472F-8B8D-8F890E3C8424}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.6075",
+      "DurationMax": "3.6075",
+      "MediaRefs": [
+       {
+        "Id": "117544309"
+       },
+       {
+        "Id": "859917828"
+       }
+      ]
+     },
+     {
       "Id": "416781375",
       "Name": "UI_ButtonPress",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "1.2293333",
       "DurationMax": "1.2293333",
@@ -3649,6 +3659,7 @@
       "Name": "UI_ButtonSelect",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "0.5810417",
       "DurationMax": "0.5810417",
@@ -3663,6 +3674,7 @@
       "Name": "UI_CloseWindow",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_CloseWindow",
       "GUID": "{4015699C-215D-40CF-A144-54499D59F78A}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "0.50383157",
       "DurationMax": "0.50383157",
@@ -3677,6 +3689,7 @@
       "Name": "UI_PotionGet",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_PotionGet",
       "GUID": "{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}",
+      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "3.274119",
       "DurationMax": "3.274119",
@@ -4009,6 +4022,6 @@
     ]
    }
   ],
-  "FileHash": "{2171A60C-D6BB-A1BB-D451-80CFB5BCCD2B}"
+  "FileHash": "{ADCB80E2-8524-AC6F-6453-E637A2EDE0A0}"
  }
 }

@@ -27,7 +27,7 @@
 
                                 <TextBlock x:Name="Label"
                                            Text="{TemplateBinding Content}"
-                                           Foreground="White"
+                                           Foreground="#F0F0F0"
                                            VerticalAlignment="Center"/>
 
                                 <Border x:Name="Track"
@@ -51,8 +51,11 @@
                                     <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
                                     <Setter TargetName="Thumb" Property="Margin" Value="0,0,2,0"/>
                                 </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Label" Property="Foreground" Value="White"/>
+                                </Trigger>
                                 <Trigger Property="IsFocused" Value="True">
-                                    <Setter TargetName="Label" Property="Foreground" Value="#FFFFC840"/>
+                                    <Setter TargetName="Label" Property="Foreground" Value="White"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -60,7 +63,6 @@
                 </Setter>
             </Style>
 
-            <!-- Plain text button (Back) -->
             <Style x:Key="TextButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -175,7 +177,6 @@
                 </Setter>
             </Style>
 
-            <!-- Arrow button (◄ ►) for resolution cycling -->
             <Style x:Key="ArrowButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -191,9 +192,9 @@
                                 <Grid.RenderTransform>
                                     <ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="1"/>
                                 </Grid.RenderTransform>
-                                
-                                <Image x:Name="ArrowIcon" 
-                                       Source="Textures/Arrow.PNG" 
+
+                                <Image x:Name="ArrowIcon"
+                                       Source="Textures/Arrow.PNG"
                                        Width="25" Height="25"
                                        Opacity="0.6"
                                        RenderTransformOrigin="0.5,0.5">
@@ -207,11 +208,10 @@
                             </Grid>
 
                             <ControlTemplate.Triggers>
-                                <!-- Orientación de la flecha basada en el contenido -->
                                 <Trigger Property="Content" Value="◄">
                                     <Setter TargetName="FlipScale" Property="ScaleX" Value="-1"/>
                                 </Trigger>
-                                
+
                                 <Trigger Property="IsPressed" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
@@ -234,7 +234,7 @@
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>
                                 </Trigger>
-                                
+
                                 <Trigger Property="IsFocused" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard x:Name="ArrowFocusStoryboard">
@@ -268,8 +268,6 @@
                 </Setter>
             </Style>
 
-            <!-- ── Storyboards ── -->
-
             <Storyboard x:Key="Intro">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
                                               Storyboard.TargetName="DimOverlay">
@@ -279,7 +277,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Title -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="TitleViewbox">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
@@ -297,7 +294,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- FullScreen row -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="FullScreenRow">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
@@ -315,7 +311,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- AntiAliasing row -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="AntiAliasingRow">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
@@ -333,7 +328,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Resolution row -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="ResolutionRow">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
@@ -351,7 +345,6 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Back button -->
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="BackButton">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
@@ -383,7 +376,6 @@
                 </DoubleAnimation>
             </Storyboard>
 
-            <!-- Tiny pulse played when resolution changes -->
             <Storyboard x:Key="OnResolutionChanged">
                 <DoubleAnimation Storyboard.TargetName="ResolutionValue"
                                  Storyboard.TargetProperty="Opacity"
@@ -401,7 +393,6 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <!-- Full-screen dim backdrop -->
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
     <Grid x:Name="LayoutRoot">
@@ -410,22 +401,30 @@
             <ColumnDefinition Width="771*"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="112*"/>
+            <RowDefinition Height="530*"/>
+            <RowDefinition Height="78*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Background art -->
-        <Viewbox Grid.Column="1">
+        <Viewbox Grid.Column="1" Grid.RowSpan="3">
             <Image Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <!-- Content panel -->
-        <Grid Grid.Column="1" Margin="69,114,69,79" RenderTransformOrigin="0.5,0.5">
+        <Grid Grid.Column="1" RenderTransformOrigin="0.5,0.5" Margin="0" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="45*"/>
-                <RowDefinition Height="95*"/>
-                <RowDefinition Height="387*"/>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="90*"/>
+                <RowDefinition Height="370*"/>
+                <RowDefinition Height="30*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="105*"/>
+                <ColumnDefinition Width="570*"/>
+                <ColumnDefinition Width="105*"/>
+            </Grid.ColumnDefinitions>
 
-            <!-- Title -->
-            <Viewbox x:Name="TitleViewbox" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
+            <Viewbox x:Name="TitleViewbox" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
                 <Viewbox.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -442,22 +441,22 @@
                            Width="445"/>
             </Viewbox>
 
-            <!-- Settings rows -->
-            <Viewbox Stretch="Uniform" Height="398" Width="500" Grid.RowSpan="2" Grid.Row="1" Margin="71,80,71,5">
-                <Grid Height="322" Width="480">
+            <Viewbox x:Name="ButtonsViewbox" Stretch="Uniform" Grid.Row="2" Grid.Column="1">
+                <Grid x:Name="ButtonsGrid">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20*"/>
-                        <RowDefinition Height="68*"/>   <!-- FullScreen -->
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="68*"/>   <!-- AntiAliasing -->
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="68*"/>   <!-- Resolution -->
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="68*"/>   <!-- Back -->
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="36*"/>
                         <RowDefinition Height="24*"/>
+                        <RowDefinition Height="36*"/>
+                        <RowDefinition Height="24*"/>
+                        <RowDefinition Height="48*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="48*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="48*"/>
+                        <RowDefinition Height="8*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- ── FULLSCREEN ── -->
                     <CheckBox x:Name="FullScreen"
                               Grid.Row="1"
                               Content="FULLSCREEN"
@@ -471,14 +470,12 @@
                                 <TranslateTransform/>
                             </TransformGroup>
                         </CheckBox.RenderTransform>
-                        <!-- Name alias container so MenuManager can target the row -->
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <noesis:SetFocusAction/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
                     </CheckBox>
-                    <!-- Invisible Button overlay with the same name so WasClicked works -->
                     <Border x:Name="FullScreenRow"
                             Grid.Row="1"
                             Background="Transparent"
@@ -494,7 +491,6 @@
                         </Border.RenderTransform>
                     </Border>
 
-                    <!-- ── ANTI-ALIASING ── -->
                     <CheckBox x:Name="AntiAliasing"
                               Grid.Row="3"
                               Content="ANTI-ALIASING"
@@ -529,7 +525,6 @@
                         </Border.RenderTransform>
                     </Border>
 
-                    <!-- ── RESOLUTION ── -->
                     <Grid x:Name="ResolutionRow" Grid.Row="5" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
                             <TransformGroup>
@@ -547,7 +542,7 @@
                         <TextBlock Text="RESOLUTION"
                                    FontFamily="./#ForgottenUncial"
                                    FontSize="26"
-                                   Foreground="White"
+                                   Foreground="#F0F0F0"
                                    VerticalAlignment="Center"/>
 
                         <Border Grid.Column="1"
@@ -593,9 +588,30 @@
                         </Border>
                     </Grid>
 
-                    <!-- ── BACK ── -->
-                    <Button x:Name="BackButton"
+                    <Button x:Name="ApplyButton"
                             Grid.Row="7"
+                            Style="{StaticResource TextButtonStyle}"
+                            Content="APPLY"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+
+                    <Button x:Name="BackButton"
+                            Grid.Row="9"
                             Style="{StaticResource TextButtonStyle}"
                             Content="BACK"
                             HorizontalAlignment="Center"
@@ -619,6 +635,6 @@
             </Viewbox>
         </Grid>
 
-        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="4" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False" Grid.RowSpan="3" Margin="0"/>
     </Grid>
 </Grid>

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleEvents.h"
 #include "Window.h"
+#include "UI.h"
 #include <iostream>
 #include <glad/glad.h>
 #include "Log.h"
@@ -117,16 +118,25 @@ void Window::SetResolution(int w, int h)
 {
     width = w;
     height = h;
+
+#ifdef WAVE_GAME
     if (window) {
         SDL_SetWindowSize(window, w, h);
     }
+#endif
+
+    // Notificamos manualmente al UI Manager para que redimensione los Canvases y sus FBOs
+    // Esto asegura que el cambio de resolución se aplique internamente aunque la ventana física no cambie (ej. en Fullscreen Desktop)
+    Application::GetInstance().ui->OnResize((uint32_t)width, (uint32_t)height);
 }
 
 void Window::SetFullscreen(bool enabled)
 {
+#ifdef WAVE_GAME
     if (window) {
         SDL_SetWindowFullscreen(window, enabled);
     }
+#endif
 }
 
 void Window::OnEvent(const Event& event)
@@ -135,6 +145,7 @@ void Window::OnEvent(const Event& event)
     {
     case Event::Type::WindowResize:
         glViewport(0, 0, event.data.point.x, event.data.point.y);
+        Application::GetInstance().ui->OnResize(event.data.point.x, event.data.point.y);
         break;
     default:
         break;

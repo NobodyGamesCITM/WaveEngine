@@ -13,18 +13,17 @@ if _G.GraphicsSettings == nil then
     }
 end
 
-local settings = _G.GraphicsSettings
+local pending = {
+    resolutionIndex = 1,
+    fullScreen = false,
+    antiAliasing = false
+}
 
--- ── Helpers 
-local function ApplyResolution(self, animate)
-    local res = RESOLUTIONS[settings.resolutionIndex]
+local function RefreshUI(self, animate)
+    local res = RESOLUTIONS[pending.resolutionIndex]
     UI.SetElementText("ResolutionValue", res)
-    Engine.Log("[GraphicsMenu] Resolution -> " .. res)
-
-    local w, h = res:match("(%d+) x (%d+)")
-    if w and h then
-        Engine.SetResolution(tonumber(w), tonumber(h))
-    end
+    UI.SetCheckBox("FullScreen", pending.fullScreen)
+    UI.SetCheckBox("AntiAliasing", pending.antiAliasing)
 
     if animate then
         local canvas = self.gameObject:GetComponent("Canvas")
@@ -34,64 +33,73 @@ local function ApplyResolution(self, animate)
     end
 end
 
-local function ApplyFullScreen(self)
-    if settings.fullScreen then
-        UI.SetCheckBox("FullScreen", true)
-        Engine.SetFullScreen(true)
-    else
-        UI.SetCheckBox("FullScreen", false)
-        Engine.SetFullScreen(false)
-    end
-    Engine.Log("[GraphicsMenu] FullScreen -> " .. tostring(settings.fullScreen))
-end
+local function ApplyChanges(self)
+    _G.GraphicsSettings.resolutionIndex = pending.resolutionIndex
+    _G.GraphicsSettings.fullScreen      = pending.fullScreen
+    _G.GraphicsSettings.antiAliasing    = pending.antiAliasing
 
-local function ApplyAntiAliasing(self)
-    if settings.antiAliasing then
-        UI.SetCheckBox("AntiAliasing", true)
-        Engine.SetAntiAliasing(true)
-    else
-        UI.SetCheckBox("AntiAliasing", false)
-        Engine.SetAntiAliasing(false)
+    local res = RESOLUTIONS[_G.GraphicsSettings.resolutionIndex]
+    local w, h = res:match("(%d+) x (%d+)")
+    if w and h then
+        Engine.SetResolution(tonumber(w), tonumber(h))
     end
-    Engine.Log("[GraphicsMenu] AntiAliasing -> " .. tostring(settings.antiAliasing))
+
+    Engine.SetFullScreen(_G.GraphicsSettings.fullScreen)
+    Engine.SetAntiAliasing(_G.GraphicsSettings.antiAliasing)
+
+    Engine.Log("[GraphicsMenu] Applied: " .. res .. ", FullScreen: " .. tostring(_G.GraphicsSettings.fullScreen))
 end
 
 function Initialize(self)
     Engine.Log("[GraphicsMenu] Initialize")
 
-    -- Sin animación al inicializar: evita conflicto con el storyboard Intro
-    ApplyResolution(self, false)
-    ApplyFullScreen(self)
-    ApplyAntiAliasing(self)
+    pending.resolutionIndex = _G.GraphicsSettings.resolutionIndex
+    pending.fullScreen      = _G.GraphicsSettings.fullScreen
+    pending.antiAliasing    = _G.GraphicsSettings.antiAliasing
+
+    RefreshUI(self, false)
 end
 
 function Start(self)
-    Initialize(self)
-    local canvas = self.gameObject:GetComponent("Canvas")
-    if canvas then
-        canvas:PlayStoryboard("Intro")
-    end
+    self.isMenuOpened = false
 end
 
 -- ── Update 
 function Update(self, dt)
+    local currentXAML = _G.CurrentXAML or ""
+    local isGraphics = (currentXAML:find("GraphicsMenu.xaml") ~= nil)
+
+    if isGraphics and not self.isMenuOpened then
+        self.isMenuOpened = true
+        Engine.Log("[GraphicsMenu] Menu opened, initializing UI from global settings...")
+        Initialize(self)
+        local canvas = self.gameObject:GetComponent("Canvas")
+        if canvas then
+            canvas:PlayStoryboard("Intro")
+        end
+    elseif not isGraphics then
+        self.isMenuOpened = false
+        return
+    end
+
+    -- Lógica del menú
 
     if UI.WasClicked("ResolutionPrev") then
-        settings.resolutionIndex = settings.resolutionIndex - 1
-        if settings.resolutionIndex < 1 then
-            settings.resolutionIndex = #RESOLUTIONS
+        pending.resolutionIndex = pending.resolutionIndex - 1
+        if pending.resolutionIndex < 1 then
+            pending.resolutionIndex = #RESOLUTIONS
         end
-        ApplyResolution(self, true)
+        RefreshUI(self, true)
         if self.pressSFX then
             self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
     end
     if UI.WasClicked("ResolutionNext") then
-        settings.resolutionIndex = settings.resolutionIndex + 1
-        if settings.resolutionIndex > #RESOLUTIONS then
-            settings.resolutionIndex = 1
+        pending.resolutionIndex = pending.resolutionIndex + 1
+        if pending.resolutionIndex > #RESOLUTIONS then
+            pending.resolutionIndex = 1
         end
-        ApplyResolution(self, true)
+        RefreshUI(self, true)
         if self.pressSFX then
             self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
@@ -99,8 +107,8 @@ function Update(self, dt)
 
     -- ── FULLSCREEN toggle 
     if UI.WasClicked("FullScreen") then
-        settings.fullScreen = not settings.fullScreen
-        ApplyFullScreen(self)
+        pending.fullScreen = not pending.fullScreen
+        RefreshUI(self, false)
         if self.pressSFX then
             self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
@@ -108,8 +116,16 @@ function Update(self, dt)
 
     -- ── ANTIALIASING toggle
     if UI.WasClicked("AntiAliasing") then
-        settings.antiAliasing = not settings.antiAliasing
-        ApplyAntiAliasing(self)
+        pending.antiAliasing = not pending.antiAliasing
+        RefreshUI(self, false)
+        if self.pressSFX then
+            self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
+        end
+    end
+
+    -- ── APPLY button
+    if UI.WasClicked("ApplyButton") then
+        ApplyChanges(self)
         if self.pressSFX then
             self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
@@ -117,21 +133,19 @@ function Update(self, dt)
 
     if UI.WasFocused("ResolutionPrev") or UI.WasFocused("ResolutionNext") then
         if Input.GetGamepadButtonDown("Left") then
-            settings.resolutionIndex = settings.resolutionIndex - 1
-            if settings.resolutionIndex < 1 then
-                settings.resolutionIndex = #RESOLUTIONS
+            pending.resolutionIndex = pending.resolutionIndex - 1
+            if pending.resolutionIndex < 1 then
+                pending.resolutionIndex = #RESOLUTIONS
             end
-            ApplyResolution(self, true)
+            RefreshUI(self, true)
         elseif Input.GetGamepadButtonDown("Right") then
-            settings.resolutionIndex = settings.resolutionIndex + 1
-            if settings.resolutionIndex > #RESOLUTIONS then
-                settings.resolutionIndex = 1
+            pending.resolutionIndex = pending.resolutionIndex + 1
+            if pending.resolutionIndex > #RESOLUTIONS then
+                pending.resolutionIndex = 1
             end
-            ApplyResolution(self, true)
+            RefreshUI(self, true)
         end
     end
-
-    -- ── Sons de focus
     local buttons = UI.GetCanvasButtons()
     for _, button in ipairs(buttons) do
         if UI.WasFocused(tostring(button)) then

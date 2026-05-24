@@ -22,14 +22,15 @@ local HEAL_ALPHA_MAX      = 0.45
 local HEAL_SMOOTHNESS     = 0.75  
 
 local LOW_HEALTH_THRESHOLD        = 25.0 
-local LOW_HEALTH_PULSE_FREQ       = 1.2 
-local LOW_HEALTH_ALPHA_MIN_BASE   = 0.30
-local LOW_HEALTH_ALPHA_MAX_BASE   = 0.65
-local LOW_HEALTH_SMOOTHNESS       = 0.85 
-local LOW_HEALTH_INTENSITY        = 0.40 
-local LOW_HEALTH_COLOR_R          = 0.8
+local LOW_HEALTH_PULSE_FREQ       = 0.8 
+local LOW_HEALTH_ALPHA_MIN_BASE   = 0.20
+local LOW_HEALTH_ALPHA_MAX_BASE   = 0.45
+local LOW_HEALTH_SMOOTHNESS       = 0.90 
+local LOW_HEALTH_INTENSITY        = 0.35 
+local LOW_HEALTH_COLOR_R          = 1.0
 local LOW_HEALTH_COLOR_G          = 0.0
 local LOW_HEALTH_COLOR_B          = 0.0
+local LOW_HEALTH_SETTLE_DURATION  = 5.0
 
 -- VARIABLES DE ESTADO
 local potionHealing       = false
@@ -43,7 +44,9 @@ local healVigTimer        = 0.0
 local healWasActive       = false
 local healElapsed         = 0.0
 
+local lowHealthSettleTimer    = 0.0
 local lowHealthPulseTimer     = 0.0
+local prevPlayerHealth        = 100.0
 local berserkVignetteData   = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
 local healVignetteData      = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
 local lowHealthVignetteData = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
@@ -99,6 +102,8 @@ function ResetPotions(self)
     healElapsed         = 0.0
     healWasActive       = false
     lowHealthPulseTimer = 0.0
+    lowHealthSettleTimer = 0.0
+    prevPlayerHealth    = 100.0
     _G._berserkVigActive = false
     _G._healVigActive    = false
 
@@ -191,21 +196,34 @@ local function UpdateLowHealthVignette(dt)
     local playerHealth = (_G.PlayerInstance and _G.PlayerInstance.public and _G.PlayerInstance.public.health) or 100.0
 
     if playerHealth <= LOW_HEALTH_THRESHOLD and playerHealth > 0 then
+        -- Si recibimos daño (caída de vida), reiniciamos el temporizador de suavizado para alertar
+        if (prevPlayerHealth - playerHealth) > 0.5 then
+            lowHealthSettleTimer = 0.0
+        end
+
         lowHealthPulseTimer = lowHealthPulseTimer + dt
-        local pulseFactor = (math.sin(lowHealthPulseTimer * LOW_HEALTH_PULSE_FREQ * math.pi * 2.0) + 1.0) * 0.5
+        lowHealthSettleTimer = lowHealthSettleTimer + dt
+
+        -- Factor settle va de 0 a 1. A medida que sube, el efecto se vuelve más sutil.
+        local settle = math.min(1.0, lowHealthSettleTimer / LOW_HEALTH_SETTLE_DURATION)
+        
+        local currentFreq = LOW_HEALTH_PULSE_FREQ * (1.2 - settle * 0.4)
+        local pulseFactor = (math.sin(lowHealthPulseTimer * currentFreq * math.pi * 2.0) + 1.0) * 0.5
 
         local health_norm     = math.max(0, playerHealth / LOW_HEALTH_THRESHOLD)
-        local intensity_scale = 0.5 + (1.0 - health_norm) * 0.5
+        local intensity_scale = (0.5 + (1.0 - health_norm) * 0.5) * (1.0 - settle * 0.4)
 
         local finalAlpha = (LOW_HEALTH_ALPHA_MIN_BASE + (LOW_HEALTH_ALPHA_MAX_BASE - LOW_HEALTH_ALPHA_MIN_BASE) * pulseFactor) * intensity_scale
 
         lowHealthVignetteData.active    = true
         lowHealthVignetteData.color     = {LOW_HEALTH_COLOR_R, LOW_HEALTH_COLOR_G, LOW_HEALTH_COLOR_B, finalAlpha}
-        lowHealthVignetteData.intensity  = LOW_HEALTH_INTENSITY
+        lowHealthVignetteData.intensity  = LOW_HEALTH_INTENSITY * (1.0 - settle * 0.2)
         lowHealthVignetteData.smoothness = LOW_HEALTH_SMOOTHNESS
     else
         lowHealthPulseTimer = 0.0
+        lowHealthSettleTimer = 0.0
     end
+    prevPlayerHealth = playerHealth
 end
 
 local function ApplyVignetteEffects()

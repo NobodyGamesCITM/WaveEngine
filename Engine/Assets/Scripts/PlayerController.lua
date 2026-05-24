@@ -18,7 +18,7 @@ local accumulatedAlpha = 0.0
 local HIT_VIG_FADE_IN  = 0.1
 local HIT_VIG_HOLD     = 0.15
 local HIT_VIG_FADE_OUT = 1.5
-local HIT_VIG_ALPHA_STEP = 0.3
+local HIT_VIG_ALPHA_STEP = 0.25
 
 --audiosources
 local attackSource 

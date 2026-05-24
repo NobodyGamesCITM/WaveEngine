@@ -113,6 +113,21 @@ int Window::GetScale() const
     return scale;
 }
 
+void Window::SetResolution(int w, int h)
+{
+    width = w;
+    height = h;
+    if (window) {
+        SDL_SetWindowSize(window, w, h);
+    }
+}
+
+void Window::SetFullscreen(bool enabled)
+{
+    if (window) {
+        SDL_SetWindowFullscreen(window, enabled);
+    }
+}
 
 void Window::OnEvent(const Event& event)
 {

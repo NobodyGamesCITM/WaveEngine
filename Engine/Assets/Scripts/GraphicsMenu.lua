@@ -21,6 +21,11 @@ local function ApplyResolution(self, animate)
     UI.SetElementText("ResolutionValue", res)
     Engine.Log("[GraphicsMenu] Resolution -> " .. res)
 
+    local w, h = res:match("(%d+) x (%d+)")
+    if w and h then
+        Engine.SetResolution(tonumber(w), tonumber(h))
+    end
+
     if animate then
         local canvas = self.gameObject:GetComponent("Canvas")
         if canvas then
@@ -77,8 +82,8 @@ function Update(self, dt)
             settings.resolutionIndex = #RESOLUTIONS
         end
         ApplyResolution(self, true)
-        if self.selectSFX then
-            self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect")
+        if self.pressSFX then
+            self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
     end
     if UI.WasClicked("ResolutionNext") then
@@ -87,8 +92,8 @@ function Update(self, dt)
             settings.resolutionIndex = 1
         end
         ApplyResolution(self, true)
-        if self.selectSFX then
-            self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect")
+        if self.pressSFX then
+            self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress")
         end
     end
 

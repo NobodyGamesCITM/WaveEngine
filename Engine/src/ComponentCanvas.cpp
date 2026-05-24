@@ -23,6 +23,7 @@
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/Button.h>
 #include <NsGui/Slider.h>
+#include <NsGui/CheckBox.h>
 
 
 ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, ComponentType::CANVAS)
@@ -124,6 +125,31 @@ static void HookEvents(Noesis::Visual* element)
                 if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
                 {
                     UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
+                    UIManager::GetInstance().ClearFocusedSlider();
+                }
+            };
+        }
+    }
+
+    // ---- CheckBoxes
+    if (auto* checkBox = Noesis::DynamicCast<Noesis::CheckBox*>(element))
+    {
+        const char* name = checkBox->GetName();
+        if (name && strlen(name) > 0)
+        {
+            UIManager::GetInstance().RegisterButton(name);
+
+            checkBox->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(sender))
+                    UIManager::GetInstance().RegisterClickedButton(cb->GetName());
+            };
+
+            checkBox->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(sender))
+                {
+                    UIManager::GetInstance().RegisterFocusedButton(cb->GetName());
                     UIManager::GetInstance().ClearFocusedSlider();
                 }
             };
@@ -355,7 +381,7 @@ void ComponentCanvas::TryNavigateStick(float x, float y)
             const float BASE_STEP = 0.15f;
             float step = (x > 0.0f ? 1.0f : -1.0f) * BASE_STEP;
             UIManager::GetInstance().StepFocusedSlider(step);
-            return; 
+            return;
         }
         else
         {

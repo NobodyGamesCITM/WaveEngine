@@ -320,7 +320,14 @@ static int Lua_Engine_RequestResource(lua_State* L) {
 
 static int Lua_Engine_SetFullScreen(lua_State* L) {
     bool enabled = lua_toboolean(L, 1);
-    LOG_CONSOLE("[Engine] FullScreen set to: %s", enabled ? "ON" : "OFF");
+    Application::GetInstance().window->SetFullscreen(enabled);
+    return 0;
+}
+
+static int Lua_Engine_SetResolution(lua_State* L) {
+    int w = (int)luaL_checknumber(L, 1);
+    int h = (int)luaL_checknumber(L, 2);
+    Application::GetInstance().window->SetResolution(w, h);
     return 0;
 }
 
@@ -1239,6 +1246,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "ReleaseResource");
     lua_pushcfunction(L, Lua_Engine_SetFullScreen);
     lua_setfield(L, -2, "SetFullScreen");
+    lua_pushcfunction(L, Lua_Engine_SetResolution);
+    lua_setfield(L, -2, "SetResolution");
     lua_pushcfunction(L, Lua_Engine_SetAntiAliasing);
     lua_setfield(L, -2, "SetAntiAliasing");
     lua_setglobal(L, "Engine");

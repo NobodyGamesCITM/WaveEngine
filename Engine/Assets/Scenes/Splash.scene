@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.9410111904144287,
+                    "aspectRatio": 5.5196852684021,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -153,24 +153,24 @@
                             "value": 0.5
                         },
                         {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "nextXaml",
-                            "type": 1,
-                            "value": "MainMenu.xaml"
-                        },
-                        {
                             "name": "totalDuration",
                             "type": 0,
                             "value": 6.5
                         },
                         {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
                             "name": "maxVolume",
                             "type": 0,
                             "value": 100.0
+                        },
+                        {
+                            "name": "nextXaml",
+                            "type": 1,
+                            "value": "MainMenu.xaml"
                         }
                     ],
                     "scriptUID": 9029998064422359462,
@@ -180,6 +180,16 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "lowerVolume",
+                            "type": 0,
+                            "value": 60.0
+                        },
+                        {
+                            "name": "currentScene",
+                            "type": 5,
+                            "value": "Splash.scene"
+                        },
+                        {
                             "name": "fullVolume",
                             "type": 0,
                             "value": 100.0
@@ -188,19 +198,14 @@
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
-                        },
-                        {
-                            "name": "currentScene",
-                            "type": 5,
-                            "value": "Splash.scene"
-                        },
-                        {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
+                    "type": 6
+                },
+                {
+                    "active": true,
+                    "scriptUID": 9633091780031700453,
                     "type": 6
                 }
             ],
@@ -4975,7 +4980,7 @@
                     "speedMax": 0.07999999821186066,
                     "speedMin": 0.009999999776482582,
                     "textureCols": 1,
-                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
+                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
                     "textureRows": 1,
                     "textureUID": 11107368379844993512,
                     "type": 7

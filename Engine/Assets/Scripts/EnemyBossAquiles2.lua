@@ -40,10 +40,9 @@ local attackCol    = nil
 
 local aquilesMesh = nil
 
-
+local colliderAreaAttack = nil
 local colliderLance= nil
 local attacklanceCol = nil
-local activelance=false
 
 local voiceSFX = nil
 local stepSFX = nil
@@ -75,6 +74,7 @@ local cameFromWall = false
 
 local lanceTimer    = 0 
 local lanceCDTimer  = 0   
+local dashCDTimer   = 0
 local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
@@ -110,6 +110,7 @@ local stunAnimStarted = false
 local opportunityHitTimer = 0 
 local chargeAnimStarted = false
 local lanceAnimStarted = false
+local lanceHitActive   = false  -- colisión solo activa durante la ventana de golpe
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
 
@@ -204,18 +205,22 @@ local function ChangeState(newState)
     pressureTimer = 0
     chargeAnimStarted    = false
     lanceAnimStarted     = false
+    lanceHitActive       = false
+    if colliderAreaAttack then colliderAreaAttack:Disable() end
     anticipationAnimStarted = false
     recoveryAnimStarted  = false
     dashTimer = 0
 
+    --if colliderAreaAttack and newState == State.LANCE_360 then
+        --colliderAreaAttack:Enable()
+  ---  else
+        --colliderAreaAttack:Disable()
+ --   end
 
 
     if attackCol then
-        if newState == State.CHARGE or newState == State.LANCE_360 then
-            if newState == State.CHARGE then
-                attacklanceCol:Enable()
-                activelance=true
-            end
+        if newState == State.CHARGE  then
+            attacklanceCol:Enable()            
             attackCol:Enable()
         else
             attackCol:Disable()
@@ -463,15 +468,33 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
 
     if lanceCDTimer  > 0 then lanceCDTimer  = lanceCDTimer  - dt end
     if chargeCDTimer > 0 then chargeCDTimer = chargeCDTimer - dt end
+    if dashCDTimer   > 0 then dashCDTimer   = dashCDTimer   - dt end
 
     local dx = pp.x - myPos.x
     local dz = pp.z - myPos.z
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
-    -- Attack lance
+
+    if dashCDTimer <= 0 then
+        -- Hacia atrás
+        if dist < self.public.Lance360Range and lanceCDTimer > 0 then
+            dashCDTimer = 3.5
+            StartDash(self, -dx, -dz) 
+            return
+        end
+
+        -- Hacia adelante
+        if dist >= self.public.Lance360Range and dist <= self.public.dashApproachRange then
+            if lanceCDTimer <= 0 then
+                dashCDTimer = 4.0
+                StartDash(self, dx, dz) 
+                return
+            end
+        end
+    end
+
     if dist < self.public.Lance360Range then
-        pressureTimer = 0
         if lanceCDTimer <= 0 then
             StopMovement()
             lanceTimer       = 0
@@ -479,23 +502,11 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
         else
-            StartDash(self, -dx, -dz)
-
+            MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 0.8)
         end
         return
     end
 
-    -- Dash
-    if dist < self.public.dashApproachRange then
-        if chargeCDTimer > 0 and lanceCDTimer <= 0 then
-            StartDash(self, dx, dz)
-        else
-            MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 1.5, false)
-        end
-        return
-    end
-
-    -- Attack charge
     if dist <= self.public.chargeRange then
         if chargeCDTimer <= 0 then
             StopMovement()
@@ -514,29 +525,33 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
 end
 
 local function UpdateLance360(self, myPos, pp, dt)
+
+    rb:SetLinearVelocity(0, 0, 0)
+
     if not lanceAnimStarted then
         lanceAnimStarted = true
-        anim:Play("360Attack", 0.1)
-        currentYaw = self.transform.worldRotation.y
+        lanceHitActive   = false
+        anim:Play("AreaAttack", 0.1)
     end
-    
-    currentYaw = currentYaw + 500.0 * dt
-    if currentYaw >= 360 then currentYaw = currentYaw - 360 end
-    rb:SetRotation(0, currentYaw, 0)
 
     lanceTimer = lanceTimer + dt
-    if lanceTimer >= self.public.lanceDuration then
-        local dx = pp.x - myPos.x
-        local dz = pp.z - myPos.z
-        if abs(dx) > 0.1 or abs(dz) > 0.1 then
-            currentYaw = atan2(dx, dz) * (180.0 / pi)
-            rb:SetRotation(0, currentYaw, 0)
+
+   if lanceTimer < self.public.lanceWindup or lanceTimer > (self.public.lanceWindup + 0.15) then
+        if colliderAreaAttack then 
+            colliderAreaAttack:Disable()
         end
 
-        if attackCol then attackCol:Disable() end
-        lanceCDTimer = self.public.lanceCooldown
-        wallStunTimer = self.public.recoveryLance
-        StopMovement()
+    elseif lanceTimer >= self.public.lanceWindup and lanceTimer <= (self.public.lanceWindup + 0.15) then
+        if colliderAreaAttack then 
+            colliderAreaAttack:Enable()
+        end
+    end
+
+    if lanceTimer >= self.public.lanceDuration then
+        if colliderAreaAttack then colliderAreaAttack:Disable() end
+        lanceHitActive   = false
+        lanceCDTimer     = self.public.lanceCooldown
+        wallStunTimer    = self.public.recoveryLance
         ChangeState(State.RECOVERY)
     end
 end
@@ -718,7 +733,15 @@ local function UpdateDash(self, myPos, pp, dt)
 
     if rb then
         local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(dashDirX * DASH_SPEED, vel.y, dashDirZ * DASH_SPEED)
+        
+        -- Detectar si vamos hacia adelante usando producto punto
+        local dot = (dashDirX * dx) + (dashDirZ * dz)
+        local currentSpeed = DASH_SPEED
+        if dot > 0 then
+            currentSpeed = DASH_SPEED * 1.6 -- Le damos un impulso extra al dash de acercamiento para cubrir los 13 metros
+        end
+
+        rb:SetLinearVelocity(dashDirX * currentSpeed, vel.y, dashDirZ * currentSpeed)
         RotateTowards(self, dx, dz, self.public.rotationSpeed * 2.0, dt)    
     end
 
@@ -729,26 +752,12 @@ local function UpdateDash(self, myPos, pp, dt)
 
         local dist = Dist(myPos, pp)
 
-        if dist < self.public.Lance360Range and lanceCDTimer <= 0 then  --Acercarse
+        -- Al terminar el dash, si estamos cerca (menor a 8.0) y listo, reventamos el suelo
+        if dist < self.public.Lance360Range and lanceCDTimer <= 0 then  
             lanceTimer       = 0
             lanceAnimStarted = false
-            Engine.Log("Me acerco")
-
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
-        
-        elseif dist >= self.public.Lance360Range and chargeCDTimer <= 0 then -- Alejarse
-            local dx = pp.x - myPos.x
-            local dz = pp.z - myPos.z
-            local len = sqrt(dx*dx + dz*dz)
-            if len > 0.001 then dx = dx/len; dz = dz/len end
-            chargeDirX       = dx
-            chargeDirZ       = dz
-            preparationTimer = 0
-            chargeCDTimer    = self.public.chargeCooldown
-            Engine.Log("Me alejo")
-            ChangeState(State.ANTICIPATION)
-
         else
             ChangeState(State.COMBAT_MOVE)
         end
@@ -947,16 +956,17 @@ function Start(self)
         maxPosture      = 100,
 
         detectRange     = 30.0, --Antes 25
-        Lance360Range   = 4.0, --Antes 2
+        Lance360Range   = 8.0, --Antes 2
         chargeRange     = 18.0,
-        dashApproachRange = 9.0,
+        dashApproachRange = 13.0,
 
         moveSpeed       = 6.5,
         rotationSpeed   = 1.8,
         stopSmoothing   = 6.0,
 
-        lanceDuration       = 0.8,
-        lanceCooldown       = 0.8, -- Antes1.2
+        lanceWindup         = 0.6,    
+        lanceDuration       = 2.0,   
+        lanceCooldown       = 1.0, -- Antes1.2
         lanceDamage         = 20,
 
         preparationTime = 1.0,
@@ -1005,6 +1015,9 @@ function Start(self)
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
 
+    colliderAreaAttack = self.gameObject:GetComponent("Sphere Collider")
+    if colliderAreaAttack then colliderAreaAttack:Disable() end
+
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end
 
@@ -1017,6 +1030,7 @@ function Start(self)
     
     lanceCDTimer  = 0
     chargeCDTimer = 0
+    dashCDTimer   = 0
 
     self.chargeFeedbackGO     = nil
     self.chargeFeedbackActive = false 
@@ -1196,7 +1210,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 2.0 then return end
+        if distLance > 1.5 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 
@@ -1265,7 +1279,13 @@ function OnTriggerEnter(self, other)
             _PlayerController_pendingDamagePos   = self.transform.worldPosition
             _PlayerController_triggerCameraShake = true
             
+            Engine.Log("he hecho dentro")
+
+
             if attackCol then attackCol:Disable() end
+            if colliderLance then colliderLance:Disable() end
+            if colliderAreaAttack then colliderAreaAttack:Disable() end
+
             wallStunTimer = self.public.recoveryCharge
 
             if currentState == State.CHARGE then 
@@ -1297,4 +1317,3 @@ function OnTriggerExit(self, other)
         end 
     end
 end
-

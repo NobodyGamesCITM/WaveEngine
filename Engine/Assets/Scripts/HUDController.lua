@@ -5,7 +5,6 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
--- Fixed display order for masks: Apollo (Left), Hermes (Middle), Ares (Right)
 local MASK_DISPLAY_ORDER = { "Apolo", "Hermes", "Ares" }
 
 local prevHasHermes  = false
@@ -190,6 +189,10 @@ function Start(self)
 end
 
 function Update(self, dt)
+    if not myCanvas or myCanvas:GetCurrentXAML() ~= "HUD.xaml" then
+        return
+    end
+
     -- Barras
     if _G.PlayerInstance and _G.PlayerInstance.public then
         local p = _G.PlayerInstance.public

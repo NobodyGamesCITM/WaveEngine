@@ -28,6 +28,7 @@
           Storyboard.TargetName="ImageSlide"
           Storyboard.TargetProperty="Y"
           From="0" To="40"
+          BeginTime="0:0:0.8"
           Duration="0:0:0.5">
           <DoubleAnimation.EasingFunction>
             <CubicEase EasingMode="EaseIn"/>
@@ -37,6 +38,7 @@
           Storyboard.TargetName="LoadingViewBox"
           Storyboard.TargetProperty="Opacity"
           From="1" To="0"
+          BeginTime="0:0:0.8"
           Duration="0:0:0.5">
           <DoubleAnimation.EasingFunction>
             <CubicEase EasingMode="EaseIn"/>
@@ -47,7 +49,7 @@
           Storyboard.TargetName="TextSlide"
           Storyboard.TargetProperty="Y"
           From="0" To="40"
-          BeginTime="0:0:0.05"
+          BeginTime="0:0:0.85"
           Duration="0:0:0.5">
           <DoubleAnimation.EasingFunction>
             <CubicEase EasingMode="EaseIn"/>
@@ -57,7 +59,7 @@
           Storyboard.TargetName="LoadingTextBox"
           Storyboard.TargetProperty="Opacity"
           From="1" To="0"
-          BeginTime="0:0:0.05"
+          BeginTime="0:0:0.85"
           Duration="0:0:0.5">
           <DoubleAnimation.EasingFunction>
             <CubicEase EasingMode="EaseIn"/>

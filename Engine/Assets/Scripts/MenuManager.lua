@@ -1,5 +1,5 @@
 local NEXT_XAML_DEFAULT = "HUD.xaml"
-local MIN_LOADING_SCREEN_DURATION = 1.7
+local MIN_LOADING_SCREEN_DURATION = 2.5
 local FADE_DURATION      = 0.5
 local SCENE_FADE_DURATION = 2.0
 
@@ -223,11 +223,26 @@ function Start(self)
         Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
         return
     end
-    Initialize(self)
+
+    if _G._NewSceneLoaded then
+        self.newSceneDelay = 0.8
+        self.sceneLoadedFlag = true
+    else
+        Initialize(self)
+    end
 end
 
 function Update(self, dt)
     if _G.TitleTrigger_Active then return end
+
+    if self.newSceneDelay and self.newSceneDelay > 0 then
+        self.newSceneDelay = self.newSceneDelay - dt
+        if self.newSceneDelay <= 0 then
+            self.newSceneDelay = nil
+            Initialize(self)
+        end
+        return
+    end
 
     if not self.canvas then
         self.canvas = self.gameObject:GetComponent("Canvas")
@@ -300,7 +315,8 @@ function Update(self, dt)
 
     if _G._NewSceneLoaded and not self.sceneLoadedFlag then
         self.sceneLoadedFlag = true
-        Initialize(self)
+        self.newSceneDelay = 0.8
+        return
     elseif not _G._NewSceneLoaded then
         self.sceneLoadedFlag = false
     end

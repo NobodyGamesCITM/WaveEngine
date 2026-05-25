@@ -1733,7 +1733,8 @@ function Update(self, dt)
 
         self.gameObject:SetTag("PersistentPlayer")
         local dummyPlayer = GameObject.Find("Player")
-        if dummyPlayer and dummyPlayer.tag ~= "PersistentPlayer" then
+     
+        if dummyPlayer and dummyPlayer.tag ~= "PersistentPlayer" and dummyPlayer ~= self.gameObject then
             Engine.Log("[Player] Destroying dummy player from scene to prevent AudioListener conflicts")
             GameObject.Destroy(dummyPlayer)
         end
@@ -2269,7 +2270,6 @@ function Update(self, dt)
 
             if _G._AquilesDefeated and Player.currentState ~= State.DEAD then
                 _G._AquilesDefeated = false
-                --Engine.Log("[PLAYER] Aquiles is Dead!")
                 if States[Player.currentState] and States[Player.currentState].Exit then
                     States[Player.currentState].Exit(self)
                 end
@@ -2327,7 +2327,6 @@ function MaskScroll(self)
     EquipMask(self, newMask)
 
     if oldMask ~= Player.currentMask then 
-        --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
         ChangeState(self, State.IDLE, true)
     end
 
@@ -2601,4 +2600,3 @@ function _G.TriggerChestAnimation(self)
     self.public.canMove = false
     return true
 end
-

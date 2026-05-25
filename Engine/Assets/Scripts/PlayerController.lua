@@ -11,6 +11,7 @@ local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 local winBossCinematic = false 
+local wakeUpCinematic = false
 local playedEpicBGM = false
 local playedSwordPrep = false
 local playedUnsheathe = false
@@ -546,8 +547,11 @@ States[State.DEAD] = {
         Player.deathAnimTimer = 1.5                  
         if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_PlayerDeath") end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim and Player.isDrowning then anim:Play("Drown", 0.5)
-        else anim:Play("Die", 0.5) end
+        if anim and Player.isDrowning then 
+            pcall(function() anim:Play("Drown", 0.5) end)
+        else 
+            pcall(function() anim:Play("Die", 0.5) end)
+        end
     end,
     Update = function(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -794,8 +798,8 @@ States[State.RUNNING] = {
             local anim = self.gameObject:GetComponent("Animation")
             if anim then 
                 local runAnim = GetAnimName("Running")
-                anim:Play(runAnim, 0.5)
-                anim:SetSpeed(runAnim, 2.0)
+                pcall(function() anim:Play(runAnim, 0.5) end)
+                pcall(function() anim:SetSpeed(runAnim, 2.0) end)
             end
         end
 
@@ -939,7 +943,9 @@ States[State.ROLL] = {
         States[State.ROLL].particlesPlayed = false 
 
         local anim = self.gameObject:GetComponent("Animation")
-        if anim then anim:Play("Roll", 0) end
+        if anim then 
+            pcall(function() anim:Play("Roll", 0) end)
+        end
         if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerRoll") end 
         if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_SkeletonDodge") end 
     end,
@@ -1677,12 +1683,14 @@ function Update(self, dt)
         Player.AnimTimer = 20.0
         local anim = self.gameObject:GetComponent("Animation")
         if anim then
-            anim:Play("WakeUp", 0.0)
+            pcall(function() anim:Play("WakeUp", 0.0) end)
         end
         _G._PlayerController_introAnim = false
         if _G.PlayWakeUpCinematic then 
             _G.PlayWakeUpCinematic() 
+            
         end
+        wakeUpCinematic = true
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
@@ -1877,7 +1885,83 @@ function Update(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
-        if WinBoss then
+        -- if WinBoss then
+
+        -- end
+        if wakeUpCinematic then
+
+            -- step 1
+            if Player.AnimTimer <= 19.00 and Player.AnimTimer >= 18.9 and not Audio.IsEventPlaying("SFX_SandStir") then
+                if Player.stepSFX then 
+                    --Audio.SetSFXVolume(50.0)
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_SandStir") 
+                    Engine.Log("[WAKE UP] Played Sand Stir!")
+                    --Audio.SetSFXVolume(100.0)
+                end
+                
+            end
+
+            -- step 2
+            if Player.AnimTimer <= 10.9 and Player.AnimTimer >= 10.8 and not Audio.IsEventPlaying("SFX_SandStep1") then
+                if Player.stepSFX then 
+                   
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep1")
+                    Engine.Log("[WAKE UP] Played Step 1!")
+                end
+            end
+
+            -- sword on sand
+            if Player.AnimTimer <= 10.0 and Player.AnimTimer >= 9.9 and not Audio.IsEventPlaying("SFX_SwordSandStab") then
+                if Player.swordSFX then 
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandStab") 
+                    Engine.Log("[WAKE UP] Played Sand Stab!")
+                end
+            end
+
+            -- sword retrieval
+            if Player.AnimTimer <= 6.5 and Player.AnimTimer >= 6.3 and not Audio.IsEventPlaying("SFX_SwordSandUnStab") then
+                if Player.swordSFX then 
+                    Audio.SetSFXVolume(70.0)
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandUnStab") 
+                    Engine.Log("[WAKE UP] Played Unstab!")
+                    Audio.SetSFXVolume(100.0)
+                end
+            end
+
+            -- step 3
+            if Player.AnimTimer <= 5.4 and Player.AnimTimer >= 5.2 and not Audio.IsEventPlaying("SFX_SandStep2") then
+                if Player.stepSFX then 
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep2") 
+                    Engine.Log("[WAKE UP] Played Step 2!")
+                end
+            end
+
+            -- zoom out
+            if Player.AnimTimer <= 5.0 and Player.AnimTimer >= 4.8 and not Audio.IsEventPlaying("SFX_ZoomOut") then
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_ZoomOut") 
+                    Engine.Log("[WAKE UP] Played Zoom Out!")
+                end
+            end
+
+            -- step 4
+            if Player.AnimTimer <= 4.4 and Player.AnimTimer >= 4.3 then
+                if not Audio.IsEventPlaying("SFX_SandStep3") then
+                    if Player.stepSFX then 
+                        Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep3") 
+                        Engine.Log("[WAKE UP] Played Step 3!")
+                    end
+                else 
+                    --Engine.Log("[WAKE UP] CinematicSandSteps already playing!") 
+                end
+            else 
+                --Engine.Log("[WAKE UP] Something's up with the PlayerTimer")
+            end
+
+            if Player.AnimTimer < 0 then 
+                wakeUpCinematic = false
+                Player.AnimTimer = 0
+            end
 
         end
 
@@ -1913,13 +1997,13 @@ function Update(self, dt)
             end
 
             --Step 1
-            if Player.AnimTimer <= 14.95 and Player.AnimTimer >= 14.8 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 14.95 and Player.AnimTimer >= 14.8 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
                 --Engine.Log("[PLAYER] Playing Cinematic FootSteps") 
             end
             --Step 2
-            if Player.AnimTimer <= 14.3 and Player.AnimTimer >= 14.2 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 14.3 and Player.AnimTimer >= 14.2 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
 
             --Unsheathe + riser
@@ -1930,12 +2014,12 @@ function Update(self, dt)
             end
 
             --Step 3
-            if Player.AnimTimer <= 13.4 and Player.AnimTimer >= 13.3 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 13.4 and Player.AnimTimer >= 13.3 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
             --Step 4
-            if Player.AnimTimer <= 12.6 and Player.AnimTimer >= 12.5 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 12.6 and Player.AnimTimer >= 12.5 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
 
             -- big sword slash + flesh rip
@@ -1945,18 +2029,18 @@ function Update(self, dt)
             end
 
             --Step 5
-            if Player.AnimTimer <= 8.01 and Player.AnimTimer >= 7.85 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 8.01 and Player.AnimTimer >= 7.85 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
 
             --Step 6 (meant to overlap --> will send to different audiosource)
-            if Player.AnimTimer <= 7.825 and Player.AnimTimer >= 7.5 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then 
-                if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 7.825 and Player.AnimTimer >= 7.5 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then 
+                if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
             
             --Step 7
-            if Player.AnimTimer <= 7.0 and Player.AnimTimer >= 6.8 and not Audio.IsEventPlaying("SFX_CinematicFootSteps") then
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicFootSteps") end
+            if Player.AnimTimer <= 7.0 and Player.AnimTimer >= 6.8 and not Audio.IsEventPlaying("SFX_CinematicStoneSteps") then
+                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") end
             end
 
             --Step 8
@@ -2373,6 +2457,9 @@ function ResetPlayer(self)
     if _G.RestorePotions then
         _G.RestorePotions()
     end
+
+    winBossCinematic = false 
+    wakeUpCinematic = false
 
     Player.currentMask = Mask.NONE
     ChangeState(self, State.IDLE)

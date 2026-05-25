@@ -2130,6 +2130,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="dirt_run_05" ID="{C02F6392-8931-465E-AEC1-718168887FBF}" ShortID="935070678">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -2263,6 +2270,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="dirt_walk_05" ID="{2E7221E0-8E1D-4710-9886-C70D77BFE0AE}" ShortID="740193610">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -2447,6 +2461,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="grass_run_05" ID="{4C36EB40-763E-4F2A-A816-695D7726A10F}" ShortID="934712036">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -2580,6 +2601,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="grass_walk_05" ID="{6FC867CD-C5F4-41F2-A101-B54D92B13F44}" ShortID="711804360">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -2646,6 +2674,9 @@
 											</ReferenceList>
 											<ChildrenList>
 												<RandomSequenceContainer Name="Stone_Walk" ID="{A85E6F80-A425-4FFD-AA64-26A63EC39FAF}" ShortID="753575082">
+													<PropertyList>
+														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -2686,6 +2717,11 @@
 														<Sound Name="stone_walk_05" ID="{48FCE5E7-1A9F-4209-8EF8-0D500FBAFD78}" ShortID="853132351">
 															<PropertyList>
 																<Property Name="3DSpatialization" Type="int16" Value="2"/>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Attenuation">
@@ -2800,6 +2836,7 @@
 												<RandomSequenceContainer Name="Stone_Run" ID="{770CE2E5-4AF7-4C46-B96F-9FDD54C65613}" ShortID="465793580">
 													<PropertyList>
 														<Property Name="Color" Type="int16" Value="27"/>
+														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -2925,6 +2962,11 @@
 														<Sound Name="stone_run_05" ID="{4362AFA7-0B21-40AB-806A-F420F49B0267}" ShortID="123401247">
 															<PropertyList>
 																<Property Name="3DSpatialization" Type="int16" Value="2"/>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Attenuation">
@@ -3106,6 +3148,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="wood_run_05" ID="{FC4CAA13-C620-4E5B-8137-CDD08D987F56}" ShortID="1006991437">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -3232,6 +3281,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="wood_walk_05" ID="{35BBDA61-77D3-4B99-9717-280684043410}" ShortID="878637386">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -3318,6 +3374,7 @@
 													<PropertyList>
 														<Property Name="Color" Type="int16" Value="19"/>
 														<Property Name="OverrideColor" Type="bool" Value="True"/>
+														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -3417,6 +3474,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BAS_Player_Footstep_sand_walk_05" ID="{B166C4CF-5864-488B-A2A7-BDFF73F2E957}" ShortID="16805159">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -3467,6 +3531,7 @@
 																</ModifierInfo>
 															</ModifierList>
 														</Property>
+														<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -3566,6 +3631,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BAS_Player_Footstep_sand_run_05" ID="{0DFDAC4D-5E2B-41E7-81D0-18853B082044}" ShortID="697470049">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -3754,6 +3826,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="water_walk_05" ID="{60C85643-F998-425D-B532-1CEEEB682FA9}" ShortID="995498787">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -3887,6 +3966,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="water_run_05" ID="{BAA7C562-28A4-4EE1-BE1B-61488EA60C5E}" ShortID="120044726">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -4906,6 +4992,11 @@
 										<Sound Name="hermes_spin_05" ID="{89ABE7B0-89BD-44BB-AA85-6E8F7A48F72D}" ShortID="296548912">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Attenuation">
@@ -4934,6 +5025,11 @@
 										<Sound Name="hermes_spin_04" ID="{BE2C7728-8621-44DA-BE88-26571E18E22F}" ShortID="162269532">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Attenuation">
@@ -5716,6 +5812,133 @@
 										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
+								<Folder Name="WakeUp" ID="{0297FC62-386B-42D6-A2C3-CDF247930D0A}" ShortID="402143546">
+									<ChildrenList>
+										<Sound Name="sword_sand_stab_00" ID="{4A4FB86B-7BEC-436A-96A8-397CFDE6FDF9}" ShortID="337903400">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="sword_sand_stab_00" ID="{4C3680C4-AAA0-4E18-9ACE-74AD57D525C6}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0215383011285708"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.550927068588731"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>sword_sand_stab_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1003627683"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="sword_sand_stab_00" ID="{4C3680C4-AAA0-4E18-9ACE-74AD57D525C6}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" ShortID="289304293">
+											<PropertyList>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-1200</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="zoom_out" ID="{BDA3934F-FB15-4D2F-BCF0-7D35CBA24854}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.518606646677081"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="1.09822584002205"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.503353510010107"/>
+														<Property Name="TrimEnd" Type="Real64" Value="6.11650781998652"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>zoom_out.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="29395658"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="zoom_out" ID="{BDA3934F-FB15-4D2F-BCF0-7D35CBA24854}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="sand_stir_00" ID="{049CE684-983E-4F1D-A98F-7ED3085AE8B0}" ShortID="456127538">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="sand_stir_00" ID="{930630F9-1F48-409A-9BE7-D423387D4625}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.366812383183197"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.417440133987128"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.289331758263135"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.91557575691108"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>sand_stir_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="408591071"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{B636A70B-AAD7-4E5F-8231-ACC6752E3E40}" ShortID="130607633">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{03134456-ED7E-4BB1-AA3C-2B5EB9A99FAF}" ShortID="328649970" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="-100"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="161"/>
+																			<Property Name="WindowSize" Type="int32" Value="2816"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="sand_stir_00" ID="{930630F9-1F48-409A-9BE7-D423387D4625}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</Folder>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Siren" ID="{D4817CC0-2B36-42AA-B4CC-A52B100AE522}" ShortID="476389932">
@@ -8606,11 +8829,6 @@
 												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="Pitch" Type="int32">
-													<ValueList>
-														<Value>-250</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -10420,6 +10638,142 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="Hud-hover" ID="{89A82B8E-AE9B-4E44-AAAF-034945686FBA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="UI_PageTurn" ID="{570D3480-734B-49D5-BA8C-C654CFFC0A96}" ShortID="509118038">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="page_turn_00" ID="{0496AB6E-7278-498A-BBB3-B4802466CADB}" ShortID="809078283">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="page_turn_00" ID="{36E85B04-744C-4234-89D7-E136929980F5}">
+													<Language>SFX</Language>
+													<AudioFile>page_turn_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="485908222"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="page_turn_00" ID="{36E85B04-744C-4234-89D7-E136929980F5}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="page_turn_01" ID="{78D0A711-F680-43F3-BB08-80E1C41FF923}" ShortID="548997248">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="page_turn_01" ID="{1F9914A9-0400-4783-B28C-FE6850150B50}">
+													<Language>SFX</Language>
+													<AudioFile>page_turn_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="30290516"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="page_turn_01" ID="{1F9914A9-0400-4783-B28C-FE6850150B50}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="page_turn_02" ID="{12EDA3FB-B5FA-4B36-9C5F-9C8DB56994A8}" ShortID="557218946">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="page_turn_02" ID="{F4436549-ABFF-429D-93F4-B0ABAA558C05}">
+													<Language>SFX</Language>
+													<AudioFile>page_turn_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="576898875"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="page_turn_02" ID="{F4436549-ABFF-429D-93F4-B0ABAA558C05}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="page_turn_03" ID="{56075152-137C-489D-849E-0E378DD3B6B1}" ShortID="844768780">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="page_turn_03" ID="{DFA8DC81-1715-42C5-BAD4-AC049D7B7639}">
+													<Language>SFX</Language>
+													<AudioFile>page_turn_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="806935094"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="page_turn_03" ID="{DFA8DC81-1715-42C5-BAD4-AC049D7B7639}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="page_turn_04" ID="{4CBA54EC-EEE1-46EF-8F91-3A153DFD33D7}" ShortID="391309984">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="page_turn_04" ID="{0ED53D62-8D9F-46CA-98C6-B2576C09B9B0}">
+													<Language>SFX</Language>
+													<AudioFile>page_turn_04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="620920102"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="page_turn_04" ID="{0ED53D62-8D9F-46CA-98C6-B2576C09B9B0}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>

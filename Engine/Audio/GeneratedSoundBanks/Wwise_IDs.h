@@ -70,6 +70,10 @@ namespace AK
         static const AkUniqueID SFX_POTIONDRINK = 3128226246U;
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;
+        static const AkUniqueID SFX_SANDSTEP1 = 3170494110U;
+        static const AkUniqueID SFX_SANDSTEP2 = 3170494109U;
+        static const AkUniqueID SFX_SANDSTEP3 = 3170494108U;
+        static const AkUniqueID SFX_SANDSTIR = 2654547363U;
         static const AkUniqueID SFX_SEAWATER = 2754480747U;
         static const AkUniqueID SFX_SIRENDIE = 4188719418U;
         static const AkUniqueID SFX_SIRENDIP = 4188719407U;
@@ -86,13 +90,17 @@ namespace AK
         static const AkUniqueID SFX_SPEARPULL = 1742302713U;
         static const AkUniqueID SFX_STATUETURN = 3395391508U;
         static const AkUniqueID SFX_SWORDPREP = 2568247301U;
+        static const AkUniqueID SFX_SWORDSANDSTAB = 2634076410U;
+        static const AkUniqueID SFX_SWORDSANDUNSTAB = 3246991747U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
         static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
         static const AkUniqueID SFX_UNSHEATHE = 796310264U;
+        static const AkUniqueID SFX_ZOOMOUT = 2621714572U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;
+        static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
     } // namespace EVENTS
 

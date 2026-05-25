@@ -406,6 +406,163 @@
 								</Folder>
 							</ChildrenList>
 						</Folder>
+						<Folder Name="WakeUp" ID="{30BF2C6A-AAB0-42D5-AAF7-0ABD97897EE6}" ShortID="1012756138">
+							<ChildrenList>
+								<Event Name="SFX_SandStir" ID="{66D01C92-12E7-4975-AF97-505F22DF4670}">
+									<ChildrenList>
+										<Action Name="" ID="{9581D0E4-8780-43F5-98C4-06CCCFE0EFF2}" ShortID="232920721">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sand_stir_00" ID="{049CE684-983E-4F1D-A98F-7ED3085AE8B0}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_ZoomOut" ID="{A33DE77F-9505-42EA-8358-EA12D669D38C}">
+									<ChildrenList>
+										<Action Name="" ID="{EB232E09-8813-4F4C-A62F-0B1B1053562C}" ShortID="507737538">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_SwordSandStab" ID="{1E728673-1F5B-4EE3-9E90-1D9EB1663454}">
+									<ChildrenList>
+										<Action Name="" ID="{AC5692D6-A310-40DE-BFEE-527CCC0A52BB}" ShortID="671220844">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_sand_stab_00" ID="{4A4FB86B-7BEC-436A-96A8-397CFDE6FDF9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_SwordSandUnstab" ID="{024FB2ED-8E91-4281-BFB1-F911D4ABF36D}">
+									<ChildrenList>
+										<Action Name="" ID="{0523C43D-ABAC-45C8-8226-BEF8465E8D42}" ShortID="673448606">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="unsheathe_sword_00" ID="{E57BA78E-182D-44C7-98FD-DAAA4531D566}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{E1DE3025-C69B-4621-AB02-ABFA23BCF819}" ShortID="208029223">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="unsheathe_sword_00" ID="{E57BA78E-182D-44C7-98FD-DAAA4531D566}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_SandStep1" ID="{F8410620-6E0A-4C04-8C6F-FACE4BCB2F9B}">
+									<ChildrenList>
+										<Action Name="" ID="{EFD4BAB1-C24B-4542-AE19-CB233EBE2059}" ShortID="980239438">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="20"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{40AB83C3-8B71-41CF-9A0D-82AF20BE7ABA}" ShortID="1002895842">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{5E2F2863-D88D-43B9-862F-DD6AF8D71CC3}" ShortID="131352916">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_SandStep2" ID="{39015B01-9DE9-4CC1-AFD3-6C4069113777}">
+									<ChildrenList>
+										<Action Name="" ID="{9AA1015E-7786-4361-86AF-966C3732EF51}" ShortID="952192161">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="20"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{C80237DC-385E-49B8-ABF6-DB037E1C503D}" ShortID="794230330">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{4CC8A0F2-FBDE-40D7-8A8B-D7781CB63182}" ShortID="564682267">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_SandStep3" ID="{2C3538EA-6A83-4657-9710-206611CF11CF}">
+									<ChildrenList>
+										<Action Name="" ID="{ACE2419B-A569-451F-A1E7-1ED815DDB900}" ShortID="361212855">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="20"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{98B2CA7C-A1D3-4135-8729-76A91AA14243}" ShortID="1040345369">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{97BE3F68-3ED5-4765-864A-74A96F181D55}" ShortID="454624978">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Sand_Walk" ID="{130346BB-BBC0-46BA-8CEB-79B8C594288C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">
@@ -640,6 +797,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="SFX_PortalFireOn" ID="{8034BB22-4B86-4A29-8C10-754D4E1B3FB9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_PageTurn" ID="{A9070182-6039-4481-9439-FA69857F71F6}">
+							<ChildrenList>
+								<Action Name="" ID="{AE4F66E3-40F1-4312-8353-29DC3BF0A358}" ShortID="348352443">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_PageTurn" ID="{570D3480-734B-49D5-BA8C-C654CFFC0A96}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1117,6 +1285,17 @@
 												</Reference>
 											</ReferenceList>
 										</Action>
+										<Action Name="" ID="{D4DD94BF-F254-41B1-B919-61E23E0DBC32}" ShortID="834351786">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+												<Property Name="Pitch" Type="int32" Value="-250"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="unsheathe_sword_00" ID="{E57BA78E-182D-44C7-98FD-DAAA4531D566}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
 										<Action Name="" ID="{240D641E-3099-4D0E-AC8F-5A7CD00DC023}" ShortID="874597268">
 											<PropertyList>
 												<Property Name="Delay" Type="Real64" Value="0.2"/>
@@ -1205,7 +1384,7 @@
 										</Action>
 									</ChildrenList>
 								</Event>
-								<Event Name="SFX_CinematicFootSteps" ID="{727EA8CF-4DA9-4F9A-BEA4-CF0C22EA3A7E}">
+								<Event Name="SFX_CinematicStoneSteps" ID="{727EA8CF-4DA9-4F9A-BEA4-CF0C22EA3A7E}">
 									<ChildrenList>
 										<Action Name="" ID="{859D6010-9063-459C-9EFB-5C62BA829E9A}" ShortID="866225242">
 											<PropertyList>

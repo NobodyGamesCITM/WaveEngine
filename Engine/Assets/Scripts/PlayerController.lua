@@ -767,10 +767,10 @@ States[State.WALK] = {
                         Player.currentOrbitAnim = newAnim
                         local anim = self.gameObject:GetComponent("Animation")
                         if anim then
-                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) end
-                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) end
-                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) end
-                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) end
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play(GetAnimName("OrbitFwd"),   0.2) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play(GetAnimName("OrbitBack"),  0.2) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play(GetAnimName("OrbitLeft"),  0.2) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play(GetAnimName("OrbitRight"), 0.2) end) end
                         end                    
                     end
                 end
@@ -908,10 +908,10 @@ States[State.RUNNING] = {
                         Player.currentOrbitAnim = newAnim
                         local anim = self.gameObject:GetComponent("Animation")
                         if anim then
-                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) pcall(function() anim:SetSpeed("OrbitFwd",   2.0) end) end
-                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) pcall(function() anim:SetSpeed("OrbitBack",  2.0) end) end
-                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) pcall(function() anim:SetSpeed("OrbitLeft",  2.0) end) end
-                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) pcall(function() anim:SetSpeed("OrbitRight", 2.0) end) end
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play(GetAnimName("OrbitFwd"),   0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitFwd"),   2.0) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play(GetAnimName("OrbitBack"),  0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitBack"),  2.0) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play(GetAnimName("OrbitLeft"),  0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitLeft"),  2.0) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play(GetAnimName("OrbitRight"), 0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitRight"), 2.0) end) end
                         end                    
                     end
                 end

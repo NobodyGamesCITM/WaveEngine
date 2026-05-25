@@ -53,6 +53,11 @@ local lowHealthVignetteData = { active = false, color = {0,0,0,0}, intensity = 0
 
 local postProcess = nil
 
+function _G.TriggerHealVignette()
+    healVigTimer = HEAL_TOTAL_TIME
+    healElapsed  = 0.0
+end
+
 public = {
     potionCount = 0,
     berserkCount = 0,
@@ -175,9 +180,7 @@ local function UpdateHealVignette(dt)
             local t = (healElapsed - HEAL_FADE_IN - HEAL_HOLD) / HEAL_FADE_OUT
             envelope = 1.0 - smoothstep(t)
         end
-
-        local pulse = (math.sin(healElapsed * HEAL_PULSE_FREQ * math.pi * 2.0) + 1.0) * 0.5
-        local finalAlpha = (HEAL_ALPHA_MIN + (HEAL_ALPHA_MAX - HEAL_ALPHA_MIN) * pulse) * envelope
+        local finalAlpha = HEAL_ALPHA_MAX * envelope
 
         healVignetteData.active    = true
         _G._healVigActive          = true
@@ -196,15 +199,12 @@ local function UpdateLowHealthVignette(dt)
     local playerHealth = (_G.PlayerInstance and _G.PlayerInstance.public and _G.PlayerInstance.public.health) or 100.0
 
     if playerHealth <= LOW_HEALTH_THRESHOLD and playerHealth > 0 then
-        -- Si recibimos daño (caída de vida), reiniciamos el temporizador de suavizado para alertar
         if (prevPlayerHealth - playerHealth) > 0.5 then
             lowHealthSettleTimer = 0.0
         end
 
         lowHealthPulseTimer = lowHealthPulseTimer + dt
         lowHealthSettleTimer = lowHealthSettleTimer + dt
-
-        -- Factor settle va de 0 a 1. A medida que sube, el efecto se vuelve más sutil.
         local settle = math.min(1.0, lowHealthSettleTimer / LOW_HEALTH_SETTLE_DURATION)
         
         local currentFreq = LOW_HEALTH_PULSE_FREQ * (1.2 - settle * 0.4)
@@ -285,8 +285,7 @@ function Update(self, dt)
                 potionHealing            = true
                 potionHealRemaining      = POTION_HEAL_TOTAL
                 potionCooldown           = POTION_COOLDOWN_MAX
-                healVigTimer             = HEAL_TOTAL_TIME
-                healElapsed              = 0.0
+                _G.TriggerHealVignette()
             end
         end
     end

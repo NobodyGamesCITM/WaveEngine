@@ -65,10 +65,10 @@ function Update(self, dt)
             _G._MenuManager_NeedReinit = true
             _G.SkipSplash = nil
 
-            if self.splashCanvas:LoadXAML(path) then -- Cargar el XAML, pero dejar que MenuManager gestione la opacidad y el fade
-                -- self.splashCanvas:SetOpacity(1.0) -- Eliminado: MenuManager se encargará del fade-in
+            if self.splashCanvas:LoadXAML(path) then
+             
                 _G.CurrentXAML = path
-            else -- Si la carga del XAML falla, aún así activar la reinicialización del MenuManager
+            else 
                 Engine.Log("[SplashScreen] ERROR: No se pudo cargar " .. path .. ". Desbloqueando MenuManager de todos modos.")
             end
             return
@@ -77,7 +77,7 @@ function Update(self, dt)
 
     self.splashTimer = self.splashTimer + dt
 
-    local skipInput = Input.GetKeyDown("Space") or Input.GetKeyDown("X") or Input.GetKeyDown("Enter")
+    local skipInput = Input.GetKeyDown("Space") or Input.GetKeyDown("X") or Input.GetKeyDown("Enter") or Input.GetGamepadButtonDown("A")
 
     if skipInput and not self.splashFadingOut then
         self.splashFadingOut = true
@@ -98,7 +98,6 @@ function Update(self, dt)
         self.musicFadeTimer = self.musicFadeTimer + dt
 		local progressPercent = math.min((self.musicFadeTimer/(self.public.fadeSpeed or 1.5)), 1.0)
 		local volume = (self.public.maxVolume or 100) * (progressPercent)
-		--Engine.Log("Setting global audio to ".. volume)
 		if volume then
             if volume >= (self.public.maxVolume or 100) then volume = self.public.maxVolume or 100  end
 			Audio.SetMusicVolume(volume)

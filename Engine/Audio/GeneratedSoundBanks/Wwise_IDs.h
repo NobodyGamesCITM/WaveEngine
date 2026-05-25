@@ -100,6 +100,8 @@ namespace AK
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;
+        static const AkUniqueID UI_OWLFLY = 3803980307U;
+        static const AkUniqueID UI_OWLHOOT = 3426312362U;
         static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
     } // namespace EVENTS

@@ -10643,12 +10643,22 @@
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="UI_PageTurn" ID="{570D3480-734B-49D5-BA8C-C654CFFC0A96}" ShortID="509118038">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -10663,6 +10673,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="page_turn_00" ID="{36E85B04-744C-4234-89D7-E136929980F5}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.0158933334350586"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0153257143838065"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.11125333404541"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.365546665827433"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>page_turn_00.wav</AudioFile>
 													<MediaIDList>
@@ -10685,6 +10702,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="page_turn_01" ID="{1F9914A9-0400-4783-B28C-FE6850150B50}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.0129592854636056"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0336941422053746"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.177110234669277"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.598719003041585"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>page_turn_01.wav</AudioFile>
 													<MediaIDList>
@@ -10707,6 +10731,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="page_turn_02" ID="{F4436549-ABFF-429D-93F4-B0ABAA558C05}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.0551857147897993"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0353188574654715"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0699019054004124"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.540084189528511"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>page_turn_02.wav</AudioFile>
 													<MediaIDList>
@@ -10778,6 +10809,236 @@
 										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="UI_OwlSFX" ID="{A3519AE8-3108-4F5A-A76E-1A633F1B6AD1}" ShortID="922657747">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="owl_00" ID="{4C53D536-DC5F-4FE4-A388-8BA517C86166}" ShortID="157281801">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="owl_00" ID="{5E8DCFD1-79A6-419B-B810-A08B85493FEB}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.305424016952515"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.196560010910034"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.44849593353271"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>owl_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="969457714"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="owl_00" ID="{5E8DCFD1-79A6-419B-B810-A08B85493FEB}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="owl_01" ID="{D3CD27EF-5AC3-43ED-B11A-5A8DB6BED6FA}" ShortID="802900506">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="owl_01" ID="{17A027CA-BC97-4103-A3CE-2BB1C5B58397}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.274837711879185"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="2.11090631484985"/>
+														<Property Name="TrimEnd" Type="Real64" Value="2.91633352751959"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>owl_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="732245307"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="owl_01" ID="{17A027CA-BC97-4103-A3CE-2BB1C5B58397}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="owl_02" ID="{F661552E-9762-43E5-A53C-491603BE654F}" ShortID="478448123">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="owl_02" ID="{C2936A9F-824D-4063-90DC-9EF57D78D0D4}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.301404006958008"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="2.6073838697161"/>
+														<Property Name="TrimEnd" Type="Real64" Value="3.94695713733491"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>owl_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="296531997"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="owl_02" ID="{C2936A9F-824D-4063-90DC-9EF57D78D0D4}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="owl_03" ID="{F21AF56A-BF09-4B26-8C1D-D65856825BFE}" ShortID="870554658">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>10</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="owl_03" ID="{DCD9FD26-5750-4EC9-BABB-126A4FD48EB0}">
+													<Language>SFX</Language>
+													<AudioFile>owl_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="27680133"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="owl_03" ID="{DCD9FD26-5750-4EC9-BABB-126A4FD48EB0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="owl_04" ID="{CCF20647-EF27-42F1-8B4D-7BA2A2C9D1D4}" ShortID="181574487">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="owl_04" ID="{EAC973A7-B86C-426C-9B82-8218094C1B44}">
+													<Language>SFX</Language>
+													<AudioFile>owl_04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="982162017"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="owl_04" ID="{EAC973A7-B86C-426C-9B82-8218094C1B44}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="UI_WingFlap" ID="{4F1372B5-180F-4E50-8CA5-23197ED574FE}" ShortID="558284792">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>150</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="owl_wing_flap_00" ID="{0583E309-3E75-486B-997C-B61CE511ACD9}">
+											<Language>SFX</Language>
+											<AudioFile>owl_wing_flap_00.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="33685628"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="owl_wing_flap_00" ID="{0583E309-3E75-486B-997C-B61CE511ACD9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

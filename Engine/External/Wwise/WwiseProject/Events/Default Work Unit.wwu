@@ -666,53 +666,12 @@
 						<Event Name="SFX_TreeAmbience" ID="{F5975989-9429-4748-8BED-740280664212}">
 							<ChildrenList>
 								<Action Name="" ID="{DB04E044-6A2E-4967-A2F9-74A38163E361}" ShortID="810765069">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="treeAmbience" ID="{67EF3EEB-C88C-4B59-A1D5-81145EAA8FC2}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="UI_ButtonPress" ID="{ADA38DA9-F51E-49FE-A165-7F7122F5008C}">
-							<ChildrenList>
-								<Action Name="" ID="{EE86FD7E-FDA3-475B-897D-19A543A0CF7A}" ShortID="646504728">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="UI_ButtonPressedSFX" ID="{2C4FAA25-1AC8-4834-8001-4EC173EC9ACE}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="UI_ButtonSelect" ID="{08655955-4914-4DBA-868C-4212C34AAB89}">
-							<ChildrenList>
-								<Action Name="" ID="{4A77A8D2-1AD8-4285-AD15-AE607C2D17AD}" ShortID="491433173">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="UI_ButtonHoveredSFX" ID="{04F7795D-8C09-424A-BD8F-BB299AB56931}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="UI_CloseWindow" ID="{4015699C-215D-40CF-A144-54499D59F78A}">
-							<ChildrenList>
-								<Action Name="" ID="{61E92D98-FC26-4248-85A4-9A052CB433BD}" ShortID="740177326">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="UI_CloseWindowSFX" ID="{82321192-5613-4048-98E8-8218D1053782}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="UI_PotionGet" ID="{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}">
-							<ChildrenList>
-								<Action Name="" ID="{FBB15739-54A1-4EDB-80AF-98E7401138A4}" ShortID="309040004">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="UI_PotionGetSFX" ID="{16D9B312-3901-42F8-9A7A-1020C5364839}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -743,6 +702,9 @@
 						<Event Name="SFX_SeaWater" ID="{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}">
 							<ChildrenList>
 								<Action Name="" ID="{676B29D8-58CE-41EA-9F27-CD0562966AB8}" ShortID="172280850">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
@@ -797,17 +759,6 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="SFX_PortalFireOn" ID="{8034BB22-4B86-4A29-8C10-754D4E1B3FB9}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="UI_PageTurn" ID="{A9070182-6039-4481-9439-FA69857F71F6}">
-							<ChildrenList>
-								<Action Name="" ID="{AE4F66E3-40F1-4312-8353-29DC3BF0A358}" ShortID="348352443">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="UI_PageTurn" ID="{570D3480-734B-49D5-BA8C-C654CFFC0A96}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1518,6 +1469,87 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="door_end" ID="{6BDABF02-6382-4F63-B744-E68CD7EC0D1D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="UI" ID="{A0B26D92-7C7F-47C4-BD55-5E5FBC39A158}" ShortID="910866881">
+					<ChildrenList>
+						<Event Name="UI_ButtonPress" ID="{ADA38DA9-F51E-49FE-A165-7F7122F5008C}">
+							<ChildrenList>
+								<Action Name="" ID="{EE86FD7E-FDA3-475B-897D-19A543A0CF7A}" ShortID="646504728">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_ButtonPressedSFX" ID="{2C4FAA25-1AC8-4834-8001-4EC173EC9ACE}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_ButtonSelect" ID="{08655955-4914-4DBA-868C-4212C34AAB89}">
+							<ChildrenList>
+								<Action Name="" ID="{4A77A8D2-1AD8-4285-AD15-AE607C2D17AD}" ShortID="491433173">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_ButtonHoveredSFX" ID="{04F7795D-8C09-424A-BD8F-BB299AB56931}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_CloseWindow" ID="{4015699C-215D-40CF-A144-54499D59F78A}">
+							<ChildrenList>
+								<Action Name="" ID="{61E92D98-FC26-4248-85A4-9A052CB433BD}" ShortID="740177326">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_CloseWindowSFX" ID="{82321192-5613-4048-98E8-8218D1053782}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_PageTurn" ID="{A9070182-6039-4481-9439-FA69857F71F6}">
+							<ChildrenList>
+								<Action Name="" ID="{AE4F66E3-40F1-4312-8353-29DC3BF0A358}" ShortID="348352443">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_PageTurn" ID="{570D3480-734B-49D5-BA8C-C654CFFC0A96}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_PotionGet" ID="{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}">
+							<ChildrenList>
+								<Action Name="" ID="{FBB15739-54A1-4EDB-80AF-98E7401138A4}" ShortID="309040004">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_PotionGetSFX" ID="{16D9B312-3901-42F8-9A7A-1020C5364839}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_OwlHoot" ID="{FAE3AAA0-F678-4B07-B28B-5639A3A414AE}">
+							<ChildrenList>
+								<Action Name="" ID="{7306180C-6E80-4D7D-AA40-BFBB104E4BC9}" ShortID="971948128">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_OwlSFX" ID="{A3519AE8-3108-4F5A-A76E-1A633F1B6AD1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_OwlFly" ID="{AD69EF8A-4A65-4A14-B26A-C6AFB91CE710}">
+							<ChildrenList>
+								<Action Name="" ID="{485488F7-AD51-4C63-88DB-8AD4E8E0E62C}" ShortID="32652911">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_WingFlap" ID="{4F1372B5-180F-4E50-8CA5-23197ED574FE}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

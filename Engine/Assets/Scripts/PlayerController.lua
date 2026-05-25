@@ -2071,11 +2071,11 @@ function Update(self, dt)
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
-                self.transform:SetPosition(-68.549, 3.280, -318.933) 
+                self.transform:SetPosition(-68.549, 3.280, -323.0) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 
-                self.transform:SetPosition(199.921, 35.586, -178.304) 
+                self.transform:SetPosition(203.921, 35.586, -178.304) 
                 if Player.rb then Player.rb:SetRotation(0, 88.814, 0) end
             end
             if Player.pendingObtainMask == Mask.ARES then

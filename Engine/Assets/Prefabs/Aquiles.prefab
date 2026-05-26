@@ -57,26 +57,6 @@
                                                                                         "volume": 100.0
                                                                                     },
                                                                                     {
-                                                                                        "AngularDamping": 0.0,
-                                                                                        "FreezePos": [
-                                                                                            false,
-                                                                                            false,
-                                                                                            false
-                                                                                        ],
-                                                                                        "FreezeRot": [
-                                                                                            false,
-                                                                                            false,
-                                                                                            false
-                                                                                        ],
-                                                                                        "LinearDamping": 0.0,
-                                                                                        "Mass": 1.0,
-                                                                                        "Type": 0,
-                                                                                        "UseCCD": false,
-                                                                                        "UseGravity": true,
-                                                                                        "active": true,
-                                                                                        "type": 8
-                                                                                    },
-                                                                                    {
                                                                                         "Center": [
                                                                                             0.0,
                                                                                             0.0,
@@ -316,6 +296,26 @@
                             1.0
                         ],
                         "type": 0
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
                     }
                 ],
                 "name": "spear_$AssimpFbx$_Translation",
@@ -3532,7 +3532,7 @@
                                 "speedMax": 8.0,
                                 "speedMin": 5.0,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
+                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
                                 "textureRows": 1,
                                 "textureUID": 9349459316526766944,
                                 "type": 7
@@ -3657,7 +3657,7 @@
                                 "speedMax": 9.899999618530273,
                                 "speedMin": 7.5,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\Project3\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
+                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
                                 "textureRows": 1,
                                 "textureUID": 6536179688999681322,
                                 "type": 7
@@ -3720,6 +3720,12 @@
                         "UID": 14976730222657993225,
                         "loop": false,
                         "name": "360Attack",
+                        "speed": 1.0
+                    },
+                    {
+                        "UID": 11824250992448897240,
+                        "loop": true,
+                        "name": "AreaAttack",
                         "speed": 1.0
                     },
                     {
@@ -3888,6 +3894,20 @@
                 ],
                 "scriptUID": 2892393956142374010,
                 "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Radius": 100.0,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": true,
+                "active": true,
+                "type": 11
             }
         ],
         "name": "Aquiles_Rigged",

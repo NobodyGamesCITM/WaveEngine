@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{DA73EC4A-551E-4EFA-E84C-89CED1056725}",
+    "Hash": "{E5EDCDAE-21CD-4324-3E97-2D6E4EBD2BDC}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -228,6 +228,12 @@
     ],
     "GameParameters": [
      {
+      "Id": "215992295",
+      "Name": "Player_Health",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Health",
+      "GUID": "{71C7FE3E-1000-484C-910D-99EC304BA9D0}"
+     },
+     {
       "Id": "420183192",
       "Name": "Attenuation_Radius",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Attenuation_Radius",
@@ -250,6 +256,12 @@
       "Name": "SS_Air_Fury",
       "ObjectPath": "\\Game Parameters\\Factory Soundseed Air Game Syncs\\SS_Air_Fury",
       "GUID": "{A2AE79DC-CA3A-46BA-9652-9986C322A87B}"
+     },
+     {
+      "Id": "1062779386",
+      "Name": "Player_Speed",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Speed",
+      "GUID": "{5C9B3DE9-144F-476A-B048-9EF1AF15E399}"
      },
      {
       "Id": "1351367891",
@@ -965,6 +977,6 @@
     ]
    }
   ],
-  "FileHash": "{3A006DD0-71CA-2FC7-BCF0-1D33ABA9638B}"
+  "FileHash": "{BC8BAD77-E303-53A8-F65B-C1E99C5A3DA3}"
  }
 }

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{54DEBCE5-2636-DE6A-2927-F036345C72E6}",
+    "Hash": "{940B7A50-7935-0627-5F8A-78DB74173CC8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -40,6 +40,14 @@
       "CachePath": "C2/{C2190D72-6814-B92B-D9AC-8605BDA4A622}.wem"
      },
      {
+      "Id": "27680133",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "owl_03.wav",
+      "CachePath": "72/{72137CC5-780B-C79F-088B-AD2BB9796C2E}.wem"
+     },
+     {
       "Id": "29395658",
       "Language": "SFX",
       "Streaming": "false",
@@ -53,7 +61,15 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_01.wav",
-      "CachePath": "AE/{AEE907C5-AA60-5471-0A0F-0C9D6E623554}.wem"
+      "CachePath": "5C/{5CB221BB-9583-B80B-E554-863F575D624D}.wem"
+     },
+     {
+      "Id": "33685628",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "owl_wing_flap_00.wav",
+      "CachePath": "CE/{CEC7E521-52B8-DE78-56A9-5777FA4B88D1}.wem"
      },
      {
       "Id": "36645458",
@@ -318,6 +334,14 @@
       "Location": "Memory",
       "ShortName": "yokai watch combat terror time.wav",
       "CachePath": "95/{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem"
+     },
+     {
+      "Id": "198456775",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "heartbeat-sound-snmqh-3.wav",
+      "CachePath": "9D/{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem"
      },
      {
       "Id": "207196639",
@@ -621,7 +645,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "sand_stir_00.wav",
-      "CachePath": "94/{940B5DD2-7039-6312-B596-62950ABFFCA2}.wem"
+      "CachePath": "9A/{9A9DA174-CC65-B349-811C-F490E6707293}.wem"
      },
      {
       "Id": "412634728",
@@ -701,7 +725,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_00.wav",
-      "CachePath": "12/{126A50BB-487A-77D4-479A-41F7A43BC06F}.wem"
+      "CachePath": "9B/{9B45C980-AC64-219E-6FCF-B4622B9EDD13}.wem"
      },
      {
       "Id": "486410471",
@@ -813,7 +837,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_02.wav",
-      "CachePath": "4C/{4C1A96A3-7A1C-F85F-9859-F6FEA979DED6}.wem"
+      "CachePath": "F1/{F1A24141-0786-E146-7DE9-BDFA8C963C69}.wem"
      },
      {
       "Id": "578288656",
@@ -1046,6 +1070,14 @@
       "Location": "Memory",
       "ShortName": "hermes_mask.wav",
       "CachePath": "92/{92273ACC-C8ED-BEBC-9F3F-92BA661A1700}.wem"
+     },
+     {
+      "Id": "732245307",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "owl_01.wav",
+      "CachePath": "C2/{C2B41912-718E-483F-32EC-C980E495DE39}.wem"
      },
      {
       "Id": "750230204",
@@ -1328,6 +1360,14 @@
       "CachePath": "FB/{FB3EDD18-81A0-0BF1-588E-E224CEF19412}.wem"
      },
      {
+      "Id": "901747587",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_float_00.wav",
+      "CachePath": "90/{90E36423-EBF0-3E74-2523-E97499846A14}.wem"
+     },
+     {
       "Id": "902777621",
       "Language": "SFX",
       "Streaming": "false",
@@ -1400,12 +1440,28 @@
       "CachePath": "D7/{D7337D12-1B41-0377-E697-95027EB2FA51}.wem"
      },
      {
+      "Id": "969457714",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "owl_00.wav",
+      "CachePath": "C5/{C5619610-4902-0938-FA93-DAFB723E0FB8}.wem"
+     },
+     {
       "Id": "974543721",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Hud-potion.wav",
       "CachePath": "98/{98BF5890-2D11-B08A-B236-05C7C2337EC9}.wem"
+     },
+     {
+      "Id": "982162017",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "owl_04.wav",
+      "CachePath": "56/{568A543A-F412-0E7D-CB1C-BE0A45BFD48A}.wem"
      },
      {
       "Id": "994023216",
@@ -2345,6 +2401,31 @@
        },
        {
         "Id": "825492870"
+       }
+      ]
+     },
+     {
+      "Id": "3158516759",
+      "Name": "SFX_HeartBeat",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HeartBeat",
+      "GUID": "{4F189E42-4049-4A4C-A252-2BF67E005C9B}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "198456775"
+       }
+      ]
+     },
+     {
+      "Id": "3684743831",
+      "Name": "SFX_HermesHover",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesHover",
+      "GUID": "{8C89365D-EB86-4E46-876D-802FA4794D5E}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "901747587"
        }
       ]
      },
@@ -3522,7 +3603,6 @@
       "Name": "SFX_SpearPull",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPull",
       "GUID": "{3B87FED3-F8DC-42BB-91B8-CC268262DDB9}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "2.1144025",
       "DurationMax": "2.1144025",
@@ -3647,14 +3727,7 @@
        {
         "Id": "1046410207"
        }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "3164629247"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "796310264",
@@ -3690,7 +3763,7 @@
      {
       "Id": "416781375",
       "Name": "UI_ButtonPress",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonPress",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3705,7 +3778,7 @@
      {
       "Id": "2295055714",
       "Name": "UI_ButtonSelect",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_ButtonSelect",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3720,7 +3793,7 @@
      {
       "Id": "767454882",
       "Name": "UI_CloseWindow",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_CloseWindow",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_CloseWindow",
       "GUID": "{4015699C-215D-40CF-A144-54499D59F78A}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3733,14 +3806,50 @@
       ]
      },
      {
+      "Id": "3803980307",
+      "Name": "UI_OwlFly",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_OwlFly",
+      "GUID": "{AD69EF8A-4A65-4A14-B26A-C6AFB91CE710}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.7723134",
+      "DurationMax": "2.7723134",
+      "MediaRefs": [
+       {
+        "Id": "33685628"
+       }
+      ]
+     },
+     {
+      "Id": "3426312362",
+      "Name": "UI_OwlHoot",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_OwlHoot",
+      "GUID": "{FAE3AAA0-F678-4B07-B28B-5639A3A414AE}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.8054272",
+      "DurationMax": "1.52675",
+      "MediaRefs": [
+       {
+        "Id": "27680133"
+       },
+       {
+        "Id": "732245307"
+       },
+       {
+        "Id": "969457714"
+       },
+       {
+        "Id": "982162017"
+       }
+      ]
+     },
+     {
       "Id": "1569503582",
       "Name": "UI_PageTurn",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_PageTurn",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_PageTurn",
       "GUID": "{A9070182-6039-4481-9439-FA69857F71F6}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.49666667",
-      "DurationMax": "0.7559583",
+      "DurationMin": "0.25429332",
+      "DurationMax": "0.47018227",
       "MediaRefs": [
        {
         "Id": "30290516"
@@ -3756,7 +3865,7 @@
      {
       "Id": "3610360561",
       "Name": "UI_PotionGet",
-      "ObjectPath": "\\Events\\Default Work Unit\\Other\\UI_PotionGet",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_PotionGet",
       "GUID": "{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}",
       "MaxAttenuation": "20",
       "DurationType": "OneShot",
@@ -3897,10 +4006,22 @@
     ],
     "GameParameters": [
      {
+      "Id": "215992295",
+      "Name": "Player_Health",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Health",
+      "GUID": "{71C7FE3E-1000-484C-910D-99EC304BA9D0}"
+     },
+     {
       "Id": "1006694123",
       "Name": "Music_Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Music_Volume",
       "GUID": "{726A8A6A-0E92-42BC-8418-7A00AACCE545}"
+     },
+     {
+      "Id": "1062779386",
+      "Name": "Player_Speed",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Speed",
+      "GUID": "{5C9B3DE9-144F-476A-B048-9EF1AF15E399}"
      },
      {
       "Id": "1564184899",
@@ -4091,6 +4212,6 @@
     ]
    }
   ],
-  "FileHash": "{0A71C8CD-D90E-2FB6-4C25-AC4294DD9E3E}"
+  "FileHash": "{1ACADA4D-7E95-95C8-B5AA-59539401869D}"
  }
 }

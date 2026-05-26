@@ -1,10 +1,12 @@
+--Player Controller Script
+
 local sqrt  = math.sqrt
 local abs   = math.abs
 local atan2 = math.atan
 local pi    = math.pi
 
 local attackCol
-local chargeCol
+local chargeCole
 local heavyCol
 local attackTimer = 0
 local attackCooldown = 0
@@ -33,6 +35,7 @@ local attackSource
 local voiceSource
 local hitSource
 local itemSource
+local hpSource
 local mGo 
 local musicComp
 --local equipSource
@@ -731,14 +734,18 @@ States[State.WALK] = {
             return
         end
 
+        
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.5 / self.public.sprintMultiplier) then
-				stepTimer = 0
+            
+            if stepTimer >= (0.5 / self.public.sprintMultiplier) and Player.currentMask ~= Mask.HERMES then
+                stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
+
         end
+        
 
         if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
             local tPos = _G.TargetLockManager_CurrentTarget.transform.position
@@ -767,10 +774,10 @@ States[State.WALK] = {
                         Player.currentOrbitAnim = newAnim
                         local anim = self.gameObject:GetComponent("Animation")
                         if anim then
-                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) end
-                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) end
-                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) end
-                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) end
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play(GetAnimName("OrbitFwd"),   0.2) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play(GetAnimName("OrbitBack"),  0.2) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play(GetAnimName("OrbitLeft"),  0.2) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play(GetAnimName("OrbitRight"), 0.2) end) end
                         end                    
                     end
                 end
@@ -805,9 +812,12 @@ States[State.RUNNING] = {
 
         self.public.usingStamina = true
         Player.currentSpeed = Player.baseSpeed + self.public.speedIncrease
+        
         if Player.currentMask == Mask.HERMES then
             Player.currentSpeed = Player.currentSpeed + self.public.speedHermesBonus
         end	
+
+        
 
         if Player.isDrowning and Player.currentMask == Mask.HERMES then
             if Player.bubblesPS then Player.bubblesPS:Play() end
@@ -867,6 +877,7 @@ States[State.RUNNING] = {
             self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
         end
 
+
         if self.public.stamina <= 0 then
             ChangeState(self, State.WALK)
             return
@@ -874,11 +885,13 @@ States[State.RUNNING] = {
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.25/self.public.sprintMultiplier) then
-				stepTimer = 0
+            
+            if stepTimer >= (0.25/self.public.sprintMultiplier) and Player.currentMask ~= Mask.HERMES then
+                stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
+
         end
 
         if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
@@ -908,10 +921,10 @@ States[State.RUNNING] = {
                         Player.currentOrbitAnim = newAnim
                         local anim = self.gameObject:GetComponent("Animation")
                         if anim then
-                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play("OrbitFwd",   0.2) end) pcall(function() anim:SetSpeed("OrbitFwd",   2.0) end) end
-                            if newAnim == "OrbitBack"  then pcall(function() anim:Play("OrbitBack",  0.2) end) pcall(function() anim:SetSpeed("OrbitBack",  2.0) end) end
-                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play("OrbitLeft",  0.2) end) pcall(function() anim:SetSpeed("OrbitLeft",  2.0) end) end
-                            if newAnim == "OrbitRight" then pcall(function() anim:Play("OrbitRight", 0.2) end) pcall(function() anim:SetSpeed("OrbitRight", 2.0) end) end
+                            if newAnim == "OrbitFwd"   then pcall(function() anim:Play(GetAnimName("OrbitFwd"),   0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitFwd"),   2.0) end) end
+                            if newAnim == "OrbitBack"  then pcall(function() anim:Play(GetAnimName("OrbitBack"),  0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitBack"),  2.0) end) end
+                            if newAnim == "OrbitLeft"  then pcall(function() anim:Play(GetAnimName("OrbitLeft"),  0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitLeft"),  2.0) end) end
+                            if newAnim == "OrbitRight" then pcall(function() anim:Play(GetAnimName("OrbitRight"), 0.2) end) pcall(function() anim:SetSpeed(GetAnimName("OrbitRight"), 2.0) end) end
                         end                    
                     end
                 end
@@ -1334,6 +1347,7 @@ local function RefreshAudioSources(self)
     local hitGo    = GameObject.FindInChildren(go, "HitSource") or GameObject.FindInChildren(go, "SFX_Hit")
     local maskGo   = GameObject.FindInChildren(go, "MaskSource") or GameObject.FindInChildren(go, "SFX_Mask")
     local itemGo   = GameObject.FindInChildren(go, "ItemSource") or GameObject.FindInChildren(go, "SFX_Item")
+    local heartGo     = GameObject.FindInChildren(go, "HeartSource")
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
@@ -1346,6 +1360,7 @@ local function RefreshAudioSources(self)
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+    Player.heartSFX = (heartGo and heartGo:GetComponent("Audio Source")) or rootSource
     
     --Engine.Log("[Player] Audio Source Mapping Status:")
     --Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
@@ -1372,7 +1387,7 @@ function Start(self)
     Player.changeMaskSFX   = nil
     Player.itemSFX     = nil
     Player.hitSFX          = nil
-
+    Player.heartSFX        = nil
     _G.PlayerInstance = self
 
     --force stats
@@ -1703,6 +1718,7 @@ function Update(self, dt)
         _PlayerController_pendingDamagePos = nil
         end
     end
+    
 
     if not Player.currentState then
         Player.currentState = nil
@@ -1720,6 +1736,39 @@ function Update(self, dt)
         Engine.Log("Masks not found, retrieving from hierarchy...")
         FindMasks(self)
     end
+
+    local vel = Player.rb:GetLinearVelocity()
+    local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
+    Audio.SetRTPCValue("Player_Speed", actualSpeed)
+
+    if Player.stepSFX then
+        if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
+        
+            if not Audio.IsEventPlaying("SFX_HermesHover") then 
+                Player.stepSFX:SelectPlayAudioEvent("SFX_HermesHover")
+                Engine.Log("[PLAYER] Playing Hover SFX") 
+            end
+        end
+
+        if Player.currentMask ~= Mask.HERMES then
+            Player.stepSFX:SelectStopAudioEvent("SFX_HermesHover") 
+        end
+    end
+
+    --heartbeat sound
+    if Player.heartSFX then 
+        if Player.currentState ~= State.DEAD then
+            Audio.SetRTPCValue("Player_Health", self.public.health)
+            if not Audio.IsEventPlaying("SFX_HeartBeat") then
+                Player.heartSFX:SelectPlayAudioEvent("SFX_HeartBeat")
+            end
+        else
+            Player.heartSFX:StopAudioEvent()
+        end
+    end
+        
+
+    
 
     local sceneLoaderCount = _G._SceneLoaderCounter or 0
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
@@ -1793,6 +1842,9 @@ function Update(self, dt)
         Player.currentMask = nil
         EquipMask(self, maskToRestore)
         UpdateSwordMaterial()
+
+       
+       
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2072,15 +2124,15 @@ function Update(self, dt)
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
-                self.transform:SetPosition(-68.549, 3.280, -318.933) 
+                self.transform:SetPosition(-68.549, 3.280, -323.0) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 
-                self.transform:SetPosition(199.921, 35.586, -178.304) 
+                self.transform:SetPosition(203.921, 35.586, -178.304) 
                 if Player.rb then Player.rb:SetRotation(0, 88.814, 0) end
             end
             if Player.pendingObtainMask == Mask.ARES then
-                self.transform:SetPosition(77.979, 8.898, -104.323) 
+                self.transform:SetPosition(77.0, 8.898, -108.0) 
                 if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
             end
         end
@@ -2600,3 +2652,5 @@ function _G.TriggerChestAnimation(self)
     self.public.canMove = false
     return true
 end
+
+

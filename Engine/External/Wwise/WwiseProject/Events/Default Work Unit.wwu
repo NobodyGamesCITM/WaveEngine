@@ -566,9 +566,23 @@
 						<Event Name="SFX_HermesHover" ID="{8C89365D-EB86-4E46-876D-802FA4794D5E}">
 							<ChildrenList>
 								<Action Name="" ID="{18434930-C5A6-4141-A199-8B3AF47DC858}" ShortID="511862175">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="1"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Hermes_Hover" ID="{F2EFF318-F510-40FF-BDE6-C89B1DE19612}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_HeartBeat" ID="{4F189E42-4049-4A4C-A252-2BF67E005C9B}">
+							<ChildrenList>
+								<Action Name="" ID="{21D2789D-6098-44DF-9933-7389AE200BAB}" ShortID="166296294">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="heartbeat" ID="{A0EC20F2-F36C-4CCA-AA19-62F2AEAC419C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1102,7 +1116,7 @@
 										<Action Name="" ID="{D274C6FF-0E24-479B-95DB-F572A43C933A}" ShortID="909721195">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="heartbeat" ID="{061CC7A5-586F-49F3-91F5-535A6E565FC8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="accelerating_heartbeat" ID="{061CC7A5-586F-49F3-91F5-535A6E565FC8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>

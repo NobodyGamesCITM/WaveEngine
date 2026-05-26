@@ -35,6 +35,7 @@ local attackSource
 local voiceSource
 local hitSource
 local itemSource
+local hpSource
 local mGo 
 local musicComp
 --local equipSource
@@ -1346,6 +1347,7 @@ local function RefreshAudioSources(self)
     local hitGo    = GameObject.FindInChildren(go, "HitSource") or GameObject.FindInChildren(go, "SFX_Hit")
     local maskGo   = GameObject.FindInChildren(go, "MaskSource") or GameObject.FindInChildren(go, "SFX_Mask")
     local itemGo   = GameObject.FindInChildren(go, "ItemSource") or GameObject.FindInChildren(go, "SFX_Item")
+    local heartGo     = GameObject.FindInChildren(go, "HeartSource")
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
@@ -1358,6 +1360,7 @@ local function RefreshAudioSources(self)
     Player.hitSFX        = (hitGo and hitGo:GetComponent("Audio Source")) or rootSource
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
+    Player.heartSFX = (heartGo and heartGo:GetComponent("Audio Source")) or rootSource
     
     --Engine.Log("[Player] Audio Source Mapping Status:")
     --Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
@@ -1384,7 +1387,7 @@ function Start(self)
     Player.changeMaskSFX   = nil
     Player.itemSFX     = nil
     Player.hitSFX          = nil
-
+    Player.heartSFX        = nil
     _G.PlayerInstance = self
 
     --force stats
@@ -1738,8 +1741,6 @@ function Update(self, dt)
     local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
     Audio.SetRTPCValue("Player_Speed", actualSpeed)
 
-
-
     if Player.stepSFX then
         if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
         
@@ -1753,6 +1754,19 @@ function Update(self, dt)
             Player.stepSFX:SelectStopAudioEvent("SFX_HermesHover") 
         end
     end
+
+    --heartbeat sound
+    if Player.heartSFX then 
+        if Player.currentState ~= State.DEAD then
+            Audio.SetRTPCValue("Player_Health", self.public.health)
+            if not Audio.IsEventPlaying("SFX_HeartBeat") then
+                Player.heartSFX:SelectPlayAudioEvent("SFX_HeartBeat")
+            end
+        else
+            Player.heartSFX:StopAudioEvent()
+        end
+    end
+        
 
     
 

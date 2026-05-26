@@ -123,6 +123,7 @@ local Player = {
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
     hermesRespawnCooldown = 0,
+    hermesWaterWalkCost = 10.0,
     baseSpeed = 0.0,
     isGrounded = false,
 
@@ -497,12 +498,10 @@ local function EquipMask(self, newMask, skipSword)
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
         Player.currentMask = newMask
-        Player.hermesPendingUnequip = true
-        Player.hermesDeathRespawn = true
-        Player.hermesDeathTimer   = 2.0
+        self.public.health = 0
+        _G._PlayerController_isDead = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
-
         UpdateSwordMaterial()
         return
     end
@@ -550,8 +549,13 @@ States[State.DEAD] = {
         Player.deathAnimTimer = 1.5                  
         if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_PlayerDeath") end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim and Player.isDrowning then 
+        if anim and Player.isDrowning then
             pcall(function() anim:Play("Drown", 0.5) end)
+            if Player.currentMask == Mask.HERMES then
+                pcall(function() anim:SetSpeed("Drown", 1.0) end)
+            else
+                pcall(function() anim:SetSpeed("Drown", 0.4) end)
+            end
         else 
             pcall(function() anim:Play("Die", 0.5) end)
         end
@@ -578,7 +582,6 @@ States[State.DEAD] = {
         end
 
         if Player.hermesDeathRespawn then
-            self.public.stamina = 50.0
             Player.hermesDeathTimer = Player.hermesDeathTimer - dt
             if Player.hermesDeathTimer <= 0 then
                 Player.hermesDeathRespawn = false    
@@ -610,7 +613,7 @@ States[State.DEAD] = {
             if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
             if Player.hermesRespawnCooldown <= 0 then
                 ChangeState(self, State.IDLE)
-                self.public.stamina = 50.0
+                self.public.stamina = 70.0
                 staminaLock = false
                 if Player.isDrowning then
                     Player.hermesGraceTimer = 1.0
@@ -695,6 +698,10 @@ States[State.WALK] = {
     end,
     
     Update = function(self, dt)
+        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+            self.public.stamina = math.max(0, self.public.stamina - (Player.hermesWaterWalkCost * dt))
+        end
+
         local sprintInput = Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5
         if sprintInput and not Player.sprintHeld and self.public.stamina > 10 then
             ChangeState(self, State.RUNNING)
@@ -2217,7 +2224,9 @@ function Update(self, dt)
         States[Player.currentState].Update(self, dt)
 
         if (Player.currentState == State.IDLE or Player.currentState == State.WALK) and self.public.stamina < 100 then
-            self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
+            if not (Player.isDrowning and Player.currentMask == Mask.HERMES) then
+                self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
+            end
         end
     end
 
@@ -2296,20 +2305,11 @@ function Update(self, dt)
     ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD and Player.isGrounded == false then
-        if Player.currentState == State.RUNNING then
-            Player.hermesGraceTimer = HERMES_GRACE_TIME
-        else
-            if self.public.stamina <= 0 then
-                Player.hermesGraceTimer = 0
-            end
-            if Player.hermesGraceTimer > 0 then
-                Player.hermesGraceTimer = Player.hermesGraceTimer - dt
-            else
-                Player.hermesDeathRespawn = true
-                Player.hermesDeathTimer   = 2.3
-                if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-                ChangeState(self, State.DEAD)
-            end
+        if self.public.stamina <= 0 then
+            Player.hermesDeathRespawn = true
+            Player.hermesDeathTimer   = 2.3
+            if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+            ChangeState(self, State.DEAD)
         end
     end
 
@@ -2380,7 +2380,9 @@ function MaskScroll(self)
 
     if oldMask ~= Player.currentMask then 
         --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
-        ChangeState(self, State.IDLE, true)
+        if Player.currentState ~= State.DEAD then
+            ChangeState(self, State.IDLE, true)
+        end
     end
 
     if oldMask ~= Player.currentMask and Player.currentMask ~= Mask.NONE then

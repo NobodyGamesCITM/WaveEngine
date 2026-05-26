@@ -563,6 +563,17 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+						<Event Name="SFX_HermesHover" ID="{8C89365D-EB86-4E46-876D-802FA4794D5E}">
+							<ChildrenList>
+								<Action Name="" ID="{18434930-C5A6-4141-A199-8B3AF47DC858}" ShortID="511862175">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Hermes_Hover" ID="{F2EFF318-F510-40FF-BDE6-C89B1DE19612}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">

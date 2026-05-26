@@ -37,6 +37,20 @@
 						<Property Name="InitialValue" Type="Real64" Value="0"/>
 					</PropertyList>
 				</GameParameter>
+				<GameParameter Name="Player_Speed" ID="{5C9B3DE9-144F-476A-B048-9EF1AF15E399}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="Max" Type="Real64" Value="25"/>
+						<Property Name="RTPCRamping" Type="int16" Value="1"/>
+						<Property Name="SlewRateDown" Type="Real64" Value="300"/>
+						<Property Name="SlewRateUp" Type="Real64" Value="300"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Player_Health" ID="{71C7FE3E-1000-484C-910D-99EC304BA9D0}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

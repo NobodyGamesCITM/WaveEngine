@@ -5939,6 +5939,88 @@
 										</Sound>
 									</ChildrenList>
 								</Folder>
+								<Sound Name="Hermes_Hover" ID="{F2EFF318-F510-40FF-BDE6-C89B1DE19612}" ShortID="881314595">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-75</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>7</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="hermes_float_01" ID="{01FFB41E-76BB-4507-BB7A-DEF6E6CCDD3B}">
+											<Language>SFX</Language>
+											<AudioFile>hermes_float_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="642208503"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="hermes_float_00" ID="{1B8085C1-D7F4-4267-87CC-8EF80046BAB5}">
+											<Language>SFX</Language>
+											<AudioFile>hermes_float_00.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="901747587"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<RTPC Name="" ID="{8D5CDCF2-74F2-439A-B901-822E6C10CFED}" ShortID="443797959">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Player_Speed" ID="{5C9B3DE9-144F-476A-B048-9EF1AF15E399}" WorkUnitID="{7A278682-50B5-41F6-8243-D09A557D1503}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{EA67290C-19E1-479F-811C-42A5BE695F76}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-75</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>25</XPos>
+																		<YPos>350</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="hermes_float_00" ID="{1B8085C1-D7F4-4267-87CC-8EF80046BAB5}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Siren" ID="{D4817CC0-2B36-42AA-B4CC-A52B100AE522}" ShortID="476389932">

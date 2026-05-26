@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{16A340D4-65AB-814A-31F6-73DB349691EF}",
+    "Hash": "{22F13FC9-AED0-70A1-64A8-F6A6384FAB37}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -61,7 +61,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_01.wav",
-      "CachePath": "54/{54586D49-F7B9-B01D-45F9-9612A595466E}.wem"
+      "CachePath": "5C/{5CB221BB-9583-B80B-E554-863F575D624D}.wem"
      },
      {
       "Id": "33685628",
@@ -717,7 +717,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_00.wav",
-      "CachePath": "28/{283FBA10-58CA-AA83-EEF4-CE44486B7E57}.wem"
+      "CachePath": "9B/{9B45C980-AC64-219E-6FCF-B4622B9EDD13}.wem"
      },
      {
       "Id": "486410471",
@@ -829,7 +829,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_02.wav",
-      "CachePath": "69/{694B2040-FFCB-BE22-0D9E-3512C230ED4E}.wem"
+      "CachePath": "F1/{F1A24141-0786-E146-7DE9-BDFA8C963C69}.wem"
      },
      {
       "Id": "578288656",
@@ -1069,7 +1069,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "owl_01.wav",
-      "CachePath": "AD/{AD12C18C-E692-697F-FAA4-C13575600906}.wem"
+      "CachePath": "C2/{C2B41912-718E-483F-32EC-C980E495DE39}.wem"
      },
      {
       "Id": "750230204",
@@ -1352,6 +1352,14 @@
       "CachePath": "FB/{FB3EDD18-81A0-0BF1-588E-E224CEF19412}.wem"
      },
      {
+      "Id": "901747587",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_float_00.wav",
+      "CachePath": "90/{90E36423-EBF0-3E74-2523-E97499846A14}.wem"
+     },
+     {
       "Id": "902777621",
       "Language": "SFX",
       "Streaming": "false",
@@ -1429,7 +1437,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "owl_00.wav",
-      "CachePath": "C9/{C9520B03-F5F5-B25B-A186-F172261A1190}.wem"
+      "CachePath": "C5/{C5619610-4902-0938-FA93-DAFB723E0FB8}.wem"
      },
      {
       "Id": "974543721",
@@ -2385,6 +2393,19 @@
        },
        {
         "Id": "825492870"
+       }
+      ]
+     },
+     {
+      "Id": "3684743831",
+      "Name": "SFX_HermesHover",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesHover",
+      "GUID": "{8C89365D-EB86-4E46-876D-802FA4794D5E}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "901747587"
        }
       ]
      },
@@ -3979,6 +4000,12 @@
       "GUID": "{726A8A6A-0E92-42BC-8418-7A00AACCE545}"
      },
      {
+      "Id": "1062779386",
+      "Name": "Player_Speed",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Speed",
+      "GUID": "{5C9B3DE9-144F-476A-B048-9EF1AF15E399}"
+     },
+     {
       "Id": "1564184899",
       "Name": "SFX_Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\SFX_Volume",
@@ -4167,6 +4194,6 @@
     ]
    }
   ],
-  "FileHash": "{50971461-9DAA-7257-B14C-1E7AAD5E674E}"
+  "FileHash": "{C0BA2BE8-CD01-159D-164B-9776D8DFDD61}"
  }
 }

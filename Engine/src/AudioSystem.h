@@ -60,7 +60,7 @@ public:
 	
 
 	// ------------------------ RTPC ------------------------ //
-	void SetRTPCValue(const char* name, int value);
+	void SetRTPCValue(const char* name, float value);
 	void SetRTPCValue(AkRtpcID rtpcID, AkRtpcValue value);
 
 	/* (From Wwise Docs) On playback, if no such game object-specific value has been set, 

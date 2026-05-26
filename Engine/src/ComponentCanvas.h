@@ -24,6 +24,7 @@ public:
 
     void SetOpacity(float alpha);
     float GetOpacity() const;
+    void SetElementOpacity(const char* name, float alpha);
 
     void OnMouseMove(int x, int y);
     void OnMouseButtonDown(int x, int y, Noesis::MouseButton button);

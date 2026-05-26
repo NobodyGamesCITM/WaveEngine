@@ -1,126 +1,215 @@
-<Grid x:Name="LayoutRoot" 
+<Grid x:Name="LayoutRoot"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-d:DesignWidth="1920" d:DesignHeight="1080">
+HorizontalAlignment="Stretch"
+VerticalAlignment="Stretch">
 
-    <Grid.Background>
-        <SolidColorBrush Color="#00000000"/>
-    </Grid.Background>
+    <Border Background="Black"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
 
-    <Viewbox Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid Width="1920" Height="1080">
+        <Viewbox Stretch="Uniform"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center">
+            <Grid Width="1920" Height="1080">
 
-            <Grid x:Name="CinematicPanel" Visibility="Hidden">
-                <Grid.Background>
-                    <SolidColorBrush Color="#FF000000"/>
-                </Grid.Background>
+            <Grid x:Name="CinematicPanel" Visibility="Visible">
 
-                <!-- PAGE 1: V1 grande izquierda / V2 arriba derecha / V3 abajo derecha -->
-                <Grid x:Name="Page1" Visibility="Visible">
+                <Grid x:Name="Page1" Visibility="Hidden">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="3"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="55*"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="45*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="4"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Column="2" Grid.Row="1">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-
                     <Border x:Name="Page1_V1"
                             Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
-                            Visibility="Visible">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/1.png" Stretch="Uniform"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/1.png" Stretch="UniformToFill"/>
                     </Border>
 
                     <Border x:Name="Page1_V2"
                             Grid.Column="2" Grid.Row="0"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/2.png" Stretch="UniformToFill"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/2.png" Stretch="UniformToFill"/>
                     </Border>
 
                     <Border x:Name="Page1_V3"
                             Grid.Column="2" Grid.Row="2"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/3.png" Stretch="UniformToFill"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/3.png" Stretch="UniformToFill"/>
                     </Border>
                 </Grid>
 
-                <!-- PAGE 2: V1 izquierda arriba / V2 derecha arriba / V3 ancha abajo -->
                 <Grid x:Name="Page2" Visibility="Hidden">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="4"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="1.2*"/>
+                        <RowDefinition Height="4"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <Rectangle Grid.Column="1" Grid.Row="0">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-                        <Rectangle.Fill><SolidColorBrush Color="#FFFFFFFF"/></Rectangle.Fill>
-                    </Rectangle>
-
                     <Border x:Name="Page2_V1"
                             Grid.Column="0" Grid.Row="0"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/4.png" Stretch="UniformToFill"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/4.png" Stretch="UniformToFill"/>
                     </Border>
 
                     <Border x:Name="Page2_V2"
                             Grid.Column="2" Grid.Row="0"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/5.png" Stretch="UniformToFill"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0"
+                            VerticalAlignment="Top">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/5.png" Stretch="UniformToFill"/>
                     </Border>
 
                     <Border x:Name="Page2_V3"
                             Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"
-                            Visibility="Hidden">
-                        <Border.Background><SolidColorBrush Color="#00000000"/></Border.Background>
-                        <Image Source="Textures/6.png" Stretch="UniformToFill"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            Visibility="Hidden" Opacity="0"
+                            Margin="40,2,0,0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Image Source="Textures/6.png" Stretch="UniformToFill"/>
                     </Border>
                 </Grid>
 
-                <!-- Overlay negro entre páginas — siempre encima -->
                 <Grid x:Name="CinematicFade"
-                      Visibility="Hidden"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
+                      Visibility="Visible"
                       IsHitTestVisible="False">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <Trigger Property="Visibility" Value="Hidden">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                 From="1" To="0" Duration="0:0:0.6"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="Visibility" Value="Visible">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                 From="0" To="1" Duration="0:0:0.6"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                     <Grid.Background>
                         <SolidColorBrush Color="#FF000000"/>
                     </Grid.Background>
                 </Grid>
 
             </Grid>
-
         </Grid>
     </Viewbox>
-
 </Grid>

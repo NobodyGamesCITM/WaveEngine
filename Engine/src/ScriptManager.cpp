@@ -2309,6 +2309,22 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         lua_pushlightuserdata(L, canvas);
         lua_pushcclosure(L, Lua_ComponentCanvas_SetOpacity, 1);
         lua_setfield(L, -2, "SetOpacity");
+        // SetElementOpacity
+        lua_pushlightuserdata(L, canvas);
+        lua_pushcclosure(L, [](lua_State* L) -> int {
+            ComponentCanvas* canvas = static_cast<ComponentCanvas*>(
+                lua_touserdata(L, lua_upvalueindex(1)));
+            const char* name = luaL_checkstring(L, 1);
+            float       opacity = static_cast<float>(luaL_checknumber(L, 2));
+            auto& app = Application::GetInstance();
+            app.scripts->EnqueueOperation([canvas, n = std::string(name), opacity]() {
+                canvas->SetElementOpacity(n.c_str(), opacity);
+                });
+            return 0;
+            }, 1);
+        lua_setfield(L, -2, "SetElementOpacity");
+
+
 
         // GetCurrentXAML
         lua_pushlightuserdata(L, canvas);

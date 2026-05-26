@@ -57,26 +57,6 @@
                                                                                         "volume": 100.0
                                                                                     },
                                                                                     {
-                                                                                        "AngularDamping": 0.0,
-                                                                                        "FreezePos": [
-                                                                                            false,
-                                                                                            false,
-                                                                                            false
-                                                                                        ],
-                                                                                        "FreezeRot": [
-                                                                                            false,
-                                                                                            false,
-                                                                                            false
-                                                                                        ],
-                                                                                        "LinearDamping": 0.0,
-                                                                                        "Mass": 1.0,
-                                                                                        "Type": 0,
-                                                                                        "UseCCD": false,
-                                                                                        "UseGravity": true,
-                                                                                        "active": true,
-                                                                                        "type": 8
-                                                                                    },
-                                                                                    {
                                                                                         "Center": [
                                                                                             0.0,
                                                                                             0.0,
@@ -316,6 +296,26 @@
                             1.0
                         ],
                         "type": 0
+                    },
+                    {
+                        "AngularDamping": 0.0,
+                        "FreezePos": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "FreezeRot": [
+                            false,
+                            false,
+                            false
+                        ],
+                        "LinearDamping": 0.0,
+                        "Mass": 1.0,
+                        "Type": 0,
+                        "UseCCD": false,
+                        "UseGravity": true,
+                        "active": true,
+                        "type": 8
                     }
                 ],
                 "name": "spear_$AssimpFbx$_Translation",
@@ -3882,14 +3882,14 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "lockOnSize",
-                        "type": 0,
-                        "value": 14.0
-                    },
-                    {
                         "name": "doorName",
                         "type": 1,
                         "value": "Puerta_Final"
+                    },
+                    {
+                        "name": "lockOnSize",
+                        "type": 0,
+                        "value": 14.0
                     }
                 ],
                 "scriptUID": 2892393956142374010,

@@ -977,6 +977,15 @@ static int Lua_Audio_SetSwitch(lua_State* L) {
     return 0;
 }
 
+static int Lua_Audio_SetRTPCValue(lua_State* L) {
+    const char* rtpcName = luaL_checkstring(L, 1);
+    float value = luaL_checknumber(L, 2);
+
+    Application::GetInstance().audio.get()->audioSystem->SetRTPCValue(rtpcName, value);
+    AK::SoundEngine::RenderAudio();
+    return 0;
+}
+
 static int Lua_Audio_PlayAudioEvent(lua_State* L) {
     lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
     void* ud = lua_touserdata(L, -1);
@@ -1016,6 +1025,20 @@ static int  Lua_Audio_StopAudioEvent(lua_State* L) {
     if (!source) { lua_pop(L, 1); return 0; }
 
     std::wstring wEventName(source->eventName.begin(), source->eventName.end());
+    Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
+    return 0;
+}
+
+static int Lua_Audio_SelectStopAudioEvent(lua_State* L) {
+    lua_getfield(L, 1, "ptr");
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
+    std::string eventName(luaL_checkstring(L, 2));
+    
+    std::wstring wEventName(eventName.begin(), eventName.end());
     Application::GetInstance().audio.get()->audioSystem->StopEvent(wEventName.c_str(), source->goID);
     return 0;
 }
@@ -1314,10 +1337,14 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SelectPlayAudioEvent");
     lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
     lua_setfield(L, -2, "StopAudioEvent");
+    lua_pushcfunction(L, Lua_Audio_SelectStopAudioEvent);
+    lua_setfield(L, -2, "SelectStopAudioEvent");
     lua_pushcfunction(L, Lua_Audio_IsEventPlaying);
     lua_setfield(L, -2, "IsEventPlaying");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
+    lua_pushcfunction(L, Lua_Audio_SetRTPCValue);
+    lua_setfield(L, -2, "SetRTPCValue");
     lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
     lua_setfield(L, -2, "SetSourceVolume");
     lua_pushcfunction(L, Lua_Audio_SetGlobalVolume);
@@ -2479,6 +2506,9 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
         lua_pushcfunction(L, Lua_Audio_StopAudioEvent);
         lua_setfield(L, -2, "StopAudioEvent");
+
+        lua_pushcfunction(L, Lua_Audio_SelectStopAudioEvent);
+        lua_setfield(L, -2, "SelectStopAudioEvent");
 
         lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
         lua_setfield(L, -2, "SetSourceVolume");

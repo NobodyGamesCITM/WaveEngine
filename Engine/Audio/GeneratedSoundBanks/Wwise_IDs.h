@@ -45,6 +45,7 @@ namespace AK
         static const AkUniqueID SFX_GM_STATUEON = 2470589267U;
         static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
         static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
+        static const AkUniqueID SFX_HERMESHOVER = 3684743831U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
         static const AkUniqueID SFX_INTROROAR = 1929205333U;
         static const AkUniqueID SFX_KNEELDOWN = 3671466604U;
@@ -177,6 +178,8 @@ namespace AK
         static const AkUniqueID AUDIOSOURCE_VOLUME = 4155247583U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
         static const AkUniqueID MUSIC_VOLUME = 1006694123U;
+        static const AkUniqueID PLAYER_HEALTH = 215992295U;
+        static const AkUniqueID PLAYER_SPEED = 1062779386U;
         static const AkUniqueID REVERB_VOLUME = 4143275766U;
         static const AkUniqueID SFX_VOLUME = 1564184899U;
         static const AkUniqueID SS_AIR_FEAR = 1351367891U;

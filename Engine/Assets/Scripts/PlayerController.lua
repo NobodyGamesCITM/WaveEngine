@@ -1,10 +1,12 @@
+--Player Controller Script
+
 local sqrt  = math.sqrt
 local abs   = math.abs
 local atan2 = math.atan
 local pi    = math.pi
 
 local attackCol
-local chargeCol
+local chargeCole
 local heavyCol
 local attackTimer = 0
 local attackCooldown = 0
@@ -731,14 +733,18 @@ States[State.WALK] = {
             return
         end
 
+        
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.5 / self.public.sprintMultiplier) then
-				stepTimer = 0
+            
+            if stepTimer >= (0.5 / self.public.sprintMultiplier) and Player.currentMask ~= Mask.HERMES then
+                stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Walk", Player.stepSFX)
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
+
         end
+        
 
         if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
             local tPos = _G.TargetLockManager_CurrentTarget.transform.position
@@ -805,9 +811,12 @@ States[State.RUNNING] = {
 
         self.public.usingStamina = true
         Player.currentSpeed = Player.baseSpeed + self.public.speedIncrease
+        
         if Player.currentMask == Mask.HERMES then
             Player.currentSpeed = Player.currentSpeed + self.public.speedHermesBonus
         end	
+
+        
 
         if Player.isDrowning and Player.currentMask == Mask.HERMES then
             if Player.bubblesPS then Player.bubblesPS:Play() end
@@ -867,6 +876,7 @@ States[State.RUNNING] = {
             self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
         end
 
+
         if self.public.stamina <= 0 then
             ChangeState(self, State.WALK)
             return
@@ -874,11 +884,13 @@ States[State.RUNNING] = {
 
         if Player.stepSFX then
             stepTimer = stepTimer + dt
-            if stepTimer >= (0.25/self.public.sprintMultiplier) then
-				stepTimer = 0
+            
+            if stepTimer >= (0.25/self.public.sprintMultiplier) and Player.currentMask ~= Mask.HERMES then
+                stepTimer = 0
                 Audio.SetSwitch("Player_Speed", "Run", Player.stepSFX)
-                if Player.stepSFX then Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps") end
+                Player.stepSFX:SelectPlayAudioEvent("SFX_PlayerFootSteps")
             end
+
         end
 
         if _G.TargetLockManager_IsLocked and _G.TargetLockManager_CurrentTarget then
@@ -1703,6 +1715,7 @@ function Update(self, dt)
         _PlayerController_pendingDamagePos = nil
         end
     end
+    
 
     if not Player.currentState then
         Player.currentState = nil
@@ -1720,6 +1733,28 @@ function Update(self, dt)
         Engine.Log("Masks not found, retrieving from hierarchy...")
         FindMasks(self)
     end
+
+    local vel = Player.rb:GetLinearVelocity()
+    local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
+    Audio.SetRTPCValue("Player_Speed", actualSpeed)
+
+
+
+    if Player.stepSFX then
+        if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
+        
+            if not Audio.IsEventPlaying("SFX_HermesHover") then 
+                Player.stepSFX:SelectPlayAudioEvent("SFX_HermesHover")
+                Engine.Log("[PLAYER] Playing Hover SFX") 
+            end
+        end
+
+        if Player.currentMask ~= Mask.HERMES then
+            Player.stepSFX:SelectStopAudioEvent("SFX_HermesHover") 
+        end
+    end
+
+    
 
     local sceneLoaderCount = _G._SceneLoaderCounter or 0
     if not Player.lastSceneCounter or Player.lastSceneCounter ~= sceneLoaderCount then
@@ -1792,6 +1827,9 @@ function Update(self, dt)
         Player.currentMask = nil
         EquipMask(self, maskToRestore)
         UpdateSwordMaterial()
+
+       
+       
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2601,4 +2639,5 @@ function _G.TriggerChestAnimation(self)
     self.public.canMove = false
     return true
 end
+
 

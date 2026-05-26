@@ -407,7 +407,7 @@ void AudioSystem::SetRTPCValue(AkRtpcID rtpcID, AkRtpcValue value) {
     if (enableDebugLogs) LOG_DEBUG("Setting RTPC value through ID");
 }
 
-void AudioSystem::SetRTPCValue(const char* name, int value) {
+void AudioSystem::SetRTPCValue(const char* name, float value) {
     AK::SoundEngine::SetRTPCValue(name, value);
     if (enableDebugLogs) LOG_DEBUG("Setting RTPC value through name");
 }

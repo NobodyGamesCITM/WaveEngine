@@ -96,6 +96,7 @@
 						<ObjectRef Name="UI_ButtonSelect" ID="{08655955-4914-4DBA-868C-4212C34AAB89}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GM_FallDown" ID="{1C9F55C6-8DA1-4DD8-BDDC-30924F4D630F}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_IntroRoar" ID="{D5863E64-2C6F-4E18-A749-FC032FFB53E0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_HermesHover" ID="{8C89365D-EB86-4E46-876D-802FA4794D5E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SpearGrab" ID="{08BBB6A4-EA87-4E49-A829-69EB032D90B3}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SwordPrep" ID="{A962B0D3-1200-4E50-9CF0-5633F346A3E5}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PlayerHit" ID="{AFE45752-2A63-4E96-95C4-6D38F3FA801F}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

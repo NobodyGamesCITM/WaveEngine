@@ -35,7 +35,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Image x:Name="HintImg_AtaqueFuerte" Source="Textures/AtaqueFuerte.PNG" Width="90" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Correr" Source="Textures/Correr.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_CambiarMascaras" Source="Textures/CanviarMascaras.PNG" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Image x:Name="HintImg_Health" Source="Textures/Health.PNG" Width="90" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg_Health" Source="Textures/Health.PNG" Width="180" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Berserk" Source="Textures/Berserk.PNG" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Ares" Source="Textures/MainCharacter_Skill Ares.png" Width="90" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                 </Grid>

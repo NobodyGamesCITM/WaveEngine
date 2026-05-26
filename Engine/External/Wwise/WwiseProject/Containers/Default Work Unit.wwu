@@ -6099,7 +6099,13 @@
 																		<XPos>0</XPos>
 																		<YPos>5.87006</YPos>
 																		<Flags>5</Flags>
-																		<SegmentShape>SCurve</SegmentShape>
+																		<SegmentShape>Exp3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>19.76878</XPos>
+																		<YPos>-3.90966</YPos>
+																		<Flags>0</Flags>
+																		<SegmentShape>Log3</SegmentShape>
 																	</Point>
 																	<Point>
 																		<XPos>24.85549</XPos>

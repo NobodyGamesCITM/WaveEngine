@@ -10,6 +10,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <SolidColorBrush Color="#00000000"/>
     </Grid.Background>
 
+    <Viewbox HorizontalAlignment="Center"
+             VerticalAlignment="Bottom"
+             Stretch="Uniform"
+             Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"
+             Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}">
+    <Grid Width="1920" Height="1080">
     <Border x:Name="ControlsHintPanel"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
@@ -62,5 +68,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </StackPanel>
         </StackPanel>
     </Border>
+    </Grid>
+    </Viewbox>
 
 </Grid>

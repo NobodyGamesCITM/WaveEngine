@@ -66,26 +66,26 @@ local function FindStatueMeshandMat(self)
         self.statueMat = self.statueMesh:GetComponent("Material")
         if self.statueMat then 
         else
-            Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
+            --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
         end
     end
 end
 
 local function FindStatueAnimation(self)
     self.statueAnim = self.gameObject:GetComponent("Animation") 
-    if not self.statueAnim then Engine.Log("Unable to find Animation Component on Bust Statue") end
+    --if not self.statueAnim then Engine.Log("Unable to find Animation Component on Bust Statue") end
 
     local maskObj = GameObject.FindInChildren(self.gameObject, "masks")
 
     if maskObj then 
         self.maskAnim = maskObj:GetComponent("Animation")
         if not self.maskAnim then 
-            Engine.Log("Unable to retrieve Animation Component from CinematicMasks") 
+            --Engine.Log("Unable to retrieve Animation Component from CinematicMasks") 
         else
-            Engine.Log("CinematicMasks Animation Component FOUND!")
+            --Engine.Log("CinematicMasks Animation Component FOUND!")
         end
     else 
-        Engine.Log("[MASKDROP] Unable to find CinematicMasks GameObject")
+        --Engine.Log("[MASKDROP] Unable to find CinematicMasks GameObject")
     end
     
 end

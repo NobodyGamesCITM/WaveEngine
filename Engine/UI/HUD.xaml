@@ -810,6 +810,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image.Transform3D>
                 </Image>
             </Grid>
+            <Grid x:Name="StatuePrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="Statue_Gamepad" Source="Textures/X.PNG" Width="30" Height="30"/>
+                <Image x:Name="Statue_Keyboard" Source="Textures/E.PNG" Width="30" Height="30"/>
+            </Grid>
         </Canvas>
 
     </Grid>

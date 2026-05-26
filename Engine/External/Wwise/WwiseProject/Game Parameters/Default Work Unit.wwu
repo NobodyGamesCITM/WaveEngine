@@ -48,7 +48,10 @@
 				</GameParameter>
 				<GameParameter Name="Player_Health" ID="{71C7FE3E-1000-484C-910D-99EC304BA9D0}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="RTPCRamping" Type="int16" Value="1"/>
+						<Property Name="SlewRateDown" Type="Real64" Value="80"/>
+						<Property Name="SlewRateUp" Type="Real64" Value="80"/>
 					</PropertyList>
 				</GameParameter>
 			</ChildrenList>

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{22F13FC9-AED0-70A1-64A8-F6A6384FAB37}",
+    "Hash": "{940B7A50-7935-0627-5F8A-78DB74173CC8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -334,6 +334,14 @@
       "Location": "Memory",
       "ShortName": "yokai watch combat terror time.wav",
       "CachePath": "95/{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem"
+     },
+     {
+      "Id": "198456775",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "heartbeat-sound-snmqh-3.wav",
+      "CachePath": "9D/{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem"
      },
      {
       "Id": "207196639",
@@ -2397,6 +2405,18 @@
       ]
      },
      {
+      "Id": "3158516759",
+      "Name": "SFX_HeartBeat",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HeartBeat",
+      "GUID": "{4F189E42-4049-4A4C-A252-2BF67E005C9B}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "198456775"
+       }
+      ]
+     },
+     {
       "Id": "3684743831",
       "Name": "SFX_HermesHover",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesHover",
@@ -3583,7 +3603,6 @@
       "Name": "SFX_SpearPull",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPull",
       "GUID": "{3B87FED3-F8DC-42BB-91B8-CC268262DDB9}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "2.1144025",
       "DurationMax": "2.1144025",
@@ -3708,14 +3727,7 @@
        {
         "Id": "1046410207"
        }
-      ],
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "3164629247"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "796310264",
@@ -3994,6 +4006,12 @@
     ],
     "GameParameters": [
      {
+      "Id": "215992295",
+      "Name": "Player_Health",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Player_Health",
+      "GUID": "{71C7FE3E-1000-484C-910D-99EC304BA9D0}"
+     },
+     {
       "Id": "1006694123",
       "Name": "Music_Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Music_Volume",
@@ -4194,6 +4212,6 @@
     ]
    }
   ],
-  "FileHash": "{C0BA2BE8-CD01-159D-164B-9776D8DFDD61}"
+  "FileHash": "{1ACADA4D-7E95-95C8-B5AA-59539401869D}"
  }
 }

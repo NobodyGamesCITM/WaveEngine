@@ -1382,6 +1382,14 @@ local InitParticles
 
 function Start(self)
     Engine.Log("[Player] Start() called - Initializing player")
+
+    attackCol    = nil
+    chargeCol    = nil
+    heavyCol     = nil
+    attackTimer  = 0
+    attackCooldown = 0
+    rollCooldown = 0
+    stepTimer    = 0.5
     
     Player.currentState    = nil
     Player.currentMask     = nil
@@ -1744,9 +1752,11 @@ function Update(self, dt)
         FindMasks(self)
     end
 
-    local vel = Player.rb:GetLinearVelocity()
-    local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
-    Audio.SetRTPCValue("Player_Speed", actualSpeed)
+    if Player.rb then
+        local vel = Player.rb:GetLinearVelocity()
+        local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
+        Audio.SetRTPCValue("Player_Speed", actualSpeed)
+    end
 
     if Player.stepSFX then
         if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
@@ -1916,7 +1926,11 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             if anim then 
-                pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                    if not ok then
+                    Engine.Log("[Player] anim:Play failed: " .. tostring(err))
+                end
+                --pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
             end
             ChangeState(self, State.IDLE, true)
         end

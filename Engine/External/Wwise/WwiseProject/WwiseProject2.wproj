@@ -23,6 +23,7 @@
 						<Value Platform="Windows">GeneratedSoundBanks\Windows</Value>
 					</ValueList>
 				</Property>
+				<Property Name="LicenseKey" Type="string" Value="PHByb2plY3QgaWQ9IjIyOTI0IiBtYXNrPSJTVkZHNTcxNyIgZW5jPSIwIj48bGljZW5zZSBpZD0iMSIgbmFtZT0iV3dpc2UiIHR5cGU9IjMiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNi0wNy0wMSIgIC8+PGxpY2Vuc2UgaWQ9IjIxIiBuYW1lPSJNYWludGVuYW5jZSIgdHlwZT0iMyIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI2LTA3LTAxIiAgLz48bGljZW5zZSBpZD0iNzAiIG5hbWU9IkluZGllIExpY2Vuc2UiIHR5cGU9IjMiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNi0wNy0wMSIgIC8+PC9wcm9qZWN0Pg==|BLO94AsRk7VW8nzfWpzE/mdQUwyaqUCSNtj8hNYwnnWvegMnkM8/70yX1cECPkrhtR45dgwAtvt8eBJ36F7K17vI2W7IgEkPEblRJtDHbQUEcEX6aJ8TtGiDgrmZJacXAzxbJ3nTn6af/5HpL7hECs+7BmKXZQDNl750GbpnWGKTpRQbkZf3VcSweUIvsoGswPQ6hGUCHWdAo9mPdIcbdnJNAfb/FaPDD98KbC1t0o2rWpZs/A2dYH95XUKX1TuYoW+bbVGxhqT/jtuwelR9Yt7gYclvu4TizeypbTKPIga+i2lsht78uZsPEDujRB+3KcABxGTAppPa/14wpyyhoQ=="/>
 				<Property Name="MediaAutoBankSubFolders" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
 				<Property Name="SoundBankHeaderFilePath" Type="string" Value="..\..\..\Audio\GeneratedSoundBanks"/>

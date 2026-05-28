@@ -12,6 +12,17 @@ VerticalAlignment="Stretch">
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center">
             <Grid Width="1920" Height="1080">
+    <Grid.Background>
+        <SolidColorBrush Color="#00000000"/>
+    </Grid.Background>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="145*"/>
+        <RowDefinition Height="790*"/>
+        <RowDefinition Height="145*"/>
+    </Grid.RowDefinitions>
+
+    <Viewbox Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="3" Margin="0">
+        <Grid Width="1920" Height="1080">
 
             <Grid x:Name="CinematicPanel" Visibility="Visible">
 
@@ -212,4 +223,11 @@ VerticalAlignment="Stretch">
             </Grid>
         </Grid>
     </Viewbox>
+    <Viewbox x:Name="BandaSuperiorViewBox" Width="1920">
+        <Rectangle x:Name="BandaSuperior" Stroke="#FF000000" Width="1920" Height="145" Fill="#FF000000"/>
+    </Viewbox>
+    <Viewbox x:Name="BandaInferiorViewBox" Grid.Row="2" Width="1920">
+        <Rectangle x:Name="BandaInferior" Stroke="#FF000000" Height="145" Width="1920" Fill="#FF000000"/>
+    </Viewbox>
+
 </Grid>

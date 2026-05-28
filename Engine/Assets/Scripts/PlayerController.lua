@@ -509,6 +509,7 @@ local function EquipMask(self, newMask, skipSword)
         Player.hermesGraceTimer   = 0
     end
 
+    local oldMask = Player.currentMask
     Player.currentMask = newMask
 
     if newMask == Mask.APOLLO then _G._MaskState_Apolo  = true
@@ -516,7 +517,7 @@ local function EquipMask(self, newMask, skipSword)
     elseif newMask == Mask.ARES   then _G._MaskState_Ares   = true
     end
 
-    if Player.currentMask ~= Mask.NONE then 
+    if Player.currentMask ~= Mask.NONE and Player.currentMask ~= oldMask then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
     end
@@ -2370,6 +2371,7 @@ function MaskScroll(self)
     if not self.public.canMove then return end
 
     local newMask = nil
+    
 
     if Input.GetKeyDown("Left") or Input.GetGamepadButtonDown("DPadLeft") then
         newMask = _G._MaskState_Apolo and Mask.APOLLO or nil
@@ -2379,7 +2381,7 @@ function MaskScroll(self)
         newMask = _G._MaskState_Ares and Mask.ARES or nil
     elseif Input.GetKeyDown("Down") or Input.GetGamepadButtonDown("DPadDown") then
         newMask = Mask.NONE
-        if Player.changeMaskSFX then 
+        if Player.changeMaskSFX and newMask ~= Player.currentMask then 
             Audio.SetSwitch("Player_Mask", "NoMask", Player.changeMaskSFX)
             Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") 
         end
@@ -2392,12 +2394,10 @@ function MaskScroll(self)
     local oldMask = Player.currentMask
     EquipMask(self, newMask)
 
-    if oldMask ~= Player.currentMask then 
-        --Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskChange") 
-        if Player.currentState ~= State.DEAD then
-            ChangeState(self, State.IDLE, true)
-        end
+    if Player.currentState ~= State.DEAD then            
+        ChangeState(self, State.IDLE, true)
     end
+    
 
     if oldMask ~= Player.currentMask and Player.currentMask ~= Mask.NONE then
         local anim = self.gameObject:GetComponent("Animation")
@@ -2536,20 +2536,29 @@ function ResetPlayer(self)
 end
 
 function OnTriggerEnter(self, other)
-    -- local matched = false
     -- for i, surface in ipairs(surfaces) do
-    --     if other:CompareTag(surface) then 
-    --         Player.currentSurface = surface
-    --         Player.foundSurface = true
+    --     if other:CompareTag(surface) then
+    --         if Player.currentSurface ~= surface then
+    --             Player.currentSurface = surface
+    --             if surface ~= "Water" then
+    --                 Player.lastGroundSurface = surface
+    --             end
+    --             if Player.stepSFX then
+    --                 Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
+    --                 Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).. " by trigger ")
+    --             end
+    --         end
     --     end
-    -- end
-    -- if not foundSurface then
-    --     Player.currentSurface = "Dirt"
-    --     foundSurface = true
     -- end
 end
 
-function OnTriggerExit(self, other) end
+
+function OnTriggerExit(self, other) 
+    -- if Player.stepSFX and Player.lastGroundSurface then
+    --     Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)
+    --     Player.currentSurface  = Player.lastGroundSurface
+    -- end
+end
 
 function OnCollisionEnter(self, other)
     if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
@@ -2571,7 +2580,7 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-                    --Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface))
+                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
                 end
             end
         end

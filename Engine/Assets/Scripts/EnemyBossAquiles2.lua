@@ -216,8 +216,8 @@ local function ChangeState(newState)
     --lanceHitActive       = false
     if colliderAreaAttack then colliderAreaAttack:Disable() end
     --if attackArea then attackArea:SetActive(false) end
-    feedbackTimer = 0
-    currentFeedbackScale = 0
+    --feedbackTimer = 0
+    --currentFeedbackScale = 0
     anticipationAnimStarted = false
     recoveryAnimStarted  = false
     dashTimer = 0
@@ -549,17 +549,20 @@ local function UpdateLance360(self, myPos, pp, dt)
         lanceAnimStarted = true
         lanceHitActive   = false
         anim:Play("AreaAttack", 0.1)
+        feedbackTimer = 0
+        currentFeedbackScale = 0
     end
 
+    --if lanceAnimStarted then attackAreaActive = true end
     lanceTimer = lanceTimer + dt
 
    if lanceTimer < self.public.lanceWindup or lanceTimer > (self.public.lanceWindup + 0.15) then
         if colliderAreaAttack then colliderAreaAttack:Disable() end
-        if attackArea then attackArea:SetActive(false) end
-        feedbackTimer = 0
-        currentFeedbackScale = 0
+        --if attackArea then attackArea:SetActive(false) end
+        
 
-    elseif lanceTimer >= self.public.lanceWindup and lanceTimer <= (self.public.lanceWindup + 0.15) and not attackAreaActive then
+        --and lanceTimer <= (self.public.lanceWindup + 0.15)
+    elseif lanceTimer >= self.public.lanceWindup  and not attackAreaActive then
         if colliderAreaAttack then
             attackAreaActive = true 
             lanceHitActive = true
@@ -573,11 +576,11 @@ local function UpdateLance360(self, myPos, pp, dt)
 
             if attackArea then 
                 attackArea:SetActive(true)
-                local pos = self.transform.worldPosition
+                local pos = self.transform.position
                 local rot = self.transform.rotation
-                attackArea.transform:SetPosition(pos.x, pos.y + 0.5, pos.z)
+                attackArea.transform:SetPosition(pos.x - 2.0, pos.y + 0.5, pos.z + 2.0)
                 attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
-                attackArea.transform:SetScale(25, 25, 25)
+                attackArea.transform:SetScale(1, 1, 1)
             end
             
         end
@@ -594,7 +597,7 @@ local function UpdateLance360(self, myPos, pp, dt)
         wallStunTimer    = self.public.recoveryLance
         ChangeState(State.RECOVERY)
         lanceTimer = 0
-        attackAreaActive = false
+        --attackAreaActive = false
     end
     --cannot scale feedback here because it'd stop abruptly if the state changes
 end
@@ -1062,7 +1065,7 @@ function Start(self)
 
     colliderAreaAttack = self.gameObject:GetComponent("Sphere Collider")
     if colliderAreaAttack then colliderAreaAttack:Disable() end
-    --if attackArea then attackArea:SetActive(false) end
+    if attackArea then attackArea:SetActive(false) end
     attackAreaTransform = self.transform
 
     attackCol = self.gameObject:GetComponent("Box Collider")
@@ -1087,7 +1090,7 @@ function Start(self)
 
     if not attackArea then 
         attackArea = Prefab.Instantiate(AttackAreaFeedback)
-        if attackArea then attackArea:SetActive(false) end
+        -- if attackArea then attackArea:SetActive(false) end
     end
     --attackAreaActive = false
     --lanceHitActive = false
@@ -1178,37 +1181,37 @@ function Update(self, dt)
         end
     end
 
-    if attackAreaActive then
-        if attackArea then attackArea:SetActive(true) end
-    end
-    -- if attackAreaActive then 
-    --     feedbackTimer = feedbackTimer + dt
+    
+    if attackArea then attackArea:SetActive(attackAreaActive) end
+    
+    if attackAreaActive then 
+        feedbackTimer = feedbackTimer + dt
 
-    --     --Engine.Log("Current feedback scale timer = " ..tostring(feedbackTimer))
+        --Engine.Log("Current feedback scale timer = " ..tostring(feedbackTimer))
 
-    --     if feedbackTimer <= 2.0 then
-    --         --scale feedback gradually
-    --         local progressPercent = math.min((feedbackTimer/2.0), 1.0)
-    --         --Engine.Log("ProgressPercent = "..tostring(progressPercent))
-    --         currentFeedbackScale = (self.public.attackAreaFinalScale or 25.0) * progressPercent
-    --         --Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))
+        if feedbackTimer <= 1.0 then
+            --scale feedback gradually
+            local progressPercent = math.min((feedbackTimer/1.0), 1.0)
+            Engine.Log("ProgressPercent = "..tostring(progressPercent))
+            currentFeedbackScale = (self.public.attackAreaFinalScale or 25.0) * progressPercent
+            Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))
 
             
-    --         if attackArea then
-    --             local t = attackArea.transform
-    --             if t then t:SetScale(currentFeedbackScale, currentFeedbackScale, currentFeedbackScale) end
+            if attackArea then
+                local t = attackArea.transform
+                if t then t:SetScale(currentFeedbackScale, currentFeedbackScale, currentFeedbackScale) end
                 
-    --         end
+            end
             
-    --     elseif feedbackTimer > 2.0 then
+        elseif feedbackTimer > 1.0 then
             
-    --         if attackArea then attackArea:SetActive(false) end
-    --         feedbackTimer = 0
-    --         --currentFeedbackScale = 0.0
-    --         attackAreaActive = false
-    --         --attackAreaTransform = nil
-    --     end
-    -- end
+            if attackArea then attackArea:SetActive(false) end
+            feedbackTimer = 0
+            --currentFeedbackScale = 0.0
+            attackAreaActive = false
+            --attackAreaTransform = nil
+        end
+    end
     
     
 
@@ -1383,8 +1386,8 @@ function OnTriggerEnter(self, other)
             if colliderLance then colliderLance:Disable() end
             if colliderAreaAttack then colliderAreaAttack:Disable() end
             --if attackArea then attackArea:SetActive(false) end
-            feedbackTimer = 0
-            currentFeedbackScale = 0
+            --feedbackTimer = 0
+            --currentFeedbackScale = 0
 
             wallStunTimer = self.public.recoveryCharge
 

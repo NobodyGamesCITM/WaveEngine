@@ -2,8 +2,10 @@ public = {
     updateWhenPaused   = true,
     delayBetweenPanels = 3.5,
     delayBetweenPages  = 1.0,
-    debugSkip          = true
+    debugSkip          = true,
 }
+
+local FADE_DURATION = 0.6
 
 local sequence = {
     { page = "Page1", panel = "Page1_V1" },
@@ -14,20 +16,20 @@ local sequence = {
     { page = "Page2", panel = "Page2_V3" },
 }
 
-local currentStep = 0
-local currentPage = ""
-local timer       = 0.0
-local state       = "wait"
-local initialized = false
+local currentStep  = 0
+local currentPage  = ""
+local timer        = 0.0
+local state        = "blackin"
+local initialized  = false
+local canvas       = nil
 
---audiosources
-local pageTurnSFX = nil
-local owlHootSFX = nil
-local owlWingSFX = nil
-local ambianceSFX = nil
+local pageTurnSFX  = nil
+local owlHootSFX   = nil
+local owlWingSFX   = nil
+local ambianceSFX  = nil
 
-local function show(name, visible)
-    UI.SetElementVisibility(name, visible)
+local function show(name, v)
+    UI.SetElementVisibility(name, v)
 end
 
 local function hidePanelsOfPage(pageName)
@@ -41,14 +43,7 @@ local function loadStep(index)
         state = "done"
         if pageTurnSFX then pageTurnSFX:SelectPlayAudioEvent("UI_PageTurn") end
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
-        
-        show("CinematicPanel", false)
-        show("CinematicFade", false)
-        _G.CinematicActive = false
-        if _G.UpdatePauseState then _G.UpdatePauseState() end
-        Game.Resume()
-        Engine.Log("[Cinematic] Terminado")
-        
+        show("CinematicFade", true)
         return
     end
 
@@ -63,114 +58,102 @@ local function loadStep(index)
         show(newPage, true)
         currentPage = newPage
         Engine.Log("[Cinematic] Página: " .. newPage)
-
-        
-        
     end
 
     show(entry.panel, true)
     Engine.Log("[Cinematic] Viñeta: " .. entry.panel)
 
-    if entry.panel == "Page1_V1" then 
-        --play owl hoot and wing, tree ambiance
-        if owlHootSFX then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot") end
-        if owlWingSFX then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly") end
+    if entry.panel == "Page1_V1" then
+        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
+        if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")      end
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
     elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
-        --play hoot
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
-        if owlHootSFX then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot") end
+        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
     elseif entry.panel == "Page2_V3" then
-        --play sea ambiance
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
-        
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")  end
     else
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
     end
 end
 
 local function FindAudioSources(self)
-
     local pageTurnObj = GameObject.FindInChildren(self.gameObject, "PageTurnSource")
-    if pageTurnObj then 
+    if pageTurnObj then
         pageTurnSFX = pageTurnObj:GetComponent("Audio Source")
-        if not pageTurnSFX then 
-            Engine.Log("[VignetteManager] Unable to retrieve Page Turn SFX Audio Source")
-        end
-    else 
-        Engine.Log("[VignetteManager] Couldn't find Page Turn SFX GameObject")
+        if not pageTurnSFX then Engine.Log("[Cinematic] Unable to retrieve Page Turn SFX") end
+    else
+        Engine.Log("[Cinematic] Couldn't find PageTurnSource")
     end
 
     local owlHootObj = GameObject.FindInChildren(self.gameObject, "OwlHootSource")
-    if owlHootObj then 
+    if owlHootObj then
         owlHootSFX = owlHootObj:GetComponent("Audio Source")
-        if not owlHootSFX then 
-            Engine.Log("[VignetteManager] Unable to retrieve Owl Hoot SFX Audio Source")
-        end
-    else 
-        Engine.Log("[VignetteManager] Couldn't find Owl Hoot GameObject")
+        if not owlHootSFX then Engine.Log("[Cinematic] Unable to retrieve Owl Hoot SFX") end
+    else
+        Engine.Log("[Cinematic] Couldn't find OwlHootSource")
     end
-
 
     local owlWingObj = GameObject.FindInChildren(self.gameObject, "OwlWingSource")
-    if owlWingObj then 
+    if owlWingObj then
         owlWingSFX = owlWingObj:GetComponent("Audio Source")
-        if not owlWingSFX then 
-            Engine.Log("[VignetteManager] Unable to retrieve Owl Wing SFX Audio Source")
-        end
-    else 
-        Engine.Log("[VignetteManager] Couldn't find Owl Wing SFX GameObject")
+        if not owlWingSFX then Engine.Log("[Cinematic] Unable to retrieve Owl Wing SFX") end
+    else
+        Engine.Log("[Cinematic] Couldn't find OwlWingSource")
     end
 
-    
-    --will grab one of the player's audiosources to bypass 3D positioning
     local player = GameObject.Find("Player")
-    if not player then 
-        Engine.Log("[VignetteManager] Player Not Found")
-    else 
+    if not player then
+        Engine.Log("[Cinematic] Player Not Found")
+    else
         local ambianceSource = GameObject.FindInChildren(player, "ItemSource")
         if ambianceSource then
             ambianceSFX = ambianceSource:GetComponent("Audio Source")
-            if not ambianceSFX then 
-                Engine.Log("[VignetteManager] Unable to retrieve the Player's Item SFX Audio Source for UI Ambiance")
-            end 
+            if not ambianceSFX then Engine.Log("[Cinematic] Unable to retrieve Ambiance SFX") end
         else
-            Engine.Log("[VignetteManager] Could not find the Player's ItemSource GameObject")
+            Engine.Log("[Cinematic] Could not find ItemSource")
         end
-
     end
-
-
-
 end
 
 function Start(self)
     _G.CinematicActive = true
     if _G.UpdatePauseState then _G.UpdatePauseState() end
     Game.Pause()
+
+    canvas = self.gameObject:GetComponent("Canvas")
+
     hidePanelsOfPage("Page1")
     hidePanelsOfPage("Page2")
-    hidePanelsOfPage("Page3")
     show("Page1", false)
     show("Page2", false)
-    show("Page3", false)
-    show("CinematicFade", false)
+    show("CinematicFade", true)
     show("CinematicPanel", true)
 
     FindAudioSources(self)
 
-    state       = "wait"
+    state       = "blackin"
     timer       = 0.0
-    currentStep = 1
-    loadStep(currentStep)
-
+    currentStep = 0
     initialized = true
     Engine.Log("[Cinematic] Listo")
 end
 
 function Update(self, dt)
     if not initialized then return end
-    if state == "done" then return end
+    if state == "done" then
+    if timer >= FADE_DURATION then
+        if canvas then canvas:SetOpacity(0) end
+        _G.CinematicActive = false
+        _G._PlayerController_introAnim = true
+        if _G.UpdatePauseState then _G.UpdatePauseState() end
+        Game.Resume()
+        state = "finished"
+    end
+    timer = timer + math.min(dt, 0.05)
+    return
+    end
+    if state == "finished" then return end
 
     if not pageTurnSFX then FindAudioSources(self) end
 
@@ -181,10 +164,19 @@ function Update(self, dt)
 
     timer = timer + math.min(dt, 0.05)
 
-    if state == "wait" then
+    if state == "blackin" then
+        if timer >= FADE_DURATION then
+            timer = 0.0
+            show("CinematicFade", false)
+            state       = "wait"
+            currentStep = 1
+            loadStep(currentStep)
+        end
+
+    elseif state == "wait" then
         local nextStep     = currentStep + 1
         local isPageChange = nextStep <= #sequence and sequence[nextStep].page ~= sequence[currentStep].page
-        local delay = isPageChange and self.public.delayBetweenPages or self.public.delayBetweenPanels
+        local delay        = isPageChange and self.public.delayBetweenPages or self.public.delayBetweenPanels
 
         if timer >= delay then
             timer = 0.0

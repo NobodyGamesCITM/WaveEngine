@@ -19,9 +19,47 @@ public = {
 
 local currentCheckpoint = nil
 local previousCheckpoint = nil
+local normalTexUUID = "15061063724499349633"
+local glowingTexUUID = "5205049906102326052"
+
+local function ChangeTexture(texUUID, checkpoint)
+    if not checkpoint then 
+        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        return 
+    end
+
+    local buhoObj = GameObject.FindInChildren(checkpoint, "Buho")
+    if buhoObj then
+        local buhoMat = buhoObj:GetComponent("Material")
+        if not buhoMat then 
+            Engine.Log("[CHECKPOINTS] Unable to retrieve Buho Material Component")
+        else
+            buhoMat.SetTexture(texUUID)
+
+            if texUUID == normalTexUUID then 
+                Engine.Log("[CHECKPOINTS] Successfully applied normal eyes to Athena Statue")
+            elseif texUUID == glowingTexUUID then 
+                Engine.Log("[CHECKPOINTS] Successfully applied Glowing Eyes to Athena Statue" )
+            end
+        end
+    end
 
 
-local function ActivateParticles(self, vfxName, checkpoint)
+    --the base looks the same in both so it isn't really needed I guess
+
+    -- local baseObj = GameObject.FindInChildren(checkpoint, "Base")
+    -- if baseObj then
+    --     local baseMat = baseObj:GetComponent("Material")
+    --     if not baseMat then 
+    --         Engine.Log("[CHECKPOINTS] Unable to retrieve Base Material Component")
+    --     else
+    --         baseMat.SetTexture(texUUID)
+    --     end
+    -- end 
+end
+
+
+local function ActivateParticles(vfxName, checkpoint)
     if not checkpoint then 
         Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
@@ -37,20 +75,20 @@ local function ActivateParticles(self, vfxName, checkpoint)
         if particleComp then 
             if not particleComp:IsPlaying() then 
                 particleComp:Play() 
-                --Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
+                Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
             end
            
         else 
-            --Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
+            Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
         end
     else 
-        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
+        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
     end
 
     
 end
 
-local function StopParticles(self, vfxName, checkpoint)
+local function StopParticles(vfxName, checkpoint)
     if not checkpoint then 
         Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
@@ -63,17 +101,17 @@ local function StopParticles(self, vfxName, checkpoint)
         if particleComp then 
             if particleComp:IsPlaying() then 
                 particleComp:Stop() 
-               -- Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
+                Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
             end
             
         else 
-            --Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
+            Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
         end
 
         VFXobj:SetActive(false)
-       -- Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
+        Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
     else 
-        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
+        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
     end
 end
 
@@ -88,16 +126,22 @@ local function FindCheckPointAudioSources(self)
 
 end
 
+
 local function Initialize(self)
 
     FindCheckPointAudioSources(self)
 
+    --Engine.RequestResource(normalTexUUID)
+    --Engine.RequestResource(glowingTexUUID)
+
     checkpoints = GameObject.FindByTag("CheckPoint")
     for i, checkpoint in ipairs(checkpoints) do
        -- Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
-        StopParticles(self, "LastCheckpointVFX", checkpoint)
-        StopParticles(self, "BlueSparkles", checkpoint)
-        ActivateParticles(self, "YellowSparkles", checkpoint)
+        StopParticles("LastCheckpointVFX", checkpoint)
+        StopParticles("BlueSparkles", checkpoint)
+        ActivateParticles("YellowSparkles", checkpoint)
+
+        --ChangeTexture(self, checkpoint, normalTexUUID)
     end
 
 end
@@ -113,7 +157,7 @@ function Update(self, deltaTime)
         Initialize(self)
     end
 
-    if not self.chantSFX or not self.saveSFX then 
+    if not self.saveSFX then 
         FindCheckPointAudioSources(self)
     end
 
@@ -150,13 +194,15 @@ function Update(self, deltaTime)
                     lastCheckpoint = pos --current checkpoint transform, not gameobject
 
 
-					StopParticles(self, "LastCheckpointVFX", previousCheckpoint)
-                    StopParticles(self, "BlueSparkles", previousCheckpoint)
-                    ActivateParticles(self, "Sparkles", previousCheckpoint)
+					StopParticles("LastCheckpointVFX", previousCheckpoint)
+                    StopParticles("BlueSparkles", previousCheckpoint)
+                    ActivateParticles("Sparkles", previousCheckpoint)
+                    ChangeTexture(normalTexUUID, previousCheckpoint)
 
-                    ActivateParticles(self, "LastCheckpointVFX", currentCheckpoint)
-                    ActivateParticles(self, "BlueSparkles", currentCheckpoint)
-                    StopParticles(self, "YellowSparkles", currentCheckpoint)
+                    ActivateParticles("LastCheckpointVFX", currentCheckpoint)
+                    ActivateParticles("BlueSparkles", currentCheckpoint)
+                    StopParticles("YellowSparkles", currentCheckpoint)
+                    ChangeTexture(glowingTexUUID, currentCheckpoint)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
                     end

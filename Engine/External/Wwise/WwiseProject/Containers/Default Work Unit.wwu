@@ -6099,10 +6099,10 @@
 																		<XPos>0</XPos>
 																		<YPos>5.87006</YPos>
 																		<Flags>5</Flags>
-																		<SegmentShape>SCurve</SegmentShape>
+																		<SegmentShape>Exp2</SegmentShape>
 																	</Point>
 																	<Point>
-																		<XPos>24.85549</XPos>
+																		<XPos>44.79769</XPos>
 																		<YPos>-200</YPos>
 																		<Flags>0</Flags>
 																		<SegmentShape>Exp3</SegmentShape>

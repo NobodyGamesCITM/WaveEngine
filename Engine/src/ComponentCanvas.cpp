@@ -465,6 +465,15 @@ void ComponentCanvas::SetOpacity(float alpha)
     opacity = std::clamp(alpha, 0.0f, 1.0f);
 }
 
+void ComponentCanvas::SetElementOpacity(const char* name, float alpha)
+{
+    if (!view) return;
+    Noesis::FrameworkElement* root = view->GetContent();
+    if (!root) return;
+    auto* element = Noesis::DynamicCast<Noesis::UIElement*>(root->FindName(name));
+    if (element) element->SetOpacity(std::clamp(alpha, 0.0f, 1.0f));
+}
+
 float ComponentCanvas::GetOpacity() const
 {
     return opacity;

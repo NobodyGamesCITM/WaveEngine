@@ -4,13 +4,13 @@ public = {
 
 PRESETS = {
     intro = {
-        duration = 3.0,
+        duration = 5.0,
         slots = {
             { img = "HintImg_Caminar",         key = "HintKey_WASD",   gp = "HintGP_Joystick" },
         },
     },
     run = {
-        duration = 2.0,
+        duration = 4.0,
         slots = {
             { img = "HintImg_Correr",          key = "HintKey_Shift",  gp = "HintGP_LT" },
         },
@@ -41,6 +41,12 @@ PRESETS = {
         },
     },
     potion_berserk = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_Berserk",         key = "HintKey_8",      gp = "HintGP_RB" },
+        },
+    },
+    ares_puzzle = {
         duration = 5.0,
         slots = {
             { img = "HintImg_Berserk",         key = "HintKey_8",      gp = "HintGP_RB" },

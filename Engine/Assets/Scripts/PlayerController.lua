@@ -123,6 +123,7 @@ local Player = {
     hermesDeathTimer   = 0.0,
     hermesPendingUnequip = false,
     hermesRespawnCooldown = 0,
+    hermesWaterWalkCost = 10.0,
     baseSpeed = 0.0,
     isGrounded = false,
 
@@ -497,12 +498,10 @@ local function EquipMask(self, newMask, skipSword)
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
         Player.currentMask = newMask
-        Player.hermesPendingUnequip = true
-        Player.hermesDeathRespawn = true
-        Player.hermesDeathTimer   = 2.0
+        self.public.health = 0
+        _G._PlayerController_isDead = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
-
         UpdateSwordMaterial()
         return
     end
@@ -510,6 +509,7 @@ local function EquipMask(self, newMask, skipSword)
         Player.hermesGraceTimer   = 0
     end
 
+    local oldMask = Player.currentMask
     Player.currentMask = newMask
 
     if newMask == Mask.APOLLO then _G._MaskState_Apolo  = true
@@ -517,7 +517,7 @@ local function EquipMask(self, newMask, skipSword)
     elseif newMask == Mask.ARES   then _G._MaskState_Ares   = true
     end
 
-    if Player.currentMask ~= Mask.NONE then 
+    if Player.currentMask ~= Mask.NONE and Player.currentMask ~= oldMask then 
         Audio.SetSwitch("Player_Mask", tostring(Player.currentMask), Player.changeMaskSFX)
         if Player.changeMaskSFX then Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") end
     end
@@ -550,8 +550,13 @@ States[State.DEAD] = {
         Player.deathAnimTimer = 1.5                  
         if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_PlayerDeath") end
         local anim = self.gameObject:GetComponent("Animation")
-        if anim and Player.isDrowning then 
+        if anim and Player.isDrowning then
             pcall(function() anim:Play("Drown", 0.5) end)
+            if Player.currentMask == Mask.HERMES then
+                pcall(function() anim:SetSpeed("Drown", 1.0) end)
+            else
+                pcall(function() anim:SetSpeed("Drown", 0.4) end)
+            end
         else 
             pcall(function() anim:Play("Die", 0.5) end)
         end
@@ -578,7 +583,6 @@ States[State.DEAD] = {
         end
 
         if Player.hermesDeathRespawn then
-            self.public.stamina = 50.0
             Player.hermesDeathTimer = Player.hermesDeathTimer - dt
             if Player.hermesDeathTimer <= 0 then
                 Player.hermesDeathRespawn = false    
@@ -610,7 +614,7 @@ States[State.DEAD] = {
             if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
             if Player.hermesRespawnCooldown <= 0 then
                 ChangeState(self, State.IDLE)
-                self.public.stamina = 50.0
+                self.public.stamina = 70.0
                 staminaLock = false
                 if Player.isDrowning then
                     Player.hermesGraceTimer = 1.0
@@ -695,6 +699,10 @@ States[State.WALK] = {
     end,
     
     Update = function(self, dt)
+        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+            self.public.stamina = math.max(0, self.public.stamina - (Player.hermesWaterWalkCost * dt))
+        end
+
         local sprintInput = Input.GetKey("LeftShift") or Input.GetGamepadAxis("LT") > 0.5
         if sprintInput and not Player.sprintHeld and self.public.stamina > 10 then
             ChangeState(self, State.RUNNING)
@@ -1375,6 +1383,14 @@ local InitParticles
 
 function Start(self)
     Engine.Log("[Player] Start() called - Initializing player")
+
+    attackCol    = nil
+    chargeCol    = nil
+    heavyCol     = nil
+    attackTimer  = 0
+    attackCooldown = 0
+    rollCooldown = 0
+    stepTimer    = 0.5
     
     Player.currentState    = nil
     Player.currentMask     = nil
@@ -1737,9 +1753,11 @@ function Update(self, dt)
         FindMasks(self)
     end
 
-    local vel = Player.rb:GetLinearVelocity()
-    local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
-    Audio.SetRTPCValue("Player_Speed", actualSpeed)
+    if Player.rb then
+        local vel = Player.rb:GetLinearVelocity()
+        local actualSpeed = math.sqrt(vel.x * vel.x + vel.z * vel.z)
+        Audio.SetRTPCValue("Player_Speed", actualSpeed)
+    end
 
     if Player.stepSFX then
         if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
@@ -1910,7 +1928,11 @@ function Update(self, dt)
             self.public.canMove = true
             ChangeState(self, State.IDLE)
             if anim then 
-                pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                    if not ok then
+                    Engine.Log("[Player] anim:Play failed: " .. tostring(err))
+                end
+                --pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
             end
             ChangeState(self, State.IDLE, true)
         end
@@ -2218,7 +2240,9 @@ function Update(self, dt)
         States[Player.currentState].Update(self, dt)
 
         if (Player.currentState == State.IDLE or Player.currentState == State.WALK) and self.public.stamina < 100 then
-            self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
+            if not (Player.isDrowning and Player.currentMask == Mask.HERMES) then
+                self.public.stamina = math.min(100, self.public.stamina + (self.public.staminaRecover * dt))
+            end
         end
     end
 
@@ -2297,20 +2321,11 @@ function Update(self, dt)
     ObtainMask(self)
 
     if Player.isDrowning and Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD and Player.isGrounded == false then
-        if Player.currentState == State.RUNNING then
-            Player.hermesGraceTimer = HERMES_GRACE_TIME
-        else
-            if self.public.stamina <= 0 then
-                Player.hermesGraceTimer = 0
-            end
-            if Player.hermesGraceTimer > 0 then
-                Player.hermesGraceTimer = Player.hermesGraceTimer - dt
-            else
-                Player.hermesDeathRespawn = true
-                Player.hermesDeathTimer   = 2.3
-                if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
-                ChangeState(self, State.DEAD)
-            end
+        if self.public.stamina <= 0 then
+            Player.hermesDeathRespawn = true
+            Player.hermesDeathTimer   = 2.3
+            if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
+            ChangeState(self, State.DEAD)
         end
     end
 
@@ -2356,6 +2371,7 @@ function MaskScroll(self)
     if not self.public.canMove then return end
 
     local newMask = nil
+    
 
     if Input.GetKeyDown("Left") or Input.GetGamepadButtonDown("DPadLeft") then
         newMask = _G._MaskState_Apolo and Mask.APOLLO or nil
@@ -2365,7 +2381,7 @@ function MaskScroll(self)
         newMask = _G._MaskState_Ares and Mask.ARES or nil
     elseif Input.GetKeyDown("Down") or Input.GetGamepadButtonDown("DPadDown") then
         newMask = Mask.NONE
-        if Player.changeMaskSFX then 
+        if Player.changeMaskSFX and newMask ~= Player.currentMask then 
             Audio.SetSwitch("Player_Mask", "NoMask", Player.changeMaskSFX)
             Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch") 
         end
@@ -2378,9 +2394,10 @@ function MaskScroll(self)
     local oldMask = Player.currentMask
     EquipMask(self, newMask)
 
-    if oldMask ~= Player.currentMask then 
+    if Player.currentState ~= State.DEAD then            
         ChangeState(self, State.IDLE, true)
     end
+    
 
     if oldMask ~= Player.currentMask and Player.currentMask ~= Mask.NONE then
         local anim = self.gameObject:GetComponent("Animation")
@@ -2519,20 +2536,29 @@ function ResetPlayer(self)
 end
 
 function OnTriggerEnter(self, other)
-    -- local matched = false
     -- for i, surface in ipairs(surfaces) do
-    --     if other:CompareTag(surface) then 
-    --         Player.currentSurface = surface
-    --         Player.foundSurface = true
+    --     if other:CompareTag(surface) then
+    --         if Player.currentSurface ~= surface then
+    --             Player.currentSurface = surface
+    --             if surface ~= "Water" then
+    --                 Player.lastGroundSurface = surface
+    --             end
+    --             if Player.stepSFX then
+    --                 Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
+    --                 Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).. " by trigger ")
+    --             end
+    --         end
     --     end
-    -- end
-    -- if not foundSurface then
-    --     Player.currentSurface = "Dirt"
-    --     foundSurface = true
     -- end
 end
 
-function OnTriggerExit(self, other) end
+
+function OnTriggerExit(self, other) 
+    -- if Player.stepSFX and Player.lastGroundSurface then
+    --     Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)
+    --     Player.currentSurface  = Player.lastGroundSurface
+    -- end
+end
 
 function OnCollisionEnter(self, other)
     if other:CompareTag("Water") and Player.currentMask == Mask.HERMES then
@@ -2554,7 +2580,7 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-                    --Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface))
+                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
                 end
             end
         end

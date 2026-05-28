@@ -9,14 +9,17 @@ local Icons = {
     keyboard = {
         Interact = "InputKeyText",
         LockOn   = "LockOn_Keyboard",
+        Statue = "Statue_Keyboard",
     },
     gamepad = {
         Interact = "InputGamepadIcon",
         LockOn   = "LockOn_Gamepad",
+        Statue = "Statue_Gamepad",
     },
     prompt = {
         Interact = "InteractPrompt",
         LockOn   = "LockOnPrompt",
+        Statue = "StatuePrompt",
     },
 }
 
@@ -102,9 +105,9 @@ local function hideLockOnPrompt()
     UI.SetElementVisibility("LockOnPrompt", false)
     UI.SetElementVisibility("LockOn_Keyboard", false)
     UI.SetElementVisibility("LockOn_Gamepad", false)
+    UI.SetElementVisibility("StatuePrompt", false)
 end
 
--- Un solo LockOnPrompt en HUD.xaml: elegir el enemigo vivo mas cercano en rango
 local function refreshSharedLockOnPrompt()
     if _G.DialogActive then
         hideLockOnPrompt()

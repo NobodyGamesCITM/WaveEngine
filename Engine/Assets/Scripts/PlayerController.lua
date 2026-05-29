@@ -1759,17 +1759,30 @@ function Update(self, dt)
         Audio.SetRTPCValue("Player_Speed", actualSpeed)
     end
 
-    if Player.stepSFX then
-        if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
-        
-            if not Audio.IsEventPlaying("SFX_HermesHover") then 
-                Player.stepSFX:SelectPlayAudioEvent("SFX_HermesHover")
-                Engine.Log("[PLAYER] Playing Hover SFX") 
+    if Player.stepSFX and Player.voiceSFX then
+        if Player.currentMask == Mask.HERMES then
+            if Player.currentState ~= State.DEAD then
+                if not Audio.IsEventPlaying("SFX_HermesWind") then 
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_HermesWind")
+                    Engine.Log("[PLAYER] Playing Wind Hover SFX") 
+                end
+            end
+
+            if Player.currentState == State.WALK or Player.currentState == State.RUNNING then 
+            
+                if not Audio.IsEventPlaying("SFX_HermesFlare") then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_HermesFlare")
+                    Engine.Log("[PLAYER] Playing Hover SFX") 
+                end
+            else
+                Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
             end
         end
 
         if Player.currentMask ~= Mask.HERMES then
-            Player.stepSFX:SelectStopAudioEvent("SFX_HermesHover") 
+            Player.stepSFX:SelectStopAudioEvent("SFX_HermesWind") 
+            Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
+            
         end
     end
 
@@ -1966,30 +1979,30 @@ function Update(self, dt)
         if wakeUpCinematic then
 
             -- step 1
-            if Player.AnimTimer <= 19.00 and Player.AnimTimer >= 18.9 and not Audio.IsEventPlaying("SFX_SandStir") then
+            if Player.AnimTimer <= 18.0 and Player.AnimTimer >= 17.9 and not Audio.IsEventPlaying("SFX_SandStir") then
                 if Player.stepSFX then 
                     --Audio.SetSFXVolume(50.0)
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStir") 
-                    Engine.Log("[WAKE UP] Played Sand Stir!")
+                    --Engine.Log("[WAKE UP] Played Sand Stir!")
                     --Audio.SetSFXVolume(100.0)
                 end
                 
             end
 
             -- step 2
-            if Player.AnimTimer <= 10.9 and Player.AnimTimer >= 10.8 and not Audio.IsEventPlaying("SFX_SandStep1") then
+            if Player.AnimTimer <= 10.5 and Player.AnimTimer >= 10.3 and not Audio.IsEventPlaying("SFX_SandStep1") then
                 if Player.stepSFX then 
                    
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep1")
-                    Engine.Log("[WAKE UP] Played Step 1!")
+                    --Engine.Log("[WAKE UP] Played Step 1!")
                 end
             end
 
             -- sword on sand
-            if Player.AnimTimer <= 10.0 and Player.AnimTimer >= 9.9 and not Audio.IsEventPlaying("SFX_SwordSandStab") then
+            if Player.AnimTimer <= 9.8 and Player.AnimTimer >= 9.6 and not Audio.IsEventPlaying("SFX_SwordSandStab") then
                 if Player.swordSFX then 
                     Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandStab") 
-                    Engine.Log("[WAKE UP] Played Sand Stab!")
+                    --Engine.Log("[WAKE UP] Played Sand Stab!")
                 end
             end
 
@@ -1998,7 +2011,7 @@ function Update(self, dt)
                 if Player.swordSFX then 
                     Audio.SetSFXVolume(70.0)
                     Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandUnStab") 
-                    Engine.Log("[WAKE UP] Played Unstab!")
+                    --Engine.Log("[WAKE UP] Played Unstab!")
                     Audio.SetSFXVolume(100.0)
                 end
             end
@@ -2007,7 +2020,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.4 and Player.AnimTimer >= 5.2 and not Audio.IsEventPlaying("SFX_SandStep2") then
                 if Player.stepSFX then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep2") 
-                    Engine.Log("[WAKE UP] Played Step 2!")
+                   -- Engine.Log("[WAKE UP] Played Step 2!")
                 end
             end
 
@@ -2015,7 +2028,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.0 and Player.AnimTimer >= 4.8 and not Audio.IsEventPlaying("SFX_ZoomOut") then
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_ZoomOut") 
-                    Engine.Log("[WAKE UP] Played Zoom Out!")
+                    --Engine.Log("[WAKE UP] Played Zoom Out!")
                 end
             end
 
@@ -2024,7 +2037,7 @@ function Update(self, dt)
                 if not Audio.IsEventPlaying("SFX_SandStep3") then
                     if Player.stepSFX then 
                         Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep3") 
-                        Engine.Log("[WAKE UP] Played Step 3!")
+                        --Engine.Log("[WAKE UP] Played Step 3!")
                     end
                 else 
                     --Engine.Log("[WAKE UP] CinematicSandSteps already playing!") 
@@ -2289,8 +2302,11 @@ function Update(self, dt)
         giveApoloMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Apolo", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+
+            if Player.currentMask ~= Mask.APOLLO then
+                Audio.SetSwitch("Player_Mask", "Apolo", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     
     end
@@ -2299,8 +2315,10 @@ function Update(self, dt)
         giveHermesMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Hermes", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            if Player.currentMask ~= Mask.HERMES then
+                Audio.SetSwitch("Player_Mask", "Hermes", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     end
 
@@ -2308,8 +2326,10 @@ function Update(self, dt)
         giveAresMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Ares", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            if Player.currentMask ~= Mask.ARES then
+                Audio.SetSwitch("Player_Mask", "Ares", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     end
 

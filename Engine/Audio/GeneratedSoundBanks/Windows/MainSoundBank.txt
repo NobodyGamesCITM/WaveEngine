@@ -27,6 +27,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
 	1569503582	UI_PageTurn			\Default Work Unit\UI\UI_PageTurn	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
+	1720125317	SFX_HermesWind			\Default Work Unit\Player\SFX_HermesWind	
 	1742302713	SFX_SpearPull			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPull	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1860584701	SFX_SpearPrep			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPrep	
@@ -62,6 +63,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3020549885	SFX_TorchFire			\Default Work Unit\Other\SFX_TorchFire	
 	3041839238	SFX_MinoCharge			\Default Work Unit\Minocabro\SFX_MinoCharge	
 	3128226246	SFX_PotionDrink			\Default Work Unit\Player\SFX_PotionDrink	
+	3152724629	SFX_HermesFlare			\Default Work Unit\Player\SFX_HermesFlare	
 	3158516759	SFX_HeartBeat			\Default Work Unit\Player\SFX_HeartBeat	
 	3164505444	SFX_MinoDieCry			\Default Work Unit\Minocabro\SFX_MinoDieCry	
 	3170494108	SFX_SandStep3			\Default Work Unit\Player\WakeUp\SFX_SandStep3	
@@ -347,6 +349,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	804853606	aquiles_step_05	.cache\5F\{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_05		41336
 	806935094	page_turn_03	.cache\AE\{AE6CB611-8C87-EC99-8A69-8FAFF4B7F37B}.wem		\Containers\Default Work Unit\Objects\UI\UI_PageTurn\page_turn_03		36584
 	812426534	water_walk_06	.cache\E6\{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_06		13292
+	814088531	HermesHover_Wind	.cache\0D\{0DAC4691-B615-C917-985A-90B529C6A113}.wem		\Containers\Default Work Unit\Objects\Player\HermesHover_Wind		454760
 	815791911	hermes_spin_02	.cache\65\{6570BBC3-F597-024E-01BA-91D14878A6F3}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_02		8720
 	815856036	hermes_spin_03	.cache\50\{507E21FB-7A9C-8707-3FD6-2319D76E8922}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_03		9152
 	818212773	Musica_MainMenu	.cache\39\{39B47E58-1A00-7354-0FE6-4950CEFC10EA}.wem		\Containers\Default Work Unit\BGM_Switch\MainMenu_Playlist\OurMainMenu_2\Musica_MainMenu		3012848
@@ -370,9 +373,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	864792433	aquiles_step_01	.cache\85\{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		57176
 	871849665	encounter_riser	.cache\30\{308BA59D-99C0-1972-E3F5-C7BE2A1C0AA7}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\encounter_riser		1263464
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
+	893143398	Hermes_Hover_Flare	.cache\54\{546A0309-9FA9-4F25-5BA1-DF0607F0C336}.wem		\Containers\Default Work Unit\Objects\Player\Hermes_Hover_Flare		454832
 	895508259	metal-rock_impact_02	.cache\D8\{D81D482F-D50F-FA26-CC37-45CA4CA902C4}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_02		35144
 	896777533	Aquiles_Warcry_02	.cache\FB\{FB3EDD18-81A0-0BF1-588E-E224CEF19412}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Warcry\Aquiles_Warcry_02		120320
-	901747587	Hermes_Hover	.cache\90\{90E36423-EBF0-3E74-2523-E97499846A14}.wem		\Containers\Default Work Unit\Objects\Player\Hermes_Hover		455120
 	902777621	wood_run_02	.cache\69\{6912727A-55F1-76E5-1A74-12B0D64BF233}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_02		7244
 	908137877	water_run_05	.cache\0E\{0E38BBB5-7694-3E68-9693-BF472C163DA4}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_05		6632
 	913414124	lucas_lesc-grab-clothes-foley-308655	.cache\0A\{0A5A2A4D-01FA-02B2-A510-4AD140173A5D}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\lucas_lesc-grab-clothes-foley-308655		29744

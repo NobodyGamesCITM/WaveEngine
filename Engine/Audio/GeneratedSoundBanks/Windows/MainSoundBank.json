@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{B8B391BE-C63B-7E90-E638-6592B07C2610}",
+    "Hash": "{0A491F05-728D-D6AA-8ACC-84903FC3FD0C}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -1392,6 +1392,14 @@
       "CachePath": "E6/{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem"
      },
      {
+      "Id": "814088531",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_float_wind.wav",
+      "CachePath": "0D/{0DAC4691-B615-C917-985A-90B529C6A113}.wem"
+     },
+     {
       "Id": "815791911",
       "Language": "SFX",
       "Streaming": "false",
@@ -1576,6 +1584,14 @@
       "CachePath": "48/{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem"
      },
      {
+      "Id": "893143398",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "hermes_float_flare.wav",
+      "CachePath": "54/{546A0309-9FA9-4F25-5BA1-DF0607F0C336}.wem"
+     },
+     {
       "Id": "895508259",
       "Language": "SFX",
       "Streaming": "false",
@@ -1590,14 +1606,6 @@
       "Location": "Memory",
       "ShortName": "Aquiles_Warcry_02.wav",
       "CachePath": "FB/{FB3EDD18-81A0-0BF1-588E-E224CEF19412}.wem"
-     },
-     {
-      "Id": "901747587",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "hermes_float_00.wav",
-      "CachePath": "90/{90E36423-EBF0-3E74-2523-E97499846A14}.wem"
      },
      {
       "Id": "902777621",
@@ -2707,6 +2715,19 @@
       ]
      },
      {
+      "Id": "3152724629",
+      "Name": "SFX_HermesFlare",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesFlare",
+      "GUID": "{1F528712-180B-4751-B635-DBE9417B875B}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "893143398"
+       }
+      ]
+     },
+     {
       "Id": "3684743831",
       "Name": "SFX_HermesHover",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesHover",
@@ -2715,7 +2736,10 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "901747587"
+        "Id": "814088531"
+       },
+       {
+        "Id": "893143398"
        }
       ]
      },
@@ -2749,6 +2773,19 @@
        },
        {
         "Id": "815856036"
+       }
+      ]
+     },
+     {
+      "Id": "1720125317",
+      "Name": "SFX_HermesWind",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_HermesWind",
+      "GUID": "{302A6A84-EB38-4B82-9680-C05A51097C69}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "814088531"
        }
       ]
      },
@@ -3595,7 +3632,6 @@
       "Name": "SFX_PortalFireOn",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_PortalFireOn",
       "GUID": "{27CA6ACC-AA16-4D22-9734-065BB1C67090}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "3.9732568",
       "DurationMax": "6.3071523",
@@ -4078,7 +4114,7 @@
       "Name": "SFX_TorchFire",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_TorchFire",
       "GUID": "{D448BFDB-F7C2-4599-97EF-D05104A452FB}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "24",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -4607,6 +4643,6 @@
     ]
    }
   ],
-  "FileHash": "{47B10C5B-D622-A14A-00D7-8AEA030EA336}"
+  "FileHash": "{71265A42-104F-40AC-9AEC-F3F4984F450C}"
  }
 }

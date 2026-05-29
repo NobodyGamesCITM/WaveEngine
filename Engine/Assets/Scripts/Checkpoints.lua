@@ -32,30 +32,21 @@ local function ChangeTexture(texUUID, checkpoint)
     if buhoObj then
         local buhoMat = buhoObj:GetComponent("Material")
         if not buhoMat then 
-            Engine.Log("[CHECKPOINTS] Unable to retrieve Buho Material Component")
+            ---Engine.Log("[CHECKPOINTS] Unable to retrieve Buho Material Component")
         else
             buhoMat.SetTexture(texUUID)
 
             if texUUID == normalTexUUID then 
-                Engine.Log("[CHECKPOINTS] Successfully applied normal eyes to Athena Statue")
+                --Engine.Log("[CHECKPOINTS] Successfully applied normal eyes to Athena Statue")
             elseif texUUID == glowingTexUUID then 
-                Engine.Log("[CHECKPOINTS] Successfully applied Glowing Eyes to Athena Statue" )
+                --Engine.Log("[CHECKPOINTS] Successfully applied Glowing Eyes to Athena Statue" )
             end
         end
     end
 
 
-    --the base looks the same in both so it isn't really needed I guess
+    --the base looks the same in both so it isn't really needed in the base object, I guess
 
-    -- local baseObj = GameObject.FindInChildren(checkpoint, "Base")
-    -- if baseObj then
-    --     local baseMat = baseObj:GetComponent("Material")
-    --     if not baseMat then 
-    --         Engine.Log("[CHECKPOINTS] Unable to retrieve Base Material Component")
-    --     else
-    --         baseMat.SetTexture(texUUID)
-    --     end
-    -- end 
 end
 
 
@@ -75,14 +66,14 @@ local function ActivateParticles(vfxName, checkpoint)
         if particleComp then 
             if not particleComp:IsPlaying() then 
                 particleComp:Play() 
-                Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
+                --Engine.Log("[Checkpoints] Activated " ..tostring(vfxName).. " Particle System")
             end
            
         else 
-            Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
+            --Engine.Log("[Checkpoints] Couldn't find Particle System on " ..tostring(vfxName).. " GameObject")
         end
     else 
-        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
+        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")    
     end
 
     
@@ -101,17 +92,17 @@ local function StopParticles(vfxName, checkpoint)
         if particleComp then 
             if particleComp:IsPlaying() then 
                 particleComp:Stop() 
-                Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
+                --Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName)..  " Particle System")
             end
             
         else 
-            Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
+            --Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
         end
 
         VFXobj:SetActive(false)
-        Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
+        --Engine.Log("[Checkpoints] Deactivated " ..tostring(vfxName).. " Particles GameObject")
     else 
-        Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
+        --Engine.Log("[Checkpoints] Couldn't retrieve " ..tostring(vfxName).. " GameObject")
     end
 end
 

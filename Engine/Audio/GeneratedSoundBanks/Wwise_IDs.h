@@ -46,8 +46,10 @@ namespace AK
         static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
         static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
         static const AkUniqueID SFX_HEARTBEAT = 3158516759U;
+        static const AkUniqueID SFX_HERMESFLARE = 3152724629U;
         static const AkUniqueID SFX_HERMESHOVER = 3684743831U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
+        static const AkUniqueID SFX_HERMESWIND = 1720125317U;
         static const AkUniqueID SFX_INTROROAR = 1929205333U;
         static const AkUniqueID SFX_KNEELDOWN = 3671466604U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;

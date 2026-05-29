@@ -28,6 +28,7 @@ local owlHootSFX   = nil
 local owlWingSFX   = nil
 local ambianceSFX  = nil
 
+
 local function show(name, v)
     UI.SetElementVisibility(name, v)
 end
@@ -63,17 +64,21 @@ local function loadStep(index)
     show(entry.panel, true)
     Engine.Log("[Cinematic] Viñeta: " .. entry.panel)
 
-    if entry.panel == "Page1_V1" then
-        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
-        if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")      end
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
-    elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
-        if ambianceSFX then ambianceSFX:StopAudioEvent() end
-        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
-    elseif entry.panel == "Page2_V3" then
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")  end
+    if self.gameObject:IsActive() then 
+        if entry.panel == "Page1_V1" then
+            if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
+            if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")      end
+            if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
+        elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
+            if ambianceSFX then ambianceSFX:StopAudioEvent() end
+            if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
+        elseif entry.panel == "Page2_V3" then
+            if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")  end
+        else
+            if ambianceSFX then ambianceSFX:StopAudioEvent() end
+        end
     else
-        if ambianceSFX then ambianceSFX:StopAudioEvent() end
+        Engine.Log("Viñetas no visibles, SFX muteados")
     end
 end
 
@@ -101,6 +106,7 @@ local function FindAudioSources(self)
     else
         Engine.Log("[Cinematic] Couldn't find OwlWingSource")
     end
+    
 
     local player = GameObject.Find("Player")
     if not player then
@@ -137,10 +143,15 @@ function Start(self)
     currentStep = 0
     initialized = true
     Engine.Log("[Cinematic] Listo")
+
+    
 end
 
 function Update(self, dt)
     if not initialized then return end
+
+    
+
     if state == "done" then
     if timer >= FADE_DURATION then
         if canvas then canvas:SetOpacity(0) end

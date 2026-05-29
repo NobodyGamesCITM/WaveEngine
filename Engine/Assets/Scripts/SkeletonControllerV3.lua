@@ -83,6 +83,8 @@ local BaseMat = nil
 local setAlive = false
 local setDead = false
 
+local initChase = false
+
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
 local function Clamp(v, lo, hi)
@@ -401,16 +403,19 @@ States[State.CHASE] = {
         end
 
         if CheckDistance(self,self.public.nearDist,true) then
+            initChase = false
             ChangeState(self, State.ATTACK)
             return
         end
-        if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
-            if not self.public.activeGuard then ChangeState(self, State.IDLE)
-            else  
-                OnStartPos = false
-                ChangeState(self, State.GUARD) 
+        if not initChase then
+            if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
+                if not self.public.activeGuard then ChangeState(self, State.IDLE)
+                else  
+                    OnStartPos = false
+                    ChangeState(self, State.GUARD) 
+                end
+                return
             end
-            return
         end
 
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
@@ -707,6 +712,10 @@ function OnTriggerEnter(self, other)
                 local ap  = other.transform.worldPosition
                 local dmg = 15
                 TakeDamage(self, dmg, ap)
+                if CheckDistance(self,self.public.nearDist, false) then 
+                    initChase = true
+                    ChangeState(self,State.CHASE)
+                end
             end
         end
     else 

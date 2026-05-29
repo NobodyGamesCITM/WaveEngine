@@ -58,7 +58,9 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
-    dodgeChance     = 30.0,
+    dodgeChance     = 10.0,
+    dodgeIncrement  = 10.0,
+    dodgeColdown    = 3.0,
 
     stunTime    = 0.3,
 }
@@ -84,6 +86,8 @@ local setAlive = false
 local setDead = false
 
 local initChase = false
+local alreadyDodge = false
+local dodgeTimer = 0.0
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
@@ -534,8 +538,8 @@ States[State.DODGE] = {
     Enter = function(self)
         States[State.DODGE].cnt = 0.0
         attackTimer = 0
+        alreadyDodge = true
         Skeleton.nav:StopMovement()
-
         local playerPos = playerGO.transform.position
         local myPos = self.transform.position
         local rdx, rdz = NormFlat(myPos.x - playerPos.x, myPos.z - playerPos.z)
@@ -670,6 +674,14 @@ function Update(self, dt)
     else
         stepTimer = 0
     end
+    if alreadyDodge then
+        dodgeTimer = dodgeTimer + dt
+        if dodgeTimer >= self.public.dodgeColdown then 
+            alreadyDodge = false
+            dodgeTimer = 0.0
+        end
+        Engine.Log("[Skeleton] Dodge on Coldown: "..tostring(dodgeTimer))
+    end
 
     if setAlive then
         ChangeState(self, State.IDLE)
@@ -698,9 +710,16 @@ function OnTriggerEnter(self, other)
                     if     attack == "light"  then dmg = 10
                     elseif attack == "heavy" or attack == "charge" then dmg = 25 end
                     if dmg > 0 then
-                        if  math.random(1,100) < self.public.dodgeChance and self.public.level2 then
+                        if  math.random(1,100) < self.public.dodgeChance and self.public.level2 and not alreadyDodge then
+                            self.public.dodgeChance = 10.0
                             ChangeState(self,State.DODGE)
-                        else TakeDamage(self, dmg, ap) end
+                        else 
+                            TakeDamage(self, dmg, ap) 
+                            if not alreadyDodge then 
+                                self.public.dodgeChance = self.public.dodgeChance + self.public.dodgeIncrement 
+                                Engine.Log("[Skeleton] Dodge on Increment : ".. tostring(self.public.dodgeChance))
+                            end
+                        end
                     end
                 end
             end

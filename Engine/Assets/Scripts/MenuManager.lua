@@ -72,6 +72,7 @@ local function InitAudioSources(self)
     self.musicSource = GameObject.Find("MusicSource")
     if self.musicSource then
         self.musicComp = self.musicSource:GetComponent("Audio Source")
+       
     end
     self.selectSource = GameObject.Find("UISelectSound")
     if self.selectSource then
@@ -265,7 +266,7 @@ function Update(self, dt)
         local musicState = "None"
         if sceneVal:find("Level1") then
             musicState = "Level1"
-        elseif sceneVal:find("Level2") or sceneVal:find("Blockout2") then
+        elseif sceneVal:find("Level2") then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -521,6 +522,7 @@ function Update(self, dt)
             self.canvas:SetOpacity(1.0 - EaseInOutQuad(t))
         else
             Audio.SetMusicVolume(_G.SavedMusicVolume * (1.0 - EaseInOutQuad(t)))
+            Audio.SetSFXVolume(_G.SavedSoundEffectsVolume * (1.0 - EaseInOutQuad(t)))
         end
 
         if t >= 1.0 then
@@ -528,6 +530,7 @@ function Update(self, dt)
                 self.canvas:SetOpacity(0.0)
             else
                 Audio.SetMusicVolume(0)
+                Audio.SetSFXVolume(0)
             end
             SetPhase(self, "swap")
         end

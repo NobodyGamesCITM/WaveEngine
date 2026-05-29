@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 5.5196852684021,
+                    "aspectRatio": 1.0807017087936401,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -148,19 +148,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "fadeSpeed",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
                             "name": "totalDuration",
                             "type": 0,
                             "value": 6.5
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
                         },
                         {
                             "name": "maxVolume",
@@ -171,6 +161,16 @@
                             "name": "nextXaml",
                             "type": 1,
                             "value": "MainMenu.xaml"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "fadeSpeed",
+                            "type": 0,
+                            "value": 0.5
                         }
                     ],
                     "scriptUID": 9029998064422359462,
@@ -190,14 +190,14 @@
                             "value": "Splash.scene"
                         },
                         {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "fullVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -239,7 +239,7 @@
                 {
                     "active": true,
                     "eventName": "MUS_BGM",
-                    "playOnAwake": true,
+                    "playOnAwake": false,
                     "type": 26,
                     "volume": 40.887001037597656
                 }
@@ -4561,9 +4561,9 @@
                                 {
                                     "active": true,
                                     "position": [
-                                        -0.09979639202356339,
+                                        -0.07392329722642899,
                                         0.0,
-                                        0.025182358920574188
+                                        0.09513314068317413
                                     ],
                                     "rotation": [
                                         0.0,
@@ -4587,7 +4587,7 @@
                             ],
                             "name": "OceanWaterSound",
                             "tag": "",
-                            "uid": 11285100258981735766
+                            "uid": 2720101471306479283
                         },
                         {
                             "active": true,
@@ -4596,9 +4596,9 @@
                                 {
                                     "active": true,
                                     "position": [
-                                        0.14636805653572083,
+                                        -0.1219734251499176,
                                         0.0,
-                                        0.030218839645385742
+                                        0.04197051003575325
                                     ],
                                     "rotation": [
                                         0.0,
@@ -4622,7 +4622,7 @@
                             ],
                             "name": "OceanWaterSound",
                             "tag": "",
-                            "uid": 501867479103259588
+                            "uid": 10068526089184415114
                         },
                         {
                             "active": true,
@@ -4631,9 +4631,9 @@
                                 {
                                     "active": true,
                                     "position": [
-                                        0.02661237120628357,
+                                        0.11088484525680542,
                                         0.0,
-                                        0.10576576739549637
+                                        0.08114298433065414
                                     ],
                                     "rotation": [
                                         0.0,
@@ -4657,7 +4657,77 @@
                             ],
                             "name": "OceanWaterSound",
                             "tag": "",
-                            "uid": 1380307798784454215
+                            "uid": 14446463120476490842
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.029569312930107117,
+                                        0.0,
+                                        -0.06715276837348938
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SeaWater",
+                                    "playOnAwake": true,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "OceanWaterSound",
+                            "tag": "",
+                            "uid": 5526844891123274508
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        -0.08501178026199341,
+                                        0.0,
+                                        -0.3133796751499176
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "eventName": "SFX_SeaWater",
+                                    "playOnAwake": true,
+                                    "type": 26,
+                                    "volume": 100.0
+                                }
+                            ],
+                            "name": "OceanWaterSound",
+                            "tag": "",
+                            "uid": 999167970059330316
                         }
                     ],
                     "components": [
@@ -4980,7 +5050,7 @@
                     "speedMax": 0.07999999821186066,
                     "speedMin": 0.009999999776482582,
                     "textureCols": 1,
-                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
+                    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
                     "textureRows": 1,
                     "textureUID": 11107368379844993512,
                     "type": 7

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{0A491F05-728D-D6AA-8ACC-84903FC3FD0C}",
+    "Hash": "{B4D453B0-40D3-8F1B-43BD-4E26241F6BE0}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -605,7 +605,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Hud-hover.wav",
-      "CachePath": "E3/{E32A713B-F07A-B780-F80E-FDCB9C274B3F}.wem"
+      "CachePath": "3A/{3A80CFDC-246C-5368-5136-E9D8851D0658}.wem"
      },
      {
       "Id": "333485331",
@@ -4187,7 +4187,6 @@
       "Name": "UI_ButtonPress",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ButtonPress",
       "GUID": "{ADA38DA9-F51E-49FE-A165-7F7122F5008C}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "1.2293333",
       "DurationMax": "1.2293333",
@@ -4202,10 +4201,9 @@
       "Name": "UI_ButtonSelect",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ButtonSelect",
       "GUID": "{08655955-4914-4DBA-868C-4212C34AAB89}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
-      "DurationMin": "0.5810417",
-      "DurationMax": "0.5810417",
+      "DurationMin": "0.4907312",
+      "DurationMax": "0.4907312",
       "MediaRefs": [
        {
         "Id": "332618846"
@@ -4643,6 +4641,6 @@
     ]
    }
   ],
-  "FileHash": "{71265A42-104F-40AC-9AEC-F3F4984F450C}"
+  "FileHash": "{E5FF9114-5BB9-6A37-2770-CDDFC053B441}"
  }
 }

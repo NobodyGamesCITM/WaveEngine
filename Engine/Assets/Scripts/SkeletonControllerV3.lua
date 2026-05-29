@@ -30,6 +30,7 @@ local Skeleton = {
     bonesPS         = nil,
     bonePS          = nil,
     teethPS         = nil,
+    dodgePS         = nil,
 }
 
 public = {
@@ -272,6 +273,13 @@ function Start(self)
         Skeleton.teethPS = vfxTeeth:GetComponent("ParticleSystem")
         if Skeleton.teethPS then Skeleton.teethPS:Stop() end
         vfxTeeth:SetActive(false)
+    end
+
+    local vfxDodge = GameObject.FindInChildren(self.gameObject, "VFXDodge")
+    if vfxDodge then
+        Skeleton.dodgePS = vfxDodge:GetComponent("ParticleSystem")
+        if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
+        vfxDodge:SetActive(false)
     end
 end
 
@@ -575,6 +583,8 @@ States[State.DODGE] = {
         else
             --Engine.Log("[SKELETON] Couldn't play DodgeSFX")
         end
+
+        if Skeleton.dodgePS then Skeleton.dodgePS:Play() end
     end,
     Update = function(self, dt)
         States[State.DODGE].cnt =  States[State.DODGE].cnt + dt

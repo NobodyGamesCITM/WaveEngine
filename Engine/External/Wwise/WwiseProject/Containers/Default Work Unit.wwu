@@ -11080,11 +11080,19 @@
 										</Sound>
 										<Sound Name="ButtonPressedHK_epic" ID="{C5CC1FA8-9EF8-4E8E-AE97-8CF712A8169F}" ShortID="706073116">
 											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>38</Value>
 													</ValueList>
 												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-15</Value>
@@ -11096,7 +11104,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -11246,16 +11254,31 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="UI_ButtonHovered" ID="{84BD520A-7147-47C7-BA62-C061551F6F57}" ShortID="108231205">
+											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="Hud-hover" ID="{89A82B8E-AE9B-4E44-AAAF-034945686FBA}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="0.0903104711260114"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0903104711260114"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>Hud-hover.wav</AudioFile>
 													<MediaIDList>

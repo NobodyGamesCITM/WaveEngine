@@ -44,6 +44,7 @@ local aquilesMesh = nil
 local colliderAreaAttack = nil
 local colliderLance= nil
 local attacklanceCol = nil
+local areaAttackColObj = nil
 
 local voiceSFX = nil
 local stepSFX = nil
@@ -142,6 +143,7 @@ local AquilesFeedback = "/Prefabs/AquilesFeedback.prefab"
 local AttackAreaFeedback = "/Prefabs/AQ_ATKArea_Feedback.prefab"
 local attackArea = nil
 local currentFeedbackScale = 0
+local currentColliderScale = 0
 local attackAreaTransform = nil
 
 local isWinBossPlaying = false
@@ -214,7 +216,7 @@ local function ChangeState(newState)
     chargeAnimStarted    = false
     lanceAnimStarted     = false
     --lanceHitActive       = false
-    if colliderAreaAttack then colliderAreaAttack:Disable() end
+    --if colliderAreaAttack then colliderAreaAttack:Disable() end
     --if attackArea then attackArea:SetActive(false) end
     --feedbackTimer = 0
     --currentFeedbackScale = 0
@@ -551,13 +553,14 @@ local function UpdateLance360(self, myPos, pp, dt)
         anim:Play("AreaAttack", 0.1)
         feedbackTimer = 0
         currentFeedbackScale = 0
+        currentColliderScale = 0
     end
 
     --if lanceAnimStarted then attackAreaActive = true end
     lanceTimer = lanceTimer + dt
 
    if lanceTimer < self.public.lanceWindup or lanceTimer > (self.public.lanceWindup + 0.15) then
-        if colliderAreaAttack then colliderAreaAttack:Disable() end
+        --if colliderAreaAttack then colliderAreaAttack:Disable() end
         --if attackArea then attackArea:SetActive(false) end
         
 
@@ -566,7 +569,11 @@ local function UpdateLance360(self, myPos, pp, dt)
         if colliderAreaAttack then
             attackAreaActive = true 
             lanceHitActive = true
-            colliderAreaAttack:Enable()
+            if colliderAreaAttack then 
+                colliderAreaAttack:Enable() 
+                colliderAreaAttack:SetRadius(1.0,1.0,1.0)
+            end
+           
             if not attackArea then
                 attackArea = GameObject.Find("AQ_ATKArea_Feedback")
             end
@@ -575,12 +582,22 @@ local function UpdateLance360(self, myPos, pp, dt)
             end
 
             if attackArea then 
+ 
+                local t = areaAttackColObj.transform
+                if t then
+
+                    local pos = t.worldPosition 
+                    local rot = t.worldRotation
+                    attackArea.transform:SetPosition(pos.x, pos.y + 0.5, pos.z)
+                    attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
+                    attackArea.transform:SetScale(1, 1, 1)
+                else
+                    Engine.Log("AttackArea Collider Object Position not found!")
+                end
+
                 attackArea:SetActive(true)
-                local pos = self.transform.position
-                local rot = self.transform.rotation
-                attackArea.transform:SetPosition(pos.x - 2.0, pos.y + 0.5, pos.z + 2.0)
-                attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
-                attackArea.transform:SetScale(1, 1, 1)
+
+                
             end
             
         end
@@ -590,7 +607,7 @@ local function UpdateLance360(self, myPos, pp, dt)
 
 
     if lanceTimer >= self.public.lanceDuration then
-        if colliderAreaAttack then colliderAreaAttack:Disable() end
+        --if colliderAreaAttack then colliderAreaAttack:Disable() end
         --if attackArea then attackArea:SetActive(false) end
         lanceHitActive   = false
         lanceCDTimer     = self.public.lanceCooldown
@@ -1063,7 +1080,14 @@ function Start(self)
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
 
-    colliderAreaAttack = self.gameObject:GetComponent("Sphere Collider")
+    areaAttackColObj = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
+
+    if areaAttackColObj then
+        colliderAreaAttack = areaAttackColObj:GetComponent("Sphere Collider")
+    else
+        Engine.Log("[Aquiles] Attack Collider GameObject not found!")
+    end
+    
     if colliderAreaAttack then colliderAreaAttack:Disable() end
     if attackArea then attackArea:SetActive(false) end
     attackAreaTransform = self.transform
@@ -1183,6 +1207,7 @@ function Update(self, dt)
 
     
     if attackArea then attackArea:SetActive(attackAreaActive) end
+    if not attackAreaActive then colliderAreaAttack:Disable() end
     
     if attackAreaActive then 
         feedbackTimer = feedbackTimer + dt
@@ -1194,12 +1219,14 @@ function Update(self, dt)
             local progressPercent = math.min((feedbackTimer/1.0), 1.0)
             Engine.Log("ProgressPercent = "..tostring(progressPercent))
             currentFeedbackScale = (self.public.attackAreaFinalScale or 25.0) * progressPercent
-            Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))
+            currentColliderScale = 100.0 * progressPercent
+            --Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))
 
             
             if attackArea then
                 local t = attackArea.transform
                 if t then t:SetScale(currentFeedbackScale, currentFeedbackScale, currentFeedbackScale) end
+                if colliderAreaAttack then colliderAreaAttack:SetRadius(currentColliderScale, currentColliderScale, currentColliderScale) end
                 
             end
             
@@ -1384,7 +1411,7 @@ function OnTriggerEnter(self, other)
 
             if attackCol then attackCol:Disable() end
             if colliderLance then colliderLance:Disable() end
-            if colliderAreaAttack then colliderAreaAttack:Disable() end
+            --if colliderAreaAttack then colliderAreaAttack:Disable() end
             --if attackArea then attackArea:SetActive(false) end
             --feedbackTimer = 0
             --currentFeedbackScale = 0

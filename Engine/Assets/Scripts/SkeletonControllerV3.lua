@@ -680,7 +680,7 @@ function Update(self, dt)
             alreadyDodge = false
             dodgeTimer = 0.0
         end
-        Engine.Log("[Skeleton] Dodge on Coldown: "..tostring(dodgeTimer))
+        --Engine.Log("[Skeleton] Dodge on Coldown: "..tostring(dodgeTimer))
     end
 
     if setAlive then
@@ -717,7 +717,7 @@ function OnTriggerEnter(self, other)
                             TakeDamage(self, dmg, ap) 
                             if not alreadyDodge then 
                                 self.public.dodgeChance = self.public.dodgeChance + self.public.dodgeIncrement 
-                                Engine.Log("[Skeleton] Dodge on Increment : ".. tostring(self.public.dodgeChance))
+                                --Engine.Log("[Skeleton] Dodge on Increment : ".. tostring(self.public.dodgeChance))
                             end
                         end
                     end

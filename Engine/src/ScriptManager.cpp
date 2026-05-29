@@ -42,6 +42,9 @@
 #include "ComponentLight.h"
 #include "LightManager.h"
 #include "ComponentPostProcessing.h"
+#include "Collider.h"
+#include "SphereCollider.h"
+#include "BoxCollider.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -2066,14 +2069,51 @@ static int Lua_Collider_Enable(lua_State* L) {
     return 0;
 }
 
+static int Lua_Collider_SetRadius(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float size = static_cast<float>(luaL_checknumber(L, 2));
+    if (comp && size) {
+        Application::GetInstance().scripts->EnqueueOperation([comp, size]() {
+            if (comp->GetType() == ComponentType::SPHERE_COLLIDER) {
+                SphereCollider* sphereCol = static_cast<SphereCollider*>(comp);
+                
+                sphereCol->SetRadius(size);
+            }
+        });
+
+    }
+    return 0;
+
+}
+
+static int Lua_Collider_SetBoxSize(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float sizeX = static_cast<float>(luaL_checknumber(L, 2));
+    float sizeY = static_cast<float>(luaL_checknumber(L, 3));
+    float sizeZ = static_cast<float>(luaL_checknumber(L, 4));
+    
+
+    if (comp) {
+        glm::vec3 newBoxSize = glm::vec3(sizeX, sizeY, sizeZ);
+        Application::GetInstance().scripts->EnqueueOperation([comp, newBoxSize]() {
+            if (comp->GetType() == ComponentType::BOX_COLLIDER) {
+                BoxCollider* boxCol = static_cast<BoxCollider*>(comp);
+                boxCol->SetSize(newBoxSize);
+            }
+        });
+
+    }
+    return 0;
+
+}
+
 static int Lua_Collider_Disable(lua_State* L) {
     Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (comp)
     {
-        Application::GetInstance().scripts->EnqueueOperation([comp]()
-            {
-                comp->Disable();
-                comp->SetActive(false);
+        Application::GetInstance().scripts->EnqueueOperation([comp]() {
+            comp->Disable();
+            comp->SetActive(false);
             });
     }
     return 0;
@@ -2481,6 +2521,14 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         lua_pushlightuserdata(L, comp);
         lua_pushcclosure(L, Lua_Collider_Disable, 1);
         lua_setfield(L, -2, "Disable");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_SetBoxSize, 1);
+        lua_setfield(L, -2, "SetBoxSize");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_SetRadius, 1);
+        lua_setfield(L, -2, "SetRadius");
 
         return 1;
     }

@@ -56,6 +56,7 @@ local HERMES_GRACE_TIME      = 0.2
 local ATTACK_BUFFER = 0.5
 local hurtTimer = 0.0
 local HURT_DURATION = 0.5
+local heavyAttackMoveSpeed = 7.0
 
 -- MASKS
 local Mask = {
@@ -147,6 +148,8 @@ local Player = {
     getMaskEvent2Done = false,
     getMaskIdleTransitionDone = false,
     currentOrbitAnim = nil,
+    rawDirX = 0,
+    rawDirZ = 1,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -708,6 +711,11 @@ States[State.WALK] = {
             ChangeState(self, State.RUNNING)
         end
         local moveX, moveZ, inputLen = GetMovementInput(self)
+
+        if inputLen > 0.01 then
+            Player.rawDirX = moveX / inputLen
+            Player.rawDirZ = moveZ / inputLen
+        end
         
         if inputLen > 0.01 then
             Player.lastDirX = moveX / inputLen
@@ -843,6 +851,11 @@ States[State.RUNNING] = {
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput(self)
 
+        if inputLen > 0.01 then
+            Player.rawDirX = moveX / inputLen
+            Player.rawDirZ = moveZ / inputLen
+        end
+
         if inputLen <= 0.1 then
             ChangeState(self, State.IDLE)
             return
@@ -963,6 +976,11 @@ States[State.ROLL] = {
         States[State.ROLL].timer = self.public.rollDuration
         States[State.ROLL].particlesPlayed = false 
 
+        if Player.rb then
+            local angle = atan2(Player.rawDirX, Player.rawDirZ) * (180.0 / pi)
+            Player.rb:SetRotation(0, angle, 0)
+        end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Roll", 0) end)
@@ -993,7 +1011,9 @@ States[State.ROLL] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * self.public.rollSpeed, velocity.y, Player.lastDirZ * self.public.rollSpeed)
+            Player.rb:SetLinearVelocity(Player.rawDirX * self.public.rollSpeed, velocity.y, Player.rawDirZ * self.public.rollSpeed)
+            local angle = atan2(Player.rawDirX, Player.rawDirZ) * (180.0 / pi)
+            Player.rb:SetRotation(0, angle, 0)
         end
     end
 }
@@ -1149,7 +1169,14 @@ States[State.ATTACK_HEAVY] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+            local moveX, moveZ, inputLen = GetMovementInput(self)
+            if inputLen > 0.01 then
+                local dirX = moveX / inputLen
+                local dirZ = moveZ / inputLen
+                Player.rb:SetLinearVelocity(dirX * heavyAttackMoveSpeed, velocity.y, dirZ * heavyAttackMoveSpeed)
+            else
+                Player.rb:SetLinearVelocity(0, velocity.y, 0)
+            end
         end
 
         if attackTimer >= self.public.heavyDuration then
@@ -2698,5 +2725,3 @@ function _G.TriggerChestAnimation(self)
     self.public.canMove = false
     return true
 end
-
-

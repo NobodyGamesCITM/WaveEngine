@@ -10,21 +10,32 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <SolidColorBrush Color="#00000000"/>
     </Grid.Background>
 
-    <!-- Fondo semitransparente máscara obtenida — fuera del Viewbox para cubrir toda la pantalla -->
     <Grid x:Name="MaskObtainedBackground"
           Visibility="Collapsed"
           Background="#BF000000"
           IsHitTestVisible="False"/>
 
+    <Grid x:Name="ChangeMaskTutorialBackground" Visibility="Collapsed"
+          IsHitTestVisible="False">
+        <Rectangle Opacity="0.584" Fill="#FF000000" Stroke="#FF000000">
+            <Rectangle.OpacityMask>
+                <RadialGradientBrush
+                    RadiusX="0.12"
+                    RadiusY="0.18"
+                    GradientOrigin="0.0714,0.0963"
+                    Center="0.0714,0.0963">
+                    <GradientStop Color="#00000000" Offset="0.0"/>
+                    <GradientStop Color="#00000000" Offset="0.35"/>
+                    <GradientStop Color="#FF000000" Offset="0.60"/>
+                    <GradientStop Color="#FF000000" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Grid>
+
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            <!-- ═══════════════════════════════════════════════
-                 MASK OBTAINED
-                 Orden: fondo negro → popup encima
-            ════════════════════════════════════════════════ -->
-
-            <!-- Popup máscara obtenida -->
             <Grid x:Name="MaskObtainedPanel"
                   Visibility="Collapsed"
                   Background="#00000000"
@@ -89,39 +100,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </StackPanel>
             </Grid>
 
-            <!-- ═══════════════════════════════════════════════
-                 CHANGE MASK TUTORIAL
-                 Orden: fondo con gradiente → contenido encima
-                 El gradiente está en el mismo espacio 1920x1080
-                 que las máscaras del HUD, así escala junto a ellas.
-                 Las máscaras del HUD están en HudGrid: Margin="20,20"
-                 Width=500, MasksContainer Width=234 arranca en x≈0
-                 → centro de las máscaras ≈ x=137, y=104 sobre 1920x1080
-                 → relativo: CenterX = 137/1920 ≈ 0.0714
-                              CenterY = 104/1080 ≈ 0.0963
-            ════════════════════════════════════════════════ -->
-
-            <!-- Fondo gradiente tutorial cambio de máscara -->
-            <Grid x:Name="ChangeMaskTutorialBackground"
-                  Visibility="Collapsed"
-                  IsHitTestVisible="False">
-                <Rectangle Opacity="0.598" Fill="#FF000000" Stroke="#FF000000">
-                    <Rectangle.OpacityMask>
-                        <RadialGradientBrush
-                            RadiusX="0.12"
-                            RadiusY="0.18"
-                            GradientOrigin="0.0714,0.0963"
-                            Center="0.0714,0.0963">
-                            <GradientStop Color="#00000000" Offset="0.0"/>
-                            <GradientStop Color="#00000000" Offset="0.35"/>
-                            <GradientStop Color="#FF000000" Offset="0.60"/>
-                            <GradientStop Color="#FF000000" Offset="1.0"/>
-                        </RadialGradientBrush>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Grid>
-
-            <!-- Contenido tutorial cambio de máscara -->
             <Grid x:Name="ChangeMaskTutorialPanel"
                   Visibility="Collapsed"
                   Background="#00000000"

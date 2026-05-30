@@ -17,6 +17,7 @@ namespace AK
         static const AkUniqueID MUS_FINALBLOW = 2772329599U;
         static const AkUniqueID MUS_FINALNOTE = 3925037099U;
         static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
+        static const AkUniqueID SFX_AQUILESAREAEXP = 3184356465U;
         static const AkUniqueID SFX_AQUILESBIGSTEP = 3630147201U;
         static const AkUniqueID SFX_AQUILESCOLLAPSE = 3452078074U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;

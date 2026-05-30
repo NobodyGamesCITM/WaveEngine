@@ -80,7 +80,7 @@
                 ],
                 "name": "keystatue_export3:statue",
                 "tag": "",
-                "uid": 16760216119677082895
+                "uid": 130981696894748420
             },
             {
                 "active": true,
@@ -165,14 +165,14 @@
                                                                                                                                             },
                                                                                                                                             {
                                                                                                                                                 "active": true,
-                                                                                                                                                "materialUID": 16421258064931533007,
+                                                                                                                                                "materialUID": 18308539239979472473,
                                                                                                                                                 "overrideTiling": false,
                                                                                                                                                 "type": 3
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "name": "MASH4_ReproMesh",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 2152128591789652272
+                                                                                                                                        "uid": 17010941006934263624
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -198,7 +198,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "MASH4_ReproMesh_$AssimpFbx$_ScalingPivotInverse",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 15546411304134897668
+                                                                                                                                "uid": 12748749179362396934
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -224,7 +224,7 @@
                                                                                                                         ],
                                                                                                                         "name": "MASH4_ReproMesh_$AssimpFbx$_ScalingPivot",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 12315590930883705213
+                                                                                                                        "uid": 8958891848525590642
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -250,7 +250,7 @@
                                                                                                                 ],
                                                                                                                 "name": "MASH4_ReproMesh_$AssimpFbx$_RotationPivotInverse",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 72502910817002904
+                                                                                                                "uid": 9469218747087002243
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -276,7 +276,7 @@
                                                                                                         ],
                                                                                                         "name": "MASH4_ReproMesh_$AssimpFbx$_RotationPivot",
                                                                                                         "tag": "",
-                                                                                                        "uid": 16214699207824501019
+                                                                                                        "uid": 2701627030313705748
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -302,7 +302,7 @@
                                                                                                 ],
                                                                                                 "name": "MASH4_ReproMesh_$AssimpFbx$_Translation",
                                                                                                 "tag": "",
-                                                                                                "uid": 17970837929171750126
+                                                                                                "uid": 5746974373062351924
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -328,7 +328,7 @@
                                                                                         ],
                                                                                         "name": "group1",
                                                                                         "tag": "",
-                                                                                        "uid": 4755918319134921033
+                                                                                        "uid": 7904161070846124633
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -356,7 +356,7 @@
                                                                                         ],
                                                                                         "name": "chain_curve4",
                                                                                         "tag": "",
-                                                                                        "uid": 17636156881801292282
+                                                                                        "uid": 12045111817349186915
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -384,7 +384,7 @@
                                                                                         ],
                                                                                         "name": "MASH4_BulletSolver",
                                                                                         "tag": "",
-                                                                                        "uid": 13118814107289163251
+                                                                                        "uid": 3063128942447017118
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -410,7 +410,7 @@
                                                                                 ],
                                                                                 "name": "left_chain",
                                                                                 "tag": "",
-                                                                                "uid": 8689521021164586931
+                                                                                "uid": 4499063640651315846
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -436,7 +436,7 @@
                                                                         ],
                                                                         "name": "left_chain_$AssimpFbx$_ScalingPivotInverse",
                                                                         "tag": "",
-                                                                        "uid": 11960742734014118897
+                                                                        "uid": 18266913637046920275
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -462,7 +462,7 @@
                                                                 ],
                                                                 "name": "left_chain_$AssimpFbx$_Scaling",
                                                                 "tag": "",
-                                                                "uid": 1938512714619709504
+                                                                "uid": 13611340766272205888
                                                             }
                                                         ],
                                                         "components": [
@@ -488,7 +488,7 @@
                                                         ],
                                                         "name": "left_chain_$AssimpFbx$_ScalingPivot",
                                                         "tag": "",
-                                                        "uid": 11975595405568587614
+                                                        "uid": 4434064820399206405
                                                     }
                                                 ],
                                                 "components": [
@@ -514,7 +514,7 @@
                                                 ],
                                                 "name": "left_chain_$AssimpFbx$_RotationPivotInverse",
                                                 "tag": "",
-                                                "uid": 897724883229052777
+                                                "uid": 634600245423827307
                                             }
                                         ],
                                         "components": [
@@ -540,7 +540,7 @@
                                         ],
                                         "name": "left_chain_$AssimpFbx$_Rotation",
                                         "tag": "",
-                                        "uid": 13272017600653037186
+                                        "uid": 1726216327228630301
                                     }
                                 ],
                                 "components": [
@@ -566,7 +566,7 @@
                                 ],
                                 "name": "left_chain_$AssimpFbx$_RotationPivot",
                                 "tag": "",
-                                "uid": 2551525007948788220
+                                "uid": 15277573776756009899
                             }
                         ],
                         "components": [
@@ -592,7 +592,7 @@
                         ],
                         "name": "left_chain_$AssimpFbx$_Translation",
                         "tag": "",
-                        "uid": 7925011431633126331
+                        "uid": 9950134973140968789
                     },
                     {
                         "active": true,
@@ -644,7 +644,7 @@
                                                                                         ],
                                                                                         "name": "MASH5_BulletSolver",
                                                                                         "tag": "",
-                                                                                        "uid": 13925584382900856700
+                                                                                        "uid": 739241778646258959
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -672,7 +672,7 @@
                                                                                         ],
                                                                                         "name": "chain_curve5",
                                                                                         "tag": "",
-                                                                                        "uid": 13883145183262842460
+                                                                                        "uid": 15709548929396611697
                                                                                     },
                                                                                     {
                                                                                         "active": true,
@@ -736,14 +736,14 @@
                                                                                                                                                             },
                                                                                                                                                             {
                                                                                                                                                                 "active": true,
-                                                                                                                                                                "materialUID": 16421258064931533007,
+                                                                                                                                                                "materialUID": 18308539239979472473,
                                                                                                                                                                 "overrideTiling": false,
                                                                                                                                                                 "type": 3
                                                                                                                                                             }
                                                                                                                                                         ],
                                                                                                                                                         "name": "MASH5_ReproMesh",
                                                                                                                                                         "tag": "",
-                                                                                                                                                        "uid": 1697552727371803475
+                                                                                                                                                        "uid": 4985495450039678214
                                                                                                                                                     }
                                                                                                                                                 ],
                                                                                                                                                 "components": [
@@ -769,7 +769,7 @@
                                                                                                                                                 ],
                                                                                                                                                 "name": "group2",
                                                                                                                                                 "tag": "",
-                                                                                                                                                "uid": 3920828851518488536
+                                                                                                                                                "uid": 408592491057775782
                                                                                                                                             }
                                                                                                                                         ],
                                                                                                                                         "components": [
@@ -795,7 +795,7 @@
                                                                                                                                         ],
                                                                                                                                         "name": "group2_$AssimpFbx$_ScalingPivotInverse",
                                                                                                                                         "tag": "",
-                                                                                                                                        "uid": 1096112145331672437
+                                                                                                                                        "uid": 11525098500213441796
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "components": [
@@ -821,7 +821,7 @@
                                                                                                                                 ],
                                                                                                                                 "name": "group2_$AssimpFbx$_ScalingPivot",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 10957712530347156355
+                                                                                                                                "uid": 10267050413641493209
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -847,7 +847,7 @@
                                                                                                                         ],
                                                                                                                         "name": "group2_$AssimpFbx$_RotationPivotInverse",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 9880380018410127806
+                                                                                                                        "uid": 7914548665191822404
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -873,7 +873,7 @@
                                                                                                                 ],
                                                                                                                 "name": "group2_$AssimpFbx$_Rotation",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 3990321115799118909
+                                                                                                                "uid": 15050586920950628743
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -899,7 +899,7 @@
                                                                                                         ],
                                                                                                         "name": "group2_$AssimpFbx$_RotationPivot",
                                                                                                         "tag": "",
-                                                                                                        "uid": 13421390678371057034
+                                                                                                        "uid": 9168356904766913733
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -925,7 +925,7 @@
                                                                                                 ],
                                                                                                 "name": "group2_$AssimpFbx$_RotationOffset",
                                                                                                 "tag": "",
-                                                                                                "uid": 7397236550155277372
+                                                                                                "uid": 2552145909918272281
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -951,7 +951,7 @@
                                                                                         ],
                                                                                         "name": "group2_$AssimpFbx$_Translation",
                                                                                         "tag": "",
-                                                                                        "uid": 13316918800329628176
+                                                                                        "uid": 1950213301107408957
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -977,7 +977,7 @@
                                                                                 ],
                                                                                 "name": "right_chain",
                                                                                 "tag": "",
-                                                                                "uid": 14204435562110581328
+                                                                                "uid": 16753582742784030692
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -1003,7 +1003,7 @@
                                                                         ],
                                                                         "name": "right_chain_$AssimpFbx$_ScalingPivotInverse",
                                                                         "tag": "",
-                                                                        "uid": 8367051221980663253
+                                                                        "uid": 7884136585419817818
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -1029,7 +1029,7 @@
                                                                 ],
                                                                 "name": "right_chain_$AssimpFbx$_Scaling",
                                                                 "tag": "",
-                                                                "uid": 17503587868819203794
+                                                                "uid": 154180366910866073
                                                             }
                                                         ],
                                                         "components": [
@@ -1055,7 +1055,7 @@
                                                         ],
                                                         "name": "right_chain_$AssimpFbx$_ScalingPivot",
                                                         "tag": "",
-                                                        "uid": 12958817991987634832
+                                                        "uid": 13148904269288450934
                                                     }
                                                 ],
                                                 "components": [
@@ -1081,7 +1081,7 @@
                                                 ],
                                                 "name": "right_chain_$AssimpFbx$_RotationPivotInverse",
                                                 "tag": "",
-                                                "uid": 17758905540759528489
+                                                "uid": 16970520166832202186
                                             }
                                         ],
                                         "components": [
@@ -1107,7 +1107,7 @@
                                         ],
                                         "name": "right_chain_$AssimpFbx$_Rotation",
                                         "tag": "",
-                                        "uid": 8895483326173053102
+                                        "uid": 7472091886584185929
                                     }
                                 ],
                                 "components": [
@@ -1133,7 +1133,7 @@
                                 ],
                                 "name": "right_chain_$AssimpFbx$_RotationPivot",
                                 "tag": "",
-                                "uid": 6083885720078122191
+                                "uid": 12402408404979471303
                             }
                         ],
                         "components": [
@@ -1159,7 +1159,7 @@
                         ],
                         "name": "right_chain_$AssimpFbx$_Translation",
                         "tag": "",
-                        "uid": 1501877610382456401
+                        "uid": 3385335176067886673
                     }
                 ],
                 "components": [
@@ -1185,7 +1185,7 @@
                 ],
                 "name": "broken_chains",
                 "tag": "",
-                "uid": 4713008624224590919
+                "uid": 8445909270130873122
             },
             {
                 "active": true,
@@ -1231,7 +1231,7 @@
                                                                 ],
                                                                 "name": "MASH5_BulletSolver",
                                                                 "tag": "",
-                                                                "uid": 8931533935500225888
+                                                                "uid": 12613145404723444479
                                                             },
                                                             {
                                                                 "active": true,
@@ -1259,7 +1259,7 @@
                                                                 ],
                                                                 "name": "chain_curve5",
                                                                 "tag": "",
-                                                                "uid": 16189107655596271052
+                                                                "uid": 14954315628531016749
                                                             },
                                                             {
                                                                 "active": true,
@@ -1323,14 +1323,14 @@
                                                                                                                                     },
                                                                                                                                     {
                                                                                                                                         "active": true,
-                                                                                                                                        "materialUID": 16421258064931533007,
+                                                                                                                                        "materialUID": 18308539239979472473,
                                                                                                                                         "overrideTiling": false,
                                                                                                                                         "type": 3
                                                                                                                                     }
                                                                                                                                 ],
                                                                                                                                 "name": "MASH5_ReproMesh",
                                                                                                                                 "tag": "",
-                                                                                                                                "uid": 12792437612100454046
+                                                                                                                                "uid": 440089163764994955
                                                                                                                             }
                                                                                                                         ],
                                                                                                                         "components": [
@@ -1356,7 +1356,7 @@
                                                                                                                         ],
                                                                                                                         "name": "group2",
                                                                                                                         "tag": "",
-                                                                                                                        "uid": 13986367608326441583
+                                                                                                                        "uid": 270924295408243787
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "components": [
@@ -1382,7 +1382,7 @@
                                                                                                                 ],
                                                                                                                 "name": "group2_$AssimpFbx$_ScalingPivotInverse",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 11043662449539659084
+                                                                                                                "uid": 6806783112264830169
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -1408,7 +1408,7 @@
                                                                                                         ],
                                                                                                         "name": "group2_$AssimpFbx$_ScalingPivot",
                                                                                                         "tag": "",
-                                                                                                        "uid": 11575799797823653863
+                                                                                                        "uid": 15495654293348542907
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -1434,7 +1434,7 @@
                                                                                                 ],
                                                                                                 "name": "group2_$AssimpFbx$_RotationPivotInverse",
                                                                                                 "tag": "",
-                                                                                                "uid": 13206314850419695234
+                                                                                                "uid": 5215342583038307231
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -1460,7 +1460,7 @@
                                                                                         ],
                                                                                         "name": "group2_$AssimpFbx$_Rotation",
                                                                                         "tag": "",
-                                                                                        "uid": 2591233806405033875
+                                                                                        "uid": 6049717677891015857
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -1486,7 +1486,7 @@
                                                                                 ],
                                                                                 "name": "group2_$AssimpFbx$_RotationPivot",
                                                                                 "tag": "",
-                                                                                "uid": 8770576858700893818
+                                                                                "uid": 1333488095884572473
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -1512,7 +1512,7 @@
                                                                         ],
                                                                         "name": "group2_$AssimpFbx$_RotationOffset",
                                                                         "tag": "",
-                                                                        "uid": 15087404953041270920
+                                                                        "uid": 17032205667110985758
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -1538,7 +1538,7 @@
                                                                 ],
                                                                 "name": "group2_$AssimpFbx$_Translation",
                                                                 "tag": "",
-                                                                "uid": 14476815637287817867
+                                                                "uid": 12908985938587469252
                                                             }
                                                         ],
                                                         "components": [
@@ -1564,7 +1564,7 @@
                                                         ],
                                                         "name": "right_chain",
                                                         "tag": "",
-                                                        "uid": 11136637910429325992
+                                                        "uid": 11315020780729754987
                                                     }
                                                 ],
                                                 "components": [
@@ -1590,7 +1590,7 @@
                                                 ],
                                                 "name": "right_chain_$AssimpFbx$_ScalingPivotInverse",
                                                 "tag": "",
-                                                "uid": 2010667811388905986
+                                                "uid": 4147530794029410931
                                             }
                                         ],
                                         "components": [
@@ -1616,7 +1616,7 @@
                                         ],
                                         "name": "right_chain_$AssimpFbx$_ScalingPivot",
                                         "tag": "",
-                                        "uid": 13829205673078446703
+                                        "uid": 18435629511318744998
                                     }
                                 ],
                                 "components": [
@@ -1642,7 +1642,7 @@
                                 ],
                                 "name": "right_chain_$AssimpFbx$_RotationPivotInverse",
                                 "tag": "",
-                                "uid": 5585065542949844502
+                                "uid": 7923923456567305180
                             }
                         ],
                         "components": [
@@ -1668,7 +1668,7 @@
                         ],
                         "name": "right_chain_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 2378373125273096548
+                        "uid": 18030984806642671850
                     },
                     {
                         "active": true,
@@ -1741,14 +1741,14 @@
                                                                                                                     },
                                                                                                                     {
                                                                                                                         "active": true,
-                                                                                                                        "materialUID": 16421258064931533007,
+                                                                                                                        "materialUID": 18308539239979472473,
                                                                                                                         "overrideTiling": false,
                                                                                                                         "type": 3
                                                                                                                     }
                                                                                                                 ],
                                                                                                                 "name": "MASH4_ReproMesh",
                                                                                                                 "tag": "",
-                                                                                                                "uid": 8157626086992859585
+                                                                                                                "uid": 15377028391818596669
                                                                                                             }
                                                                                                         ],
                                                                                                         "components": [
@@ -1774,7 +1774,7 @@
                                                                                                         ],
                                                                                                         "name": "MASH4_ReproMesh_$AssimpFbx$_ScalingPivotInverse",
                                                                                                         "tag": "",
-                                                                                                        "uid": 17140520474820200413
+                                                                                                        "uid": 889061829730566610
                                                                                                     }
                                                                                                 ],
                                                                                                 "components": [
@@ -1800,7 +1800,7 @@
                                                                                                 ],
                                                                                                 "name": "MASH4_ReproMesh_$AssimpFbx$_ScalingPivot",
                                                                                                 "tag": "",
-                                                                                                "uid": 15113453547772569954
+                                                                                                "uid": 1321993981978066103
                                                                                             }
                                                                                         ],
                                                                                         "components": [
@@ -1826,7 +1826,7 @@
                                                                                         ],
                                                                                         "name": "MASH4_ReproMesh_$AssimpFbx$_RotationPivotInverse",
                                                                                         "tag": "",
-                                                                                        "uid": 6137304286690037944
+                                                                                        "uid": 13236100450241227655
                                                                                     }
                                                                                 ],
                                                                                 "components": [
@@ -1852,7 +1852,7 @@
                                                                                 ],
                                                                                 "name": "MASH4_ReproMesh_$AssimpFbx$_RotationPivot",
                                                                                 "tag": "",
-                                                                                "uid": 14663392288475419672
+                                                                                "uid": 10467703954033954508
                                                                             }
                                                                         ],
                                                                         "components": [
@@ -1878,7 +1878,7 @@
                                                                         ],
                                                                         "name": "MASH4_ReproMesh_$AssimpFbx$_Translation",
                                                                         "tag": "",
-                                                                        "uid": 1840097872315268993
+                                                                        "uid": 7900484956380644007
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -1904,7 +1904,7 @@
                                                                 ],
                                                                 "name": "group1",
                                                                 "tag": "",
-                                                                "uid": 16398255471360009551
+                                                                "uid": 10590486755369552579
                                                             },
                                                             {
                                                                 "active": true,
@@ -1932,7 +1932,7 @@
                                                                 ],
                                                                 "name": "chain_curve4",
                                                                 "tag": "",
-                                                                "uid": 6998679595433057752
+                                                                "uid": 13058964238314904302
                                                             },
                                                             {
                                                                 "active": true,
@@ -1960,7 +1960,7 @@
                                                                 ],
                                                                 "name": "MASH4_BulletSolver",
                                                                 "tag": "",
-                                                                "uid": 4403265121387682043
+                                                                "uid": 3527359231531718784
                                                             }
                                                         ],
                                                         "components": [
@@ -1986,7 +1986,7 @@
                                                         ],
                                                         "name": "left_chain",
                                                         "tag": "",
-                                                        "uid": 9069877634770280266
+                                                        "uid": 13654865877512338799
                                                     }
                                                 ],
                                                 "components": [
@@ -2012,7 +2012,7 @@
                                                 ],
                                                 "name": "left_chain_$AssimpFbx$_ScalingPivotInverse",
                                                 "tag": "",
-                                                "uid": 13275061218868359409
+                                                "uid": 17944605961576580589
                                             }
                                         ],
                                         "components": [
@@ -2038,7 +2038,7 @@
                                         ],
                                         "name": "left_chain_$AssimpFbx$_ScalingPivot",
                                         "tag": "",
-                                        "uid": 8684342552977766218
+                                        "uid": 918007043643637739
                                     }
                                 ],
                                 "components": [
@@ -2064,7 +2064,7 @@
                                 ],
                                 "name": "left_chain_$AssimpFbx$_RotationPivotInverse",
                                 "tag": "",
-                                "uid": 1192462564887914809
+                                "uid": 12346491876810644032
                             }
                         ],
                         "components": [
@@ -2090,7 +2090,7 @@
                         ],
                         "name": "left_chain_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 16093134400751247215
+                        "uid": 8295909913231521587
                     }
                 ],
                 "components": [
@@ -2116,7 +2116,111 @@
                 ],
                 "name": "chains",
                 "tag": "",
-                "uid": 5889649391623617364
+                "uid": 5695293204114018794
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -8.152678489685059,
+                            1.9682517051696777,
+                            6.328733444213867
+                        ],
+                        "rotation": [
+                            -180.0,
+                            -5.008957487007137e-06,
+                            -180.0
+                        ],
+                        "scale": [
+                            1.1039999723434448,
+                            1.1039999723434448,
+                            1.1039999723434448
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "castShadows": true,
+                        "meshUID": 12507221209719948834,
+                        "pivotOffset": [
+                            0.0,
+                            -2.0,
+                            0.0
+                        ],
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 4580942975346845837,
+                        "overrideTiling": false,
+                        "type": 3
+                    }
+                ],
+                "name": "chain_base",
+                "tag": "",
+                "uid": 3951560956328463711
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            7.885218143463135,
+                            1.9682518243789673,
+                            6.328999996185303
+                        ],
+                        "rotation": [
+                            -180.0,
+                            -5.008957487007137e-06,
+                            -180.0
+                        ],
+                        "scale": [
+                            1.1039999723434448,
+                            1.1039999723434448,
+                            1.1039999723434448
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "castShadows": true,
+                        "meshUID": 12507221209719948834,
+                        "pivotOffset": [
+                            0.0,
+                            -2.0,
+                            0.0
+                        ],
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 4580942975346845837,
+                        "overrideTiling": false,
+                        "type": 3
+                    }
+                ],
+                "name": "chain_base_copy",
+                "tag": "",
+                "uid": 4268730568025075328
             }
         ],
         "components": [
@@ -2143,24 +2247,24 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "near",
+                        "name": "statueBitValue",
                         "type": 0,
-                        "value": 3.0
+                        "value": 1.0
                     },
                     {
-                        "name": "archVar",
+                        "name": "statueId",
+                        "type": 1,
+                        "value": "Circle"
+                    },
+                    {
+                        "name": "interactionRadius",
+                        "type": 0,
+                        "value": 8.0
+                    },
+                    {
+                        "name": "updateWhenPaused",
                         "type": 2,
                         "value": true
-                    },
-                    {
-                        "name": "Tvar",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "circleVar",
-                        "type": 2,
-                        "value": false
                     }
                 ],
                 "scriptUID": 17001734923150013476,
@@ -2169,6 +2273,6 @@
         ],
         "name": "keystatue",
         "tag": "",
-        "uid": 3627976484797937338
+        "uid": 13416978058705887430
     }
 ]

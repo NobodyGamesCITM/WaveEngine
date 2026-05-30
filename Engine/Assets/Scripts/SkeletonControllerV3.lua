@@ -544,6 +544,7 @@ States[State.DODGE] = {
     cnt = 0.0,
     dur = 0.2,
     Enter = function(self)
+        Engine.Log("[Skeleton] Entered Dodge StateW")
         States[State.DODGE].cnt = 0.0
         attackTimer = 0
         alreadyDodge = true
@@ -584,7 +585,11 @@ States[State.DODGE] = {
             --Engine.Log("[SKELETON] Couldn't play DodgeSFX")
         end
 
-        if Skeleton.dodgePS then Skeleton.dodgePS:Play() end
+        if Skeleton.dodgePS then 
+            Skeleton.dodgePS:Play() 
+            Engine.Log("[Skeleton] Played Dodge Particles")
+        end
+        
     end,
     Update = function(self, dt)
         States[State.DODGE].cnt =  States[State.DODGE].cnt + dt

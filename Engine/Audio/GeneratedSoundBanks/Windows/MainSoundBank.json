@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{CE7B905E-AEC9-0282-FFE6-9EA7A02BA6F2}",
+    "Hash": "{292042A4-40F3-2E52-D6DD-1AA748AE57A8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -109,7 +109,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Grunt Ah 2.wav",
-      "CachePath": "F8/{F875D4DD-7ED1-7F0C-C424-6AF0230771E3}.wem"
+      "CachePath": "D3/{D3E189CD-9AA2-843C-8239-491CB0C7E72F}.wem"
      },
      {
       "Id": "44994569",
@@ -349,7 +349,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "floraphonic-minimal-pop-click-ui-4-198304.wav",
-      "CachePath": "82/{824C39E9-54E6-8A48-BAD8-9D16EE9F2CDD}.wem"
+      "CachePath": "06/{063CCCC5-CC0A-41DE-54A1-20CF31486307}.wem"
      },
      {
       "Id": "151865345",
@@ -408,6 +408,14 @@
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
      },
      {
+      "Id": "190699463",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458.wav",
+      "CachePath": "10/{10128355-EE23-C610-836E-D8A03151E863}.wem"
+     },
+     {
       "Id": "193892419",
       "Language": "SFX",
       "Streaming": "false",
@@ -430,6 +438,14 @@
       "Location": "Memory",
       "ShortName": "heartbeat-sound-snmqh-3.wav",
       "CachePath": "9D/{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem"
+     },
+     {
+      "Id": "202134863",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesounds123-magic-spell-333896.wav",
+      "CachePath": "C5/{C5D7FA7F-5C35-AC5F-8976-223AAB2649A5}.wem"
      },
      {
       "Id": "207196639",
@@ -565,7 +581,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "zoedit-thinking-hmm-533581.wav",
-      "CachePath": "AA/{AAA88542-959E-9CC4-BC0A-525121180C1D}.wem"
+      "CachePath": "CA/{CA1283F0-32CA-28EA-4389-058223D1B00D}.wem"
      },
      {
       "Id": "276549122",
@@ -653,7 +669,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "universfield-male-voice-expressing-confused-huh-352694.wav",
-      "CachePath": "E4/{E43C5FB4-07E1-856F-738F-C18DED638437}.wem"
+      "CachePath": "28/{28B9DEAF-8A43-C343-FAC0-55142AA75F5D}.wem"
      },
      {
       "Id": "323885197",
@@ -717,7 +733,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "ATTurtlez & JDSherbert - Male Character VOX Pack - Sigh (var - 3).wav",
-      "CachePath": "0A/{0A2B0036-6867-F790-FFFF-D251FB21E505}.wem"
+      "CachePath": "BE/{BE1615CB-BD5C-6C73-6C43-5597529589AB}.wem"
      },
      {
       "Id": "344175772",
@@ -941,7 +957,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "page_turn_00.wav",
-      "CachePath": "98/{98887E09-9090-A300-DBAE-A1DAEE6AA9D1}.wem"
+      "CachePath": "1B/{1B298758-4D67-EBF0-C2B5-BD0F7B93F549}.wem"
      },
      {
       "Id": "486410471",
@@ -1608,6 +1624,14 @@
       "CachePath": "D8/{D8995B34-25F3-316D-91E2-3BE003579390}.wem"
      },
      {
+      "Id": "828466913",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-magic-strike-5856.wav",
+      "CachePath": "65/{65F19F6F-C46F-0DA9-AD2D-BE7FF4DC62AA}.wem"
+     },
+     {
       "Id": "835188942",
       "Language": "SFX",
       "Streaming": "false",
@@ -1622,6 +1646,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_04.wav",
       "CachePath": "04/{0415CD86-202A-8E4B-D891-641347BBD750}.wem"
+     },
+     {
+      "Id": "837783562",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277.wav",
+      "CachePath": "37/{371FA1C1-8BCC-5A39-C6DF-0C3E3ECFF268}.wem"
      },
      {
       "Id": "839908236",
@@ -2337,6 +2369,30 @@
       ]
      },
      {
+      "Id": "3184356465",
+      "Name": "SFX_AquilesAreaExp",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesAreaExp",
+      "GUID": "{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.8491112",
+      "DurationMax": "3.030204",
+      "MediaRefs": [
+       {
+        "Id": "190699463"
+       },
+       {
+        "Id": "202134863"
+       },
+       {
+        "Id": "828466913"
+       },
+       {
+        "Id": "837783562"
+       }
+      ]
+     },
+     {
       "Id": "3630147201",
       "Name": "SFX_AquilesBigStep",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_AquilesBigStep",
@@ -2575,7 +2631,6 @@
       "Name": "SFX_ChainBreak",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_ChainBreak",
       "GUID": "{12E07506-D9AB-490C-8839-C14192AF5CDA}",
-      "MaxAttenuation": "20",
       "DurationType": "OneShot",
       "DurationMin": "1.1186118",
       "DurationMax": "1.6112739",
@@ -4960,6 +5015,6 @@
     ]
    }
   ],
-  "FileHash": "{50BD70BD-1398-8AE0-1590-A3EDD202D34C}"
+  "FileHash": "{1CC19471-151E-5AD0-B91A-580D37F37D93}"
  }
 }

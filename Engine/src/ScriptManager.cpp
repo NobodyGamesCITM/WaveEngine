@@ -436,10 +436,6 @@ static int Lua_Engine_GetAssetsPath(lua_State* L) {
     return 1;
 }
 
-
-
-
-
 static int Lua_Input_GetKeyDown(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
     auto it = keyMap.find(keyName);
@@ -2787,6 +2783,7 @@ static int Lua_GameObject_Index(lua_State* L) {
     }
 
     GameObject* obj = *objPtr;
+    if (obj->name.c_str() == NULL) return 0;
 
     if (obj->IsMarkedForDeletion()) {
         LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion");

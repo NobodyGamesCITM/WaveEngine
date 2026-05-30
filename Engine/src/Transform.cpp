@@ -185,7 +185,8 @@ const glm::mat4& Transform::GetLocalMatrix()
 
 const glm::mat4& Transform::GetGlobalMatrix()
 {
-    if (globalDirty)
+    if (owner == NULL) return globalMatrix;
+    if (globalDirty && owner->objectUID != NULL)
     {
         UpdateGlobalMatrix();
     }

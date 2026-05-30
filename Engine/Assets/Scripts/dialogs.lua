@@ -5,12 +5,14 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Telémaco, al fin despiertas. El océano fue en tu contra, pero no hay tiempo que perder. Adéntrate en el bosque y no te dejes engañar por su aspecto pacífico, el mal habita en él. Sé cauto, pues un solo paso en falso podría ser el último."
+                text      = "Telémaco, al fin despiertas. El océano fue en tu contra, pero no hay tiempo que perder. Adéntrate en el bosque y no te dejes engañar por su aspecto pacífico, el mal habita en él. Sé cauto, pues un solo paso en falso podría ser el último.",
+                mood      = ""
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = " Uf… de acuerdo. ¡Allá voy!"
+                text      = " Uf… de acuerdo. ¡Allá voy!",
+                mood = "Decided"
             }
         }
     },
@@ -32,12 +34,14 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = " Has hallado uno de mis altares, si los activas te resguardarán. Mantén los ojos bien abiertos, los encontrarás donde más los necesites."
+                text      = " Has hallado uno de mis altares, si los activas te resguardarán. Mantén los ojos bien abiertos, los encontrarás donde más los necesites.",
+                mood      = ""
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias."
+                text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias.",
+                mood = "Relieved"
             }
         }
     },
@@ -48,12 +52,14 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "El santuario de la isla, antiguamente lugar de culto a Hades, sirve de puente hacia el inframundo. Para abrirlo deberás encontrar y desactivar las estatuas de Cerbero."
+                text      = "El santuario de la isla, antiguamente lugar de culto a Hades, sirve de puente hacia el inframundo. Para abrirlo deberás encontrar y desactivar las estatuas de Cerbero.",
+                mood      = ""
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Será una misión ardua, pero no me rendiré ahora."
+                text      = "Será una misión ardua, pero no me rendiré ahora.",
+                mood = "Generic"
             }
         }
     },
@@ -64,7 +70,8 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Los dioses otorgaron estas máscaras como favor a sus fieles. Vístelas, sin su poder divino no vencerás."
+                text      = "Los dioses otorgaron estas máscaras como favor a sus fieles. Vístelas, sin su poder divino no vencerás.",
+                mood      = ""
             }
         }
     },
@@ -86,12 +93,14 @@ return {
             {
                 character = "Atenea",
                 portrait  = "Textures/Atenea.png",
-                text      = "Extrema cautela, Telémaco. Antaño, el inframundo tenía un orden, ahora el caos y la crueldad reinan en él. Recuerda lo aprendido, pues sólo tú cruzarás el portal. No dudes en regresar si encuentras una considerable amenaza."
+                text      = "Extrema cautela, Telémaco. Antaño, el inframundo tenía un orden, ahora el caos y la crueldad reinan en él. Recuerda lo aprendido, pues sólo tú cruzarás el portal. No dudes en regresar si encuentras una considerable amenaza.",
+                mood      = ""
             },
             {
                 character = "Telemaco",
                 portrait  = "Textures/Telemaco.png",
-                text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo."
+                text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo.",
+                mood = "Scared"
             }
         }
     }

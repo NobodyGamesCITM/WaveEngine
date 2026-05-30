@@ -396,6 +396,44 @@
     ],
     "SwitchGroups": [
      {
+      "Id": "1047305421",
+      "Name": "Player_Voice",
+      "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice",
+      "GUID": "{70E4C8F4-E7FE-47F8-97BF-51F03CDA0A4C}",
+      "Switches": [
+       {
+        "Id": "820940617",
+        "Name": "Scared",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice\\Scared",
+        "GUID": "{E51506D5-2D87-46CE-85AB-44A3A3F53A51}"
+       },
+       {
+        "Id": "1998809012",
+        "Name": "Pensative",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice\\Pensative",
+        "GUID": "{890ED27E-0F32-463D-8936-9B7AA352AAEC}"
+       },
+       {
+        "Id": "2685321313",
+        "Name": "Relieved",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice\\Relieved",
+        "GUID": "{1FF8CE2B-9406-4258-8900-0180BFD657A5}"
+       },
+       {
+        "Id": "3540708211",
+        "Name": "Decided",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice\\Decided",
+        "GUID": "{5EF25401-7222-4EF8-A33D-80F74AE51385}"
+       },
+       {
+        "Id": "4294388576",
+        "Name": "Generic",
+        "ObjectPath": "\\Switches\\Default Work Unit\\Player_Voice\\Generic",
+        "GUID": "{1EB2FE3A-FE0E-4508-9168-4B6DD86BB9AC}"
+       }
+      ]
+     },
+     {
       "Id": "1062779386",
       "Name": "Player_Speed",
       "ObjectPath": "\\Switches\\Default Work Unit\\Player_Speed",
@@ -977,6 +1015,6 @@
     ]
    }
   ],
-  "FileHash": "{33CED5B5-ADB8-B488-CA1D-DB55B2915613}"
+  "FileHash": "{D6CE8B5E-ACF8-AB37-7755-09D623BB0AFC}"
  }
 }

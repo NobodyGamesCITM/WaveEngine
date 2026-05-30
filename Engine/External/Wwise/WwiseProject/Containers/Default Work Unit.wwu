@@ -6544,6 +6544,1585 @@
 										<ActiveSource Name="hermes_float_flare" ID="{0F01600D-7547-4C7F-A9C1-D3088E23874E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<SwitchContainer Name="Vocals" ID="{4D5C02A2-452F-41FE-9F7D-CD612EAA5924}" ShortID="829044211">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{34EDAA37-BC68-4B52-A87F-05E9782C949E}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="Player_Voice" ID="{70E4C8F4-E7FE-47F8-97BF-51F03CDA0A4C}" WorkUnitID="{2BEB6A99-023B-48CB-A490-0C27C5069DC6}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="Vocal_Grunts" ID="{ABEAD523-6ACF-44CA-8102-B4E306DE2C2C}" ShortID="931899714">
+											<PropertyList>
+												<Property Name="Lowpass" Type="int16">
+													<ValueList>
+														<Value>29</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>420</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{D870D543-FEF7-406D-9CC4-FC6C915DE896}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="100"/>
+																	<Property Name="Min" Type="Real64" Value="-100"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-8</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 1)" ID="{A57DAD89-E364-4C12-81D1-F3AF8AE2463C}" ShortID="683047034">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{0128C6A0-644C-4B81-A3A6-6A74832A427B}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 1)" ID="{0F5D0F41-196A-42B2-A4C2-AA9EF2C83A06}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 1).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="975829108"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 1)" ID="{0F5D0F41-196A-42B2-A4C2-AA9EF2C83A06}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 2)" ID="{0CDAA3A0-0BDB-464C-9AAD-2CEB1A2B374F}" ShortID="1058984263">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{02013FE9-F403-4080-A59C-F91B012926C8}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 2)" ID="{3F42719D-2236-44E4-8719-DCDAB904E077}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 2).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="848072375"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 2)" ID="{3F42719D-2236-44E4-8719-DCDAB904E077}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 3)" ID="{DE88908C-2390-4148-BA58-F584C0B54673}" ShortID="821182796">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{5C8DD1D1-604C-4538-9B0D-ED82A426D702}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 3)" ID="{3156904B-F3A8-4700-A99F-11DFBD3F014C}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 3).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="323206877"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 3)" ID="{3156904B-F3A8-4700-A99F-11DFBD3F014C}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 4)" ID="{A7CE9F25-FFE4-4BCC-8B21-28D6F9ACC67D}" ShortID="494338939">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{191253A5-D337-4466-BC84-4B2DCD5D4345}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 4)" ID="{29C4A0D4-11BE-42DC-B30A-72CC3CB81882}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 4).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1034423948"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 4)" ID="{29C4A0D4-11BE-42DC-B30A-72CC3CB81882}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 5)" ID="{A029F57D-AF07-4E67-A8C7-D9C97544A27C}" ShortID="1011797632">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{10AF6DB5-025E-45A1-8B06-474D6F1A561A}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 5)" ID="{29C449EC-3AB4-4A48-8DA8-219A21783EEB}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 5).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="155918487"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 5)" ID="{29C449EC-3AB4-4A48-8DA8-219A21783EEB}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 6)" ID="{3312238C-BD6F-4240-B0CB-D6E305B567A5}" ShortID="574847441">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{F36DC254-44FF-44AA-905B-E4FAF0DB178C}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 6)" ID="{E7A0A2AD-9B1C-47C5-AA28-B1E7CB20D62A}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 6).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="244849618"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Grunt (var - 6)" ID="{E7A0A2AD-9B1C-47C5-AA28-B1E7CB20D62A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Ah 2" ID="{EA6E67B2-0EBD-4D0B-8F5E-A6479252A140}" ShortID="1005496352">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="2"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>10</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Ah 2" ID="{6513F927-7CDF-4980-88CA-0AA57568D6A2}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.150763027780638"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.147297211050049"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Grunt Ah 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="42544232"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Ah 2" ID="{6513F927-7CDF-4980-88CA-0AA57568D6A2}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="Vocal_Decided" ID="{EE73325E-BA95-4AAC-986A-554FBFFD5821}" ShortID="936609887">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>420</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{C59E7379-58C3-4433-8BD6-57D198F46E6B}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="100"/>
+																	<Property Name="Min" Type="Real64" Value="-100"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-10</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 6)" ID="{41BE22ED-1B88-41C9-BAC1-7D7CF5706443}" ShortID="409967435">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{EE77FB59-74B5-4282-936B-87621209EA3B}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 6)" ID="{39253C57-5D43-4133-BA31-98906DD331B9}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 6).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="820158213"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 6)" ID="{39253C57-5D43-4133-BA31-98906DD331B9}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 2)" ID="{C0D967BD-8F30-4C0C-A1BC-D63B589B0C17}" ShortID="2534202">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{4A46B9AF-B9D3-4675-8807-23384BD7B6EC}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 2)" ID="{CE8E3E2B-639C-40F2-A5BD-D1A93E7ACA2B}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 2).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="395931650"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 2)" ID="{CE8E3E2B-639C-40F2-A5BD-D1A93E7ACA2B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 1)" ID="{0BD98BA0-072A-4F81-A3FD-E3B582AECBC1}" ShortID="218971516">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{B30F1B7C-34C7-4885-9644-6C9DD4CDAC3C}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 1)" ID="{F9568042-C0B0-44D2-935F-9BB52BF7F527}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 1).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="316701262"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 1)" ID="{F9568042-C0B0-44D2-935F-9BB52BF7F527}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 2)" ID="{33D8C2E5-986A-497A-8411-BFDD48C31652}" ShortID="720200774">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{F4414F2F-EA55-4F3E-A71B-954987D6547D}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 2)" ID="{C65CE36A-8588-4270-AE68-78294901D23A}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 2).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="336408647"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 2)" ID="{C65CE36A-8588-4270-AE68-78294901D23A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 4)" ID="{742562DB-33BC-4944-88DC-2719C3E3BCF5}" ShortID="115504642">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{00F8EE89-83B9-4070-B734-D7F37AB2C664}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 4)" ID="{5EEC0B97-FF24-4B52-9A58-95B3A181CEB7}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 4).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="88203208"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 4)" ID="{5EEC0B97-FF24-4B52-9A58-95B3A181CEB7}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 3)" ID="{8B8DF742-B92D-4AE0-A2D8-63F6F87D6EED}" ShortID="577979997">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{1D7EBB2C-BE40-4C8D-B72F-BD389CB6CFD4}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 3)" ID="{8561E84C-4D4B-4A28-9B5D-39E95F1BB2B1}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 3).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="428789808"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 3)" ID="{8561E84C-4D4B-4A28-9B5D-39E95F1BB2B1}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 5)" ID="{BA734573-D19B-4711-8A5B-FB6DADE9D025}" ShortID="733942544">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{F0ED3983-3122-4C93-9273-019097B07F67}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 5)" ID="{30580E53-ECB6-4D91-B392-18A98074F537}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 5).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="122973818"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 5)" ID="{30580E53-ECB6-4D91-B392-18A98074F537}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 3)" ID="{D1C77358-F837-4366-8299-06E54D75C46E}" ShortID="561691585">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{86CF005C-2492-4C1B-9AAF-1F388DA7D8AF}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 3)" ID="{A2D35538-EEF8-4AD6-A6EA-5A80455DC93D}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 3).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="185499148"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Jump (var - 3)" ID="{A2D35538-EEF8-4AD6-A6EA-5A80455DC93D}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 1)" ID="{DA6FA08C-568C-40F5-B475-B5E9E3687444}" ShortID="886309954">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{E74C6609-13B0-48B8-916F-3C1A4A26FDFC}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 1)" ID="{F43F8903-6696-4B53-A9E0-0531C0D12408}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 1).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="19618195"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Punch (var - 1)" ID="{F43F8903-6696-4B53-A9E0-0531C0D12408}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="Vocal_Think" ID="{B89FD1A4-72DB-46D6-8067-982A721E5142}" ShortID="648917865">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>500</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{9DEA1B91-986B-4D6A-B957-95E15E270926}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="100"/>
+																	<Property Name="Min" Type="Real64" Value="-100"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Mhm (var - 1)" ID="{A77C5C42-981B-42CE-A45C-EB860A8D7588}" ShortID="464194571">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>23</Value>
+															</ValueList>
+														</Property>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>130</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{9EFDA227-5D1C-411B-BABD-C40A87A4E4CD}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-75"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-8</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Mhm (var - 1)" ID="{EA582FCB-3602-4348-A1EC-0EF0175FA0BE}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.160230769949444"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.26306544320058"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.640923132714808"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Mhm (var - 1).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="447808777"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<EffectSlot Name="" ID="{1F11BC51-E797-4A71-B47B-AE35CB1E9EDE}" ShortID="180105841">
+																<PropertyList>
+																	<Property Name="Render" Type="bool" Value="True"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Time Stretch (Custom)" ID="{BA81E0E5-2668-425C-9F14-92C80D9951E3}" ShortID="596024681" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																				<PropertyList>
+																					<Property Name="QualityEnable" Type="int16" Value="1"/>
+																					<Property Name="TimeStretch" Type="Real32" Value="171"/>
+																					<Property Name="WindowSize" Type="int32" Value="3840"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Mhm (var - 1)" ID="{EA582FCB-3602-4348-A1EC-0EF0175FA0BE}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="freesound_community-big-old-men-moan-97740" ID="{27015354-B0B4-41A3-9C2E-92CF4EB539E4}" ShortID="636308659">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-880</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="freesound_community-big-old-men-moan-97740" ID="{D2468692-7E01-441F-95A3-5A5CF26CE928}">
+															<Language>SFX</Language>
+															<AudioFile>freesound_community-big-old-men-moan-97740.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1065006362"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="freesound_community-big-old-men-moan-97740" ID="{D2468692-7E01-441F-95A3-5A5CF26CE928}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="universfield-male-voice-expressing-confused-huh-352694" ID="{94D852D1-5B26-46F9-B03F-CFE810409321}" ShortID="1047507983">
+													<PropertyList>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-260</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="universfield-male-voice-expressing-confused-huh-352694" ID="{C8CB2DC5-AB89-4A50-AF4E-3BC9E200E013}">
+															<PropertyList>
+																<Property Name="LoopBegin" Type="Real64" Value="0.189165353305697"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.189165353305697"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>universfield-male-voice-expressing-confused-huh-352694.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="318930463"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="universfield-male-voice-expressing-confused-huh-352694" ID="{C8CB2DC5-AB89-4A50-AF4E-3BC9E200E013}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="zoedit-thinking-hmm-533581" ID="{20CA593E-E55E-4B7C-9194-5076D4136A47}" ShortID="437094707">
+													<PropertyList>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>80</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="zoedit-thinking-hmm-533581" ID="{CFBD51EF-E06C-4A4E-8CCA-3BCE3919C787}">
+															<PropertyList>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="1.30983054362387"/>
+																<Property Name="TrimEnd" Type="Real64" Value="2.03308470113839"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>zoedit-thinking-hmm-533581.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="275005548"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<EffectSlot Name="" ID="{074B71CE-6236-46F7-951A-5124C12C4239}" ShortID="406611771">
+																<PropertyList>
+																	<Property Name="Render" Type="bool" Value="True"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Time Stretch (Custom)" ID="{02FB1819-C8C8-404F-BF27-32842620C6CA}" ShortID="668181562" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																				<PropertyList>
+																					<Property Name="PitchShift" Type="Real32" Value="-100"/>
+																					<Property Name="QualityEnable" Type="int16" Value="1"/>
+																					<Property Name="TimeStretch" Type="Real32" Value="148"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="zoedit-thinking-hmm-533581" ID="{CFBD51EF-E06C-4A4E-8CCA-3BCE3919C787}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="Vocal_Scared" ID="{2B94F20D-537D-40F6-A206-6B1D2635A217}" ShortID="750437746">
+											<PropertyList>
+												<Property Name="Lowpass" Type="int16">
+													<ValueList>
+														<Value>27</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>200</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{832EDDAE-7710-4513-9A29-7FD6D27DFEE4}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="100"/>
+																	<Property Name="Min" Type="Real64" Value="-100"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="Grunt Ah 1" ID="{61D9DAEE-6DBB-478B-B024-1C17E599A533}" ShortID="318035765">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Ah 1" ID="{4D89F846-CF2A-4F89-AB56-B93692FF6E56}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Ah 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="707432455"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Ah 1" ID="{4D89F846-CF2A-4F89-AB56-B93692FF6E56}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Ah 3" ID="{03405DF0-8E4B-49D9-A551-87ED6B449754}" ShortID="202284518">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Ah 3" ID="{78E7CF18-1ABC-4363-B268-DFF4D1242398}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Ah 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="835188942"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Ah 3" ID="{78E7CF18-1ABC-4363-B268-DFF4D1242398}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Ah 4" ID="{8804F1A8-0DFF-4FC6-B72E-852EF2B03AB1}" ShortID="535253770">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16">
+															<ValueList>
+																<Value>33</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Ah 4" ID="{C7446E02-CF83-46BC-9E63-03B8D5884B72}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Ah 4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="561303815"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<EffectSlot Name="" ID="{3EEAD962-F4D7-43D0-82E6-42BB73CEE33D}" ShortID="829495097">
+																<PropertyList>
+																	<Property Name="Render" Type="bool" Value="True"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Time Stretch (Custom)" ID="{3D7AC61F-283B-4894-ABC8-4DA9D1575D63}" ShortID="548517787" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																				<PropertyList>
+																					<Property Name="PitchShiftRandom" Type="Real32" Value="100"/>
+																					<Property Name="QualityEnable" Type="int16" Value="1"/>
+																					<Property Name="TimeStretch" Type="Real32" Value="121"/>
+																					<Property Name="WindowSize" Type="int32" Value="7680"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Ah 4" ID="{C7446E02-CF83-46BC-9E63-03B8D5884B72}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Ah 5" ID="{68129C44-5EE2-4538-BD2A-4D5F8EDA5FC5}" ShortID="165966695">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Ah 5" ID="{B293AC0C-309D-4F00-8F5E-08351395966E}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Ah 5.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="14695171"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Ah 5" ID="{B293AC0C-309D-4F00-8F5E-08351395966E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Uhuhh 1" ID="{CF358543-A9AC-47ED-AB70-7E3D1B85D7A8}" ShortID="909780457">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>150</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Uhuhh 1" ID="{02988F59-270E-45AF-85A8-9074AD8CE648}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Uhuhh 1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="654262256"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Uhuhh 1" ID="{02988F59-270E-45AF-85A8-9074AD8CE648}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Uhuhh 2" ID="{F6DBC88D-8908-40FC-A4EF-4B33521F86DD}" ShortID="576686110">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>180</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Uhuhh 2" ID="{1E32BFBF-85E8-47EC-9012-B3C3D4AD473E}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Uhuhh 2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="435047297"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Uhuhh 2" ID="{1E32BFBF-85E8-47EC-9012-B3C3D4AD473E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Grunt Uhuhh 3" ID="{B8EA344D-58D5-4324-95A2-A8BC1CC8E5F0}" ShortID="781465752">
+													<PropertyList>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>130</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Grunt Uhuhh 3" ID="{3FA4FD67-6DFF-481C-8388-77A8DA2DC3A7}">
+															<Language>SFX</Language>
+															<AudioFile>Grunt Uhuhh 3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="669181511"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<EffectSlot Name="" ID="{FB3922B5-F25E-49EA-AD48-AEC4FF4CED44}" ShortID="768061678">
+																<PropertyList>
+																	<Property Name="Render" Type="bool" Value="True"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Time Stretch (Custom)" ID="{C731D67D-D84A-4226-988E-EE8F782646D2}" ShortID="826335817" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																				<PropertyList>
+																					<Property Name="OutputGain" Type="Real32" Value="0.5"/>
+																					<Property Name="QualityEnable" Type="int16" Value="1"/>
+																					<Property Name="StereoProcessing" Type="int16" Value="1"/>
+																					<Property Name="TimeStretch" Type="Real32" Value="126"/>
+																					<Property Name="WindowSize" Type="int32" Value="4352"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="Grunt Uhuhh 3" ID="{3FA4FD67-6DFF-481C-8388-77A8DA2DC3A7}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="Vocal_Relieved" ID="{B2960551-838C-44E7-82F1-284C4CD3A585}" ShortID="735940489">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>75</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{3D2AFC32-99A9-41FD-B0F4-DAF3FEA7B6F9}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="100"/>
+																	<Property Name="Min" Type="Real64" Value="-100"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="relieved_00" ID="{ED17DBA2-BA8A-4797-B694-1AA3B20A6C8F}" ShortID="306661411">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{282CCF2C-9858-4FD3-9ACD-E26230D81FD1}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="16"/>
+																			<Property Name="Min" Type="Real64" Value="-24"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>110</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{3D313ECB-0ABB-4E37-B0B0-7EB99069328E}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="125"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{64B374FB-64D8-45E0-B46A-755C4C17926C}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="5"/>
+																			<Property Name="Min" Type="Real64" Value="-5"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="relieved_00" ID="{E18492F5-87F6-4D77-B9A1-758818DB7FA0}">
+															<Language>SFX</Language>
+															<AudioFile>relieved_00.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="576287400"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="relieved_00" ID="{E18492F5-87F6-4D77-B9A1-758818DB7FA0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="relieved_01" ID="{646DAEEB-8368-47FB-87CA-E950D284C567}" ShortID="852380141">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>100</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="relieved_01" ID="{CF8A61CE-CFBD-48D6-9634-FBF46ED44836}">
+															<Language>SFX</Language>
+															<AudioFile>relieved_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="753855637"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="relieved_01" ID="{CF8A61CE-CFBD-48D6-9634-FBF46ED44836}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 1)" ID="{3F7B3B79-39A5-4B91-A62A-94B8C32A752B}" ShortID="323661044">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 1)" ID="{DA894DA7-1833-4BBC-BC86-3C904447EF1C}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 1).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1035030597"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 1)" ID="{DA894DA7-1833-4BBC-BC86-3C904447EF1C}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 2)" ID="{7956AFBD-395E-40EC-83CE-AFD233A01D47}" ShortID="858523860">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 2)" ID="{05BDF9BC-5583-4B6A-938E-0DACA3AB4DEB}">
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 2).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="900563385"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<EffectSlot Name="" ID="{CC9FCB98-B787-4DE6-BF0D-FEA18A1BA4E7}" ShortID="924832530">
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Time Stretch (Custom)" ID="{D8F8567B-C65D-41DC-9874-03852511BE00}" ShortID="911316572" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																				<PropertyList>
+																					<Property Name="PitchShift" Type="Real32" Value="300"/>
+																					<Property Name="QualityEnable" Type="int16" Value="1"/>
+																					<Property Name="TimeStretch" Type="Real32" Value="163"/>
+																					<Property Name="WindowSize" Type="int32" Value="8192"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 2)" ID="{05BDF9BC-5583-4B6A-938E-0DACA3AB4DEB}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 3)" ID="{0F935D6C-C37C-43CB-984A-BD8F73F29858}" ShortID="1070853762">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16">
+															<ValueList>
+																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>35</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{590B48F2-0F05-41A8-9896-0CC2ACFCBE13}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="100"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 3)" ID="{45EAEDB0-A6E2-4CF2-97B9-62988A0071B4}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0584161843614603"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.0905450857602633"/>
+																<Property Name="TrimEnd" Type="Real64" Value="1.03980818746805"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 3).wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="343552191"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ATTurtlez &amp; JDSherbert - Male Character VOX Pack - Sigh (var - 3)" ID="{45EAEDB0-A6E2-4CF2-97B9-62988A0071B4}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="relieved_02" ID="{CB68FFA4-D3F0-4FAE-9C9A-30C4074DEC6B}" ShortID="446722661">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16">
+															<ValueList>
+																<Value>6</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Lowpass" Type="int16">
+															<ValueList>
+																<Value>25</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>100</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{7844030A-B1A7-44D2-8966-0FF5E43C5D5D}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-7</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="relieved_02" ID="{5170C4AB-043D-4DCB-BD4A-6A66A5AFFC46}">
+															<Language>SFX</Language>
+															<AudioFile>relieved_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="474879979"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="relieved_02" ID="{5170C4AB-043D-4DCB-BD4A-6A66A5AFFC46}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="Vocal_Scared" ID="{2B94F20D-537D-40F6-A206-6B1D2635A217}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="Vocal_Grunts" ID="{ABEAD523-6ACF-44CA-8102-B4E306DE2C2C}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="Vocal_Relieved" ID="{B2960551-838C-44E7-82F1-284C4CD3A585}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="Vocal_Decided" ID="{EE73325E-BA95-4AAC-986A-554FBFFD5821}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="Vocal_Think" ID="{B89FD1A4-72DB-46D6-8067-982A721E5142}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+										<GroupingList>
+											<Grouping>
+												<SwitchRef Name="Decided" ID="{5EF25401-7222-4EF8-A33D-80F74AE51385}"/>
+												<ItemList>
+													<ItemRef Name="Vocal_Decided" ID="{EE73325E-BA95-4AAC-986A-554FBFFD5821}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="Relieved" ID="{1FF8CE2B-9406-4258-8900-0180BFD657A5}"/>
+												<ItemList>
+													<ItemRef Name="Vocal_Relieved" ID="{B2960551-838C-44E7-82F1-284C4CD3A585}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="Generic" ID="{1EB2FE3A-FE0E-4508-9168-4B6DD86BB9AC}"/>
+												<ItemList>
+													<ItemRef Name="Vocal_Grunts" ID="{ABEAD523-6ACF-44CA-8102-B4E306DE2C2C}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="Pensative" ID="{890ED27E-0F32-463D-8936-9B7AA352AAEC}"/>
+												<ItemList>
+													<ItemRef Name="Vocal_Think" ID="{B89FD1A4-72DB-46D6-8067-982A721E5142}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="Scared" ID="{E51506D5-2D87-46CE-85AB-44A3A3F53A51}"/>
+												<ItemList>
+													<ItemRef Name="Vocal_Scared" ID="{2B94F20D-537D-40F6-A206-6B1D2635A217}"/>
+												</ItemList>
+											</Grouping>
+										</GroupingList>
+									</GroupingInfo>
+								</SwitchContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Siren" ID="{D4817CC0-2B36-42AA-B4CC-A52B100AE522}" ShortID="476389932">
@@ -9012,6 +10591,13 @@
 								<RandomSequenceContainer Name="Aquiles_SpearHit" ID="{3834C2E6-8933-486B-8F8D-ECE4A4555E21}" ShortID="518763952">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{C0DA3FD3-B5C8-42E1-9B8B-47F8E81CC041}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -9481,6 +11067,13 @@
 												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{C87D3F13-74FB-4FFB-9926-FAAC98BCF0F6}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9628,6 +11221,13 @@
 												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{5A5FFCEC-6732-456F-B2EB-71D0DBFD2866}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9759,6 +11359,13 @@
 												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{5D79EE0F-C914-43D3-AC54-53E254CB88E9}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9793,6 +11400,13 @@
 												<Property Name="OverrideEffect" Type="bool" Value="True"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{63745CDF-C29A-486A-B448-60DC1DB43737}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>7</Value>
@@ -10064,6 +11678,269 @@
 										</Folder>
 									</ChildrenList>
 								</Folder>
+								<RandomSequenceContainer Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" ShortID="387109797">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{55CE944B-994F-4721-AD82-96A87B245B50}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="Area_Expansion_0" ID="{C5708869-CAC0-4DA3-84ED-1104CDB3DED6}" ShortID="991436530">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{A0FBC629-4ECE-4659-B4EA-1080B1A4E09D}">
+																<PropertyList>
+																	<Property Name="Max" Type="Real64" Value="125"/>
+																	<Property Name="Min" Type="Real64" Value="-125"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-magic-strike-5856" ID="{7C4ADE25-3A7A-4925-8C0B-3E1B3DA7DF42}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.740086258479527"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.083950083051409"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-magic-strike-5856.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="828466913"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{969EDADA-9FA3-40D7-8D58-D004185CE5D2}" ShortID="35360315">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+													</EffectSlot>
+													<EffectSlot Name="" ID="{CD16FFC4-4EAD-4F18-97A3-CC908D3DC178}" ShortID="222419392">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{B88B6A87-0961-497B-8209-DF67EC50A5BE}" ShortID="65790085" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShiftRandom" Type="Real32" Value="150"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="80"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-magic-strike-5856" ID="{7C4ADE25-3A7A-4925-8C0B-3E1B3DA7DF42}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="yodguard-healing-magic-4-378668" ID="{14B6CFE4-37A3-424D-B6DC-D2D5D7544408}" ShortID="110313370">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>500</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{4DD11BA7-F663-4D53-949C-9337A64958E1}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="yodguard-healing-magic-4-378668" ID="{E1A978F2-0A0C-45AE-B5FA-9DB5098C974C}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.77183999633789"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.819337172372"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>yodguard-healing-magic-4-378668.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="535892732"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="yodguard-healing-magic-4-378668" ID="{E1A978F2-0A0C-45AE-B5FA-9DB5098C974C}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458" ID="{B88236A5-50DC-4681-9C65-725808888DBD}" ShortID="35009516">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{AEC7E99E-06ED-462C-9E83-E5CB2E28B132}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458" ID="{D26091D9-366F-4CD1-BA7A-86687B045048}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.249879893711635"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="1.18461579241071"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.115685135977609"/>
+														<Property Name="TrimEnd" Type="Real64" Value="2.71628682537468"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="190699463"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458" ID="{D26091D9-366F-4CD1-BA7A-86687B045048}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="freesounds123-magic-spell-333896" ID="{DBD7A53F-ED79-473E-9C88-DDD15E79E539}" ShortID="600966574">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{0B5B673F-42A6-4663-AC82-54CCB89129BD}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesounds123-magic-spell-333896" ID="{68DE3370-DCAC-437C-AC96-59767F4608DE}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="1.44375049700056"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.157331784929548"/>
+														<Property Name="TrimEnd" Type="Real64" Value="2.52656303499183"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesounds123-magic-spell-333896.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="202134863"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{D4CDD0FA-C853-426F-8AC9-2E50264B24C6}" ShortID="41853935">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{A3AE6531-2E4B-4EFD-A159-81F7B9ABE5C8}" ShortID="43146841" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShiftRandom" Type="Real32" Value="150"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="50"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="freesounds123-magic-spell-333896" ID="{68DE3370-DCAC-437C-AC96-59767F4608DE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277" ID="{0EBB6F19-AF8B-493B-9B6F-9440E283BE20}" ShortID="153671336">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{D73A6D10-E822-423F-BE91-02195665187E}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277" ID="{4820F771-C2E8-4388-BC2A-56E584224783}">
+													<Language>SFX</Language>
+													<AudioFile>coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="837783562"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277" ID="{4820F771-C2E8-4388-BC2A-56E584224783}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Puzzles" ID="{A430A924-5358-4357-9112-EBF5FC0442C9}" ShortID="442069209">
@@ -11014,41 +12891,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="UI_ButtonPressed_01" ID="{9F422711-ED95-4ECB-98D0-02FA3A1D5A82}" ShortID="529500331">
-											<PropertyList>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="universfield-interface-124464" ID="{3442D365-7A7E-44BC-A134-24BA596ACC9C}">
-													<PropertyList>
-														<Property Name="LoopEnd" Type="Real64" Value="1.14307480687998"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimBegin" Type="Real64" Value="0.245405900478363"/>
-														<Property Name="TrimEnd" Type="Real64" Value="1.17213603193663"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>universfield-interface-124464.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="1040823208"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="universfield-interface-124464" ID="{3442D365-7A7E-44BC-A134-24BA596ACC9C}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="UI_ButtonPressed_02" ID="{1CE2C3C5-846B-44C2-BDEC-2DCA5C14D079}" ShortID="265889125">
 											<PropertyList>
 												<Property Name="Inclusion" Type="bool">
@@ -11197,62 +13039,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="UI_ButtonSelected" ID="{1DB1F4E1-7444-414B-B0CB-31653FB4FE1D}" ShortID="188568997">
-											<PropertyList>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>45</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Pitch" Type="int32">
-													<ValueList>
-														<Value>-800</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="creatorshome-select-003-337609" ID="{4FC80082-A909-437D-83EC-12423789D924}">
-													<Language>SFX</Language>
-													<AudioFile>creatorshome-select-003-337609.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="573518590"/>
-													</MediaIDList>
-												</AudioFileSource>
-												<AudioFileSource Name="floraphonic-minimal-pop-click-ui-4-198304" ID="{055A662E-F315-4295-AFD2-692136268898}">
-													<PropertyList>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimBegin" Type="Real64" Value="0.0129000008106232"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.104633275058535"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>floraphonic-minimal-pop-click-ui-4-198304.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="151597588"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="floraphonic-minimal-pop-click-ui-4-198304" ID="{055A662E-F315-4295-AFD2-692136268898}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="UI_ButtonHovered" ID="{84BD520A-7147-47C7-BA62-C061551F6F57}" ShortID="108231205">
 											<PropertyList>
 												<Property Name="CenterPercentage" Type="int32">
@@ -11313,6 +13099,9 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="page_turn_00" ID="{0496AB6E-7278-498A-BBB3-B4802466CADB}" ShortID="809078283">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -11327,8 +13116,8 @@
 														<Property Name="FadeInDuration" Type="Real64" Value="0.0158933334350586"/>
 														<Property Name="FadeOutDuration" Type="Real64" Value="0.0153257143838065"/>
 														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimBegin" Type="Real64" Value="0.11125333404541"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.365546665827433"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0913866672515868"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.39733333269755"/>
 													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>page_turn_00.wav</AudioFile>
@@ -11337,11 +13126,35 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{905FC9C5-9176-4B76-8818-8AF28E945A76}" ShortID="581758025">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{1FE58552-C6D4-4A5E-A4E0-9D65DA46780D}" ShortID="465636791" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="150"/>
+																			<Property Name="WindowSize" Type="int32" Value="256"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="page_turn_00" ID="{36E85B04-744C-4234-89D7-E136929980F5}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="page_turn_01" ID="{78D0A711-F680-43F3-BB08-80E1C41FF923}" ShortID="548997248">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -11366,6 +13179,27 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{20517F24-EA67-443A-BEF9-A5966E1F9425}" ShortID="406084744">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{DFA1A785-D498-4DFD-A5C8-2E66E39CA3F8}" ShortID="882471901" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="120"/>
+																			<Property Name="WindowSize" Type="int32" Value="256"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="page_turn_01" ID="{1F9914A9-0400-4783-B28C-FE6850150B50}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -11670,6 +13504,247 @@
 										<ActiveSource Name="owl_wing_flap_00" ID="{0583E309-3E75-486B-997C-B61CE511ACD9}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<RandomSequenceContainer Name="UI_SkipDialog" ID="{57B108D4-AA4D-4F28-BA20-874142400E4C}" ShortID="124326402">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="skipdialog_00" ID="{4D17F66D-508C-4CAF-9287-F4657961E61D}" ShortID="438384700">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="skipdialog_00" ID="{8C4FA70C-0A3A-435D-87A7-66FADD3A4384}">
+													<Language>SFX</Language>
+													<AudioFile>skipdialog_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="630631481"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="skipdialog_00" ID="{8C4FA70C-0A3A-435D-87A7-66FADD3A4384}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="skipdialog_01" ID="{81958BF1-DD26-4BEF-863E-A29CAFDECB34}" ShortID="533189379">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="skipdialog_01" ID="{B6F56985-AA9C-40F8-989A-737B59F6B540}">
+													<Language>SFX</Language>
+													<AudioFile>skipdialog_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="212589712"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="skipdialog_01" ID="{B6F56985-AA9C-40F8-989A-737B59F6B540}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="skipdialog_02" ID="{0BDE61D2-5028-4DE3-BCE9-600EA8DD1DAD}" ShortID="582113580">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="skipdialog_02" ID="{EE14785F-CBF8-4A43-BC8D-1419E32F44F3}">
+													<Language>SFX</Language>
+													<AudioFile>skipdialog_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="387208315"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="skipdialog_02" ID="{EE14785F-CBF8-4A43-BC8D-1419E32F44F3}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="UI_ButtonSelected" ID="{1DB1F4E1-7444-414B-B0CB-31653FB4FE1D}" ShortID="188568997">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Lowpass" Type="int16">
+													<ValueList>
+														<Value>45</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-1000</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="creatorshome-select-003-337609" ID="{4FC80082-A909-437D-83EC-12423789D924}">
+													<Language>SFX</Language>
+													<AudioFile>creatorshome-select-003-337609.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="573518590"/>
+													</MediaIDList>
+												</AudioFileSource>
+												<AudioFileSource Name="floraphonic-minimal-pop-click-ui-4-198304" ID="{055A662E-F315-4295-AFD2-692136268898}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0219529935676675"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.0425171901394795"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>floraphonic-minimal-pop-click-ui-4-198304.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="151597588"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{7B7D39A2-D2B5-4E1B-9883-2B7A3B259BCF}" ShortID="103236552">
+														<PropertyList>
+															<Property Name="Bypass" Type="bool" Value="True"/>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="floraphonic-minimal-pop-click-ui-4-198304" ID="{055A662E-F315-4295-AFD2-692136268898}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="UI_ButtonPressed_01" ID="{9F422711-ED95-4ECB-98D0-02FA3A1D5A82}" ShortID="529500331">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="universfield-interface-124464" ID="{3442D365-7A7E-44BC-A134-24BA596ACC9C}">
+													<PropertyList>
+														<Property Name="LoopEnd" Type="Real64" Value="1.14307480687998"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.245405900478363"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.17213603193663"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>universfield-interface-124464.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1040823208"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{ECBB9008-1D9E-452C-BDC8-F91292355D98}" ShortID="762006236">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{CFB803BB-630D-43EF-8240-C6A51802500D}" ShortID="174178111" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="73"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="universfield-interface-124464" ID="{3442D365-7A7E-44BC-A134-24BA596ACC9C}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

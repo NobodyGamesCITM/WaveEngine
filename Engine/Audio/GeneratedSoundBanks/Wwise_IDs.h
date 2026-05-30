@@ -108,6 +108,8 @@ namespace AK
         static const AkUniqueID UI_OWLHOOT = 3426312362U;
         static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
+        static const AkUniqueID UI_SKIPDIALOG = 344780467U;
+        static const AkUniqueID UI_TELEVOCALS = 3718241572U;
     } // namespace EVENTS
 
     namespace STATES
@@ -156,6 +158,20 @@ namespace AK
                 static const AkUniqueID WALK = 2108779966U;
             } // namespace SWITCH
         } // namespace PLAYER_SPEED
+
+        namespace PLAYER_VOICE
+        {
+            static const AkUniqueID GROUP = 1047305421U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DECIDED = 3540708211U;
+                static const AkUniqueID GENERIC = 4294388576U;
+                static const AkUniqueID PENSATIVE = 1998809012U;
+                static const AkUniqueID RELIEVED = 2685321313U;
+                static const AkUniqueID SCARED = 820940617U;
+            } // namespace SWITCH
+        } // namespace PLAYER_VOICE
 
         namespace SURFACE_TYPE
         {

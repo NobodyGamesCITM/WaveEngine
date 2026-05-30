@@ -1095,7 +1095,7 @@
 										<Property Name="Density" Type="Real32" Value="100"/>
 										<Property Name="Diffusion" Type="Real32" Value="0"/>
 										<Property Name="DryLevel" Type="Real32" Value="0"/>
-										<Property Name="ERFrontBackDelay" Type="Real32" Value="25"/>
+										<Property Name="ERFrontBackDelay" Type="Real32" Value="44"/>
 										<Property Name="ERLevel" Type="Real32" Value="-13"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="590"/>
 										<Property Name="Filter1Gain" Type="Real32" Value="-9.5"/>

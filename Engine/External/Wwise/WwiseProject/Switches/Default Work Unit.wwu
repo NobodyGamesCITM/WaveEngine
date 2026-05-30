@@ -28,6 +28,15 @@
 						<Switch Name="NoMask" ID="{7CE060AD-B38E-4EA6-B387-FB7D1B77E4E1}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="Player_Voice" ID="{70E4C8F4-E7FE-47F8-97BF-51F03CDA0A4C}">
+					<ChildrenList>
+						<Switch Name="Generic" ID="{1EB2FE3A-FE0E-4508-9168-4B6DD86BB9AC}"/>
+						<Switch Name="Decided" ID="{5EF25401-7222-4EF8-A33D-80F74AE51385}"/>
+						<Switch Name="Pensative" ID="{890ED27E-0F32-463D-8936-9B7AA352AAEC}"/>
+						<Switch Name="Scared" ID="{E51506D5-2D87-46CE-85AB-44A3A3F53A51}"/>
+						<Switch Name="Relieved" ID="{1FF8CE2B-9406-4258-8900-0180BFD657A5}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

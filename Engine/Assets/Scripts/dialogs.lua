@@ -9,10 +9,10 @@ return {
                 mood      = ""
             },
             {
-                character = "Telemaco",
+                character = "Telémaco",
                 portrait  = "Textures/Telemaco.png",
                 text      = " Uf… de acuerdo. ¡Allá voy!",
-                mood = "Decided"
+                mood = "Decided" -- nombre de un Switch State de Wwise, no tocar
             }
         }
     },
@@ -38,10 +38,10 @@ return {
                 mood      = ""
             },
             {
-                character = "Telemaco",
+                character = "Telémaco",
                 portrait  = "Textures/Telemaco.png",
                 text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias.",
-                mood = "Relieved"
+                mood = "Relieved" -- nombre de un Switch State de Wwise, no tocar
             }
         }
     },
@@ -56,10 +56,10 @@ return {
                 mood      = ""
             },
             {
-                character = "Telemaco",
+                character = "Telémaco",
                 portrait  = "Textures/Telemaco.png",
                 text      = "Será una misión ardua, pero no me rendiré ahora.",
-                mood = "Generic"
+                mood = "Generic" -- nombre de un Switch State de Wwise, no tocar
             }
         }
     },
@@ -97,10 +97,10 @@ return {
                 mood      = ""
             },
             {
-                character = "Telemaco",
+                character = "Telémaco",
                 portrait  = "Textures/Telemaco.png",
                 text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo.",
-                mood = "Scared"
+                mood = "Scared" -- nombre de un Switch State de Wwise, no tocar
             }
         }
     }

@@ -15,7 +15,7 @@ local wasAmbient = false
 _G._IsDialogActive = false
 
 local PORTRAIT_MAP = {
-    ["Telemaco"]    = "Portrait_Telemaco",
+    ["Telémaco"]    = "Portrait_Telemaco",
     ["Atenea"]      = "Portrait_Atenea",
     ["John cartel"] = "Portrait_JohnCartel",
 }
@@ -109,11 +109,11 @@ local function loadDialogEntry(entry)
     if charSFX then
         if entry.character == "Atenea" then
             charSFX:SelectPlayAudioEvent("UI_OwlHoot")
-            Engine.Log("Playing Owl SFX")
-        elseif entry.character == "Telemaco" then
+            --Engine.Log("Playing Owl SFX")
+        elseif entry.character == "Telémaco" or entry.character == "Telemaco" then
             Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
-            Engine.Log("Playing Telemachus Voice SFX with mood: "..tostring(entry.mood))
+            --Engine.Log("Playing Telemachus Voice SFX with mood: "..tostring(entry.mood))
         end
     else
         Engine.Log("[DialogSystem] Character Voice Audio Source not found!")
@@ -189,11 +189,7 @@ function ForceCloseDialog()
 
 
     wasAmbient = false
-    --     if skipSFX then 
-    --     skipSFX:SelectPlayAudioEvent("UI_SkipDialog")
-    -- else
-    --     Engine.Log("[DialogSystem] Unable to play Skip Dialog Sound") 
-    -- end
+
 end
 
 function SuspendDialog()
@@ -244,7 +240,7 @@ local function onAdvancePressed()
     if skipSFX and not Audio.IsEventPlaying("UI_SkipDialog") then 
         skipSFX:SelectPlayAudioEvent("UI_SkipDialog")
     else
-        Engine.Log("[DialogSystem] Unable to play Skip Dialog Sound") 
+       --Engine.Log("[DialogSystem] Unable to play Skip Dialog Sound") 
     end
 
     if not state.isComplete then
@@ -276,7 +272,7 @@ local function FindDialogAudioSources(self)
             Engine.Log("[DialogSystem] Unable to retrieve Skip Audio Source Component")
         end
     else
-        Engine.Log("[DialogSystem] Skip Audio GameObject NOT Found!")
+        --Engine.Log("[DialogSystem] Skip Audio GameObject NOT Found!")
     end
 
     local charSource = GameObject.FindInChildren(self.gameObject, "CharSource")
@@ -286,7 +282,7 @@ local function FindDialogAudioSources(self)
             Engine.Log("[DialogSystem] Unable to retrieve Character Audio Source Component")
         end
     else
-        Engine.Log("[DialogSystem] Character Audio GameObject NOT Found!")
+        --Engine.Log("[DialogSystem] Character Audio GameObject NOT Found!")
     end
 
 
@@ -330,6 +326,11 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if not skipSFX or not charSFX then
+        FindDialogAudioSources(self)
+    end
+
     if _DialogSystem_pendingSequence and _DialogSystem_pendingSequence ~= "" then
         local seq = _DialogSystem_pendingSequence
         _DialogSystem_pendingSequence = ""

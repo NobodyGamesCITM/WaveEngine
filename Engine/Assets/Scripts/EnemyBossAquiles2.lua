@@ -149,6 +149,22 @@ local attackAreaTransform = nil
 local isWinBossPlaying = false
 local winBossCinematicTimer = 22.0
 
+--Fase2
+
+local fase2Active    = false
+local fase2Timer     = 0
+local Fase2_Duration = 60        
+
+local spawnTimer     = 0
+local SPAWN_INTERVAL = 20 
+
+local Prefab_Skeleton  = "/Prefabs/Skeleton_Fase2.prefab"
+local Prefab_Minocabro = "/Prefabs/MinocabroPrefab.prefab"
+
+local spawnedEnemies = {}
+local pendingPositions = {}
+
+
 -- Helpers
 local function lerp(a, b, t)
     t = min(1.0, t)
@@ -265,6 +281,123 @@ local function FadeOutBossMusic(self, dt)
     end 
 end
 
+-- Fase2
+local function CalcSpawnPos(myPos, index, total)
+    local baseAngle = (2 * math.pi / total) * (index - 1)
+    local angle = baseAngle + ((math.random() - 0.5) * 0.8)
+    local radius = 3 + math.random() * 2         
+    return
+        myPos.x + math.cos(angle) * radius,
+        myPos.y,
+        myPos.z + math.sin(angle) * radius
+end
+
+local function QueueSpawn(self, prefabPath, index, total)
+    local myPos = self.transform.worldPosition
+    local x, y, z = CalcSpawnPos(myPos, index, total)
+    local enemy = Prefab.Instantiate(prefabPath)
+    if enemy then
+        table.insert(spawnedEnemies, enemy)
+        table.insert(pendingPositions, { enemy = enemy, x = x, y = y, z = z, frames = 3 })
+    end
+end
+
+local series = {
+    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },
+    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro }, 
+    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton,  Prefab_Minocabro  },
+    { Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },                                    
+    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
+}
+local lastTandaIdx = 0 
+
+local function SpawnTanda(self)
+    math.randomseed(os.time() + math.random(1000))
+
+    local idx
+    repeat
+        idx = math.random(#series)
+    until idx ~= lastTandaIdx
+    lastTandaIdx = idx
+
+    local list = series[idx]
+    local total = #list
+
+    for i, prefabPath in ipairs(list) do
+        QueueSpawn(self, prefabPath, i, total)
+    end
+end
+
+local function ProcessPendingPositions()
+    for i = #pendingPositions, 1, -1 do
+        local entry = pendingPositions[i]
+        entry.frames = entry.frames - 1
+        if entry.frames <= 0 then
+            if entry.enemy and entry.enemy.transform then
+                entry.enemy.transform:SetPosition(entry.x, entry.y, entry.z)
+            end
+            table.remove(pendingPositions, i)
+        end
+    end
+end
+
+local function AllEnemiesDead()
+    for i = #spawnedEnemies, 1, -1 do
+        local e = spawnedEnemies[i]
+        if not e or not e.gameObject then
+            table.remove(spawnedEnemies, i)
+        end
+    end
+    return #spawnedEnemies == 0
+end
+
+
+local function UpdateFase2(self, dt)
+
+    ProcessPendingPositions()
+
+    if rb then
+        if isKinematic then
+            rb:SetBody(1)
+            isKinematic = false
+        end
+        rb:SetLinearVelocity(0, 0, 0)
+    end
+
+    fase2Timer = fase2Timer - dt
+
+    if fase2Timer > 0 then
+        spawnTimer = spawnTimer + dt
+        if spawnTimer >= SPAWN_INTERVAL then
+            spawnTimer = 0
+            SpawnTanda(self)
+        end
+
+    elseif AllEnemiesDead() then
+        fase2Active    = false
+        spawnedEnemies = {}
+ 
+        -- Stats fase 3
+        hp      = 400
+        posture = 150
+        self.public.chargeDamage   = 30
+        self.public.chargeSpeed    = 40.0
+        self.public.chargeCooldown = 1.5
+        self.public.lanceDamage    = 20
+        self.public.lanceCooldown  = 0.4
+        self.public.moveSpeed      = 8
+ 
+        blockHits    = false   
+        currentMaxHp = 400
+        if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
+        if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
+        if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+ 
+        Engine.Log("[AQUILES] Fase 3 comenzada")
+        ChangeState(State.COMBAT_MOVE)
+    end
+end
+
 local function TakeDamage(self, amount, attackerPos)
     if isDead then return end
     if blockHits then return end
@@ -351,19 +484,30 @@ local function TakeDamage(self, amount, attackerPos)
     if hp <= 0 then
         if not fase1 then
             _G._AquilesDefeated = true
-           
-            Engine.Log("[AQUILES] Globally Killed Aquiles")
             Game.SetTimeScale(0.1)
             _impactFrameTimer = 0.3
             blockHits = true
-        else
-            Game.SetTimeScale(0.2)
-            _impactFrameTimer = 0.1
-        end
-        ChangeState(State.DEAD)
-        SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
-        if _G.BossBar_SetVisibility then
-            _G.BossBar_SetVisibility(false)
+            ChangeState(State.DEAD)
+            SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+            if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+ 
+        elseif not fase2Active then
+            fase1       = false
+            fase2Active = true
+            fase2Timer  = Fase2_Duration
+            spawnTimer  = 0
+            spawnedEnemies = {}
+ 
+            hp      = 1 
+            posture = 0
+            blockHits = true
+ 
+            StopMovement()
+            if anim then anim:Play("Idle", 0.2) end
+
+            -- Primera tanda inmediata
+            SpawnTanda(self)
+            Engine.Log("[AQUILES] Fase 2 iniciada")
         end
         return
     end
@@ -1258,6 +1402,11 @@ function Update(self, dt)
     if not pp then return end
 
     local dist = Dist(myPos, pp)   
+
+    if fase2Active then
+        UpdateFase2(self, dt)
+        return
+    end
 
     if     currentState == State.IDLE         then UpdateIdle(self, dist)
     elseif currentState == State.COMBAT_MOVE  then UpdateCombatMove(self, myPos, pp, dist, dt)

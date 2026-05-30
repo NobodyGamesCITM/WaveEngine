@@ -64,21 +64,17 @@ local function loadStep(index)
     show(entry.panel, true)
     Engine.Log("[Cinematic] Viñeta: " .. entry.panel)
 
-    if self.gameObject:IsActive() then 
-        if entry.panel == "Page1_V1" then
-            if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
-            if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")      end
-            if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
-        elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
-            if ambianceSFX then ambianceSFX:StopAudioEvent() end
-            if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")     end
-        elseif entry.panel == "Page2_V3" then
-            if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")  end
-        else
-            if ambianceSFX then ambianceSFX:StopAudioEvent() end
-        end
+    if entry.panel == "Page1_V1" then
+        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")        end
+        if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")         end
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
+    elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
+        if ambianceSFX then ambianceSFX:StopAudioEvent() end
+        if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")        end
+    elseif entry.panel == "Page2_V3" then
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")     end
     else
-        Engine.Log("Viñetas no visibles, SFX muteados")
+        if ambianceSFX then ambianceSFX:StopAudioEvent() end
     end
 end
 

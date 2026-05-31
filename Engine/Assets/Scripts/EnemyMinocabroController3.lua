@@ -601,6 +601,7 @@ local function UpdateDeath(self, dt)
         
         if pos.y > self.targetDeathY then
             self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
+            self.gameObject:SetActive(false)
         else
             if not self.isDead then
                 self.isDead = true

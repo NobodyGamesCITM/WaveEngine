@@ -366,15 +366,25 @@ local function UpdateFase2(self, dt)
     end
 
     fase2Timer = fase2Timer - dt
+    local allEnemies  = GameObject.FindByTag("Enemy")
+    local totalLive   = 0
+    if allEnemies then
+        for _, enemie in ipairs(allEnemies) do
+            if enemie:IsActive() then
+                    totalLive = totalLive + 1
+                end
+            end
+        
+    end
 
     if fase2Timer > 0 then
         spawnTimer = spawnTimer + dt
-        if spawnTimer >= SPAWN_INTERVAL then
+        if spawnTimer >= SPAWN_INTERVAL or totalLive==1 then
             spawnTimer = 0
             SpawnSeries(self)
         end
 
-    elseif AllEnemiesDead() then
+    elseif AllEnemiesDead() and totalLive==1  then
         fase2Active    = false
         spawnedEnemies = {}
  

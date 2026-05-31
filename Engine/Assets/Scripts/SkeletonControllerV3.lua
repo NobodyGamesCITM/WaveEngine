@@ -612,6 +612,7 @@ States[State.DEAD] = {
             if colision then 
                 colision:Disable()
                 Skeleton.rb:SetUseGravity(false)
+                self.gameObject:SetActive(false)
             else  Engine.Log("Sphere not found") end
 
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
@@ -641,6 +642,7 @@ States[State.DEAD] = {
         if colision then 
             colision:Enable()
             Skeleton.rb:SetUseGravity(true)
+            self.gameObject:SetActive(true)
         else  Engine.Log("Sphere not found") end
     end
 }

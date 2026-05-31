@@ -564,9 +564,6 @@ function Update(self, dt)
         self.current   = self.nextXaml
         _G.CurrentXAML = self.current
 
-        if self.current == "PauseMenu.xaml" and _G.HUD_RefreshStatuesDestroyed then
-            _G.HUD_RefreshStatuesDestroyed()
-        end
         self.lastPauseState = nil
 
         if self.current == "HUD.xaml" then

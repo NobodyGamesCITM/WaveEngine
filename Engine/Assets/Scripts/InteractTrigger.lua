@@ -1,3 +1,5 @@
+--Interact Trigger Script
+
 -- para que funcione hay que pillar el objeto interactuable (ponle por ejemplo una estatua) y meterle a eso el script este. 
 --Luego un gameobject empty dentro del interactuable que tenga el nombre anchorName. 
 --Lo pones donde quieras y ya te saldra ahi el boton.
@@ -126,9 +128,12 @@ local function refreshSharedLockOnPrompt()
 
     for trigger in pairs(_G._lockOnInteractTriggers or {}) do
         if trigger.gameObject and (not _G.IsTargetDead or not _G.IsTargetDead(trigger.gameObject)) then
-            local myPos = trigger.transform.worldPosition
-            local dx = myPos.x - playerPos.x
-            local dz = myPos.z - playerPos.z
+
+            local tPos = trigger.gameObject.transform.worldPosition
+
+            if not tPos then return end
+            local dx = tPos.x - playerPos.x
+            local dz = tPos.z - playerPos.z
             local dist = math.sqrt(dx * dx + dz * dz)
 
             if dist < trigger.public.promptRadius and dist < bestDist then

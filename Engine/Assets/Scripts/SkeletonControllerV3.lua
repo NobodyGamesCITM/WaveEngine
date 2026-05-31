@@ -544,7 +544,7 @@ States[State.DODGE] = {
     cnt = 0.0,
     dur = 0.2,
     Enter = function(self)
-        Engine.Log("[Skeleton] Entered Dodge StateW")
+        
         States[State.DODGE].cnt = 0.0
         attackTimer = 0
         alreadyDodge = true
@@ -578,17 +578,9 @@ States[State.DODGE] = {
             pcall(function() anim:Play("Dodge", 0.0) end)
         end
 
-        if self.dodgeSFX then 
-            self.dodgeSFX:PlayAudioEvent() 
-            --Engine.Log("[SKELETON] Played DodgeSFX")
-        else
-            --Engine.Log("[SKELETON] Couldn't play DodgeSFX")
-        end
+        if self.dodgeSFX then self.dodgeSFX:PlayAudioEvent() end
 
-        if Skeleton.dodgePS then 
-            Skeleton.dodgePS:Play() 
-            Engine.Log("[Skeleton] Played Dodge Particles")
-        end
+        if Skeleton.dodgePS then Skeleton.dodgePS:Play() end
         
     end,
     Update = function(self, dt)

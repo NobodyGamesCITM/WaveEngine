@@ -99,6 +99,25 @@ local function showPrompt(self)
     UI.SetElementVisibility(getPromptName(self), true)
 end
 
+local function updatePromptPosition(self)
+    local anchor = getAnchor(self)
+    local pos    = anchor and anchor.transform.worldPosition
+                           or self.transform.worldPosition
+
+    local sx, sy = Camera.WorldToScreen(pos.x, pos.y, pos.z)
+    if not sx or not sy then return end
+
+    local vw, vh = Camera.GetViewportSize()
+    if not vw or vw == 0 or not vh or vh == 0 then return end
+
+    local cx = sx - ICON_W * 0.5
+    local cy = sy - ICON_H * 0.5
+
+    if cx >= 0 and cx <= vw and cy >= 0 and cy <= vh then
+        UI.SetCanvasPosition(getPromptName(self), cx, cy)
+    end
+end
+
 local function hidePrompt(self)
     UI.SetElementVisibility(getPromptName(self), false)
 end
@@ -202,8 +221,13 @@ function Update(self, dt)
         inActionRange = false
     end
 
-    if inPromptRange and not _G.DialogActive then
-        showPrompt(self)
+    if inPromptRange then
+        if not _G.DialogActive then
+            showPrompt(self)
+        else
+            updatePromptPosition(self)
+            hidePrompt(self)
+        end
     end
 
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then

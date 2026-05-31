@@ -185,7 +185,7 @@ const glm::mat4& Transform::GetLocalMatrix()
 
 const glm::mat4& Transform::GetGlobalMatrix()
 {
-    if (owner == NULL) return globalMatrix;
+    if (!GameObject::IsAlive(owner)) return globalMatrix;
     if (globalDirty && owner->objectUID != NULL)
     {
         UpdateGlobalMatrix();
@@ -199,8 +199,9 @@ glm::mat4 Transform::GetWorldMatrixRecursive() {
         UpdateLocalMatrix();
     }
 
+    if (!GameObject::IsAlive(owner)) return localMatrix;
     GameObject* parent = owner->GetParent();
-    if (parent != nullptr) {
+    if (parent != nullptr && GameObject::IsAlive(parent)) {
         Transform* parentTransform = static_cast<Transform*>(parent->GetComponent(ComponentType::TRANSFORM));
         if (parentTransform != nullptr) {
             // Recursively get the parent's world matrix
@@ -230,9 +231,10 @@ void Transform::UpdateGlobalMatrix()
         UpdateLocalMatrix();
     }
 
+    if (!GameObject::IsAlive(owner)) return;
     GameObject* parent = owner->GetParent();
 
-    if (parent != nullptr)
+    if (parent != nullptr && GameObject::IsAlive(parent))
     {
         Transform* parentTransform = static_cast<Transform*>(parent->GetComponent(ComponentType::TRANSFORM));
 

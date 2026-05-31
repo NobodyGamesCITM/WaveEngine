@@ -4,6 +4,7 @@
 #include "ResourceScript.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Component.h"
 #include <glm/glm.hpp>
 #include <filesystem>
 #include "Log.h"
@@ -544,6 +545,7 @@ void ComponentScript::CreateTransformUserdata(lua_State* L, Transform* transform
 
     lua_pushcfunction(L, [](lua_State* L) -> int {
         Transform* t = *(Transform**)lua_touserdata(L, 1);
+        if (!Component::IsAlive(t)) { lua_pushnil(L); return 1; }
         const char* key = luaL_checkstring(L, 2);
 
         if (strcmp(key, "position") == 0) {
@@ -615,6 +617,7 @@ void ComponentScript::CreateTransformUserdata(lua_State* L, Transform* transform
         if (strcmp(key, "SetPosition") == 0) {
             lua_pushcfunction(L, [](lua_State* L) -> int {
                 Transform* t = *(Transform**)lua_touserdata(L, 1);
+                if (!Component::IsAlive(t)) return 0;
                 float x = (float)luaL_checknumber(L, 2);
                 float y = (float)luaL_checknumber(L, 3);
                 float z = (float)luaL_checknumber(L, 4);
@@ -627,6 +630,7 @@ void ComponentScript::CreateTransformUserdata(lua_State* L, Transform* transform
         if (strcmp(key, "SetRotation") == 0) {
             lua_pushcfunction(L, [](lua_State* L) -> int {
                 Transform* t = *(Transform**)lua_touserdata(L, 1);
+                if (!Component::IsAlive(t)) return 0;
                 float x = (float)luaL_checknumber(L, 2);
                 float y = (float)luaL_checknumber(L, 3);
                 float z = (float)luaL_checknumber(L, 4);
@@ -639,6 +643,7 @@ void ComponentScript::CreateTransformUserdata(lua_State* L, Transform* transform
         if (strcmp(key, "SetScale") == 0) {
             lua_pushcfunction(L, [](lua_State* L) -> int {
                 Transform* t = *(Transform**)lua_touserdata(L, 1);
+                if (!Component::IsAlive(t)) return 0;
                 float x = (float)luaL_checknumber(L, 2);
                 float y = (float)luaL_checknumber(L, 3);
                 float z = (float)luaL_checknumber(L, 4);

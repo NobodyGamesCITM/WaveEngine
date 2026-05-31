@@ -209,8 +209,7 @@ end
 
 local function StopMovement()
     if not rb then return end
-    local vel = rb:GetLinearVelocity()
-    rb:SetLinearVelocity(0, vel.y, 0)
+    rb:SetLinearVelocity(0, 0, 0)
     smoothDx, smoothDz = 0, 0
 end
 
@@ -311,7 +310,7 @@ local series = {
 }
 local lastTandaIdx = 0 
 
-local function SpawnTanda(self)
+local function SpawnSeries(self)
     math.randomseed(os.time() + math.random(1000))
 
     local idx
@@ -370,7 +369,7 @@ local function UpdateFase2(self, dt)
         spawnTimer = spawnTimer + dt
         if spawnTimer >= SPAWN_INTERVAL then
             spawnTimer = 0
-            SpawnTanda(self)
+            SpawnSeries(self)
         end
 
     elseif AllEnemiesDead() then
@@ -505,8 +504,8 @@ local function TakeDamage(self, amount, attackerPos)
             StopMovement()
             if anim then anim:Play("Idle", 0.2) end
 
-            -- Primera tanda inmediata
-            SpawnTanda(self)
+            -- Primera serie
+            SpawnSeries(self)
             Engine.Log("[AQUILES] Fase 2 iniciada")
         end
         return
@@ -587,9 +586,8 @@ local function MovementWalk(self, dx, dz, dt, speedOverride)
         stepTimer = 0
     end
 
-    local cv = rb:GetLinearVelocity()
     RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    rb:SetLinearVelocity(dx * vel, cv.y, dz * vel)
+    rb:SetLinearVelocity(dx * vel, 0, dz * vel)
 end
 
 local function UpdateIdle(self, dist)
@@ -850,8 +848,7 @@ local function UpdateAnticipation(self, pp, dt)
         if len > 0.001 then
             local backDx = -(dx / len)
             local backDz = -(dz / len)
-            local vel = rb:GetLinearVelocity()
-            rb:SetLinearVelocity(backDx * 5.0, vel.y, backDz * 5.0)
+            rb:SetLinearVelocity(backDx * 5.0, 0, backDz * 5.0)
         end
     else
         StopMovement()
@@ -940,7 +937,6 @@ local function UpdateDash(self, myPos, pp, dt)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
     if rb then
-        local vel = rb:GetLinearVelocity()
         
         -- Detectar si vamos hacia adelante usando producto punto
         local dot = (dashDirX * dx) + (dashDirZ * dz)
@@ -949,7 +945,7 @@ local function UpdateDash(self, myPos, pp, dt)
             currentSpeed = DASH_SPEED * 1.6 -- Le damos un impulso extra al dash de acercamiento para cubrir los 13 metros
         end
 
-        rb:SetLinearVelocity(dashDirX * currentSpeed, vel.y, dashDirZ * currentSpeed)
+        rb:SetLinearVelocity(dashDirX * currentSpeed, 0, dashDirZ * currentSpeed)
         RotateTowards(self, dx, dz, self.public.rotationSpeed * 2.0, dt)    
     end
 
@@ -992,8 +988,7 @@ local function UpdateRecovery(self, dt)
     slideVelZ = slideVelZ + (0 - slideVelZ) * min(1.0, dt * friction)
  
     if rb then
-        local vel = rb:GetLinearVelocity()
-        rb:SetLinearVelocity(slideVelX, vel.y, slideVelZ)
+        rb:SetLinearVelocity(slideVelX, 0, slideVelZ)
     end
 
     wallStunTimer = wallStunTimer - dt
@@ -1239,7 +1234,7 @@ function Start(self)
     attackCol = self.gameObject:GetComponent("Box Collider")
     if attackCol then attackCol:Disable() end
 
-    colliderLance = GameObject.FindInChildren(self.gameObject, "AQ_SpearSource")
+    colliderLance = GameObject.FindInChildren(self.gameObject, "LanceCollider")
     attacklanceCol = colliderLance:GetComponent("Sphere Collider")
     if attacklanceCol then attacklanceCol:Disable()
     else Engine.Log("No encontrado") end
@@ -1398,8 +1393,21 @@ function Update(self, dt)
         myRot = self.transform.worldRotation
         myLocalRot = self.transform.rotation
         pp = playerGO.transform.worldPosition
+
+
+        local currentPos = self.transform.worldPosition
+        local floorheight = -1.5
+
+        if currentPos.y > floorheight then
+            self.transform:SetPosition(currentPos.x, floorheight, currentPos.z)
+            
+            if rb then
+                rb:SetLinearVelocity(slideVelX or 0, 0, slideVelZ or 0)
+            end
+        end
     end
     if not pp then return end
+
 
     local dist = Dist(myPos, pp)   
 
@@ -1486,7 +1494,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 1.5 then return end
+        if distLance > 2.0 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 

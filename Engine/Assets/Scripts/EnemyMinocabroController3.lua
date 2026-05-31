@@ -82,7 +82,7 @@ end
 
 local function ChangeState(self, newState)
     self.currentState = newState
-    Engine.Log("[Minocabro] -> " .. newState)
+    --Engine.Log("[Minocabro] -> " .. newState)
 
     if newState == State.CHARGE then
         if self.voiceSFX then  self.voiceSFX:StopAudioEvent() self.voiceSFX:SelectPlayAudioEvent("SFX_MinoCharge") end
@@ -141,7 +141,7 @@ local function TakeDamage(self, amount, attackerPos)
     end
 
     self.hp = self.hp - amount
-    Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
+    --Engine.Log("[Minocabro] HP: " .. self.hp .. "/" .. self.public.maxHp)
     _PlayerController_triggerCameraShake = true
    
 
@@ -219,7 +219,7 @@ local function UpdatePatrol(self, dt)
     local detectionRange = self.public.detectionRange or 15
 
     if self.nav:CheckDestination(pp.x, pp.y, pp.z) then
-        Engine.Log("[Minocabro] Player en el navmesh, persiguiendo")
+        --Engine.Log("[Minocabro] Player en el navmesh, persiguiendo")
         self.stayinNavmesh=true
 
         ChangeState(self, State.CHASE)
@@ -272,7 +272,7 @@ local function UpdateChase(self, myPos, pp, dist, dt)
     end
 
     if dist <= chargeRange then
-        Engine.Log("Cambiando a ANTICIPATION porque dist es: " .. dist .. " y el rango es: " .. self.public.chargeRange)
+        --Engine.Log("Cambiando a ANTICIPATION porque dist es: " .. dist .. " y el rango es: " .. self.public.chargeRange)
         local dx, dz = pp.x - myPos.x, pp.z - myPos.z
         local len = sqrt(dx*dx + dz*dz)
         if len > 0.001 then
@@ -584,7 +584,7 @@ local function UpdateDeath(self, dt)
     if self.deathTimer <= 0 then
     
         if self.targetDeathYisEnter == false then
-            Engine.Log("Calculant altura de mort...")
+            --Engine.Log("Calculant altura de mort...")
             local currentY = self.transform.position.y
             
             self.targetDeathY = currentY - 5.0 
@@ -605,7 +605,7 @@ local function UpdateDeath(self, dt)
             if not self.isDead then
                 self.isDead = true
                 deadEn = true
-                Engine.Log("[Minocabro] Enterrat al seu lloc correcte.")
+                --Engine.Log("[Minocabro] Enterrat al seu lloc correcte.")
             end
         end
 
@@ -648,7 +648,7 @@ local function FindMinocabroParticles(self)
     if self.dustVFX then 
         self.dustPs = self.dustVFX:GetComponent("ParticleSystem") 
         if not self.dustPs then 
-            Engine.Log("[Minocabro] Running Dust Particle System NOT found!")
+            --Engine.Log("[Minocabro] Running Dust Particle System NOT found!")
         else
             --Engine.Log("[Minocabro] Running Dust Particle System FOUND!")
         end
@@ -766,11 +766,11 @@ function Start(self)
     self.attackCol = self.gameObject:GetComponent("Box Collider")
     if self.attackCol then
         self.attackCol:Disable()
-    else
-        Engine.Log("[Minocabro] ERROR: no se encontró Box Collider")
+    --else
+        --Engine.Log("[Minocabro] ERROR: no se encontró Box Collider")
     end
 
-    Engine.Log("[Minocabro] Start OK  HP=" .. self.hp)
+    --Engine.Log("[Minocabro] Start OK  HP=" .. self.hp)
 
     --Prefab.Load("MinocabroFeedback", Engine.GetAssetsPath() .. "/Prefabs/MinocabroFeedback.prefab")
     --self.chargeFeedbackGO = nil
@@ -917,7 +917,7 @@ function OnTriggerEnter(self, other)
 
 
         self.pendingWallHit = true
-        Engine.Log("[Minocabro] Chocó con la pared")
+        --Engine.Log("[Minocabro] Chocó con la pared")
         return 
     end
 
@@ -978,7 +978,7 @@ function OnTriggerEnter(self, other)
                 self.chargeFeedbackGO = nil
             end
             ChangeState(self, State.RECOVERY)
-            Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
+            --Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end
 
     end

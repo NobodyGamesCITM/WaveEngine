@@ -51,6 +51,7 @@ local stepSFX = nil
 local spearSFX = nil
 local dashSFX = nil
 local armorSFX = nil
+local areaSFX = nil
 
 local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_DashSource", "AQ_ArmorSource"}
 
@@ -192,6 +193,7 @@ end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(eventName) end
+    if not audioComp then Engine.Log("Could not retrieve "..tostring(audioComp).." Audio Source") end
 end
 
 local function Dist(a, b)
@@ -683,12 +685,6 @@ local function UpdateLance360(self, myPos, pp, dt)
 
     if rb then rb:SetLinearVelocity(0, 0, 0) end
 
-    -- if not myLocalPos then 
-    --     Engine.Log("[AQUILES] Unable to retrieve Aquiles World Position") 
-    -- else
-    --     --Engine.Log("[AQUILES] World Position x = " ..tostring(myLocalPos.x).. ", y = " ..tostring(myLocalPos.y).. ", z = "..tostring(myLocalPos.z))
-    -- end
-
     if not lanceAnimStarted then
         lanceAnimStarted = true
         lanceHitActive   = false
@@ -729,10 +725,12 @@ local function UpdateLance360(self, myPos, pp, dt)
                 if t then
 
                     local pos = t.worldPosition 
-                    local rot = t.worldRotation
+                    --local rot = t.worldRotation
                     attackArea.transform:SetPosition(pos.x, pos.y + 0.5, pos.z)
-                    attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
-                    attackArea.transform:SetScale(1, 1, 1)
+                    --attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
+                    attackArea.transform:SetScale(1.0, 1.0, 1.0)
+                    SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
+                    SelectPlaySFX(areaSFX, "SFX_AquilesAreaExp")
                 else
                     Engine.Log("AttackArea Collider Object Position not found!")
                 end
@@ -1138,6 +1136,9 @@ local function FindAquilesAudioComponents(self)
 
     local armorSource = GameObject.FindInChildren(self.gameObject, "AQ_ArmorSource")
     if armorSource then armorSFX = armorSource:GetComponent("Audio Source") end
+
+    local areaSource = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
+    if areaSource then areaSFX = areaSource:GetComponent("Audio Source") end
 end
 
 local function FindAquilesParticles(self)
@@ -1278,7 +1279,7 @@ function Update(self, dt)
     --local AQworldPos = self.gameObject.transform.worldPosition
     --local AQworldRot = self.gameObject.transform.worldRotation
 
-    if not stepSFX or not voiceSFX or not spearSFX or not dashSFX or not armorSFX then
+    if not stepSFX or not voiceSFX or not spearSFX or not dashSFX or not armorSFX or not areaSFX then
         FindAquilesAudioComponents(self)
     end
 
@@ -1356,7 +1357,7 @@ function Update(self, dt)
         if feedbackTimer <= 1.0 then
             --scale feedback gradually
             local progressPercent = math.min((feedbackTimer/1.0), 1.0)
-            Engine.Log("ProgressPercent = "..tostring(progressPercent))
+            --Engine.Log("ProgressPercent = "..tostring(progressPercent))
             currentFeedbackScale = (self.public.attackAreaFinalScale or 25.0) * progressPercent
             currentColliderScale = 100.0 * progressPercent
             --Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))

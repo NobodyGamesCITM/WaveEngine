@@ -1432,10 +1432,90 @@
 						</Folder>
 						<Event Name="SFX_AquilesAreaExp" ID="{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}">
 							<ChildrenList>
+								<Action Name="" ID="{98EB6D4B-87B5-4E03-9656-2BD9293E5541}" ShortID="963175166">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="13"/>
+										<Property Name="Pitch" Type="int32" Value="-1250"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="minocabro_wallcrash_rubble" ID="{D84F77B1-E5AE-40C3-9EF6-65C4B44352B4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{A97BA360-5DCC-4C4B-8F09-B6FA6DEE3A08}" ShortID="307935846">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="minocabro_wallcrash_rubble" ID="{D84F77B1-E5AE-40C3-9EF6-65C4B44352B4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{C402B9ED-53EF-4580-8AF0-A50A72541AE0}" ShortID="751364047">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="12"/>
+										<Property Name="Volume" Type="Real64" Value="-3"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{DB799983-D90A-4C9A-A2F5-C8592B1E7B5D}" ShortID="467048703">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="13"/>
+										<Property Name="Pitch" Type="int32" Value="-650"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{CEAEABED-1E88-4560-9D35-43269ED2054D}" ShortID="118385226">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{06CE8CF1-F4C0-4473-ABAE-4D0210067C06}" ShortID="191892694">
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{BEB5787F-9C8C-493C-B263-1388A70D1E8A}" ShortID="986364578">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="12"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{2F981E24-21EE-427C-9AE4-842967A12649}" ShortID="920818284">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="13"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="maskStatue_shortImpact" ID="{90FBF1B7-6A0A-4AD1-9C40-425DC3A7469C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{8648DAAC-9AAC-4B21-8CA7-7A389350EEEE}" ShortID="603851347">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="13"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="minocabro_wallcrash_rubble" ID="{D84F77B1-E5AE-40C3-9EF6-65C4B44352B4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

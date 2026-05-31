@@ -8761,7 +8761,7 @@
 										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>20</Value>
+												<Value>7</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -8797,8 +8797,6 @@
 													<Modifier Name="" ID="{4BB42E4B-5805-4B24-8183-018D45B69836}">
 														<PropertyList>
 															<Property Name="Enabled" Type="bool" Value="True"/>
-															<Property Name="Max" Type="Real64" Value="5"/>
-															<Property Name="Min" Type="Real64" Value="-7"/>
 														</PropertyList>
 													</Modifier>
 												</ModifierInfo>
@@ -10598,6 +10596,11 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>10</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -11680,6 +11683,10 @@
 								</Folder>
 								<RandomSequenceContainer Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" ShortID="387109797">
 									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -11687,13 +11694,22 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -11945,6 +11961,45 @@
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<PluginInnerObject Name="" ID="{44DD7C66-228D-4A63-902C-8DAB1DBA579D}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="Area_Expansion_0" ID="{C5708869-CAC0-4DA3-84ED-1104CDB3DED6}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{41B2969E-5354-4943-8623-B8A8ABF2971A}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458" ID="{B88236A5-50DC-4681-9C65-725808888DBD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{61EC1969-FE86-4399-B6FE-03D9D84DD983}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277" ID="{0EBB6F19-AF8B-493B-9B6F-9440E283BE20}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{117203D2-95B9-4894-8AD0-2351E1C6429E}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="freesounds123-magic-spell-333896" ID="{DBD7A53F-ED79-473E-9C88-DDD15E79E539}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{B17F5B9D-32F5-46E7-AA24-ADA22A785C06}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="yodguard-healing-magic-4-378668" ID="{14B6CFE4-37A3-424D-B6DC-D2D5D7544408}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+										</ObjectList>
+									</ObjectLists>
 								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>

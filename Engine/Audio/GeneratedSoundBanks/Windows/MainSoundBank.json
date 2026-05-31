@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{292042A4-40F3-2E52-D6DD-1AA748AE57A8}",
+    "Hash": "{6AC789B8-BD37-9B35-0656-9FECA082C8B1}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -2373,9 +2373,9 @@
       "Name": "SFX_AquilesAreaExp",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesAreaExp",
       "GUID": "{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
-      "DurationMin": "1.8491112",
+      "DurationMin": "2.4669583",
       "DurationMax": "3.030204",
       "MediaRefs": [
        {
@@ -2383,6 +2383,12 @@
        },
        {
         "Id": "202134863"
+       },
+       {
+        "Id": "468250888"
+       },
+       {
+        "Id": "664468680"
        },
        {
         "Id": "828466913"
@@ -5015,6 +5021,6 @@
     ]
    }
   ],
-  "FileHash": "{1CC19471-151E-5AD0-B91A-580D37F37D93}"
+  "FileHash": "{22C6D4AF-3469-0F44-A2AF-2D70683583FA}"
  }
 }

@@ -86,6 +86,7 @@ local Player = {
     lastDirZ        = 1,
     lastAngle       = 0,
     godMode         = false,
+    inPuzzleArea    = false,
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
@@ -470,37 +471,31 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
     return true
 end
 
+local function ApplyMaskVisual(self, newMask)
+    if not maskApolo or not maskAres or not maskHermes then FindMasks(self) end
+    if newMask == Mask.APOLLO then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(true)   end
+        if maskHermes then maskHermes:SetActive(false) end
+    elseif newMask == Mask.HERMES then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(true)  end
+    elseif newMask == Mask.ARES then
+        if maskAres   then maskAres:SetActive(true)   end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(false) end
+    elseif newMask == Mask.NONE then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(false) end
+    end
+end
+
+
 local function EquipMask(self, newMask, skipSword)
-    if Player.maskAnimTimer > 0 then return end
-
-    if not maskApolo or not maskAres or not maskHermes then
-        FindMasks(self)
-    end
-    
-    if newMask == Mask.APOLLO then 
-        if maskAres then maskAres:SetActive(false)end
-        if maskApolo then maskApolo:SetActive(true)end
-        if maskHermes then maskHermes:SetActive(false)end
-
-    elseif newMask == Mask.HERMES then 
-        if maskAres then maskAres:SetActive(false)end
-        if maskApolo then maskApolo:SetActive(false)end
-        if maskHermes then maskHermes:SetActive(true)end
-
-    elseif newMask == Mask.ARES then 
-        if maskAres then maskAres:SetActive(true) end
-        if maskApolo then maskApolo:SetActive(false) end
-        if maskHermes then maskHermes:SetActive(false) end
-
-    elseif newMask == Mask.NONE then 
-        if maskAres then maskAres:SetActive(false) end
-        if maskApolo then maskApolo:SetActive(false) end
-        if maskHermes then maskHermes:SetActive(false) end
-    end
-
-    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
-    if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
-        Player.currentMask = newMask
+    if Player.currentMask == Mask.HERMES and Player.isDrowning and newMask ~= Mask.HERMES then
+        ApplyMaskVisual(self, newMask)
         self.public.health = 0
         _G._PlayerController_isDead = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -508,6 +503,14 @@ local function EquipMask(self, newMask, skipSword)
         UpdateSwordMaterial()
         return
     end
+    if Player.maskAnimTimer > 0 then return end
+
+    if not maskApolo or not maskAres or not maskHermes then
+        FindMasks(self)
+    end
+    ApplyMaskVisual(self, newMask)
+
+    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.HERMES then
         Player.hermesGraceTimer   = 0
     end
@@ -702,7 +705,7 @@ States[State.WALK] = {
     end,
     
     Update = function(self, dt)
-        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+        if Player.isDrowning and Player.currentMask == Mask.HERMES and not Player.inPuzzleArea then
             self.public.stamina = math.max(0, self.public.stamina - (Player.hermesWaterWalkCost * dt))
         end
 
@@ -894,7 +897,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if Player.currentMask == Mask.HERMES and Player.isDrowning then
+        if Player.currentMask == Mask.HERMES and Player.isDrowning and not Player.inPuzzleArea then
             self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
         end
 
@@ -970,7 +973,7 @@ States[State.ROLL] = {
     timer = 0,
     particlesPlayed = false, 
     Enter = function(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
@@ -1021,7 +1024,7 @@ States[State.ROLL] = {
 States[State.CHARGING] = {
     Enter = function(self)
         SnapToLockOn(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -1069,7 +1072,7 @@ States[State.SHOOTING] = {
     Enter = function(self)
         SnapToLockOn(self)
         _PlayerController_lastAttack = ""
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -1128,7 +1131,7 @@ States[State.ATTACK_HEAVY] = {
     colliderActive = false,
     Enter = function(self)
         SnapToLockOn(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -2583,28 +2586,16 @@ function ResetPlayer(self)
 end
 
 function OnTriggerEnter(self, other)
-    -- for i, surface in ipairs(surfaces) do
-    --     if other:CompareTag(surface) then
-    --         if Player.currentSurface ~= surface then
-    --             Player.currentSurface = surface
-    --             if surface ~= "Water" then
-    --                 Player.lastGroundSurface = surface
-    --             end
-    --             if Player.stepSFX then
-    --                 Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-    --                 Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).. " by trigger ")
-    --             end
-    --         end
-    --     end
-    -- end
+    if other:CompareTag("PuzzleArea") then
+        Player.inPuzzleArea = true
+    end
 end
 
 
-function OnTriggerExit(self, other) 
-    -- if Player.stepSFX and Player.lastGroundSurface then
-    --     Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)
-    --     Player.currentSurface  = Player.lastGroundSurface
-    -- end
+function OnTriggerExit(self, other)
+    if other:CompareTag("PuzzleArea") then
+        Player.inPuzzleArea = false
+    end
 end
 
 function OnCollisionEnter(self, other)

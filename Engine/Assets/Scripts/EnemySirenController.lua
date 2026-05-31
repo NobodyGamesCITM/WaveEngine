@@ -426,6 +426,7 @@ local function UpdateShells(self, dt)
                             if (_PlayerController_pendingDamage or 0) == 0 then
                                 _PlayerController_pendingDamage    = dmg
                                 _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
+                            end
                         end
                     end
                 end
@@ -989,9 +990,9 @@ function Update(self, dt)
     -- Search player
     if not self.playerGO then
         self.playerGO = GameObject.Find("Player")
-        if self.playerGO then
+        --if self.playerGO then
             --Engine.Log("[Mortar] Player encontrado")
-        end
+        --end
     end
 
     if not self.playerGO then return end

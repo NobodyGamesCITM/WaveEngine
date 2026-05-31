@@ -1,0 +1,533 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 14571317616648742218,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 16620567786623847120,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    }
+                                                ],
+                                                "name": "ESTATIA_ACTIVADORA",
+                                                "tag": "",
+                                                "uid": 12255171353297789028
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.0874330997467041,
+                                                    -1.8258417844772339,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 14929026242328846495
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            -0.0874330997467041,
+                                            1.8258417844772339,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 7714974828417180809
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    0.0874330997467041,
+                                    -1.8258417844772339,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 17300908853478886569
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -0.0874330997467041,
+                            1.8258417844772339,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 5772313965854326783
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [
+                                                    {
+                                                        "active": true,
+                                                        "children": [
+                                                            {
+                                                                "active": true,
+                                                                "children": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "children": [],
+                                                                        "components": [
+                                                                            {
+                                                                                "active": true,
+                                                                                "position": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "rotation": [
+                                                                                    0.0,
+                                                                                    0.0,
+                                                                                    0.0
+                                                                                ],
+                                                                                "scale": [
+                                                                                    1.0,
+                                                                                    1.0,
+                                                                                    1.0
+                                                                                ],
+                                                                                "type": 0
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "castShadows": true,
+                                                                                "meshUID": 4548350054961883910,
+                                                                                "silhouetteColor": [
+                                                                                    0.5686274766921997,
+                                                                                    0.5686274766921997,
+                                                                                    0.5686274766921997,
+                                                                                    1.0
+                                                                                ],
+                                                                                "silhouetteEnabled": false,
+                                                                                "type": 1
+                                                                            },
+                                                                            {
+                                                                                "active": true,
+                                                                                "materialUID": 16620567786623847120,
+                                                                                "overrideTiling": false,
+                                                                                "type": 3
+                                                                            }
+                                                                        ],
+                                                                        "name": "Moon",
+                                                                        "tag": "",
+                                                                        "uid": 9956466580114748524
+                                                                    }
+                                                                ],
+                                                                "components": [
+                                                                    {
+                                                                        "active": true,
+                                                                        "position": [
+                                                                            0.3061240017414093,
+                                                                            -2.680713653564453,
+                                                                            0.04310901463031769
+                                                                        ],
+                                                                        "rotation": [
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0
+                                                                        ],
+                                                                        "scale": [
+                                                                            1.0,
+                                                                            1.0,
+                                                                            1.0
+                                                                        ],
+                                                                        "type": 0
+                                                                    }
+                                                                ],
+                                                                "name": "Moon_$AssimpFbx$_ScalingPivotInverse",
+                                                                "tag": "",
+                                                                "uid": 4810151749089238667
+                                                            }
+                                                        ],
+                                                        "components": [
+                                                            {
+                                                                "active": true,
+                                                                "position": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "rotation": [
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0
+                                                                ],
+                                                                "scale": [
+                                                                    1.0,
+                                                                    1.0,
+                                                                    1.0
+                                                                ],
+                                                                "type": 0
+                                                            }
+                                                        ],
+                                                        "name": "Moon_$AssimpFbx$_Scaling",
+                                                        "tag": "",
+                                                        "uid": 3415581702981728763
+                                                    }
+                                                ],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            -0.3061240017414093,
+                                                            2.680713653564453,
+                                                            -0.04310901463031769
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    }
+                                                ],
+                                                "name": "Moon_$AssimpFbx$_ScalingPivot",
+                                                "tag": "",
+                                                "uid": 10168839814704781112
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    0.3061240017414093,
+                                                    -2.680713653564453,
+                                                    0.04310901463031769
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "Moon_$AssimpFbx$_RotationPivotInverse",
+                                        "tag": "",
+                                        "uid": 2630860736642597501
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            4.677163124084473,
+                                            -0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            0.9999999403953552,
+                                            0.9999999403953552
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "Moon_$AssimpFbx$_Rotation",
+                                "tag": "",
+                                "uid": 18403915134950841874
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.3061240017414093,
+                                    2.680713653564453,
+                                    -0.04310901463031769
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "Moon_$AssimpFbx$_RotationPivot",
+                        "tag": "",
+                        "uid": 16941358604848408532
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.014487497508525848,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Moon_$AssimpFbx$_Translation",
+                "tag": "",
+                "uid": 5408953370197461363
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    169.12564086914063,
+                    29.652400970458984,
+                    -184.99557495117188
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    1.1200000047683716,
+                    1.1200000047683716,
+                    1.1200000047683716
+                ],
+                "type": 0
+            },
+            {
+                "Animations": [
+                    {
+                        "UID": 14634409997259477018,
+                        "loop": true,
+                        "name": "Idle",
+                        "speed": 1.0
+                    }
+                ],
+                "active": true,
+                "type": 28
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "fordwardOffset",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "heightOffset",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
+                        "name": "dirX",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "onlyRedirected",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "dirY",
+                        "type": 0,
+                        "value": 0.0
+                    }
+                ],
+                "scriptUID": 3213472682470300881,
+                "type": 6
+            },
+            {
+                "Center": [
+                    0.0,
+                    1.7000000476837158,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Height": 1.7000000476837158,
+                "Radius": 1.0,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 12
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            }
+        ],
+        "name": "Est_ACT_IDLE-ANIM",
+        "tag": "",
+        "uid": 10010023089656195853
+    }
+]

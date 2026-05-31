@@ -1,6 +1,9 @@
 ﻿#include "Application.h"
 #include "ModuleEvents.h"
 #include "GameObject.h"
+#include <unordered_set>
+
+static std::unordered_set<const GameObject*> s_liveGameObjects;
 #include "Globals.h"
 #include "Component.h"
 #include "Transform.h"
@@ -42,11 +45,13 @@
 #include <nlohmann/json.hpp>
 
 GameObject::GameObject(const std::string& name) : name(name), active(true), parent(nullptr) {
+    s_liveGameObjects.insert(this);
     CreateComponent(ComponentType::TRANSFORM);
     objectUID = GenerateUID();
 }
 
 GameObject::~GameObject() {
+    s_liveGameObjects.erase(this);
     MarkCleaning();
     componentOwners.clear();
     components.clear();
@@ -54,6 +59,10 @@ GameObject::~GameObject() {
         delete child;
     }
     children.clear();
+}
+
+bool GameObject::IsAlive(const GameObject* ptr) {
+    return ptr && s_liveGameObjects.count(ptr) > 0;
 }
 
 Component* GameObject::CreateComponent(ComponentType type) {

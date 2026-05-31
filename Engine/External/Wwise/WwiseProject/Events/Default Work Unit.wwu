@@ -571,7 +571,17 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Hermes_Hover" ID="{F2EFF318-F510-40FF-BDE6-C89B1DE19612}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="HermesHover_Wind" ID="{ECAE012B-6B36-4A14-B53B-CD24ADBE4892}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{FB0F5743-5656-46DB-B61B-616B7E36D807}" ShortID="861455354">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Hermes_Hover_Flare" ID="{8C8580EC-6EAD-45F8-82C4-6A83212968BD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -583,6 +593,31 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="heartbeat" ID="{A0EC20F2-F36C-4CCA-AA19-62F2AEAC419C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_HermesWind" ID="{302A6A84-EB38-4B82-9680-C05A51097C69}">
+							<ChildrenList>
+								<Action Name="" ID="{5BD7E21B-15B5-443D-B6C3-B4C5B01B9AB2}" ShortID="1007915649">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="HermesHover_Wind" ID="{ECAE012B-6B36-4A14-B53B-CD24ADBE4892}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_HermesFlare" ID="{1F528712-180B-4751-B635-DBE9417B875B}">
+							<ChildrenList>
+								<Action Name="" ID="{64A30D1D-A26C-4DFF-8BA0-220B1B24E427}" ShortID="17879281">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Hermes_Hover_Flare" ID="{8C8580EC-6EAD-45F8-82C4-6A83212968BD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1395,6 +1430,17 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+						<Event Name="SFX_AquilesAreaExp" ID="{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}">
+							<ChildrenList>
+								<Action Name="" ID="{06CE8CF1-F4C0-4473-ABAE-4D0210067C06}" ShortID="191892694">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Puzzles" ID="{07368097-443A-4520-B328-C1C3DD52F4ED}" ShortID="226074541">
@@ -1575,6 +1621,31 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="UI_WingFlap" ID="{4F1372B5-180F-4E50-8CA5-23197ED574FE}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_SkipDialog" ID="{560BA397-C2BB-482D-8B8B-58CC00524E86}">
+							<ChildrenList>
+								<Action Name="" ID="{C36A2B93-113C-4683-9F30-4A211FDFCCCD}" ShortID="230697136">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_SkipDialog" ID="{57B108D4-AA4D-4F28-BA20-874142400E4C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_TeleVocals" ID="{D928F13C-65B0-4DED-860E-0DEE6BA11F85}">
+							<ChildrenList>
+								<Action Name="" ID="{642FFEF6-C96E-46A6-9E9E-BA2F12D03E4A}" ShortID="505358334">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Vocals" ID="{4D5C02A2-452F-41FE-9F7D-CD612EAA5924}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

@@ -30,6 +30,7 @@ local Skeleton = {
     bonesPS         = nil,
     bonePS          = nil,
     teethPS         = nil,
+    dodgePS         = nil,
 }
 
 public = {
@@ -58,7 +59,9 @@ public = {
     camFrequency    = 20.0,
 
     level2          = false,
-    dodgeChance     = 30.0,
+    dodgeChance     = 10.0,
+    dodgeIncrement  = 10.0,
+    dodgeColdown    = 3.0,
 
     stunTime    = 0.3,
 }
@@ -82,6 +85,10 @@ local BaseMat = nil
 
 local setAlive = false
 local setDead = false
+
+local initChase = false
+local alreadyDodge = false
+local dodgeTimer = 0.0
 
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
@@ -267,6 +274,13 @@ function Start(self)
         if Skeleton.teethPS then Skeleton.teethPS:Stop() end
         vfxTeeth:SetActive(false)
     end
+
+    local vfxDodge = GameObject.FindInChildren(self.gameObject, "VFXDodge")
+    if vfxDodge then
+        Skeleton.dodgePS = vfxDodge:GetComponent("ParticleSystem")
+        if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
+        vfxDodge:SetActive(false)
+    end
 end
 
 States[State.IDLE] = {
@@ -401,16 +415,19 @@ States[State.CHASE] = {
         end
 
         if CheckDistance(self,self.public.nearDist,true) then
+            initChase = false
             ChangeState(self, State.ATTACK)
             return
         end
-        if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
-            if not self.public.activeGuard then ChangeState(self, State.IDLE)
-            else  
-                OnStartPos = false
-                ChangeState(self, State.GUARD) 
+        if not initChase then
+            if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
+                if not self.public.activeGuard then ChangeState(self, State.IDLE)
+                else  
+                    OnStartPos = false
+                    ChangeState(self, State.GUARD) 
+                end
+                return
             end
-            return
         end
 
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
@@ -527,10 +544,11 @@ States[State.DODGE] = {
     cnt = 0.0,
     dur = 0.2,
     Enter = function(self)
+        
         States[State.DODGE].cnt = 0.0
         attackTimer = 0
+        alreadyDodge = true
         Skeleton.nav:StopMovement()
-
         local playerPos = playerGO.transform.position
         local myPos = self.transform.position
         local rdx, rdz = NormFlat(myPos.x - playerPos.x, myPos.z - playerPos.z)
@@ -560,12 +578,10 @@ States[State.DODGE] = {
             pcall(function() anim:Play("Dodge", 0.0) end)
         end
 
-        if self.dodgeSFX then 
-            self.dodgeSFX:PlayAudioEvent() 
-            --Engine.Log("[SKELETON] Played DodgeSFX")
-        else
-            --Engine.Log("[SKELETON] Couldn't play DodgeSFX")
-        end
+        if self.dodgeSFX then self.dodgeSFX:PlayAudioEvent() end
+
+        if Skeleton.dodgePS then Skeleton.dodgePS:Play() end
+        
     end,
     Update = function(self, dt)
         States[State.DODGE].cnt =  States[State.DODGE].cnt + dt
@@ -665,6 +681,14 @@ function Update(self, dt)
     else
         stepTimer = 0
     end
+    if alreadyDodge then
+        dodgeTimer = dodgeTimer + dt
+        if dodgeTimer >= self.public.dodgeColdown then 
+            alreadyDodge = false
+            dodgeTimer = 0.0
+        end
+        --Engine.Log("[Skeleton] Dodge on Coldown: "..tostring(dodgeTimer))
+    end
 
     if setAlive then
         ChangeState(self, State.IDLE)
@@ -693,9 +717,16 @@ function OnTriggerEnter(self, other)
                     if     attack == "light"  then dmg = 10
                     elseif attack == "heavy" or attack == "charge" then dmg = 25 end
                     if dmg > 0 then
-                        if  math.random(1,100) < self.public.dodgeChance and self.public.level2 then
+                        if  math.random(1,100) < self.public.dodgeChance and self.public.level2 and not alreadyDodge then
+                            self.public.dodgeChance = 10.0
                             ChangeState(self,State.DODGE)
-                        else TakeDamage(self, dmg, ap) end
+                        else 
+                            TakeDamage(self, dmg, ap) 
+                            if not alreadyDodge then 
+                                self.public.dodgeChance = self.public.dodgeChance + self.public.dodgeIncrement 
+                                --Engine.Log("[Skeleton] Dodge on Increment : ".. tostring(self.public.dodgeChance))
+                            end
+                        end
                     end
                 end
             end
@@ -707,6 +738,10 @@ function OnTriggerEnter(self, other)
                 local ap  = other.transform.worldPosition
                 local dmg = 15
                 TakeDamage(self, dmg, ap)
+                if CheckDistance(self,self.public.nearDist, false) then 
+                    initChase = true
+                    ChangeState(self,State.CHASE)
+                end
             end
         end
     else 

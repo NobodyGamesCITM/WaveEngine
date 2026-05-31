@@ -56,8 +56,14 @@ local function UpdatePortalVisuals(self)
 
     if activeFires <= 3 and fireParticles[activeFires] and fireSources[activeFires] then
         fireParticles[activeFires]:Play()
-        fireSources[activeFires]:PlayAudioEvent()
-        if portalSource then portalSource:PlayAudioEvent() end
+        fireSources[activeFires]:SelectPlayAudioEvent("SFX_TorchFire")
+        if portalSource then 
+            portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
+            Engine.Log("[PortalManager] Played SFX_PortalFireOn")
+        else
+            Engine.Log("[PortalManager] Portal Audio Source not found!")
+        end
+        
         Engine.Log("[PortalManager] Fuego " .. activeFires .. " encendido.")
     end
 end

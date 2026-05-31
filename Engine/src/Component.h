@@ -50,7 +50,9 @@ class Component {
 public:
 
     Component(GameObject* owner, ComponentType type);
-    virtual ~Component() = default;
+    virtual ~Component();
+
+    static bool IsAlive(const Component* ptr);
     
     virtual void Enable() {};
     virtual void Update() {};

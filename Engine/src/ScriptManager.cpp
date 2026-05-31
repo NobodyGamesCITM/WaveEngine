@@ -42,6 +42,9 @@
 #include "ComponentLight.h"
 #include "LightManager.h"
 #include "ComponentPostProcessing.h"
+#include "Collider.h"
+#include "SphereCollider.h"
+#include "BoxCollider.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -432,10 +435,6 @@ static int Lua_Engine_GetAssetsPath(lua_State* L) {
     lua_pushstring(L, path.c_str());
     return 1;
 }
-
-
-
-
 
 static int Lua_Input_GetKeyDown(lua_State* L) {
     const char* keyName = luaL_checkstring(L, 1);
@@ -1460,14 +1459,14 @@ static int Lua_Rigidbody_SetLinearVelocity(lua_State* L) {
     float x = static_cast<float>(luaL_checknumber(L, 2));
     float y = static_cast<float>(luaL_checknumber(L, 3));
     float z = static_cast<float>(luaL_checknumber(L, 4));
-    if (rb) rb->SetLinearVelocity(glm::vec3(x, y, z));
+    if (Component::IsAlive(rb)) rb->SetLinearVelocity(glm::vec3(x, y, z));
     return 0;
 }
 
 static int Lua_Rigidbody_GetLinearVelocity(lua_State* L) {
     Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
     glm::vec3 vel(0.0f);
-    if (rb) vel = rb->GetLinearVelocity();
+    if (Component::IsAlive(rb)) vel = rb->GetLinearVelocity();
     lua_newtable(L);
     lua_pushnumber(L, vel.x); lua_setfield(L, -2, "x");
     lua_pushnumber(L, vel.y); lua_setfield(L, -2, "y");
@@ -1486,9 +1485,10 @@ static int Lua_Rigidbody_AddForce(lua_State* L) {
     if (modeInt == 2) mode = Rigidbody::ForceMode::IMPULSE;
     else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
     else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
-    if (rb) {
+    if (Component::IsAlive(rb)) {
         Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
-            rb->AddForce(glm::vec3(x, y, z), mode);
+            if (Component::IsAlive(rb))
+                rb->AddForce(glm::vec3(x, y, z), mode);
             });
     }
     return 0;
@@ -1499,7 +1499,7 @@ static int Lua_Rigidbody_MovePosition(lua_State* L) {
     float x = static_cast<float>(luaL_checknumber(L, 2));
     float y = static_cast<float>(luaL_checknumber(L, 3));
     float z = static_cast<float>(luaL_checknumber(L, 4));
-    if (rb) rb->MovePosition(glm::vec3(x, y, z));
+    if (Component::IsAlive(rb)) rb->MovePosition(glm::vec3(x, y, z));
     return 0;
 }
 
@@ -1508,21 +1508,21 @@ static int Lua_Rigidbody_SetRotation(lua_State* L) {
     float x = static_cast<float>(luaL_checknumber(L, 2));
     float y = static_cast<float>(luaL_checknumber(L, 3));
     float z = static_cast<float>(luaL_checknumber(L, 4));
-    if (rb) rb->SetRotation(glm::vec3(x, y, z));
+    if (Component::IsAlive(rb)) rb->SetRotation(glm::vec3(x, y, z));
     return 0;
 }
 
 static int Lua_Rigidbody_SetUseGravity(lua_State* L) {
     Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
     bool useGravity = lua_toboolean(L, 2);
-    if (rb) rb->SetUseGravity(useGravity);
+    if (Component::IsAlive(rb)) rb->SetUseGravity(useGravity);
     return 0;
 }
 
 static int Lua_Rigidbody_SetBody(lua_State* L) {
     Rigidbody* rb = *static_cast<Rigidbody**>(luaL_checkudata(L, 1, "Rigidbody"));
     int type = static_cast<int>(luaL_checknumber(L, 2));
-    if (rb) rb->SetType((Rigidbody::Type)type);
+    if (Component::IsAlive(rb)) rb->SetType((Rigidbody::Type)type);
     return 0;
 }
 // Animation
@@ -1531,16 +1531,10 @@ static int Lua_Rigidbody_SetBody(lua_State* L) {
 static int Lua_Animation_Play(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
-
     const char* animName = luaL_checkstring(L, 2);
-
     float blendTime = static_cast<float>(luaL_optnumber(L, 3, 0.2));
-
-    if (anim)
-    {
+    if (Component::IsAlive(anim))
         anim->Play(std::string(animName), blendTime);
-    }
-
     return 0;
 }
 
@@ -1548,12 +1542,8 @@ static int Lua_Animation_SetAnimSpeed(lua_State* L) {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
     std::string animName = luaL_checkstring(L, 2);
     float newSpeed = luaL_checknumber(L, 3);
-    
-
-    if (anim) {
+    if (Component::IsAlive(anim))
         anim->SetAnimationSpeed(animName, newSpeed);
-    }
-
     return 0;
 }
 
@@ -1561,38 +1551,23 @@ static int Lua_Animation_SetAnimLooping(lua_State* L) {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
     std::string animName = luaL_checkstring(L, 2);
     bool loop = lua_toboolean(L, 3) != 0;
-
-    if (anim)
-    {
+    if (Component::IsAlive(anim))
         anim->SetAnimationLoop(animName, loop);
-    }
-
     return 0;
 }
 
 static int Lua_Animation_Stop(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
-
-    if (anim)
-    {
+    if (Component::IsAlive(anim))
         anim->Stop();
-    }
-
     return 0;
 }
 
 static int Lua_Animation_IsPlaying(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
-
-    bool playing = false;
-    if (anim)
-    {
-        playing = anim->IsPlaying();
-    }
-
-    lua_pushboolean(L, playing);
+    lua_pushboolean(L, Component::IsAlive(anim) && anim->IsPlaying());
     return 1;
 }
 
@@ -1600,14 +1575,7 @@ static int Lua_Animation_IsPlayingAnimation(lua_State* L)
 {
     ComponentAnimation* anim = *static_cast<ComponentAnimation**>(lua_touserdata(L, 1));
     const char* animName = luaL_checkstring(L, 2);
-
-    bool playing = false;
-    if (anim)
-    {
-        playing = anim->IsPlayingAnimation(animName);
-    }
-
-    lua_pushboolean(L, playing);
+    lua_pushboolean(L, Component::IsAlive(anim) && anim->IsPlayingAnimation(animName));
     return 1;
 }
 
@@ -2032,9 +2000,10 @@ static int Lua_Rigidbody_AddTorque(lua_State* L) {
     else if (modeInt == 3) mode = Rigidbody::ForceMode::VELOCITY_CHANGE;
     else if (modeInt == 4) mode = Rigidbody::ForceMode::ACCELERATION;
 
-    if (rb) {
+    if (Component::IsAlive(rb)) {
         Application::GetInstance().scripts->EnqueueOperation([rb, x, y, z, mode]() {
-            rb->AddTorque(glm::vec3(x, y, z), mode);
+            if (Component::IsAlive(rb))
+                rb->AddTorque(glm::vec3(x, y, z), mode);
             });
     }
     return 0;
@@ -2066,14 +2035,51 @@ static int Lua_Collider_Enable(lua_State* L) {
     return 0;
 }
 
+static int Lua_Collider_SetRadius(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float size = static_cast<float>(luaL_checknumber(L, 2));
+    if (comp && size) {
+        Application::GetInstance().scripts->EnqueueOperation([comp, size]() {
+            if (comp->GetType() == ComponentType::SPHERE_COLLIDER) {
+                SphereCollider* sphereCol = static_cast<SphereCollider*>(comp);
+                
+                sphereCol->SetRadius(size);
+            }
+        });
+
+    }
+    return 0;
+
+}
+
+static int Lua_Collider_SetBoxSize(lua_State* L) {
+    Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
+    float sizeX = static_cast<float>(luaL_checknumber(L, 2));
+    float sizeY = static_cast<float>(luaL_checknumber(L, 3));
+    float sizeZ = static_cast<float>(luaL_checknumber(L, 4));
+    
+
+    if (comp) {
+        glm::vec3 newBoxSize = glm::vec3(sizeX, sizeY, sizeZ);
+        Application::GetInstance().scripts->EnqueueOperation([comp, newBoxSize]() {
+            if (comp->GetType() == ComponentType::BOX_COLLIDER) {
+                BoxCollider* boxCol = static_cast<BoxCollider*>(comp);
+                boxCol->SetSize(newBoxSize);
+            }
+        });
+
+    }
+    return 0;
+
+}
+
 static int Lua_Collider_Disable(lua_State* L) {
     Component* comp = static_cast<Component*>(lua_touserdata(L, lua_upvalueindex(1)));
     if (comp)
     {
-        Application::GetInstance().scripts->EnqueueOperation([comp]()
-            {
-                comp->Disable();
-                comp->SetActive(false);
+        Application::GetInstance().scripts->EnqueueOperation([comp]() {
+            comp->Disable();
+            comp->SetActive(false);
             });
     }
     return 0;
@@ -2093,14 +2099,14 @@ static int Lua_Collider_Disable(lua_State* L) {
 static int Lua_ParticleSystem_Play(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
-    if (ps) ps->Play();
+    if (Component::IsAlive(ps)) ps->Play();
     return 0;
 }
 
 static int Lua_ParticleSystem_Stop(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
-    if (ps) ps->Stop();
+    if (Component::IsAlive(ps)) ps->Stop();
     return 0;
 }
 
@@ -2109,7 +2115,7 @@ static int Lua_ParticleSystem_Burst(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     int count = static_cast<int>(luaL_optinteger(L, 2, 30));
-    if (ps) ps->ScriptBurst(count);
+    if (Component::IsAlive(ps)) ps->ScriptBurst(count);
     return 0;
 }
 
@@ -2118,7 +2124,7 @@ static int Lua_ParticleSystem_SetEmissionRate(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     float rate = static_cast<float>(luaL_checknumber(L, 2));
-    if (ps) ps->SetEmissionRate(rate);
+    if (Component::IsAlive(ps)) ps->SetEmissionRate(rate);
     return 0;
 }
 
@@ -2126,7 +2132,7 @@ static int Lua_ParticleSystem_SetEmissionRate(lua_State* L) {
 static int Lua_ParticleSystem_IsPlaying(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
-    lua_pushboolean(L, ps ? ps->IsPlaying() : false);
+    lua_pushboolean(L, Component::IsAlive(ps) && ps->IsPlaying());
     return 1;
 }
 
@@ -2135,7 +2141,7 @@ static int Lua_ParticleSystem_IsPlaying(lua_State* L) {
 static int Lua_ParticleSystem_IsAlive(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
-    lua_pushboolean(L, ps ? ps->IsAlive() : false);
+    lua_pushboolean(L, Component::IsAlive(ps) && ps->IsAlive());
     return 1;
 }
 
@@ -2144,7 +2150,7 @@ static int Lua_ParticleSystem_SetLooping(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     bool looping = lua_toboolean(L, 2) != 0;
-    if (ps) ps->SetLooping(looping);
+    if (Component::IsAlive(ps)) ps->SetLooping(looping);
     return 0;
 }
 
@@ -2153,7 +2159,7 @@ static int Lua_ParticleSystem_SetDuration(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     float seconds = static_cast<float>(luaL_checknumber(L, 2));
-    if (ps) ps->SetDuration(seconds);
+    if (Component::IsAlive(ps)) ps->SetDuration(seconds);
     return 0;
 }
 
@@ -2163,7 +2169,7 @@ static int Lua_ParticleSystem_SetOneShotMode(lua_State* L) {
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     bool enabled = lua_toboolean(L, 2) != 0;
     int count = static_cast<int>(luaL_optinteger(L, 3, 30));
-    if (ps) ps->SetOneShotMode(enabled, count);
+    if (Component::IsAlive(ps)) ps->SetOneShotMode(enabled, count);
     return 0;
 }
 
@@ -2176,11 +2182,15 @@ static int Lua_ParticleSystem_SetStartColor(lua_State* L) {
     float b = (float)luaL_checknumber(L, 4);
     float a = (float)luaL_optnumber(L, 5, 1.0);
 
-    EmitterInstance* emitter = ps->GetEmitter();
-    for (auto* m : emitter->modules) {
-        if (m->type == ParticleModuleType::SPAWNER) {
-            static_cast<ModuleEmitterSpawn*>(m)->colorStart = glm::vec4(r, g, b, a);
-            break;
+    if (Component::IsAlive(ps)) {
+        EmitterInstance* emitter = ps->GetEmitter();
+        if (emitter) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    static_cast<ModuleEmitterSpawn*>(m)->colorStart = glm::vec4(r, g, b, a);
+                    break;
+                }
+            }
         }
     }
     return 0;
@@ -2210,14 +2220,16 @@ static int Lua_ParticleSystem_SetSize(lua_State* L) {
     ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
     float size = (float)luaL_checknumber(L, 2);
 
-    if (ps) {
+    if (Component::IsAlive(ps)) {
         EmitterInstance* emitter = ps->GetEmitter();
-        for (auto* m : emitter->modules) {
-            if (m->type == ParticleModuleType::SPAWNER) {
-                // Static size at the start and at the end
-                static_cast<ModuleEmitterSpawn*>(m)->sizeStart = size;
-                static_cast<ModuleEmitterSpawn*>(m)->sizeEnd = size;
-                break;
+        if (emitter) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    // Static size at the start and at the end
+                    static_cast<ModuleEmitterSpawn*>(m)->sizeStart = size;
+                    static_cast<ModuleEmitterSpawn*>(m)->sizeEnd = size;
+                    break;
+                }
             }
         }
     }
@@ -2227,7 +2239,7 @@ static int Lua_ParticleSystem_SetSize(lua_State* L) {
 static int Lua_ParticleSystem_Reset(lua_State* L) {
     ComponentParticleSystem* ps =
         *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
-    if (ps && ps->GetEmitter()) {
+    if (Component::IsAlive(ps) && ps->GetEmitter()) {
         ps->GetEmitter()->Reset();
     }
     return 0;
@@ -2236,7 +2248,7 @@ static int Lua_ParticleSystem_Reset(lua_State* L) {
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
 
-    if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
+    if (!objPtr || !*objPtr || !GameObject::IsAlive(*objPtr) || (*objPtr)->IsMarkedForDeletion()) {
         LOG_CONSOLE("[Lua] ERROR: Cannot get component from invalid/deleted GameObject");
         lua_pushnil(L);
         return 1;
@@ -2481,6 +2493,14 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
         lua_pushlightuserdata(L, comp);
         lua_pushcclosure(L, Lua_Collider_Disable, 1);
         lua_setfield(L, -2, "Disable");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_SetBoxSize, 1);
+        lua_setfield(L, -2, "SetBoxSize");
+
+        lua_pushlightuserdata(L, comp);
+        lua_pushcclosure(L, Lua_Collider_SetRadius, 1);
+        lua_setfield(L, -2, "SetRadius");
 
         return 1;
     }
@@ -2739,9 +2759,8 @@ static int Lua_GameObject_Index(lua_State* L) {
     }
 
     GameObject* obj = *objPtr;
-
-    if (obj->IsMarkedForDeletion()) {
-        LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion");
+    if (!GameObject::IsAlive(obj) || obj->IsMarkedForDeletion()) {
+        //LOG_CONSOLE("[Lua] WARNING: Accessing GameObject marked for deletion");
         lua_pushnil(L);
         return 1;
     }
@@ -2838,39 +2857,39 @@ static int Lua_GameObject_Index(lua_State* L) {
 
 static int Lua_PostProcessing_SetBloomEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.enabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetBloomIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.intensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetBloomThreshold(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.threshold = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.threshold = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetBloomSoftKnee(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.softKnee = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.softKnee = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetBloomClamp(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.clamp = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.clamp = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetBloomDiffusion(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->bloom.diffusion = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->bloom.diffusion = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetBloomTint(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->bloom.tint.x = (float)luaL_checknumber(L, 2);
         pp->bloom.tint.y = (float)luaL_checknumber(L, 3);
         pp->bloom.tint.z = (float)luaL_checknumber(L, 4);
@@ -2880,46 +2899,46 @@ static int Lua_PostProcessing_SetBloomTint(lua_State* L) {
 
 static int Lua_PostProcessing_SetColorGradingEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.enabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetExposure(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.exposure = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.exposure = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetContrast(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.contrast = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.contrast = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetSaturation(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.saturation = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.saturation = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetTemperature(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.temperature = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.temperature = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetColorGradingTint(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.tint = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.tint = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetToneMapper(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.toneMapper = (int)luaL_checkinteger(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.toneMapper = (int)luaL_checkinteger(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetColorFilter(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->colorGrading.colorFilter.x = (float)luaL_checknumber(L, 2);
         pp->colorGrading.colorFilter.y = (float)luaL_checknumber(L, 3);
         pp->colorGrading.colorFilter.z = (float)luaL_checknumber(L, 4);
@@ -2928,34 +2947,34 @@ static int Lua_PostProcessing_SetColorFilter(lua_State* L) {
 }
 static int Lua_PostProcessing_SetGamma(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->colorGrading.gamma = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->colorGrading.gamma = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetVignetteEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.vignetteEnabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.vignetteEnabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetVignetteIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.vignetteIntensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.vignetteIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetVignetteSmoothness(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.vignetteSmoothness = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetVignetteRoundness(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.vignetteRoundness = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.vignetteRoundness = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->lens.vignetteColor.x = (float)luaL_checknumber(L, 2);
         pp->lens.vignetteColor.y = (float)luaL_checknumber(L, 3);
         pp->lens.vignetteColor.z = (float)luaL_checknumber(L, 4);
@@ -2966,55 +2985,55 @@ static int Lua_PostProcessing_SetVignetteColor(lua_State* L) {
 
 static int Lua_PostProcessing_SetCAEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.chromaticAberrationEnabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.chromaticAberrationEnabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetCAIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.chromaticAberrationIntensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.chromaticAberrationIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDistortionEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.distortionEnabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.distortionEnabled = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDistortionIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->lens.distortionIntensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->lens.distortionIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetDoFEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.enabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetDoFDistance(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.focusDistance = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.focusDistance = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDoFRange(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.focusRange = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.focusRange = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDoFStrength(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.blurStrength = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.blurStrength = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDoFTiltShift(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.tiltShift = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.tiltShift = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetDoFFarTint(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->depthOfField.farTint.x = (float)luaL_checknumber(L, 2);
         pp->depthOfField.farTint.y = (float)luaL_checknumber(L, 3);
         pp->depthOfField.farTint.z = (float)luaL_checknumber(L, 4);
@@ -3023,77 +3042,77 @@ static int Lua_PostProcessing_SetDoFFarTint(lua_State* L) {
 }
 static int Lua_PostProcessing_SetDoFTintIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->depthOfField.tintIntensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->depthOfField.tintIntensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetGrainEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->grain.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->grain.enabled = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetGrainIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->grain.intensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->grain.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetGrainSize(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->grain.size = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->grain.size = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetAutoExposureEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->autoExposure.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->autoExposure.enabled = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetAutoExposureMin(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->autoExposure.minBrightness = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->autoExposure.minBrightness = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetAutoExposureMax(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->autoExposure.maxBrightness = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->autoExposure.maxBrightness = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetAutoExposureSpeed(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->autoExposure.speed = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->autoExposure.speed = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetBlurEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->blur.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->blur.enabled = lua_toboolean(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetBlurIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->blur.intensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->blur.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetBlurSpread(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->blur.spread = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->blur.spread = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetRadialBlurEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->radialBlur.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->radialBlur.enabled = lua_toboolean(L, 2);
     return 0;
 }
  
 static int Lua_PostProcessing_SetRadialBlurIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->radialBlur.intensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->radialBlur.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetRadialBlurCenter(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->radialBlur.center.x = (float)luaL_checknumber(L, 2);
         pp->radialBlur.center.y = (float)luaL_checknumber(L, 3);
     }
@@ -3102,28 +3121,28 @@ static int Lua_PostProcessing_SetRadialBlurCenter(lua_State* L) {
 
 static int Lua_PostProcessing_SetSharpenEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->sharpen.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->sharpen.enabled = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetSharpenIntensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->sharpen.intensity = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->sharpen.intensity = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
 static int Lua_PostProcessing_SetFogEnabled(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.enabled = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.enabled = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogMode(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.mode = (int)luaL_checkinteger(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.mode = (int)luaL_checkinteger(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogColor(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) {
+    if (Component::IsAlive(pp)) {
         pp->fog.color.x = (float)luaL_checknumber(L, 2);
         pp->fog.color.y = (float)luaL_checknumber(L, 3);
         pp->fog.color.z = (float)luaL_checknumber(L, 4);
@@ -3132,32 +3151,32 @@ static int Lua_PostProcessing_SetFogColor(lua_State* L) {
 }
 static int Lua_PostProcessing_SetFogDensity(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.density = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.density = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogStart(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.start = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.start = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogEnd(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.end = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.end = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogHeightFalloff(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.heightFalloff = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.heightFalloff = (float)luaL_checknumber(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogUseHeight(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.useHeight = lua_toboolean(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.useHeight = lua_toboolean(L, 2);
     return 0;
 }
 static int Lua_PostProcessing_SetFogHeightStart(lua_State* L) {
     ComponentPostProcessing* pp = *static_cast<ComponentPostProcessing**>(luaL_checkudata(L, 1, "PostProcessing"));
-    if (pp) pp->fog.heightStart = (float)luaL_checknumber(L, 2);
+    if (Component::IsAlive(pp)) pp->fog.heightStart = (float)luaL_checknumber(L, 2);
     return 0;
 }
 
@@ -3313,8 +3332,12 @@ static int Lua_Transform_Index(lua_State* L) {
     Transform* t = *tPtr;
 
     // Verificar si el GameObject propietario está marcado para eliminación
+    if (!Component::IsAlive(t)) {
+        lua_pushnil(L);
+        return 1;
+    }
     GameObject* owner = t->GetOwner();
-    if (!owner || owner->IsMarkedForDeletion()) {
+    if (!owner || !GameObject::IsAlive(owner) || owner->IsMarkedForDeletion()) {
         lua_pushnil(L);
         return 1;
     }

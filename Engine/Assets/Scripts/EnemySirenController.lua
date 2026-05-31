@@ -50,7 +50,7 @@ end
 
 local function ChangeState(self, newState)  -- local: no interfiere con otros scripts
     self.currentState = newState
-    Engine.Log("[Siren State] -> " .. newState)
+    --Engine.Log("[Siren State] -> " .. newState)
 end
 
 -- Calcula la velocidad inicial para un arco parabólico dado origen, destino y tiempo de vuelo.
@@ -124,7 +124,7 @@ local function TakeDamage(self, amount, attackerPos)
     end
 
     self.hp = self.hp - amount
-    Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
+    ---Engine.Log("[Mortar] HP: " .. self.hp .. "/" .. self.public.maxHp)
 
     _PlayerController_triggerCameraShake = true
 
@@ -150,7 +150,7 @@ local function TakeDamage(self, amount, attackerPos)
         if self.anim then
         	if not self.anim:IsPlayingAnimation("Die") then
 				if self.deathSFX then 
-                    Engine.Log("Played Siren DeathSFX")
+                    --Engine.Log("Played Siren DeathSFX")
                     self.deathSFX:PlayAudioEvent() 
                 end
             	if self.anim then self.anim:Play("Die") end
@@ -166,7 +166,7 @@ local function TakeDamage(self, amount, attackerPos)
             SafeDestroyShell(shell)
         end
         self.activeShells = {}
-        Engine.Log("[Mortar] DEAD")
+        --Engine.Log("[Mortar] DEAD")
 
     else
         if self.hurtSFX then 
@@ -410,9 +410,7 @@ local function UpdateShells(self, dt)
                 
             end
 
-            Engine.Log("[Mortar] Impact at ("
-                     .. string.format("%.1f", x) .. ", "
-                     .. string.format("%.1f", z) .. ")")
+            
 
             if self.playerGO then
                 local pp = self.playerGO.transform.position
@@ -428,14 +426,6 @@ local function UpdateShells(self, dt)
                             if (_PlayerController_pendingDamage or 0) == 0 then
                                 _PlayerController_pendingDamage    = dmg
                                 _PlayerController_pendingDamagePos = { x =  s.targetX, y = y, z =  s.targetZ }
-                                Engine.Log("[Mortar] HIT PLAYER for " .. dmg
-                                        .. " (dist=" .. string.format("%.2f", impDist) .. ")")
-                                Engine.Log("[Mortar] targetX=" .. string.format("%.2f", s.targetX) 
-                                .. " x=" .. string.format("%.2f", x)
-                                .. " targetZ=" .. string.format("%.2f", s.targetZ)
-                                .. " z=" .. string.format("%.2f", z)
-                                .. " playerDist=" .. string.format("%.2f", impDist)
-                                .. " blastRadius=" .. string.format("%.2f", self.public.blastRadius))
                             end
                         end
                     end
@@ -477,7 +467,7 @@ local function UpdateHide(self, dt)
         self.hideAnimTimer = (self.hideAnimTimer or 0) + dt
         if self.hideAnimTimer >= 0.2 then
             self.isFullyHidden = true
-            Engine.Log("[Siren] Completamente escondida. Ahora es invulnerable.")
+           -- Engine.Log("[Siren] Completamente escondida. Ahora es invulnerable.")
         end
     end
 
@@ -493,7 +483,7 @@ local function UpdateHide(self, dt)
         self.isFullyHidden = false
         self.hideAnimTimer = 0
         self.currentState = State.IDLE
-        Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
+       -- Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
     end
 end
 
@@ -510,7 +500,7 @@ local function UpdateIdle(self, dist, dt)
             if self.anim then 
                 self.anim:Play("Show")
                 if self.waterPs then self.waterPs:Play() end
-                Engine.Log("[SIREN] Ejecutando Show")
+                --Engine.Log("[SIREN] Ejecutando Show")
             end
             if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
             
@@ -521,7 +511,7 @@ local function UpdateIdle(self, dist, dt)
         end
 
         if self.playerInRange then
-            Engine.Log("Triggering Combat Music from Siren detection range")
+            --Engine.Log("Triggering Combat Music from Siren detection range")
            -- _G.TriggerCombatMusic()
            if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
         end
@@ -606,7 +596,7 @@ local function UpdateWindUp(self, pp, dist, dt)
 
         self.currentState = State.COOLDOWN
         self.cooldownTimer       = self.public.cooldownTime * 0.4
-        Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
+        --Engine.Log("[Mortar] Player fuera de rango. Abortando disparo.")
         return
     end
 
@@ -625,7 +615,7 @@ local function UpdateWindUp(self, pp, dist, dt)
             if self.wavesPs then self.wavesPs:Play() end
             if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip") then self.dipSFX:PlayAudioEvent() end
         end
-        Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
+        --Engine.Log("[Mortar] FIRED! Cooldown=" .. self.public.cooldownTime .. "s")
 
 
         ChangeState(self, State.COOLDOWN)
@@ -661,7 +651,7 @@ local function UpdateCooldown(self, dist, dt)
         if dist <= self.public.detectRange and dist >= self.public.minRange then
             self.currentState = State.WINDUP
             self.windUpTimer         = 0
-            Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
+            --Engine.Log("[Mortar] Cooldown listo. Nuevo wind-up.")
         end
     end
 end
@@ -687,18 +677,18 @@ local function FindSirenAudioComponents(self)  -- local: no interfiere con otros
     self.hurtSFX  = hurtSource:GetComponent("Audio Source")
     self.dipSFX   = dipSource:GetComponent("Audio Source")
     
-    if not self.singSFX then
-		Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
-	end
-    if not self.hurtSFX then
-        Engine.Log("[SIREN AUDIO] Unable to retrieve SirenHurtSource") 
-    end
-    if not self.deathSFX then 
-		Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
-	end
-    if not self.dipSFX then 
-		Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
-	end
+  --  if not self.singSFX then
+		--Engine.Log("[SIREN AUDIO] Unable to retrieve SingSource") 
+	--end
+   -- if not self.hurtSFX then
+        --Engine.Log("[SIREN AUDIO] Unable to retrieve SirenHurtSource") 
+ --   end
+ --   if not self.deathSFX then 
+		--Engine.Log("[SIREN AUDIO] Unable to retrieve SirenDieSource") 
+	--end
+ --   if not self.dipSFX then 
+		--Engine.Log("[SIREN AUDIO] Unable to retrieve DipSource") 
+	--end
 
 
 end
@@ -708,37 +698,37 @@ local function FindSirenParticles(self)
     local bloodVFX = GameObject.FindInChildren(self.gameObject, "BloodDrops")
     if bloodVFX then 
         self.bloodPs = bloodVFX:GetComponent("ParticleSystem") 
-        if not self.bloodPs then 
-            Engine.Log("[Siren] Blood Particle System NOT found!")
-        else
-            Engine.Log("[Siren] Blood Particle System FOUND!")
-        end
-    else 
-        Engine.Log("[Siren] Could not retrieve Blood Drops VFX GameObject") 
+     --   if not self.bloodPs then 
+           -- Engine.Log("[Siren] Blood Particle System NOT found!")
+     --   else
+          --  Engine.Log("[Siren] Blood Particle System FOUND!")
+       -- end
+   -- else 
+        --Engine.Log("[Siren] Could not retrieve Blood Drops VFX GameObject") 
     end
 
     local waterVFX = GameObject.FindInChildren(self.gameObject, "WaterDrops")
     if waterVFX then 
         self.waterPs = waterVFX:GetComponent("ParticleSystem") 
-        if not self.waterPs then 
-            Engine.Log("[Siren] Water Drops Particle System NOT found!")
-        else
-            Engine.Log("[Siren] Water Drops Particle System FOUND!")
-        end
-    else 
-        Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
+      --  if not self.waterPs then 
+      --      Engine.Log("[Siren] Water Drops Particle System NOT found!")
+      --  else
+        --    Engine.Log("[Siren] Water Drops Particle System FOUND!")
+      --  end
+   -- else 
+       -- Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
     end
 
     local wavesVFX = GameObject.FindInChildren(self.gameObject, "WaterCircles")
     if wavesVFX then 
         self.wavesPs = wavesVFX:GetComponent("ParticleSystem") 
-        if not self.wavesPs then 
-            Engine.Log("[Siren] Waves Particle System NOT found!")
-        else
-            Engine.Log("[Siren] Waves Particle System FOUND!")
-        end
-    else 
-        Engine.Log("[Siren] Could not retrieve Water Circles VFX GameObject") 
+       -- if not self.wavesPs then 
+      --      Engine.Log("[Siren] Waves Particle System NOT found!")
+      --  else
+      --      Engine.Log("[Siren] Waves Particle System FOUND!")
+      --  end
+  --  else 
+      --  Engine.Log("[Siren] Could not retrieve Water Circles VFX GameObject") 
     end
 end
 
@@ -833,8 +823,8 @@ function Start(self)
         self.rb:SetLinearVelocity(0, 0, 0)
     end
 
-    Engine.Log("[Mortar] Initialized. HP=" .. self.hp
-             .. " detectRange=" .. self.public.detectRange)
+   -- Engine.Log("[Mortar] Initialized. HP=" .. self.hp
+          --   .. " detectRange=" .. self.public.detectRange)
     
     self.anim:Play("Hide")
     if self.wavesPs then self.wavesPs:Play() end
@@ -890,7 +880,7 @@ function Update(self, dt)
     if self.pendingDestroy and self.deathTimer <= 0 then
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)
-        Engine.Log("Destroyed Siren")
+      --  Engine.Log("Destroyed Siren")
         if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
         --self:Destroy() 
 
@@ -935,7 +925,7 @@ function Update(self, dt)
       
 
         if self.deathTimer <= 0 then
-            Engine.Log("Siren pending to destroy")
+           -- Engine.Log("Siren pending to destroy")
 
             self.pendingDestroy = true
             
@@ -1000,9 +990,9 @@ function Update(self, dt)
     -- Search player
     if not self.playerGO then
         self.playerGO = GameObject.Find("Player")
-        if self.playerGO then
-            Engine.Log("[Mortar] Player encontrado")
-        end
+        --if self.playerGO then
+            --Engine.Log("[Mortar] Player encontrado")
+        --end
     end
 
     if not self.playerGO then return end
@@ -1045,7 +1035,10 @@ end
 function OnTriggerEnter(self, other)
     if  self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
 
-	if not other then Engine.Log("[SIREN] other was nil"); return end
+	if not other then 
+        --Engine.Log("[SIREN] other was nil"); 
+        return 
+    end
 
     if other:CompareTag("Player") then
         if not self.alreadyHit then
@@ -1054,8 +1047,8 @@ function OnTriggerEnter(self, other)
                 self.alreadyHit = true
                 if BaseMat then
                     BaseMat.SetTexture("1496995762458507062")
-                else
-                    Engine.Log("BaseMat not found in Siren")
+               -- else
+                    --Engine.Log("BaseMat not found in Siren")
                 end
                 local attackerPos = other.transform.worldPosition
                 if attack == "light" then
@@ -1075,8 +1068,8 @@ function OnTriggerEnter(self, other)
             hitCooldown = 0.2
             if BaseMat then 
                 BaseMat.SetTexture("1496995762458507062")
-            else
-                Engine.Log("BaseMat not found in Siren")
+          --  else
+               -- Engine.Log("BaseMat not found in Siren")
             end
             TakeDamage(self, self.hp, ap)
         end
@@ -1085,7 +1078,10 @@ end
 
 -- OnTriggerExit
 function OnTriggerExit(self, other)
-	if not other then Engine.Log("[SIREN] other was nil"); return end
+	if not other then 
+       -- Engine.Log("[SIREN] other was nil"); 
+        return 
+    end
 
     if other:CompareTag("Player") then
         if self.public.level2 then

@@ -25,8 +25,12 @@ public = {
 }
 
 function Start(self)
-    if self.public.currentLevel == "Level1" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then 
+
+    
+    if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
         _G._PlayerController_introAnim = true 
+    else
+        _G._PlayerController_introAnim = false 
     end
     
     currentState = State.LOADING

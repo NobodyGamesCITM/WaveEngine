@@ -17,6 +17,7 @@ namespace AK
         static const AkUniqueID MUS_FINALBLOW = 2772329599U;
         static const AkUniqueID MUS_FINALNOTE = 3925037099U;
         static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
+        static const AkUniqueID SFX_AQUILESAREAEXP = 3184356465U;
         static const AkUniqueID SFX_AQUILESBIGSTEP = 3630147201U;
         static const AkUniqueID SFX_AQUILESCOLLAPSE = 3452078074U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
@@ -46,8 +47,10 @@ namespace AK
         static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
         static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
         static const AkUniqueID SFX_HEARTBEAT = 3158516759U;
+        static const AkUniqueID SFX_HERMESFLARE = 3152724629U;
         static const AkUniqueID SFX_HERMESHOVER = 3684743831U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
+        static const AkUniqueID SFX_HERMESWIND = 1720125317U;
         static const AkUniqueID SFX_INTROROAR = 1929205333U;
         static const AkUniqueID SFX_KNEELDOWN = 3671466604U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
@@ -106,6 +109,8 @@ namespace AK
         static const AkUniqueID UI_OWLHOOT = 3426312362U;
         static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
+        static const AkUniqueID UI_SKIPDIALOG = 344780467U;
+        static const AkUniqueID UI_TELEVOCALS = 3718241572U;
     } // namespace EVENTS
 
     namespace STATES
@@ -154,6 +159,20 @@ namespace AK
                 static const AkUniqueID WALK = 2108779966U;
             } // namespace SWITCH
         } // namespace PLAYER_SPEED
+
+        namespace PLAYER_VOICE
+        {
+            static const AkUniqueID GROUP = 1047305421U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DECIDED = 3540708211U;
+                static const AkUniqueID GENERIC = 4294388576U;
+                static const AkUniqueID PENSATIVE = 1998809012U;
+                static const AkUniqueID RELIEVED = 2685321313U;
+                static const AkUniqueID SCARED = 820940617U;
+            } // namespace SWITCH
+        } // namespace PLAYER_VOICE
 
         namespace SURFACE_TYPE
         {

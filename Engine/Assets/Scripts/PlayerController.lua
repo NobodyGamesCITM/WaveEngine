@@ -56,6 +56,7 @@ local HERMES_GRACE_TIME      = 0.2
 local ATTACK_BUFFER = 0.5
 local hurtTimer = 0.0
 local HURT_DURATION = 0.5
+local heavyAttackMoveSpeed = 7.0
 
 -- MASKS
 local Mask = {
@@ -85,6 +86,7 @@ local Player = {
     lastDirZ        = 1,
     lastAngle       = 0,
     godMode         = false,
+    inPuzzleArea    = false,
     rb              = nil,
     sprintHeld      = false,
 	smokePS         = nil,
@@ -147,6 +149,8 @@ local Player = {
     getMaskEvent2Done = false,
     getMaskIdleTransitionDone = false,
     currentOrbitAnim = nil,
+    rawDirX = 0,
+    rawDirZ = 1,
 }
 
 local playerParticles = {Player.apoloPs, Player.apoloAttackPs, Player.hermesPs, Player.hermesAttackPs,  Player.hermesAttackPs, Player.aresPs, Player.aresAttackPs, Player.trailPs}
@@ -467,37 +471,31 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
     return true
 end
 
+local function ApplyMaskVisual(self, newMask)
+    if not maskApolo or not maskAres or not maskHermes then FindMasks(self) end
+    if newMask == Mask.APOLLO then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(true)   end
+        if maskHermes then maskHermes:SetActive(false) end
+    elseif newMask == Mask.HERMES then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(true)  end
+    elseif newMask == Mask.ARES then
+        if maskAres   then maskAres:SetActive(true)   end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(false) end
+    elseif newMask == Mask.NONE then
+        if maskAres   then maskAres:SetActive(false)  end
+        if maskApolo  then maskApolo:SetActive(false)  end
+        if maskHermes then maskHermes:SetActive(false) end
+    end
+end
+
+
 local function EquipMask(self, newMask, skipSword)
-    if Player.maskAnimTimer > 0 then return end
-
-    if not maskApolo or not maskAres or not maskHermes then
-        FindMasks(self)
-    end
-    
-    if newMask == Mask.APOLLO then 
-        if maskAres then maskAres:SetActive(false)end
-        if maskApolo then maskApolo:SetActive(true)end
-        if maskHermes then maskHermes:SetActive(false)end
-
-    elseif newMask == Mask.HERMES then 
-        if maskAres then maskAres:SetActive(false)end
-        if maskApolo then maskApolo:SetActive(false)end
-        if maskHermes then maskHermes:SetActive(true)end
-
-    elseif newMask == Mask.ARES then 
-        if maskAres then maskAres:SetActive(true) end
-        if maskApolo then maskApolo:SetActive(false) end
-        if maskHermes then maskHermes:SetActive(false) end
-
-    elseif newMask == Mask.NONE then 
-        if maskAres then maskAres:SetActive(false) end
-        if maskApolo then maskApolo:SetActive(false) end
-        if maskHermes then maskHermes:SetActive(false) end
-    end
-
-    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
-    if Player.currentMask == Mask.HERMES and Player.isDrowning and Player.isGrounded == false then
-        Player.currentMask = newMask
+    if Player.currentMask == Mask.HERMES and Player.isDrowning and newMask ~= Mask.HERMES then
+        ApplyMaskVisual(self, newMask)
         self.public.health = 0
         _G._PlayerController_isDead = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
@@ -505,6 +503,14 @@ local function EquipMask(self, newMask, skipSword)
         UpdateSwordMaterial()
         return
     end
+    if Player.maskAnimTimer > 0 then return end
+
+    if not maskApolo or not maskAres or not maskHermes then
+        FindMasks(self)
+    end
+    ApplyMaskVisual(self, newMask)
+
+    if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
     if Player.currentMask == Mask.HERMES then
         Player.hermesGraceTimer   = 0
     end
@@ -699,7 +705,7 @@ States[State.WALK] = {
     end,
     
     Update = function(self, dt)
-        if Player.isDrowning and Player.currentMask == Mask.HERMES then
+        if Player.isDrowning and Player.currentMask == Mask.HERMES and not Player.inPuzzleArea then
             self.public.stamina = math.max(0, self.public.stamina - (Player.hermesWaterWalkCost * dt))
         end
 
@@ -708,6 +714,11 @@ States[State.WALK] = {
             ChangeState(self, State.RUNNING)
         end
         local moveX, moveZ, inputLen = GetMovementInput(self)
+
+        if inputLen > 0.01 then
+            Player.rawDirX = moveX / inputLen
+            Player.rawDirZ = moveZ / inputLen
+        end
         
         if inputLen > 0.01 then
             Player.lastDirX = moveX / inputLen
@@ -843,6 +854,11 @@ States[State.RUNNING] = {
     Update = function(self, dt)
         local moveX, moveZ, inputLen = GetMovementInput(self)
 
+        if inputLen > 0.01 then
+            Player.rawDirX = moveX / inputLen
+            Player.rawDirZ = moveZ / inputLen
+        end
+
         if inputLen <= 0.1 then
             ChangeState(self, State.IDLE)
             return
@@ -881,7 +897,7 @@ States[State.RUNNING] = {
             return
         end
 
-        if Player.currentMask == Mask.HERMES and Player.isDrowning then
+        if Player.currentMask == Mask.HERMES and Player.isDrowning and not Player.inPuzzleArea then
             self.public.stamina = math.max(0, self.public.stamina - (self.public.staminaCost * dt))
         end
 
@@ -957,11 +973,16 @@ States[State.ROLL] = {
     timer = 0,
     particlesPlayed = false, 
     Enter = function(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.rollStaminaCost
         end
         States[State.ROLL].timer = self.public.rollDuration
         States[State.ROLL].particlesPlayed = false 
+
+        if Player.rb then
+            local angle = atan2(Player.rawDirX, Player.rawDirZ) * (180.0 / pi)
+            Player.rb:SetRotation(0, angle, 0)
+        end
 
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
@@ -993,7 +1014,9 @@ States[State.ROLL] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(Player.lastDirX * self.public.rollSpeed, velocity.y, Player.lastDirZ * self.public.rollSpeed)
+            Player.rb:SetLinearVelocity(Player.rawDirX * self.public.rollSpeed, velocity.y, Player.rawDirZ * self.public.rollSpeed)
+            local angle = atan2(Player.rawDirX, Player.rawDirZ) * (180.0 / pi)
+            Player.rb:SetRotation(0, angle, 0)
         end
     end
 }
@@ -1001,7 +1024,7 @@ States[State.ROLL] = {
 States[State.CHARGING] = {
     Enter = function(self)
         SnapToLockOn(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -1049,7 +1072,7 @@ States[State.SHOOTING] = {
     Enter = function(self)
         SnapToLockOn(self)
         _PlayerController_lastAttack = ""
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -1108,7 +1131,7 @@ States[State.ATTACK_HEAVY] = {
     colliderActive = false,
     Enter = function(self)
         SnapToLockOn(self)
-        if not Player.godMode and not self.public.berserkActive then
+        if not Player.godMode and not self.public.berserkActive and not Player.inPuzzleArea then
             self.public.stamina = self.public.stamina - self.public.heavyStaminaCost
         end
         if Input.HasGamepad() then Input.RumbleGamepad(0.7, 0.2, 250) end
@@ -1149,7 +1172,14 @@ States[State.ATTACK_HEAVY] = {
 
         if Player.rb then
             local velocity = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, velocity.y, 0)
+            local moveX, moveZ, inputLen = GetMovementInput(self)
+            if inputLen > 0.01 then
+                local dirX = moveX / inputLen
+                local dirZ = moveZ / inputLen
+                Player.rb:SetLinearVelocity(dirX * heavyAttackMoveSpeed, velocity.y, dirZ * heavyAttackMoveSpeed)
+            else
+                Player.rb:SetLinearVelocity(0, velocity.y, 0)
+            end
         end
 
         if attackTimer >= self.public.heavyDuration then
@@ -1759,17 +1789,30 @@ function Update(self, dt)
         Audio.SetRTPCValue("Player_Speed", actualSpeed)
     end
 
-    if Player.stepSFX then
-        if Player.currentMask == Mask.HERMES and Player.currentState ~= State.DEAD then 
-        
-            if not Audio.IsEventPlaying("SFX_HermesHover") then 
-                Player.stepSFX:SelectPlayAudioEvent("SFX_HermesHover")
-                Engine.Log("[PLAYER] Playing Hover SFX") 
+    if Player.stepSFX and Player.voiceSFX then
+        if Player.currentMask == Mask.HERMES then
+            if Player.currentState ~= State.DEAD then
+                if not Audio.IsEventPlaying("SFX_HermesWind") then 
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_HermesWind")
+                    Engine.Log("[PLAYER] Playing Wind Hover SFX") 
+                end
+            end
+
+            if Player.currentState == State.WALK or Player.currentState == State.RUNNING then 
+            
+                if not Audio.IsEventPlaying("SFX_HermesFlare") then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_HermesFlare")
+                    Engine.Log("[PLAYER] Playing Hover SFX") 
+                end
+            else
+                Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
             end
         end
 
         if Player.currentMask ~= Mask.HERMES then
-            Player.stepSFX:SelectStopAudioEvent("SFX_HermesHover") 
+            Player.stepSFX:SelectStopAudioEvent("SFX_HermesWind") 
+            Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
+            
         end
     end
 
@@ -1966,30 +2009,30 @@ function Update(self, dt)
         if wakeUpCinematic then
 
             -- step 1
-            if Player.AnimTimer <= 19.00 and Player.AnimTimer >= 18.9 and not Audio.IsEventPlaying("SFX_SandStir") then
+            if Player.AnimTimer <= 18.0 and Player.AnimTimer >= 17.9 and not Audio.IsEventPlaying("SFX_SandStir") then
                 if Player.stepSFX then 
                     --Audio.SetSFXVolume(50.0)
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStir") 
-                    Engine.Log("[WAKE UP] Played Sand Stir!")
+                    --Engine.Log("[WAKE UP] Played Sand Stir!")
                     --Audio.SetSFXVolume(100.0)
                 end
                 
             end
 
             -- step 2
-            if Player.AnimTimer <= 10.9 and Player.AnimTimer >= 10.8 and not Audio.IsEventPlaying("SFX_SandStep1") then
+            if Player.AnimTimer <= 10.5 and Player.AnimTimer >= 10.3 and not Audio.IsEventPlaying("SFX_SandStep1") then
                 if Player.stepSFX then 
                    
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep1")
-                    Engine.Log("[WAKE UP] Played Step 1!")
+                    --Engine.Log("[WAKE UP] Played Step 1!")
                 end
             end
 
             -- sword on sand
-            if Player.AnimTimer <= 10.0 and Player.AnimTimer >= 9.9 and not Audio.IsEventPlaying("SFX_SwordSandStab") then
+            if Player.AnimTimer <= 9.8 and Player.AnimTimer >= 9.6 and not Audio.IsEventPlaying("SFX_SwordSandStab") then
                 if Player.swordSFX then 
                     Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandStab") 
-                    Engine.Log("[WAKE UP] Played Sand Stab!")
+                    --Engine.Log("[WAKE UP] Played Sand Stab!")
                 end
             end
 
@@ -1998,7 +2041,7 @@ function Update(self, dt)
                 if Player.swordSFX then 
                     Audio.SetSFXVolume(70.0)
                     Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandUnStab") 
-                    Engine.Log("[WAKE UP] Played Unstab!")
+                    --Engine.Log("[WAKE UP] Played Unstab!")
                     Audio.SetSFXVolume(100.0)
                 end
             end
@@ -2007,7 +2050,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.4 and Player.AnimTimer >= 5.2 and not Audio.IsEventPlaying("SFX_SandStep2") then
                 if Player.stepSFX then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep2") 
-                    Engine.Log("[WAKE UP] Played Step 2!")
+                   -- Engine.Log("[WAKE UP] Played Step 2!")
                 end
             end
 
@@ -2015,7 +2058,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.0 and Player.AnimTimer >= 4.8 and not Audio.IsEventPlaying("SFX_ZoomOut") then
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_ZoomOut") 
-                    Engine.Log("[WAKE UP] Played Zoom Out!")
+                    --Engine.Log("[WAKE UP] Played Zoom Out!")
                 end
             end
 
@@ -2024,7 +2067,7 @@ function Update(self, dt)
                 if not Audio.IsEventPlaying("SFX_SandStep3") then
                     if Player.stepSFX then 
                         Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep3") 
-                        Engine.Log("[WAKE UP] Played Step 3!")
+                        --Engine.Log("[WAKE UP] Played Step 3!")
                     end
                 else 
                     --Engine.Log("[WAKE UP] CinematicSandSteps already playing!") 
@@ -2289,8 +2332,11 @@ function Update(self, dt)
         giveApoloMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Apolo", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+
+            if Player.currentMask ~= Mask.APOLLO then
+                Audio.SetSwitch("Player_Mask", "Apolo", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     
     end
@@ -2299,8 +2345,10 @@ function Update(self, dt)
         giveHermesMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Hermes", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            if Player.currentMask ~= Mask.HERMES then
+                Audio.SetSwitch("Player_Mask", "Hermes", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     end
 
@@ -2308,8 +2356,10 @@ function Update(self, dt)
         giveAresMask = true
         debugMaskGive = true
         if Player.changeMaskSFX then 
-            Audio.SetSwitch("Player_Mask", "Ares", Player.changeMaskSFX)
-            Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            if Player.currentMask ~= Mask.ARES then
+                Audio.SetSwitch("Player_Mask", "Ares", Player.changeMaskSFX)
+                Player.changeMaskSFX:SelectPlayAudioEvent("SFX_MaskSwitch")
+            end
         end
     end
 
@@ -2536,28 +2586,16 @@ function ResetPlayer(self)
 end
 
 function OnTriggerEnter(self, other)
-    -- for i, surface in ipairs(surfaces) do
-    --     if other:CompareTag(surface) then
-    --         if Player.currentSurface ~= surface then
-    --             Player.currentSurface = surface
-    --             if surface ~= "Water" then
-    --                 Player.lastGroundSurface = surface
-    --             end
-    --             if Player.stepSFX then
-    --                 Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-    --                 Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).. " by trigger ")
-    --             end
-    --         end
-    --     end
-    -- end
+    if other:CompareTag("PuzzleArea") then
+        Player.inPuzzleArea = true
+    end
 end
 
 
-function OnTriggerExit(self, other) 
-    -- if Player.stepSFX and Player.lastGroundSurface then
-    --     Audio.SetSwitch("Surface_Type", Player.lastGroundSurface, Player.stepSFX)
-    --     Player.currentSurface  = Player.lastGroundSurface
-    -- end
+function OnTriggerExit(self, other)
+    if other:CompareTag("PuzzleArea") then
+        Player.inPuzzleArea = false
+    end
 end
 
 function OnCollisionEnter(self, other)
@@ -2678,5 +2716,3 @@ function _G.TriggerChestAnimation(self)
     self.public.canMove = false
     return true
 end
-
-

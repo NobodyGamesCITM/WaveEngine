@@ -129,11 +129,9 @@ local function refreshSharedLockOnPrompt()
     for trigger in pairs(_G._lockOnInteractTriggers or {}) do
         if trigger.gameObject and (not _G.IsTargetDead or not _G.IsTargetDead(trigger.gameObject)) then
 
-            local tPos = trigger.gameObject.transform.worldPosition
-
-            if not tPos then return end
-            local dx = tPos.x - playerPos.x
-            local dz = tPos.z - playerPos.z
+            local myPos = trigger.transform.worldPosition
+            local dx = myPos.x - playerPos.x
+            local dz = myPos.z - playerPos.z
             local dist = math.sqrt(dx * dx + dz * dz)
 
             if dist < trigger.public.promptRadius and dist < bestDist then

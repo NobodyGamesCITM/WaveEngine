@@ -2,8 +2,12 @@
 #include "GameObject.h"
 #include <imgui.h>  
 #include <ImGuizmo.h>
+#include <unordered_set>
+
+static std::unordered_set<const Component*> s_liveComponents;
 
 Component::Component(GameObject* owner, ComponentType type) : owner(owner), type(type), active(true) {
+    s_liveComponents.insert(this);
     switch (type) {
     case ComponentType::TRANSFORM:               name = "Transform";                break;
     case ComponentType::MESH:                    name = "Mesh";                     break;
@@ -38,4 +42,12 @@ Component::Component(GameObject* owner, ComponentType type) : owner(owner), type
     case ComponentType::CINEMATIC_CAMERA:        name = "Cinematic Camera";         break;
     default:                                     name = "Unknown Component";        break;
     }
+}
+
+Component::~Component() {
+    s_liveComponents.erase(this);
+}
+
+bool Component::IsAlive(const Component* ptr) {
+    return ptr && s_liveComponents.count(ptr) > 0;
 }

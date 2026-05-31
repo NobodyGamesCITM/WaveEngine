@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "Globals.h"
 #include "PrefabInstance.h"
@@ -70,6 +71,7 @@ public:
 
     void MarkForDeletion();
     bool IsMarkedForDeletion() const { return markedForDeletion; }
+    static bool IsAlive(const GameObject* ptr);
     void MarkCleaning() { isCleaning = true; };
     bool IsCleaning() { return isCleaning; };
 

@@ -71,7 +71,10 @@ private:
 
     ComponentCameraZone* currentZone = nullptr;
 
+    bool hasSnappedToFirstTarget = false;
+
     float shakeTimer = 0.0f;
+    float shakeDuration = 0.0f;
     float shakeMagnitude = 0.0f;
     float shakeFreq = 25.0f;
 

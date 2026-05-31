@@ -24,9 +24,6 @@ function Update(self, dt)
     if dist >= self.public.radius and inRange then
         inRange     = false
         pendingShow = false
-        if _G.HideControlsHint then
-            _G.HideControlsHint()
-        end
     end
 
     if pendingShow and _G.ShowControlsHint then

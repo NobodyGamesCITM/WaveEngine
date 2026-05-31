@@ -577,6 +577,11 @@ set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${U
 add_executable(SonOfIthaca ${SRCS})
 target_precompile_headers(SonOfIthaca PRIVATE src/pch.h)
 
+if(WIN32)
+    set_target_properties(SonOfIthaca PROPERTIES WIN32_EXECUTABLE TRUE)
+    target_link_options(SonOfIthaca PRIVATE /ENTRY:mainCRTStartup)
+endif()
+
 target_compile_definitions(SonOfIthaca PRIVATE WAVE_GAME)
 
 target_link_libraries(SonOfIthaca PRIVATE SDL3::SDL3)

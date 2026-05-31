@@ -46,6 +46,7 @@ local function IsTargetDead(target)
     end
     return false
 end
+_G.IsTargetDead = IsTargetDead
 
 -- Search the closest objective
 local function FindBestTarget(self)
@@ -223,8 +224,8 @@ function Update(self, dt)
 
     if switchCooldown > 0 then switchCooldown = switchCooldown - dt end
 
-    -- Shift on PC, R3/RightStick on Gamepad
-    if Input.GetKeyDown("LeftShift") or Input.GetKeyDown("RightShift") or Input.GetGamepadButtonDown("RightStick") then
+    -- R on PC, R3/RightStick on Gamepad
+    if Input.GetKeyDown("R") or Input.GetGamepadButtonDown("RightStick") then
         if isLocked then
             ClearLock(self)
         else

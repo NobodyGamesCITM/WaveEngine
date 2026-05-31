@@ -41,12 +41,13 @@ void ComponentCinematicCamera::ClearTargets() {
 
 void ComponentCinematicCamera::TriggerShake(float duration, float magnitude, float frequency) {
     shakeTimer = duration;
+    shakeDuration = duration;
     shakeMagnitude = magnitude;
     shakeFreq = frequency;
 }
 
 void ComponentCinematicCamera::Update() {
-    float dt = Application::GetInstance().time->GetRealDeltaTime();
+    float dt = Application::GetInstance().time->GetDeltaTime();
     if (dt <= 0.0f) return;
 
 
@@ -197,8 +198,16 @@ void ComponentCinematicCamera::Update() {
         }
     }
     else {
-        // Lerp
-        ApplySmoothing(dt);
+        if (!hasSnappedToFirstTarget && hasTarget) {
+            currentPos = targetPos;
+            currentRot = targetRot;
+            currentFov = targetFov;
+            hasSnappedToFirstTarget = true;
+        }
+        else {
+            // Lerp
+            ApplySmoothing(dt);
+        }
     }
 
     // Shake
@@ -276,7 +285,10 @@ void ComponentCinematicCamera::ApplyShake(float dt, glm::vec3& outPos) {
     if (shakeTimer <= 0.0f) return;
 
     shakeTimer -= dt;
-    float progress = shakeTimer / (shakeTimer + dt);
+
+    if (shakeTimer < 0.0f) shakeTimer = 0.0f;
+
+    float progress = (shakeDuration > 0.0f) ? (shakeTimer / shakeDuration) : 0.0f;
     float amplitude = shakeMagnitude * progress;
 
     float time = Application::GetInstance().time->GetTotalTime();

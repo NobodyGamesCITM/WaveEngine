@@ -271,11 +271,12 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
     {
         if (audioEvents[i]->playingID == 0L)
         {
+            audioEvents[i]->playingID = 1L; //1L = event slot is now taken
+            audioEvents[i]->eventID = event; //<-- new: storing the eventID passed as argument into the AudioEvent struct eventID field
             AK::SoundEngine::PostEvent(event, goID, AkCallbackType::AK_EndOfEvent, audioEvents[i]->eventCallback, (void*)audioEvents[i]);
 
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
-            audioEvents[i]->playingID = 1L; //1L = event slot is now taken
-            audioEvents[i]->eventID = event; //<-- new: storing the eventID passed as argument into the AudioEvent struct eventID field
+            
 
             return;
         }
@@ -407,7 +408,7 @@ void AudioSystem::SetRTPCValue(AkRtpcID rtpcID, AkRtpcValue value) {
     if (enableDebugLogs) LOG_DEBUG("Setting RTPC value through ID");
 }
 
-void AudioSystem::SetRTPCValue(const char* name, int value) {
+void AudioSystem::SetRTPCValue(const char* name, float value) {
     AK::SoundEngine::SetRTPCValue(name, value);
     if (enableDebugLogs) LOG_DEBUG("Setting RTPC value through name");
 }
@@ -430,9 +431,13 @@ void AudioSystem::SetMusicVolume(int vol) {
     AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::MUSIC_VOLUME, (AkRtpcValue)vol);
 }
 
-void AudioSystem::SetSFXVolume(int vol) {
+void AudioSystem::SetSFXVolume(float vol) {
+    if (vol < 0.0f) vol = 0.0f;
+    if (vol > 100.0f) vol = 100.0f;
     sfxVolume = vol;
-    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::SFX_VOLUME, (AkRtpcValue)vol);
+    LOG_CONSOLE("[AudioSystem] SetSFXVolume called with: %.2f", vol); 
+    AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::SFX_VOLUME, (AkRtpcValue)vol, AK_INVALID_GAME_OBJECT);
+    AK::SoundEngine::RenderAudio();
 }
 
 void AudioSystem::SetAudioSourceVolume(float vol, AkGameObjectID goID) {

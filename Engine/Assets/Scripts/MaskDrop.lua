@@ -1,7 +1,5 @@
 -- Mask Drop Script 
-
 local maskAnimDuration = 34.0
-
 
 -- local statueAnim = nil
 -- local statueMesh = nil
@@ -17,9 +15,9 @@ public = {
 }
 
 local function FindStoneMasks(self)
-    local stoneApoloMask  = GameObject.FindInChildren(self.gameObject, "stoneApoloMask")
-    local stoneHermesMask = GameObject.FindInChildren(self.gameObject, "stoneHermesMask")
-    local stoneAresMask   = GameObject.FindInChildren(self.gameObject, "stoneAresMask")
+    local stoneApoloMask  = GameObject.FindInChildren(self.gameObject, "apolo1")
+    local stoneHermesMask = GameObject.FindInChildren(self.gameObject, "hermes1")
+    local stoneAresMask   = GameObject.FindInChildren(self.gameObject, "ares1")
 
     if self.public.DropApoloMask then
         if stoneApoloMask  then stoneApoloMask:SetActive(true)   end
@@ -56,12 +54,10 @@ local function FindStatueAudioSource(self)
         if not self.statueSFX then 
             --Engine.Log("[MASKDROP] Unable to retrieve Audio Source Component from Bust Statue")
         end
-
     else
         --Engine.Log("[MASKDROP] Unable to find Audio GameObject from Bust Statue")
     end
 end
-
 
 local function FindStatueMeshandMat(self)
 
@@ -69,19 +65,29 @@ local function FindStatueMeshandMat(self)
     if self.statueMesh then 
         self.statueMat = self.statueMesh:GetComponent("Material")
         if self.statueMat then 
-            
         else
             --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
         end
-
     end
-
 end
 
 local function FindStatueAnimation(self)
     self.statueAnim = self.gameObject:GetComponent("Animation") 
-
     --if not self.statueAnim then Engine.Log("Unable to find Animation Component on Bust Statue") end
+
+    local maskObj = GameObject.FindInChildren(self.gameObject, "masks")
+
+    if maskObj then 
+        self.maskAnim = maskObj:GetComponent("Animation")
+        if not self.maskAnim then 
+            --Engine.Log("Unable to retrieve Animation Component from CinematicMasks") 
+        else
+            --Engine.Log("CinematicMasks Animation Component FOUND!")
+        end
+    else 
+        --Engine.Log("[MASKDROP] Unable to find CinematicMasks GameObject")
+    end
+    
 end
 
 local function FindStatueParticles(self)
@@ -111,7 +117,6 @@ local function ActivateStatue(self)
         
     if self.interactive then GameObject.Destroy(self.interactive) end
     
-
     if not statueMesh then statueMesh = GameObject.FindInChildren(self.gameObject, "mesh") end
     if self.statueMesh then 
         if not statueMat then statueMat = self.statueMesh:GetComponent("Material") end
@@ -119,15 +124,13 @@ local function ActivateStatue(self)
             self.statueMat.SetTexture("16679556794755767834")
             if self.dustPs then self.dustPs:Play() end
         else
-            --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
+            Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
         end
 
     end
 end
 
-
 function Initialize(self)
-
     Engine.RequestResource("16679556794755767834")
     Engine.RequestResource("10286171976575561541")
 
@@ -135,9 +138,8 @@ function Initialize(self)
 
     if self.statueMat then self.statueMat.SetTexture("10286171976575561541")
     else
-        --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
+        Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
     end
-
 
     FindStatueAnimation(self)
     if self.statueAnim then self.statueAnim:SetLooping("Activate", true) end
@@ -153,8 +155,6 @@ function Initialize(self)
     self.maskAnimTimer = 0   
     self.stopAnimTimer = 0
 end
-
-
 
 function Start(self)
     Initialize(self)
@@ -186,8 +186,6 @@ function Update(self, dt)
         FindStatueParticles(self)
     end
 
-
-
     if interact == true and not self.activatedStatue then
         local obj = GameObject.Find("Player")
         local playerPos = obj.transform.position
@@ -200,15 +198,25 @@ function Update(self, dt)
             if self.public.DropAresMask   then giveAresMask   = true end
 
             ActivateStatue(self)
-            
         end
     end
 
     if self.activatedStatue and not self.finished then
-
         --Engine.Log("Activated Statue")
         self.maskAnimTimer = self.maskAnimTimer + dt
-        if self.maskAnimTimer >= 15.0 and not self.removedStoneMask then
+
+
+        if self.maskAnimTimer >= 8.0 and not self.maskAnim:IsPlayingAnimation("ActivateMasks") then
+            
+            if self.maskAnim then 
+                self.maskAnim:Play("ActivateMasks")
+                --Engine.Log("Playing ActivateMasks") 
+            else
+                --Engine.Log("Unable to play ActivateMasks")
+            end
+        end
+
+        if self.maskAnimTimer >= 14.25 and not self.removedStoneMask then
             if self.stoneMask then self.stoneMask:SetActive(false)
             else 
                 --Engine.Log("[MASKDROP] Stone Mask not found, unable to remove from statue")
@@ -222,7 +230,6 @@ function Update(self, dt)
         end
 
         if self.maskAnimTimer >= maskAnimDuration then
-
             --won't reset bc the animation should only play once (you only get the mask once obv)
             --self.activatedStatue = false
             self.maskAnimTimer = 0 
@@ -231,13 +238,16 @@ function Update(self, dt)
                 self.statueMat.SetTexture("10286171976575561541")
                 if self.dustPs then self.dustPs:Play() end
                 if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_GM_StatueOff") end
-                    
+                self.finished = true
             else
-                --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
+                Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
             end
-
-            self.finished = true
+            if self.public.DropAresMask then
+                local combat = GameObject.FindInChildren(self.gameObject, "AresCombat")
+                local combatScript = combat:GetComponent("Script")
+                if combatScript then combatScript.startCombat() end 
+                self.finished = true
+            end
         end
-
     end
 end

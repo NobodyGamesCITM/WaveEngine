@@ -4,6 +4,7 @@
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/TextBlock.h>
 #include <NsGui/CheckBox.h>
+#include <NsGui/Slider.h>
 #include <NsCore/Nullable.h>
 #include <NsGui/Canvas.h>
 #include <algorithm>
@@ -16,21 +17,18 @@ UIManager& UIManager::GetInstance() {
 }
 
 void UIManager::RegisterButton(const std::string& name) {
-    if (!name.empty()) {
+    if (!name.empty())
         m_canvasButtons.insert(name);
-    }
 }
 
 void UIManager::RegisterClickedButton(const std::string& name) {
-    if (!name.empty()) {
+    if (!name.empty())
         m_justClickedButtons.insert(name);
-    }
 }
 
 void UIManager::RegisterFocusedButton(const std::string& name) {
-    if (!name.empty()) {
+    if (!name.empty())
         m_justFocusedButtons.insert(name);
-    }
 }
 
 bool UIManager::WasButtonJustClicked(const std::string& name) const {
@@ -41,16 +39,87 @@ bool UIManager::WasButtonJustFocused(const std::string& name) const {
     return m_justFocusedButtons.count(name) > 0;
 }
 
-void UIManager::ClearFrameClicks() {
-    m_justClickedButtons.clear();
+void UIManager::ClearFrameClicks()    { m_justClickedButtons.clear(); }
+void UIManager::ClearFrameFocused()   { m_justFocusedButtons.clear(); }
+void UIManager::ClearCanvasButtons()  { m_canvasButtons.clear(); }
+
+// ---- Sliders ----
+
+void UIManager::RegisterSlider(const std::string& name) {
+    if (!name.empty()) {
+        m_canvasSliders.insert(name);
+        if (m_sliderValues.find(name) == m_sliderValues.end())
+            m_sliderValues[name] = 0.0f;
+    }
 }
 
-void UIManager::ClearFrameFocused() {
-    m_justFocusedButtons.clear();
+void UIManager::RegisterSliderValue(const std::string& name, float value) {
+    if (!name.empty()) {
+        m_sliderValues[name] = value;
+        m_changedSliders.insert(name);
+    }
 }
 
-void UIManager::ClearCanvasButtons() {
-    m_canvasButtons.clear();
+float UIManager::GetSliderValue(const std::string& name) const {
+    auto it = m_sliderValues.find(name);
+    return (it != m_sliderValues.end()) ? it->second : 0.0f;
+}
+
+bool UIManager::SliderValueChanged(const std::string& name) const {
+    return m_changedSliders.count(name) > 0;
+}
+
+void UIManager::ClearSliderChanges() { m_changedSliders.clear(); }
+
+std::unordered_set<std::string> UIManager::GetCanvasSliders() {
+    return m_canvasSliders;
+}
+
+void UIManager::SetSliderValue(const std::string& elementName, float value) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
+    if (!fe) return;
+    if (auto* slider = Noesis::DynamicCast<Noesis::Slider*>(fe)) {
+        float clamped = std::clamp(value,
+            (float)slider->GetMinimum(),
+            (float)slider->GetMaximum());
+        slider->SetValue(clamped);
+        m_sliderValues[elementName] = clamped;
+    }
+}
+
+// ---- Slider con foco (para mando) ----
+
+void UIManager::SetFocusedSlider(const std::string& name) {
+    m_focusedSlider = name;
+}
+
+void UIManager::ClearFocusedSlider() {
+    m_focusedSlider.clear();
+}
+
+const std::string& UIManager::GetFocusedSlider() const {
+    return m_focusedSlider;
+}
+
+bool UIManager::HasFocusedSlider() const {
+    return !m_focusedSlider.empty();
+}
+
+void UIManager::StepFocusedSlider(float delta) {
+    if (m_focusedSlider.empty()) return;
+
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(m_focusedSlider));
+    if (!fe) return;
+
+    if (auto* slider = Noesis::DynamicCast<Noesis::Slider*>(fe)) {
+        float current  = (float)slider->GetValue();
+        float minVal   = (float)slider->GetMinimum();
+        float maxVal   = (float)slider->GetMaximum();
+        float newVal   = std::clamp(current + delta, minVal, maxVal);
+        slider->SetValue(newVal);
+        m_sliderValues[m_focusedSlider] = newVal;
+        m_changedSliders.insert(m_focusedSlider);
+    }
 }
 
 void UIManager::RegisterCanvas(ComponentCanvas* canvas) {
@@ -79,7 +148,7 @@ void* UIManager::FindElement(const std::string& elementName) {
             uint32_t count = Noesis::VisualTreeHelper::GetChildrenCount(el);
             for (uint32_t i = 0; i < count; ++i)
                 search(Noesis::VisualTreeHelper::GetChild(el, i));
-            };
+        };
         search(root);
         if (found) return found;
     }
@@ -99,7 +168,6 @@ void UIManager::SetElementWidth(const std::string& elementName, float width) {
 void UIManager::SetElementText(const std::string& elementName, const std::string& text) {
     auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
     if (!fe) return;
-
     if (auto* tb = Noesis::DynamicCast<Noesis::TextBlock*>(fe))
         tb->SetText(text.c_str());
 }
@@ -107,7 +175,6 @@ void UIManager::SetElementText(const std::string& elementName, const std::string
 void UIManager::SetCheckBox(const std::string& elementName, bool checked) {
     auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
     if (!fe) return;
-
     if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(fe))
         cb->SetIsChecked(checked);
 }
@@ -115,9 +182,7 @@ void UIManager::SetCheckBox(const std::string& elementName, bool checked) {
 void UIManager::SetElementVisibility(const std::string& elementName, bool visible) {
     auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(elementName));
     if (!fe) return;
-
-    fe->SetVisibility(visible ? Noesis::Visibility_Visible
-        : Noesis::Visibility_Hidden);
+    fe->SetVisibility(visible ? Noesis::Visibility_Visible : Noesis::Visibility_Hidden);
 }
 
 std::unordered_set<std::string> UIManager::GetCanvasButtons() {

@@ -21,17 +21,15 @@ struct ColorGradingSettings {
     float contrast = 1.0f;
     float saturation = 1.0f;
     float gamma = 1.0f;
-    int toneMapper = 0; // 0: ACES, 1: Neutral, 2: None
+    int toneMapper = 0;
     glm::vec3 colorFilter = glm::vec3(1.0f);
 };
 
 struct LensSettings {
     bool chromaticAberrationEnabled = false;
     float chromaticAberrationIntensity = 0.0f;
-
     bool distortionEnabled = false;
     float distortionIntensity = 0.0f;
-
     bool vignetteEnabled = false;
     float vignetteIntensity = 0.4f;
     float vignetteSmoothness = 0.2f;
@@ -79,16 +77,26 @@ struct BlurSettings {
     float spread = 1.0f;
 };
 
+struct FogSettings {
+    bool enabled = false;
+    int mode = 0;
+    glm::vec3 color = glm::vec3(0.7f, 0.8f, 0.9f);
+    float density = 0.02f;
+    float start = 10.0f;
+    float end = 100.0f;
+    float heightFalloff = 0.1f;
+    bool useHeight = false;
+    float heightStart = 0.0f;
+};
+
 class ComponentPostProcessing : public Component {
 public:
     ComponentPostProcessing(GameObject* owner);
     ~ComponentPostProcessing();
 
     void OnEditor() override;
-
     void Serialize(nlohmann::json& componentObj) const override;
     void Deserialize(const nlohmann::json& componentObj) override;
-
     bool IsType(ComponentType type) override;
     bool IsIncompatible(ComponentType type) override;
 
@@ -102,4 +110,5 @@ public:
     RadialBlurSettings radialBlur;
     SharpenSettings sharpen;
     BlurSettings blur;
+    FogSettings fog;
 };

@@ -1,73 +1,64 @@
-
-
 public = {
     radius           = 3.0,
     sequenceId       = "intro",
     skipTime         = 5.0,
     updateWhenPaused = true,
+    isAmbient        = false,
 }
 
-local triggered = false
-
-
-local ambientActive   = false
-local ambientTimer    = 0.0
-local ambientDuration = 0.0
-local function hideAmbient()
-    if not ambientActive then return end
-    if _G.ForceCloseDialog then
-        _G.ForceCloseDialog()
+local function fire(self)
+    if self._isAmbient == true or self._isAmbient == "true" then
+        if _G.ShowAmbientDialog then
+            _G.ShowAmbientDialog(self._sequenceId, self._skipTime)
+        else
+            self._triggered   = false
+            self._pendingFire = true
+        end
+    else
+        _G.DialogAmbientMode = false
+        if _G.TriggerSequence then
+            _G.TriggerSequence(self._sequenceId)
+        else
+            self._triggered   = false
+            self._pendingFire = true
+        end
     end
-    ambientActive = false
-    Engine.Log("[DialogTrigger] Ambient cerrado")
 end
-
-local function showAmbient(sequenceId, skipTime)
-    if not sequenceId or sequenceId == "" then return end
-    if ambientActive then hideAmbient() end
-
-    _G.DialogAmbientMode = true
-
-    if _G.TriggerSequence then
-        _G.TriggerSequence(sequenceId)
-    end
-
-    ambientActive   = true
-    ambientTimer    = 0.0
-    ambientDuration = skipTime or 5.0
-    Engine.Log("[DialogTrigger] Ambient iniciado: " .. sequenceId .. " | duracion: " .. tostring(ambientDuration))
-end
-
-
 
 function Start(self)
-    _G.ShowAmbientDialog = showAmbient
-    _G.HideAmbientDialog = hideAmbient
-    Engine.Log("[DialogTrigger] Ready")
+    self._radius      = self.public.radius
+    self._sequenceId  = self.public.sequenceId
+    self._skipTime    = self.public.skipTime
+    self._isAmbient   = self.public.isAmbient
+    self._triggered   = false
+    self._pendingFire = false
 end
 
 function Update(self, dt)
-    if ambientActive then
-        ambientTimer = ambientTimer + dt
-        if ambientTimer >= ambientDuration then
-            hideAmbient()
-            return
-        end
+    if self._pendingFire then
+        local ready = (self._isAmbient == true or self._isAmbient == "true")
+                      and _G.ShowAmbientDialog
+                   or ((self._isAmbient ~= true and self._isAmbient ~= "true")
+                      and _G.TriggerSequence)
+        if not ready then return end
+        self._pendingFire = false
+        fire(self)
+        return
     end
 
-    if triggered then return end
+    if self._triggered then return end
 
     local player = GameObject.Find("Player")
     if not player then return end
 
     local myPos     = self.transform.worldPosition
     local playerPos = player.transform.worldPosition
-    local dx = myPos.x - playerPos.x
-    local dz = myPos.z - playerPos.z
-    local dist = math.sqrt(dx * dx + dz * dz)
+    local dx        = myPos.x - playerPos.x
+    local dz        = myPos.z - playerPos.z
+    local dist      = math.sqrt(dx * dx + dz * dz)
 
-    if dist < self.public.radius then
-        triggered = true
-        showAmbient(self.public.sequenceId, self.public.skipTime)
-    end
+    if dist >= self._radius then return end
+
+    self._triggered = true
+    fire(self)
 end

@@ -63,9 +63,11 @@ end
 
 local function showPopup(self)
     if _G.ShowItemObtained then
+        -- Pasamos potionType como segundo argumento para que ItemObtained
+        -- muestre el icono correcto (Pocion.png o Berserk.png)
         _G.ShowItemObtained(
             self.public.itemText,
-            nil,
+            self.public.potionType,
             function() onChestOpened(self) end
         )
     else

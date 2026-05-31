@@ -81,7 +81,34 @@ void ComponentPostProcessing::OnEditor()
             ImGui::DragFloat("Gamma##Global", &colorGrading.gamma, 0.01f, 0.01f, 5.0f);
         }
     }
+    if (ImGui::CollapsingHeader("Fog", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+    ImGui::Checkbox("Enable##Fog", &fog.enabled);
+    if (fog.enabled)
+        {
+        const char* fogModes[] = { "Linear", "Exponential", "Exponential Squared" };
+        ImGui::Combo("Mode##Fog", &fog.mode, fogModes, IM_ARRAYSIZE(fogModes));
+        ImGui::ColorEdit3("Color##Fog", &fog.color.x);
 
+        if (fog.mode == 0) // Linear
+        {
+            ImGui::DragFloat("Start##Fog", &fog.start, 0.5f, 0.0f, fog.end - 0.1f);
+            ImGui::DragFloat("End##Fog",   &fog.end,   0.5f, fog.start + 0.1f, 10000.0f);
+        }
+        else
+        {
+            ImGui::DragFloat("Density##Fog", &fog.density, 0.001f, 0.0f, 1.0f);
+        }
+
+        ImGui::Separator();
+        ImGui::Checkbox("Height Fog##Fog", &fog.useHeight);
+        if (fog.useHeight)
+        {
+            ImGui::DragFloat("Height Start##Fog",   &fog.heightStart,   0.5f, -1000.0f, 1000.0f);
+            ImGui::DragFloat("Height Falloff##Fog", &fog.heightFalloff, 0.001f, 0.001f, 5.0f);
+        }
+        }
+    }
     if (ImGui::CollapsingHeader("Lens", ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGui::Text("Chromatic Aberration");
@@ -211,7 +238,6 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"vigRoundness", lens.vignetteRoundness},
         {"vigColor",     {lens.vignetteColor.x, lens.vignetteColor.y, lens.vignetteColor.z, lens.vignetteColor.w}}
     };
-
     o["depthOfField"] = {
         {"enabled", depthOfField.enabled},
         {"distance", depthOfField.focusDistance},
@@ -242,6 +268,17 @@ void ComponentPostProcessing::Serialize(nlohmann::json& o) const
         {"enabled", blur.enabled},
         {"intensity", blur.intensity},
         {"spread", blur.spread}
+    };
+    o["fog"] = {
+    {"enabled",       fog.enabled},
+    {"mode",          fog.mode},
+    {"color",         {fog.color.x, fog.color.y, fog.color.z}},
+    {"density",       fog.density},
+    {"start",         fog.start},
+    {"end",           fog.end},
+    {"heightFalloff", fog.heightFalloff},
+    {"useHeight",     fog.useHeight},
+    {"heightStart",   fog.heightStart}
     };
 }
 
@@ -331,6 +368,20 @@ void ComponentPostProcessing::Deserialize(const nlohmann::json& o)
         blur.enabled = b.value("enabled", false);
         blur.intensity = b.value("intensity", 1.0f);
         blur.spread = b.value("spread", 1.0f);
+    }
+
+    if (o.contains("fog")) {
+    const auto& f = o["fog"];
+    fog.enabled      = f.value("enabled",      false);
+    fog.mode         = f.value("mode",          0);
+    fog.density      = f.value("density",       0.02f);
+    fog.start        = f.value("start",         10.0f);
+    fog.end          = f.value("end",           100.0f);
+    fog.heightFalloff= f.value("heightFalloff", 0.1f);
+    fog.useHeight    = f.value("useHeight",     false);
+    fog.heightStart  = f.value("heightStart",   0.0f);
+    if (f.contains("color"))
+        fog.color = glm::vec3(f["color"][0], f["color"][1], f["color"][2]);
     }
 }
 

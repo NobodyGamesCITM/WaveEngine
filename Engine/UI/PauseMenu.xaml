@@ -124,151 +124,180 @@
                 </Setter>
             </Style>
 
+            <!-- ═══════════════════════════════════════════════════
+                 INTRO: misma técnica que ButtonsSample
+                 ScaleY 0→1 + TranslateX -200→0 por elemento
+                 Sin Opacity animada en contenedores, sin ScaleTransform en LayoutRoot
+                 ═══════════════════════════════════════════════════ -->
             <Storyboard x:Key="Intro">
-                <!-- Overlay oscuro: aparece rápido para "congelar" la escena -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DimOverlay">
+
+                <!-- DimOverlay: único sitio donde sí se anima Opacity (un solo rect simple) -->
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                               Storyboard.TargetName="DimOverlay">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1">
                         <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- Panel central: escala desde 0.88 con fade -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <!-- Pause_Viewbox: ScaleY + TranslateX -->
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                    Storyboard.TargetName="Pause_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="LayoutRoot">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.88"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="1.0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.3"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <!-- Título PAUSE: cae desde arriba -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Pause_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" Storyboard.TargetName="Pause_Viewbox">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-25"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                    Storyboard.TargetName="Pause_Viewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- RESUME -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ResumeButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                <!-- ResumeButton -->
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                    Storyboard.TargetName="ResumeButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ResumeButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                    Storyboard.TargetName="ResumeButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.6"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- SETTINGS -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SettingsButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                <!-- SettingsButton -->
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                    Storyboard.TargetName="SettingsButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SettingsButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                    Storyboard.TargetName="SettingsButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.7"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
-                <!-- BACK TO MENU -->
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackToMenuButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                <!-- BackToMenuButton -->
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                    Storyboard.TargetName="BackToMenuButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="BackToMenuButton">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="80"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></EasingDoubleKeyFrame.EasingFunction>
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                    Storyboard.TargetName="BackToMenuButton">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8"  Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
+
             </Storyboard>
 
+            <!-- ═══════════════════════════════════════════════════
+                 FADEOUT: botones salen con ScaleY + TranslateX en cascada
+                 ═══════════════════════════════════════════════════ -->
             <Storyboard x:Key="FadeOut">
+
                 <!-- Overlay negro cubre todo -->
                 <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity"
                                  To="1" Duration="0:0:1.5">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Panel central se encoge al salir -->
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="0.88" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <!-- Overlay oscuro desaparece -->
+                <!-- DimOverlay desaparece -->
                 <DoubleAnimation Storyboard.TargetName="DimOverlay" Storyboard.TargetProperty="Opacity"
                                  To="0" Duration="0:0:0.4">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <!-- Botones salen a la derecha en cascada -->
-                <DoubleAnimation Storyboard.TargetName="ResumeButton" Storyboard.TargetProperty="Opacity"
+                <!-- ResumeButton sale: ScaleY→0 + TranslateX→200 -->
+                <DoubleAnimation Storyboard.TargetName="ResumeButton"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                  To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="ResumeButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.0" Duration="0:0:0.3">
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="SettingsButton" Storyboard.TargetProperty="Opacity"
+                <!-- SettingsButton sale -->
+                <DoubleAnimation Storyboard.TargetName="SettingsButton"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                  To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="SettingsButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.05" Duration="0:0:0.3">
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.05" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
-                <DoubleAnimation Storyboard.TargetName="BackToMenuButton" Storyboard.TargetProperty="Opacity"
+                <!-- BackToMenuButton sale -->
+                <DoubleAnimation Storyboard.TargetName="BackToMenuButton"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                  To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
                 <DoubleAnimation Storyboard.TargetName="BackToMenuButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                 To="80" BeginTime="0:0:0.1" Duration="0:0:0.3">
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.1" Duration="0:0:0.3">
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
+
+                <!-- Pause_Viewbox sale -->
+                <DoubleAnimation Storyboard.TargetName="Pause_Viewbox"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
             </Storyboard>
 
         </ResourceDictionary>
@@ -284,18 +313,18 @@
     <Rectangle x:Name="DimOverlay" Grid.ColumnSpan="3" Grid.RowSpan="5"
                Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <Grid x:Name="LayoutRoot" Opacity="0" RenderTransformOrigin="0.5,0.5">
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleX="1" ScaleY="1"/>
-        </Grid.RenderTransform>
+    <!-- LayoutRoot sin Opacity ni ScaleTransform: visible desde el frame 0 -->
+    <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="285*"/>
             <ColumnDefinition Width="710*"/>
             <ColumnDefinition Width="285*"/>
         </Grid.ColumnDefinitions>
+
         <Viewbox Grid.Column="1">
             <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
         </Viewbox>
+
         <Viewbox Grid.Column="1" Margin="0,126,0,105" Width="590">
             <Grid x:Name="ButtonsGrid" Margin="0,0,0,21">
                 <Grid.RowDefinitions>
@@ -307,11 +336,21 @@
                     <RowDefinition Height="95"/>
                     <RowDefinition Height="0*"/>
                 </Grid.RowDefinitions>
-                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Grid.Row="1" Opacity="0">
+
+                <!-- Pause_Viewbox: TransformGroup completo igual que los botones de ButtonsSample -->
+                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Grid.Row="1"
+                         RenderTransformOrigin="0.5,0.5">
                     <Viewbox.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
                     </Viewbox.RenderTransform>
-                    <TextBlock x:Name="Pause_text" Text="PAUSE" FontFamily="./#ForgottenUncial" FontSize="65" TextAlignment="Center">
+                    <TextBlock x:Name="Pause_text" Text="PAUSE"
+                               FontFamily="./#ForgottenUncial" FontSize="65"
+                               TextAlignment="Center">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -320,9 +359,20 @@
                         </TextBlock.Foreground>
                     </TextBlock>
                 </Viewbox>
-                <Button x:Name="ResumeButton" Content="RESUME" Command="{Binding Path=Commands[ResumeButton]}" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}">
+
+                <!-- ResumeButton: TransformGroup completo, sin Opacity inicial -->
+                <Button x:Name="ResumeButton" Content="RESUME"
+                        Command="{Binding Path=Commands[ResumeButton]}"
+                        Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Style="{StaticResource TextButtonStyle}"
+                        RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
                     </Button.RenderTransform>
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="Loaded">
@@ -333,9 +383,21 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-                <Button x:Name="SettingsButton" Content="SETTINGS" Command="{Binding Commands[SettingsButton]}" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}" Margin="0,4.927,0,-4.927">
+
+                <!-- SettingsButton: TransformGroup completo, sin Opacity inicial -->
+                <Button x:Name="SettingsButton" Content="SETTINGS"
+                        Command="{Binding Commands[SettingsButton]}"
+                        Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Style="{StaticResource TextButtonStyle}"
+                        Margin="0,4.927,0,-4.927"
+                        RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
                     </Button.RenderTransform>
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseEnter">
@@ -343,9 +405,21 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
-                <Button x:Name="BackToMenuButton" Content="BACK TO MENU" Command="{Binding Path=Commands[BackToMenuButton]}" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" Style="{StaticResource TextButtonStyle}" Margin="0,4.927,0,-4.927">
+
+                <!-- BackToMenuButton: TransformGroup completo, sin Opacity inicial -->
+                <Button x:Name="BackToMenuButton" Content="BACK TO MENU"
+                        Command="{Binding Path=Commands[BackToMenuButton]}"
+                        Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Style="{StaticResource TextButtonStyle}"
+                        Margin="0,4.927,0,-4.927"
+                        RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
                     </Button.RenderTransform>
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseEnter">
@@ -353,21 +427,21 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Button>
+
             </Grid>
         </Viewbox>
-        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
+
+        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0"
+                   Fill="Black" IsHitTestVisible="False"/>
+
         <Grid x:Name="MissionGrid" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="178*"/>
                 <RowDefinition Height="79*"/>
                 <RowDefinition Height="463*"/>
             </Grid.RowDefinitions>
-            <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" HorizontalAlignment="Right">
-                <Rectangle x:Name="MissionBackground" Stroke="#FF000000" Height="100" Fill="#AAECD7B9" HorizontalAlignment="Right" Width="400"/>
-            </Viewbox>
-            <Viewbox x:Name="MissionTextViewBox" Grid.Row="1">
-                <TextBlock x:Name="MissionText" TextWrapping="Wrap" Text="Estatuas 0/3" FontFamily="./#ForgottenUncial" VerticalAlignment="Bottom" Foreground="#FFFFFFFF"/>
-            </Viewbox>
+            <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" HorizontalAlignment="Right"/>
         </Grid>
+
     </Grid>
 </Grid>

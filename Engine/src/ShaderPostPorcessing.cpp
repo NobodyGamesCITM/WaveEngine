@@ -12,23 +12,29 @@ bool ShaderPostPorcessing::CreateShader()
             TexCoords = aTexCoords;
         }
     )";
+
     const char* ppFragment = R"(
         #version 330 core
         out vec4 FragColor;
         in vec2 TexCoords;
+
         uniform sampler2D sceneTexture;
         uniform sampler2D depthTexture;
         uniform sampler2D blurredTexture;
+        uniform sampler2D waterMaskTexture;
         uniform vec2 uTexelSize;
-        uniform int uPass; // 0: Final, 1: H-Blur, 2: V-Blur
+        uniform vec2 uResolution;
+        uniform mat4 uInverseVP;
+        uniform vec3 uCamPos;
+        uniform float uTime;
+        uniform int uPass;        // 0: Final, 1: H-Blur, 2: V-Blur
         uniform float uBlurSpread;
 
-        //Blur
+        // Blur
         uniform bool  blurEnabled;
         uniform float blurIntensity;
 
-
-        // Color grading
+        // Color Grading
         uniform bool  gradingEnabled;
         uniform float exposure;
         uniform float contrast;
@@ -45,7 +51,7 @@ bool ShaderPostPorcessing::CreateShader()
         uniform float vignetteRoundness;
         uniform vec4  vignetteColor;
 
-        // Chromatic aberration
+        // Chromatic Aberration
         uniform bool  caEnabled;
         uniform float caIntensity;
 
@@ -75,21 +81,30 @@ bool ShaderPostPorcessing::CreateShader()
         uniform bool  grainEnabled;
         uniform float grainIntensity;
         uniform float grainScale;
-        uniform float uTime;
 
         // Sharpen
         uniform bool  sharpenEnabled;
         uniform float sharpenIntensity;
-        uniform vec2  uResolution;
 
         // Radial Blur
         uniform bool  radialBlurEnabled;
         uniform float radialBlurIntensity;
         uniform vec2  radialBlurCenter;
 
+        // Fog
+        uniform bool  fogEnabled;
+        uniform int   fogMode;
+        uniform vec3  fogColor;
+        uniform float fogDensity;
+        uniform float fogStart;
+        uniform float fogEnd;
+        uniform bool  fogUseHeight;
+        uniform float fogHeightStart;
+        uniform float fogHeightFalloff;
+
         vec3 ACESFilm(vec3 x) {
-            const float a=2.51, b=0.03, c=2.43, d=0.59, e=0.14;
-            return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0.0, 1.0);
+            const float a = 2.51, b = 0.03, c = 2.43, d = 0.59, e = 0.14;
+            return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
         }
 
         float LinearizeDepth(float depth) {
@@ -97,16 +112,36 @@ bool ShaderPostPorcessing::CreateShader()
             return (2.0 * nearPlane * farPlane) / (farPlane + nearPlane - z * (farPlane - nearPlane));
         }
 
+        vec3 GetWorldPos(vec2 uv, float rawDepth) {
+            vec4 clip = vec4(uv * 2.0 - 1.0, rawDepth * 2.0 - 1.0, 1.0);
+            vec4 world = uInverseVP * clip;
+            return world.xyz / world.w;
+        }
+
         float random(vec2 st) {
             return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
         }
 
         float bloomWeight(float brightness, float knee) {
-            float soft  = brightness - bloomThreshold + knee;
+            float soft = brightness - bloomThreshold + knee;
             soft = clamp(soft, 0.0, 2.0 * knee);
             soft = (soft * soft) / (4.0 * knee + 0.00001);
             return max(soft, brightness - bloomThreshold);
         }
+
+        float ComputeFogFactor(float depth) {
+            float factor = 0.0;
+            if (fogMode == 0) {
+                factor = clamp((depth - fogStart) / max(fogEnd - fogStart, 0.001), 0.0, 1.0);
+            } else if (fogMode == 1) {
+                factor = 1.0 - exp(-fogDensity * depth);
+            } else {
+                float v = fogDensity * depth;
+                factor = 1.0 - exp(-v * v);
+            }
+            return clamp(factor, 0.0, 1.0);
+        }
+
 
         void main() {
             vec2 uv = TexCoords;
@@ -115,13 +150,13 @@ bool ShaderPostPorcessing::CreateShader()
             if (uPass == 1 || uPass == 2) {
                 float weight[5] = float[](0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
                 vec3 result = texture(sceneTexture, uv).rgb * weight[0];
-                if (uPass == 1) { // Horizontal
-                    for(int i = 1; i < 5; ++i) {
+                if (uPass == 1) {
+                    for (int i = 1; i < 5; ++i) {
                         result += texture(sceneTexture, uv + vec2(uTexelSize.x * i * uBlurSpread, 0.0)).rgb * weight[i];
                         result += texture(sceneTexture, uv - vec2(uTexelSize.x * i * uBlurSpread, 0.0)).rgb * weight[i];
                     }
-                } else { // Vertical
-                    for(int i = 1; i < 5; ++i) {
+                } else {
+                    for (int i = 1; i < 5; ++i) {
                         result += texture(sceneTexture, uv + vec2(0.0, uTexelSize.y * i * uBlurSpread)).rgb * weight[i];
                         result += texture(sceneTexture, uv - vec2(0.0, uTexelSize.y * i * uBlurSpread)).rgb * weight[i];
                     }
@@ -134,7 +169,7 @@ bool ShaderPostPorcessing::CreateShader()
             if (distortionEnabled) {
                 vec2 centeredUV = uv - 0.5;
                 float r = length(centeredUV);
-                float distortionFactor = 1.0 + distortionIntensity * r * r; // Distorsión radial cuadrática
+                float distortionFactor = 1.0 + distortionIntensity * r * r;
                 uv = centeredUV * distortionFactor + 0.5;
             }
 
@@ -151,14 +186,11 @@ bool ShaderPostPorcessing::CreateShader()
 
             // --- Sharpen ---
             if (sharpenEnabled) {
-                vec2 texel = uTexelSize;
-                vec3 center = color;
-                vec3 left   = texture(sceneTexture, uv - vec2(texel.x, 0.0)).rgb;
-                vec3 right  = texture(sceneTexture, uv + vec2(texel.x, 0.0)).rgb;
-                vec3 up     = texture(sceneTexture, uv + vec2(0.0, texel.y)).rgb;
-                vec3 down   = texture(sceneTexture, uv - vec2(0.0, texel.y)).rgb;
-                
-                color = center + (center * 4.0 - left - right - up - down) * sharpenIntensity;
+                vec3 left  = texture(sceneTexture, uv - vec2(uTexelSize.x, 0.0)).rgb;
+                vec3 right = texture(sceneTexture, uv + vec2(uTexelSize.x, 0.0)).rgb;
+                vec3 up    = texture(sceneTexture, uv + vec2(0.0, uTexelSize.y)).rgb;
+                vec3 down  = texture(sceneTexture, uv - vec2(0.0, uTexelSize.y)).rgb;
+                color = color + (color * 4.0 - left - right - up - down) * sharpenIntensity;
             }
 
             // --- Radial Blur ---
@@ -177,44 +209,37 @@ bool ShaderPostPorcessing::CreateShader()
             if (dofEnabled) {
                 float blurFactor = 0.0;
                 if (dofTiltShift) {
-                    // Modo Tilt-Shift: desenfoque basado en la distancia vertical al centro
-                    float center = clamp(dofDistance / 1000.0, 0.0, 1.0); 
-                    float dist = abs(uv.y - center); 
-                    blurFactor = smoothstep(0.0, dofRange * 0.1, dist);
+                    float center = clamp(dofDistance / 1000.0, 0.0, 1.0);
+                    float dist   = abs(uv.y - center);
+                    blurFactor   = smoothstep(0.0, dofRange * 0.1, dist);
                 } else {
-                    // Modo Estándar: desenfoque basado en profundidad real
                     float depth = LinearizeDepth(texture(depthTexture, uv).r);
-                    // Transición suave: 0 en el foco, sube según la distancia
-                    blurFactor = smoothstep(0.0, max(dofRange, 1.0), abs(depth - dofDistance));
+                    blurFactor  = smoothstep(0.0, max(dofRange, 1.0), abs(depth - dofDistance));
                 }
-
                 vec3 blurredColor = texture(blurredTexture, uv).rgb;
-
-                // Mezclamos el desenfoque con el tinte
-                vec3 dofFinal = mix(blurredColor, dofTint, blurFactor * dofTintIntensity);
+                vec3 dofFinal     = mix(blurredColor, dofTint, blurFactor * dofTintIntensity);
                 color = mix(color, dofFinal, blurFactor * dofStrength);
             }
 
-            //Blur ---
+            // --- Global Blur ---
             if (blurEnabled) {
                 vec3 blurredColor = texture(blurredTexture, uv).rgb;
                 color = mix(color, blurredColor, blurIntensity);
             }
 
-            // --- Bloom (box-blur with soft-knee + tint) ---
+            // --- Bloom ---
             if (bloomEnabled) {
-                vec2 texel = uTexelSize;
-                vec3 bloomAccum = vec3(0.0);
-                float knee = bloomThreshold * bloomSoftKnee;
-                const int range = 3;
+                vec3  bloomAccum = vec3(0.0);
+                float knee       = bloomThreshold * bloomSoftKnee;
+                const int range  = 3;
                 for (int x = -range; x <= range; ++x) {
                     for (int y = -range; y <= range; ++y) {
-                        vec3  s   = texture(sceneTexture, uv + vec2(x, y) * texel * 2.5).rgb;
+                        vec3  s   = texture(sceneTexture, uv + vec2(x, y) * uTexelSize * 2.5).rgb;
                         float lum = dot(s, vec3(0.2126, 0.7152, 0.0722));
                         bloomAccum += s * bloomWeight(lum, knee);
                     }
                 }
-                bloomAccum /= float((range*2+1) * (range*2+1));
+                bloomAccum /= float((range * 2 + 1) * (range * 2 + 1));
                 color += bloomAccum * bloomIntensity * bloomTint;
             }
 
@@ -236,26 +261,42 @@ bool ShaderPostPorcessing::CreateShader()
                 color += (noise - 0.5) * grainIntensity;
             }
 
+            // --- Fog ---
+            if (fogEnabled) {
+                float waterMask = texture(waterMaskTexture, uv).r;
+                if (waterMask < 0.5) {
+                    float rawDepth  = texture(depthTexture, uv).r;
+                    vec3 worldPos   = GetWorldPos(uv, rawDepth);
+                    float dist      = length(worldPos - uCamPos);
+                    float fogFactor = ComputeFogFactor(dist);
+
+                    if (fogUseHeight) {
+                        float heightAboveBase = max(0.0, worldPos.y - fogHeightStart);
+                        float heightFog       = exp(-heightAboveBase * fogHeightFalloff * 10.0);
+                        fogFactor *= heightFog;
+                        fogFactor  = clamp(fogFactor, 0.0, 1.0);
+                    }
+
+                    color = mix(color, fogColor, fogFactor);
+                }
+            }
+
             // --- Color Grading ---
             if (gradingEnabled) {
                 color *= whiteBalance;
-                // Color filter, exposure, contrast, saturation
                 color *= (colorFilter * exposure);
                 color  = (color - 0.5) * contrast + 0.5;
                 color  = mix(vec3(dot(color, vec3(0.2126, 0.7152, 0.0722))), color, saturation);
 
-                // Tonemapping
                 if      (toneMapper == 0) color = ACESFilm(color);
                 else if (toneMapper == 1) color = color / (color + vec3(1.0));
-                // toneMapper == 2 -> None
 
-                // Gamma AFTER tonemapping (correct order)
                 if (gamma > 0.001) color = pow(max(color, vec3(0.0)), vec3(1.0 / gamma));
             }
 
             FragColor = vec4(color, 1.0);
         }
     )";
-    
+
     return LoadFromSource(ppVertex, ppFragment);
 }

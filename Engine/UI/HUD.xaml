@@ -21,7 +21,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <RowDefinition Height="839*"/>
             </Grid.RowDefinitions>
 
-            <!-- HUD superior izquierda -->
             <Grid x:Name="HudGrid" HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Margin="20,20,0,0"
@@ -34,7 +33,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                        VerticalAlignment="Top"
                        Stretch="Fill"/>
 
-                <!-- Barra de vida -->
                 <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
                       HorizontalAlignment="Left"
                       ClipToBounds="True">
@@ -47,7 +45,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Grid>
                 </Grid>
 
-                <!-- Barra de stamina -->
                 <Grid x:Name="StaminaBarContainer" Margin="163,54,86,93"
                       HorizontalAlignment="Left"
                       ClipToBounds="True">
@@ -60,7 +57,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Grid>
                 </Grid>
 
-                <!-- Pociones usadas -->
                 <StackPanel x:Name="UsedPotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Height="100" Width="400" Margin="229,35,-129,0">
@@ -146,7 +142,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
-                <!-- Pociones disponibles -->
                 <StackPanel x:Name="PotionStackPanel" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Height="100" Width="400" Margin="229,35,-129,0">
@@ -232,14 +227,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                 </StackPanel>
 
-                <!-- ═══════════════════════════════════════════════
-                     MÁSCARAS — posiciones FIJAS:
-                       Columna 0 = Apollo  (izquierda)
-                       Columna 1 = Hermes  (centro)
-                       Columna 2 = Ares    (derecha)
-                     El Lua solo alterna _Active / _Inactive,
-                     nunca mueve ningún elemento de columna.
-                ════════════════════════════════════════════════ -->
                 <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -250,23 +237,23 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <!-- Apollo — izquierda (columna 0) -->
                     <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Apolo_Inactive" Source="Textures/Apolo.PNG"
-                               Opacity="0.4" Height="45" Margin="2,35,-2,-35"/>
-                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35"/>
+                               Opacity="0.4" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
                     </Grid>
 
                     <!-- Hermes — centro (columna 1) -->
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Hermes_Inactive" Source="Textures/Hermes.PNG"
-                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12"/>
+                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
                         <Image x:Name="Image_Hermes_Active"   Source="Textures/Hermes.PNG"
-                               Height="75" Width="75" Margin="-3,-12,3,12"/>
+                               Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
                     </Grid>
 
                     <!-- Ares — derecha (columna 2) -->
                     <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="Image_Ares_Inactive" Source="Textures/Ares.PNG"
-                               Opacity="0.4" Height="45" Margin="-4,35,4,-35"/>
-                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35"/>
+                               Opacity="0.4" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
                     </Grid>
                 </Grid>
 
@@ -438,72 +425,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
             </Grid>
 
-            <!-- Prompt de interacción -->
             <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="38,30,-1396,-869"/>
 
-            <!-- Hints de controles -->
-            <Grid VerticalAlignment="Bottom"
-                  HorizontalAlignment="Center"
-                  Margin="0,0,562,40"
-                  Width="600" Grid.Column="1" Grid.Row="1">
-                <Border x:Name="ControlsHintPanel" Visibility="Collapsed"
-                        CornerRadius="8"
-                        Padding="12,8,12,8"
-                        HorizontalAlignment="Center">
-                    <Border.Background>
-                        <SolidColorBrush Color="#AA000000"/>
-                    </Border.Background>
-                    <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-
-                        <StackPanel x:Name="HintSlot1"
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Margin="0,0,16,0">
-                            <Grid Margin="0,0,6,0">
-                                <Image x:Name="HintImg_Caminar"         Source="Textures/Caminar.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_AtaqueNormal"    Source="Textures/AtaqueNormal.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_AtaqueFuerte"    Source="Textures/AtaqueFuerte.PNG"    Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_Correr"          Source="Textures/Correr.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_CambiarMascaras" Source="Textures/CanviarMascaras.PNG" Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_Health"          Source="Textures/Health.PNG"          Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg_Berserk"         Source="Textures/Berserk.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
-                            </Grid>
-                            <Grid>
-                                <Image x:Name="HintKey_WASD"  Source="Textures/wasd.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_E"     Source="Textures/E.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_Q"     Source="Textures/Q.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_Ctrl"  Source="Textures/Ctrl.PNG"  Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_Shift" Source="Textures/Shift.PNG" Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_R"     Source="Textures/R.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_F"     Source="Textures/F.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey_8"     Source="Textures/8.PNG"     Width="120" Height="120" Visibility="Collapsed"/>
-                            </Grid>
-                        </StackPanel>
-
-                        <StackPanel x:Name="HintSlot2"
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Visibility="Collapsed">
-                            <Grid Margin="0,0,6,0">
-                                <Image x:Name="HintImg2_Roll"         Source="Textures/Roll.PNG"         Width="150" Height="150" Visibility="Collapsed"/>
-                                <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="150" Height="150" Visibility="Collapsed"/>
-                            </Grid>
-                            <Grid>
-                                <Image x:Name="HintKey2_Ctrl" Source="Textures/Ctrl.PNG" Width="120" Height="120" Visibility="Collapsed"/>
-                                <Image x:Name="HintKey2_E"    Source="Textures/E.PNG"    Width="120" Height="120" Visibility="Collapsed"/>
-                            </Grid>
-                        </StackPanel>
-
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-            <!-- ═══════════════════════════════════════
-                 CINEMÁTICA - Panel a pantalla completa
-                 ═══════════════════════════════════════ -->
             <Grid x:Name="CinematicPanel" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
@@ -540,7 +463,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </Grid>
 
-                <!-- PÁGINA 2: 2 viñetas arriba + 1 grande abajo (texto off amarillo) -->
                 <Grid x:Name="Page2" Visibility="Collapsed">
                     <Border x:Name="Page2_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,984,562">
                         <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
@@ -571,7 +493,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Border>
                 </Grid>
 
-                <!-- PÁGINA 3: viñeta grande izq + 2 derechas -->
                 <Grid x:Name="Page3" Visibility="Collapsed">
                     <Border x:Name="Page3_V1" Visibility="Collapsed" BorderThickness="2" Margin="40,40,1000,40">
                         <Border.BorderBrush><SolidColorBrush Color="#FFFFFFFF"/></Border.BorderBrush>
@@ -604,74 +525,15 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
             </Grid>
 
-            <!-- Overlay negro para fade de cinemática (siempre encima del resto) -->
             <Grid x:Name="CinematicFade" Visibility="Collapsed" IsHitTestVisible="False" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="#FF000000"/>
                 </Grid.Background>
             </Grid>
-            <Grid x:Name="MaskObtainedPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#91000000" IsHitTestVisible="False">
-                <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
-                    <TextBlock.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform Y="32"/>
-                        </TransformGroup>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <Grid>
-                    <Image x:Name="MaskImg_Ares" Source="Textures/Ares.PNG" Margin="743,126,743,485" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Apolo" Source="Textures/Apolo.PNG" Margin="683,125,683,484" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="731,123,731,482" Visibility="Collapsed"/>
-                </Grid>
-                <TextBlock x:Name="MaskObtainedName" Margin="362,599,362,342" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FFFFFFFF" StrokeThickness="70" FontFamily="Times New Roman" FontSize="75" TextWrapping="Wrap"/>
-                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="624" Height="381" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="487" Height="254" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Telemaco.PNG" Width="198" Height="261" Margin="100,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q1" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Hermes.png" Width="431" Height="301" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="145" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Ares.png" Height="332"/>
-                    <Image x:Name="MaskKey_Q2" Source="Textures/Q.PNG" Width="117" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
-            <Grid x:Name="ChangeMaskTutorialPanel" ColumnSpan="2" RowSpan="2" Visibility="Collapsed" Background="#00000000" IsHitTestVisible="False">
-                <Rectangle Opacity="0.598" Fill="#FF000000" Stroke="#FF000000">
-                    <Rectangle.OpacityMask>
-                        <RadialGradientBrush RadiusX="0.18837637" Opacity="0.986" RadiusY="0.2747798" GradientOrigin="0.0699632,0.102248" Center="0.0699632,0.102248">
-                            <RadialGradientBrush.RelativeTransform>
-                                <TransformGroup>
-                                    <ScaleTransform CenterY="0.0970609" CenterX="0.0666536"/>
-                                    <SkewTransform CenterY="0.0970609" CenterX="0.0666536"/>
-                                    <RotateTransform Angle="1.4686966" CenterX="0.06996321" CenterY="0.10224788"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </RadialGradientBrush.RelativeTransform>
-                            <GradientStop Offset="0.358"/>
-                            <GradientStop Color="#FF000000" Offset="0.62410766"/>
-                            <GradientStop Color="#FF000000" Offset="0.51369244"/>
-                        </RadialGradientBrush>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-                <Image Source="Textures/CanviarMascaras.PNG" Margin="831,672,591,105"/>
-                <Image Source="Textures/8.PNG" Margin="704,787,1124,201"/>
-            </Grid>
 
         </Grid>
     </Viewbox>
 
-    <!--
-    ═══════════════════════════════════════════════════════════════════════════
-    MissionGrid — contador de estatuas destruidas
-    ═══════════════════════════════════════════════════════════════════════════
-    -->
     <Grid x:Name="MissionGrid">
         <Grid.Resources>
 
@@ -765,48 +627,47 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <RowDefinition Height="741*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right">
-            <Image x:Name="MissionBackgroundImage" Source="Textures/MissionBackground.PNG"/>
-        </Viewbox>
-        <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-            <TextBlock x:Name="MissionText" TextWrapping="Wrap" FontFamily="./#ForgottenUncial" TextAlignment="Center" Text="0/3" />
-        </Viewbox>
+        <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right"/>
+        <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
+        <Canvas Margin="-7,0,7,0" Grid.ColumnSpan="3" Grid.RowSpan="3">
+            <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
+                <Image x:Name="LockOn_Keyboard" Source="Textures/R.PNG" Width="30" Height="30"/>
+            </Grid>
+            <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Transform3D>
+                        <noesis:CompositeTransform3D/>
+                    </Image.Transform3D>
+                </Image>
+                <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Transform3D>
+                        <noesis:CompositeTransform3D/>
+                    </Image.Transform3D>
+                </Image>
+            </Grid>
+            <Grid x:Name="StatuePrompt" Width="30" Height="30" Visibility="Collapsed">
+                <Image x:Name="Statue_Gamepad" Source="Textures/X.PNG" Width="30" Height="30"/>
+                <Image x:Name="Statue_Keyboard" Source="Textures/E.PNG" Width="30" Height="30"/>
+            </Grid>
+        </Canvas>
 
     </Grid>
-
-    <Canvas>
-        <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
-            <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
-            <Image x:Name="LockOn_Keyboard" Source="Textures/Shift.PNG" Width="30" Height="30"/>
-        </Grid>
-        <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">
-            <Image x:Name="InputKeyText" RenderTransformOrigin="0.5,0.5" Source="Textures/F.PNG" Width="30" Height="30">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-                <Image.Transform3D>
-                    <noesis:CompositeTransform3D/>
-                </Image.Transform3D>
-            </Image>
-            <Image x:Name="InputGamepadIcon" RenderTransformOrigin="0.5,0.5" Source="Textures/A.PNG" Width="30" Height="30">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-                <Image.Transform3D>
-                    <noesis:CompositeTransform3D/>
-                </Image.Transform3D>
-            </Image>
-        </Grid>
-    </Canvas>
 
 </Grid>

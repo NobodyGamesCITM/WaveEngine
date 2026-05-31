@@ -20,10 +20,13 @@ public = {
 local portalState = 0 
 local activeFires = 0
 local portalMatComp = nil
+local portalSource = nil
+local brokenChains  = nil
 local inCinematic = false
 local cinTimer = 0.0
 local pendingMaterialUpdate = false
 local fireParticles = {}
+local fireSources = {}
 
 local function UpdatePortalVisuals(self)
     if not portalMatComp then 
@@ -51,8 +54,16 @@ local function UpdatePortalVisuals(self)
         Engine.Log("[PortalManager] Material del portal actualizado al UID: " .. cleanUID)
     end
 
-    if activeFires <= 3 and fireParticles[activeFires] then
+    if activeFires <= 3 and fireParticles[activeFires] and fireSources[activeFires] then
         fireParticles[activeFires]:Play()
+        fireSources[activeFires]:SelectPlayAudioEvent("SFX_TorchFire")
+        if portalSource then 
+            portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
+            Engine.Log("[PortalManager] Played SFX_PortalFireOn")
+        else
+            Engine.Log("[PortalManager] Portal Audio Source not found!")
+        end
+        
         Engine.Log("[PortalManager] Fuego " .. activeFires .. " encendido.")
     end
 end
@@ -65,6 +76,7 @@ function Start(self)
     local portalObj = GameObject.Find(self.public.portalMeshName)
     if portalObj then
         portalMatComp = portalObj:GetComponent("Material")
+        portalSource = portalObj:GetComponent("Audio Source")
     else
         Engine.Log("[PortalManager] ERROR: No se encontró el mesh del portal.")
     end
@@ -73,8 +85,13 @@ function Start(self)
         local fireObj = GameObject.Find("Fire" .. i)
         if fireObj then
             local ps = fireObj:GetComponent("ParticleSystem")
+            local audiosource = fireObj:GetComponent("Audio Source")
+
             if ps then ps:Stop() end 
+            if audiosource then audiosource:StopAudioEvent() end
+            
             fireParticles[i] = ps
+            fireSources[i] = audiosource
         end
     end
 
@@ -94,10 +111,28 @@ function Start(self)
         if _G.PlayerInstance then _G.PlayerInstance.public.canMove = false end
 
         local dustObj = GameObject.FindInChildren(statueObj, "DustParticles")
+        local chainsObj = GameObject.FindInChildren(statueObj, "ChainParticles")
+        local audioObj = GameObject.FindInChildren(statueObj, "StatueSource")
+        brokenChains = GameObject.FindInChildren(statueObj, "broken_chains")
+
         if dustObj then
             local ps = dustObj:GetComponent("ParticleSystem")
             if ps then ps:Play() end
         end
+        
+        if chainsObj then
+            local ps = chainsObj:GetComponent("ParticleSystem")
+            if ps then ps:Play() end
+        end
+
+        if audioObj then
+            local chainSFX = audioObj:GetComponent("Audio Source")
+            if chainSFX then chainSFX:SelectPlayAudioEvent("SFX_ChainBreak") 
+            else 
+                Engine.Log("[Portal Manager] Failed to retrieve Audio Source Component from Key Statue "..tostring(statueId)) 
+            end
+        end
+
 
         if _G.PlayStatueCinematic then
             _G.PlayStatueCinematic(statueId)
@@ -113,6 +148,13 @@ function Update(self, dt)
     if not inCinematic then return end
 
     cinTimer = cinTimer + dt
+
+    if brokenChains then
+
+        if cinTimer >= 0.5 and not brokenChains:IsActive() then 
+            brokenChains:SetActive(true)
+        end
+    end
 
     if pendingMaterialUpdate and cinTimer >= self.public.cinematicMidPoint then
         UpdatePortalVisuals(self)

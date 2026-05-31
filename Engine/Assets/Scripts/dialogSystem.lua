@@ -1,9 +1,12 @@
 local TYPEWRITER_SPEED = 0.03
-local DEFAULT_SEQUENCE = "intro"
 
 public = {
     updateWhenPaused = true
 }
+
+-- audiosources
+local skipSFX = nil
+local charSFX = nil
 
 local canvas     = nil
 local allDialogs = nil
@@ -12,7 +15,7 @@ local wasAmbient = false
 _G._IsDialogActive = false
 
 local PORTRAIT_MAP = {
-    ["Telemaco"]    = "Portrait_Telemaco",
+    ["Telémaco"]    = "Portrait_Telemaco",
     ["Atenea"]      = "Portrait_Atenea",
     ["John cartel"] = "Portrait_JohnCartel",
 }
@@ -63,6 +66,7 @@ local state = {
     displayedChars  = 0,
     timer           = 0.0,
     isComplete      = false,
+    inputConsumed   = false,   
 }
 
 local function setPortrait(character)
@@ -85,7 +89,6 @@ local function loadDialogs()
         return false
     end
     allDialogs = result
-    Engine.Log("[DialogSystem] Dialogs loaded OK")
     return true
 end
 
@@ -102,30 +105,40 @@ end
 local function loadDialogEntry(entry)
     UI.SetElementText("CharacterName", entry.character or "")
     setPortrait(entry.character)
+
+    if charSFX then
+        if entry.character == "Atenea" then
+            charSFX:SelectPlayAudioEvent("UI_OwlHoot")
+            --Engine.Log("Playing Owl SFX")
+        elseif entry.character == "Telémaco" or entry.character == "Telemaco" then
+            Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
+            charSFX:SelectPlayAudioEvent("UI_TeleVocals")
+            --Engine.Log("Playing Telemachus Voice SFX with mood: "..tostring(entry.mood))
+        end
+    else
+        Engine.Log("[DialogSystem] Character Voice Audio Source not found!")
+    end
+
     state.fullText       = entry.text or ""
     state.fullTextLen    = utf8len(state.fullText)
     state.displayedChars = 0
     state.timer          = 0.0
     state.isComplete     = false
     lastDisplayedChars   = -1
+    state.inputConsumed  = false
     UI.SetElementVisibility("ContinueIcon", false)
     updateUI()
 end
 
 local function startSequence(sequenceId)
-    
-    Engine.Log("[DialogSystem] >>> TriggerSequence llamado: " .. tostring(sequenceId))
-    Engine.Log("[DialogSystem] >>> CurrentXAML = " .. tostring(_G.CurrentXAML))
-
-    if not loadDialogs() then
-        Engine.Log("[DialogSystem] BLOQUEADO: loadDialogs() falló")
-        return
-    end
+    if not loadDialogs() then return end
 
     local seq = allDialogs[sequenceId]
     if not seq then
-        Engine.Log("[DialogSystem] BLOQUEADO: secuencia no encontrada -> " .. tostring(sequenceId))
+        Engine.Log("[DialogSystem] ERROR: secuencia no encontrada -> " .. tostring(sequenceId))
         return
+    else
+        --Engine.Log("[DialogSystem] secuencia encontrada -> " .. tostring(sequenceId))
     end
 
     state.active          = true
@@ -133,23 +146,29 @@ local function startSequence(sequenceId)
     state.currentIndex    = 1
     _G._IsDialogActive    = true
     _G.DialogActive       = true
-    if _G.UpdatePauseState then _G.UpdatePauseState() end
-    wasAmbient            = _G.DialogAmbientMode or false
-    _G.DialogAmbientMode  = false
 
-    Engine.Log("[DialogSystem] Canvas: " .. tostring(canvas))
-    Engine.Log("[DialogSystem] DialogBox -> SetVisible true")
+    wasAmbient           = _G.DialogAmbientMode or false
+    _G.DialogAmbientMode = false
+
+    if not wasAmbient then
+        _G._DialogBlockingPlayer = true
+        if _G.SetPlayerCanMove then _G.SetPlayerCanMove(false) end
+    end
+
     UI.SetElementVisibility("DialogBox", true)
+   
 
     if wasAmbient then
         UI.SetElementVisibility("ContinueIcon", false)
     end
 
     loadDialogEntry(state.currentSequence[1])
-    Engine.Log("[DialogSystem] Started OK: " .. sequenceId)
+
 end
 
 function ForceCloseDialog()
+
+    
     if not state.active then return end
     if currentPortrait then
         UI.SetElementVisibility(currentPortrait, false)
@@ -164,10 +183,13 @@ function ForceCloseDialog()
     UI.SetElementVisibility("ContinueIcon", false)
     UI.SetElementText("DialogText", "")
     UI.SetElementText("CharacterName", "")
-    _G.DialogActive = false
-    if _G.UpdatePauseState then _G.UpdatePauseState() end
+    _G.DialogActive          = false
+    _G._DialogBlockingPlayer = false
+    if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
+
+
     wasAmbient = false
-    Engine.Log("[DialogSystem] Force closed")
+
 end
 
 function SuspendDialog()
@@ -202,22 +224,33 @@ local function closeDialog()
     lastDisplayedChars    = -1
     UI.SetElementVisibility("DialogBox", false)
     UI.SetElementVisibility("ContinueIcon", false)
-    _G.DialogActive = false
-   if _G.UpdatePauseState then _G.UpdatePauseState() end
+    _G.DialogActive          = false
+    _G._DialogBlockingPlayer = false
+    if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
     wasAmbient = false
-    Engine.Log("[DialogSystem] Closed")
 end
 
 local function onAdvancePressed()
     if not state.active then return end
     if wasAmbient then return end
+
+    if state.inputConsumed then return end
+    state.inputConsumed = true
+
+    if skipSFX and not Audio.IsEventPlaying("UI_SkipDialog") then 
+        skipSFX:SelectPlayAudioEvent("UI_SkipDialog")
+    else
+       --Engine.Log("[DialogSystem] Unable to play Skip Dialog Sound") 
+    end
+
     if not state.isComplete then
         state.displayedChars = state.fullTextLen
         state.isComplete     = true
         lastDisplayedChars   = -1
         updateUI()
-        return
+        return  
     end
+
     local nextIndex = state.currentIndex + 1
     if nextIndex <= #state.currentSequence then
         state.currentIndex = nextIndex
@@ -225,6 +258,34 @@ local function onAdvancePressed()
     else
         closeDialog()
     end
+
+    
+
+end
+
+local function FindDialogAudioSources(self)
+
+    local skipSource = GameObject.FindInChildren(self.gameObject, "SkipSource")
+    if skipSource then 
+        skipSFX = skipSource:GetComponent("Audio Source")
+        if not skipSFX then
+            Engine.Log("[DialogSystem] Unable to retrieve Skip Audio Source Component")
+        end
+    else
+        --Engine.Log("[DialogSystem] Skip Audio GameObject NOT Found!")
+    end
+
+    local charSource = GameObject.FindInChildren(self.gameObject, "CharSource")
+    if charSource then 
+        charSFX = charSource:GetComponent("Audio Source")
+        if not charSFX then
+            Engine.Log("[DialogSystem] Unable to retrieve Character Audio Source Component")
+        end
+    else
+        --Engine.Log("[DialogSystem] Character Audio GameObject NOT Found!")
+    end
+
+
 end
 
 function TriggerSequence(sequenceId)
@@ -232,33 +293,52 @@ function TriggerSequence(sequenceId)
 end
 
 function Start(self)
-    canvas = self.gameObject:GetComponent("Canvas")
-    if not canvas then
-        Engine.Log("[DialogSystem] ERROR: No ComponentCanvas found")
-        return
-    end
-    UI.SetElementVisibility("Portrait_Telemaco", false)
-    UI.SetElementVisibility("Portrait_Atenea", false)
-    UI.SetElementVisibility("Portrait_JohnCartel", false)
-    UI.SetElementVisibility("DialogBox", false)
-    UI.SetElementVisibility("ContinueIcon", false)
-    UI.SetElementText("DialogText", "")
-    UI.SetElementText("CharacterName", "")
+    _G.TriggerSequence   = TriggerSequence
     _G.ForceCloseDialog  = ForceCloseDialog
     _G.SuspendDialog     = SuspendDialog
     _G.ResumeDialog      = ResumeDialog
-    _G.TriggerSequence   = TriggerSequence
     _G.DialogActive      = false
     _G.DialogAmbientMode = false
     _G.AdvanceDialog     = onAdvancePressed
-    Engine.Log("[DialogSystem] Ready")
+    _G.UpdatePauseState  = function() end
+
+    FindDialogAudioSources(self)
+
+    canvas = self.gameObject:GetComponent("Canvas")
+    if not canvas then
+        Engine.Log("[DialogSystem] ERROR: Canvas no encontrado")
+        return
+    end
+
+    local ok, err = pcall(function()
+        UI.SetElementVisibility("Portrait_Telemaco", false)
+        UI.SetElementVisibility("Portrait_Atenea", false)
+        UI.SetElementVisibility("Portrait_JohnCartel", false)
+        UI.SetElementVisibility("DialogBox", false)
+        UI.SetElementVisibility("ContinueIcon", false)
+        UI.SetElementText("DialogText", "")
+        UI.SetElementText("CharacterName", "")
+    end)
+
+    if not ok then
+        Engine.Log("[DialogSystem] WARN al limpiar UI: " .. tostring(err))
+    end
 end
 
 function Update(self, dt)
+
+    if not skipSFX or not charSFX then
+        FindDialogAudioSources(self)
+    end
+
     if _DialogSystem_pendingSequence and _DialogSystem_pendingSequence ~= "" then
         local seq = _DialogSystem_pendingSequence
         _DialogSystem_pendingSequence = ""
         startSequence(seq)
+    end
+
+    if state.active then
+        state.inputConsumed = false
     end
 
     if not state.active or state.isComplete then return end

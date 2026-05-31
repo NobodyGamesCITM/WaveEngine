@@ -19,14 +19,18 @@ public = {
     fadeSpeed   = 1.0,
     musicFadeTime = 2.0,
     currentLevel = "Level1",
-    loadingDuration = 1.7,
+    loadingDuration = 2.5,
     maxVolume = 100.0,
     fullIntro = false
 }
 
 function Start(self)
-    if self.public.currentLevel == "Level1" and self.public.fullIntro == true and self.gameObject.name == "SceneManager" then 
+
+    
+    if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
         _G._PlayerController_introAnim = true 
+    else
+        _G._PlayerController_introAnim = false 
     end
     
     currentState = State.LOADING
@@ -65,7 +69,7 @@ function Update(self, dt)
     end
 	
 	if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = self.public.currentScene 
+        local sceneVal = self.public.currentLevel
         local musicState = "None"
         
         if self.public.currentLevel == "Level1" then 
@@ -109,7 +113,7 @@ function Update(self, dt)
 
     elseif currentState == State.LOADING then
         loadingTimer = loadingTimer + dt
-        if loadingTimer >= (self.public.loadingDuration or 1.7) then
+        if loadingTimer >= (self.public.loadingDuration or 2.5) then
             if _G._NewSceneLoaded then
                 currentState = State.FADE_OUT
                 _G._NewSceneLoaded = false

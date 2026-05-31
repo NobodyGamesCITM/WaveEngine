@@ -173,6 +173,7 @@ private:
     void DrawCanvasList(const CameraLens* camera);
     void DrawPostProcessing(CameraLens* camera);
     void BuildRenderLists(const CameraLens* camera);
+    void ResizeWaterMask(int width, int height);
 
     // Shaders
     std::unique_ptr<Shader> defaultShader;
@@ -251,13 +252,19 @@ private:
     std::vector<RenderLine> linesList;
     std::vector<CanvasObject> canvasList;
 
+    // Water Mask
+    GLuint waterMaskFBO     = 0;
+    GLuint waterMaskTexture = 0;
+    GLuint waterMaskRBO     = 0;
+    int    waterMaskW       = 0;
+    int    waterMaskH       = 0;
 
     // Water depth
     GLuint waterDepthFBO = 0;
     GLuint waterDepthTex = 0;
     int waterDepthW = 0;
     int waterDepthH = 0;
-
+    
     // Post Processing
     int postProcessCurrentW = 0;
     int postProcessCurrentH = 0;

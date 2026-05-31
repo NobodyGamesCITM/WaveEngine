@@ -5,26 +5,12 @@ local currentDisplayHealth  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
 
--- Fixed display order for masks: Apollo (Left), Hermes (Middle), Ares (Right)
 local MASK_DISPLAY_ORDER = { "Apolo", "Hermes", "Ares" }
 
 local prevHasHermes  = false
 local prevHasAres    = false
 local prevHasApolo   = false
 local prevActiveMask = ""
-
--- ─── Mission globals
-_G.TotalStatuesToDestroy = _G.TotalStatuesToDestroy or 0
-_G.MissionVarName        = _G.MissionVarName        or "keysCollected"
-
-local lastDisplayedCount = -1
-local lastDisplayedTotal = -1
-
--- Mission panel animation state
-local missionVisible     = false
-local missionHideTimer   = 0.0
-local MISSION_HIDE_DELAY = 3.0  
-
 local myCanvas = nil
 
 -- ─── Helpers
@@ -100,46 +86,6 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
     end
 end
 
--- ─── Mission / Collectibles
-local function RefreshMissionUI()
-    local currentLevel = _G.CurrentLevel or ""
-
-    if currentLevel ~= "Level1" then
-        UI.SetElementVisibility("MissionGrid", false)
-        return
-    end
-
-    local varName      = _G.MissionVarName or "keysCollected"
-    local currentCount = _G[varName] or 0
-    local total        = _G.TotalStatuesToDestroy or 3
-
-    local countInt = math.floor(currentCount)
-    local totalInt = math.floor(total)
-
-    if totalInt <= 0 then
-        UI.SetElementVisibility("MissionGrid", false)
-        return
-    end
-
-    UI.SetElementVisibility("MissionGrid", true)
-
-    UI.SetElementText("MissionText", tostring(countInt) .. "/" .. tostring(totalInt))
-
-    if countInt ~= lastDisplayedCount then
-        if lastDisplayedCount ~= -1 then
-            if myCanvas then
-                myCanvas:PlayStoryboard("MissionExpand")
-                myCanvas:PlayStoryboard("MissionCountBump")
-            end
-            missionVisible   = true
-            missionHideTimer = MISSION_HIDE_DELAY
-        end
-        lastDisplayedCount = countInt
-        lastDisplayedTotal = totalInt
-    end
-end
-_G.HUD_RefreshStatuesDestroyed = RefreshMissionUI
-
 -- ─── API pública
 function ForceRefreshHUD()
     if _G.PlayerInstance and _G.PlayerInstance.public then
@@ -174,22 +120,19 @@ function ForceRefreshHUD()
     prevHasAres    = hasAres
     prevHasApolo   = hasApolo
     prevActiveMask = activeMask
-
-    UI.SetElementVisibility("MissionGrid", false)
-    lastDisplayedCount = -1
-    lastDisplayedTotal = -1
 end
 _G.ForceRefreshHUD = ForceRefreshHUD
 
 function Start(self)
     myCanvas = self.gameObject:GetComponent("Canvas")
     ForceRefreshHUD()
-    missionVisible   = false
-    missionHideTimer = 0.0
-    RefreshMissionUI()
 end
 
 function Update(self, dt)
+    if not myCanvas or myCanvas:GetCurrentXAML() ~= "HUD.xaml" then
+        return
+    end
+
     -- Barras
     if _G.PlayerInstance and _G.PlayerInstance.public then
         local p = _G.PlayerInstance.public
@@ -203,9 +146,6 @@ function Update(self, dt)
     local berserkPotions = (_G.PotionSystem and _G.PotionSystem.public)
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
-
-    -- Misión
-    RefreshMissionUI()
 
     -- Máscaras
     local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
@@ -221,14 +161,5 @@ function Update(self, dt)
         prevHasAres    = hasAres
         prevHasApolo   = hasApolo
         prevActiveMask = activeMask
-    end
-
-    if missionVisible and missionHideTimer > 0 then
-        missionHideTimer = missionHideTimer - dt
-        if missionHideTimer <= 0 then
-            missionHideTimer = 0
-            missionVisible   = false
-            if myCanvas then myCanvas:PlayStoryboard("MissionCollapse") end
-        end
     end
 end

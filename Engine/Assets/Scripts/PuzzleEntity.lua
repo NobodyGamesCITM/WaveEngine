@@ -18,20 +18,44 @@ local targetYaw = 0.0
 local setupDone = false
 local playerAttackHandled = false
 local puzzleEntSFX = nil
+local dustPs = nil
+
+local function FindDustParticles(self)
+
+    if self.public.entityType ~= "Rock" then return end
+
+    local dustVFX = GameObject.FindInChildren(self.gameObject, "DustParticles")
+    if dustVFX then 
+        dustPs = dustVFX:GetComponent("ParticleSystem")
+        if not dustPs then 
+            Engine.Log("[PuzzleEntity] Unable to retrieve Dust ParticleSystem on Rock")
+        else
+            dustPs:Stop()
+            --Engine.Log("[PuzzleEntity] DustPs FOUND!")
+        end
+    else
+        
+        Engine.Log("[PuzzleEntity] Unable to find Dust VFX GameObject")
+        
+    end
+end
 
 function Start(self)
     local rot = self.transform.rotation
     currentYaw = rot.y
     targetYaw = rot.y
+    --dustPs = nil
     --audio
     puzzleEntSFX = self.gameObject:GetComponent("Audio Source")
     if not puzzleEntSFX then 
         Engine.Log("[PUZZLE ENTITY] Could not retrieve Puzzle Entity Audio Source")
     else
-        Engine.Log("[PUZZLE ENTITY] Puzzle Entity Audio Source found!")
+        --Engine.Log("[PUZZLE ENTITY] Puzzle Entity Audio Source found!")
     end
-
+    if self.public.entityType == "Rock" then FindDustParticles(self) end
 end
+
+
 
 -- Esta función hace la lógica del impacto con la Entity, se llama por Trigger o Distancia porque no detecta según como, pdte de mejorar la llamada
 local function ProcessHit(self, attackType, playerObj)
@@ -39,7 +63,7 @@ local function ProcessHit(self, attackType, playerObj)
     
     Engine.Log("[PuzzleEntity] IMPACTO Tipo: " .. attackType .. " en " .. self.public.entityType)
     
-    local isHeavy = (attackType == "heavy" or attackType == "charge")
+    local isHeavy = (attackType == "charge")
     local isLight = (attackType == "light")
 
     -- Statue LightAttack Rotation
@@ -87,6 +111,12 @@ local function ProcessHit(self, attackType, playerObj)
                 isMoving = true
                 Engine.Log("[PuzzleEntity] Movement is possible, no object in the way.")
                 if puzzleEntSFX then puzzleEntSFX:SelectPlayAudioEvent("SFX_RockMove") end
+
+
+                if self.public.entityType == "Rock" then
+                    if not dustPs then FindDustParticles(self) end
+                    if dustPs then dustPs:Play() end
+                end
             end
         end
         

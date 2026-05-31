@@ -46,6 +46,8 @@
 #include "LightManager.h"
 #include "Renderer.h"
 #include "ComponentSkybox.h"
+#include "ComponentCameraZone.h"
+#include "ComponentCinematicCamera.h"
 
 #include "Log.h"
 #include "ComponentScript.h"
@@ -331,16 +333,16 @@ void InspectorWindow::Draw()
             DrawLightComponent(component);
             break;
         case ComponentType::CAMERA_ZONE:
-            if (ImGui::CollapsingHeader("Camera Zone", ImGuiTreeNodeFlags_DefaultOpen)) {
-                DrawComponentContextMenu(component, true);
-                component->OnEditor();
-            }
+
+            DrawCameraZoneComponent(component);
+
+           
             break;
         case ComponentType::CINEMATIC_CAMERA:
-            if (ImGui::CollapsingHeader("Cinematic Camera", ImGuiTreeNodeFlags_DefaultOpen)) {
-                DrawComponentContextMenu(component, true);
-                component->OnEditor();
-            }
+
+            DrawCinematicCameraComponent(component);
+
+            
             break;
         case ComponentType::SKYBOX:
             DrawSkyboxComponent(component);
@@ -1002,9 +1004,12 @@ void InspectorWindow::DrawParticleComponent(Component* component)
     ComponentParticleSystem* particleComp = static_cast<ComponentParticleSystem*>(component);
     if (!particleComp) return;
 
+    std::string popupID = particleComp->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
     bool open = ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(particleComp, true);
     if (open) particleComp->OnEditor();
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawRigidodyComponent(Component* component)
@@ -1026,10 +1031,13 @@ void  InspectorWindow::DrawBoxColliderComponent(Component* component)
 
     if (boxCollider != nullptr)
     {
-        if (ImGui::CollapsingHeader("Box Collider", ImGuiTreeNodeFlags_DefaultOpen)) {
+        std::string popupID = boxCollider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+        ImGui::PushID(popupID.c_str());
+        if (ImGui::CollapsingHeader(boxCollider->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
             DrawComponentContextMenu(boxCollider, true);
             boxCollider->OnEditor();
         }
+        ImGui::PopID();
     }
 }
 
@@ -1054,10 +1062,13 @@ void  InspectorWindow::DrawCapsuleColliderComponent(Component* component)
 
     if (Collider != nullptr)
     {
+        std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+        ImGui::PushID(popupID.c_str());
         if (ImGui::CollapsingHeader("Capsule Collider", ImGuiTreeNodeFlags_DefaultOpen)) {
             DrawComponentContextMenu(Collider, true);
             Collider->OnEditor();
         }
+        ImGui::PopID();
         
     }
 }
@@ -1066,6 +1077,9 @@ void  InspectorWindow::DrawPlaneColliderComponent(Component* component)
 {
     PlaneCollider* Collider = static_cast<PlaneCollider*>(component);
 
+    std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
+
     if (Collider != nullptr)
     {
         if (ImGui::CollapsingHeader("Plane Collider", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -1073,11 +1087,15 @@ void  InspectorWindow::DrawPlaneColliderComponent(Component* component)
             Collider->OnEditor();
         }
     }
+
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawInfinitePlaneColliderComponent(Component* component)
 {
     InfinitePlaneCollider* Collider = static_cast<InfinitePlaneCollider*>(component);
+    std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Collider != nullptr)
     {
@@ -1087,11 +1105,14 @@ void  InspectorWindow::DrawInfinitePlaneColliderComponent(Component* component)
         }
         
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawMeshColliderComponent(Component* component)
 {
     MeshCollider* Collider = static_cast<MeshCollider*>(component);
+    std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Collider != nullptr)
     {
@@ -1100,11 +1121,14 @@ void  InspectorWindow::DrawMeshColliderComponent(Component* component)
             Collider->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawConvexColliderComponent(Component* component)
 {
     ConvexCollider* Collider = static_cast<ConvexCollider*>(component);
+    std::string popupID = Collider->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Collider != nullptr)
     {
@@ -1113,12 +1137,14 @@ void  InspectorWindow::DrawConvexColliderComponent(Component* component)
             Collider->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawFixedJointComponent(Component* component)
 {
     FixedJoint* Joint = static_cast<FixedJoint*>(component);
-
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
     if (Joint != nullptr)
     {
         if (ImGui::CollapsingHeader("Fixed Joint", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -1126,11 +1152,14 @@ void  InspectorWindow::DrawFixedJointComponent(Component* component)
             Joint->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawDistanceJointComponent(Component* component)
 {
     DistanceJoint* Joint = static_cast<DistanceJoint*>(component);
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Joint != nullptr)
     {
@@ -1139,25 +1168,30 @@ void  InspectorWindow::DrawDistanceJointComponent(Component* component)
             Joint->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawHingeJointComponent(Component* component)
 {
     HingeJoint* Joint = static_cast<HingeJoint*>(component);
-
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
     if (Joint != nullptr)
     {
         if (ImGui::CollapsingHeader("Hinge Joint", ImGuiTreeNodeFlags_DefaultOpen)) {
             // Delegate the ui to the component
+            DrawComponentContextMenu(Joint, true);
             Joint->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawPrismaticJointComponent(Component* component)
 {
     PrismaticJoint* Joint = static_cast<PrismaticJoint*>(component);
-
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
     if (Joint != nullptr)
     {
         if (ImGui::CollapsingHeader("Prismatic Joint", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -1165,11 +1199,14 @@ void  InspectorWindow::DrawPrismaticJointComponent(Component* component)
             Joint->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawSphericalJointComponent(Component* component)
 {
     SphericalJoint* Joint = static_cast<SphericalJoint*>(component);
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Joint != nullptr)
     {
@@ -1178,11 +1215,15 @@ void  InspectorWindow::DrawSphericalJointComponent(Component* component)
             Joint->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawD6JointComponent(Component* component)
 {
     D6Joint* Joint = static_cast<D6Joint*>(component);
+
+    std::string popupID = Joint->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (Joint != nullptr)
     {
@@ -1191,11 +1232,15 @@ void  InspectorWindow::DrawD6JointComponent(Component* component)
             Joint->OnEditor();
         }
     }
+
+    ImGui::PopID();
 }
 
 void  InspectorWindow::DrawSkyboxComponent(Component* component)
 {
     ComponentSkybox* skybox = static_cast<ComponentSkybox*>(component);
+    std::string popupID = skybox->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (skybox != nullptr)
     {
@@ -1204,6 +1249,7 @@ void  InspectorWindow::DrawSkyboxComponent(Component* component)
             skybox->OnEditor();
         }
     }
+    ImGui::PopID();
 }
 
 void InspectorWindow::DrawAudioSourceComponent(Component* component) {
@@ -1223,95 +1269,132 @@ void InspectorWindow::DrawCanvasComponent(Component* component)
     ComponentCanvas* canvasComp = static_cast<ComponentCanvas*>(component);
     if (!canvasComp) return;
 
-    bool open = ImGui::CollapsingHeader("Canvas", ImGuiTreeNodeFlags_DefaultOpen);
+    std::string popupID = canvasComp->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
+ 
+    bool open = ImGui::CollapsingHeader(canvasComp->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(canvasComp, true);
-    if (!open) return;
+    if (open) {
 
-    char buffer[MAX_PATH];
-    GetModuleFileNameA(NULL, buffer, MAX_PATH);
-    std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
+        char buffer[MAX_PATH];
+        GetModuleFileNameA(NULL, buffer, MAX_PATH);
+        std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
 
-    std::filesystem::path uiDir = exeDir / "Assets" / "UI";
-    if (!std::filesystem::exists(uiDir))
-        uiDir = exeDir / "../../Assets/UI";
+        // Helper: resuelve ".." y comprueba existencia
+        auto tryPath = [](const std::filesystem::path& p) -> std::filesystem::path {
+            std::error_code ec;
+            auto resolved = std::filesystem::weakly_canonical(p, ec);
+            if (!ec && std::filesystem::exists(resolved))
+                return resolved;
+            return {};
+        };
 
-    // Scan valid XAML files
-    std::vector<std::string> xamlFiles;
-    if (std::filesystem::exists(uiDir))
-    {
-        for (const auto& entry : std::filesystem::directory_iterator(uiDir))
+        std::filesystem::path uiDir;
+
+        // 1. <exeDir>/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "UI");
+        // 2. <exeDir>/../UI  (build/UI)
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../UI");
+        // 3. <exeDir>/../../UI  (Engine/UI)  <-- ruta correcta para build/Release
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../UI");
+        // 4. <exeDir>/../../Engine/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../Engine/UI");
+        // 5. <exeDir>/../../../Engine/UI
+        if (uiDir.empty()) uiDir = tryPath(exeDir / "../../../Engine/UI");
+
+        // Fallback sin resolver (para que el mensaje de error muestre la ruta intentada)
+        if (uiDir.empty())
+            uiDir = std::filesystem::weakly_canonical(exeDir / "../../UI");
+
+        // Scan valid XAML files
+        std::vector<std::string> xamlFiles;
+        if (std::filesystem::exists(uiDir))
         {
-            if (!entry.is_regular_file() || entry.path().extension() != ".xaml") continue;
-            std::ifstream file(entry.path());
-            std::string line;
-            bool valid = false;
-            while (std::getline(file, line))
+            for (const auto& entry : std::filesystem::directory_iterator(uiDir))
             {
-                if (line.find("ResourceDictionary") != std::string::npos) break;
-                if (line.find("FrameworkElement") != std::string::npos ||
-                    line.find("UserControl") != std::string::npos ||
-                    line.find("Window") != std::string::npos ||
-                    line.find("Grid") != std::string::npos ||
-                    line.find("Canvas") != std::string::npos ||
-                    line.find("StackPanel") != std::string::npos)
+                if (!entry.is_regular_file() || entry.path().extension() != ".xaml") continue;
+                std::ifstream file(entry.path());
+                std::string line;
+                bool valid = false;
+                while (std::getline(file, line))
                 {
-                    valid = true; break;
+                    if (line.find("ResourceDictionary") != std::string::npos) break;
+                    if (line.find("FrameworkElement") != std::string::npos ||
+                        line.find("UserControl") != std::string::npos ||
+                        line.find("Window") != std::string::npos ||
+                        line.find("Grid") != std::string::npos ||
+                        line.find("Canvas") != std::string::npos ||
+                        line.find("StackPanel") != std::string::npos)
+                    {
+                        valid = true; break;
+                    }
                 }
+                if (valid) xamlFiles.push_back(entry.path().filename().string());
             }
-            if (valid) xamlFiles.push_back(entry.path().filename().string());
         }
-    }
 
-    std::string currentName = canvasComp->GetCurrentXAML().empty() ? "None"
-        : std::filesystem::path(canvasComp->GetCurrentXAML()).filename().string();
+        std::string currentName = canvasComp->GetCurrentXAML().empty() ? "None"
+            : std::filesystem::path(canvasComp->GetCurrentXAML()).filename().string();
 
-    ImGui::Text("XAML File:");
-    ImGui::SetNextItemWidth(-1);
-    if (ImGui::BeginCombo("##XAMLSelector", currentName.c_str()))
-    {
-        if (ImGui::Selectable("None", canvasComp->GetCurrentXAML().empty()))
-            canvasComp->UnloadXAML();
-
-        for (const auto& file : xamlFiles)
+        ImGui::Text("XAML File:");
+        ImGui::SetNextItemWidth(-1);
+        if (ImGui::BeginCombo("##XAMLSelector", currentName.c_str()))
         {
-            bool sel = (currentName == file);
-            if (ImGui::Selectable(file.c_str(), sel))
-                LOG_CONSOLE(canvasComp->LoadXAML(file.c_str()) ?
-                    "[Canvas] Loaded: %s" : "[Canvas] Failed: %s", file.c_str());
-            if (sel) ImGui::SetItemDefaultFocus();
+            if (ImGui::Selectable("None", canvasComp->GetCurrentXAML().empty()))
+                canvasComp->UnloadXAML();
+
+            for (const auto& file : xamlFiles)
+            {
+                bool sel = (currentName == file);
+                if (ImGui::Selectable(file.c_str(), sel))
+                    LOG_CONSOLE(canvasComp->LoadXAML(file.c_str()) ?
+                        "[Canvas] Loaded: %s" : "[Canvas] Failed: %s", file.c_str());
+                if (sel) ImGui::SetItemDefaultFocus();
+            }
+
+            if (xamlFiles.empty())
+                ImGui::TextDisabled("No valid .xaml files found in: %s", uiDir.string().c_str());
+
+            ImGui::EndCombo();
         }
 
-        if (xamlFiles.empty())
-            ImGui::TextDisabled("No valid .xaml files found in: %s", uiDir.string().c_str());
+        float opacity = canvasComp->GetOpacity();
+        if (ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f)) canvasComp->SetOpacity(opacity);
 
-        ImGui::EndCombo();
+        int UILayer = canvasComp->GetUILayer();
+        if (ImGui::InputInt("UI Layer", &UILayer))
+            canvasComp->SetUILayer(UILayer);
+
+        ImGui::Separator();
+
+        unsigned int texID = canvasComp->GetTextureID();
+        if (texID != 0)
+            ImGui::Image((ImTextureID)(uintptr_t)texID, ImVec2(256, 144), ImVec2(0, 1), ImVec2(1, 0));
+        else
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No XAML loaded");
     }
+       
+ 
+    
 
-    float opacity = canvasComp->GetOpacity();
-    if (ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f)) canvasComp->SetOpacity(opacity);
-
-    int UILayer = canvasComp->GetUILayer();
-    if (ImGui::InputInt("UI Layer", &UILayer))
-        canvasComp->SetUILayer(UILayer);
-
-    ImGui::Separator();
-
-    unsigned int texID = canvasComp->GetTextureID();
-    if (texID != 0)
-        ImGui::Image((ImTextureID)(uintptr_t)texID, ImVec2(256, 144), ImVec2(0, 1), ImVec2(1, 0));
-    else
-        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No XAML loaded");
+    ImGui::PopID();
 }
+ 
 
 void InspectorWindow::DrawAudioListenerComponent(Component* component) {
     AudioListener* listener = static_cast<AudioListener*>(component);
     if (!listener) return;
+
+    std::string popupID = listener->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     bool open = ImGui::CollapsingHeader("Audio Listener", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(listener,true);
     if (open) {
         listener->OnEditor();
     }
+
+    ImGui::PopID();
 }
 
 void InspectorWindow::DrawReverbZoneComponent(Component* component)
@@ -1331,6 +1414,8 @@ void InspectorWindow::DrawNavigationComponent(Component* component)
 {
     ComponentNavigation* navComp = static_cast<ComponentNavigation*>(component);
     if (navComp == nullptr) return;
+    std::string popupID = navComp->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     if (ImGui::CollapsingHeader("Navigation & AI", ImGuiTreeNodeFlags_DefaultOpen))
     {
@@ -1338,11 +1423,16 @@ void InspectorWindow::DrawNavigationComponent(Component* component)
 
         navComp->OnEditor();
     }
+
+    ImGui::PopID();
 }
 void InspectorWindow::DrawAnimationComponent(Component* component)
 {
     ComponentAnimation* animation = static_cast<ComponentAnimation*>(component);
     if (!animation) return;
+
+    std::string popupID = animation->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     bool open = ImGui::CollapsingHeader("Animation", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(animation, true);
@@ -1450,6 +1540,8 @@ void InspectorWindow::DrawAnimationComponent(Component* component)
         }
         ImGui::EndDragDropTarget();
     }
+
+    ImGui::PopID();
 }
 
 bool InspectorWindow::DrawGameObjectSection(GameObject* selectedObject)
@@ -1873,6 +1965,8 @@ void InspectorWindow::DrawScriptComponent(Component* component)
 
         ImGui::Unindent();
     }
+
+    
 }
 
 void InspectorWindow::DrawAddComponentButton(GameObject* selectedObject)
@@ -2616,18 +2710,26 @@ void InspectorWindow::DrawPostProcessingComponent(Component* component)
     ComponentPostProcessing* postProcessing = static_cast<ComponentPostProcessing*>(component);
     if (!postProcessing) return;
 
+    std::string popupID = postProcessing->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
+
     bool open = ImGui::CollapsingHeader("Post Processing", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(postProcessing, true);
     if (open)
     {
         postProcessing->OnEditor();
     }
+
+    ImGui::PopID();
 }
 
 void InspectorWindow::DrawLightComponent(Component* component)
 {
     ComponentLight* lightComp = static_cast<ComponentLight*>(component);
     if (!lightComp) return;
+
+    std::string popupID = lightComp->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
 
     bool open = ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen);
     DrawComponentContextMenu(lightComp, true);
@@ -2652,8 +2754,37 @@ void InspectorWindow::DrawLightComponent(Component* component)
             if (ImGui::IsItemHovered()) ImGui::SetTooltip("Max distance from camera to cast shadows");
         }
     }
+
+    ImGui::PopID();
 }
 
+void InspectorWindow::DrawCameraZoneComponent(Component* component) {
+
+    ComponentCameraZone* cameraZone = static_cast<ComponentCameraZone*>(component);
+    if (!cameraZone) return;
+
+    std::string popupID = cameraZone->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
+    if (ImGui::CollapsingHeader("Camera Zone", ImGuiTreeNodeFlags_DefaultOpen)) {
+        DrawComponentContextMenu(cameraZone, true);
+        cameraZone->OnEditor();
+    }
+    ImGui::PopID();
+}
+
+void InspectorWindow::DrawCinematicCameraComponent(Component* component) {
+
+    ComponentCinematicCamera* cinematicCamera = static_cast<ComponentCinematicCamera*>(component);
+    if (!cinematicCamera) return;
+
+    std::string popupID = cinematicCamera->name + "ComponentPopup##" + std::to_string((uintptr_t)component);
+    ImGui::PushID(popupID.c_str());
+    if (ImGui::CollapsingHeader("Cinematic Camera", ImGuiTreeNodeFlags_DefaultOpen)) {
+        DrawComponentContextMenu(cinematicCamera, true);
+        cinematicCamera->OnEditor();
+    }
+    ImGui::PopID();
+}
 void InspectorWindow::DrawPrefabInstanceSection(GameObject* selectedObject)
 {
     if (!selectedObject->prefabInstance.has_value()) return;

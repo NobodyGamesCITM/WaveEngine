@@ -9,7 +9,7 @@
 class AudioComponent;
 class ReverbZone;
 
-#define MAX_AUDIO_EVENTS 300
+#define MAX_AUDIO_EVENTS 500
 
 class AudioEvent {
 public:
@@ -60,7 +60,7 @@ public:
 	
 
 	// ------------------------ RTPC ------------------------ //
-	void SetRTPCValue(const char* name, int value);
+	void SetRTPCValue(const char* name, float value);
 	void SetRTPCValue(AkRtpcID rtpcID, AkRtpcValue value);
 
 	/* (From Wwise Docs) On playback, if no such game object-specific value has been set, 
@@ -73,13 +73,12 @@ public:
 	
 	*/
 
-
 	void SetGlobalVolume(float volume);
 	float GetGlobalVolume() { return globalVolume; }
 	
-	void SetMasterVolume(int volume);
+	void SetMasterVolume(int vol);
 	/*void SetDialogVolume(int volume);*/
-	void SetSFXVolume(int volume);
+	void SetSFXVolume(float volume);
 	float GetSFXVolume() { return sfxVolume; }
 
 	void SetMusicVolume(int volume);

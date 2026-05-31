@@ -22,6 +22,8 @@
 #include "UIManager.h"
 #include <NsGui/VisualTreeHelper.h>
 #include <NsGui/Button.h>
+#include <NsGui/Slider.h>
+#include <NsGui/CheckBox.h>
 
 
 ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, ComponentType::CANVAS)
@@ -36,10 +38,10 @@ ComponentCanvas::ComponentCanvas(GameObject* owner) : Component(owner, Component
 
 ComponentCanvas::~ComponentCanvas()
 {
-    Application::GetInstance().ui->UnregisterCanvas(this); 
+    Application::GetInstance().ui->UnregisterCanvas(this);
     Application::GetInstance().renderer->RemoveCanvas(this);
-    UIManager::GetInstance().UnregisterCanvas(this); ;
-    ShutdownView();               
+    UIManager::GetInstance().UnregisterCanvas(this);
+    ShutdownView();
     device.Reset();
 
     if (fbo)       glDeleteFramebuffers(1, &fbo);
@@ -67,37 +69,111 @@ void ComponentCanvas::CleanUp()
     device.Reset();
 }
 
-static void HookEvents(Noesis::Visual* element) {
+static void OnSliderValueChanged(Noesis::BaseComponent* sender,
+    const Noesis::RoutedPropertyChangedEventArgs<float>& args)
+{
+    if (auto* sl = Noesis::DynamicCast<Noesis::Slider*>(sender))
+    {
+        const char* n = sl->GetName();
+        if (n && strlen(n) > 0)
+            UIManager::GetInstance().RegisterSliderValue(n, args.newValue);
+    }
+}
 
+static void OnSliderGotFocus(Noesis::BaseComponent* sender,
+    const Noesis::RoutedEventArgs&)
+{
+    if (auto* sl = Noesis::DynamicCast<Noesis::Slider*>(sender))
+    {
+        const char* n = sl->GetName();
+        if (n && strlen(n) > 0)
+            UIManager::GetInstance().SetFocusedSlider(n);
+    }
+}
+
+static void OnSliderLostFocus(Noesis::BaseComponent* sender,
+    const Noesis::RoutedEventArgs&)
+{
+    if (auto* sl = Noesis::DynamicCast<Noesis::Slider*>(sender))
+    {
+        const char* n = sl->GetName();
+        if (n && UIManager::GetInstance().GetFocusedSlider() == n)
+            UIManager::GetInstance().ClearFocusedSlider();
+    }
+}
+
+static void HookEvents(Noesis::Visual* element)
+{
     if (!element) return;
-    
 
-    if (auto button = Noesis::DynamicCast<Noesis::Button*>(element)) {
+    // ---- Buttons ----
+    if (auto* button = Noesis::DynamicCast<Noesis::Button*>(element))
+    {
         const char* name = button->GetName();
-        
-        if (name && strlen(name) > 0) {
+        if (name && strlen(name) > 0)
+        {
             UIManager::GetInstance().RegisterButton(name);
-            button->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args)
-            {
-                if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
-                    //LOG_CONSOLE("[Canvas] Button Clicked: %s", btn->GetName());
-                    UIManager::GetInstance().RegisterClickedButton(btn->GetName());
-                }
-            };
-            
-            button->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs& args) {
 
-                if (auto btn = Noesis::DynamicCast<Noesis::Button*>(sender)) {
-                    //LOG_CONSOLE("[Canvas] Button Focused: %s", btn->GetName());
+            button->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
+                    UIManager::GetInstance().RegisterClickedButton(btn->GetName());
+            };
+
+            button->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* btn = Noesis::DynamicCast<Noesis::Button*>(sender))
+                {
                     UIManager::GetInstance().RegisterFocusedButton(btn->GetName());
+                    UIManager::GetInstance().ClearFocusedSlider();
                 }
             };
-            
+        }
+    }
+
+    // ---- CheckBoxes
+    if (auto* checkBox = Noesis::DynamicCast<Noesis::CheckBox*>(element))
+    {
+        const char* name = checkBox->GetName();
+        if (name && strlen(name) > 0)
+        {
+            UIManager::GetInstance().RegisterButton(name);
+
+            checkBox->Click() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(sender))
+                    UIManager::GetInstance().RegisterClickedButton(cb->GetName());
+            };
+
+            checkBox->GotFocus() += [](Noesis::BaseComponent* sender, const Noesis::RoutedEventArgs&)
+            {
+                if (auto* cb = Noesis::DynamicCast<Noesis::CheckBox*>(sender))
+                {
+                    UIManager::GetInstance().RegisterFocusedButton(cb->GetName());
+                    UIManager::GetInstance().ClearFocusedSlider();
+                }
+            };
+        }
+    }
+
+    // ---- Sliders ----
+    if (auto* slider = Noesis::DynamicCast<Noesis::Slider*>(element))
+    {
+        const char* name = slider->GetName();
+        if (name && strlen(name) > 0)
+        {
+            UIManager::GetInstance().RegisterSlider(name);
+            UIManager::GetInstance().RegisterSliderValue(name, (float)slider->GetValue());
+
+            slider->ValueChanged() += &OnSliderValueChanged;
+            slider->GotFocus()     += &OnSliderGotFocus;
+            slider->LostFocus()    += &OnSliderLostFocus;
         }
     }
 
     uint32_t childCount = Noesis::VisualTreeHelper::GetChildrenCount(element);
-    for (uint32_t i = 0; i < childCount; ++i) {
+    for (uint32_t i = 0; i < childCount; ++i)
+    {
         Noesis::Visual* child = Noesis::VisualTreeHelper::GetChild(element, i);
         HookEvents(child);
     }
@@ -133,6 +209,7 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     currentXAML = filename;
     view->Activate();
     UIManager::GetInstance().ClearCanvasButtons();
+    UIManager::GetInstance().ClearFocusedSlider();
     needsHookEvents = true;
     UIManager::GetInstance().UnregisterCanvas(this);
     UIManager::GetInstance().RegisterCanvas(this);
@@ -170,7 +247,6 @@ void ComponentCanvas::Update()
         else
         {
             stickRepeatTimer += dt;
-            // Fire repeat ticks for every elapsed STICK_REPEAT_RATE interval
             while (stickRepeatTimer >= STICK_INITIAL_DELAY + STICK_REPEAT_RATE)
             {
                 TryNavigateStick(stickX, stickY);
@@ -216,10 +292,8 @@ void ComponentCanvas::RenderToTexture()
 void ComponentCanvas::Resize(int newWidth, int newHeight)
 {
     if (width == newWidth && height == newHeight) return;
-
     width = newWidth;
     height = newHeight;
-
     if (view) view->SetSize(width, height);
     GenerateFramebuffer(width, height);
 }
@@ -288,7 +362,6 @@ void ComponentCanvas::OnGamepadLeftStick(float x, float y)
 {
     stickX = x;
     stickY = y;
-
     const bool active = (fabs(x) >= STICK_THRESHOLD || fabs(y) >= STICK_THRESHOLD);
     if (!active)
     {
@@ -301,20 +374,26 @@ void ComponentCanvas::TryNavigateStick(float x, float y)
 {
     if (!view) return;
 
+    if (UIManager::GetInstance().HasFocusedSlider())
+    {
+        if (fabs(x) >= fabs(y))
+        {
+            const float BASE_STEP = 0.15f;
+            float step = (x > 0.0f ? 1.0f : -1.0f) * BASE_STEP;
+            UIManager::GetInstance().StepFocusedSlider(step);
+            return;
+        }
+        else
+        {
+            view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
+            return;
+        }
+    }
+
     if (fabs(y) >= fabs(x))
-    {
-        if (y > STICK_THRESHOLD)
-            view->KeyDown(Noesis::Key_GamepadDown);
-        else
-            view->KeyDown(Noesis::Key_GamepadUp);
-    }
+        view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
     else
-    {
-        if (x > STICK_THRESHOLD)
-            view->KeyDown(Noesis::Key_GamepadRight);
-        else
-            view->KeyDown(Noesis::Key_GamepadLeft);
-    }
+        view->KeyDown(x > STICK_THRESHOLD ? Noesis::Key_GamepadRight : Noesis::Key_GamepadLeft);
 }
 
 void ComponentCanvas::OnGamepadRightStick(float x, float y)
@@ -328,7 +407,6 @@ void ComponentCanvas::OnGamepadTrigger(float left, float right)
 
     static bool ltWasDown = false;
     static bool rtWasDown = false;
-
     const float TRIGGER_THRESHOLD = 0.5f;
 
     if (left >= TRIGGER_THRESHOLD && !ltWasDown)
@@ -357,9 +435,8 @@ void ComponentCanvas::OnGamepadTrigger(float left, float right)
 void ComponentCanvas::Serialize(nlohmann::json& componentObj) const
 {
     componentObj["xamlPath"] = currentXAML;
-    componentObj["opacity"] = opacity;
-    componentObj["uiLayer"] = uiLayer;
-
+    componentObj["opacity"]  = opacity;
+    componentObj["uiLayer"]  = uiLayer;
 }
 
 void ComponentCanvas::Deserialize(const nlohmann::json& componentObj)
@@ -388,10 +465,18 @@ void ComponentCanvas::SetOpacity(float alpha)
     opacity = std::clamp(alpha, 0.0f, 1.0f);
 }
 
+void ComponentCanvas::SetElementOpacity(const char* name, float alpha)
+{
+    if (!view) return;
+    Noesis::FrameworkElement* root = view->GetContent();
+    if (!root) return;
+    auto* element = Noesis::DynamicCast<Noesis::UIElement*>(root->FindName(name));
+    if (element) element->SetOpacity(std::clamp(alpha, 0.0f, 1.0f));
+}
+
 float ComponentCanvas::GetOpacity() const
 {
     return opacity;
-
 }
 
 void ComponentCanvas::PlayStoryboard(const char* name, const char* scopeName)
@@ -403,7 +488,8 @@ void ComponentCanvas::PlayStoryboard(const char* name, const char* scopeName)
     if (!sb) return;
 
     Noesis::FrameworkElement* scope = root;
-    if (scopeName) {
+    if (scopeName)
+    {
         auto* found = Noesis::DynamicCast<Noesis::FrameworkElement*>(root->FindName(scopeName));
         if (found) scope = found;
     }

@@ -46,13 +46,42 @@ bool UI::Start()
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
 
-    auto uiDir = exeDir / "UI";
-    if (!std::filesystem::exists(uiDir))
-        uiDir = exeDir / "../../UI";
+    // Helper lambda: resolves ".." segments and checks existence
+    auto tryPath = [](const std::filesystem::path& p) -> std::filesystem::path {
+        std::error_code ec;
+        auto resolved = std::filesystem::weakly_canonical(p, ec);
+        if (!ec && std::filesystem::exists(resolved))
+            return resolved;
+        return {};
+    };
 
-    std::string xamlPath = (uiDir).string();
-    std::string fontPath = (uiDir / "Fonts").string();
-    std::string texturePath = (uiDir).string();
+    std::filesystem::path uiDir;
+
+    // 1. <exeDir>/UI  (exe next to UI folder)
+    if (uiDir.empty()) uiDir = tryPath(exeDir / "UI");
+
+    // 2. <exeDir>/../UI  (build/Release -> build/UI)
+    if (uiDir.empty()) uiDir = tryPath(exeDir / "../UI");
+
+    // 3. <exeDir>/../../UI  (build/Release -> Engine/UI)  <-- ruta esperada
+    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../UI");
+
+    // 4. <exeDir>/../../Engine/UI  (build/Release -> repo root/Engine/UI)
+    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../Engine/UI");
+
+    // 5. <exeDir>/../../../Engine/UI  (un nivel más arriba)
+    if (uiDir.empty()) uiDir = tryPath(exeDir / "../../../Engine/UI");
+
+    // Fallback: deja la ruta sin resolver para que el log muestre dónde busca
+    if (uiDir.empty())
+        uiDir = std::filesystem::weakly_canonical(exeDir / "../../UI");
+
+    std::string xamlPath    = uiDir.string();
+    std::string fontPath    = (uiDir / "Fonts").string();
+    std::string texturePath = uiDir.string();
+
+    LOG_DEBUG("[UI] Exe dir: %s", exeDir.string().c_str());
+    LOG_DEBUG("[UI] Resolved UI dir: %s (exists: %d)", xamlPath.c_str(), std::filesystem::exists(uiDir));
     LOG_DEBUG("[UI] Font path: %s", fontPath.c_str());
     LOG_DEBUG("[UI] Texture path: %s", texturePath.c_str());
 

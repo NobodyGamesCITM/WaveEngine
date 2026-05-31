@@ -14,9 +14,12 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUS_BGM = 638756417U;
-        static const AkUniqueID SFX_ACTIVATESTATUE_OLD = 3262857116U;
+        static const AkUniqueID MUS_FINALBLOW = 2772329599U;
+        static const AkUniqueID MUS_FINALNOTE = 3925037099U;
         static const AkUniqueID SFX_ANGELSCHANT = 3810757633U;
-        static const AkUniqueID SFX_APOLOMASK = 200801602U;
+        static const AkUniqueID SFX_AQUILESAREAEXP = 3184356465U;
+        static const AkUniqueID SFX_AQUILESBIGSTEP = 3630147201U;
+        static const AkUniqueID SFX_AQUILESCOLLAPSE = 3452078074U;
         static const AkUniqueID SFX_AQUILESDASH = 161972871U;
         static const AkUniqueID SFX_AQUILESDEATH = 2120819887U;
         static const AkUniqueID SFX_AQUILESHURT = 565814488U;
@@ -26,15 +29,15 @@ namespace AK
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
-        static const AkUniqueID SFX_ARESMASK = 3161303428U;
         static const AkUniqueID SFX_CALMWATER = 2864737081U;
+        static const AkUniqueID SFX_CHAINBREAK = 2630782753U;
         static const AkUniqueID SFX_CHECKPOINTSAVE = 3854015376U;
         static const AkUniqueID SFX_CREEPYSOUNDS = 112594585U;
-        static const AkUniqueID SFX_DEACTIVATESTATUE = 2443085627U;
+        static const AkUniqueID SFX_DEEPBREATHS = 2285415424U;
         static const AkUniqueID SFX_DOORMOVE = 2318810U;
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
+        static const AkUniqueID SFX_FINISHHIM = 376918614U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
-        static const AkUniqueID SFX_GETMASK = 3673223703U;
         static const AkUniqueID SFX_GM_FALLDOWN = 118434115U;
         static const AkUniqueID SFX_GM_KNOCKBACK = 605795181U;
         static const AkUniqueID SFX_GM_MASKFLY = 336495419U;
@@ -43,16 +46,20 @@ namespace AK
         static const AkUniqueID SFX_GM_STATUEON = 2470589267U;
         static const AkUniqueID SFX_GM_SWORD1 = 3530262216U;
         static const AkUniqueID SFX_GM_SWORD2 = 3530262219U;
-        static const AkUniqueID SFX_HERMESMASK = 3607278939U;
+        static const AkUniqueID SFX_HEARTBEAT = 3158516759U;
+        static const AkUniqueID SFX_HERMESFLARE = 3152724629U;
+        static const AkUniqueID SFX_HERMESHOVER = 3684743831U;
         static const AkUniqueID SFX_HERMESSPIN = 4252929259U;
-        static const AkUniqueID SFX_ITEMPICKUP = 1263671132U;
+        static const AkUniqueID SFX_HERMESWIND = 1720125317U;
+        static const AkUniqueID SFX_INTROROAR = 1929205333U;
+        static const AkUniqueID SFX_KNEELDOWN = 3671466604U;
         static const AkUniqueID SFX_MANSIONAMBIENCE = 3212792312U;
-        static const AkUniqueID SFX_MASK_PICKUP = 115335488U;
-        static const AkUniqueID SFX_MASKCHANGE = 4011307621U;
         static const AkUniqueID SFX_MASKSWITCH = 2001794665U;
         static const AkUniqueID SFX_MINOCHARGE = 3041839238U;
         static const AkUniqueID SFX_MINOCRASH = 385136311U;
         static const AkUniqueID SFX_MINODIE = 2637687044U;
+        static const AkUniqueID SFX_MINODIECRY = 3164505444U;
+        static const AkUniqueID SFX_MINOFALL = 3603037357U;
         static const AkUniqueID SFX_MINOHURT = 1184257229U;
         static const AkUniqueID SFX_MINOIDLE = 2971129212U;
         static const AkUniqueID SFX_MINOPRECHARGE = 1239040809U;
@@ -64,11 +71,15 @@ namespace AK
         static const AkUniqueID SFX_PLAYERHIT = 515751749U;
         static const AkUniqueID SFX_PLAYERROLL = 2179511499U;
         static const AkUniqueID SFX_PLAYERSHOT = 3486629458U;
+        static const AkUniqueID SFX_PORTALFIREON = 2951163788U;
         static const AkUniqueID SFX_POTIONDRINK = 3128226246U;
         static const AkUniqueID SFX_PRESSPLATE = 3511972170U;
         static const AkUniqueID SFX_ROCKMOVE = 1281281593U;
+        static const AkUniqueID SFX_SANDSTEP1 = 3170494110U;
+        static const AkUniqueID SFX_SANDSTEP2 = 3170494109U;
+        static const AkUniqueID SFX_SANDSTEP3 = 3170494108U;
+        static const AkUniqueID SFX_SANDSTIR = 2654547363U;
         static const AkUniqueID SFX_SEAWATER = 2754480747U;
-        static const AkUniqueID SFX_SHOWSWORD = 1498826869U;
         static const AkUniqueID SFX_SIRENDIE = 4188719418U;
         static const AkUniqueID SFX_SIRENDIP = 4188719407U;
         static const AkUniqueID SFX_SIRENHURT = 3651743467U;
@@ -78,13 +89,28 @@ namespace AK
         static const AkUniqueID SFX_SKELETONHIT = 1803491951U;
         static const AkUniqueID SFX_SKELETONSTEPS = 2660566025U;
         static const AkUniqueID SFX_SKELETONSWORDSLASH = 1619547218U;
+        static const AkUniqueID SFX_SPEARGRAB = 2588314402U;
+        static const AkUniqueID SFX_SPEARPLUNGE = 2152488377U;
+        static const AkUniqueID SFX_SPEARPREP = 1860584701U;
+        static const AkUniqueID SFX_SPEARPULL = 1742302713U;
         static const AkUniqueID SFX_STATUETURN = 3395391508U;
+        static const AkUniqueID SFX_SWORDPREP = 2568247301U;
+        static const AkUniqueID SFX_SWORDSANDSTAB = 2634076410U;
+        static const AkUniqueID SFX_SWORDSANDUNSTAB = 3246991747U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
+        static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
+        static const AkUniqueID SFX_UNSHEATHE = 796310264U;
+        static const AkUniqueID SFX_ZOOMOUT = 2621714572U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;
+        static const AkUniqueID UI_OWLFLY = 3803980307U;
+        static const AkUniqueID UI_OWLHOOT = 3426312362U;
+        static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
+        static const AkUniqueID UI_SKIPDIALOG = 344780467U;
+        static const AkUniqueID UI_TELEVOCALS = 3718241572U;
     } // namespace EVENTS
 
     namespace STATES
@@ -134,6 +160,20 @@ namespace AK
             } // namespace SWITCH
         } // namespace PLAYER_SPEED
 
+        namespace PLAYER_VOICE
+        {
+            static const AkUniqueID GROUP = 1047305421U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DECIDED = 3540708211U;
+                static const AkUniqueID GENERIC = 4294388576U;
+                static const AkUniqueID PENSATIVE = 1998809012U;
+                static const AkUniqueID RELIEVED = 2685321313U;
+                static const AkUniqueID SCARED = 820940617U;
+            } // namespace SWITCH
+        } // namespace PLAYER_VOICE
+
         namespace SURFACE_TYPE
         {
             static const AkUniqueID GROUP = 4064446173U;
@@ -143,8 +183,10 @@ namespace AK
                 static const AkUniqueID BONES = 2087559222U;
                 static const AkUniqueID DIRT = 2195636714U;
                 static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID SAND = 803837735U;
                 static const AkUniqueID STONE = 1216965916U;
                 static const AkUniqueID WATER = 2654748154U;
+                static const AkUniqueID WOOD = 2058049674U;
             } // namespace SWITCH
         } // namespace SURFACE_TYPE
 
@@ -156,6 +198,8 @@ namespace AK
         static const AkUniqueID AUDIOSOURCE_VOLUME = 4155247583U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
         static const AkUniqueID MUSIC_VOLUME = 1006694123U;
+        static const AkUniqueID PLAYER_HEALTH = 215992295U;
+        static const AkUniqueID PLAYER_SPEED = 1062779386U;
         static const AkUniqueID REVERB_VOLUME = 4143275766U;
         static const AkUniqueID SFX_VOLUME = 1564184899U;
         static const AkUniqueID SS_AIR_FEAR = 1351367891U;

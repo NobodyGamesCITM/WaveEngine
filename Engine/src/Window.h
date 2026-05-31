@@ -25,6 +25,8 @@ public:
     // Getters
     void GetWindowSize(int& width, int& height) const;
     int GetScale() const;
+    void SetResolution(int width, int height);
+    void SetFullscreen(bool enabled);
 
     SDL_Window* GetWindow() const { return window; }
 

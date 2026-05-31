@@ -63,7 +63,9 @@ bool ResourceScript::LoadInMemory()
 
     script = scriptData;
 
-    lastLoadTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
+    if (!assetsFile.empty() && std::filesystem::exists(assetsFile)) {
+        lastLoadTime = std::filesystem::last_write_time(assetsFile).time_since_epoch().count();
+    }
 
     return true;
 }

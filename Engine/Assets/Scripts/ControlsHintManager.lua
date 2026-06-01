@@ -49,7 +49,13 @@ PRESETS = {
     ares_puzzle = {
         duration = 5.0,
         slots = {
-            { img = "HintImg_Berserk",         key = "HintKey_8",      gp = "HintGP_RB" },
+            { img = "HintImg_Ares",         key = "HintKey_Q",      gp = "HintGP_Y" },
+        },
+    },
+    apolo_puzzle = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_ApoloFuerte",         key = "HintKey_Q",      gp = "HintGP_Y" },
         },
     },
 }

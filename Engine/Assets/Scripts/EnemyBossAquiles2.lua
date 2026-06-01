@@ -1099,7 +1099,7 @@ local function UpdateDeath(self, dt)
         if deathTimer <= 0 then
             if self.targetDeathYisEnter == false then
                 local currentY = self.transform.position.y
-                self.targetDeathY = currentY - 5.0
+                self.targetDeathY = currentY - 10.0
                 self.targetDeathYisEnter = true
                 
                 local colision = self.gameObject:GetComponent("Box Collider")
@@ -1115,7 +1115,7 @@ local function UpdateDeath(self, dt)
 
             local pos = self.transform.position
             if pos.y > self.targetDeathY then
-                self.transform:SetPosition(pos.x, pos.y - 3.0, pos.z)
+                self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
             else
                 if not isDead then
                       local door = GameObject.Find("Puerta_Final") 

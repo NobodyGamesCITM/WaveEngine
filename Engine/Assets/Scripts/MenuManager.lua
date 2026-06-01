@@ -478,10 +478,24 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if _G.TitleTrigger_Active then return end
+    -- Calculamos salud para la lógica de muerte antes de cualquier early return
+    local playerHealth = 101
+    if _G.PlayerInstance and _G.PlayerInstance.public then
+        playerHealth = _G.PlayerInstance.public.health
+    else
+        local playerObj = GameObject.Find("Player")
+        if playerObj then
+            local pScript = GameObject.GetScript(playerObj)
+            if pScript then
+                _G.PlayerInstance = pScript
+                playerHealth = pScript.public and pScript.public.health or 101
+            end
+        end
+    end
+    local playerIsDead = (playerHealth <= 0)
 
     if self.newSceneDelay and self.newSceneDelay > 0 then
-        self.newSceneDelay = self.newSceneDelay - dt
+        self.newSceneDelay = self.newSceneDelay - Time.GetRealDeltaTime()
         if self.newSceneDelay <= 0 then
             self.newSceneDelay = nil
             Initialize(self)
@@ -537,7 +551,8 @@ function Update(self, dt)
         if self.waitingForSplash then return end
     end
 
-    local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
+    -- Consideramos "SonOfIthaca.xaml" como parte del gameplay (HUD), no como un menú que pausa el juego automáticamente
+    local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml") and not self.current:find("SonOfIthaca.xaml"))
 
     if isActualMenu then
         if self.current:find("MainMenu.xaml") then
@@ -593,7 +608,7 @@ function Update(self, dt)
     end
 
     if self.phase ~= "idle" then
-        self.fadeTimer = self.fadeTimer + dt
+        self.fadeTimer = self.fadeTimer + Time.GetRealDeltaTime()
     end
 
     if self.phase == "idle" then
@@ -641,43 +656,29 @@ function Update(self, dt)
 
         if not self.deathTimer then self.deathTimer = 0.0 end
 
-        local playerHealth = 101
-        if _G.PlayerInstance and _G.PlayerInstance.public then
-            playerHealth = _G.PlayerInstance.public.health
-        else
-            local playerObj = GameObject.Find("Player")
-            if playerObj then
-                local pScript = GameObject.GetScript(playerObj)
-                if pScript then
-                    _G.PlayerInstance = pScript
-                    playerHealth = pScript.public and pScript.public.health or 101
-                end
+        -- Lógica de Muerte: Prioritaria sobre cinemáticas si el jugador ya está muerto
+        if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
+            -- Si estamos esperando a la muerte, aseguramos que la UI sea visible (por si venía de un fade)
+            if self.canvas:GetOpacity() < 1.0 and not self.fading then
+                self.canvas:SetOpacity(1.0)
             end
+
+            self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
+            if self.deathTimer >= DEATH_MENU_DELAY then
+                self.deathTimer = 0.0
+                self.history = {}
+                NavigateTo(self, "LoseMenu.xaml")
+            end
+        elseif not playerIsDead then
+            self.deathTimer = 0.0
         end
 
-        local playerIsDead = (playerHealth <= 0)
-
-        if not _G.CinematicActive then
-            if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-                self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
-                Engine.Log("[MenuManager] Death timer: " .. tostring(self.deathTimer))
-                if self.deathTimer >= DEATH_MENU_DELAY then
-                    self.deathTimer = 0.0
-                    self.history = {}
-                    NavigateTo(self, "LoseMenu.xaml")
-                end
-            else
-                if not playerIsDead then self.deathTimer = 0.0 end
-            end
-
+        if not _G.CinematicActive and not playerIsDead then
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
                 Engine.Log("[MenuManager] Input detected! Current XAML: '" .. tostring(self.current) .. "'")
-                local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml")
+                local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml") or self.current:find("SonOfIthaca.xaml")
                 local isPause = (self.current == "PauseMenu.xaml") or self.current:find("PauseMenu.xaml")
 
-                if _G.TitleTrigger_HUDShouldStartHidden and isHUD then
-                    return
-                end
                 if isHUD then
                     Engine.Log("[MenuManager] Logic: Open PauseMenu")
                     if _G.SuspendDialog then _G.SuspendDialog() end

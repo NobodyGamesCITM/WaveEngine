@@ -86,6 +86,13 @@ function Update(self, dt)
 
         canvas:LoadXAML("SonOfIthaca.xaml")
         canvas:SetOpacity(0.0)
+
+        local mm = _G.GlobalMenuManagerInstance
+        if mm then
+            mm.current = "SonOfIthaca.xaml"
+            _G.CurrentXAML = "SonOfIthaca.xaml"
+        end
+
         phase = "fadeIn"
         timer = 0.0
         return

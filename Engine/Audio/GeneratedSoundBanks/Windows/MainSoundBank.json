@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{A9E016E7-A09C-DCCC-C3C8-1ECFE1EB5F62}",
+    "Hash": "{2692677F-7424-AC7B-AF7D-5CB0F9805FF1}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -45,7 +45,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_stuck_00.wav",
-      "CachePath": "19/{19A12F60-143C-53B2-3CB9-5626AE539FBA}.wem"
+      "CachePath": "4C/{4C8C95CC-397A-8E56-490A-BB9DEE4535C1}.wem"
      },
      {
       "Id": "19618195",
@@ -1021,7 +1021,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "metal_bend_creak.wav",
-      "CachePath": "61/{61823AF5-F8A4-8C70-B892-B13E499F9FDF}.wem"
+      "CachePath": "65/{65530190-18B4-F7E0-150B-760542F3A809}.wem"
      },
      {
       "Id": "531473372",
@@ -1493,7 +1493,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "berserker_cooldown.wav",
-      "CachePath": "B0/{B08B3D7E-1565-AFE8-9FDB-C36F258D062D}.wem"
+      "CachePath": "96/{964F1740-2C2F-9F82-38BC-C375FEDE34A9}.wem"
      },
      {
       "Id": "786202757",
@@ -1670,14 +1670,6 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_04.wav",
       "CachePath": "04/{0415CD86-202A-8E4B-D891-641347BBD750}.wem"
-     },
-     {
-      "Id": "837783562",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277.wav",
-      "CachePath": "37/{371FA1C1-8BCC-5A39-C6DF-0C3E3ECFF268}.wem"
      },
      {
       "Id": "839908236",
@@ -2408,7 +2400,7 @@
       "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "2.4669583",
-      "DurationMax": "3.030204",
+      "DurationMax": "2.6006017",
       "MediaRefs": [
        {
         "Id": "190699463"
@@ -2424,9 +2416,6 @@
        },
        {
         "Id": "828466913"
-       },
-       {
-        "Id": "837783562"
        }
       ]
      },
@@ -5126,6 +5115,6 @@
     ]
    }
   ],
-  "FileHash": "{FC1C6CAB-E056-09C0-F4B1-CA863FD47A37}"
+  "FileHash": "{1ED1293C-FA4F-A395-DC3F-85A80ABF057F}"
  }
 }

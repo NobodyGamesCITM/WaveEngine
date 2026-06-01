@@ -13090,16 +13090,186 @@
 										<ActiveSource Name="freesound_community-lighting-a-fire-14421" ID="{30602D6A-6E72-4A0E-94CE-FE92B641AA27}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<RandomSequenceContainer Name="Ghost" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" ShortID="41779205">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
-										</Reference>
-									</ReferenceList>
-								</RandomSequenceContainer>
+								<Folder Name="Ghosts" ID="{5DA23E65-1F72-48EB-83C5-6DF83DB866D8}" ShortID="426345446">
+									<ChildrenList>
+										<RandomSequenceContainer Name="CartoonGhosts" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" ShortID="41779205">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="ghost_cartoon_00" ID="{07244496-6984-4168-969F-6391A8D68D8E}" ShortID="154765955">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ghost_cartoon_00" ID="{F904E0CB-E9C4-4835-980A-1448F69218BB}">
+															<Language>SFX</Language>
+															<AudioFile>ghost_cartoon_00.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="739075408"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ghost_cartoon_00" ID="{F904E0CB-E9C4-4835-980A-1448F69218BB}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="GhostWhispers" ID="{2F7ED951-3830-4214-8E1C-FBC9E9968509}" ShortID="432982475">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="ghost_whispers_00" ID="{0820162E-6694-4434-AEEC-82769A4CA38C}" ShortID="256999413">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ghost_whispers_00" ID="{BF770843-7EF5-41AB-B700-7202091DB06E}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.50121144044209"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.410082087634437"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="4.25270328361168"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>ghost_whispers_00.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="703953460"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ghost_whispers_00" ID="{BF770843-7EF5-41AB-B700-7202091DB06E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ghost_whispers_cinematic" ID="{20FA6EE4-A71A-4210-AE6E-9B5F3D4B1687}" ShortID="959868053">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ghost_whispers_00" ID="{D410AD5A-FF34-4B1E-90BD-5674E7260679}">
+															<Language>SFX</Language>
+															<AudioFile>ghost_whispers_00.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="402543928"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ghost_whispers_00" ID="{D410AD5A-FF34-4B1E-90BD-5674E7260679}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ghost_whispers_01" ID="{1DD3CE53-2459-40D5-99FF-1C3D62CF986B}" ShortID="518277167">
+													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ghost_whispers_01" ID="{5F2CBDE5-2458-4C06-A395-57628EA86A07}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.521076654315168"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.628885617276927"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>ghost_whispers_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="151886880"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ghost_whispers_01" ID="{5F2CBDE5-2458-4C06-A395-57628EA86A07}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="ghost_whispers_02" ID="{C644B4D1-EA82-46CE-9706-48BB4A9EAF30}" ShortID="797858361">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="ghost_whispers_02" ID="{FA02999D-CDA9-4970-9FA6-3B1B6D007D36}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.435607064445064"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.582854522849029"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>ghost_whispers_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="726518480"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="ghost_whispers_02" ID="{FA02999D-CDA9-4970-9FA6-3B1B6D007D36}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</Folder>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="UI" ID="{8B76AAA6-CFF8-401D-9A58-F0C6DF5D4CCE}" ShortID="731753965">

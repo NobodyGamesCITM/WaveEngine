@@ -852,11 +852,14 @@ function Start(self)
     self.targetDeathY=nil
     self.targetDeathYisEnter=false
 
-
-
     self.shell = Prefab.Instantiate(finalPath)
-    self.shell:SetActive(true)
-    self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
+    if self.shell then
+        if self.shell.SetActive then self.shell:SetActive(true) end
+        if self.shell.transform and self.transform then
+            local p = self.transform.position
+            self.shell.transform:SetPosition(p.x, p.y - 5.0, p.z)
+        end
+    end
 
 
 end

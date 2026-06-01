@@ -1272,6 +1272,40 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SetResolution");
     lua_pushcfunction(L, Lua_Engine_SetAntiAliasing);
     lua_setfield(L, -2, "SetAntiAliasing");
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        const char* filename = luaL_checkstring(L, 1);
+        const char* content = luaL_checkstring(L, 2);
+        std::string saveDir = FileSystem::GetProjectRoot() + "/Saves";
+        FileSystem::EnsureDirectoryExists(saveDir);
+        std::string fullPath = saveDir + "/" + filename;
+        std::ofstream file(fullPath, std::ios::trunc);
+        if (file.is_open()) {
+            file << content;
+            file.close();
+            lua_pushboolean(L, true);
+        }
+        else {
+            lua_pushboolean(L, false);
+        }
+        return 1;
+        });
+    lua_setfield(L, -2, "SaveTextFile");
+
+    lua_pushcfunction(L, +[](lua_State* L) -> int {
+        const char* filename = luaL_checkstring(L, 1);
+        std::string fullPath = FileSystem::GetProjectRoot() + "/Saves/" + filename;
+        std::ifstream file(fullPath);
+        if (file.is_open()) {
+            std::stringstream buffer;
+            buffer << file.rdbuf();
+            lua_pushstring(L, buffer.str().c_str());
+        }
+        else {
+            lua_pushnil(L);
+        }
+        return 1;
+        });
+    lua_setfield(L, -2, "LoadTextFile");
     lua_setglobal(L, "Engine");
 
     // Input

@@ -55,11 +55,20 @@
                                                         "materialUID": 16620567786623847120,
                                                         "overrideTiling": false,
                                                         "type": 3
+                                                    },
+                                                    {
+                                                        "ArrivalThreshold": 0.25,
+                                                        "IsStatic": true,
+                                                        "MaxSlope": 35.0,
+                                                        "MoveSpeed": 5.0,
+                                                        "NavType": 2,
+                                                        "active": true,
+                                                        "type": 24
                                                     }
                                                 ],
                                                 "name": "ESTATIA_ACTIVADORA",
                                                 "tag": "",
-                                                "uid": 12255171353297789028
+                                                "uid": 14804997729676705209
                                             }
                                         ],
                                         "components": [
@@ -85,7 +94,7 @@
                                         ],
                                         "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 14929026242328846495
+                                        "uid": 4931638837178746348
                                     }
                                 ],
                                 "components": [
@@ -111,7 +120,7 @@
                                 ],
                                 "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 7714974828417180809
+                                "uid": 5583555376736788507
                             }
                         ],
                         "components": [
@@ -137,7 +146,7 @@
                         ],
                         "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 17300908853478886569
+                        "uid": 11266536352165990120
                     }
                 ],
                 "components": [
@@ -163,7 +172,7 @@
                 ],
                 "name": "ESTATIA_ACTIVADORA_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 5772313965854326783
+                "uid": 6835245366161997730
             },
             {
                 "active": true,
@@ -231,7 +240,7 @@
                                                                         ],
                                                                         "name": "Moon",
                                                                         "tag": "",
-                                                                        "uid": 9956466580114748524
+                                                                        "uid": 6689152996610041264
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -257,7 +266,7 @@
                                                                 ],
                                                                 "name": "Moon_$AssimpFbx$_ScalingPivotInverse",
                                                                 "tag": "",
-                                                                "uid": 4810151749089238667
+                                                                "uid": 8932894921786786406
                                                             }
                                                         ],
                                                         "components": [
@@ -283,7 +292,7 @@
                                                         ],
                                                         "name": "Moon_$AssimpFbx$_Scaling",
                                                         "tag": "",
-                                                        "uid": 3415581702981728763
+                                                        "uid": 8890770326764474078
                                                     }
                                                 ],
                                                 "components": [
@@ -309,7 +318,7 @@
                                                 ],
                                                 "name": "Moon_$AssimpFbx$_ScalingPivot",
                                                 "tag": "",
-                                                "uid": 10168839814704781112
+                                                "uid": 3673088971223862361
                                             }
                                         ],
                                         "components": [
@@ -335,7 +344,7 @@
                                         ],
                                         "name": "Moon_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 2630860736642597501
+                                        "uid": 13249778633614384430
                                     }
                                 ],
                                 "components": [
@@ -361,7 +370,7 @@
                                 ],
                                 "name": "Moon_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 18403915134950841874
+                                "uid": 12140126179232341163
                             }
                         ],
                         "components": [
@@ -387,7 +396,7 @@
                         ],
                         "name": "Moon_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 16941358604848408532
+                        "uid": 8606101733014285229
                     }
                 ],
                 "components": [
@@ -413,16 +422,16 @@
                 ],
                 "name": "Moon_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 5408953370197461363
+                "uid": 3481831287440435461
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    169.12564086914063,
+                    178.99899291992188,
                     29.652400970458984,
-                    -184.99557495117188
+                    -198.05499267578125
                 ],
                 "rotation": [
                     0.0,
@@ -452,19 +461,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "fordwardOffset",
+                        "name": "dirY",
                         "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": 1.0
-                    },
-                    {
-                        "name": "heightOffset",
-                        "type": 0,
-                        "value": 2.5
+                        "value": 0.0
                     },
                     {
                         "name": "dirX",
@@ -477,14 +476,24 @@
                         "value": true
                     },
                     {
+                        "name": "heightOffset",
+                        "type": 0,
+                        "value": 2.5
+                    },
+                    {
                         "name": "doorName",
                         "type": 1,
                         "value": ""
                     },
                     {
-                        "name": "dirY",
+                        "name": "fordwardOffset",
                         "type": 0,
-                        "value": 0.0
+                        "value": 0.5
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": 1.0
                     }
                 ],
                 "scriptUID": 3213472682470300881,
@@ -526,8 +535,8 @@
                 "type": 8
             }
         ],
-        "name": "Est_ACT_IDLE-ANIM",
+        "name": "Estatua_Activadora_1",
         "tag": "",
-        "uid": 10010023089656195853
+        "uid": 16246197908222778837
     }
 ]

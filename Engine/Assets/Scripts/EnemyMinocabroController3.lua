@@ -1,3 +1,4 @@
+--Minocabro Script (v3)
 local atan2 = math.atan
 local pi    = math.pi
 local sqrt  = math.sqrt

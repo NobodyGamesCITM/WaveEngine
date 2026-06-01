@@ -11712,7 +11712,6 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
-										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>5</Value>
@@ -11949,6 +11948,11 @@
 										</Sound>
 										<Sound Name="coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277" ID="{0EBB6F19-AF8B-493B-9B6F-9440E283BE20}" ShortID="153671336">
 											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ModifierList>
 														<ModifierInfo>
@@ -13086,6 +13090,16 @@
 										<ActiveSource Name="freesound_community-lighting-a-fire-14421" ID="{30602D6A-6E72-4A0E-94CE-FE92B641AA27}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<RandomSequenceContainer Name="Ghost" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" ShortID="41779205">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="UI" ID="{8B76AAA6-CFF8-401D-9A58-F0C6DF5D4CCE}" ShortID="731753965">

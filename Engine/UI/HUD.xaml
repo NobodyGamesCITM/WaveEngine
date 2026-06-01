@@ -667,6 +667,26 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <Image x:Name="Statue_Keyboard" Source="Textures/E.PNG" Width="30" Height="30"/>
             </Grid>
         </Canvas>
+		
+        <Grid x:Name="SaveIconContainer" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,40,40" Visibility="Hidden" Grid.Column="1" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Guardando..." Foreground="#FFC8A84B" FontFamily="./#ForgottenUncial" FontWeight="Bold" FontSize="30" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                <Image Source="Textures/LoadingImage.png" Width="45" Height="45" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <RotateTransform x:Name="SaveSpinTransform" Angle="0"/>
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="SaveSpinTransform" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:1" RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+            </StackPanel>
+        </Grid>
 
     </Grid>
 

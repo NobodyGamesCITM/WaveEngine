@@ -24,7 +24,7 @@ local function InitState(self)
         self.musicComp = bgMusic:GetComponent("Audio Source")
         if not self.musicComp then Engine.Log("Could not find BGM Audio Source Component") end
     else 
-        Engine.Log("Could not find BGM GameObject") 
+        --Engine.Log("Could not find BGM GameObject") 
     end
     
 end
@@ -42,7 +42,7 @@ local function PlayBGM(self)
             Engine.Log("[SplashScreen] BGM Audio Source Component not found")
         end
     else
-        Engine.Log("[SplashScreen] BGM_MUS already playing")
+        --Engine.Log("[SplashScreen] BGM_MUS already playing")
     end
 
 end

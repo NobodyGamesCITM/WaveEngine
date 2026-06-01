@@ -14,7 +14,7 @@ local State = {
     ANTICIPATION = "Anticipation",
     CHARGE      = "Charge",
     DASH        = "Dash",
-    WALL        = "Wall",""
+    WALL        = "Wall",
     RECOVERY    = "Recovery",
     STUN        = "Stun",
     DEAD        = "Dead",
@@ -248,15 +248,13 @@ local function ChangeState(newState)
  --   end
 
 
-    if attackCol then
-        if newState == State.CHARGE  then
-            if attacklanceCol then attacklanceCol:Enable() end        
-            attackCol:Enable()
-        else
-            attackCol:Disable()
-            if attacklanceCol then attacklanceCol:Disable() end
+    if newState == State.CHARGE  then
+        if attacklanceCol then attacklanceCol:Enable() end        
+        attackCol:Enable()
+    else
+        attackCol:Disable()
+        if attacklanceCol then attacklanceCol:Disable() end
 
-        end
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
@@ -309,6 +307,7 @@ local series = {
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton,  Prefab_Minocabro  },
     { Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },                                    
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
+    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                       
 }
 local lastTandaIdx = 0 
 
@@ -366,7 +365,7 @@ local function UpdateFase2(self, dt)
     end
 
     fase2Timer = fase2Timer - dt
-    local allEnemies  = GameObject.FindByTag("Enemy")
+    local allEnemies  = GameObject.FindByTag("Enemy_Fase2")
     local totalLive   = 0
     if allEnemies then
         for _, enemie in ipairs(allEnemies) do
@@ -379,12 +378,12 @@ local function UpdateFase2(self, dt)
 
     if fase2Timer > 0 then
         spawnTimer = spawnTimer + dt
-        if spawnTimer >= SPAWN_INTERVAL or totalLive==1 then
+        if spawnTimer >= SPAWN_INTERVAL or totalLive==0 then
             spawnTimer = 0
             SpawnSeries(self)
         end
 
-    elseif AllEnemiesDead() and totalLive==1  then
+    elseif AllEnemiesDead() and totalLive==0  then
         fase2Active    = false
         spawnedEnemies = {}
  
@@ -713,12 +712,17 @@ local function UpdateLance360(self, myPos, pp, dt)
         --if colliderAreaAttack then colliderAreaAttack:Disable() end
         --if attackArea then attackArea:SetActive(false) end
         
-
+        attackCol:Disable()          
+        if attacklanceCol then attacklanceCol:Disable() end
         --and lanceTimer <= (self.public.lanceWindup + 0.15)
     elseif lanceTimer >= self.public.lanceWindup  and not attackAreaActive then
         if colliderAreaAttack then
             attackAreaActive = true 
             lanceHitActive = true
+
+            attackCol:Disable()          
+            if attacklanceCol then attacklanceCol:Disable() end
+
             if colliderAreaAttack then 
                 colliderAreaAttack:Enable() 
                 colliderAreaAttack:SetRadius(1.0,1.0,1.0)
@@ -1111,7 +1115,7 @@ local function UpdateDeath(self, dt)
 
             local pos = self.transform.position
             if pos.y > self.targetDeathY then
-                self.transform:SetPosition(pos.x, pos.y - 2.0, pos.z)
+                self.transform:SetPosition(pos.x, pos.y - 3.0, pos.z)
             else
                 if not isDead then
                       local door = GameObject.Find("Puerta_Final") 
@@ -1375,6 +1379,9 @@ function Update(self, dt)
         --Engine.Log("Current feedback scale timer = " ..tostring(feedbackTimer))
 
         if feedbackTimer <= 1.0 then
+            attackCol:Disable()
+            if attacklanceCol then attacklanceCol:Disable() end
+
             --scale feedback gradually
             local progressPercent = math.min((feedbackTimer/1.0), 1.0)
             --Engine.Log("ProgressPercent = "..tostring(progressPercent))
@@ -1384,10 +1391,16 @@ function Update(self, dt)
 
             
             if attackArea then
+                attackCol:Disable()
+                if attacklanceCol then attacklanceCol:Disable() end
+
                 local t = attackArea.transform
                 if t then t:SetScale(currentFeedbackScale, currentFeedbackScale, currentFeedbackScale) end
                 if colliderAreaAttack then colliderAreaAttack:SetRadius(currentColliderScale, currentColliderScale, currentColliderScale) end
                 
+                attackCol:Disable()
+                if attacklanceCol then attacklanceCol:Disable() end
+
             end
             
         elseif feedbackTimer > 1.0 then
@@ -1415,15 +1428,16 @@ function Update(self, dt)
         myLocalRot = self.transform.rotation
         pp = playerGO.transform.worldPosition
 
+        if not currentState==State.DEAD then
+            local currentPos = self.transform.worldPosition
+            local floorheight = -1.5
 
-        local currentPos = self.transform.worldPosition
-        local floorheight = -1.5
-
-        if currentPos.y > floorheight then
-            self.transform:SetPosition(currentPos.x, floorheight, currentPos.z)
-            
-            if rb then
-                rb:SetLinearVelocity(slideVelX or 0, 0, slideVelZ or 0)
+            if currentPos.y > floorheight then
+                self.transform:SetPosition(currentPos.x, floorheight, currentPos.z)
+                
+                if rb then
+                    rb:SetLinearVelocity(slideVelX or 0, 0, slideVelZ or 0)
+                end
             end
         end
     end

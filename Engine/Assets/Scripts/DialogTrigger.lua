@@ -7,6 +7,12 @@ public = {
 }
 
 local function fire(self)
+    _G.DialogsShown = _G.DialogsShown or {}
+    
+    if _G.DialogsShown[self._sequenceId] then return end
+    
+    _G.DialogsShown[self._sequenceId] = true
+
     if self._isAmbient == true or self._isAmbient == "true" then
         if _G.ShowAmbientDialog then
             _G.ShowAmbientDialog(self._sequenceId, self._skipTime)

@@ -7,11 +7,8 @@ local SAVE_FILENAME = "savegame.json"
 local function TableToString(tbl)
     local result = "{"
     for k, v in pairs(tbl) do
-        if type(k) == "string" then
-            result = result .. '["' .. k .. '"]='
-        else
-            result = result .. "[" .. tostring(k) .. "]="
-        end
+        if type(k) == "string" then result = result .. '["' .. k .. '"]='
+        else result = result .. "[" .. tostring(k) .. "]=" end
         
         if type(v) == "table" then result = result .. TableToString(v) .. ","
         elseif type(v) == "string" then result = result .. "\"" .. v .. "\","
@@ -28,8 +25,6 @@ local function StringToTable(str)
     if func then 
         local ok, res = pcall(func)
         if ok then return res else Engine.Log("[SaveManager] Error pcall: "..tostring(res)) end
-    else
-        Engine.Log("[SaveManager] Error load: "..tostring(err))
     end
     return nil
 end
@@ -56,7 +51,11 @@ function _G.SaveManager.SaveGame()
             maskApolo = _G._MaskState_Apolo or false, maskHermes = _G._MaskState_Hermes or false,
             maskAres = _G._MaskState_Ares or false, activeMask = _G._PlayerController_currentMask or ""
         },
-        world = { keysCollected = _G.keysCollected or 0 },
+        world = { 
+            keysCollected = _G.keysCollected or 0,
+            portalState = _G.PortalState or 0,
+            dialogs = _G.DialogsShown or {}
+        },
         enemies = {}, puzzles = {}, doors = {}
     }
 
@@ -65,28 +64,40 @@ function _G.SaveManager.SaveGame()
         local enemies = GameObject.FindByTag(tag)
         if enemies then
             for _, enemy in ipairs(enemies) do
-                local script = enemy:GetComponent("Script")
-                if script then
-                    local isDead = false
-                    if script.CheckAlive then isDead = script:CheckAlive()
-                    elseif script.isDead ~= nil then isDead = script.isDead
-                    elseif script.hp ~= nil then isDead = (script.hp <= 0) end
-                    local ePos = enemy.transform.worldPosition
-                    local eRot = enemy.transform.rotation
-                    saveData.enemies[enemy.name] = { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y }
+                local eName = enemy.name
+                if eName then
+                    if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
+                    local script = enemy:GetComponent("Script")
+                    if script then
+                        local isDead = false
+                        if script.CheckAlive then isDead = script:CheckAlive()
+                        elseif script.isDead ~= nil then isDead = script.isDead
+                        elseif script.hp ~= nil then isDead = (script.hp <= 0) end
+                        
+                        local ePos = enemy.transform.worldPosition
+                        local eRot = enemy.transform.rotation
+                        table.insert(saveData.enemies[eName], { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                    end
                 end
             end
         end
     end
 
-    local puzzles = GameObject.FindByTag("PuzzleEntity")
-    if puzzles then
-        for _, puz in ipairs(puzzles) do
-            local script = puz:GetComponent("Script")
-            if script and script.public then
-                local pos = puz.transform.worldPosition
-                local rot = puz.transform.rotation
-                saveData.puzzles[puz.name] = { gridR = script.public.gridR or 0, gridC = script.public.gridC or 0, x = pos.x, y = pos.y, z = pos.z, rotY = rot.y }
+    local puzTags = {"PuzzleEntity", "Statue"}
+    for _, tag in ipairs(puzTags) do
+        local puzzles = GameObject.FindByTag(tag)
+        if puzzles then
+            for _, puz in ipairs(puzzles) do
+                local pName = puz.name
+                if pName then
+                    if not saveData.puzzles[pName] then saveData.puzzles[pName] = {} end
+                    local script = puz:GetComponent("Script")
+                    if script and script.public then
+                        local pos = puz.transform.worldPosition
+                        local rot = puz.transform.rotation
+                        table.insert(saveData.puzzles[pName], { gridR = script.public.gridR or 0, gridC = script.public.gridC or 0, x = pos.x, y = pos.y, z = pos.z, rotY = rot.y })
+                    end
+                end
             end
         end
     end
@@ -94,19 +105,22 @@ function _G.SaveManager.SaveGame()
     local doors = GameObject.FindByTag("Door")
     if doors then
         for _, door in ipairs(doors) do
-            local script = door:GetComponent("Script")
-            if script then
-                local pos = door.transform.worldPosition
-                local state = false
-                if script.isOpen ~= nil then state = script.isOpen elseif script.isClose ~= nil then state = not script.isClose end
-                saveData.doors[door.name] = { open = state, y = pos.y }
+            local dName = door.name
+            if dName then
+                if not saveData.doors[dName] then saveData.doors[dName] = {} end
+                local script = door:GetComponent("Script")
+                if script then
+                    local pos = door.transform.worldPosition
+                    local state = false
+                    if script.isOpen ~= nil then state = script.isOpen elseif script.isClose ~= nil then state = not script.isClose end
+                    table.insert(saveData.doors[dName], { open = state, y = pos.y })
+                end
             end
         end
     end
 
     local jsonString = TableToString(saveData)
-    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then Engine.Log("[SaveManager] Partida guardada con éxito.")
-    else Engine.Log("[SaveManager] ERROR al guardar la partida.") end
+    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then Engine.Log("[SaveManager] Partida guardada con éxito.") end
 end
 
 function _G.SaveManager.LoadGameData()
@@ -118,21 +132,17 @@ function _G.SaveManager.LoadGameData()
 end
 
 function _G.SaveManager.ApplyLoadedData(playerObj)
-    Engine.Log("[SaveManager] --- INICIANDO APLICACION DE DATOS ---")
-    
-    if not _G.LoadedSaveData then 
-        Engine.Log("[SaveManager] ERROR: No hay datos cargados en memoria (LoadedSaveData es nil).")
-        return 
-    end
-    
+    if not _G.LoadedSaveData then return end
+    Engine.Log("[SaveManager] Aplicando datos a la escena...")
     local data = _G.LoadedSaveData
 
     -- PLAYER
     Engine.Log("[SaveManager] 1. Aplicando Player...")
-    if playerObj and playerObj.transform then
-        playerObj.transform:SetPosition(data.player.x, data.player.y, data.player.z)
-        playerObj.transform:SetRotation(0, data.player.rotY, 0)
-        local rb = playerObj:GetComponent("Rigidbody")
+    local player = playerObj
+    if player and player.transform then
+        player.transform:SetPosition(data.player.x, data.player.y, data.player.z)
+        player.transform:SetRotation(0, data.player.rotY, 0)
+        local rb = player:GetComponent("Rigidbody")
         if rb then rb:SetLinearVelocity(0,0,0) end
         
         if _G.PlayerInstance then
@@ -145,88 +155,138 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
             _G.PotionSystem.public.berserkCount = data.player.berserk
             _G.PotionSystem.public.maxBerserk = data.player.maxBerserk
         end
+        
         _G._MaskState_Apolo = data.player.maskApolo
         _G._MaskState_Hermes = data.player.maskHermes
         _G._MaskState_Ares = data.player.maskAres
+        
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Apollo = data.player.maskApolo
+        _G._UnlockedMasks.Hermes = data.player.maskHermes
+        _G._UnlockedMasks.Ares = data.player.maskAres
+        
         _G._PlayerController_currentMask = data.player.activeMask
-        _G.keysCollected = data.world.keysCollected
+        
+        _G.keysCollected = data.world.keysCollected or 0
+        _G.PortalState = data.world.portalState or 0
+        _G.DialogsShown = data.world.dialogs or {}
+        _G._PlayerController_introAnim = false 
+        _G.ForcePortalUpdate = true 
+        
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
-        Engine.Log("[SaveManager] Player movido a: " .. data.player.x .. ", " .. data.player.y .. ", " .. data.player.z)
-    else
-        Engine.Log("[SaveManager] ERROR: playerObj o su transform son nulos.")
     end
 
     -- ENEMIGOS
     Engine.Log("[SaveManager] 2. Aplicando Enemigos...")
+    local enemyCounters = {}
     local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
     for _, tag in ipairs(enemyTags) do
         local enemies = GameObject.FindByTag(tag)
         if enemies and data.enemies then
             for _, enemy in ipairs(enemies) do
-                local eName = enemy.name
-                if eName and data.enemies[eName] then
-                    local eData = data.enemies[eName]
-                    if eData.dead then 
-                        if enemy.SetActive then enemy:SetActive(false) end
-                    else
-                        if enemy.transform then
-                            enemy.transform:SetPosition(eData.x, eData.y, eData.z)
-                            enemy.transform:SetRotation(0, eData.rotY, 0)
+                pcall(function()
+                    local eName = enemy.name
+                    if eName then
+                        enemyCounters[eName] = (enemyCounters[eName] or 0) + 1
+                        local eList = data.enemies[eName]
+                        if eList and enemyCounters[eName] <= #eList then
+                            local eData = eList[enemyCounters[eName]]
+                            if eData.dead then
+                                -- MATARLO DE VERDAD
+                                if enemy.transform then enemy.transform:SetPosition(0, -1000, 0) end
+                                local script = enemy:GetComponent("Script")
+                                if script then 
+                                    script.hp = 0
+                                    script.isDead = true
+                                    if script.SetDead then script:SetDead() end
+                                end
+                                if enemy.SetActive then enemy:SetActive(false) end
+                            else
+                                if enemy.transform then
+                                    enemy.transform:SetPosition(eData.x, eData.y, eData.z)
+                                    enemy.transform:SetRotation(0, eData.rotY, 0)
+                                end
+                                local rb = enemy:GetComponent("Rigidbody")
+                                if rb then rb:SetLinearVelocity(0,0,0) end
+                                local script = enemy:GetComponent("Script")
+                                if script then script.hp = eData.hp end
+                                if enemy.SetActive then enemy:SetActive(true) end
+                            end
                         end
-                        local rb = enemy:GetComponent("Rigidbody")
-                        if rb then rb:SetLinearVelocity(0,0,0) end
-                        local script = enemy:GetComponent("Script")
-                        if script then script.hp = eData.hp end
                     end
-                end
+                end)
             end
         end
     end
 
     -- PUZZLES
     Engine.Log("[SaveManager] 3. Aplicando Puzzles...")
-    local puzzles = GameObject.FindByTag("PuzzleEntity")
-    if puzzles and data.puzzles then
-        for _, puz in ipairs(puzzles) do
-            local pName = puz.name
-            if pName and data.puzzles[pName] then
-                local pData = data.puzzles[pName]
-                if puz.transform then
-                    puz.transform:SetPosition(pData.x, pData.y, pData.z)
-                    puz.transform:SetRotation(0, pData.rotY, 0)
-                end
-                local script = puz:GetComponent("Script")
-                if script and script.public then 
-                    script.public.gridR = pData.gridR 
-                    script.public.gridC = pData.gridC 
-                end
+    local puzCounters = {}
+    local puzTags = {"PuzzleEntity", "Statue"}
+    for _, tag in ipairs(puzTags) do
+        local puzzles = GameObject.FindByTag(tag)
+        if puzzles and data.puzzles then
+            for _, puz in ipairs(puzzles) do
+                pcall(function()
+                    local pName = puz.name
+                    if pName then
+                        puzCounters[pName] = (puzCounters[pName] or 0) + 1
+                        local pList = data.puzzles[pName]
+                        if pList and puzCounters[pName] <= #pList then
+                            local pData = pList[puzCounters[pName]]
+                            if puz.transform then
+                                puz.transform:SetPosition(pData.x, pData.y, pData.z)
+                                puz.transform:SetRotation(0, pData.rotY, 0)
+                            end
+                            local script = puz:GetComponent("Script")
+                            if script and script.public then 
+                                script.public.gridR = pData.gridR 
+                                script.public.gridC = pData.gridC 
+                            end
+                        end
+                    end
+                end)
             end
         end
     end
 
     -- PUERTAS
     Engine.Log("[SaveManager] 4. Aplicando Puertas...")
+    local doorCounters = {}
     local doors = GameObject.FindByTag("Door")
     if doors and data.doors then
         for _, door in ipairs(doors) do
-            local dName = door.name
-            if dName and data.doors[dName] then
-                local dData = data.doors[dName]
-                if door.transform then
-                    local pos = door.transform.worldPosition
-                    if pos then door.transform:SetPosition(pos.x, dData.y, pos.z) end
+            pcall(function()
+                local dName = door.name
+                if dName then
+                    doorCounters[dName] = (doorCounters[dName] or 0) + 1
+                    local dList = data.doors[dName]
+                    if dList and doorCounters[dName] <= #dList then
+                        local dData = dList[doorCounters[dName]]
+                        local script = door:GetComponent("Script")
+                        if script then
+                            if dData.open then
+                                if script.OpenDoor then script:OpenDoor() end
+                                if script.isOpen ~= nil then script.isOpen = true end
+                                if script.isClose ~= nil then script.isClose = false end
+                            else
+                                if script.CloseDoor then script:CloseDoor() end
+                                if script.isOpen ~= nil then script.isOpen = false end
+                                if script.isClose ~= nil then script.isClose = true end
+                            end
+                        end
+                        if door.transform then
+                            local pos = door.transform.worldPosition
+                            if pos then door.transform:SetPosition(pos.x, dData.y, pos.z) end
+                        end
+                    end
                 end
-                local script = door:GetComponent("Script")
-                if script then
-                    if script.isOpen ~= nil then script.isOpen = dData.open
-                    elseif script.isClose ~= nil then script.isClose = not dData.open end
-                end
-            end
+            end)
         end
     end
 
     _G.LoadedSaveData = nil
-    Engine.Log("[SaveManager] --- FIN APLICACION DE DATOS ---")
+    Engine.Log("[SaveManager] Datos aplicados correctamente.")
 end
 
 local NEXT_XAML_DEFAULT = "HUD.xaml"
@@ -701,6 +761,8 @@ function Update(self, dt)
             if not self.fading then
                 Engine.Log("[MenuManager] StartButton clicked.")
                 _G.PendingSaveDataApply = false
+                _G.IsLoadingSaveGame = false
+                _G.LoadedFromSave = false
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
@@ -713,6 +775,7 @@ function Update(self, dt)
                     Engine.Log("[MenuManager] ContinueButton clicked. LOAD GAME.")
                     _G.PendingSaveDataApply = true
                     _G.IsLoadingSaveGame = true
+                    _G.LoadedFromSave = true
                     
                     local sName = _G.LoadedSaveData.scene
                     if sName == "Level_01" then sName = "Level1" end

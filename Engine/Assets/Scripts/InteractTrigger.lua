@@ -169,10 +169,12 @@ local function refreshSharedLockOnPrompt()
 end
 
 local function triggerDialog(self)
-    local shown = dialogShownMap[self.public.sequenceId] or false
+    _G.DialogsShown = _G.DialogsShown or {}
+    local shown = _G.DialogsShown[self.public.sequenceId] or false
+    
     if not shown then
         if self.public.oneShot then
-            dialogShownMap[self.public.sequenceId] = true
+            _G.DialogsShown[self.public.sequenceId] = true
         end
         hidePrompt(self)
         inputCooldown = COOLDOWN_TIME

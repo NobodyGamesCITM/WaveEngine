@@ -28,7 +28,11 @@ function Start(self)
 
     
     if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
-        _G._PlayerController_introAnim = true 
+        if _G.LoadedFromSave then
+            _G._PlayerController_introAnim = false 
+        else
+            _G._PlayerController_introAnim = true 
+        end
     else
         _G._PlayerController_introAnim = false 
     end
@@ -127,7 +131,6 @@ function Update(self, dt)
         end
 
     elseif currentState == State.FADE_IN then
-        _G.IsLoadingSaveGame = false
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
         local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)

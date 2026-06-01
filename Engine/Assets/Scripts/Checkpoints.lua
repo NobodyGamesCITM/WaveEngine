@@ -185,17 +185,23 @@ function Update(self, deltaTime)
                     lastCheckpoint = pos --current checkpoint transform, not gameobject
 
 
-					StopParticles("LastCheckpointVFX", previousCheckpoint)
-                    StopParticles("BlueSparkles", previousCheckpoint)
-                    ActivateParticles("Sparkles", previousCheckpoint)
-                    ChangeTexture(normalTexUUID, previousCheckpoint)
+                    if previousCheckpoint then
+                        StopParticles("LastCheckpointVFX", previousCheckpoint)
+                        StopParticles("BlueSparkles", previousCheckpoint)
+                        ActivateParticles("Sparkles", previousCheckpoint)
+                        ChangeTexture(normalTexUUID, previousCheckpoint)
+                    end
 
                     ActivateParticles("LastCheckpointVFX", currentCheckpoint)
                     ActivateParticles("BlueSparkles", currentCheckpoint)
                     StopParticles("YellowSparkles", currentCheckpoint)
                     ChangeTexture(glowingTexUUID, currentCheckpoint)
 
-                    if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave")
+                    if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave") end
+
+                    if _G.SaveManager then
+                        _G.SaveManager.SaveGame()
+                        if _G.ShowSaveIcon then _G.ShowSaveIcon() end
                     end
                 end
             end

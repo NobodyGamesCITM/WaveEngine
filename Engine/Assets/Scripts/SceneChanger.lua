@@ -55,7 +55,6 @@ function Start(self)
     else
         canvasComponent:LoadXAML("LoadingScreen.xaml")
         canvasComponent:SetOpacity(1.0) 
-        _G.CurrentXAML = "LoadingScreen.xaml"
     end
 
     self.StartTransition = StartTransition
@@ -127,6 +126,7 @@ function Update(self, dt)
         end
 
     elseif currentState == State.FADE_IN then
+        _G.IsLoadingSaveGame = false
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
         local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)

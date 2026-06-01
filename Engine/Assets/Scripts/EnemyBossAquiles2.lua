@@ -1366,7 +1366,7 @@ function Update(self, dt)
     end
 
     
-    if attackArea then attackArea:SetActive(attackAreaActive) end
+    if attackArea and attackArea.SetActive then attackArea:SetActive(attackAreaActive) end
     if not attackAreaActive then colliderAreaAttack:Disable() end
     
     if attackAreaActive then 

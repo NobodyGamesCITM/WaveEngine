@@ -123,6 +123,13 @@ function ForceRefreshHUD()
 end
 _G.ForceRefreshHUD = ForceRefreshHUD
 
+local saveIconTimer = 0.0
+
+function _G.ShowSaveIcon()
+    UI.SetElementVisibility("SaveIconContainer", true)
+    saveIconTimer = 2.0
+end
+
 function Start(self)
     myCanvas = self.gameObject:GetComponent("Canvas")
     ForceRefreshHUD()
@@ -161,5 +168,12 @@ function Update(self, dt)
         prevHasAres    = hasAres
         prevHasApolo   = hasApolo
         prevActiveMask = activeMask
+    end
+
+    if saveIconTimer > 0 then
+        saveIconTimer = saveIconTimer - dt
+        if saveIconTimer <= 0 then
+            UI.SetElementVisibility("SaveIconContainer", false)
+        end
     end
 end

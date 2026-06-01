@@ -472,7 +472,12 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
 end
 
 local function ApplyMaskVisual(self, newMask)
-    if not maskApolo or not maskAres or not maskHermes then FindMasks(self) end
+    if not maskApolo or not maskApolo.transform or 
+       not maskAres or not maskAres.transform or 
+       not maskHermes or not maskHermes.transform then 
+        FindMasks(self) 
+    end
+    
     if newMask == Mask.APOLLO then
         if maskAres   then maskAres:SetActive(false)  end
         if maskApolo  then maskApolo:SetActive(true)   end
@@ -494,6 +499,8 @@ end
 
 
 local function EquipMask(self, newMask, skipSword)
+    if not self.gameObject or not self.gameObject.transform then return end
+
     if Player.currentMask == Mask.HERMES and Player.isDrowning and newMask ~= Mask.HERMES then
         ApplyMaskVisual(self, newMask)
         self.public.health = 0
@@ -505,9 +512,12 @@ local function EquipMask(self, newMask, skipSword)
     end
     if Player.maskAnimTimer > 0 then return end
 
-    if not maskApolo or not maskAres or not maskHermes then
+    if not maskApolo or not maskApolo.transform or 
+       not maskAres or not maskAres.transform or 
+       not maskHermes or not maskHermes.transform then
         FindMasks(self)
     end
+    
     ApplyMaskVisual(self, newMask)
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -1598,6 +1608,9 @@ FindMasks = function(self)
 end
 
 InitParticles = function(self)
+
+    if not self.gameObject or not self.gameObject.transform then return end
+
     vfxApolo        = GameObject.FindInChildren(self.gameObject, "VFXapolo")
     swordApolo      = GameObject.FindInChildren(self.gameObject, "Xiphos_Apolo")
     vfxApoloAttack  = GameObject.FindInChildren(self.gameObject, "VFXapoloAttack")
@@ -1852,60 +1865,66 @@ function Update(self, dt)
 
         Player.restoreListenerFrames = 2
         
-        local spawn = GameObject.Find("SpawnPoint")
-        if spawn then
-            pcall(function()
-                local p = spawn.transform.position
-                self.transform:SetPosition(p.x, p.y, p.z)
-                Engine.Log("[Player] Teleported to SpawnPoint successfully")
-            end)
-        end
-        
         Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
         mGo = GameObject.Find("MusicSource")
         if mGo then
             musicComp = mGo:GetComponent("Audio Source")
-            if musicComp then
-                musicComp:SetSourceVolume(100.0)
-            else
-                Engine.Log("[Player] ERROR: MusicSource found but NO 'Audio Source' component!")
-            end
-        else
-            Engine.Log("[Player] WARNING: No 'MusicSource' object found to restore audio.")
+            if musicComp then musicComp:SetSourceVolume(100.0) end
         end
         
         RefreshAudioSources(self)
-
         InitParticles(self)
         FindMasks(self)
 
-        local maskToRestore = Mask.NONE
-
-        if _G._MidRunTransition then
-            _G._MidRunTransition = false
-            _G._UnlockedMasks = _G._UnlockedMasks or {}
-            if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
-            if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
-            if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
-
-            if _G._SavedCurrentMask == "Apolo" then maskToRestore = Mask.APOLLO
-            elseif _G._SavedCurrentMask == "Hermes" then maskToRestore = Mask.HERMES
-            elseif _G._SavedCurrentMask == "Ares" then maskToRestore = Mask.ARES
-            end
+        if _G.IsLoadingSaveGame and _G.SaveManager then
+            Engine.Log("[Player] CARGANDO PARTIDA: Aplicando datos guardados...")
+            
+            _G.SaveManager.ApplyLoadedData(self.gameObject)
+            _G.IsLoadingSaveGame = false
+            
+            local loadedMask = Mask.NONE
+            if _G._PlayerController_currentMask == "Apolo" then loadedMask = Mask.APOLLO
+            elseif _G._PlayerController_currentMask == "Hermes" then loadedMask = Mask.HERMES
+            elseif _G._PlayerController_currentMask == "Ares" then loadedMask = Mask.ARES end
+            
+            Player.currentMask = nil
+            EquipMask(self, loadedMask)
+            UpdateSwordMaterial()
+            
         else
-            _G._UnlockedMasks    = {}
-            _G._MaskState_Apolo  = false
-            _G._MaskState_Hermes = false
-            _G._MaskState_Ares   = false
+            Engine.Log("[Player] NUEVA PARTIDA / TRANSICIÓN: Configurando estado por defecto...")
+            local spawn = GameObject.Find("SpawnPoint")
+            if spawn then
+                pcall(function()
+                    local p = spawn.transform.position
+                    self.transform:SetPosition(p.x, p.y, p.z)
+                end)
+            end
+
+            local maskToRestore = Mask.NONE
+            if _G._MidRunTransition then
+                _G._MidRunTransition = false
+                _G._UnlockedMasks = _G._UnlockedMasks or {}
+                if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
+                if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
+                if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
+
+                if _G._SavedCurrentMask == "Apolo" then maskToRestore = Mask.APOLLO
+                elseif _G._SavedCurrentMask == "Hermes" then maskToRestore = Mask.HERMES
+                elseif _G._SavedCurrentMask == "Ares" then maskToRestore = Mask.ARES
+                end
+            else
+                _G._UnlockedMasks    = {}
+                _G._MaskState_Apolo  = false
+                _G._MaskState_Hermes = false
+                _G._MaskState_Ares   = false
+            end
+
+            Player.currentMask = nil
+            EquipMask(self, maskToRestore)
+            UpdateSwordMaterial()
         end
-
-        Player.currentMask = nil
-        EquipMask(self, maskToRestore)
-        UpdateSwordMaterial()
-
-       
-       
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2654,10 +2673,17 @@ end
 
 function UpdateSwordMaterial()
     if not Player.currentMask then return end
+
+    if swordApolo and not swordApolo.transform then swordApolo = nil end
+    if swordHermes and not swordHermes.transform then swordHermes = nil end
+    if swordAres and not swordAres.transform then swordAres = nil end
+    if swordGameObject and not swordGameObject.transform then swordGameObject = nil end
+
     if swordApolo      then swordApolo:SetActive(Player.currentMask      == Mask.APOLLO) end
     if swordHermes     then swordHermes:SetActive(Player.currentMask     == Mask.HERMES) end
     if swordAres       then swordAres:SetActive(Player.currentMask       == Mask.ARES)   end
     if swordGameObject then swordGameObject:SetActive(Player.currentMask == Mask.NONE)   end
+    
     if Player.aresPs   then
         if Player.currentMask == Mask.ARES   then Player.aresPs:Play()   else Player.aresPs:Stop()   end
     end

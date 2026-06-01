@@ -1,3 +1,234 @@
+_G.PendingSaveDataApply = _G.PendingSaveDataApply or false
+_G.IsLoadingSaveGame = _G.IsLoadingSaveGame or false
+_G.LoadedSaveData = _G.LoadedSaveData or nil
+_G.SaveManager = _G.SaveManager or {}
+local SAVE_FILENAME = "savegame.json"
+
+local function TableToString(tbl)
+    local result = "{"
+    for k, v in pairs(tbl) do
+        if type(k) == "string" then
+            result = result .. '["' .. k .. '"]='
+        else
+            result = result .. "[" .. tostring(k) .. "]="
+        end
+        
+        if type(v) == "table" then result = result .. TableToString(v) .. ","
+        elseif type(v) == "string" then result = result .. "\"" .. v .. "\","
+        elseif type(v) == "boolean" then result = result .. tostring(v) .. ","
+        elseif type(v) == "number" then result = result .. tostring(v) .. "," 
+        else result = result .. "nil," end
+    end
+    if result:sub(-1) == "," then result = result:sub(1, -2) end
+    return result .. "}"
+end
+
+local function StringToTable(str)
+    local func, err = load("return " .. str)
+    if func then 
+        local ok, res = pcall(func)
+        if ok then return res else Engine.Log("[SaveManager] Error pcall: "..tostring(res)) end
+    else
+        Engine.Log("[SaveManager] Error load: "..tostring(err))
+    end
+    return nil
+end
+
+function _G.SaveManager.SaveGame()
+    if not Engine.SaveTextFile then return end
+    Engine.Log("[SaveManager] Recopilando datos de la escena...")
+    
+    local player = GameObject.Find("Player")
+    if not player or not _G.PlayerInstance then return end
+
+    local pScript = _G.PlayerInstance.public
+    local potScript = _G.PotionSystem.public
+    local pPos = player.transform.worldPosition
+    local pRot = player.transform.rotation
+
+    local saveData = {
+        scene = _G.CurrentLevel or "Level1",
+        player = {
+            x = pPos.x, y = pPos.y, z = pPos.z, rotY = pRot.y,
+            hp = pScript.health or 100, stamina = pScript.stamina or 100,
+            potions = potScript.potionCount or 0, maxPotions = potScript.maxPotions or 0,
+            berserk = potScript.berserkCount or 0, maxBerserk = potScript.maxBerserk or 0,
+            maskApolo = _G._MaskState_Apolo or false, maskHermes = _G._MaskState_Hermes or false,
+            maskAres = _G._MaskState_Ares or false, activeMask = _G._PlayerController_currentMask or ""
+        },
+        world = { keysCollected = _G.keysCollected or 0 },
+        enemies = {}, puzzles = {}, doors = {}
+    }
+
+    local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
+    for _, tag in ipairs(enemyTags) do
+        local enemies = GameObject.FindByTag(tag)
+        if enemies then
+            for _, enemy in ipairs(enemies) do
+                local script = enemy:GetComponent("Script")
+                if script then
+                    local isDead = false
+                    if script.CheckAlive then isDead = script:CheckAlive()
+                    elseif script.isDead ~= nil then isDead = script.isDead
+                    elseif script.hp ~= nil then isDead = (script.hp <= 0) end
+                    local ePos = enemy.transform.worldPosition
+                    local eRot = enemy.transform.rotation
+                    saveData.enemies[enemy.name] = { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y }
+                end
+            end
+        end
+    end
+
+    local puzzles = GameObject.FindByTag("PuzzleEntity")
+    if puzzles then
+        for _, puz in ipairs(puzzles) do
+            local script = puz:GetComponent("Script")
+            if script and script.public then
+                local pos = puz.transform.worldPosition
+                local rot = puz.transform.rotation
+                saveData.puzzles[puz.name] = { gridR = script.public.gridR or 0, gridC = script.public.gridC or 0, x = pos.x, y = pos.y, z = pos.z, rotY = rot.y }
+            end
+        end
+    end
+
+    local doors = GameObject.FindByTag("Door")
+    if doors then
+        for _, door in ipairs(doors) do
+            local script = door:GetComponent("Script")
+            if script then
+                local pos = door.transform.worldPosition
+                local state = false
+                if script.isOpen ~= nil then state = script.isOpen elseif script.isClose ~= nil then state = not script.isClose end
+                saveData.doors[door.name] = { open = state, y = pos.y }
+            end
+        end
+    end
+
+    local jsonString = TableToString(saveData)
+    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then Engine.Log("[SaveManager] Partida guardada con éxito.")
+    else Engine.Log("[SaveManager] ERROR al guardar la partida.") end
+end
+
+function _G.SaveManager.LoadGameData()
+    if not Engine.LoadTextFile then return false end
+    local jsonString = Engine.LoadTextFile(SAVE_FILENAME)
+    if not jsonString then return false end
+    _G.LoadedSaveData = StringToTable(jsonString)
+    return _G.LoadedSaveData ~= nil
+end
+
+function _G.SaveManager.ApplyLoadedData(playerObj)
+    Engine.Log("[SaveManager] --- INICIANDO APLICACION DE DATOS ---")
+    
+    if not _G.LoadedSaveData then 
+        Engine.Log("[SaveManager] ERROR: No hay datos cargados en memoria (LoadedSaveData es nil).")
+        return 
+    end
+    
+    local data = _G.LoadedSaveData
+
+    -- PLAYER
+    Engine.Log("[SaveManager] 1. Aplicando Player...")
+    if playerObj and playerObj.transform then
+        playerObj.transform:SetPosition(data.player.x, data.player.y, data.player.z)
+        playerObj.transform:SetRotation(0, data.player.rotY, 0)
+        local rb = playerObj:GetComponent("Rigidbody")
+        if rb then rb:SetLinearVelocity(0,0,0) end
+        
+        if _G.PlayerInstance then
+            _G.PlayerInstance.public.health = data.player.hp
+            _G.PlayerInstance.public.stamina = data.player.stamina
+        end
+        if _G.PotionSystem then
+            _G.PotionSystem.public.potionCount = data.player.potions
+            _G.PotionSystem.public.maxPotions = data.player.maxPotions
+            _G.PotionSystem.public.berserkCount = data.player.berserk
+            _G.PotionSystem.public.maxBerserk = data.player.maxBerserk
+        end
+        _G._MaskState_Apolo = data.player.maskApolo
+        _G._MaskState_Hermes = data.player.maskHermes
+        _G._MaskState_Ares = data.player.maskAres
+        _G._PlayerController_currentMask = data.player.activeMask
+        _G.keysCollected = data.world.keysCollected
+        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
+        Engine.Log("[SaveManager] Player movido a: " .. data.player.x .. ", " .. data.player.y .. ", " .. data.player.z)
+    else
+        Engine.Log("[SaveManager] ERROR: playerObj o su transform son nulos.")
+    end
+
+    -- ENEMIGOS
+    Engine.Log("[SaveManager] 2. Aplicando Enemigos...")
+    local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
+    for _, tag in ipairs(enemyTags) do
+        local enemies = GameObject.FindByTag(tag)
+        if enemies and data.enemies then
+            for _, enemy in ipairs(enemies) do
+                local eName = enemy.name
+                if eName and data.enemies[eName] then
+                    local eData = data.enemies[eName]
+                    if eData.dead then 
+                        if enemy.SetActive then enemy:SetActive(false) end
+                    else
+                        if enemy.transform then
+                            enemy.transform:SetPosition(eData.x, eData.y, eData.z)
+                            enemy.transform:SetRotation(0, eData.rotY, 0)
+                        end
+                        local rb = enemy:GetComponent("Rigidbody")
+                        if rb then rb:SetLinearVelocity(0,0,0) end
+                        local script = enemy:GetComponent("Script")
+                        if script then script.hp = eData.hp end
+                    end
+                end
+            end
+        end
+    end
+
+    -- PUZZLES
+    Engine.Log("[SaveManager] 3. Aplicando Puzzles...")
+    local puzzles = GameObject.FindByTag("PuzzleEntity")
+    if puzzles and data.puzzles then
+        for _, puz in ipairs(puzzles) do
+            local pName = puz.name
+            if pName and data.puzzles[pName] then
+                local pData = data.puzzles[pName]
+                if puz.transform then
+                    puz.transform:SetPosition(pData.x, pData.y, pData.z)
+                    puz.transform:SetRotation(0, pData.rotY, 0)
+                end
+                local script = puz:GetComponent("Script")
+                if script and script.public then 
+                    script.public.gridR = pData.gridR 
+                    script.public.gridC = pData.gridC 
+                end
+            end
+        end
+    end
+
+    -- PUERTAS
+    Engine.Log("[SaveManager] 4. Aplicando Puertas...")
+    local doors = GameObject.FindByTag("Door")
+    if doors and data.doors then
+        for _, door in ipairs(doors) do
+            local dName = door.name
+            if dName and data.doors[dName] then
+                local dData = data.doors[dName]
+                if door.transform then
+                    local pos = door.transform.worldPosition
+                    if pos then door.transform:SetPosition(pos.x, dData.y, pos.z) end
+                end
+                local script = door:GetComponent("Script")
+                if script then
+                    if script.isOpen ~= nil then script.isOpen = dData.open
+                    elseif script.isClose ~= nil then script.isClose = not dData.open end
+                end
+            end
+        end
+    end
+
+    _G.LoadedSaveData = nil
+    Engine.Log("[SaveManager] --- FIN APLICACION DE DATOS ---")
+end
+
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local MIN_LOADING_SCREEN_DURATION = 2.5
 local FADE_DURATION      = 0.5
@@ -125,6 +356,17 @@ function Initialize(self)
     InitAudioSources(self)
     ApplyFullVolume(self)
 
+    if _G.IsLoadingSaveGame then
+        self.current = "HUD.xaml"
+        _G.CurrentXAML = "HUD.xaml"
+        self.canvas:LoadXAML("HUD.xaml")
+        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
+        Game.Resume()
+        self.lastPauseState = "running"
+        Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
+        return true
+    end
+
     if _G.SkipSplash and not _G.ForceStartXAML then
         self.waitingForSplash = true
         Engine.Log("[MenuManager] Waiting for ForceStartXAML (SkipSplash active)...")
@@ -158,11 +400,13 @@ function Initialize(self)
         return true
     end
 
-    local sceneVal = ""
-    if type(self.public.currentScene) == "table" then
-        sceneVal = self.public.currentScene.value or ""
-    elseif type(self.public.currentScene) == "string" then
-        sceneVal = self.public.currentScene
+    local sceneVal = _G.CurrentLevel or ""
+    if sceneVal == "" then
+        if type(self.public.currentScene) == "table" then
+            sceneVal = self.public.currentScene.value or ""
+        elseif type(self.public.currentScene) == "string" then
+            sceneVal = self.public.currentScene
+        end
     end
 
     local isGameplayScene = (sceneVal:find("Level1") ~= nil or sceneVal:find("Level2") ~= nil)
@@ -453,9 +697,36 @@ function Update(self, dt)
         if UI.WasClicked("StartButton") then
             if not self.fading then
                 Engine.Log("[MenuManager] StartButton clicked.")
+                _G.PendingSaveDataApply = false
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
+            end
+        end
+
+        if UI.WasClicked("ContinueButton") then
+            if not self.fading then
+                if _G.SaveManager and _G.SaveManager.LoadGameData() then
+                    Engine.Log("[MenuManager] ContinueButton clicked. LOAD GAME.")
+                    _G.PendingSaveDataApply = true
+                    _G.IsLoadingSaveGame = true
+                    
+                    local sName = _G.LoadedSaveData.scene
+                    if sName == "Level_01" then sName = "Level1" end
+                    if sName == "Level_02" then sName = "Level2" end
+                    
+                    if sName:find(".scene") == nil then
+                        sName = sName .. ".scene"
+                    end
+                    
+                    self.pendingScene = sName
+                    _G.CurrentLevel = sName:gsub(".scene", "")
+                    
+                    self.fading = true
+                    self.canvas:PlayStoryboard("FadeOut")
+                else
+                    Engine.Log("[MenuManager] No hay partida guardada.")
+                end
             end
         end
         if UI.WasClicked("SettingsButton") then NavigateTo(self, "SettingsMenu.xaml") end
@@ -560,9 +831,11 @@ function Update(self, dt)
         end
 
         local previous = self.current
-        self.canvas:LoadXAML(self.nextXaml)
-        self.current   = self.nextXaml
-        _G.CurrentXAML = self.current
+        if self.nextXaml and self.nextXaml ~= "" then
+            self.canvas:LoadXAML(self.nextXaml)
+            self.current   = self.nextXaml
+            _G.CurrentXAML = self.current
+        end
 
         self.lastPauseState = nil
 
@@ -582,8 +855,12 @@ function Update(self, dt)
                     _G.ForceRefreshHUD()
                 end
             else
-                if _G.ResetPlayer and _G.PlayerInstance then
-                    _G.ResetPlayer(_G.PlayerInstance)
+                if not _G.IsLoadingSaveGame then
+                    if _G.ResetPlayer and _G.PlayerInstance then
+                        _G.ResetPlayer(_G.PlayerInstance)
+                    else
+                        _G._PlayerController_isDead = false
+                    end
                 else
                     _G._PlayerController_isDead = false
                 end
@@ -600,7 +877,7 @@ function Update(self, dt)
             self.lastPauseState = "running"
         end
 
-        Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
+        Engine.Log("[MenuManager] Swapped to: " .. tostring(self.nextXaml) .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
         if _G.TitleTrigger_HUDShouldStartHidden and self.nextXaml == "HUD.xaml" then
             self.canvas:SetOpacity(0.0)
             SetPhase(self, "idle")
@@ -626,14 +903,17 @@ function Update(self, dt)
     elseif self.phase == "loadingScreenAnimating" then
         if self.pendingScene then
             if not self.loadingXAMLStarted then
-                Engine.Log("[MenuManager] Mostrando LoadingScreen...")
                 if self.canvas then self.canvas:LoadXAML("LoadingScreen.xaml") end
                 self.loadingXAMLStarted = true
             end
             self.loadingScreenTimer = self.loadingScreenTimer + dt
             if self.loadingScreenTimer < MIN_LOADING_SCREEN_DURATION then return end
+            
             Engine.Log("[MenuManager] Cargando escena: " .. self.pendingScene)
             self.loadingXAMLStarted = false
+            
+            _G.CurrentLevel = self.pendingScene:gsub(".scene", "")
+            
             Engine.LoadScene(self.pendingScene)
             self.pendingScene = nil
             return

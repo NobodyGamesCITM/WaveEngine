@@ -1,5 +1,7 @@
 Engine/build/
 Engine/Library/
+Saves/
+Engine/Saves/
 Engine/CMakeUserPresets.json
 Engine/External/Wwise/SDK
 Engine/External/NoesisGui

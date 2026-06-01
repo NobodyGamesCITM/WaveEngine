@@ -3498,7 +3498,7 @@
                                 "speedMax": 8.0,
                                 "speedMin": 5.0,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
+                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
                                 "textureRows": 1,
                                 "textureUID": 9349459316526766944,
                                 "type": 7
@@ -3623,7 +3623,7 @@
                                 "speedMax": 9.899999618530273,
                                 "speedMin": 7.5,
                                 "textureCols": 1,
-                                "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
+                                "texturePath": "C:\\Users\\Usuari\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Spark_Mid_01_TEST.png",
                                 "textureRows": 1,
                                 "textureUID": 6536179688999681322,
                                 "type": 7
@@ -3907,7 +3907,7 @@
                 "Mass": 1.0,
                 "Type": 1,
                 "UseCCD": false,
-                "UseGravity": false,
+                "UseGravity": true,
                 "active": true,
                 "type": 8
             },
@@ -3933,9 +3933,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "lockOnSize",
+                        "name": "attackAreaFinalScale",
                         "type": 0,
-                        "value": 14.0
+                        "value": 25.0
                     },
                     {
                         "name": "doorName",
@@ -3943,9 +3943,9 @@
                         "value": "Puerta_Final"
                     },
                     {
-                        "name": "attackAreaFinalScale",
+                        "name": "lockOnSize",
                         "type": 0,
-                        "value": 25.0
+                        "value": 14.0
                     }
                 ],
                 "scriptUID": 2892393956142374010,

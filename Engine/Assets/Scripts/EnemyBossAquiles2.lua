@@ -1428,7 +1428,7 @@ function Update(self, dt)
         myLocalRot = self.transform.rotation
         pp = playerGO.transform.worldPosition
 
-        if not currentState==State.DEAD then
+        if currentState ~= State.DEAD then
             local currentPos = self.transform.worldPosition
             local floorheight = -1.5
 

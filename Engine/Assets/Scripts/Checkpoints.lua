@@ -182,7 +182,7 @@ function Update(self, deltaTime)
                     pos.y = pos.y + self.public.offsetY
                     pos.z = pos.z + self.public.offsetZ
 
-                    lastCheckpoint = pos --current checkpoint transform, not gameobject
+                    lastCheckpoint = pos 
 
 
 					StopParticles("LastCheckpointVFX", previousCheckpoint)
@@ -205,14 +205,13 @@ end
 
 
 function _G.RestorePotions()
+    if _G.TriggerBlueVignette then
+        _G.TriggerBlueVignette()
+    end
+
     if _G.PotionSystem then
         _G.PotionSystem.public.potionCount = _G.PotionSystem.public.maxPotions or 0
         _G.PotionSystem.public.berserkCount = _G.PotionSystem.public.maxBerserk or 0
-
-        local currentHP = (_G.PlayerInstance and _G.PlayerInstance.public) and _G.PlayerInstance.public.health or 100
-        if _G.TriggerHealVignette and currentHP < 100 then
-            _G.TriggerHealVignette()
-        end
     end
 
     if _G.PlayerInstance then

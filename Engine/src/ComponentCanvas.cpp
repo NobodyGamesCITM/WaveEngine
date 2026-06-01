@@ -215,7 +215,6 @@ bool ComponentCanvas::LoadXAML(const char* filename)
     UIManager::GetInstance().RegisterCanvas(this);
     return true;
 }
-
 void ComponentCanvas::Update()
 {
     if (!view) return;
@@ -230,37 +229,104 @@ void ComponentCanvas::Update()
     }
 
     const bool stickActive =
-        (fabs(stickX) >= STICK_THRESHOLD || fabs(stickY) >= STICK_THRESHOLD);
+        (std::abs(stickX) >= STICK_THRESHOLD || std::abs(stickY) >= STICK_THRESHOLD);
+    const bool dpadActive =
+        (std::abs(dpadX) > 0.1f || std::abs(dpadY) > 0.1f);
 
-    if (stickActive)
+    const float inputX = (std::abs(dpadX) > 0.1f) ? dpadX : stickX;
+    const float inputY = (std::abs(dpadY) > 0.1f) ? dpadY : stickY;
+    const bool  anyActive = stickActive || dpadActive;
+
+    if (anyActive && UIManager::GetInstance().HasFocusedSlider()
+        && std::abs(inputX) >= std::abs(inputY))
+    {
+        sliderHoldTime += (float)dt;
+
+        float minSpeed  = 10.0f;   
+        float maxSpeed  = 55.0f;   
+        float accelTime = 1.5f;
+
+        float progress     = std::min(sliderHoldTime / accelTime, 1.0f);
+        float speed        = minSpeed + (maxSpeed - minSpeed) * progress;
+        float magnitude    = (std::abs(dpadX) > 0.1f) ? 1.0f : std::min(std::abs(inputX), 1.0f);
+        float step         = (inputX > 0.0f ? 1.0f : -1.0f) * speed * magnitude * (float)dt;
+
+        UIManager::GetInstance().StepFocusedSlider(step);
+    }
+    else if (!anyActive)
+    {
+        sliderHoldTime = 0.0f;
+    }
+
+    const bool stickIsNavigating = stickActive &&
+        !(UIManager::GetInstance().HasFocusedSlider() && std::abs(stickX) >= std::abs(stickY));
+
+    if (stickIsNavigating)
     {
         if (!stickInitialFired)
         {
-            TryNavigateStick(stickX, stickY);
+            TryNavigateButtons(stickX, stickY);
             stickInitialFired = true;
-            stickRepeatTimer = 0.0;
-        }
-        else if (stickRepeatTimer < STICK_INITIAL_DELAY)
-        {
-            stickRepeatTimer += dt;
+            stickRepeatTimer  = 0.0;
         }
         else
         {
             stickRepeatTimer += dt;
-            while (stickRepeatTimer >= STICK_INITIAL_DELAY + STICK_REPEAT_RATE)
+            if (stickRepeatTimer >= STICK_REPEAT_RATE)
             {
-                TryNavigateStick(stickX, stickY);
-                stickRepeatTimer -= STICK_REPEAT_RATE;
+                TryNavigateButtons(stickX, stickY);
+                stickRepeatTimer = 0.0;
             }
         }
     }
     else
     {
         stickInitialFired = false;
-        stickRepeatTimer = 0.0;
+        stickRepeatTimer  = 0.0;
+    }
+
+    const bool dpadIsNavigating = dpadActive &&
+        !(UIManager::GetInstance().HasFocusedSlider() && std::abs(dpadX) >= std::abs(dpadY));
+
+    if (dpadIsNavigating)
+    {
+        if (!dpadInitialFired)
+        {
+            TryNavigateButtons(dpadX, dpadY);
+            dpadInitialFired = true;
+            dpadRepeatTimer  = 0.0;
+        }
+        else
+        {
+            dpadRepeatTimer += dt;
+            if (dpadRepeatTimer >= DPAD_REPEAT_RATE)
+            {
+                TryNavigateButtons(dpadX, dpadY);
+                dpadRepeatTimer = 0.0;
+            }
+        }
+    }
+    else
+    {
+        dpadInitialFired = false;
+        dpadRepeatTimer  = 0.0;
     }
 }
+void ComponentCanvas::TryNavigateButtons(float x, float y)
+{
+    if (!view) return;
 
+    auto PressNavKey = [&](Noesis::Key key)
+    {
+        view->KeyDown(key);
+        view->KeyUp(key);
+    };
+
+    if (std::abs(y) >= std::abs(x))
+        PressNavKey(y > 0.0f ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
+    else
+        PressNavKey(x > 0.0f ? Noesis::Key_GamepadRight : Noesis::Key_GamepadLeft);
+}
 void ComponentCanvas::RenderToTexture()
 {
     if (!view) return;
@@ -348,12 +414,31 @@ void ComponentCanvas::OnMouseWheel(int x, int y, int delta)
 
 void ComponentCanvas::OnGamepadButtonDown(Noesis::Key key)
 {
+    if (key == Noesis::Key_GamepadLeft || key == Noesis::Key_GamepadRight ||
+        key == Noesis::Key_GamepadUp || key == Noesis::Key_GamepadDown)
+    {
+        return;
+    }
+
+    if (UIManager::GetInstance().HasFocusedSlider())
+    {
+        if (key == Noesis::Key_Left || key == Noesis::Key_Right ||
+            key == Noesis::Key_Home || key == Noesis::Key_End ||
+            key == Noesis::Key_Prior || key == Noesis::Key_Next ||
+            key == Noesis::Key_GamepadPageLeft || key == Noesis::Key_GamepadPageRight)
+            return;
+    }
+
     if (!view) return;
     view->KeyDown(key);
 }
 
 void ComponentCanvas::OnGamepadButtonUp(Noesis::Key key)
 {
+    if (key == Noesis::Key_GamepadLeft || key == Noesis::Key_GamepadRight ||
+        key == Noesis::Key_GamepadUp || key == Noesis::Key_GamepadDown)
+        return;
+
     if (!view) return;
     view->KeyUp(key);
 }
@@ -369,33 +454,51 @@ void ComponentCanvas::OnGamepadLeftStick(float x, float y)
         stickRepeatTimer = 0.0;
     }
 }
-
-void ComponentCanvas::TryNavigateStick(float x, float y)
+void ComponentCanvas::TryNavigateStick(float x, float y, bool isDPad)
 {
     if (!view) return;
 
+    auto PressNavKey = [&](Noesis::Key key)
+    {
+        view->KeyDown(key);
+        view->KeyUp(key);
+    };
+
     if (UIManager::GetInstance().HasFocusedSlider())
     {
-        if (fabs(x) >= fabs(y))
+        if (std::abs(x) >= std::abs(y))
         {
-            const float BASE_STEP = 0.15f;
-            float step = (x > 0.0f ? 1.0f : -1.0f) * BASE_STEP;
+            float minStep   = 0.2f;
+            float maxStep   = 2.5f;
+            float accelTime = 1.5f;
+
+            float progress    = std::min(sliderHoldTime / accelTime, 1.0f);
+            float currentStep = minStep + (maxStep - minStep) * progress;
+
+            float magnitude = isDPad ? 1.0f : std::min(std::abs(x), 1.0f);
+            float finalStep = std::max(currentStep * magnitude, 0.05f);
+            float step      = (x > 0.0f ? 1.0f : -1.0f) * finalStep;
+
             UIManager::GetInstance().StepFocusedSlider(step);
             return;
         }
         else
         {
-            view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
+            PressNavKey(y > 0.0f ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
             return;
         }
     }
 
-    if (fabs(y) >= fabs(x))
-        view->KeyDown(y > STICK_THRESHOLD ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
+    if (std::abs(y) >= std::abs(x))
+        PressNavKey(y > 0.0f ? Noesis::Key_GamepadDown : Noesis::Key_GamepadUp);
     else
-        view->KeyDown(x > STICK_THRESHOLD ? Noesis::Key_GamepadRight : Noesis::Key_GamepadLeft);
+        PressNavKey(x > 0.0f ? Noesis::Key_GamepadRight : Noesis::Key_GamepadLeft);
 }
-
+void ComponentCanvas::OnGamepadDPad(float x, float y)
+{
+    dpadX = x;
+    dpadY = y;
+}
 void ComponentCanvas::OnGamepadRightStick(float x, float y)
 {
     (void)x; (void)y;
@@ -411,23 +514,27 @@ void ComponentCanvas::OnGamepadTrigger(float left, float right)
 
     if (left >= TRIGGER_THRESHOLD && !ltWasDown)
     {
-        view->KeyDown(Noesis::Key_GamepadPageLeft);
+        if (!UIManager::GetInstance().HasFocusedSlider())
+            view->KeyDown(Noesis::Key_GamepadPageLeft);
         ltWasDown = true;
     }
     else if (left < TRIGGER_THRESHOLD && ltWasDown)
     {
-        view->KeyUp(Noesis::Key_GamepadPageLeft);
+        if (!UIManager::GetInstance().HasFocusedSlider())
+            view->KeyUp(Noesis::Key_GamepadPageLeft);
         ltWasDown = false;
     }
 
     if (right >= TRIGGER_THRESHOLD && !rtWasDown)
     {
-        view->KeyDown(Noesis::Key_GamepadPageRight);
+        if (!UIManager::GetInstance().HasFocusedSlider())
+            view->KeyDown(Noesis::Key_GamepadPageRight);
         rtWasDown = true;
     }
     else if (right < TRIGGER_THRESHOLD && rtWasDown)
     {
-        view->KeyUp(Noesis::Key_GamepadPageRight);
+        if (!UIManager::GetInstance().HasFocusedSlider())
+            view->KeyUp(Noesis::Key_GamepadPageRight);
         rtWasDown = false;
     }
 }

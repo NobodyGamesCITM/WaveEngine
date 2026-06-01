@@ -86,7 +86,8 @@ function Update(self, dt)
         if self.musicSource then 
             self.musicComp = self.musicSource:GetComponent("Audio Source")
             if self.musicComp then 
-                self.musicComp:PlayAudioEvent() 
+                self.musicComp:SelectPlayAudioEvent("MUS_BGM") 
+                Engine.Log("Started playing BGM from SceneChanger")
             end
         end
     end

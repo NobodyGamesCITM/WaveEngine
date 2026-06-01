@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{2692677F-7424-AC7B-AF7D-5CB0F9805FF1}",
+    "Hash": "{79742DB2-98EC-36FD-483A-9AF044882474}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -488,6 +488,14 @@
       "CachePath": "CD/{CDA3AAD9-F800-E375-0F42-C39FC5EE0CA5}.wem"
      },
      {
+      "Id": "217331738",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Scary ghost sound effect ProFX Sound Sound Effects Free Sound Effects.wav",
+      "CachePath": "10/{100FAC89-5038-0982-735C-806A40A3984E}.wem"
+     },
+     {
       "Id": "218509929",
       "Language": "SFX",
       "Streaming": "false",
@@ -784,6 +792,14 @@
       "CachePath": "6E/{6E890459-1C8E-5BAE-406D-C27F4E35AA22}.wem"
      },
      {
+      "Id": "360078211",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-sad-ghost-40303.wav",
+      "CachePath": "05/{05B30F4C-C51C-694B-4E2C-4947DFB6593A}.wem"
+     },
+     {
       "Id": "362843339",
       "Language": "SFX",
       "Streaming": "false",
@@ -806,6 +822,14 @@
       "Location": "Memory",
       "ShortName": "Aquiles_DeathSound_01.wav",
       "CachePath": "7A/{7A38771B-445E-5F37-FA53-4AA81853351E}.wem"
+     },
+     {
+      "Id": "371808571",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "u_5hx6qi66bg-strange-whispers-415245.wav",
+      "CachePath": "87/{875D8D74-20DC-EDFD-68BF-013E3945367A}.wem"
      },
      {
       "Id": "372812432",
@@ -976,6 +1000,14 @@
       "CachePath": "86/{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem"
      },
      {
+      "Id": "488869351",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "dragon-studio-ghostly-wail-2-511321.wav",
+      "CachePath": "27/{2743B2C5-AA85-7256-1516-90EB52DFA55A}.wem"
+     },
+     {
       "Id": "494683163",
       "Language": "SFX",
       "Streaming": "false",
@@ -1054,6 +1086,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_step_07.wav",
       "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+     },
+     {
+      "Id": "542743982",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Scary ghost sound effect ProFX Sound Sound Effects Free Sound Effects.wav",
+      "CachePath": "99/{99758427-BDA9-83EE-29C7-EB843460099D}.wem"
      },
      {
       "Id": "546082658",
@@ -1296,6 +1336,14 @@
       "CachePath": "95/{95553B76-9FA2-C25C-7B0F-D53ABCD8765D}.wem"
      },
      {
+      "Id": "656155992",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-little-girl-ghost-101813.wav",
+      "CachePath": "FC/{FCAAADF4-9EDB-FE75-DC3A-932CC4EA4D92}.wem"
+     },
+     {
       "Id": "658947672",
       "Language": "SFX",
       "Streaming": "false",
@@ -1392,6 +1440,14 @@
       "CachePath": "5C/{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem"
      },
      {
+      "Id": "703953460",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ghost_whispers_00.wav",
+      "CachePath": "B7/{B789AA25-03B6-FD08-CD03-9CE1A78AC6DE}.wem"
+     },
+     {
       "Id": "717026493",
       "Language": "SFX",
       "Streaming": "false",
@@ -1416,6 +1472,14 @@
       "CachePath": "47/{47B28077-6411-38F4-8407-242380E9024D}.wem"
      },
      {
+      "Id": "726518480",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ghost_whispers_02.wav",
+      "CachePath": "D6/{D6B8EC63-81E6-8271-EE3F-75882F80017E}.wem"
+     },
+     {
       "Id": "728535981",
       "Language": "SFX",
       "Streaming": "false",
@@ -1438,6 +1502,14 @@
       "Location": "Memory",
       "ShortName": "hermes_spin_04.wav",
       "CachePath": "4E/{4E75E11D-7074-9846-F9FA-1AD2AF279754}.wem"
+     },
+     {
+      "Id": "739075408",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ghost_cartoon_00.wav",
+      "CachePath": "21/{211D7CC2-43DA-CF2F-1896-52D4E067619C}.wem"
      },
      {
       "Id": "750230204",
@@ -1848,6 +1920,14 @@
       "CachePath": "DD/{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem"
      },
      {
+      "Id": "924193480",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "alex_jauk-supernatural-scream-192423.wav",
+      "CachePath": "F0/{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem"
+     },
+     {
       "Id": "943118833",
       "Language": "SFX",
       "Streaming": "false",
@@ -1974,6 +2054,14 @@
       "Location": "Memory",
       "ShortName": "sword_sand_stab_00.wav",
       "CachePath": "B8/{B89C31F8-5639-BC78-1850-4C5954703FEB}.wem"
+     },
+     {
+      "Id": "1015733933",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-classic-ghost-sound-95773.wav",
+      "CachePath": "1F/{1F40A780-DE16-D606-E518-BE37A5A98BFE}.wem"
      },
      {
       "Id": "1023245561",
@@ -2837,6 +2925,69 @@
        },
        {
         "Id": "1041846858"
+       }
+      ]
+     },
+     {
+      "Id": "1423014660",
+      "Name": "SFX_GhostScreams",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostScreams",
+      "GUID": "{32D371E9-BE5F-40EC-8217-2EAE66DF5B1A}",
+      "MaxAttenuation": "30",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "217331738"
+       },
+       {
+        "Id": "542743982"
+       },
+       {
+        "Id": "656155992"
+       },
+       {
+        "Id": "924193480"
+       }
+      ]
+     },
+     {
+      "Id": "2416315390",
+      "Name": "SFX_GhostsThemin",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostsThemin",
+      "GUID": "{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}",
+      "MaxAttenuation": "30",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "360078211"
+       },
+       {
+        "Id": "488869351"
+       },
+       {
+        "Id": "739075408"
+       },
+       {
+        "Id": "1015733933"
+       }
+      ]
+     },
+     {
+      "Id": "1939663439",
+      "Name": "SFX_GhostWhispers",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostWhispers",
+      "GUID": "{CD022861-F08E-400E-9060-DB46B34397F5}",
+      "MaxAttenuation": "30",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "371808571"
+       },
+       {
+        "Id": "703953460"
+       },
+       {
+        "Id": "726518480"
        }
       ]
      },
@@ -5115,6 +5266,6 @@
     ]
    }
   ],
-  "FileHash": "{1ED1293C-FA4F-A395-DC3F-85A80ABF057F}"
+  "FileHash": "{C456EB06-D0E6-41DF-B7D8-2688859B1B67}"
  }
 }

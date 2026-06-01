@@ -507,10 +507,12 @@ function Update(self, dt)
             sceneVal = self.public.currentScene
         end
 
+        Engine.Log("Current scene = " ..tostring(sceneVal))
+
         local musicState = "None"
-        if sceneVal:find("Level1") then
+        if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
             musicState = "Level1"
-        elseif sceneVal:find("Level2") then
+        elseif sceneVal:find("Level2")  or sceneVal == "Level2.scene" then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -519,7 +521,8 @@ function Update(self, dt)
         end
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
-            self.musicComp:PlayAudioEvent()
+            self.musicComp:SelectPlayAudioEvent("MUS_BGM")
+            Engine.Log("Started playing BGM from MenuManager")
         end
     end
 

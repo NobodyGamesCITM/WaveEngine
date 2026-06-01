@@ -824,6 +824,39 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_GhostsThemin" ID="{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}">
+							<ChildrenList>
+								<Action Name="" ID="{D66F10F1-DAE5-4576-ABBC-20B3D0D85768}" ShortID="958202087">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="CartoonGhosts" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_GhostWhispers" ID="{CD022861-F08E-400E-9060-DB46B34397F5}">
+							<ChildrenList>
+								<Action Name="" ID="{55C5B37A-D474-4F0B-ACC1-95C7D17C04DB}" ShortID="288329482">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="GhostWhispers" ID="{2F7ED951-3830-4214-8E1C-FBC9E9968509}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_GhostScreams" ID="{32D371E9-BE5F-40EC-8217-2EAE66DF5B1A}">
+							<ChildrenList>
+								<Action Name="" ID="{ECE70198-A79A-4732-9A4B-7D2C5DBC6F34}" ShortID="464804609">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="GhostScreams" ID="{67F3254B-9549-4839-B3E2-F5C886E98842}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Minocabro" ID="{F66EFF77-03CF-410B-87CB-DC01709386E1}" ShortID="748498657">

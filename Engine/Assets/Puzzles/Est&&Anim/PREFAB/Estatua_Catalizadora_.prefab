@@ -55,11 +55,20 @@
                                                         "materialUID": 13850858585476634222,
                                                         "overrideTiling": false,
                                                         "type": 3
+                                                    },
+                                                    {
+                                                        "ArrivalThreshold": 0.25,
+                                                        "IsStatic": true,
+                                                        "MaxSlope": 35.0,
+                                                        "MoveSpeed": 5.0,
+                                                        "NavType": 2,
+                                                        "active": true,
+                                                        "type": 24
                                                     }
                                                 ],
                                                 "name": "ESTATUA_CATALIZADORA",
                                                 "tag": "",
-                                                "uid": 3229258044566003075
+                                                "uid": 11702161028545321521
                                             }
                                         ],
                                         "components": [
@@ -85,7 +94,7 @@
                                         ],
                                         "name": "ESTATUA_CATALIZADORA_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 13637928399515981476
+                                        "uid": 17098392895535696334
                                     }
                                 ],
                                 "components": [
@@ -111,7 +120,7 @@
                                 ],
                                 "name": "ESTATUA_CATALIZADORA_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 5749863293195661299
+                                "uid": 17545981863742062654
                             }
                         ],
                         "components": [
@@ -137,7 +146,7 @@
                         ],
                         "name": "ESTATUA_CATALIZADORA_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 6150500526514854915
+                        "uid": 12628328905392140009
                     }
                 ],
                 "components": [
@@ -163,7 +172,7 @@
                 ],
                 "name": "ESTATUA_CATALIZADORA_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 10862666120002516710
+                "uid": 7375771869413931349
             },
             {
                 "active": true,
@@ -231,7 +240,7 @@
                                                                         ],
                                                                         "name": "Sun",
                                                                         "tag": "",
-                                                                        "uid": 4397023489157642407
+                                                                        "uid": 7415134167757943423
                                                                     }
                                                                 ],
                                                                 "components": [
@@ -257,7 +266,7 @@
                                                                 ],
                                                                 "name": "Sun_$AssimpFbx$_ScalingPivotInverse",
                                                                 "tag": "",
-                                                                "uid": 5518472398761461036
+                                                                "uid": 790887738274399528
                                                             }
                                                         ],
                                                         "components": [
@@ -283,7 +292,7 @@
                                                         ],
                                                         "name": "Sun_$AssimpFbx$_Scaling",
                                                         "tag": "",
-                                                        "uid": 5879760647824249566
+                                                        "uid": 9567902474075716428
                                                     }
                                                 ],
                                                 "components": [
@@ -309,7 +318,7 @@
                                                 ],
                                                 "name": "Sun_$AssimpFbx$_ScalingPivot",
                                                 "tag": "",
-                                                "uid": 12090410173138817031
+                                                "uid": 11386062175802287183
                                             }
                                         ],
                                         "components": [
@@ -335,7 +344,7 @@
                                         ],
                                         "name": "Sun_$AssimpFbx$_RotationPivotInverse",
                                         "tag": "",
-                                        "uid": 13597286869003497030
+                                        "uid": 13678574286575543561
                                     }
                                 ],
                                 "components": [
@@ -361,7 +370,7 @@
                                 ],
                                 "name": "Sun_$AssimpFbx$_Rotation",
                                 "tag": "",
-                                "uid": 387598659473309602
+                                "uid": 14642664834024954842
                             }
                         ],
                         "components": [
@@ -387,7 +396,7 @@
                         ],
                         "name": "Sun_$AssimpFbx$_RotationPivot",
                         "tag": "",
-                        "uid": 6992265140323670673
+                        "uid": 13449329772052683400
                     }
                 ],
                 "components": [
@@ -413,16 +422,16 @@
                 ],
                 "name": "Sun_$AssimpFbx$_Translation",
                 "tag": "",
-                "uid": 717244495387922409
+                "uid": 9581061423257627473
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    165.4892578125,
+                    162.263671875,
                     30.044279098510742,
-                    -185.2041473388672
+                    -185.2531280517578
                 ],
                 "rotation": [
                     0.0,
@@ -458,19 +467,9 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "fordwardOffset",
+                        "name": "dirY",
                         "type": 0,
-                        "value": 0.5
-                    },
-                    {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": -1.0
-                    },
-                    {
-                        "name": "heightOffset",
-                        "type": 0,
-                        "value": 3.5
+                        "value": 0.0
                     },
                     {
                         "name": "dirX",
@@ -483,14 +482,24 @@
                         "value": false
                     },
                     {
+                        "name": "heightOffset",
+                        "type": 0,
+                        "value": 3.5
+                    },
+                    {
                         "name": "doorName",
                         "type": 1,
                         "value": ""
                     },
                     {
-                        "name": "dirY",
+                        "name": "fordwardOffset",
                         "type": 0,
-                        "value": 0.0
+                        "value": 0.5
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": -1.0
                     }
                 ],
                 "scriptUID": 3213472682470300881,
@@ -532,8 +541,8 @@
                 "type": 8
             }
         ],
-        "name": "Est_CAT_IDLE-ANIM",
+        "name": "Estatua_Catalizadora_1",
         "tag": "Statue",
-        "uid": 2149491571793301293
+        "uid": 8679331537976111353
     }
 ]

@@ -55,6 +55,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2654547363	SFX_SandStir			\Default Work Unit\Player\WakeUp\SFX_SandStir	
 	2660566025	SFX_SkeletonSteps			\Default Work Unit\Skeleton\SFX_SkeletonSteps	
 	2665412091	SFX_GM_MaskOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_MaskOn	
+	2719394510	SFX_AquilesWallHit			\Default Work Unit\Aquiles\SFX_AquilesWallHit	
 	2754480747	SFX_SeaWater			\Default Work Unit\Other\SFX_SeaWater	
 	2772329599	MUS_FinalBlow			\Default Work Unit\Aquiles\FinalBlow_Cinematic\MUS_FinalBlow	
 	2836803753	SFX_AquilesWarcry			\Default Work Unit\Aquiles\SFX_AquilesWarcry	
@@ -73,6 +74,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3184356465	SFX_AquilesAreaExp			\Default Work Unit\Aquiles\SFX_AquilesAreaExp	
 	3212792312	SFX_MansionAmbience			\Default Work Unit\Other\SFX_MansionAmbience	
 	3246991747	SFX_SwordSandUnstab			\Default Work Unit\Player\WakeUp\SFX_SwordSandUnstab	
+	3348356153	SFX_AquilesStuck			\Default Work Unit\Aquiles\SFX_AquilesStuck	
 	3395391508	SFX_StatueTurn			\Default Work Unit\Puzzles\SFX_StatueTurn	
 	3426312362	UI_OwlHoot			\Default Work Unit\UI\UI_OwlHoot	
 	3452078074	SFX_AquilesCollapse			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_AquilesCollapse	
@@ -87,6 +89,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3651743467	SFX_SirenHurt			\Default Work Unit\Siren\SFX_SirenHurt	
 	3671466604	SFX_KneelDown			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_KneelDown	
 	3684743831	SFX_HermesHover			\Default Work Unit\Player\SFX_HermesHover	
+	3704504596	UI_BerserkerPulse			\Default Work Unit\UI\UI_BerserkerPulse	
 	3718241572	UI_TeleVocals			\Default Work Unit\UI\UI_TeleVocals	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
 	3803980307	UI_OwlFly			\Default Work Unit\UI\UI_OwlFly	
@@ -97,6 +100,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	4188719407	SFX_SirenDip			\Default Work Unit\Siren\SFX_SirenDip	
 	4188719418	SFX_SirenDie			\Default Work Unit\Siren\SFX_SirenDie	
 	4252929259	SFX_HermesSpin			\Default Work Unit\Player\SFX_HermesSpin	
+	4284527793	UI_BerserkerLow			\Default Work Unit\UI\UI_BerserkerLow	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
 	1047305421	Player_Voice			\Default Work Unit\Player_Voice	
@@ -189,6 +193,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	12524470	demon-beast-howling-2	.cache\10\{107EEBE5-6A91-A813-9543-76FA77897BD2}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\WelcomeRoar\demon-beast-howling-2		213344
 	12684693	minocabro_precharge_04	.cache\A3\{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_04		115496
 	14695171	Grunt Ah 5	.cache\C0\{C09FB9A8-4FA2-33B2-2361-FB9968DAF0ED}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Scared\Grunt Ah 5		32120
+	15031937	aquiles_stuck_00	.cache\19\{19A12F60-143C-53B2-3CB9-5626AE539FBA}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_stuck_00		22328
 	19618195	ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 1)	.cache\BE\{BE01FFD4-34F2-66F9-9456-A95E5C92277B}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Decided\ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 1)		77120
 	23815065	Sonic Rings Dropping Sound Effect	.cache\C2\{C2190D72-6814-B92B-D9AC-8605BDA4A622}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\Sonic Rings Dropping Sound Effect		88568
 	27680133	owl_03	.cache\72\{72137CC5-780B-C79F-088B-AD2BB9796C2E}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_03		75896
@@ -310,6 +315,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	511744790	open_chest_01	.cache\78\{78B5E808-D6DC-B2BD-0D8E-CE01E5E1302B}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_01		121184
 	512620298	aquiles_step_03	.cache\97\{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_03		51488
 	514297256	BAS_Player_Footstep_sand_run_02	.cache\34\{343D579D-4455-4C98-604D-8003E00A79A1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_02		7640
+	529955452	Aquiles_SpearPull	.cache\61\{61823AF5-F8A4-8C70-B892-B13E499F9FDF}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearPull		28160
 	531473372	minocabro_hoof_04	.cache\13\{130DEF8E-D1F9-7D82-405A-F09EC962B5ED}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_04		41696
 	531762456	wood_walk_01	.cache\D3\{D36DB3FC-A1A7-5A06-7A13-7AF585527789}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Walk\wood_walk_01		13364
 	533026546	treeAmbience	.cache\17\{17071574-C850-84B6-CCE7-EB5C946E6022}.wem		\Containers\Default Work Unit\Objects\Ambiance\treeAmbience		434240
@@ -368,6 +374,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	759655859	Splatoon - Disturbing Boss Sounds	.cache\35\{35A3F13E-17D8-6405-06F3-7B6532779FD8}.wem		\Containers\Default Work Unit\Objects\Ambiance\CreepySounds\Splatoon - Disturbing Boss Sounds		2610872
 	759840250	spear_grab	.cache\1E\{1EC2BC21-78CB-7049-F944-8B1E11EC1D7B}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\spear_grab		379304
 	781091657	Ambiance_Stream_Calm_Loop_Stereo	.cache\B8\{B8426694-4372-E0F4-597B-DEAC77781EE6}.wem		\Containers\Default Work Unit\Objects\Ambiance\CalmWater\Ambiance_Stream_Calm_Loop_Stereo		918296
+	782703612	berserker_cooldown	.cache\B0\{B08B3D7E-1565-AFE8-9FDB-C36F258D062D}.wem		\Containers\Default Work Unit\Objects\UI\Berserker_Potion\berserker_cooldown		89216
 	786202757	siren_sing	.cache\C7\{C7251900-52FF-9BAD-65BB-EE9522435C45}.wem		\Containers\Default Work Unit\Objects\Siren\siren_sing		457424
 	786254834	grass_run_03	.cache\8A\{8A1B6E98-5DDC-91DB-14C2-D9B09DEDCBB2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_03		7532
 	788641501	SFX_PortalFireOn	.cache\46\{46B9707E-5E9B-B423-1D75-FA78A5CD1E5D}.wem		\Containers\Default Work Unit\Objects\Ambiance\SFX_PortalFireOn		248480
@@ -392,6 +399,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	837783562	coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277	.cache\37\{371FA1C1-8BCC-5A39-C6DF-0C3E3ECFF268}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\coghezzi-sacred-rune-lock-holy-magic-seal-activation-533277		150416
 	839908236	BAS_Player_Footstep_sand_walk_03	.cache\99\{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_03		10268
+	840655502	berserker_pulse	.cache\99\{99D612C9-6FC9-667B-D2AF-DA8C3CF20BF3}.wem		\Containers\Default Work Unit\Objects\UI\Berserker_Potion\berserker_pulse		259712
 	841807102	yodguard-spear_thrust-3-382407	.cache\52\{523162B3-720B-AB25-F0ED-AE5465573462}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-3-382407		434240
 	847806272	yokai watch terror time	.cache\30\{3057A7AC-2287-5B4B-4775-0D8A86539F76}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2_Alt\yokai watch terror time		2240720
 	850723638	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292

@@ -10186,6 +10186,15 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="Aquiles_HurtSound_01" ID="{CD5435DD-A295-4FFE-9CA1-8534B879F8B4}" ShortID="224889712">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{79E23052-3B53-4D16-83CD-3E90921D7502}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -10208,6 +10217,15 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="Aquiles_HurtSound_02" ID="{8C6951C9-1A41-43A0-9559-39AF5798DD21}" ShortID="627068236">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{D5AB1B55-C640-4A3A-86C4-77F0130C4198}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -12001,6 +12019,136 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
+								<Sound Name="aquiles_stuck_00" ID="{CF71CCE1-C4EE-4F34-BA28-5BC471715AE0}" ShortID="1061237314">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-230</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{C1A31DDE-C981-414F-AC14-466C79ED9F7A}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="400"/>
+															<Property Name="Min" Type="Real64" Value="-425"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0812107086181641"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0678858329781512"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>aquiles_stuck_00.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="15031937"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<EffectSlot Name="" ID="{046151D5-3EE6-4881-9456-C05AB77F3417}" ShortID="147820952">
+												<PropertyList>
+													<Property Name="Render" Type="bool" Value="True"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Time Stretch (Custom)" ID="{040B793D-F731-4643-AF87-36B167325887}" ShortID="350209920" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																<PropertyList>
+																	<Property Name="PitchShiftRandom" Type="Real32" Value="400"/>
+																</PropertyList>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Aquiles_SpearPull" ID="{C93FD20C-E644-4C50-9D52-426488111972}" ShortID="226707238">
+									<PropertyList>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="metal_bend_creak" ID="{3C1BB68F-5A2A-4A0F-B441-43A8387AA65E}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.287327046664256"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.04984881036294"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>metal_bend_creak.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="529955452"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<EffectSlot Name="" ID="{8DB532F0-ADE0-4256-99E2-1223FA518465}" ShortID="642159444">
+												<PropertyList>
+													<Property Name="Render" Type="bool" Value="True"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Time Stretch (Custom)" ID="{6E3092F1-9A5A-4692-8623-7D53DDE5EA2B}" ShortID="117169037" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																<PropertyList>
+																	<Property Name="QualityEnable" Type="int16" Value="1"/>
+																	<Property Name="TimeStretch" Type="Real32" Value="52"/>
+																</PropertyList>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="metal_bend_creak" ID="{3C1BB68F-5A2A-4A0F-B441-43A8387AA65E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Puzzles" ID="{A430A924-5358-4357-9112-EBF5FC0442C9}" ShortID="442069209">
@@ -13809,6 +13957,92 @@
 										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
+								<Folder Name="Berserker_Potion" ID="{E4BBCAEE-5B0A-46C7-8958-5FDD8BE64AC9}" ShortID="117741983">
+									<ChildrenList>
+										<Sound Name="berserker_pulse" ID="{572922CF-7461-4566-8CD3-A6277A4C0DE3}" ShortID="1057829492">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>630</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="berserker_pulse" ID="{2D923D08-8844-4FD0-B7FA-F6043F9CDDEE}">
+													<Language>SFX</Language>
+													<AudioFile>berserker_pulse.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="827912526"/>
+													</MediaIDList>
+												</AudioFileSource>
+												<AudioFileSource Name="berserker_pulse_01" ID="{6116F1A8-323D-49A1-9606-20EAE91F6625}">
+													<Language>SFX</Language>
+													<AudioFile>berserker_pulse_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="840655502"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="berserker_pulse_01" ID="{6116F1A8-323D-49A1-9606-20EAE91F6625}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="berserker_cooldown" ID="{73133D31-01EB-4674-A9AF-4EACEE6846C1}" ShortID="165186381">
+											<PropertyList>
+												<Property Name="Lowpass" Type="int16">
+													<ValueList>
+														<Value>34</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>540</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>4</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="berserker_cooldown" ID="{C20AA94D-4D6D-4731-9BBF-702C9FDA0F4C}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.788527138301304"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>berserker_cooldown.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="782703612"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="berserker_cooldown" ID="{C20AA94D-4D6D-4731-9BBF-702C9FDA0F4C}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</Folder>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

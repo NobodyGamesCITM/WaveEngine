@@ -480,9 +480,11 @@ local function TakeDamage(self, amount, attackerPos)
     if inOpportunity then
         if currentState == State.WALL then
             anim:Play("Stuck_Hit", 0.1)
+            SelectPlaySFX(spearSFX, "SFX_AquilesWallHit")
         elseif currentState == State.STUN then
             anim:Play("Stun_Hit", 0.1)
         end
+        
     else
         if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
             StopMovement()
@@ -920,7 +922,15 @@ local function UpdateWall(self, dt)
     
     if anim and not anim:IsPlayingAnimation("Stuck_Loop") and not anim:IsPlayingAnimation("Stuck_Hit") then
         anim:Play("Stuck_Loop", 0.1)
+        
     end
+
+    if anim and anim:IsPlayingAnimation("Stuck_Loop") then
+        if not Audio.IsEventPlaying("SFX_AquilesStuck") then
+            SelectPlaySFX(voiceSFX, "SFX_AquilesStuck")
+        end
+    end
+
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then

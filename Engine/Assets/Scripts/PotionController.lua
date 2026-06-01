@@ -52,6 +52,7 @@ local healVignetteData      = { active = false, color = {0,0,0,0}, intensity = 0
 local lowHealthVignetteData = { active = false, color = {0,0,0,0}, intensity = 0, smoothness = 0 }
 
 local postProcess = nil
+local potionSFX = nil
 
 function _G.TriggerHealVignette()
     healVigTimer = HEAL_TOTAL_TIME
@@ -91,6 +92,12 @@ function Start(self)
     local camObj = GameObject.Find("MainCamera")
     if camObj then
         postProcess = camObj:GetComponent("PostProcessing")
+    end
+
+    local potionSource = GameObject.FindInChildren(self.gameObject, "ItemSource")
+
+    if potionSource then 
+        potionSFX = potionSource:GetComponent("Audio Source")
     end
 end
 
@@ -156,10 +163,17 @@ local function UpdateBerserkVignette(dt)
         postProcess:SetCAEnabled(true)
         postProcess:SetCAIntensity(2.25 * fadeAlpha)
         berserkWasActive = true
+
+        if not Audio.IsEventPlaying("UI_BerserkerPulse") then
+            if potionSFX then potionSFX:SelectPlayAudioEvent("UI_BerserkerPulse") end
+        end
+
     elseif berserkWasActive then
         postProcess:SetRadialBlurEnabled(false)
         postProcess:SetCAEnabled(false)
         berserkWasActive = false
+
+        if potionSFX then potionSFX:SelectPlayAudioEvent("UI_BerserkerLow") end
     end
 end
 

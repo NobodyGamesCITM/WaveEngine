@@ -1521,6 +1521,48 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SFX_AquilesStuck" ID="{5D6FCB06-A96C-4515-8FD3-31499F269E28}">
+							<ChildrenList>
+								<Action Name="" ID="{3C9E49DB-49BA-45CB-BC44-9924C6A4EAB6}" ShortID="553086785">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="aquiles_stuck_00" ID="{CF71CCE1-C4EE-4F34-BA28-5BC471715AE0}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{0907FEF7-C79C-48FA-994D-D377CF4FFCE6}" ShortID="149099242">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.05"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Aquiles_SpearPull" ID="{C93FD20C-E644-4C50-9D52-426488111972}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_AquilesWallHit" ID="{CF6A8A80-A2FF-44AE-8976-8FFA9B076E5D}">
+							<ChildrenList>
+								<Action Name="" ID="{B94F6AAD-371E-49B3-857D-59A8504F6842}" ShortID="578090524">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Mino_WallCrash" ID="{7871F727-FB7F-447B-958D-8C07696F3972}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{F2B7CFF1-17C7-432D-8163-75E3CAD0334E}" ShortID="850887104">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Aquiles_SpearHit" ID="{3834C2E6-8933-486B-8F8D-ECE4A4555E21}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Puzzles" ID="{07368097-443A-4520-B328-C1C3DD52F4ED}" ShortID="226074541">
@@ -1726,6 +1768,38 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Vocals" ID="{4D5C02A2-452F-41FE-9F7D-CD612EAA5924}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_BerserkerPulse" ID="{3919538E-087D-46E6-9C4A-55BEDCF8346A}">
+							<ChildrenList>
+								<Action Name="" ID="{8CFAFE68-FD78-4646-A7F4-65A3DDA7FC4C}" ShortID="999838155">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="berserker_pulse" ID="{572922CF-7461-4566-8CD3-A6277A4C0DE3}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_BerserkerLow" ID="{C8E351FB-997C-44D9-A7B7-096B5767F590}">
+							<ChildrenList>
+								<Action Name="" ID="{CB2040BD-B9CA-470C-ACDC-95749B178156}" ShortID="848592175">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="berserker_pulse" ID="{572922CF-7461-4566-8CD3-A6277A4C0DE3}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{3888B241-C591-4F8E-9E53-245DD6FAD4BC}" ShortID="856832224">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="berserker_cooldown" ID="{73133D31-01EB-4674-A9AF-4EACEE6846C1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

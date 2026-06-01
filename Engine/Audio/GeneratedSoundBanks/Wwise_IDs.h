@@ -27,6 +27,8 @@ namespace AK
         static const AkUniqueID SFX_AQUILESSPEARHIT = 2157393365U;
         static const AkUniqueID SFX_AQUILESSPEARSWING = 276386536U;
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
+        static const AkUniqueID SFX_AQUILESSTUCK = 3348356153U;
+        static const AkUniqueID SFX_AQUILESWALLHIT = 2719394510U;
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_CALMWATER = 2864737081U;
@@ -102,6 +104,8 @@ namespace AK
         static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
         static const AkUniqueID SFX_UNSHEATHE = 796310264U;
         static const AkUniqueID SFX_ZOOMOUT = 2621714572U;
+        static const AkUniqueID UI_BERSERKERLOW = 4284527793U;
+        static const AkUniqueID UI_BERSERKERPULSE = 3704504596U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{6AC789B8-BD37-9B35-0656-9FECA082C8B1}",
+    "Hash": "{A9E016E7-A09C-DCCC-C3C8-1ECFE1EB5F62}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -38,6 +38,14 @@
       "Location": "Memory",
       "ShortName": "Grunt Ah 5.wav",
       "CachePath": "C0/{C09FB9A8-4FA2-33B2-2361-FB9968DAF0ED}.wem"
+     },
+     {
+      "Id": "15031937",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_stuck_00.wav",
+      "CachePath": "19/{19A12F60-143C-53B2-3CB9-5626AE539FBA}.wem"
      },
      {
       "Id": "19618195",
@@ -1008,6 +1016,14 @@
       "CachePath": "34/{343D579D-4455-4C98-604D-8003E00A79A1}.wem"
      },
      {
+      "Id": "529955452",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "metal_bend_creak.wav",
+      "CachePath": "61/{61823AF5-F8A4-8C70-B892-B13E499F9FDF}.wem"
+     },
+     {
       "Id": "531473372",
       "Language": "SFX",
       "Streaming": "false",
@@ -1472,6 +1488,14 @@
       "CachePath": "B8/{B8426694-4372-E0F4-597B-DEAC77781EE6}.wem"
      },
      {
+      "Id": "782703612",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "berserker_cooldown.wav",
+      "CachePath": "B0/{B08B3D7E-1565-AFE8-9FDB-C36F258D062D}.wem"
+     },
+     {
       "Id": "786202757",
       "Language": "SFX",
       "Streaming": "false",
@@ -1662,6 +1686,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_sand_walk_03.wav",
       "CachePath": "99/{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem"
+     },
+     {
+      "Id": "840655502",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "berserker_pulse_01.wav",
+      "CachePath": "99/{99D612C9-6FC9-667B-D2AF-DA8C3CF20BF3}.wem"
      },
      {
       "Id": "841807102",
@@ -2583,6 +2615,51 @@
        },
        {
         "Id": "864792433"
+       }
+      ]
+     },
+     {
+      "Id": "3348356153",
+      "Name": "SFX_AquilesStuck",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesStuck",
+      "GUID": "{5D6FCB06-A96C-4515-8FD3-31499F269E28}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "1.0998487",
+      "DurationMax": "1.0998487",
+      "MediaRefs": [
+       {
+        "Id": "15031937"
+       },
+       {
+        "Id": "529955452"
+       }
+      ]
+     },
+     {
+      "Id": "2719394510",
+      "Name": "SFX_AquilesWallHit",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesWallHit",
+      "GUID": "{CF6A8A80-A2FF-44AE-8976-8FFA9B076E5D}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "1.0918057",
+      "DurationMax": "2.0599663",
+      "MediaRefs": [
+       {
+        "Id": "62622933"
+       },
+       {
+        "Id": "119201350"
+       },
+       {
+        "Id": "468250888"
+       },
+       {
+        "Id": "752261276"
+       },
+       {
+        "Id": "895508259"
        }
       ]
      },
@@ -4396,6 +4473,34 @@
       ]
      },
      {
+      "Id": "4284527793",
+      "Name": "UI_BerserkerLow",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_BerserkerLow",
+      "GUID": "{C8E351FB-997C-44D9-A7B7-096B5767F590}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.2083282",
+      "DurationMax": "1.2083282",
+      "MediaRefs": [
+       {
+        "Id": "782703612"
+       }
+      ]
+     },
+     {
+      "Id": "3704504596",
+      "Name": "UI_BerserkerPulse",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_BerserkerPulse",
+      "GUID": "{3919538E-087D-46E6-9C4A-55BEDCF8346A}",
+      "MaxAttenuation": "20",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "840655502"
+       }
+      ]
+     },
+     {
       "Id": "416781375",
       "Name": "UI_ButtonPress",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ButtonPress",
@@ -5021,6 +5126,6 @@
     ]
    }
   ],
-  "FileHash": "{22C6D4AF-3469-0F44-A2AF-2D70683583FA}"
+  "FileHash": "{FC1C6CAB-E056-09C0-F4B1-CA863FD47A37}"
  }
 }

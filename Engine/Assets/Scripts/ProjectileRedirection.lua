@@ -25,7 +25,7 @@ end
 function OnTriggerEnter(self, other)
     if not other:CompareTag("Bullet") then return end
 
-    Engine.Log("HOLAAA")
+    --Engine.Log("HOLAAA")
 
     local bulletScript = GameObject.GetScript(other)
     if not bulletScript then

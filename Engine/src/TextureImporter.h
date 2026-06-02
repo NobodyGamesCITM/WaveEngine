@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Globals.h"
 #include <string>
+#include <vector>
 #include <glm/glm.hpp>
 
 struct TextureData;
@@ -16,7 +17,7 @@ struct TextureHeader {
     unsigned int dataSize = 0;
     bool         hasAlpha = false;
     bool         compressed = false;
-    char         padding[2] = {};
+    unsigned short numMips = 0;
 };
 #pragma pack(pop)
 
@@ -28,6 +29,7 @@ struct TextureData {
     unsigned int   format = 0;
     unsigned int   dataSize = 0;
     bool           compressed = false;
+    std::vector<unsigned int> mipSizes;
 
     TextureData() = default;
 
@@ -42,6 +44,7 @@ struct TextureData {
         , format(other.format)
         , dataSize(other.dataSize)
         , compressed(other.compressed)
+        , mipSizes(std::move(other.mipSizes))
     {
         other.pixels = nullptr;
         other.width = 0;
@@ -62,6 +65,7 @@ struct TextureData {
             format = other.format;
             dataSize = other.dataSize;
             compressed = other.compressed;
+            mipSizes = std::move(other.mipSizes);
 
             other.pixels = nullptr;
             other.width = 0;

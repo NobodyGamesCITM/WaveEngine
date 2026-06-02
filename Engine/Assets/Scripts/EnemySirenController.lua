@@ -903,8 +903,9 @@ function Update(self, dt)
             -- if self.quaverPs then self.quaverPs:Stop() end
             -- if self.semiQuaverPs then self.semiQuaverPs:Stop() end
 
+            if self.windupFeedback and self.windupFeedback.SetActive then
             self.windupFeedback:SetActive(false)
-            self.windupFeedbackSet = false
+            end
             
             
         end

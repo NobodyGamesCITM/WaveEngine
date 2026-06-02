@@ -44,6 +44,26 @@ static void CompressBlock(const unsigned char* rgba, unsigned char* dst, bool ha
     }
 }
 
+static void DownsampleRGBA(const unsigned char* src, int srcW, int srcH,
+    unsigned char* dst, int dstW, int dstH)
+{
+    for (int y = 0; y < dstH; y++) {
+        for (int x = 0; x < dstW; x++) {
+            float s[4] = {};
+            int n = 0;
+            for (int sy = y * 2; sy < std::min(y * 2 + 2, srcH); sy++)
+                for (int sx = x * 2; sx < std::min(x * 2 + 2, srcW); sx++) {
+                    int i = (sy * srcW + sx) * 4;
+                    s[0] += src[i]; s[1] += src[i + 1]; s[2] += src[i + 2]; s[3] += src[i + 3];
+                    n++;
+                }
+            int d = (y * dstW + x) * 4;
+            dst[d] = (unsigned char)(s[0] / n); dst[d + 1] = (unsigned char)(s[1] / n);
+            dst[d + 2] = (unsigned char)(s[2] / n); dst[d + 3] = (unsigned char)(s[3] / n);
+        }
+    }
+}
+
 // Comprime imagen RGBA completa a DXT1 o DXT5
 // Devuelve buffer con los datos comprimidos y actualiza outSize
 static unsigned char* CompressRGBA(const unsigned char* rgba,
@@ -167,12 +187,43 @@ bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile
     unsigned char* compressedPixels = CompressRGBA(rawPixels, imgWidth, imgHeight,
         hasAlpha, compressedSize);
 
-    ilDeleteImages(1, &imageID);
-
     if (!compressedPixels || compressedSize == 0) {
+        ilDeleteImages(1, &imageID);
         LOG_DEBUG("[TextureImporter] ERROR: Compression failed");
         return false;
     }
+
+    struct MipLvl { 
+        unsigned int size; 
+        unsigned char* data; 
+    };
+
+    std::vector<MipLvl> mips;
+    mips.push_back({ compressedSize, compressedPixels });
+
+    if (meta.importSettings.generateMipmaps) {
+        std::vector<unsigned char> prev(rawPixels, rawPixels + imgWidth * imgHeight * 4);
+        int pw = imgWidth, ph = imgHeight;
+        while (pw > 1 || ph > 1) {
+            int mw = std::max(1, pw / 2), mh = std::max(1, ph / 2);
+            std::vector<unsigned char> cur(mw * mh * 4);
+            DownsampleRGBA(prev.data(), pw, ph, cur.data(), mw, mh);
+            unsigned int ms = 0;
+            unsigned char* md = CompressRGBA(cur.data(), mw, mh, hasAlpha, ms);
+            if (md) mips.push_back({ ms, md });
+            prev = std::move(cur);
+            pw = mw; ph = mh;
+        }
+    }
+
+    ilDeleteImages(1, &imageID);
+
+    unsigned int total = 0;
+    for (const auto& m : mips) { texture.mipSizes.push_back(m.size); total += m.size; }
+
+    texture.pixels = new unsigned char[total];
+    unsigned char* p = texture.pixels;
+    for (const auto& m : mips) { memcpy(p, m.data, m.size); p += m.size; delete[] m.data; }
 
     texture.width = (unsigned int)imgWidth;
     texture.height = (unsigned int)imgHeight;
@@ -180,7 +231,6 @@ bool TextureImporter::ImportFromFile(const std::string& filepath, const MetaFile
     texture.format = hasAlpha ? GL_COMPRESSED_RGBA_S3TC_DXT5
         : GL_COMPRESSED_RGBA_S3TC_DXT1;
     texture.dataSize = compressedSize;
-    texture.pixels = compressedPixels;
     texture.compressed = true;
 
     return SaveToCustomFormat(texture, meta.uid);
@@ -208,9 +258,21 @@ bool TextureImporter::SaveToCustomFormat(const TextureData& texture, const UID& 
     header.dataSize = texture.dataSize;
     header.hasAlpha = (texture.channels == 4);
     header.compressed = true;
+    header.numMips = (unsigned short)std::max((size_t)1, texture.mipSizes.size());
 
     file.write(reinterpret_cast<const char*>(&header), sizeof(TextureHeader));
-    file.write(reinterpret_cast<const char*>(texture.pixels), texture.dataSize);
+
+    // Formato: [size0][size1]...[sizeN][data0 data1 ... dataN]
+    std::vector<unsigned int> sizes = texture.mipSizes.empty()
+        ? std::vector<unsigned int>{texture.dataSize}
+        : texture.mipSizes;
+
+    unsigned int total = 0;
+    for (unsigned int s : sizes) {
+        file.write(reinterpret_cast<const char*>(&s), sizeof(unsigned int));
+        total += s;
+    }
+    file.write(reinterpret_cast<const char*>(texture.pixels), total);
 
     if (!file.good()) {
         LOG_DEBUG("[TextureImporter] ERROR: Write failed: %s", fullPath.c_str());
@@ -242,6 +304,13 @@ TextureData TextureImporter::LoadFromCustomFormat(const UID& uid) {
         return texture;
     }
 
+    if (header.numMips == 0) {
+        LOG_DEBUG("[TextureImporter] Outdated texture format, forcing reimport: %s", fullPath.c_str());
+        file.close();
+        std::filesystem::remove(fullPath);
+        return texture;
+    }
+
     if (header.dataSize > 200000000) {
         LOG_DEBUG("[TextureImporter] ERROR: Data size too large: %u bytes", header.dataSize);
         file.close();
@@ -255,16 +324,32 @@ TextureData TextureImporter::LoadFromCustomFormat(const UID& uid) {
     texture.dataSize = header.dataSize;
     texture.compressed = header.compressed;
 
+    unsigned short numMips = header.numMips > 0 ? header.numMips : 1;
+
+    std::vector<unsigned int> mipSizes;
+    unsigned int total = 0;
+    for (int i = 0; i < numMips; i++) {
+        unsigned int s = 0;
+        file.read(reinterpret_cast<char*>(&s), sizeof(unsigned int));
+        if (!file.good() || s == 0) {
+            LOG_DEBUG("[TextureImporter] ERROR: Invalid mip size at level %d", i);
+            file.close();
+            return texture;
+        }
+        mipSizes.push_back(s);
+        total += s;
+    }
+
     try {
-        texture.pixels = new unsigned char[header.dataSize];
+        texture.pixels = new unsigned char[total];
     }
     catch (const std::bad_alloc&) {
-        LOG_DEBUG("[TextureImporter] ERROR: Failed to allocate %u bytes", header.dataSize);
+        LOG_DEBUG("[TextureImporter] ERROR: Failed to allocate %u bytes", total);
         file.close();
         return texture;
     }
 
-    file.read(reinterpret_cast<char*>(texture.pixels), header.dataSize);
+    file.read(reinterpret_cast<char*>(texture.pixels), total);
 
     if (!file.good()) {
         LOG_DEBUG("[TextureImporter] ERROR: Failed to read pixel data");
@@ -273,6 +358,8 @@ TextureData TextureImporter::LoadFromCustomFormat(const UID& uid) {
         file.close();
         return texture;
     }
+
+    texture.mipSizes = std::move(mipSizes);
 
     file.close();
     return texture;

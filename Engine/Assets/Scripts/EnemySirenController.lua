@@ -758,7 +758,7 @@ function Start(self)
         rotationSpeed    = 15.0,    -- velocidad de giro para encarar al player Antes estaba a 6
 
         maxLifetime      = 10.0,
-        riseHeight       = 1.0,
+        riseHeight       = 1.4, --Antes 1
         riseSpeed        = 6.0, -- Antes estaba a 3
         level2 = isLevel2,
 
@@ -1030,7 +1030,7 @@ function Update(self, dt)
     elseif self.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
-   
+   SyncCollider(self)
 
 end
 

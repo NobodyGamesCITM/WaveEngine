@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{6CF71FE4-0687-CC00-9EFD-1F32BBF62D09}",
+    "Hash": "{676AAF60-2A6C-17EB-272D-30CC83664613}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -414,6 +414,14 @@
       "Location": "Memory",
       "ShortName": "skeleton_hit.wav",
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
+     },
+     {
+      "Id": "179764612",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SonOfIthaca_Boss_Intro.wav",
+      "CachePath": "23/{2385530E-4A58-4E33-76BD-B2794317BBFA}.wem"
      },
      {
       "Id": "190699463",
@@ -952,14 +960,6 @@
       "CachePath": "8B/{8B7F6936-4919-27D2-9133-D4E680863521}.wem"
      },
      {
-      "Id": "454465364",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SonOfIthaca_LVL2.wav",
-      "CachePath": "5E/{5EE11C1A-E3CD-12D5-A4AE-EC82A7CF00EA}.wem"
-     },
-     {
       "Id": "459666570",
       "Language": "SFX",
       "Streaming": "false",
@@ -1110,6 +1110,14 @@
       "Location": "Memory",
       "ShortName": "Aquiles_Warcry_01.wav",
       "CachePath": "A6/{A67790D1-FB7E-2095-5CFD-2CC89C43917D}.wem"
+     },
+     {
+      "Id": "555391629",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SonOfIthaca_LVL2_full.wav",
+      "CachePath": "59/{59C1321C-4407-E736-A597-38F72A508F43}.wem"
      },
      {
       "Id": "558767652",
@@ -1808,6 +1816,14 @@
       "CachePath": "AF/{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem"
      },
      {
+      "Id": "851333124",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SonOfIthaca_LVL1_Intro.wav",
+      "CachePath": "54/{54645136-6DBA-822A-BAAF-DECF2DD4C2BC}.wem"
+     },
+     {
       "Id": "857628780",
       "Language": "SFX",
       "Streaming": "false",
@@ -2348,7 +2364,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "454465364"
+          "Id": "555391629"
          }
         ]
        },
@@ -2388,6 +2404,32 @@
         "MediaRefs": [
          {
           "Id": "592504271"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "2339009721",
+         "GUID": "{86EC9FEF-AAE9-41EB-9092-3819CB802698}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "851333124"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "1720208925",
+         "GUID": "{59BCD825-DEA2-43C0-86E4-87DF5DE774F8}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "179764612"
          }
         ]
        }
@@ -4273,7 +4315,7 @@
       "Name": "SFX_SirenSing",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenSing",
       "GUID": "{5340AF50-44EE-44EA-AB52-116A544241FB}",
-      "MaxAttenuation": "150",
+      "MaxAttenuation": "60",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -5246,6 +5288,6 @@
     ]
    }
   ],
-  "FileHash": "{21615B72-A8CA-296D-BB48-71DE002E34E6}"
+  "FileHash": "{680144A2-66FF-58A3-23C3-BA1E27F1CD47}"
  }
 }

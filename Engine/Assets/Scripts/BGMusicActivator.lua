@@ -53,8 +53,10 @@ local function TryChangeMusicState(self, finalMusicState)
 
 	if found then 
 		if aquilesDefeated then 
+			Engine.Log("[BGMusicActivator] Aquiles Defeated!")
 			Audio.SetMusicState("AfterBoss")
 		else 
+			Engine.Log("[BGMusicActivator] Setting music state to "..tostring(finalMusicState))
 			Audio.SetMusicState(tostring(finalMusicState)) 
 		end
 	else 

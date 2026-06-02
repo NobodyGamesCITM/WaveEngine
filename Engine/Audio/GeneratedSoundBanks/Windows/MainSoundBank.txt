@@ -244,6 +244,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	174466694	doomsday_epicbgm_00	.cache\52\{527E3F14-E569-6A92-5529-96D9EE07FE3B}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\EpicBGM\doomsday_epicbgm_00		360296
 	174990516	wood_run_06	.cache\2A\{2AC7B201-0B0D-ADB4-9494-1B17FCB0EF66}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
+	179764612	SonOfIthaca_Boss_Intro	.cache\23\{2385530E-4A58-4E33-76BD-B2794317BBFA}.wem		\Containers\Default Work Unit\BGM_Switch\Boss_Intro_Playlist\SonOfIthaca_Boss_Intro\SonOfIthaca_Boss_Intro		802952
 	190699463	coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458	.cache\10\{10128355-EE23-C610-836E-D8A03151E863}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458		129104
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
 	198456775	heartbeat	.cache\9D\{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem		\Containers\Default Work Unit\Objects\Player\heartbeat		1296080
@@ -311,7 +312,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	436047105	minocabro_footstep_07	.cache\21\{216D4506-9725-1778-07CC-AB40635CD8AE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_07		30680
 	447279618	totalwar_epicbgm_02	.cache\2A\{2AD2F4C1-3EEC-FF6D-9137-4D933A0EB8B4}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\EpicBGM\totalwar_epicbgm_02		1007288
 	447302312	BAS_Player_Footstep_sand_walk_06	.cache\8B\{8B7F6936-4919-27D2-9133-D4E680863521}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_06		6740
-	454465364	SonOfIthaca_LVL2	.cache\5E\{5EE11C1A-E3CD-12D5-A4AE-EC82A7CF00EA}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\SonOfIthaca_LVL2\SonOfIthaca_LVL2		5190056
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
@@ -331,6 +331,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	540918898	aquiles_step_07	.cache\C1\{C124AB38-2C09-47B1-73FD-FA073A0B5FD1}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_07		34064
 	542743982	scary-female-ghost	.cache\99\{99758427-BDA9-83EE-29C7-EB843460099D}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\scary-female-ghost		318896
 	546082658	Aquiles_Warcry_01	.cache\A6\{A67790D1-FB7E-2095-5CFD-2CC89C43917D}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Warcry\Aquiles_Warcry_01		106712
+	555391629	SonOfIthaca_LVL2_full	.cache\59\{59C1321C-4407-E736-A597-38F72A508F43}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\SonOfIthaca_LVL2\SonOfIthaca_LVL2_full		10410344
 	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
 	565089324	yodguard-spear_thrust-4-382401	.cache\D6\{D665DE27-FACF-46A2-1D7A-D3C12ED43C3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-4-382401		399032
 	569366751	stone_run_06	.cache\09\{09C22463-433E-F299-C516-08A343F5E175}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_06		7352
@@ -418,6 +419,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	842356809	aquiles_stuck_300	.cache\3A\{3A75D052-2362-63DA-B4B9-0B687D5E9A33}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_300		20240
 	850723638	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
+	851333124	SonOfIthaca_LVL1_Intro	.cache\54\{54645136-6DBA-822A-BAAF-DECF2DD4C2BC}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Intro_Playlist\SonOfIthaca_LVL1_Intro\SonOfIthaca_LVL1_Intro		919448
 	857628780	aquiles_dash_01	.cache\64\{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_dash_01		90800
 	859917828	riser_01	.cache\E7\{E76CE077-0319-CFFB-22FA-D40251302CF0}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\RisingSFX\riser_01		179072
 	861888802	aquiles_step_08	.cache\09\{09B6E963-7C49-5EAD-10F8-51F6E7BFA7B8}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		33776

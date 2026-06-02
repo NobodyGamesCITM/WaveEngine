@@ -245,6 +245,85 @@
 												</DestinationFadeIn>
 											</TransitionInfo>
 										</MusicTransition>
+										<MusicTransition Name="Transition" ID="{AF341A83-817F-4A1D-8E81-04FA80ABEDB2}">
+											<PropertyList>
+												<Property Name="DestinationContextType" Type="int16" Value="2"/>
+												<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+												<Property Name="ExitSourceAt" Type="int16" Value="0"/>
+												<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
+												<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
+												<Property Name="SourceContextType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="DestinationContextObject">
+													<ObjectRef Name="SonOfIthaca_Boss" ID="{16D4418C-8C50-41AE-8095-F8A192FF5F8B}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+												<Reference Name="SourceContextObject">
+													<ObjectRef Name="SonOfIthaca_LVL2" ID="{FBE25A0F-BD09-4DD3-9AF9-78BED569A7C3}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+											<TransitionInfo>
+												<SourceFadeOut>
+													<MusicFade Name="Source Fade-out" ID="{86E0BA03-5FE0-4821-B33F-17E6F361BD73}">
+														<PropertyList>
+															<Property Name="FadeCurve" Type="int16" Value="5"/>
+															<Property Name="FadeTime" Type="Real64" Value="1"/>
+															<Property Name="FadeType" Type="int16" Value="1"/>
+														</PropertyList>
+													</MusicFade>
+												</SourceFadeOut>
+											</TransitionInfo>
+										</MusicTransition>
+										<MusicTransition Name="Transition" ID="{7767E6FF-ACF2-48DD-B156-93671D7FCD23}">
+											<PropertyList>
+												<Property Name="DestinationContextType" Type="int16" Value="2"/>
+												<Property Name="SourceContextType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="DestinationContextObject">
+													<ObjectRef Name="SonOfIthaca_LVL1" ID="{C29D6E9F-79A6-4B58-9CAB-203B549F9BCC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+												<Reference Name="SourceContextObject">
+													<ObjectRef Name="SonOfIthaca_LVL1_Intro" ID="{8D798F4F-E532-4F9A-B6DE-CF1CAFA84ADB}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+											<TransitionInfo/>
+										</MusicTransition>
+										<MusicTransition Name="Transition" ID="{A36C8501-FEBE-4E9A-88EC-23740FC1AABF}">
+											<PropertyList>
+												<Property Name="DestinationContextType" Type="int16" Value="2"/>
+												<Property Name="SourceContextType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="DestinationContextObject">
+													<ObjectRef Name="SonOfIthaca_Boss" ID="{16D4418C-8C50-41AE-8095-F8A192FF5F8B}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+												<Reference Name="SourceContextObject">
+													<ObjectRef Name="SonOfIthaca_Boss_Intro" ID="{DFA73F43-1BEA-4868-ABDF-2B5DED7733E4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+											<TransitionInfo>
+												<SourceFadeOut>
+													<MusicFade Name="Source Fade-out" ID="{E16E2922-7240-4838-AFED-35B795FB84CA}">
+														<PropertyList>
+															<Property Name="FadeCurve" Type="int16" Value="5"/>
+															<Property Name="FadeOffset" Type="Real64" Value="1"/>
+															<Property Name="FadeTime" Type="Real64" Value="1"/>
+															<Property Name="FadeType" Type="int16" Value="1"/>
+														</PropertyList>
+													</MusicFade>
+												</SourceFadeOut>
+												<DestinationFadeIn>
+													<MusicFade Name="Destination Fade-in" ID="{2B5B7CB2-FB58-454C-9EB3-B77113DF1EFF}">
+														<PropertyList>
+															<Property Name="FadeCurve" Type="int16" Value="5"/>
+															<Property Name="FadeOffset" Type="Real64" Value="-1"/>
+															<Property Name="FadeTime" Type="Real64" Value="1"/>
+														</PropertyList>
+													</MusicFade>
+												</DestinationFadeIn>
+											</TransitionInfo>
+										</MusicTransition>
 									</ChildrenList>
 									<TransitionInfo/>
 								</MusicTransition>
@@ -527,13 +606,6 @@
 							</ChildrenList>
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="MainMenu_Playlist" ID="{01BB03B2-4FA5-42B4-B4F3-3E88B81AD29F}" ShortID="393497444">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -999,7 +1071,7 @@
 								</MusicSegment>
 								<MusicSegment Name="SonOfIthaca_LVL2" ID="{FBE25A0F-BD09-4DD3-9AF9-78BED569A7C3}" ShortID="557895429">
 									<PropertyList>
-										<Property Name="EndPosition" Type="Real64" Value="104609.523809524"/>
+										<Property Name="EndPosition" Type="Real64" Value="209831.428571429"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -1015,14 +1087,14 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<MusicTrack Name="SonOfIthaca_LVL2" ID="{83C7DDDD-7F31-4A2C-9927-444ED67FCC28}" ShortID="535512142">
+										<MusicTrack Name="SonOfIthaca_LVL2_full" ID="{B6035463-24D2-4F95-9C28-42D50AFFDCDD}" ShortID="80305237">
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 												</Reference>
 												<Reference Name="TransitionRoot">
 													<Custom>
-														<MusicTransition Name="Root" ID="{6E2727BA-99CB-45CE-80D2-AB6FE6800BB7}">
+														<MusicTransition Name="Root" ID="{C0B575C5-3678-4C4A-8FBC-0DB3F03FAD60}">
 															<PropertyList>
 																<Property Name="IsFolder" Type="bool" Value="True"/>
 															</PropertyList>
@@ -1032,26 +1104,26 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="SonOfIthaca_LVL2" ID="{7AF40B6B-7FFC-4F4F-9A44-6C5E65E64939}">
+												<AudioFileSource Name="SonOfIthaca_LVL2_full" ID="{5C1F680A-5A16-4782-9B90-991DA4BBB16F}">
 													<Language>SFX</Language>
-													<AudioFile>SonOfIthaca_LVL2.wav</AudioFile>
+													<AudioFile>SonOfIthaca_LVL2_full.wav</AudioFile>
 													<MediaIDList>
-														<MediaID ID="454465364"/>
+														<MediaID ID="555391629"/>
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ObjectLists>
 												<ObjectList Name="Sequences">
-													<MusicTrackSequence Name="" ID="{DBC0B499-E0C5-479C-ADB0-08757E0809E8}">
+													<MusicTrackSequence Name="" ID="{402ED19E-0CFD-4698-A1ED-ECDAFD421442}">
 														<ObjectLists>
 															<ObjectList Name="Clips">
-																<MusicClip Name="SonOfIthaca_LVL2" ID="{134A014A-7256-4759-AD57-C8F933FA2CE4}">
+																<MusicClip Name="SonOfIthaca_LVL2_full" ID="{0D7332FF-9F2F-4E2B-9557-7E26E25A1FE2}">
 																	<PropertyList>
-																		<Property Name="EndTrimOffset" Type="Real64" Value="104609.523809524"/>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="209831.428571429"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																	</PropertyList>
-																	<AudioSourceRef Name="SonOfIthaca_LVL2" ID="{7AF40B6B-7FFC-4F4F-9A44-6C5E65E64939}"/>
+																	<AudioSourceRef Name="SonOfIthaca_LVL2_full" ID="{5C1F680A-5A16-4782-9B90-991DA4BBB16F}"/>
 																</MusicClip>
 															</ObjectList>
 														</ObjectLists>
@@ -1076,11 +1148,8 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="LevelBoss_Playlist" ID="{9C7F9F66-E450-4FF5-9274-E565648B0644}" ShortID="858855632">
 							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
+								<Property Name="Color" Type="int16" Value="8"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1591,6 +1660,248 @@
 								</ObjectList>
 							</ObjectLists>
 						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="Level1_Intro_Playlist" ID="{2A01D434-9A3C-4C7C-A4AE-2FBDFD7585D8}" ShortID="971101518">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="18"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{F2DE0D29-2CB5-4A50-B581-965436E35008}" ShortID="668929263">
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{06AF1F89-067C-4660-90CF-48819DE1D6BE}" ShortID="472466246">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Segment">
+															<ObjectRef Name="SonOfIthaca_LVL1_Intro" ID="{8D798F4F-E532-4F9A-B6DE-CF1CAFA84ADB}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+														</Reference>
+													</ReferenceList>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{7BF4847F-5467-487E-B77D-2B1D7FC3EB99}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{E1B8FBE1-25EA-4679-A984-7456630EF41E}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="SonOfIthaca_LVL1_Intro" ID="{8D798F4F-E532-4F9A-B6DE-CF1CAFA84ADB}" ShortID="943171664">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="18530.3401360544"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="SonOfIthaca_LVL1_Intro" ID="{F200F0B2-AB61-4963-8204-92D1D3BF4D61}" ShortID="694323376">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{8E5CF918-10E6-4E3F-83AC-5DBCACE5449F}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="SonOfIthaca_LVL1_Intro" ID="{DA8959F1-000F-4489-B4E7-6A238E33DBEE}">
+													<Language>SFX</Language>
+													<AudioFile>SonOfIthaca_LVL1_Intro.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="851333124"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{2A7B221A-466D-415D-912A-89752C4B06C4}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="SonOfIthaca_LVL1_Intro" ID="{5195B328-C920-4EE5-92D4-14E2B8BDB609}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="18530.3401360544"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="SonOfIthaca_LVL1_Intro" ID="{DA8959F1-000F-4489-B4E7-6A238E33DBEE}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<MusicCue Name="Entry Cue" ID="{2E7A901F-AFFF-427D-B693-B941A84FB708}"/>
+											<MusicCue Name="Exit Cue" ID="{83F2014E-EBCD-4105-B2C6-BBC5FFC77BD0}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="18530.3401360544"/>
+												</PropertyList>
+											</MusicCue>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="Boss_Intro_Playlist" ID="{43159EE4-A51D-4A63-BD97-E8DBA39EBA6E}" ShortID="793572634">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="7"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{1A521516-5479-4C9E-9585-371226617A97}" ShortID="884106473">
+											<PropertyList>
+												<Property Name="LoopCount" Type="int16" Value="0"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{525B9F78-6E48-45D6-988E-88F1A9D067F5}" ShortID="778902694">
+													<PropertyList>
+														<Property Name="LoopCount" Type="int16" Value="0"/>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Segment">
+															<ObjectRef Name="SonOfIthaca_Boss_Intro" ID="{DFA73F43-1BEA-4868-ABDF-2B5DED7733E4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+														</Reference>
+													</ReferenceList>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{5B976AF0-4E36-4F3F-A0B0-9A42B2C44BC1}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{0A464129-96EC-4715-B4CF-6D2D2DCCBBAE}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="SonOfIthaca_Boss_Intro" ID="{DFA73F43-1BEA-4868-ABDF-2B5DED7733E4}" ShortID="376445262">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="16181.4965986395"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="SonOfIthaca_Boss_Intro" ID="{31CF1515-DB71-444C-9EBD-F3246B675A9C}" ShortID="1047283789">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{7719B8DF-E2CA-4755-814F-E3B8159F1D01}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="SonOfIthaca_Boss_Intro" ID="{2FDEA298-5AB5-4254-BF18-D9A901161790}">
+													<Language>SFX</Language>
+													<AudioFile>SonOfIthaca_Boss_Intro.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="179764612"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{8932FA39-B823-4C37-B40E-C6F1DE7352DF}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="SonOfIthaca_Boss_Intro" ID="{35A3D76D-EC87-4721-95CD-12F7A991BE17}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="16181.4965986395"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="SonOfIthaca_Boss_Intro" ID="{2FDEA298-5AB5-4254-BF18-D9A901161790}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<MusicCue Name="Entry Cue" ID="{E15C096D-0E54-473E-926A-813EA23102AC}"/>
+											<MusicCue Name="Exit Cue" ID="{3CF8C93F-3527-411A-9605-00D69FDB36EC}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="16181.4965986395"/>
+												</PropertyList>
+											</MusicCue>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
 					</ChildrenList>
 					<StateInfo>
 						<StateGroupList>
@@ -1804,6 +2115,42 @@
 											<ReferenceList>
 												<Reference Name="EntryPathObject">
 													<ObjectRef Name="AfterBoss" ID="{552E920B-8856-454A-8B4A-A720BA7E6C50}" WorkUnitID="{22AB25E2-BB71-4CE9-8093-B569E18EB5A3}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+							<MultiSwitchEntry Name="" ID="{DDF28DB7-864F-41C0-89B9-37A7C0D4BD3F}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Level1_Intro_Playlist" ID="{2A01D434-9A3C-4C7C-A4AE-2FBDFD7585D8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{25D7C91B-F10D-48D0-9289-9E18B376249F}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="Level1_Intro" ID="{86EC9FEF-AAE9-41EB-9092-3819CB802698}" WorkUnitID="{22AB25E2-BB71-4CE9-8093-B569E18EB5A3}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+							<MultiSwitchEntry Name="" ID="{75C8E6D6-590F-4751-A599-07C0CC4A8FB3}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Boss_Intro_Playlist" ID="{43159EE4-A51D-4A63-BD97-E8DBA39EBA6E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{F77E3350-6B31-4DF6-872E-9F6E4F7AD674}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="Boss_Intro" ID="{59BCD825-DEA2-43C0-86E4-87DF5DE774F8}" WorkUnitID="{22AB25E2-BB71-4CE9-8093-B569E18EB5A3}"/>
 												</Reference>
 											</ReferenceList>
 										</PluginInnerObject>
@@ -8395,7 +8742,7 @@
 								<Sound Name="siren_sing" ID="{6EC89094-1F17-47BD-93FC-864BD9949EFD}" ShortID="634897495">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="1.5"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -8424,7 +8771,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
-											<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
 										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -13321,15 +13668,9 @@
 								<Sound Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" ShortID="530178750">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="0.5"/>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>10</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">

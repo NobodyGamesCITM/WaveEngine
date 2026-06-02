@@ -344,6 +344,7 @@ local function NavigateTo(self, xaml)
     if self.current and not self.current:find("SplashScreen.xaml") then
         table.insert(self.history, self.current)
     end
+
     self.nextXaml = xaml
     SetPhase(self, "fadeOut")
     Engine.Log("[MenuManager] Navigating to: " .. xaml)
@@ -572,6 +573,8 @@ function Update(self, dt)
         InitAudioSources(self)
     end
 
+    --Engine.Log("Current Music State: "..tostring(Audio.GetMusicState()))
+
     if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then
@@ -744,10 +747,12 @@ function Update(self, dt)
                     if _G.SuspendDialog then _G.SuspendDialog() end
                     NavigateTo(self, "PauseMenu.xaml")
                     Game.Pause()
+                    
                     ApplyLowerVolume(self)
                 elseif isPause then
                     Engine.Log("[MenuManager] Logic: Resume to HUD")
                     NavigateTo(self, "HUD.xaml")
+                   
                     ApplyFullVolume(self)
                 else
                     Engine.Log("[MenuManager] Logic: No HUD/Pause detected, ignoring Escape key.")
@@ -907,11 +912,16 @@ function Update(self, dt)
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
             elseif self.public.currentScene == "Level2.scene" then
-                if Audio.GetMusicState() == "Boss" or Audio.GetMusicState() ~= "AfterBoss" then
+                
+                local currentMusicState = tostring(Audio.GetMusicState())
+                
+                if currentMusicState ~= "Boss" and currentMusicState ~= "AfterBoss" and currentMusicState ~= "Boss_Intro"  then
                     Audio.SetMusicState("Level2")
+                    
                 end
             end
             if previous == "PauseMenu.xaml" then
+                
                 Game.Resume()
                 self.lastPauseState    = "running"
                 if _G.ForceRefreshHUD then

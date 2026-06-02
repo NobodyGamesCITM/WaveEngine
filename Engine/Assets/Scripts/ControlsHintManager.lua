@@ -55,7 +55,13 @@ PRESETS = {
     apolo_puzzle = {
         duration = 5.0,
         slots = {
-            { img = "HintImg_ApoloFuerte",         key = "HintKey_Q",      gp = "HintGP_Y" },
+            { img = "HintImg_ApoloFuerte",      key = "HintKey_E",           gp = "HintGP_Y" },
+        },
+    },
+    apolo_puzzleDisparo = {
+        duration = 5.0,
+        slots = {
+            { img = "HintImg_ApoloDisparo",         key = "HintKey_Q",      gp = "HintGP_Y" },
         },
     },
 }
@@ -78,12 +84,15 @@ local ALL_IMGS = {
     "HintImg_CambiarMascaras",
     "HintImg_Health",
     "HintImg_Berserk",
+    "HintImg_Estatua",
     "HintImg2_Roll",
     "HintImg2_AtaqueNormal",
+    "HintImg_ApoloFuerte",
+    "HintImg_ApoloDisparo",
 }
 
 local ALL_KEYS = {
-    -- teclado
+    -- teclado y gp
     "HintKey_WASD",
     "HintKey_E",
     "HintKey_Q",
@@ -105,6 +114,8 @@ local ALL_KEYS = {
     "HintGP_Cruz",
     "HintGP2_B",
 }
+
+local KEY_GRIDS = { "HintKeyGrid1", "HintKeyGrid2" }
 
 local SLOTS = { "HintSlot1", "HintSlot2" }
 
@@ -131,6 +142,9 @@ local function hideAll()
     for _, slot in ipairs(SLOTS) do
         UI.SetElementVisibility(slot, false)
     end
+    for _, kg in ipairs(KEY_GRIDS) do
+        UI.SetElementVisibility(kg, false)
+    end
 end
 
 local function hideHints()
@@ -149,7 +163,10 @@ local function applySlots(preset)
         local keyName = usingGamepad() and slot.gp or slot.key
         UI.SetElementVisibility(SLOTS[i], true)
         UI.SetElementVisibility(slot.img, true)
-        UI.SetElementVisibility(keyName,  true)
+        if keyName and keyName ~= "" then
+            UI.SetElementVisibility(KEY_GRIDS[i], true)
+            UI.SetElementVisibility(keyName, true)
+        end
     end
 
     if #preset.slots == 1 then

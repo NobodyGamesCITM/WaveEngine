@@ -21,8 +21,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             VerticalAlignment="Bottom"
             Margin="0,0,0,10"
             Width="767"
-            Height="191"
-            CornerRadius="8">
+            Height="191">
         <Border.Background>
             <ImageBrush ImageSource="Textures/BottomTutorial.PNG" Stretch="Fill"/>
         </Border.Background>
@@ -30,8 +29,26 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel x:Name="HintSlot1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image x:Name="HintImg_ApoloFuerte" Source="Textures/AtaqueFuerte.PNG" Visibility="Collapsed"/>
-                    <Image x:Name="HintImt_Ares" Source="Textures/MainCharacter_Skill Ares.png" Margin="0,70,0,70" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg_ApoloFuerte" Source="Textures/AtaqueFuerteConEstatua.png" Width="180" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg_ApoloDisparo" Source="Textures/MainCharacter_Skill Apolo.png" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                        <Image.LayoutTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.LayoutTransform>
+                    </Image>
+                    <Image x:Name="HintImt_Ares" Source="Textures/MainCharacter_Skill Ares.png" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Caminar" Source="Textures/Caminar.PNG" Width="180" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_AtaqueFuerte" Source="Textures/AtaqueFuerte.PNG" Width="90" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
@@ -40,7 +57,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Image x:Name="HintImg_Health" Source="Textures/Health.PNG" Width="180" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Berserk" Source="Textures/Berserk.PNG" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                 </Grid>
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid x:Name="HintKeyGrid1" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image x:Name="HintGP_X" Source="Textures/X.PNG" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintGP_Cruz" Source="Textures/Cruceta.PNG" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintGP_Joystick" Source="Textures/joystick.PNG" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
@@ -59,11 +76,13 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </Grid>
             </StackPanel>
             <StackPanel x:Name="HintSlot2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid Width="201" Height="111" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image x:Name="HintImg2_Roll" Source="Textures/Roll.PNG" Width="197" Height="106" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                </Grid>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image x:Name="HintImg2_Estatua" Source="Textures/EstatuaPuzzleLuz.png" Width="75" Height="75" Margin="0" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg2_ApoloFuerte" Source="Textures/AtaqueFuerte.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg2_Roll" Source="Textures/Roll.PNG" Width="197" Height="106" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <Image x:Name="HintImg2_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="100" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                </Grid>
+                <Grid x:Name="HintKeyGrid2" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image x:Name="HintGP2_B" Source="Textures/B.PNG" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintKey2_Ctrl" Source="Textures/Ctrl.PNG" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintKey2_E" Source="Textures/E.PNG" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>

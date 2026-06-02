@@ -8,7 +8,7 @@ local bgMusic = nil
 
 public = {
 	fadeTime = 1.5,
-	maxVolume = 100,
+	--maxVolume = 100,
 	--currentMusicState = "",
 	--nextMusicState = "",
 }
@@ -26,7 +26,7 @@ local function Initialize(self)
 	exitedLevel = false
 	finishedTransition = false
 	fadeTimer = 0
-	volume = self.public.maxVolume or 100
+	volume = _G.SavedMusicVolume or 100.0
 	musicSource = GameObject.Find("MusicSource")
 	bgMusic = musicSource:GetComponent("Audio Source")
 
@@ -43,7 +43,7 @@ function FadeOutMusic(self, dt)
 	if exitedLevel and volume > 0 and not finishedTransition then 
 		fadeTimer = fadeTimer + dt
 		local progressPercent = math.min((fadeTimer/(self.public.fadeTime or 1.5)), 1.0)
-		volume = (self.public.maxVolume or 100) * (1 - progressPercent)
+		volume = (_G.SavedMusicVolume or 100.0) * (1 - progressPercent)
 		--Engine.Log("Setting global audio to ".. volume)
 		if volume then 
 			Audio.SetMusicVolume(volume)
@@ -61,7 +61,7 @@ function FadeOutMusic(self, dt)
 		exitedLevel = false
 		finishedTransition = false
 		fadeTimer = 0
-		volume = self.public.maxVolume or 100.0
+		volume = _G.SavedMusicVolume or 100.0
 	end 
 end
 

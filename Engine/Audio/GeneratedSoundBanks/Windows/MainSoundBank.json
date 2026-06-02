@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{79742DB2-98EC-36FD-483A-9AF044882474}",
+    "Hash": "{916B945A-0F28-98E7-CDA5-1F821066E8CE}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -45,7 +45,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_stuck_00.wav",
-      "CachePath": "4C/{4C8C95CC-397A-8E56-490A-BB9DEE4535C1}.wem"
+      "CachePath": "FF/{FF9DF570-C6D0-E0CD-F915-8BFE378085DC}.wem"
      },
      {
       "Id": "19618195",
@@ -285,7 +285,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_04.wav",
-      "CachePath": "40/{40F9D7FF-CFD4-EED1-17E6-16EFEA0CC7E9}.wem"
+      "CachePath": "4F/{4F11BC75-F832-A221-D1F1-D494F64ABB26}.wem"
      },
      {
       "Id": "122973818",
@@ -461,7 +461,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_02.wav",
-      "CachePath": "A2/{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem"
+      "CachePath": "AE/{AE2AE7C3-8C98-B8AA-C6CB-F89530BD2C98}.wem"
      },
      {
       "Id": "208970398",
@@ -664,6 +664,14 @@
       "CachePath": "EF/{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem"
      },
      {
+      "Id": "313609596",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_stuck_00.wav",
+      "CachePath": "55/{55A2E904-303D-4DA0-70CB-50E53A31CC7F}.wem"
+     },
+     {
       "Id": "316416343",
       "Language": "SFX",
       "Streaming": "false",
@@ -838,6 +846,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_sand_run_05.wav",
       "CachePath": "3E/{3E34DAEC-ED2C-009C-81B3-9195BB0D3A69}.wem"
+     },
+     {
+      "Id": "377411457",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_stuck_00.wav",
+      "CachePath": "44/{443B2BF3-2321-3FC8-D33E-A6E2A27DEBDD}.wem"
      },
      {
       "Id": "395188084",
@@ -1037,7 +1053,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_03.wav",
-      "CachePath": "97/{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem"
+      "CachePath": "7E/{7EC760BF-652D-7CA7-19BC-830DBBC57A37}.wem"
      },
      {
       "Id": "514297256",
@@ -1053,7 +1069,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "metal_bend_creak.wav",
-      "CachePath": "65/{65530190-18B4-F7E0-150B-760542F3A809}.wem"
+      "CachePath": "66/{667BFDFF-C9E7-63E2-A06B-EEEDF4F82449}.wem"
      },
      {
       "Id": "531473372",
@@ -1085,7 +1101,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_07.wav",
-      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+      "CachePath": "C1/{C124AB38-2C09-47B1-73FD-FA073A0B5FD1}.wem"
      },
      {
       "Id": "542743982",
@@ -1453,7 +1469,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_06.wav",
-      "CachePath": "73/{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem"
+      "CachePath": "8A/{8A0B928D-9A66-E876-5ADA-863C9B704555}.wem"
      },
      {
       "Id": "717187454",
@@ -1621,7 +1637,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_05.wav",
-      "CachePath": "5F/{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem"
+      "CachePath": "BC/{BCF2E8AD-2A1A-5936-8FBE-EAE2ABD095A1}.wem"
      },
      {
       "Id": "806935094",
@@ -1768,6 +1784,14 @@
       "CachePath": "52/{523162B3-720B-AB25-F0ED-AE5465573462}.wem"
      },
      {
+      "Id": "842356809",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "aquiles_stuck_00.wav",
+      "CachePath": "3A/{3A75D052-2362-63DA-B4B9-0B687D5E9A33}.wem"
+     },
+     {
       "Id": "847806272",
       "Language": "SFX",
       "Streaming": "false",
@@ -1813,7 +1837,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_08.wav",
-      "CachePath": "FB/{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem"
+      "CachePath": "09/{09B6E963-7C49-5EAD-10F8-51F6E7BFA7B8}.wem"
      },
      {
       "Id": "863671011",
@@ -1837,7 +1861,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "aquiles_step_01.wav",
-      "CachePath": "85/{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem"
+      "CachePath": "6A/{6ABD8417-FD0F-198E-FA73-3F8B8EF47024}.wem"
      },
      {
       "Id": "871849665",
@@ -2485,7 +2509,7 @@
       "Name": "SFX_AquilesAreaExp",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesAreaExp",
       "GUID": "{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
       "DurationMin": "2.4669583",
       "DurationMax": "2.6006017",
@@ -2512,10 +2536,10 @@
       "Name": "SFX_AquilesBigStep",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_AquilesBigStep",
       "GUID": "{E0F98816-8662-4ED2-BA70-AA9633F0BEBE}",
-      "MaxAttenuation": "60",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
-      "DurationMin": "0.9962501",
-      "DurationMax": "1.4984728",
+      "DurationMin": "0.5290309",
+      "DurationMax": "0.73325187",
       "MediaRefs": [
        {
         "Id": "62622933"
@@ -2559,7 +2583,7 @@
       "Name": "SFX_AquilesDeath",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesDeath",
       "GUID": "{BA867AD9-D7D5-4777-BC99-21D40C9472E0}",
-      "MaxAttenuation": "60",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
       "DurationMin": "3.9608872",
       "DurationMax": "4.642784",
@@ -2574,11 +2598,14 @@
       "Name": "SFX_AquilesHurt",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesHurt",
       "GUID": "{1F32ED38-1135-42D5-9F07-D1B4CC6C1D8C}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
-      "DurationMin": "0.9912241",
-      "DurationMax": "1.8158071",
+      "DurationMin": "1.1912241",
+      "DurationMax": "2.0158072",
       "MediaRefs": [
+       {
+        "Id": "96160614"
+       },
        {
         "Id": "334760662"
        },
@@ -2592,7 +2619,7 @@
       "Name": "SFX_AquilesShield",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesShield",
       "GUID": "{B33E9F00-8627-4A23-A54D-B16E09F44577}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "0.7800074",
       "DurationMax": "1.3099153",
@@ -2613,7 +2640,7 @@
       "Name": "SFX_AquilesSpearHit",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSpearHit",
       "GUID": "{2C188969-1DDA-429F-B4C1-44482CAD51F0}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "0.5290309",
       "DurationMax": "1.1840833",
@@ -2634,7 +2661,7 @@
       "Name": "SFX_AquilesSpearSwing",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSpearSwing",
       "GUID": "{458B2546-C1CC-46FD-867E-195D90C88CC9}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
       "DurationMin": "6.760807",
       "DurationMax": "9.024594",
@@ -2664,10 +2691,10 @@
       "Name": "SFX_AquilesSteps",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesSteps",
       "GUID": "{277F7057-B177-4CE2-BE5F-B45532FA2A5A}",
-      "MaxAttenuation": "60",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
-      "DurationMin": "0.66850454",
-      "DurationMax": "1.4883147",
+      "DurationMin": "0.38212153",
+      "DurationMax": "0.75491434",
       "MediaRefs": [
        {
         "Id": "119259710"
@@ -2700,16 +2727,25 @@
       "Name": "SFX_AquilesStuck",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesStuck",
       "GUID": "{5D6FCB06-A96C-4515-8FD3-31499F269E28}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
-      "DurationMin": "1.0998487",
-      "DurationMax": "1.0998487",
+      "DurationMin": "0.7752221",
+      "DurationMax": "0.9218997",
       "MediaRefs": [
        {
         "Id": "15031937"
        },
        {
+        "Id": "313609596"
+       },
+       {
+        "Id": "377411457"
+       },
+       {
         "Id": "529955452"
+       },
+       {
+        "Id": "842356809"
        }
       ]
      },
@@ -2718,7 +2754,7 @@
       "Name": "SFX_AquilesWallHit",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesWallHit",
       "GUID": "{CF6A8A80-A2FF-44AE-8976-8FFA9B076E5D}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "1.0918057",
       "DurationMax": "2.0599663",
@@ -2745,7 +2781,7 @@
       "Name": "SFX_AquilesWarcry",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\SFX_AquilesWarcry",
       "GUID": "{216A9658-2893-45D3-98A2-4A7A58622BB0}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
       "DurationMin": "1.7057285",
       "DurationMax": "2.7201464",
@@ -2778,7 +2814,7 @@
       "Name": "SFX_CalmWater",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_CalmWater",
       "GUID": "{4D1AD8E3-016B-44BC-AAE3-A960B6A1F011}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "150",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3224,7 +3260,7 @@
       "Name": "SFX_IntroRoar",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_IntroRoar",
       "GUID": "{D5863E64-2C6F-4E18-A749-FC032FFB53E0}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "400",
       "DurationType": "OneShot",
       "DurationMin": "6.760807",
       "DurationMax": "9.024594",
@@ -4247,7 +4283,7 @@
       "Name": "SFX_SeaWater",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_SeaWater",
       "GUID": "{1CD6C801-B3D4-43C3-B007-F7CF7C8C011B}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "150",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -4305,7 +4341,7 @@
       "Name": "SFX_SirenSing",
       "ObjectPath": "\\Events\\Default Work Unit\\Siren\\SFX_SirenSing",
       "GUID": "{5340AF50-44EE-44EA-AB52-116A544241FB}",
-      "MaxAttenuation": "60",
+      "MaxAttenuation": "100",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -4425,7 +4461,7 @@
       "Name": "SFX_SpearPlunge",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_SpearPlunge",
       "GUID": "{2CDD8FC0-2D15-4653-A9DA-4EA318359ED9}",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "60",
       "DurationType": "OneShot",
       "DurationMin": "1.1840833",
       "DurationMax": "1.1840833",
@@ -5266,6 +5302,6 @@
     ]
    }
   ],
-  "FileHash": "{C456EB06-D0E6-41DF-B7D8-2688859B1B67}"
+  "FileHash": "{D63A2990-CD5A-2790-B9DF-CD51F904128F}"
  }
 }

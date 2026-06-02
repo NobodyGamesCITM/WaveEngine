@@ -908,9 +908,8 @@ function Update(self, dt)
         if self.current == "HUD.xaml" then
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
-            elseif self.public.currentScene == "Blockout2Nuevo.scene"
-                or self.public.currentScene == "Level2.scene" then
-                if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then
+            elseif self.public.currentScene == "Level2.scene" then
+                if Audio.GetMusicState() == "Boss" or Audio.GetMusicState() ~= "AfterBoss" then
                     Audio.SetMusicState("Level2")
                 end
             end

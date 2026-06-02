@@ -8130,7 +8130,6 @@
 								<Sound Name="siren_sing" ID="{6EC89094-1F17-47BD-93FC-864BD9949EFD}" ShortID="634897495">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -9711,7 +9710,7 @@
 							<ChildrenList>
 								<RandomSequenceContainer Name="Aquiles_SpearThrust" ID="{61A9920A-621C-4529-B1F4-214FEEA82BCB}" ShortID="541623131">
 									<PropertyList>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -9894,15 +9893,13 @@
 								<RandomSequenceContainer Name="Aquiles_FootSteps" ID="{4DC5E9F1-58E5-4F76-A3F4-46F28D313913}" ShortID="872098309">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{8AEE489B-75AC-4230-BCED-A1F389C05F60}">
 														<PropertyList>
 															<Property Name="Enabled" Type="bool" Value="True"/>
-															<Property Name="Max" Type="Real64" Value="17"/>
-															<Property Name="Min" Type="Real64" Value="-23"/>
 														</PropertyList>
 													</Modifier>
 												</ModifierInfo>
@@ -9911,6 +9908,9 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>410</Value>
+											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{EAB97B8C-89E8-4C59-9833-52653CE9F1B1}">
@@ -9925,7 +9925,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>5</Value>
+												<Value>12</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -9963,6 +9963,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_01" ID="{C541D8AC-2E27-4B54-A96B-E21C0027456D}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.26872828790667"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0526081833468085"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.729405366558866"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_01.wav</AudioFile>
 													<MediaIDList>
@@ -9985,6 +9991,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_02" ID="{B2FA6DCB-09D9-4AAD-892F-6F0D356E1C77}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.238506537138016"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0474050260150094"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.817736718150289"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_02.wav</AudioFile>
 													<MediaIDList>
@@ -10007,6 +10019,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_03" ID="{C77F7E48-733C-4E72-B431-8CD10115205A}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.27393124631073"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.021760893398516"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.71554936178653"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_03.wav</AudioFile>
 													<MediaIDList>
@@ -10029,6 +10047,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_04" ID="{AD6AC100-3E18-470D-8B0F-F85B58DCF671}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.335214511278386"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0326084154940064"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.791732336141761"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_04.wav</AudioFile>
 													<MediaIDList>
@@ -10051,6 +10075,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_05" ID="{6E019A0C-6D3D-42E5-A9E6-D395D474373B}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.252442675998391"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.028733312715264"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.630080500732983"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_05.wav</AudioFile>
 													<MediaIDList>
@@ -10073,6 +10103,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_06" ID="{73D874F2-208D-4C56-8D4D-E738CF807129}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.292202217543523"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0323385853407852"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.726463260904476"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_06.wav</AudioFile>
 													<MediaIDList>
@@ -10095,6 +10131,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_07" ID="{BF5283EF-3C8A-4FE3-A3C9-F088764A7100}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.240229491102975"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0323385853407852"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.717223665092823"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_07.wav</AudioFile>
 													<MediaIDList>
@@ -10117,6 +10159,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="aquiles_step_08" ID="{E8606FA5-B816-436E-9C69-8DBC861D7A78}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.229163688767531"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0127959420124002"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.690980830363693"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>aquiles_step_08.wav</AudioFile>
 													<MediaIDList>
@@ -10132,13 +10180,13 @@
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Aquiles_Hurt" ID="{ADE8414C-CD32-4644-BBBD-DEDECFB697CA}" ShortID="1042941432">
 									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{73EF6A2B-3E30-48E8-99CE-B940C675B8BA}">
 														<PropertyList>
-															<Property Name="Enabled" Type="bool" Value="True"/>
-															<Property Name="Max" Type="Real64" Value="10"/>
 															<Property Name="Min" Type="Real64" Value="-10"/>
 														</PropertyList>
 													</Modifier>
@@ -10146,6 +10194,7 @@
 											</ModifierList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -10177,6 +10226,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -10252,7 +10304,7 @@
 								<Sound Name="Aquiles_Death" ID="{CE8CC6EA-B76A-4900-99A1-0F81EF4EFE36}" ShortID="733479612">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -10394,7 +10446,7 @@
 								<RandomSequenceContainer Name="Aquiles_Warcry" ID="{78B28A37-437D-4303-8B9F-AF7B823B5562}" ShortID="967759487">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -10483,6 +10535,8 @@
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Aquiles_ShieldDMG" ID="{A1B6EDD4-C150-44B1-AFBF-734C1B876C8F}" ShortID="241443573">
 									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>12</Value>
@@ -10500,6 +10554,7 @@
 											</ModifierList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -10528,6 +10583,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -10606,7 +10664,10 @@
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Aquiles_SpearHit" ID="{3834C2E6-8933-486B-8F8D-ECE4A4555E21}" ShortID="518763952">
 									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="3"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ModifierList>
 												<ModifierInfo>
@@ -10621,6 +10682,9 @@
 										</Property>
 									</PropertyList>
 									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+										</Reference>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -11702,7 +11766,7 @@
 								<RandomSequenceContainer Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" ShortID="387109797">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
@@ -12023,90 +12087,39 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<Sound Name="aquiles_stuck_00" ID="{CF71CCE1-C4EE-4F34-BA28-5BC471715AE0}" ShortID="1061237314">
+								<Sound Name="Aquiles_SpearPull" ID="{C93FD20C-E644-4C50-9D52-426488111972}" ShortID="226707238">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="2"/>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
-												<Value>-230</Value>
+												<Value>350</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
-													<Modifier Name="" ID="{C1A31DDE-C981-414F-AC14-466C79ED9F7A}">
+													<Modifier Name="" ID="{279B1821-6FB1-42F6-A726-6C088CE8ACE6}">
 														<PropertyList>
-															<Property Name="Max" Type="Real64" Value="400"/>
-															<Property Name="Min" Type="Real64" Value="-425"/>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="175"/>
+															<Property Name="Min" Type="Real64" Value="-125"/>
 														</PropertyList>
 													</Modifier>
 												</ModifierInfo>
 											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
 										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
 											<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
 										</Reference>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}">
-											<PropertyList>
-												<Property Name="FadeInDuration" Type="Real64" Value="0.0812107086181641"/>
-												<Property Name="FadeOutDuration" Type="Real64" Value="0.0678858329781512"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>aquiles_stuck_00.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="15031937"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Effects">
-											<EffectSlot Name="" ID="{046151D5-3EE6-4881-9456-C05AB77F3417}" ShortID="147820952">
-												<PropertyList>
-													<Property Name="Render" Type="bool" Value="True"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="Effect">
-														<Custom>
-															<Effect Name="Time Stretch (Custom)" ID="{040B793D-F731-4643-AF87-36B167325887}" ShortID="350209920" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
-																<PropertyList>
-																	<Property Name="PitchShiftRandom" Type="Real32" Value="400"/>
-																</PropertyList>
-															</Effect>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</EffectSlot>
-										</ObjectList>
-									</ObjectLists>
-									<ActiveSourceList>
-										<ActiveSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="Aquiles_SpearPull" ID="{C93FD20C-E644-4C50-9D52-426488111972}" ShortID="226707238">
-									<PropertyList>
-										<Property Name="OverrideEffect" Type="bool" Value="True"/>
-										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>5</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 										</Reference>
@@ -12139,6 +12152,7 @@
 														<Custom>
 															<Effect Name="Time Stretch (Custom)" ID="{6E3092F1-9A5A-4692-8623-7D53DDE5EA2B}" ShortID="117169037" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
 																<PropertyList>
+																	<Property Name="OutputGain" Type="Real32" Value="5"/>
 																	<Property Name="QualityEnable" Type="int16" Value="1"/>
 																	<Property Name="TimeStretch" Type="Real32" Value="52"/>
 																</PropertyList>
@@ -12153,6 +12167,338 @@
 										<ActiveSource Name="metal_bend_creak" ID="{3C1BB68F-5A2A-4A0F-B441-43A8387AA65E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<RandomSequenceContainer Name="Aquiles_Stuck" ID="{361A8ED1-AF93-4FE8-818A-7B52C647D5BE}" ShortID="142002590">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="aquiles_stuck_600" ID="{CF71CCE1-C4EE-4F34-BA28-5BC471715AE0}" ShortID="1061237314">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-230</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{C1A31DDE-C981-414F-AC14-466C79ED9F7A}">
+																<PropertyList>
+																	<Property Name="Max" Type="Real64" Value="400"/>
+																	<Property Name="Min" Type="Real64" Value="-425"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>12</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.123957589648121"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.089552060349499"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0281075382114783"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>aquiles_stuck_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="15031937"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{DE74F12E-DCF7-40E7-8440-365324F7A146}" ShortID="638294258">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{516E956E-7399-4AC7-956A-A19E0F2380DC}" ShortID="1067152637" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="600"/>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="aquiles_stuck_00" ID="{1473F9CB-5B29-4E4B-BD17-5BFFCB557B53}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="aquiles_stuck_-200" ID="{6831E030-987F-4E44-A42C-CFCEE90A6B18}" ShortID="1018435985">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-230</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{867E4452-2EE9-42A2-882C-44FF7579E7CB}">
+																<PropertyList>
+																	<Property Name="Max" Type="Real64" Value="400"/>
+																	<Property Name="Min" Type="Real64" Value="-425"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>12</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="aquiles_stuck_00" ID="{550E574A-F886-4D5A-937A-2D3BE21015DE}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.123957589648121"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.089552060349499"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0281075382114783"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>aquiles_stuck_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="377411457"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{5F7C8863-089A-45B3-BAB8-BB3C746BB5B6}" ShortID="131167608">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{6394F7FA-4D22-47F4-BE86-194884D1F74B}" ShortID="908557811" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="-200"/>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="aquiles_stuck_00" ID="{550E574A-F886-4D5A-937A-2D3BE21015DE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="aquiles_stuck_100" ID="{F9E03586-3FF2-42FB-9FD4-F89D8FE4E742}" ShortID="508832062">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-230</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{906DDAF7-CC02-4072-8A9F-469AA4980087}">
+																<PropertyList>
+																	<Property Name="Max" Type="Real64" Value="400"/>
+																	<Property Name="Min" Type="Real64" Value="-425"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>12</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="aquiles_stuck_00" ID="{27D70180-451C-45E7-8634-B86B60224432}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.123957589648121"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.089552060349499"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0281075382114783"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>aquiles_stuck_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="313609596"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{83C82DD7-A4D6-4454-BC9E-1AF35AF13A35}" ShortID="663033364">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{C7883A37-415A-43D1-BEB2-A028EF86BFBD}" ShortID="792271742" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="100"/>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="aquiles_stuck_00" ID="{27D70180-451C-45E7-8634-B86B60224432}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="aquiles_stuck_300" ID="{DE87595C-F9CA-4625-9EC3-727AF241237E}" ShortID="316366477">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="4"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-230</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{14FAAB92-094D-405E-96BC-F2767BEB3FC5}">
+																<PropertyList>
+																	<Property Name="Max" Type="Real64" Value="400"/>
+																	<Property Name="Min" Type="Real64" Value="-425"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>12</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine_Large" ID="{EC4922AC-03D7-4FF2-A99A-7F8944B0B8E6}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="aquiles_stuck_00" ID="{1D35429B-8D89-4BC0-9556-355D501967DA}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.123957589648121"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.089552060349499"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0281075382114783"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.403547072799117"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>aquiles_stuck_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="842356809"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{AD692016-9D63-4235-82AF-8FDCF41D0621}" ShortID="244944949">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{B83F8697-17B8-471A-81C3-CBF66453761A}" ShortID="735799808" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="300"/>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="aquiles_stuck_00" ID="{1D35429B-8D89-4BC0-9556-355D501967DA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Puzzles" ID="{A430A924-5358-4357-9112-EBF5FC0442C9}" ShortID="442069209">

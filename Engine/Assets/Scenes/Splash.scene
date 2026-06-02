@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.8932584524154663,
+                    "aspectRatio": 1.9550561904907227,
                     "farPlane": 1000.0,
                     "fov": 54.0,
                     "nearPlane": 0.30000001192092896,
@@ -44,7 +44,7 @@
             "uid": 3923735618356656229
         },
         {
-            "active": false,
+            "active": true,
             "children": [
                 {
                     "active": true,
@@ -148,6 +148,11 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
                             "name": "nextXaml",
                             "type": 1,
                             "value": "MainMenu.xaml"
@@ -158,19 +163,14 @@
                             "value": 6.5
                         },
                         {
-                            "name": "maxVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
                             "name": "fadeSpeed",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "maxVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 9029998064422359462,
@@ -185,11 +185,6 @@
                             "value": "Splash.scene"
                         },
                         {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
@@ -198,6 +193,11 @@
                             "name": "fullVolume",
                             "type": 0,
                             "value": 100.0
+                        },
+                        {
+                            "name": "lowerVolume",
+                            "type": 0,
+                            "value": 60.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -3510,7 +3510,7 @@
                     "uid": 12698781469224615423
                 },
                 {
-                    "active": true,
+                    "active": false,
                     "children": [
                         {
                             "active": true,
@@ -3754,9 +3754,9 @@
                 {
                     "Animations": [
                         {
-                            "UID": 8602549267935008171,
+                            "UID": 7655446085966719834,
                             "loop": true,
-                            "name": "Base",
+                            "name": "Sit",
                             "speed": 1.0
                         }
                     ],
@@ -9198,7 +9198,7 @@
                                                             "active": true,
                                                             "position": [
                                                                 65.73577117919922,
-                                                                4.6100850105285645,
+                                                                4.228593349456787,
                                                                 -114.65833282470703
                                                             ],
                                                             "rotation": [
@@ -9279,7 +9279,7 @@
                                                             "active": true,
                                                             "position": [
                                                                 65.8563003540039,
-                                                                4.5150251388549805,
+                                                                4.365760803222656,
                                                                 -111.46290588378906
                                                             ],
                                                             "rotation": [
@@ -9360,7 +9360,7 @@
                                                             "active": true,
                                                             "position": [
                                                                 66.82984924316406,
-                                                                4.640622615814209,
+                                                                4.195552825927734,
                                                                 -107.98587799072266
                                                             ],
                                                             "rotation": [
@@ -9603,7 +9603,7 @@
                                                             "active": true,
                                                             "position": [
                                                                 65.26050567626953,
-                                                                4.541490077972412,
+                                                                4.0946879386901855,
                                                                 -106.89354705810547
                                                             ],
                                                             "rotation": [
@@ -10758,26 +10758,6 @@
                                                                     "active": true,
                                                                     "publicVariables": [
                                                                         {
-                                                                            "name": "radius",
-                                                                            "type": 0,
-                                                                            "value": 3.0
-                                                                        },
-                                                                        {
-                                                                            "name": "action",
-                                                                            "type": 1,
-                                                                            "value": "Interact"
-                                                                        },
-                                                                        {
-                                                                            "name": "anchorName",
-                                                                            "type": 1,
-                                                                            "value": "InteractAnchor"
-                                                                        },
-                                                                        {
-                                                                            "name": "promptRadius",
-                                                                            "type": 0,
-                                                                            "value": 6.0
-                                                                        },
-                                                                        {
                                                                             "name": "sequenceId",
                                                                             "type": 1,
                                                                             "value": ""
@@ -10788,9 +10768,29 @@
                                                                             "value": true
                                                                         },
                                                                         {
+                                                                            "name": "promptRadius",
+                                                                            "type": 0,
+                                                                            "value": 6.0
+                                                                        },
+                                                                        {
+                                                                            "name": "anchorName",
+                                                                            "type": 1,
+                                                                            "value": "InteractAnchor"
+                                                                        },
+                                                                        {
+                                                                            "name": "action",
+                                                                            "type": 1,
+                                                                            "value": "Interact"
+                                                                        },
+                                                                        {
                                                                             "name": "oneShot",
                                                                             "type": 2,
                                                                             "value": true
+                                                                        },
+                                                                        {
+                                                                            "name": "radius",
+                                                                            "type": 0,
+                                                                            "value": 3.0
                                                                         }
                                                                     ],
                                                                     "scriptUID": 11869449068228775486,
@@ -10996,26 +10996,6 @@
                                                             "active": true,
                                                             "publicVariables": [
                                                                 {
-                                                                    "name": "radius",
-                                                                    "type": 0,
-                                                                    "value": 3.0
-                                                                },
-                                                                {
-                                                                    "name": "action",
-                                                                    "type": 1,
-                                                                    "value": "Interact"
-                                                                },
-                                                                {
-                                                                    "name": "anchorName",
-                                                                    "type": 1,
-                                                                    "value": "InteractAnchor"
-                                                                },
-                                                                {
-                                                                    "name": "promptRadius",
-                                                                    "type": 0,
-                                                                    "value": 6.0
-                                                                },
-                                                                {
                                                                     "name": "sequenceId",
                                                                     "type": 1,
                                                                     "value": ""
@@ -11026,9 +11006,29 @@
                                                                     "value": true
                                                                 },
                                                                 {
+                                                                    "name": "promptRadius",
+                                                                    "type": 0,
+                                                                    "value": 6.0
+                                                                },
+                                                                {
+                                                                    "name": "anchorName",
+                                                                    "type": 1,
+                                                                    "value": "InteractAnchor"
+                                                                },
+                                                                {
+                                                                    "name": "action",
+                                                                    "type": 1,
+                                                                    "value": "Interact"
+                                                                },
+                                                                {
                                                                     "name": "oneShot",
                                                                     "type": 2,
                                                                     "value": true
+                                                                },
+                                                                {
+                                                                    "name": "radius",
+                                                                    "type": 0,
+                                                                    "value": 3.0
                                                                 }
                                                             ],
                                                             "scriptUID": 11869449068228775486,
@@ -11103,7 +11103,7 @@
                                                                 "linear": 0.5339999794960022,
                                                                 "position": [
                                                                     61.73138427734375,
-                                                                    8.039772033691406,
+                                                                    7.852476119995117,
                                                                     -115.12551879882813
                                                                 ],
                                                                 "quadratic": 0.03700000047683716,
@@ -11215,7 +11215,7 @@
                                                                 "linear": 0.5339999794960022,
                                                                 "position": [
                                                                     62.647640228271484,
-                                                                    8.039770126342773,
+                                                                    7.852474212646484,
                                                                     -109.65699768066406
                                                                 ],
                                                                 "quadratic": 0.03700000047683716,
@@ -11327,7 +11327,7 @@
                                                                 "linear": 0.5339999794960022,
                                                                 "position": [
                                                                     57.9984130859375,
-                                                                    8.039764404296875,
+                                                                    7.852468490600586,
                                                                     -113.151611328125
                                                                 ],
                                                                 "quadratic": 0.03700000047683716,
@@ -11382,7 +11382,7 @@
                                                     "active": true,
                                                     "position": [
                                                         60.546905517578125,
-                                                        3.847503662109375,
+                                                        3.660207748413086,
                                                         -110.76912689208984
                                                     ],
                                                     "rotation": [
@@ -11511,13 +11511,13 @@
                                                             "active": true,
                                                             "position": [
                                                                 67.6459732055664,
-                                                                4.437837600708008,
+                                                                3.1345653533935547,
                                                                 -106.52996826171875
                                                             ],
                                                             "rotation": [
-                                                                180.0,
+                                                                -180.0,
                                                                 -66.27975463867188,
-                                                                180.0
+                                                                -180.0
                                                             ],
                                                             "scale": [
                                                                 0.30876457691192627,
@@ -11776,9 +11776,9 @@
                                                         {
                                                             "active": true,
                                                             "position": [
-                                                                58.01961135864258,
-                                                                4.366440773010254,
-                                                                -118.81348419189453
+                                                                59.77731704711914,
+                                                                3.778088092803955,
+                                                                -118.564697265625
                                                             ],
                                                             "rotation": [
                                                                 0.0,
@@ -11807,13 +11807,13 @@
                                                                 {
                                                                     "active": true,
                                                                     "position": [
-                                                                        50.79651641845703,
-                                                                        0.03094482421875,
-                                                                        -31.10744857788086
+                                                                        50.796512603759766,
+                                                                        -1.2362241744995117,
+                                                                        -31.107452392578125
                                                                     ],
                                                                     "rotation": [
                                                                         0.0,
-                                                                        -34.945735931396484,
+                                                                        -34.94573974609375,
                                                                         0.0
                                                                     ],
                                                                     "scale": [
@@ -29114,6 +29114,170 @@
             "prefabInstance": 3881018650048058562,
             "tag": "",
             "uid": 9536745617612089252
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        29.0,
+                        24.0,
+                        -122.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "dir": {
+                        "ambient": [
+                            0.37254899740219116,
+                            0.22645136713981628,
+                            0.06209150701761246
+                        ],
+                        "diffuse": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "direction": [
+                            0.0,
+                            0.0,
+                            -1.0
+                        ],
+                        "specular": [
+                            0.7549019455909729,
+                            0.6993944644927979,
+                            0.440359503030777
+                        ]
+                    },
+                    "lightType": 0,
+                    "point": {
+                        "ambient": [
+                            0.05000000074505806,
+                            0.05000000074505806,
+                            0.05000000074505806
+                        ],
+                        "constant": 1.0,
+                        "diffuse": [
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
+                        ],
+                        "linear": 0.09000000357627869,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "spot": {
+                        "ambient": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "constant": 1.0,
+                        "cutOff": 12.5,
+                        "diffuse": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "direction": [
+                            0.0,
+                            -1.0,
+                            0.0
+                        ],
+                        "linear": 0.09000000357627869,
+                        "outerCutOff": 17.5,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "quadratic": 0.03200000151991844,
+                        "specular": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": 31
+                }
+            ],
+            "name": "Light",
+            "tag": "",
+            "uid": 6256512496998743521
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        57.487083435058594,
+                        4.555211544036865,
+                        -114.43732452392578
+                    ],
+                    "rotation": [
+                        92.9492416381836,
+                        -42.44373321533203,
+                        -24.76137924194336
+                    ],
+                    "scale": [
+                        0.04750001057982445,
+                        0.04750001057982445,
+                        0.04750001057982445
+                    ],
+                    "type": 0
+                },
+                {
+                    "active": true,
+                    "castShadows": true,
+                    "meshUID": 2614653855757536560,
+                    "pivotOffset": [
+                        37.761993408203125,
+                        -38.988739013671875,
+                        -7.080780029296875
+                    ],
+                    "silhouetteColor": [
+                        0.5686274766921997,
+                        0.5686274766921997,
+                        0.5686274766921997,
+                        1.0
+                    ],
+                    "silhouetteEnabled": false,
+                    "type": 1
+                },
+                {
+                    "active": true,
+                    "materialUID": 2897285206442267137,
+                    "overrideTiling": false,
+                    "type": 3
+                }
+            ],
+            "name": "Xiphos_copy_copy",
+            "tag": "",
+            "uid": 8156742535396762271
         }
     ],
     "version": 1

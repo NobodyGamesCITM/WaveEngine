@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{C8391B18-6385-DB62-BD41-60A57CE41F94}",
+    "Hash": "{09D6B1B5-6D7A-D107-583C-8B84A9D5C2AD}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -630,6 +630,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_hurt_02.wav",
       "CachePath": "BF/{BF222142-8DC0-F421-A977-3DBE384408D4}.wem"
+     },
+     {
+      "Id": "286989592",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628.wav",
+      "CachePath": "AF/{AF379FC9-8AF9-1EAD-EEEB-BB120AF6E97C}.wem"
      },
      {
       "Id": "294731171",
@@ -4789,6 +4797,20 @@
       ]
      },
      {
+      "Id": "1643144237",
+      "Name": "UI_SliderTest",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_SliderTest",
+      "GUID": "{CE81DDD1-67B1-42D4-A294-A341B3DB1815}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.0196111",
+      "DurationMax": "3.0196111",
+      "MediaRefs": [
+       {
+        "Id": "286989592"
+       }
+      ]
+     },
+     {
       "Id": "3718241572",
       "Name": "UI_TeleVocals",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_TeleVocals",
@@ -5288,6 +5310,6 @@
     ]
    }
   ],
-  "FileHash": "{79F0E4B6-4664-FE48-048F-5BC0E05E7D6A}"
+  "FileHash": "{C2B4AF08-7166-0CCF-A6F0-90751B65846B}"
  }
 }

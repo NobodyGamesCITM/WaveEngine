@@ -103,6 +103,7 @@ function FadeInMusic(self, dt)
 		finishedTransition = false
 		fadeTimer = 0
 		volume = 0
+		--TryChangeMusicState(self, "Level2")
 	end 
 end
 

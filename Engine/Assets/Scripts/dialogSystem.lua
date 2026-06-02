@@ -187,7 +187,7 @@ local function loadDialogEntry(entry)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
         end
     else
-        Engine.Log("[DialogSystem] Character Voice Audio Source not found!")
+        --Engine.Log("[DialogSystem] Character Voice Audio Source not found!")
     end
 
     state.fullText       = entry.text or ""
@@ -204,7 +204,7 @@ end
 local function startSequence(sequenceId)
     local seq = allDialogs[sequenceId]
     if not seq then
-        Engine.Log("[DialogSystem] ERROR: secuencia no encontrada -> " .. tostring(sequenceId))
+        --Engine.Log("[DialogSystem] ERROR: secuencia no encontrada -> " .. tostring(sequenceId))
         return
     end
 
@@ -322,7 +322,7 @@ local function FindDialogAudioSources(self)
     if skipSource then
         skipSFX = skipSource:GetComponent("Audio Source")
         if not skipSFX then
-            Engine.Log("[DialogSystem] Unable to retrieve Skip Audio Source Component")
+            --Engine.Log("[DialogSystem] Unable to retrieve Skip Audio Source Component")
         end
     end
 
@@ -330,7 +330,7 @@ local function FindDialogAudioSources(self)
     if charSource then
         charSFX = charSource:GetComponent("Audio Source")
         if not charSFX then
-            Engine.Log("[DialogSystem] Unable to retrieve Character Audio Source Component")
+            --Engine.Log("[DialogSystem] Unable to retrieve Character Audio Source Component")
         end
     end
 end

@@ -124,7 +124,7 @@ local function ActivateStatue(self)
             self.statueMat.SetTexture("16679556794755767834")
             if self.dustPs then self.dustPs:Play() end
         else
-            Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
+            --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set awoken texture!")
         end
 
     end
@@ -138,7 +138,7 @@ function Initialize(self)
 
     if self.statueMat then self.statueMat.SetTexture("10286171976575561541")
     else
-        Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
+        --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
     end
 
     FindStatueAnimation(self)
@@ -240,7 +240,7 @@ function Update(self, dt)
                 if self.statueSFX then self.statueSFX:SelectPlayAudioEvent("SFX_GM_StatueOff") end
                 self.finished = true
             else
-                Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
+                --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
             end
             if self.public.DropAresMask then
                 local combat = GameObject.FindInChildren(self.gameObject, "AresCombat")

@@ -181,47 +181,63 @@ local function TakeDamage(self, amount, attackerPos)
 end
 local function FindAudioComponents(self)
     local attackSource = GameObject.FindInChildren(self.gameObject, "SK_KopisSource")
-    if not attackSource then Engine.Log("Could not retrieve GameObject containing Skeleton attackSFX")
+    if not attackSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton attackSFX")
     else
         self.attackSFX = attackSource:GetComponent("Audio Source")
-        if not self.attackSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton attackSFX") end
+        if not self.attackSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton attackSFX") 
+        end
     end
 
     local hurtSource = GameObject.FindInChildren(self.gameObject, "SK_HurtSource")
-    if not hurtSource then Engine.Log("Could not retrieve GameObject containing Skeleton hurtSFX")
+    if not hurtSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton hurtSFX")
     else
         self.hurtSFX = hurtSource:GetComponent("Audio Source")
-        if not self.hurtSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton hurtSFX") end
+        if not self.hurtSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton hurtSFX") 
+        end
     end
 
     local dieSource = GameObject.FindInChildren(self.gameObject, "SK_DieSource")
-    if not dieSource then Engine.Log("Could not retrieve GameObject containing Skeleton deathSFX")
+    if not dieSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton deathSFX")
     else
         self.dieSFX = dieSource:GetComponent("Audio Source")
-        if not self.dieSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dieSFX") end
+        if not self.dieSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton dieSFX") 
+        end
     end
 
     local dodgeSource = GameObject.FindInChildren(self.gameObject, "SK_DodgeSource")
-    if not dodgeSource then Engine.Log("Could not retrieve GameObject containing Skeleton dodgeSFX")
+    if not dodgeSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton dodgeSFX")
     else
         self.dodgeSFX = dodgeSource:GetComponent("Audio Source")
-        if not self.dodgeSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dodgeSFX") end
+        if not self.dodgeSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton dodgeSFX")
+        end
     end
 
     self.stepSFX = self.gameObject:GetComponent("Audio Source")
     if not self.stepSFX then
-        Engine.Log("[SKELETON AUDIO] Make sure there's an Audio Source with Steps SFX in the Skeleton's parent GameObject!")
+        --Engine.Log("[SKELETON AUDIO] Make sure there's an Audio Source with Steps SFX in the Skeleton's parent GameObject!")
     end
 end
 
 local function PlaySFX(audioComp)
     if audioComp then audioComp:PlayAudioEvent()
-    else Engine.Log("Could not play configured event in Audio Source " .. tostring(audioComp) .. ", component not found") end
+    else 
+        --Engine.Log("Could not play configured event in Audio Source " .. tostring(audioComp) .. ", component not found") 
+    end
 end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(audioComp, eventName)
-    else Engine.Log("Could not play " .. eventName .. ", Audio Source component " .. tostring(audioComp) .. " not found") end
+    else 
+        --Engine.Log("Could not play " .. eventName .. ", Audio Source component " .. tostring(audioComp) .. " not found") 
+    end
 end
 
 function Start(self)

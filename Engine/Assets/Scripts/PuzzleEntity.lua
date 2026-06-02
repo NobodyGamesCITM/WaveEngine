@@ -28,14 +28,14 @@ local function FindDustParticles(self)
     if dustVFX then 
         dustPs = dustVFX:GetComponent("ParticleSystem")
         if not dustPs then 
-            Engine.Log("[PuzzleEntity] Unable to retrieve Dust ParticleSystem on Rock")
+            --Engine.Log("[PuzzleEntity] Unable to retrieve Dust ParticleSystem on Rock")
         else
             dustPs:Stop()
             --Engine.Log("[PuzzleEntity] DustPs FOUND!")
         end
     else
         
-        Engine.Log("[PuzzleEntity] Unable to find Dust VFX GameObject")
+        --Engine.Log("[PuzzleEntity] Unable to find Dust VFX GameObject")
         
     end
 end
@@ -48,7 +48,7 @@ function Start(self)
     --audio
     puzzleEntSFX = self.gameObject:GetComponent("Audio Source")
     if not puzzleEntSFX then 
-        Engine.Log("[PUZZLE ENTITY] Could not retrieve Puzzle Entity Audio Source")
+        --Engine.Log("[PUZZLE ENTITY] Could not retrieve Puzzle Entity Audio Source")
     else
         --Engine.Log("[PUZZLE ENTITY] Puzzle Entity Audio Source found!")
     end

@@ -10,6 +10,7 @@ public = {
 
 local function InitState(self)
     self.splashCanvas    = self.gameObject:GetComponent("Canvas")
+    self.playerAnim      = nil
     self.splashFinished  = false
     self.splashFadingOut = false
     self.splashTimer     = 0.0
@@ -26,6 +27,7 @@ local function InitState(self)
     else 
         --Engine.Log("Could not find BGM GameObject") 
     end
+
     
 end
 
@@ -110,10 +112,21 @@ function Update(self, dt)
         InitState(self)
     end
 
+    if not self.playerAnim then
+        local playerObj = GameObject.Find("TelemacusMainMenu")   
+        
+        if playerObj then
+            self.playerAnim = playerObj:GetComponent("Animation")
+            if self.playerAnim and not self.playerAnim:IsPlayingAnimation("Sit") then self.playerAnim:Play("Sit") end
+        end
+    end
+
     if self.splashFinished then 
         PlayBGM(self)
         return 
     end
+
+    
 
     if _G.SkipSplash then
         if not self.splashCanvas then self.splashCanvas = self.gameObject:GetComponent("Canvas") end

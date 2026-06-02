@@ -14,10 +14,12 @@ public = {
 }
 
 local musicStates ={
+	"Level1_Intro",
 	"Level1",
 	"Level1_Combat",
 	"Level2",
 	"Level2_Combat",
+	"Boss_Intro",
 	"Boss",
 	"AfterBoss"
 }
@@ -30,7 +32,9 @@ local function Initialize(self)
 	musicSource = GameObject.Find("MusicSource")
 	bgMusic = musicSource:GetComponent("Audio Source")
 
-	if not bgMusic then Engine.Log("BG Music Audio Source component not found!") end
+	if not bgMusic then 
+		--Engine.Log("BG Music Audio Source component not found!") 
+	end
 	
 end
 

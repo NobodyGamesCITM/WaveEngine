@@ -22,8 +22,11 @@ function Start(self)
     finalY = p.y - distance
 
     doorSFX = self.gameObject:GetComponent("Audio Source")
-    if not doorSFX then Engine.Log("[DOOR] Could not retrieve Door Audio Source") 
-    else Engine.Log("[DOOR] Door Audio Source Found!") end
+    if not doorSFX then 
+        --Engine.Log("[DOOR] Could not retrieve Door Audio Source") 
+    else 
+        --Engine.Log("[DOOR] Door Audio Source Found!") 
+    end
 
     self.OpenDoor = function(self)
         if not isOpen then openDoor2 = true end

@@ -336,6 +336,7 @@ function Initialize(self)
         }
     end
 
+
     _G.CinematicActive = false
     Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
 
@@ -539,7 +540,7 @@ function Update(self, dt)
             sceneVal = self.public.currentScene
         end
 
-        Engine.Log("Current scene = " ..tostring(sceneVal))
+        --Engine.Log("Current scene = " ..tostring(sceneVal))
 
         local musicState = "None"
         if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
@@ -646,16 +647,18 @@ function Update(self, dt)
             if UI.SliderValueChanged("SoundEffectsSlider") then
                 local val = UI.GetSliderValue("SoundEffectsSlider")
                 _G.SavedSoundEffectsVolume = val
-                Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))
+                --Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))
                 Audio.SetSFXVolume(val)
-                Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+                --Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+
+                if pressedSFX then pressedSFX:SelectPlayAudioEvent("UI_SliderTest") end
             end
 
             if UI.SliderValueChanged("MusicSlider") then
                 local val = UI.GetSliderValue("MusicSlider")
                 _G.SavedMusicVolume = val
                 Audio.SetMusicVolume(val)
-                Engine.Log("[MenuManager] Music volume: " .. tostring(val))
+                --Engine.Log("[MenuManager] Music volume: " .. tostring(val))
             end
         else
             if self.soundsMenuInitialized then

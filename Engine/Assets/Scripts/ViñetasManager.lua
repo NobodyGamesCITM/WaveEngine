@@ -82,25 +82,31 @@ local function FindAudioSources(self)
     local pageTurnObj = GameObject.FindInChildren(self.gameObject, "PageTurnSource")
     if pageTurnObj then
         pageTurnSFX = pageTurnObj:GetComponent("Audio Source")
-        if not pageTurnSFX then Engine.Log("[Cinematic] Unable to retrieve Page Turn SFX") end
+        if not pageTurnSFX then 
+            --Engine.Log("[Cinematic] Unable to retrieve Page Turn SFX") 
+        end
     else
-        Engine.Log("[Cinematic] Couldn't find PageTurnSource")
+        --Engine.Log("[Cinematic] Couldn't find PageTurnSource")
     end
 
     local owlHootObj = GameObject.FindInChildren(self.gameObject, "OwlHootSource")
     if owlHootObj then
         owlHootSFX = owlHootObj:GetComponent("Audio Source")
-        if not owlHootSFX then Engine.Log("[Cinematic] Unable to retrieve Owl Hoot SFX") end
+        if not owlHootSFX then 
+            --Engine.Log("[Cinematic] Unable to retrieve Owl Hoot SFX") 
+        end
     else
-        Engine.Log("[Cinematic] Couldn't find OwlHootSource")
+        --Engine.Log("[Cinematic] Couldn't find OwlHootSource")
     end
 
     local owlWingObj = GameObject.FindInChildren(self.gameObject, "OwlWingSource")
     if owlWingObj then
         owlWingSFX = owlWingObj:GetComponent("Audio Source")
-        if not owlWingSFX then Engine.Log("[Cinematic] Unable to retrieve Owl Wing SFX") end
+        if not owlWingSFX then 
+            --Engine.Log("[Cinematic] Unable to retrieve Owl Wing SFX") 
+        end
     else
-        Engine.Log("[Cinematic] Couldn't find OwlWingSource")
+        --Engine.Log("[Cinematic] Couldn't find OwlWingSource")
     end
     
 
@@ -111,9 +117,11 @@ local function FindAudioSources(self)
         local ambianceSource = GameObject.FindInChildren(player, "ItemSource")
         if ambianceSource then
             ambianceSFX = ambianceSource:GetComponent("Audio Source")
-            if not ambianceSFX then Engine.Log("[Cinematic] Unable to retrieve Ambiance SFX") end
+            if not ambianceSFX then 
+                --Engine.Log("[Cinematic] Unable to retrieve Ambiance SFX") 
+            end
         else
-            Engine.Log("[Cinematic] Could not find ItemSource")
+            --Engine.Log("[Cinematic] Could not find ItemSource")
         end
     end
 end

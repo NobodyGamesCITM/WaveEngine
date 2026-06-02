@@ -29,7 +29,7 @@ local canSaveAgain = false
 
 local function ChangeTexture(texUUID, checkpoint)
     if not checkpoint then 
-        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
@@ -57,7 +57,7 @@ end
 
 local function ActivateParticles(vfxName, checkpoint)
     if not checkpoint then 
-        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
@@ -86,7 +86,7 @@ end
 
 local function StopParticles(vfxName, checkpoint)
     if not checkpoint then 
-        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 

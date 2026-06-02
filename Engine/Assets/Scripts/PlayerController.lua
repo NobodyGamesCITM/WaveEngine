@@ -1390,7 +1390,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 local function RefreshAudioSources(self)
-    Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
+    --Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
     local go = self.gameObject
     
     local stepGo   = GameObject.FindInChildren(go, "StepSource") or GameObject.FindInChildren(go, "SFX_FootSteps")
@@ -1403,7 +1403,7 @@ local function RefreshAudioSources(self)
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
-        Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
+        --Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
     end
 
     Player.stepSFX       = (stepGo and stepGo:GetComponent("Audio Source")) or rootSource
@@ -1817,7 +1817,7 @@ function Update(self, dt)
             if Player.currentState ~= State.DEAD then
                 if not Audio.IsEventPlaying("SFX_HermesWind") then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_HermesWind")
-                    Engine.Log("[PLAYER] Playing Wind Hover SFX") 
+                    --Engine.Log("[PLAYER] Playing Wind Hover SFX") 
                 end
             end
 
@@ -1825,7 +1825,7 @@ function Update(self, dt)
             
                 if not Audio.IsEventPlaying("SFX_HermesFlare") then 
                     Player.voiceSFX:SelectPlayAudioEvent("SFX_HermesFlare")
-                    Engine.Log("[PLAYER] Playing Hover SFX") 
+                    --Engine.Log("[PLAYER] Playing Hover SFX") 
                 end
             else
                 Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
@@ -2125,7 +2125,7 @@ function Update(self, dt)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
 
             if musicComp and Audio.IsEventPlaying("MUS_BGM") then 
-                Engine.Log("Stopped MUS_BGM")
+                --Engine.Log("Stopped MUS_BGM")
                 musicComp:StopAudioEvent() --WIP, should fade gradually
             end
 
@@ -2144,7 +2144,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 15.16 and Player.AnimTimer >= 15.00 and not playedSwordPrep then
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_SwordPrep") 
-                    Engine.Log("[PLAYER] Playing SwordPrep")
+                    --Engine.Log("[PLAYER] Playing SwordPrep")
                     playedSwordPrep = true
                 end
                  
@@ -2442,7 +2442,7 @@ function Update(self, dt)
                 
                 winBossCinematic = true
 
-                Engine.Log("[[PLAYER] Attempting to fire Win Boss Cinematic!")
+                --Engine.Log("[[PLAYER] Attempting to fire Win Boss Cinematic!")
             end
 
         end
@@ -2655,7 +2655,7 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
+                    --Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
                 end
             end
         end

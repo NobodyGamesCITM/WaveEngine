@@ -4,12 +4,11 @@ public = {
     updateWhenPaused = true
 }
 
--- audiosources
+
 local skipSFX = nil
 local charSFX = nil
 
 local canvas     = nil
-local allDialogs = nil
 local wasAmbient = false
 
 _G._IsDialogActive = false
@@ -22,6 +21,93 @@ local PORTRAIT_MAP = {
 
 local currentPortrait    = nil
 local lastDisplayedChars = -1
+
+
+local allDialogs = {
+    intro = {
+        id = "intro",
+        dialogs = {
+            {
+                character = "Atenea",
+                portrait  = "Textures/Atenea.png",
+                text      = "Telémaco, al fin despiertas. El océano fue en tu contra, pero no hay tiempo que perder. Adéntrate en el bosque y no te dejes engañar por su aspecto pacífico, el mal habita en él. Sé cauto, pues un solo paso en falso podría ser el último.",
+                mood      = ""
+            },
+            {
+                character = "Telémaco",
+                portrait  = "Textures/Telemaco.png",
+                text      = " Uf… de acuerdo. ¡Allá voy!",
+                mood      = "Decided"
+            }
+        }
+    },
+
+    checkpointInfo = {
+        id = "checkpointInfo",
+        dialogs = {
+            {
+                character = "Atenea",
+                portrait  = "Textures/Atenea.png",
+                text      = " Has hallado uno de mis altares, si los activas te resguardarán. Mantén los ojos bien abiertos, los encontrarás donde más los necesites.",
+                mood      = ""
+            },
+            {
+                character = "Telémaco",
+                portrait  = "Textures/Telemaco.png",
+                text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias.",
+                mood      = "Relieved"
+            }
+        }
+    },
+
+    sanctuaryInfo = {
+        id = "sanctuaryInfo",
+        dialogs = {
+            {
+                character = "Atenea",
+                portrait  = "Textures/Atenea.png",
+                text      = "El santuario de la isla, antiguamente lugar de culto a Hades, sirve de puente hacia el inframundo. Para abrirlo deberás encontrar y desactivar las estatuas de Cerbero.",
+                mood      = ""
+            },
+            {
+                character = "Telémaco",
+                portrait  = "Textures/Telemaco.png",
+                text      = "Será una misión ardua, pero no me rendiré ahora.",
+                mood      = "Generic"
+            }
+        }
+    },
+
+    maskInfo = {
+        id = "maskInfo",
+        dialogs = {
+            {
+                character = "Atenea",
+                portrait  = "Textures/Atenea.png",
+                text      = "Los dioses otorgaron estas máscaras como favor a sus fieles. Vístelas, sin su poder divino no vencerás.",
+                mood      = ""
+            }
+        }
+    },
+
+    portalWarning = {
+        id = "portalWarning",
+        dialogs = {
+            {
+                character = "Atenea",
+                portrait  = "Textures/Atenea.png",
+                text      = "Extrema cautela, Telémaco. Antaño, el inframundo tenía un orden, ahora el caos y la crueldad reinan en él. Recuerda lo aprendido, pues sólo tú cruzarás el portal. No dudes en regresar si encuentras una considerable amenaza.",
+                mood      = ""
+            },
+            {
+                character = "Telémaco",
+                portrait  = "Textures/Telemaco.png",
+                text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo.",
+                mood      = "Scared"
+            }
+        }
+    }
+}
 
 
 local function utf8charlen(byte)
@@ -56,7 +142,6 @@ local function utf8sub(str, nchars)
     return str
 end
 
-
 local state = {
     active          = false,
     currentSequence = nil,
@@ -66,7 +151,7 @@ local state = {
     displayedChars  = 0,
     timer           = 0.0,
     isComplete      = false,
-    inputConsumed   = false,   
+    inputConsumed   = false,
 }
 
 local function setPortrait(character)
@@ -78,18 +163,6 @@ local function setPortrait(character)
         UI.SetElementVisibility(elementName, true)
         currentPortrait = elementName
     end
-end
-
-local function loadDialogs()
-    if allDialogs then return true end
-    local path = Engine.GetAssetsPath() .. "/Scripts/dialogs.lua"
-    local ok, result = pcall(dofile, path)
-    if not ok or not result then
-        Engine.Log("[DialogSystem] ERROR loading dialogs.lua: " .. tostring(result))
-        return false
-    end
-    allDialogs = result
-    return true
 end
 
 local function updateUI()
@@ -109,11 +182,9 @@ local function loadDialogEntry(entry)
     if charSFX then
         if entry.character == "Atenea" then
             charSFX:SelectPlayAudioEvent("UI_OwlHoot")
-            --Engine.Log("Playing Owl SFX")
         elseif entry.character == "Telémaco" or entry.character == "Telemaco" then
             Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
-            --Engine.Log("Playing Telemachus Voice SFX with mood: "..tostring(entry.mood))
         end
     else
         Engine.Log("[DialogSystem] Character Voice Audio Source not found!")
@@ -131,14 +202,10 @@ local function loadDialogEntry(entry)
 end
 
 local function startSequence(sequenceId)
-    if not loadDialogs() then return end
-
     local seq = allDialogs[sequenceId]
     if not seq then
         Engine.Log("[DialogSystem] ERROR: secuencia no encontrada -> " .. tostring(sequenceId))
         return
-    else
-        --Engine.Log("[DialogSystem] secuencia encontrada -> " .. tostring(sequenceId))
     end
 
     state.active          = true
@@ -156,19 +223,15 @@ local function startSequence(sequenceId)
     end
 
     UI.SetElementVisibility("DialogBox", true)
-   
 
     if wasAmbient then
         UI.SetElementVisibility("ContinueIcon", false)
     end
 
     loadDialogEntry(state.currentSequence[1])
-
 end
 
 function ForceCloseDialog()
-
-    
     if not state.active then return end
     if currentPortrait then
         UI.SetElementVisibility(currentPortrait, false)
@@ -186,10 +249,7 @@ function ForceCloseDialog()
     _G.DialogActive          = false
     _G._DialogBlockingPlayer = false
     if _G.SetPlayerCanMove then _G.SetPlayerCanMove(true) end
-
-
     wasAmbient = false
-
 end
 
 function SuspendDialog()
@@ -233,14 +293,11 @@ end
 local function onAdvancePressed()
     if not state.active then return end
     if wasAmbient then return end
-
     if state.inputConsumed then return end
     state.inputConsumed = true
 
-    if skipSFX and not Audio.IsEventPlaying("UI_SkipDialog") then 
+    if skipSFX and not Audio.IsEventPlaying("UI_SkipDialog") then
         skipSFX:SelectPlayAudioEvent("UI_SkipDialog")
-    else
-       --Engine.Log("[DialogSystem] Unable to play Skip Dialog Sound") 
     end
 
     if not state.isComplete then
@@ -248,7 +305,7 @@ local function onAdvancePressed()
         state.isComplete     = true
         lastDisplayedChars   = -1
         updateUI()
-        return  
+        return
     end
 
     local nextIndex = state.currentIndex + 1
@@ -258,34 +315,24 @@ local function onAdvancePressed()
     else
         closeDialog()
     end
-
-    
-
 end
 
 local function FindDialogAudioSources(self)
-
     local skipSource = GameObject.FindInChildren(self.gameObject, "SkipSource")
-    if skipSource then 
+    if skipSource then
         skipSFX = skipSource:GetComponent("Audio Source")
         if not skipSFX then
             Engine.Log("[DialogSystem] Unable to retrieve Skip Audio Source Component")
         end
-    else
-        --Engine.Log("[DialogSystem] Skip Audio GameObject NOT Found!")
     end
 
     local charSource = GameObject.FindInChildren(self.gameObject, "CharSource")
-    if charSource then 
+    if charSource then
         charSFX = charSource:GetComponent("Audio Source")
         if not charSFX then
             Engine.Log("[DialogSystem] Unable to retrieve Character Audio Source Component")
         end
-    else
-        --Engine.Log("[DialogSystem] Character Audio GameObject NOT Found!")
     end
-
-
 end
 
 function TriggerSequence(sequenceId)
@@ -326,7 +373,6 @@ function Start(self)
 end
 
 function Update(self, dt)
-
     if not skipSFX or not charSFX then
         FindDialogAudioSources(self)
     end

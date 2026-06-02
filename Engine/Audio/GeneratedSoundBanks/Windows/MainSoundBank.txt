@@ -29,6 +29,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
 	1569503582	UI_PageTurn			\Default Work Unit\UI\UI_PageTurn	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
+	1643144237	UI_SliderTest			\Default Work Unit\UI\UI_SliderTest	
 	1720125317	SFX_HermesWind			\Default Work Unit\Player\SFX_HermesWind	
 	1742302713	SFX_SpearPull			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPull	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
@@ -271,6 +272,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	278946100	minocabro_precharge_01	.cache\5B\{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_01		137888
 	280608782	chain_break_01	.cache\AD\{ADBB6FD7-245E-C680-4F61-79C8CEF2FAF2}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_01		52856
 	281166023	minocabro_hurt_02	.cache\BF\{BF222142-8DC0-F421-A977-3DBE384408D4}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
+	286989592	UI_SliderTest	.cache\AF\{AF379FC9-8AF9-1EAD-EEEB-BB120AF6E97C}.wem		\Containers\Default Work Unit\Objects\UI\UI_SliderTest		106496
 	294731171	minocabro_footstep_06	.cache\A5\{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_06		30032
 	296531997	owl_02	.cache\80\{807FE7B4-2EE7-ECCA-DEF0-EF0CD392DBAC}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_02		66608
 	307199709	door_end	.cache\ED\{EDB2A2B9-AF89-A392-C392-03C1B4846002}.wem		\Containers\Default Work Unit\Objects\Puzzles\door_end		108512

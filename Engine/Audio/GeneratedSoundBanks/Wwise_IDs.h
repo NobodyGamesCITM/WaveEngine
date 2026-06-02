@@ -117,6 +117,7 @@ namespace AK
         static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
         static const AkUniqueID UI_SKIPDIALOG = 344780467U;
+        static const AkUniqueID UI_SLIDERTEST = 1643144237U;
         static const AkUniqueID UI_TELEVOCALS = 3718241572U;
     } // namespace EVENTS
 

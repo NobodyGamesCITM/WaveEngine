@@ -7,7 +7,8 @@ public = {
     offsetY = 0.0,    
     offsetZ = 0.0,
     --Distancia entre player y estatua
-    near = 8.0,         
+    near = 8.0,
+    saveCooldown = 5.0,         
 }
 
 -- local lastCheckpointVFX = nil
@@ -21,6 +22,10 @@ local currentCheckpoint = nil
 local previousCheckpoint = nil
 local normalTexUUID = "15061063724499349633"
 local glowingTexUUID = "5205049906102326052"
+local saveAgainTimer = 0
+local isInCoolDown = false
+local canSaveAgain = false
+
 
 local function ChangeTexture(texUUID, checkpoint)
     if not checkpoint then 
@@ -121,6 +126,9 @@ end
 local function Initialize(self)
 
     FindCheckPointAudioSources(self)
+    isInCoolDown = false
+    canSaveAgain = false
+    saveAgainTimer = 0
 
     --Engine.RequestResource(normalTexUUID)
     --Engine.RequestResource(glowingTexUUID)
@@ -142,7 +150,7 @@ function Start(self)
     
 end
 
-function Update(self, deltaTime)
+function Update(self, dt)
 
     if not checkpoints then
         Initialize(self)
@@ -150,6 +158,16 @@ function Update(self, deltaTime)
 
     if not self.saveSFX then 
         FindCheckPointAudioSources(self)
+    end
+
+    if isInCoolDown then
+        saveAgainTimer = saveAgainTimer + dt
+        if saveAgainTimer >= (self.public.saveCoolDown or 5.0) then
+            saveAgainTimer = 0
+            isInCoolDown = false
+            
+        end
+        
     end
 
     if _G.interact == true then 
@@ -163,15 +181,16 @@ function Update(self, deltaTime)
             --Engine.Log("Checkpoint x: " ..tostring(pos.x).."  y: "..tostring(pos.y))
             if (math.abs(pos.x - playerPos.x) < self.public.near) then
                 if (math.abs(pos.z - playerPos.z) < self.public.near) then
+
+                   if currentCheckpoint == checkpoint and isInCoolDown then                        
+                        Engine.Log("Saved "..tostring(saveAgainTimer).." seconds ago, please wait...")
+                        return
+                    end
+
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
 
                     if _G.RestorePotions then
                         _G.RestorePotions()
-                    end
-
-                    if currentCheckpoint == checkpoint then
-                        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint already active.")
-                        return 
                     end
 
 					
@@ -199,10 +218,17 @@ function Update(self, deltaTime)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave") end
 
+                   
+
                     if _G.SaveManager then
                         _G.SaveManager.SaveGame()
                         if _G.ShowSaveIcon then _G.ShowSaveIcon() end
                     end
+
+                    isInCoolDown = true
+                    saveAgainTimer = 0
+                    
+                    
                 end
             end
         end

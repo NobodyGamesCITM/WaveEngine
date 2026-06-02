@@ -34,6 +34,7 @@ local deathAnimDone = false
 local blockHits = false
 
 local rb       = nil
+local nav      = nil
 local anim     = nil
 local playerGO = nil
 local attackCol    = nil
@@ -83,6 +84,8 @@ local chargeCDTimer = 0
 local stunTimer     = 0   
 local hurtTimer = 0
 local stepTimer = 0
+local navRecalcTimer = 0
+local NAV_RECALC_INTERVAL = 0.4  -- recalcula el path cada 0.4s, no cada frame
 local fadeMusicTimer = 0
 local volume = 100
 
@@ -580,30 +583,73 @@ local function StartDash(self, dirX, dirZ)
     end
 end
 
-local function MovementWalk(self, dx, dz, dt, speedOverride)
-    local myPos = self.transform.worldPosition
-    local pPos  = playerGO.transform.worldPosition
-    local dist  = Dist(myPos, pPos)
+local function IsWallBetween(a, b)
+    local walls = GameObject.FindByTag("Wall")
+    if not walls then return false end
 
-    if dist <= self.public.minDistanceToPlayer then
-        rb:SetLinearVelocity(0, 0, 0)
-        if anim and not anim:IsPlayingAnimation("Idle") then anim:Play("Idle", 0.2) end
-        return
+    local abX = b.x - a.x
+    local abZ = b.z - a.z
+    local abLenSq = abX*abX + abZ*abZ
+
+    for _, wall in ipairs(walls) do
+        local wp = wall.transform.worldPosition
+
+        local apX = wp.x - a.x
+        local apZ = wp.z - a.z
+
+        local t = ((apX * abX) + (apZ * abZ)) / abLenSq
+
+        if t > 0.15 and t < 0.85 then
+            local closestX = a.x + abX * t
+            local closestZ = a.z + abZ * t
+
+            local dx = wp.x - closestX
+            local dz = wp.z - closestZ
+
+            local distToLine = sqrt(dx*dx + dz*dz)
+
+       
+            if distToLine < 7.0 then
+                return true
+            end
+        end
     end
 
-    local vel = speedOverride or self.public.moveSpeed
+    return false
+end
+
+local function MovementWalk(self, dt, speedOverride)
+    if not nav or not playerGO then return end
+
+    local myPos = self.transform.worldPosition
+    local pPos  = playerGO.transform.worldPosition
+    local vel   = speedOverride or self.public.moveSpeed or 5.0
+
+    -- Actualizar destino navmesh cada poco tiempo (igual que Minocabro)
+    self._navTimer = (self._navTimer or 0) - dt
+    if self._navTimer <= 0 then
+        local canReach = nav:SetDestination(pPos.x, pPos.y, pPos.z)
+        self._navTimer = 0.2
+        if not canReach then
+            StopMovement()
+            return
+        end
+    end
+
+    local navDx, navDz = nav:GetMoveDirection(2.0)
+    if not navDx or not navDz then return end
+
     if anim and not anim:IsPlayingAnimation("Walk") then anim:Play("Walk", 0.2) end
+    
+    RotateTowards(self, navDx, navDz, self.public.rotationSpeed, dt)
+    rb:SetLinearVelocity(navDx * vel, 0, navDz * vel)
 
     stepTimer = stepTimer + dt
-    if stepTimer >= (self.public.stepInterval / 10 * vel) then
+    if stepTimer >= (self.public.stepInterval or 0.5) then
         SelectPlaySFX(stepSFX, "SFX_AquilesSteps")
         stepTimer = 0
     end
-
-    RotateTowards(self, dx, dz, self.public.rotationSpeed, dt)
-    rb:SetLinearVelocity(dx * vel, 0, dz * vel)
 end
-
 local function UpdateIdle(self, dist)
     if anim and not anim:IsPlayingAnimation("Idle") then
         anim:Play("Idle")
@@ -671,12 +717,15 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             ChangeState(State.LANCE_360)
             SelectPlaySFX(spearSFX, "SFX_AquilesSpearSwing")
         else
-            MovementWalk(self, dx, dz, dt, self.public.moveSpeed * 0.8)
+            MovementWalk(self, dt, self.public.moveSpeed * 0.8)
         end
         return
     end
 
-    if dist <= self.public.chargeRange then
+    local wallBlocking = IsWallBetween(myPos, pp)
+
+
+    if dist <= self.public.chargeRange and not wallBlocking then
         if chargeCDTimer <= 0 then
             StopMovement()
             chargeDirX       = dx
@@ -685,12 +734,12 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
             chargeCDTimer    = self.public.chargeCooldown
             ChangeState(State.ANTICIPATION)
         else
-            MovementWalk(self, dx, dz, dt)
+            MovementWalk(self, dt)
         end
         return
     end
 
-    MovementWalk(self, dx, dz, dt)
+    MovementWalk(self, dt)
 end
 
 local function UpdateLance360(self, myPos, pp, dt)
@@ -1213,7 +1262,7 @@ function Start(self)
 
         preparationTime = 1.0,
         chargeSpeed     = 30.0, -- antes 22
-        chargeDuration  = 0.4,
+        chargeDuration  = 0.8, --antes 0.4
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
@@ -1247,6 +1296,7 @@ function Start(self)
     winBossCinematicTimer = 22.0
 
     rb   = self.gameObject:GetComponent("Rigidbody")
+    nav  = self.gameObject:GetComponent("Navigation")
     anim = self.gameObject:GetComponent("Animation")
 
     Engine.RequestResource("10242481670410472725")
@@ -1311,6 +1361,7 @@ function Update(self, dt)
     if isDead then return end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
+    if not nav  then nav  = self.gameObject:GetComponent("Navigation") end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
 
     --local AQworldPos = self.gameObject.transform.worldPosition
@@ -1535,6 +1586,11 @@ function OnTriggerEnter(self, other)
     if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then
+        if currentState ~= State.CHARGE then
+            return
+        end
+
+
         local lancePos = colliderLance.transform.worldPosition
         local wallPos = other.transform.worldPosition
 

@@ -90,6 +90,13 @@ local initChase = false
 local alreadyDodge = false
 local dodgeTimer = 0.0
 
+local slotManager = nil
+local targetSlotId = nil
+local targetSlotPos = nil
+local slotRetryTimer = 0
+local slotFailCount = 0
+local MAX_SLOT_RETRIES = 3
+
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
 local function Clamp(v, lo, hi)
@@ -103,11 +110,19 @@ local function CheckDistance(self, dist, near)
     local playerPos = obj.transform.position
     local pos = self.transform.position
     
-   -- Engine.Log("[Skeleton] NOT NEAR ENOUGH: " .. tostring(dist))
     if near == true then 
         return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist and math.abs(pos.y - playerPos.y) < self.public.nearYDist
     else
         return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist or math.abs(pos.y - playerPos.y) > self.public.nearYDist
+    end
+end
+
+local function CheckSlotDistance(self, dist, target ,near)
+    local pos = self.transform.position
+    if near == true then 
+        return math.abs(pos.x - target.x) < dist and math.abs(pos.z - target.z) < dist and math.abs(pos.y - target.y) < self.public.nearYDist
+    else
+        return math.abs(pos.x - target.x) > dist or math.abs(pos.z - target.z) > dist or math.abs(pos.y - target.y) > self.public.nearYDist
     end
 end
 
@@ -281,6 +296,10 @@ function Start(self)
         if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
         vfxDodge:SetActive(false)
     end
+    local combatScrip = GameObject.Find("CombatSlots")
+    slotManager = combatScrip:GetComponent("Script")
+    if slotManager  then Engine.Log("[Skeleton] : SLOTS FOUND")
+    else Engine.Log("[Skeleton] : NOT SLOTS FOUND") end
 end
 
 States[State.IDLE] = {
@@ -398,30 +417,77 @@ States[State.PATROL] = {
 
 States[State.CHASE] = {
     Enter = function(self)
-        local anim = self.gameObject:GetComponent("Animation")
+        if targetSlotId == nil then
+            local slotData = slotManager:ClaimSlot(self)
+            if slotData ~= nil then
+                targetSlotId = slotData.id
+                targetSlotPos = slotData.position
+            end
+        end
+
+        local anim = gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Run", 0.2) end)
         end
-
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
+        if targetSlotId ~= nil then
+            targetSlotPos = slotManager:GetSlotPosition(targetSlotId)
+        end
+        local destination = targetSlotPos or plPos
         local cantChase = true
-        
+
         Skeleton.navRefreshTimer = Skeleton.navRefreshTimer - dt
         if Skeleton.navRefreshTimer <= 0 then
-            cantChase = Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z)
+            cantChase = Skeleton.nav:CheckDestination(destination.x, destination.y, destination.z)
+            if cantChase then Skeleton.nav:SetDestination(destination.x, destination.y, destination.z) 
+            else Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z) end
+
+            if not cantChase and targetSlotId ~= nil then
+                slotFailCount = (slotFailCount or 0) + 1
+
+                slotManager:ReleaseSlot(targetSlotId)
+                targetSlotId = nil
+                targetSlotPos = nil
+
+                if slotFailCount >= MAX_SLOT_RETRIES then
+                    slotFailCount = 0
+                    slotRetryTimer = 2.0 
+                else
+                    local slotData = slotManager:ClaimSlot(self)
+                    if slotData ~= nil then
+                        targetSlotId = slotData.id
+                        targetSlotPos = slotData.position
+                    end
+                end
+            else
+                slotFailCount = 0
+            end
             Skeleton.navRefreshTimer = self.public.navRefreshRate
         end
 
-        if CheckDistance(self,self.public.nearDist,true) then
+        if slotRetryTimer ~= nil and slotRetryTimer > 0 then
+            slotRetryTimer = slotRetryTimer - dt
+            Skeleton.rb:SetLinearVelocity(0, 0, 0) 
+            FaceTargetSmooth(self, playerGO.transform.worldPosition, dt)
+            return
+        end
+
+        if CheckSlotDistance(self, 1.0, destination ,true) or CheckDistance(self, 1.5, true) then
             initChase = false
             ChangeState(self, State.ATTACK)
             return
         end
+
         if not initChase then
-            if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
-                if not self.public.activeGuard then ChangeState(self, State.IDLE)
+            if CheckDistance(self, self.public.detectDist + 3, false) or not cantChase then
+                slotManager:ReleaseSlot(targetSlotId)
+                targetSlotId = nil
+                targetSlotPos = nil
+
+                if not self.public.activeGuard then 
+                    ChangeState(self, State.IDLE)
                 else  
                     OnStartPos = false
                     ChangeState(self, State.GUARD) 
@@ -434,7 +500,7 @@ States[State.CHASE] = {
         targetVelX = dx * self.public.chaseSpeed
         targetVelZ = dz * self.public.chaseSpeed
         ApplyMoveVelocity(dt, 1.5)
-        FaceTargetSmooth(self, plPos, dt)
+        FaceTargetSmooth(self, self.targetSlotPos or plPos, dt)
     end
 }
 
@@ -450,13 +516,20 @@ States[State.ATTACK] = {
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
         attackTimer = attackTimer + dt
-        if CheckDistance(self,self.public.nearDist, false) and not States[State.ATTACK].attacking then
+
+        if CheckDistance(self, self.public.nearDist, false) and not States[State.ATTACK].attacking then
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then 
+                pcall(function() anim:Play("Run", 0.5) end)
+            end
+            slotManager:ReleaseSlot(targetSlotId)
+            targetSlotId = nil
             ChangeState(self, State.CHASE)
             hitGiven = false
             attackTimer = 0
             return
         end
-        --Engine.Log(tostring(attackTimer))
+
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
@@ -465,10 +538,10 @@ States[State.ATTACK] = {
                     pcall(function() anim:Play("Attack", 0.0) end)
                 end
             end
-            States[State.ATTACK].attacking = true
+            States[State.ATTACK].attacking = false
         end
 
-        if attackTimer >= self.public.attackColDelay and not hitGiven and not CheckDistance(self,self.public.nearDist, false) then
+        if attackTimer >= self.public.attackColDelay and not hitGiven and not CheckDistance(self, self.public.nearDist, false) then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 PlaySFX(self.attackSFX)
@@ -484,13 +557,16 @@ States[State.ATTACK] = {
                 pcall(function() anim:Play("Orbit", 0.5) end)
             end
             hitGiven = false
-            attackTimer   = 0
+            attackTimer = 0
             States[State.ATTACK].attacking = false
         end
 
         if _G.PlayerInAnim then 
+            slotManager:ReleaseSlot(self.targetSlotId)
+            targetSlotId = nil
             ChangeState(self, State.IDLE)
         end
+
         FaceTargetSmooth(self, plPos, dt)
         Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
@@ -604,6 +680,9 @@ States[State.DEAD] = {
         end
         if revive then States[State.DEAD].deadAnim = true  
         else States[State.DEAD].deadAnim = false end
+        slotManager:ReleaseSlot(targetSlotId)
+        targetSlotId = nil
+        targetSlotPos = nil
     end,
     Update = function(self, dt)
         if not Skeleton.isDead  then
@@ -628,7 +707,7 @@ States[State.DEAD] = {
                 States[State.DEAD].deadAnim = true 
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
-               --if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
+               if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
             else 
                 Skeleton.rb:SetLinearVelocity(0,0, 0) 
             end
@@ -703,7 +782,7 @@ function Update(self, dt)
 
     if CheckDistance(self,self.public.detectDist,true) then
         --Engine.Log("Triggering Combat Music from Skeleton Detection Range")
-        --if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
+        if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
     end
 end
 

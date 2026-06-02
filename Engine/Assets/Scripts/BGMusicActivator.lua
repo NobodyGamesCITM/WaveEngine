@@ -9,16 +9,18 @@ local aquilesDefeated = false
 
 public = {
 	fadeTime = 1.5,
-	maxVolume = 100,
+	--maxVolume = 100,
     nextMusicState = "",
 	currentScene = {type = "Scene", value = ""}
 }
 
 local musicStates = {
+	"Level1_Intro",
 	"Level1",
 	"Level1_Combat",
 	"Level2",
 	"Level2_Combat",
+	"BossIntro",
 	"Boss",
 	"AfterBoss"
 }
@@ -60,7 +62,7 @@ local function TryChangeMusicState(self, finalMusicState)
 			Audio.SetMusicState(tostring(finalMusicState)) 
 		end
 	else 
-		--Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
+		Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
 		
 	end
 end
@@ -70,29 +72,30 @@ function FadeInMusic(self, dt)
 		Initialize(self)
 	end
     
-	if enteredNewLevel and volume <= (self.public.maxVolume or 100) and not finishedTransition then 
+	if enteredNewLevel and volume < (_G.SavedMusicVolume or 100.0) and not finishedTransition then 
         if volume <= 0 then
+			
             if bgMusic and not Audio.IsEventPlaying("MUS_BGM") then bgMusic:PlayAudioEvent() end
+			Engine.Log("Playing BGM Again from BGMusicActivator, increasing volume from 0 to "..tostring(_G.SavedMusicVolume))
         end
 
 		fadeTimer = fadeTimer + dt
 		local progressPercent = math.min((fadeTimer/(self.public.fadeTime or 1.5)), 1.0)
-		volume = (self.public.maxVolume or 100) * progressPercent
-		--Engine.Log(Setting global audio to .. volume)
+		volume = (_G.SavedMusicVolume or 100.0) * progressPercent
+		Engine.Log("Setting music volume to" .. tostring(volume))
 		if volume then 
 			--if bgMusic then bgMusicSetSourceVolume(volume) end
 			Audio.SetMusicVolume(volume)
 		else
-			--sEngine.Log("Could not set music volume!")
+			--Engine.Log("Could not set music volume!")
 		end
-	elseif enteredNewLevel and volume >= (self.public.maxVolume or 100) and not finishedTransition then
-        volume = self.public.maxVolume or 100
+	elseif enteredNewLevel and volume >= (_G.SavedMusicVolume or 100.0) and not finishedTransition then
+        volume = _G.SavedMusicVolume or 100.0
 		finishedTransition = true
+		Engine.Log("FINISHED TRANSITION")
 		
-	elseif enteredNewLevel and volume >= (self.public.maxVolume or 100) and finishedTransition then
+	elseif enteredNewLevel and volume >= (_G.SavedMusicVolume or 100.0) and finishedTransition then
 
-		TryChangeMusicState(self.public.nextMusicState)
-        
 	end
 
 	if _G._PlayerController_isDead then
@@ -119,7 +122,7 @@ end
 function OnTriggerEnter(self, other)
 	if other:CompareTag("Player") and not finishedTransition then
 		enteredNewLevel = true
-		--Engine.Log("Switching to New Music...")
+		Engine.Log("Switching to New Music...")
 		fadeTimer = 0
         TryChangeMusicState(self, self.public.nextMusicState)
 		-- if bgMusic then bgMusic:PlayAudioEvent()

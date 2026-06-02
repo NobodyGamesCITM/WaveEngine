@@ -1,6 +1,6 @@
 public = {
-    slotCount = 6,          -- cuántos slots alrededor
-    slotRadius = 2.0,       -- distancia al player
+    slotCount = 6,
+    slotRadius = 2.0,
     unreachableRetryTime = 2.0,
 }
 
@@ -14,7 +14,6 @@ function Start(self)
         slootsTaken[i] = false
     end
 
-    -- Calcula la posición world de un slot en base al ángulo
     local function GetSlotWorldPos(slotIndex)
         local angle = (2 * math.pi / self.public.slotCount) * (slotIndex - 1)
         local plPos = playerGO.transform.worldPosition
@@ -41,7 +40,6 @@ function Start(self)
         end
     end
 
-    -- Ahora devuelve posición calculada en el momento, no guardada
     self.GetSlotPosition = function(self, slotId)
         if slotId ~= nil then
             return GetSlotWorldPos(slotId)

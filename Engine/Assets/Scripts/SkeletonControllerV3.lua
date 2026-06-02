@@ -298,8 +298,6 @@ function Start(self)
     end
     local combatScrip = GameObject.Find("CombatSlots")
     slotManager = combatScrip:GetComponent("Script")
-    if slotManager  then Engine.Log("[Skeleton] : SLOTS FOUND")
-    else Engine.Log("[Skeleton] : NOT SLOTS FOUND") end
 end
 
 States[State.IDLE] = {

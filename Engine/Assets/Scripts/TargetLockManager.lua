@@ -3,7 +3,7 @@
 public = {
     maxLockDistance = 30.0,
     tagsToLock = {"Enemy", "Lockable"},
-	particleYOffset = 1.0,
+    particleYOffset = 1.0,
     baseParticleSize = 3.5
 }
 
@@ -19,21 +19,34 @@ local SWITCH_DELAY = 0.3
 _G.TargetLockManager_IsLocked = false
 _G.TargetLockManager_CurrentTarget = nil
 
+local ClearLockInternal 
+
 function Start(self)
     player = GameObject.Find("Player")
     local camObj = GameObject.Find("MainCamera")
     if camObj then cineCam = camObj:GetComponent("CinematicCamera") end
-	
-	lockParticleObj = GameObject.Find("LockOnParticle")
+    
+    lockParticleObj = GameObject.Find("LockOnParticle")
     if lockParticleObj then
         local ps = lockParticleObj:GetComponent("ParticleSystem")
         if ps then ps:Stop() end
-    else
-        Engine.Log("[TargetLockManager] WARNING: No se encontro el GameObject 'LockOnParticle'.")
+    end
+
+    _G.TargetLockManager_ClearLock = function()
+        ClearLockInternal(self)
+    end
+
+    _G.TargetLockManager_SetParticleVisibility = function(visible)
+        if lockParticleObj then
+            if visible and isLocked then
+                lockParticleObj:SetActive(true)
+            else
+                lockParticleObj:SetActive(false)
+            end
+        end
     end
 end
 
--- Dead or destroyed
 local function IsTargetDead(target)
     if not target then return true end
     if target.transform == nil or not target:IsActive() then return true end
@@ -48,18 +61,18 @@ local function IsTargetDead(target)
 end
 _G.IsTargetDead = IsTargetDead
 
--- Search the closest objective
 local function FindBestTarget(self)
     local bestTarget = nil
     local minSqrDist = self.public.maxLockDistance * self.public.maxLockDistance
-    local playerPos = player.transform.position
+    if not player then return nil end
+    local playerPos = player.transform.worldPosition
 
     for _, tag in ipairs(self.public.tagsToLock) do
         local candidates = GameObject.FindByTag(tag)
         if candidates then
             for _, candidate in ipairs(candidates) do
                 if not IsTargetDead(candidate) then
-                    local cPos = candidate.transform.position
+                    local cPos = candidate.transform.worldPosition
                     local dx = cPos.x - playerPos.x
                     local dz = cPos.z - playerPos.z
                     local sqrDist = (dx*dx) + (dz*dz)
@@ -75,11 +88,10 @@ local function FindBestTarget(self)
     return bestTarget
 end
 
--- Update ParticleSystem of the object focused, based on position and scale.
 local function UpdateParticle(self, target)
     if not lockParticleObj or not target then return end
     
-    local tPos = target.transform.position
+    local tPos = target.transform.worldPosition
     lockParticleObj.transform:SetPosition(tPos.x, tPos.y + self.public.particleYOffset, tPos.z)
     
     local finalSize = self.public.baseParticleSize
@@ -88,6 +100,7 @@ local function UpdateParticle(self, target)
         finalSize = script.public.lockOnSize
     end
     
+    lockParticleObj:SetActive(true)
     local ps = lockParticleObj:GetComponent("ParticleSystem")
     if ps then
         if ps.SetSize then ps:SetSize(finalSize) end
@@ -95,25 +108,19 @@ local function UpdateParticle(self, target)
     end
 end
 
--- Change objetive between camera and input 4 directions
 local function SwitchTarget(self, directionStr)
     if not currentTarget then return end
-    
     local camObj = GameObject.Find("MainCamera")
     if not camObj then return end
 
     local camRight = camObj.transform.worldRight
     local camFwd = camObj.transform.worldForward
-    
-    -- Flatten forward vector to ignore inclination of the camera
     camFwd.y = 0
     local lenFwd = math.sqrt(camFwd.x^2 + camFwd.z^2)
     if lenFwd > 0.001 then 
-        camFwd.x = camFwd.x / lenFwd
-        camFwd.z = camFwd.z / lenFwd 
+        camFwd.x = camFwd.x / lenFwd; camFwd.z = camFwd.z / lenFwd 
     end
 
-    -- Assign the vector of reference
     local refDir = {x=0, z=0}
     if directionStr == "Right" then refDir = {x = camRight.x, z = camRight.z}
     elseif directionStr == "Left" then refDir = {x = -camRight.x, z = -camRight.z}
@@ -121,8 +128,8 @@ local function SwitchTarget(self, directionStr)
     elseif directionStr == "Down" then refDir = {x = -camFwd.x, z = -camFwd.z}
     end
 
-    local playerPos = player.transform.position
-    local currentPos = currentTarget.transform.position
+    local playerPos = player.transform.worldPosition
+    local currentPos = currentTarget.transform.worldPosition
 
     local bestTarget = nil
     local bestScore = 999999 
@@ -131,31 +138,25 @@ local function SwitchTarget(self, directionStr)
         local candidates = GameObject.FindByTag(tag)
         if candidates then
             for _, candidate in ipairs(candidates) do
-                if candidate ~= currentTarget then
-                    if not IsTargetDead(candidate) then
-                        local cPos = candidate.transform.position
-                        local dx = cPos.x - playerPos.x
-                        local dz = cPos.z - playerPos.z
-                        local sqrDist = (dx*dx) + (dz*dz)
+                if candidate ~= currentTarget and not IsTargetDead(candidate) then
+                    local cPos = candidate.transform.worldPosition
+                    local dx = cPos.x - playerPos.x
+                    local dz = cPos.z - playerPos.z
+                    local sqrDist = (dx*dx) + (dz*dz)
 
-                        if sqrDist < (self.public.maxLockDistance * self.public.maxLockDistance) then
-
-                            local dirToCandX = cPos.x - currentPos.x
-                            local dirToCandZ = cPos.z - currentPos.z
-                            local lenDir = math.sqrt(dirToCandX^2 + dirToCandZ^2)
-                            
-                            if lenDir > 0.001 then
-                                dirToCandX = dirToCandX / lenDir
-                                dirToCandZ = dirToCandZ / lenDir
-                                
-                                local dot = (dirToCandX * refDir.x) + (dirToCandZ * refDir.z)
-                                
-                                if dot > 0.4 then
-                                    local score = sqrDist - (dot * 50.0)
-                                    if score < bestScore then
-                                        bestScore = score
-                                        bestTarget = candidate
-                                    end
+                    if sqrDist < (self.public.maxLockDistance * self.public.maxLockDistance) then
+                        local dirToCandX = cPos.x - currentPos.x
+                        local dirToCandZ = cPos.z - currentPos.z
+                        local lenDir = math.sqrt(dirToCandX^2 + dirToCandZ^2)
+                        if lenDir > 0.001 then
+                            dirToCandX = dirToCandX / lenDir
+                            dirToCandZ = dirToCandZ / lenDir
+                            local dot = (dirToCandX * refDir.x) + (dirToCandZ * refDir.z)
+                            if dot > 0.4 then
+                                local score = sqrDist - (dot * 50.0)
+                                if score < bestScore then
+                                    bestScore = score
+                                    bestTarget = candidate
                                 end
                             end
                         end
@@ -170,13 +171,11 @@ local function SwitchTarget(self, directionStr)
         currentTarget = bestTarget
         cineCam:AddTarget(currentTarget, 1.0)
         _G.TargetLockManager_CurrentTarget = currentTarget
-        
-        -- PARTICLE ACTIVE HERE TO THE NEW TARGET
-		UpdateParticle(self, currentTarget)
+        UpdateParticle(self, currentTarget)
     end
 end
 
-local function ClearLock(self)
+ClearLockInternal = function(self)
     if not isLocked then return end
     isLocked = false
     currentTarget = nil
@@ -189,13 +188,13 @@ local function ClearLock(self)
         if cineCam.SetCombatLock then cineCam:SetCombatLock(false) end
     end
 
-    -- HIDE PARTICLE
-	if lockParticleObj then
+    if lockParticleObj then
         local ps = lockParticleObj:GetComponent("ParticleSystem")
         if ps then
             ps:Stop()
             ps:Reset()
         end
+        lockParticleObj:SetActive(false)
     end
 end
 
@@ -210,24 +209,24 @@ local function EngageLock(self)
         if cineCam then
             cineCam:ClearTargets()
             cineCam:AddTarget(player, 1.0)
-            cineCam:AddTarget(currentTarget, 1.0) -- 50/50 Weight
+            cineCam:AddTarget(currentTarget, 1.0)
             if cineCam.SetCombatLock then cineCam:SetCombatLock(true) end
         end
 
-        -- PARTICLE LOCK-ON on the currentTarget
-		UpdateParticle(self, currentTarget)
+        UpdateParticle(self, currentTarget)
     end
 end
 
 function Update(self, dt)
+    if _G.CinematicActive then return end
+
     if not player or not cineCam then return end
 
     if switchCooldown > 0 then switchCooldown = switchCooldown - dt end
 
-    -- R on PC, R3/RightStick on Gamepad
     if Input.GetKeyDown("R") or Input.GetGamepadButtonDown("RightStick") then
         if isLocked then
-            ClearLock(self)
+            ClearLockInternal(self)
         else
             EngageLock(self)
         end
@@ -235,25 +234,22 @@ function Update(self, dt)
 
     if isLocked and currentTarget then
         if IsTargetDead(currentTarget) then
-            ClearLock(self)
+            ClearLockInternal(self)
             return
         end
 
-        local pPos = player.transform.position
-        local cPos = currentTarget.transform.position
+        local pPos = player.transform.worldPosition
+        local cPos = currentTarget.transform.worldPosition
         local sqrDist = ((cPos.x - pPos.x)^2) + ((cPos.z - pPos.z)^2)
         
         if sqrDist > (self.public.maxLockDistance * self.public.maxLockDistance) then
-            ClearLock(self)
+            ClearLockInternal(self)
             return
         end
 
         if switchCooldown <= 0 then
             local rsX, rsY = 0, 0
-            if Input.HasGamepad() then
-                rsX, rsY = Input.GetRightStick()
-            end
-
+            if Input.HasGamepad() then rsX, rsY = Input.GetRightStick() end
             if Input.GetKeyDown("Right") then rsX = 1 end
             if Input.GetKeyDown("Left") then rsX = -1 end
             if Input.GetKeyDown("Up") then rsY = 1 end
@@ -268,8 +264,6 @@ function Update(self, dt)
                 switchCooldown = SWITCH_DELAY
             end
         end
-        
-        -- PARTCILES: Update the position of the particle to follow currentTarget.transform.position + offset Y
-		UpdateParticle(self, currentTarget)
+        UpdateParticle(self, currentTarget)
     end
 end

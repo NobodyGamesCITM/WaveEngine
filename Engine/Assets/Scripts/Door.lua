@@ -29,6 +29,21 @@ function Start(self)
         if not isOpen then openDoor2 = true end
         return isOpen
     end
+
+    self.ForceOpen = function(self)
+        isOpen = true
+        openDoor2 = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, finalY, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
+    end
+    self.ForceClose = function(self)
+        isOpen = false
+        openDoor2 = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, finalY + distance, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
+    end
 end
 
 local function DisableColision(self) 

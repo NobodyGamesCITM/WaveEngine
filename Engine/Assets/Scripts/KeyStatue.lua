@@ -10,7 +10,6 @@ local isUnlocked = false
 local inRange = false
 local initialChains = nil
 local brokenChains = nil
-local statueSFX = nil
 local player = nil
 
 function Start(self)
@@ -21,13 +20,16 @@ function Start(self)
     initialChains = GameObject.FindInChildren(self.gameObject, "chains")
     brokenChains = GameObject.FindInChildren(self.gameObject, "broken_chains")
     
-    local audioObj = GameObject.FindInChildren(self.gameObject, "StatueSource")
-    if audioObj then statueSFX = audioObj:GetComponent("Audio Source") end
+    local currentState = _G.PortalState or 0
+    if (currentState & self.public.statueBitValue) ~= 0 then
+        isUnlocked = true
+        if initialChains then initialChains:SetActive(false) end
+        if brokenChains then brokenChains:SetActive(true) end
+        return
+    end
 
     if initialChains then initialChains:SetActive(true) end
     if brokenChains then brokenChains:SetActive(false) end
-    
-    Engine.Log("[KeyStatue] Estatua inicializada. ID en Inspector: " .. self.public.statueId)
 end
 
 function Update(self, dt)
@@ -47,22 +49,11 @@ function Update(self, dt)
         end
         
         if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
-            Engine.Log("[KeyStatue] Interacción detectada en estatua: " .. self.public.statueId)
-            
             isUnlocked = true
-            
             if _G.HideControlsHint then _G.HideControlsHint() end
 
-            if initialChains then initialChains:SetActive(false) end
-            --if brokenChains then brokenChains:SetActive(true) end
-
-            --if statueSFX then statueSFX:SelectPlayAudioEvent("SFX_GM_StatueOn") end
-
             if _G.PortalManagerInstance then
-                Engine.Log("[KeyStatue] Avisando al PortalManager...")
-                _G.PortalManagerInstance:ActivateStatue(self.public.statueBitValue, self.public.statueId, self.gameObject)
-            else
-                Engine.Log("[KeyStatue] ERROR: PortalManagerInstance es nil.")
+                _G.PortalManagerInstance:ActivateStatue(self.public.statueBitValue, self.public.statueId, self.gameObject, initialChains, brokenChains)
             end
         end
     else

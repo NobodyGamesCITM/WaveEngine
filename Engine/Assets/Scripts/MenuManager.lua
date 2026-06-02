@@ -318,10 +318,7 @@ end
 function Initialize(self)
     if not self.public then
         self.public = {
-            updateWhenPaused = true,
-            currentScene = { type = "Scene", value = "" },
-            fullVolume = 100.0,
-            lowerVolume = 60.0
+            updateWhenPaused = true, currentScene = { type = "Scene", value = "" }, fullVolume = 100.0, lowerVolume = 60.0
         }
     end
 
@@ -334,11 +331,11 @@ function Initialize(self)
         return false
     end
 
-    if not self.phase      then self.phase      = "idle" end
-    if not self.fadeTimer  then self.fadeTimer   = 0.0   end
-    if not self.current    then self.current     = ""    end
-    if not self.history    then self.history     = {}    end
-    if not self.deathTimer then self.deathTimer  = 0.0   end
+    self.phase = self.phase or "idle"
+    self.fadeTimer = self.fadeTimer or 0.0
+    self.current = self.current or ""
+    self.history = self.history or {}
+    self.deathTimer = self.deathTimer or 0.0
 
     self.fading                = false
     self.pendingScene          = nil
@@ -364,6 +361,7 @@ function Initialize(self)
         Game.Resume()
         self.lastPauseState = "running"
         Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
+        self.loggedReady = true -- Mark as ready after loading game
         return true
     end
 
@@ -459,12 +457,12 @@ function Initialize(self)
     end
 
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
+    self.loggedReady = true -- Mark as ready
     return true
 end
 
 function Start(self)
-    self.canvas = self.gameObject:GetComponent("Canvas")
-    if not self.canvas then
+    if not self.gameObject:GetComponent("Canvas") then -- Check if canvas component exists at all
         Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
         return
     end
@@ -478,6 +476,7 @@ function Start(self)
 end
 
 function Update(self, dt)
+    -- Ensure canvas is always valid at the very beginning of Update
     -- Calculamos salud para la lógica de muerte antes de cualquier early return
     local playerHealth = 101
     if _G.PlayerInstance and _G.PlayerInstance.public then
@@ -492,12 +491,12 @@ function Update(self, dt)
             end
         end
     end
+
     local playerIsDead = (playerHealth <= 0)
 
-    if self.newSceneDelay and self.newSceneDelay > 0 then
+    if self.newSceneDelay and self.newSceneDelay > 0 then -- Delay for new scene initialization
         self.newSceneDelay = self.newSceneDelay - Time.GetRealDeltaTime()
-        if self.newSceneDelay <= 0 then
-            self.newSceneDelay = nil
+        if self.newSceneDelay <= 0 then self.newSceneDelay = nil
             Initialize(self)
         end
         return
@@ -506,35 +505,7 @@ function Update(self, dt)
     if not self.canvas then
         self.canvas = self.gameObject:GetComponent("Canvas")
         if not self.canvas then return end
-        Engine.Log("[MenuManager] Canvas recovered in Update.")
-    end
-
-    if not self.musicComp or not self.selectSFX or not self.pressSFX then
-        InitAudioSources(self)
-    end
-
-    if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = ""
-        if type(self.public.currentScene) == "table" then
-            sceneVal = self.public.currentScene.value or ""
-        elseif type(self.public.currentScene) == "string" then
-            sceneVal = self.public.currentScene
-        end
-
-        local musicState = "None"
-        if sceneVal:find("Level1") then
-            musicState = "Level1"
-        elseif sceneVal:find("Level2") then
-            musicState = "Level2"
-        elseif sceneVal == "Splash.scene" and _G.SkipSplash then
-            musicState = "MainMenu"
-        else
-            Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal))
-        end
-        Audio.SetMusicState(tostring(musicState))
-        if self.musicComp then
-            self.musicComp:PlayAudioEvent()
-        end
+        Engine.Log("[MenuManager] Canvas recovered in Update.") -- Log only if recovered
     end
 
     if self.waitingForSplash then
@@ -658,10 +629,8 @@ function Update(self, dt)
 
         -- Lógica de Muerte: Prioritaria sobre cinemáticas si el jugador ya está muerto
         if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-            -- Si estamos esperando a la muerte, aseguramos que la UI sea visible (por si venía de un fade)
-            if self.canvas:GetOpacity() < 1.0 and not self.fading then
-                self.canvas:SetOpacity(1.0)
-            end
+            -- Aseguramos que la UI sea visible si no hay una transición en curso
+            if not self.fading then self.canvas:SetOpacity(1.0) end
 
             self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
             if self.deathTimer >= DEATH_MENU_DELAY then

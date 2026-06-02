@@ -432,7 +432,7 @@ local function TakeDamage(self, amount, attackerPos)
 
     if hasPosture and not inOpportunity then
         posture = posture - amount
-        PlaySFX(armorSFX)
+        SelectPlaySFX(armorSFX, "SFX_AquilesShield")
         if sparksPs then sparksPs:Play() end
 
         if posture > 0 then
@@ -479,7 +479,8 @@ local function TakeDamage(self, amount, attackerPos)
     if inOpportunity then
         if currentState == State.WALL then
             anim:Play("Stuck_Hit", 0.1)
-            SelectPlaySFX(spearSFX, "SFX_AquilesWallHit")
+            
+            
         elseif currentState == State.STUN then
             anim:Play("Stun_Hit", 0.1)
         end
@@ -784,7 +785,7 @@ local function UpdateAnticipation(self, pp, dt)
     if not self.chargeFeedbackGO then
         self.chargeFeedbackTiles = {}
         self.chargeFeedbackGO = true
-        SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
+        
     end
     
     local myPos = self.transform.worldPosition
@@ -804,6 +805,7 @@ local function UpdateAnticipation(self, pp, dt)
    
     if anim and not anim:IsPlayingAnimation("Charge_Start") then
         anim:Play("Charge_Start", 0.2)
+        SelectPlaySFX(voiceSFX, "SFX_AquilesWarCry")
     end
     anticipationAnimStarted = true
 
@@ -895,11 +897,21 @@ local function UpdateCharge(self, dt)
     if not chargeAnimStarted then
         chargeAnimStarted = true
         anim:Play("Charge_Loop")
+        --SelectPlaySFX("SFX_AquilesWarCry")
     end
     
     if rb then
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
+
+    local vel = speedOverride or self.public.moveSpeed
+    
+    stepTimer = stepTimer + dt
+    if stepTimer >= (self.public.stepInterval / 20 * vel) then
+        SelectPlaySFX(stepSFX, "SFX_AquilesSteps")
+        stepTimer = 0
+    end
+
     
 
     if chargeTimer >= self.public.chargeDuration then
@@ -925,6 +937,7 @@ local function UpdateWall(self, dt)
     end
     
     if anim and not anim:IsPlayingAnimation("Stuck_Loop") and not anim:IsPlayingAnimation("Stuck_Hit") then
+        SelectPlaySFX(spearSFX, "SFX_AquilesWallHit")
         anim:Play("Stuck_Loop", 0.1)
         
     end
@@ -1311,11 +1324,11 @@ function Update(self, dt)
         FindAquilesParticles(self)
     end
 
-    -- if Input.GetKey("0") then
-    --     fase1 = false
-    --     TakeDamage(self, hp, self.transform.worldPosition)
-    --     return
-    -- end
+    if Input.GetKey("0") then
+        fase1 = false
+        TakeDamage(self, hp, self.transform.worldPosition)
+        return
+    end
 
 
     if Input.GetKeyDown("K") then
@@ -1584,7 +1597,7 @@ function OnTriggerEnter(self, other)
         end
 
         if (currentState == State.CHARGE or currentState == State.LANCE_360) and not alreadyHit and _PlayerController_pendingDamage == 0 and not isKinematic then
-            SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
+            --SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
             alreadyHit = true
 
             local finalDamage

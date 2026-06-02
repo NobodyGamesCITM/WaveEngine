@@ -40,6 +40,9 @@ namespace AK
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_FINISHHIM = 376918614U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
+        static const AkUniqueID SFX_GHOSTSCREAMS = 1423014660U;
+        static const AkUniqueID SFX_GHOSTSTHEMIN = 2416315390U;
+        static const AkUniqueID SFX_GHOSTWHISPERS = 1939663439U;
         static const AkUniqueID SFX_GM_FALLDOWN = 118434115U;
         static const AkUniqueID SFX_GM_KNOCKBACK = 605795181U;
         static const AkUniqueID SFX_GM_MASKFLY = 336495419U;
@@ -127,8 +130,10 @@ namespace AK
             {
                 static const AkUniqueID AFTERBOSS = 1221996634U;
                 static const AkUniqueID BOSS = 1560169506U;
+                static const AkUniqueID BOSS_INTRO = 1720208925U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
+                static const AkUniqueID LEVEL1_INTRO = 2339009721U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
                 static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;

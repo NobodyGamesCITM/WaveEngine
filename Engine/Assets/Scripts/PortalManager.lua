@@ -17,8 +17,8 @@ public = {
     cinematicEndTime  = 10.0  
 }
 
-local portalState = 0 
-local activeFires = 0
+local portalState = _G.PortalState or 0 
+local activeFires = _G.keysCollected or 0
 local portalMatComp = nil
 local portalSource = nil
 local brokenChains  = nil
@@ -54,17 +54,17 @@ local function UpdatePortalVisuals(self)
         Engine.Log("[PortalManager] Material del portal actualizado al UID: " .. cleanUID)
     end
 
-    if activeFires <= 3 and fireParticles[activeFires] and fireSources[activeFires] then
-        fireParticles[activeFires]:Play()
-        fireSources[activeFires]:SelectPlayAudioEvent("SFX_TorchFire")
-        if portalSource then 
-            portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
-            Engine.Log("[PortalManager] Played SFX_PortalFireOn")
-        else
-            Engine.Log("[PortalManager] Portal Audio Source not found!")
+    for i = 1, activeFires do
+        if i <= 3 and fireParticles[i] and fireSources[i] then
+            if not fireParticles[i]:IsPlaying() then
+                fireParticles[i]:Play()
+                fireSources[i]:SelectPlayAudioEvent("SFX_TorchFire")
+            end
         end
-        
-        Engine.Log("[PortalManager] Fuego " .. activeFires .. " encendido.")
+    end
+    
+    if activeFires > 0 and portalSource then 
+        portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
     end
 end
 
@@ -99,6 +99,7 @@ function Start(self)
         if inCinematic then return end 
         
         portalState = portalState | bitValue
+        _G.PortalState = portalState
         activeFires = activeFires + 1
         _G.keysCollected = activeFires
 
@@ -145,6 +146,14 @@ function Start(self)
 end
 
 function Update(self, dt)
+
+    if _G.ForcePortalUpdate then
+        portalState = _G.PortalState or 0
+        activeFires = _G.keysCollected or 0
+        UpdatePortalVisuals(self)
+        _G.ForcePortalUpdate = false
+    end
+
     if not inCinematic then return end
 
     cinTimer = cinTimer + dt

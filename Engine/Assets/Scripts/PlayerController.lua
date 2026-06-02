@@ -1754,17 +1754,22 @@ function Update(self, dt)
     end
 
     if _G._PlayerController_introAnim then
-        Player.AnimTimer = 20.0
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then
-            pcall(function() anim:Play("WakeUp", 0.0) end)
+        if _G.LoadedFromSave then
+            _G._PlayerController_introAnim = false
+            wakeUpCinematic = false
+            Engine.Log("[Player] Cinemática de intro cancelada por carga de partida.")
+        else
+            Player.AnimTimer = 20.0
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("WakeUp", 0.0) end)
+            end
+            _G._PlayerController_introAnim = false
+            if _G.PlayWakeUpCinematic then 
+                _G.PlayWakeUpCinematic() 
+            end
+            wakeUpCinematic = true
         end
-        _G._PlayerController_introAnim = false
-        if _G.PlayWakeUpCinematic then 
-            _G.PlayWakeUpCinematic() 
-            
-        end
-        wakeUpCinematic = true
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
@@ -1879,16 +1884,23 @@ function Update(self, dt)
 
         if _G.IsLoadingSaveGame and _G.SaveManager then
             Engine.Log("[Player] CARGANDO PARTIDA: Aplicando datos guardados...")
-            
             _G.SaveManager.ApplyLoadedData(self.gameObject)
             _G.IsLoadingSaveGame = false
             
+            _G._PlayerController_introAnim = false 
+            wakeUpCinematic = false
+            
+            if _G._UnlockedMasks.Apollo then Mask.APOLLO = "Apolo" end
+            if _G._UnlockedMasks.Hermes then Mask.HERMES = "Hermes" end
+            if _G._UnlockedMasks.Ares   then Mask.ARES   = "Ares" end
+
             local loadedMask = Mask.NONE
             if _G._PlayerController_currentMask == "Apolo" then loadedMask = Mask.APOLLO
             elseif _G._PlayerController_currentMask == "Hermes" then loadedMask = Mask.HERMES
             elseif _G._PlayerController_currentMask == "Ares" then loadedMask = Mask.ARES end
             
             Player.currentMask = nil
+            FindMasks(self)
             EquipMask(self, loadedMask)
             UpdateSwordMaterial()
             

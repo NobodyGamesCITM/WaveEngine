@@ -119,6 +119,14 @@ local function FindAudioSources(self)
 end
 
 function Start(self)
+    if _G.LoadedFromSave then
+        state = "finished"
+        initialized = false
+        local canvas = self.gameObject:GetComponent("Canvas")
+        if canvas then canvas:SetOpacity(0) end
+        return
+    end
+
     _G.CinematicActive = true
     if _G.UpdatePauseState then _G.UpdatePauseState() end
     Game.Pause()

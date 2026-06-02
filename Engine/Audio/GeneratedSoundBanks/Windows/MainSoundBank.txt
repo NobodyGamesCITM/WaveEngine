@@ -25,6 +25,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1239040809	SFX_MinoPrecharge			\Default Work Unit\Minocabro\SFX_MinoPrecharge	
 	1248591155	SFX_MinoSteps			\Default Work Unit\Minocabro\SFX_MinoSteps	
 	1281281593	SFX_RockMove			\Default Work Unit\Puzzles\SFX_RockMove	
+	1423014660	SFX_GhostScreams			\Default Work Unit\Other\SFX_GhostScreams	
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
 	1569503582	UI_PageTurn			\Default Work Unit\UI\UI_PageTurn	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
@@ -33,6 +34,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1860584701	SFX_SpearPrep			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPrep	
 	1929205333	SFX_IntroRoar			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_IntroRoar	
+	1939663439	SFX_GhostWhispers			\Default Work Unit\Other\SFX_GhostWhispers	
 	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
 	2001794665	SFX_MaskSwitch			\Default Work Unit\Player\SFX_MaskSwitch	
 	2050401325	SFX_SirenSing			\Default Work Unit\Siren\SFX_SirenSing	
@@ -44,6 +46,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2285415424	SFX_DeepBreaths			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_DeepBreaths	
 	2295055714	UI_ButtonSelect			\Default Work Unit\UI\UI_ButtonSelect	
 	2400499341	SFX_SkeletonDodge			\Default Work Unit\Skeleton\SFX_SkeletonDodge	
+	2416315390	SFX_GhostsThemin			\Default Work Unit\Other\SFX_GhostsThemin	
 	2470589267	SFX_GM_StatueOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_StatueOn	
 	2568247301	SFX_SwordPrep			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_SwordPrep	
 	2588314402	SFX_SpearGrab			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearGrab	
@@ -137,6 +140,8 @@ State	ID	Name	State Group			Notes
 	1221996634	AfterBoss	BGM_State			
 	1499148877	Level1_Combat	BGM_State			
 	1560169506	Boss	BGM_State			
+	1720208925	Boss_Intro	BGM_State			
+	2339009721	Level1_Intro	BGM_State			
 	2678230381	Level2	BGM_State			
 	2678230382	Level1	BGM_State			
 	3604647259	MainMenu	BGM_State			
@@ -180,7 +185,6 @@ Effect plug-ins	ID	Name	Type				Notes
 	765864838	Time Stretch (Custom)	Wwise Time Stretch			
 	972658868	Time Stretch (Custom)	Wwise Time Stretch			
 	1144018367	Plate_Large	Wwise RoomVerb			
-	2513915904	Hall_Large	Wwise RoomVerb			
 	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
 	2900412812	Robotic_Trash	Wwise RoomVerb			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
@@ -193,7 +197,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	12524470	demon-beast-howling-2	.cache\10\{107EEBE5-6A91-A813-9543-76FA77897BD2}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\WelcomeRoar\demon-beast-howling-2		213344
 	12684693	minocabro_precharge_04	.cache\A3\{A3442721-B08B-D148-2376-62AA2D7E6FFB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_04		115496
 	14695171	Grunt Ah 5	.cache\C0\{C09FB9A8-4FA2-33B2-2361-FB9968DAF0ED}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Scared\Grunt Ah 5		32120
-	15031937	aquiles_stuck_00	.cache\4C\{4C8C95CC-397A-8E56-490A-BB9DEE4535C1}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_stuck_00		22328
+	15031937	aquiles_stuck_600	.cache\FF\{FF9DF570-C6D0-E0CD-F915-8BFE378085DC}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_600		20744
 	19618195	ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 1)	.cache\BE\{BE01FFD4-34F2-66F9-9456-A95E5C92277B}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Decided\ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 1)		77120
 	23815065	Sonic Rings Dropping Sound Effect	.cache\C2\{C2190D72-6814-B92B-D9AC-8605BDA4A622}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\Sonic Rings Dropping Sound Effect		88568
 	27680133	owl_03	.cache\72\{72137CC5-780B-C79F-088B-AD2BB9796C2E}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_03		75896
@@ -207,6 +211,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	55975540	shield_dmg_01	.cache\35\{35A0F70F-10EC-36AE-4D47-E8D760DB2617}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_01		57176
 	58585186	player_death	.cache\4F\{4F915B60-E0D5-4390-6EC8-9EAD4C1DB48B}.wem		\Containers\Default Work Unit\Objects\Player\player_death		48832
 	62622933	metal-rock_impact_01	.cache\2C\{2C5F6DAD-43FF-ACF7-28F5-88169B05305A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_01		26360
+	70466919	SonOfIthaca_LVL1	.cache\16\{16C6E68C-E74F-FFC9-10DF-D3BA8A1BD784}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\SonOfIthaca_LVL1\SonOfIthaca_LVL1		5532200
 	70539538	open_chest_02	.cache\0C\{0CA53621-F469-82B3-D93D-69A6500F9511}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_02		124424
 	71226100	grass_walk_02	.cache\20\{20689C57-7370-61C4-252A-08FF85B687BA}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_02		14408
 	78736786	wood_walk_05	.cache\A6\{A6617771-C3FB-F9A7-A372-7F36FB329E4E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Walk\wood_walk_05		13400
@@ -223,7 +228,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	108762799	BAS_Player_Footstep_sand_walk_01	.cache\93\{9341B35D-CAAB-0314-4537-E2836B5D401A}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_01		11564
 	117544309	unsheathe_sword_00	.cache\38\{383E1CCF-2E9A-A9AE-1672-4ADA7B6B391E}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\unsheathe_sword_00		70640
 	119201350	metal-rock_impact_03	.cache\8A\{8A5F8066-2C2C-9DE3-A539-D5F7610DF123}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearHit\metal-rock_impact_03		64088
-	119259710	aquiles_step_04	.cache\40\{40F9D7FF-CFD4-EED1-17E6-16EFEA0CC7E9}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_04		52496
+	119259710	aquiles_step_04	.cache\4F\{4F11BC75-F832-A221-D1F1-D494F64ABB26}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_04		37808
 	122973818	ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 5)	.cache\4F\{4F4928E2-F13B-48CC-77A3-F9E98C3A6827}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Decided\ATTurtlez & JDSherbert - Male Character VOX Pack - Punch (var - 5)		36584
 	126486740	minocabro_hoof_03	.cache\7F\{7FF7E742-1809-4DB8-353E-908C44CEE054}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_03		39752
 	129580590	deep_breath_02	.cache\29\{2932B347-EEDF-6D63-047C-3585617DEBE7}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\DeepBreaths\deep_breath_02		90800
@@ -231,7 +236,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	136280820	minocabro_idlegrunt_04	.cache\D1\{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_04		146240
 	141089093	player_roll_01	.cache\2F\{2F2F4F24-B24A-1799-98FE-96224BF84E04}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		58904
 	146106055	unlock_statue	.cache\56\{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Unlock_Statue\unlock_statue		111752
-	146545938	Dark Sanctuary_Deltarune Ch 3-4	.cache\28\{287B7E35-8F52-6A09-710A-B184A8DD8B73}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Playlist\Level1\Dark Sanctuary_Deltarune Ch 3-4		5460560
 	151597588	UI_ButtonSelected	.cache\06\{063CCCC5-CC0A-41DE-54A1-20CF31486307}.wem		\Containers\Default Work Unit\Objects\UI\UI_SkipDialog\UI_ButtonSelected		1160
 	151865345	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292
 	155918487	ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 5)	.cache\3F\{3F17DB42-AD05-0F4A-FE18-3D8C3B62DCD0}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Grunts\ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 5)		33992
@@ -242,13 +246,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	190699463	coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458	.cache\10\{10128355-EE23-C610-836E-D8A03151E863}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458		129104
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
-	193895961	yokai watch combat terror time	.cache\95\{959A8972-F50B-4DE4-1F62-FD18907CBC3D}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Combat_Playlist\Level2_AltCombat\yokai watch combat terror time		2240720
 	198456775	heartbeat	.cache\9D\{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem		\Containers\Default Work Unit\Objects\Player\heartbeat		1296080
 	202134863	freesounds123-magic-spell-333896	.cache\C5\{C5D7FA7F-5C35-AC5F-8976-223AAB2649A5}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\freesounds123-magic-spell-333896		59984
-	207196639	aquiles_step_02	.cache\A2\{A24184F3-ACBD-F279-2ABD-93C3FCEFE9E3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		59552
+	207196639	aquiles_step_02	.cache\AE\{AE2AE7C3-8C98-B8AA-C6CB-F89530BD2C98}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		38312
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	210183454	hermes_spin_01	.cache\C3\{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_01		8000
 	213938119	chain_break_00	.cache\CD\{CDA3AAD9-F800-E375-0F42-C39FC5EE0CA5}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_00		38744
+	217331738	scary-female-ghost_01	.cache\10\{100FAC89-5038-0982-735C-806A40A3984E}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\scary-female-ghost_01		254384
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
@@ -270,6 +274,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	296531997	owl_02	.cache\80\{807FE7B4-2EE7-ECCA-DEF0-EF0CD392DBAC}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_02		66608
 	307199709	door_end	.cache\ED\{EDB2A2B9-AF89-A392-C392-03C1B4846002}.wem		\Containers\Default Work Unit\Objects\Puzzles\door_end		108512
 	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
+	313609596	aquiles_stuck_100	.cache\55\{55A2E904-303D-4DA0-70CB-50E53A31CC7F}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_100		20240
 	316416343	aquiles_collapse	.cache\1C\{1C922FDD-0BC3-9D77-D3B7-606328260B21}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\aquiles_collapse		119168
 	316701262	ATTurtlez & JDSherbert - Male Character VOX Pack - Jump (var - 1)	.cache\60\{609AB552-EA0B-4DEB-0F5B-3386B61E16B1}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Decided\ATTurtlez & JDSherbert - Male Character VOX Pack - Jump (var - 1)		77120
 	318930463	universfield-male-voice-expressing-confused-huh-352694	.cache\28\{28B9DEAF-8A43-C343-FAC0-55142AA75F5D}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Think\universfield-male-voice-expressing-confused-huh-352694		43136
@@ -284,12 +289,14 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	344175772	grass_walk_06	.cache\63\{63DE341F-D470-9497-426E-74076A8C943D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_06		13292
 	349512848	wood_walk_03	.cache\BE\{BE286CD5-7E2F-7434-CFC4-7756EAD539C6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Walk\wood_walk_03		13580
 	353618428	skeleton_Dodge	.cache\C8\{C8A00BCD-679B-098E-4676-D3A6124FC673}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Dodge		11600
-	355732203	Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)	.cache\E7\{E7EA8ADF-2147-964E-60F5-06C3884CAA20}.wem		\Containers\Default Work Unit\BGM_Switch\LevelBoss_Playlist\DarkLordGanon_TLOZ_TwilightPrincess\Dark Lord Ganondorf (From ＂The Legend of Zelda： Twilight Princess＂)		9756872
 	358544840	metal-rock_impact_01_full	.cache\6E\{6E890459-1C8E-5BAE-406D-C27F4E35AA22}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\metal-rock_impact_01_full		61640
+	360078211	sad-ghost	.cache\05\{05B30F4C-C51C-694B-4E2C-4947DFB6593A}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\CartoonGhosts\sad-ghost		260504
 	362843339	stone_run_01	.cache\13\{137B0283-6182-0727-3344-3A629EB6416C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_01		7604
 	368021273	deep_breath_00	.cache\49\{491570C4-7C91-F7A1-F787-697122669C52}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\DeepBreaths\deep_breath_00		91088
 	369878516	Aquiles_Death	.cache\7A\{7A38771B-445E-5F37-FA53-4AA81853351E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Death		240632
+	371808571	ghost_whispers_03	.cache\87\{875D8D74-20DC-EDFD-68BF-013E3945367A}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostWhispers\ghost_whispers_03		539504
 	372812432	BAS_Player_Footstep_sand_run_05	.cache\3E\{3E34DAEC-ED2C-009C-81B3-9195BB0D3A69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_05		7316
+	377411457	aquiles_stuck_-200	.cache\44\{443B2BF3-2321-3FC8-D33E-A6E2A27DEBDD}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_-200		20240
 	395188084	BAS_Player_Footstep_sand_run_04	.cache\B5\{B559E8A6-62D5-D696-83A3-68482B76F4DD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_04		7712
 	395931650	ATTurtlez & JDSherbert - Male Character VOX Pack - Jump (var - 2)	.cache\92\{92A5C424-7BF6-FA6F-5620-3ECCB23FD8D6}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Decided\ATTurtlez & JDSherbert - Male Character VOX Pack - Jump (var - 2)		77120
 	403864752	column_break_debris	.cache\1B\{1BD0614C-CDBF-1B6E-C91E-C38E03220A28}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\column_break_debris		100088
@@ -304,22 +311,25 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	436047105	minocabro_footstep_07	.cache\21\{216D4506-9725-1778-07CC-AB40635CD8AE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_07		30680
 	447279618	totalwar_epicbgm_02	.cache\2A\{2AD2F4C1-3EEC-FF6D-9137-4D933A0EB8B4}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\EpicBGM\totalwar_epicbgm_02		1007288
 	447302312	BAS_Player_Footstep_sand_walk_06	.cache\8B\{8B7F6936-4919-27D2-9133-D4E680863521}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_06		6740
+	454465364	SonOfIthaca_LVL2	.cache\5E\{5EE11C1A-E3CD-12D5-A4AE-EC82A7CF00EA}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\SonOfIthaca_LVL2\SonOfIthaca_LVL2		5190056
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
 	480176063	shield_dmg_02	.cache\E2\{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_02		61496
 	485908222	page_turn_00	.cache\1B\{1B298758-4D67-EBF0-C2B5-BD0F7B93F549}.wem		\Containers\Default Work Unit\Objects\UI\UI_PageTurn\page_turn_00		23120
 	486410471	grass_run_04	.cache\86\{864B6EF1-4ABF-65D0-C4A8-C71F62FFD6BE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_04		7424
+	488869351	ghostly-wail	.cache\27\{2743B2C5-AA85-7256-1516-90EB52DFA55A}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\CartoonGhosts\ghostly-wail		275048
 	494683163	SeaWater	.cache\A3\{A355D325-890C-F1C2-1F2C-E4D69AE327E6}.wem		\Containers\Default Work Unit\Objects\Ambiance\SeaWater		1488248
 	495811719	stone_walk_03	.cache\3D\{3DAC32B7-4DD8-9A00-D2CF-A6E78E11FFAD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_03		13580
 	511744790	open_chest_01	.cache\78\{78B5E808-D6DC-B2BD-0D8E-CE01E5E1302B}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_01		121184
-	512620298	aquiles_step_03	.cache\97\{97511584-5389-1FF7-DEC4-CF03DA5B403E}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_03		51488
+	512620298	aquiles_step_03	.cache\7E\{7EC760BF-652D-7CA7-19BC-830DBBC57A37}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_03		34568
 	514297256	BAS_Player_Footstep_sand_run_02	.cache\34\{343D579D-4455-4C98-604D-8003E00A79A1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_02		7640
-	529955452	Aquiles_SpearPull	.cache\65\{65530190-18B4-F7E0-150B-760542F3A809}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearPull		28160
+	529955452	Aquiles_SpearPull	.cache\0A\{0AE60C73-B8E8-BF8F-938F-7B1E1BC31A2F}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearPull		28160
 	531473372	minocabro_hoof_04	.cache\13\{130DEF8E-D1F9-7D82-405A-F09EC962B5ED}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_HoofScrape\minocabro_hoof_04		41696
 	531762456	wood_walk_01	.cache\D3\{D36DB3FC-A1A7-5A06-7A13-7AF585527789}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Walk\wood_walk_01		13364
 	533026546	treeAmbience	.cache\17\{17071574-C850-84B6-CCE7-EB5C946E6022}.wem		\Containers\Default Work Unit\Objects\Ambiance\treeAmbience		434240
-	540918898	aquiles_step_07	.cache\73\{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_07		46448
+	540918898	aquiles_step_07	.cache\C1\{C124AB38-2C09-47B1-73FD-FA073A0B5FD1}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_07		34064
+	542743982	scary-female-ghost	.cache\99\{99758427-BDA9-83EE-29C7-EB843460099D}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\scary-female-ghost		318896
 	546082658	Aquiles_Warcry_01	.cache\A6\{A67790D1-FB7E-2095-5CFD-2CC89C43917D}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Warcry\Aquiles_Warcry_01		106712
 	558767652	dirt_run_03	.cache\FB\{FB0A822C-DE17-43BA-B57A-8091FBBE30F7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_03		7532
 	565089324	yodguard-spear_thrust-4-382401	.cache\D6\{D665DE27-FACF-46A2-1D7A-D3C12ED43C3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-4-382401		399032
@@ -330,7 +340,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	578288656	stone_walk_01	.cache\3F\{3F6CD6BD-957C-2ADD-B057-56E326004F03}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_01		13364
 	585738113	minocabro_hurt_03	.cache\34\{34316DED-6F89-5154-B91B-6BA1D8781BCD}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_03		41912
 	585854071	door_move	.cache\38\{384FD139-562F-B8F5-A0AD-E88B2ADCC4DA}.wem		\Containers\Default Work Unit\Objects\Puzzles\door_move		388304
-	592504271	cave-ambience-asmr-loop-2-if-5-ex	.cache\50\{501C7939-18C2-C702-F877-E682E1766015}.wem		\Containers\Default Work Unit\BGM_Switch\AfterBoss_Playlist\cave-ambience-loop\cave-ambience-asmr-loop-2-if-5-ex		2980304
+	592504271	cave-ambience-asmr-loop-2-if-5-ex	.cache\DB\{DB8B97BB-33D1-4577-2879-DC74FC9F69BF}.wem		\Containers\Default Work Unit\BGM_Switch\AfterBoss_Playlist\cave-ambience-loop\cave-ambience-asmr-loop-2-if-5-ex		3225680
 	598271853	stone_run_03	.cache\EE\{EE4BD707-A4F4-CEAC-89A3-5CF6DD87A5A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_03		7532
 	603466762	Aquiles_HurtSound_01	.cache\DA\{DAC249B0-250A-3D18-998E-30D65A5AB868}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Hurt\Aquiles_HurtSound_01		73736
 	611337934	water_run_01	.cache\32\{326D9B66-5780-432B-7402-570F2DCA37FC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_01		7604
@@ -350,6 +360,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	649248772	wood_walk_02	.cache\2D\{2D5C1C1D-57E4-72B5-0D47-7AD0B5E309F2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Walk\wood_walk_02		14408
 	653184964	shield_dmg_03	.cache\26\{26B35077-264F-A9F7-7318-C9FFFD2B8F99}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_03		49472
 	654262256	Grunt Uhuhh 1	.cache\95\{95553B76-9FA2-C25C-7B0F-D53ABCD8765D}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Scared\Grunt Uhuhh 1		27224
+	656155992	lil-girl-ghost	.cache\FC\{FCAAADF4-9EDB-FE75-DC3A-932CC4EA4D92}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\lil-girl-ghost		132956
 	658947672	dirt_walk_01	.cache\91\{91235923-528D-B681-E796-9CDE151A28A7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_01		13364
 	661717650	player_apoloShot	.cache\1E\{1E58732B-E59E-5289-B6CA-510E790BA8D1}.wem		\Containers\Default Work Unit\Objects\Player\player_apoloShot		35756
 	663484052	skeleton_Step	.cache\85\{85480C67-C83E-070A-9714-960378316322}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Step		20816
@@ -362,12 +373,16 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	680497514	stone_walk_05	.cache\29\{29DC4D78-28B7-EA1E-2374-3340840B5EF2}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_05		13400
 	685323916	water_run_06	.cache\4E\{4E5A9E50-AF0C-1FAE-ECEA-19C59929CF0C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_06		7352
 	699991876	sword_slice_hard	.cache\5C\{5C03AB4F-1050-769A-30EC-6AA74CF3F6F7}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Slash\sword_slice_hard		25640
-	717026493	aquiles_step_06	.cache\73\{737FAC11-7C21-6A1E-436A-8679BED50AC0}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_06		46448
+	703953460	ghost_whispers_00	.cache\B7\{B789AA25-03B6-FD08-CD03-9CE1A78AC6DE}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostWhispers\ghost_whispers_00		211112
+	717026493	aquiles_step_06	.cache\8A\{8A0B928D-9A66-E876-5ADA-863C9B704555}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_06		34568
 	717187454	BAS_Player_Footstep_sand_run_03	.cache\21\{21ACA74F-9726-8D5D-B6DE-81B7F25E100B}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_03		8288
 	726491942	dirt_walk_05	.cache\47\{47B28077-6411-38F4-8407-242380E9024D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_05		13400
+	726518480	ghost_whispers_02	.cache\D6\{D6B8EC63-81E6-8271-EE3F-75882F80017E}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostWhispers\ghost_whispers_02		209816
 	728535981	hermes_mask	.cache\92\{92273ACC-C8ED-BEBC-9F3F-92BA661A1700}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Switch\hermes_mask		15632
 	732245307	owl_01	.cache\C2\{C2B41912-718E-483F-32EC-C980E495DE39}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_01		40040
+	734137631	SonOfIthaca_Boss	.cache\6B\{6BCE3D1C-FCF0-3A92-571B-C9991024D321}.wem		\Containers\Default Work Unit\BGM_Switch\LevelBoss_Playlist\SonOfIthaca_Boss\SonOfIthaca_Boss		5157224
 	735881624	hermes_spin_04	.cache\4E\{4E75E11D-7074-9846-F9FA-1AD2AF279754}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_04		11456
+	739075408	ghost_cartoon_00	.cache\21\{211D7CC2-43DA-CF2F-1896-52D4E067619C}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\CartoonGhosts\ghost_cartoon_00		152504
 	750230204	activate_checkpoint	.cache\C5\{C5B4E518-4227-92D0-9B07-9035442D91D5}.wem		\Containers\Default Work Unit\Objects\Player\Checkpoint_Save\activate_checkpoint		93248
 	752261276	minocabro_wallcrash_boulder	.cache\9D\{9DD305E0-6FCF-959F-B0C3-790C87EAFFB6}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_boulder		104912
 	755070505	BAS_Player_Footstep_sand_run_01	.cache\20\{2009753A-3905-D69C-4D82-AF2B6FC0F6E7}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Run\BAS_Player_Footstep_sand_run_01		8288
@@ -381,7 +396,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	794308838	water_run_03	.cache\E2\{E2B1FC3C-58D4-2AF6-56C1-6571BB43D382}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_03		7532
 	794836068	unequip_mask	.cache\D0\{D08E576C-107D-5583-50CF-0F7F7379C941}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Switch\unequip_mask		18800
 	800726981	large_slash_00	.cache\A5\{A5384AD1-3666-22DD-9A97-5DE54F3A968A}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\large_slash_00		175616
-	804853606	aquiles_step_05	.cache\5F\{5F93FCD9-DF67-7F6A-465C-EB1D75951B84}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_05		41336
+	804853606	aquiles_step_05	.cache\BC\{BCF2E8AD-2A1A-5936-8FBE-EAE2ABD095A1}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_05		29960
 	806935094	page_turn_03	.cache\AE\{AE6CB611-8C87-EC99-8A69-8FAFF4B7F37B}.wem		\Containers\Default Work Unit\Objects\UI\UI_PageTurn\page_turn_03		36584
 	812426534	water_walk_06	.cache\E6\{E6EF460E-63BD-13E6-45E2-C7C1DAFE8825}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_06		13292
 	814088531	HermesHover_Wind	.cache\0D\{0DAC4691-B615-C917-985A-90B529C6A113}.wem		\Containers\Default Work Unit\Objects\Player\HermesHover_Wind		454760
@@ -400,15 +415,15 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	839908236	BAS_Player_Footstep_sand_walk_03	.cache\99\{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_03		10268
 	840655502	berserker_pulse	.cache\99\{99D612C9-6FC9-667B-D2AF-DA8C3CF20BF3}.wem		\Containers\Default Work Unit\Objects\UI\Berserker_Potion\berserker_pulse		259712
 	841807102	yodguard-spear_thrust-3-382407	.cache\52\{523162B3-720B-AB25-F0ED-AE5465573462}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-3-382407		434240
-	847806272	yokai watch terror time	.cache\30\{3057A7AC-2287-5B4B-4775-0D8A86539F76}.wem		\Containers\Default Work Unit\BGM_Switch\Level2_Playlist\Level2_Alt\yokai watch terror time		2240720
+	842356809	aquiles_stuck_300	.cache\3A\{3A75D052-2362-63DA-B4B9-0B687D5E9A33}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_300		20240
 	850723638	dirt_walk_06	.cache\CC\{CCDD2408-420B-1430-0FFE-2654A93A419D}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_06		13292
 	850788590	stone_run_02	.cache\AF\{AF4A97F1-C78D-4B79-6CED-19C7BFF41EB8}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_02		7244
 	857628780	aquiles_dash_01	.cache\64\{64080CEA-9C1D-0B66-41A3-A963642BB028}.wem		\Containers\Default Work Unit\Objects\Aquiles\aquiles_dash_01		90800
 	859917828	riser_01	.cache\E7\{E76CE077-0319-CFFB-22FA-D40251302CF0}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\RisingSFX\riser_01		179072
-	861888802	aquiles_step_08	.cache\FB\{FB33271D-542C-66C0-9B7F-E6247B0D2A27}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		46808
+	861888802	aquiles_step_08	.cache\09\{09B6E963-7C49-5EAD-10F8-51F6E7BFA7B8}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_08		33776
 	863671011	moving_rock	.cache\7F\{7F462D61-3ED8-DEF5-D33E-3043B308A97D}.wem		\Containers\Default Work Unit\Objects\Puzzles\moving_rock		46880
 	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
-	864792433	aquiles_step_01	.cache\85\{852FB396-C9F7-99F2-EE08-DA5AD74B6744}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		57176
+	864792433	aquiles_step_01	.cache\6A\{6ABD8417-FD0F-198E-FA73-3F8B8EF47024}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		33704
 	871849665	encounter_riser	.cache\30\{308BA59D-99C0-1972-E3F5-C7BE2A1C0AA7}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\encounter_riser		1263464
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
 	893143398	Hermes_Hover_Flare	.cache\54\{546A0309-9FA9-4F25-5BA1-DF0607F0C336}.wem		\Containers\Default Work Unit\Objects\Player\Hermes_Hover_Flare		454832
@@ -419,10 +434,10 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	913414124	lucas_lesc-grab-clothes-foley-308655	.cache\0A\{0A5A2A4D-01FA-02B2-A510-4AD140173A5D}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\lucas_lesc-grab-clothes-foley-308655		29744
 	914187209	stone_walk_02	.cache\5C\{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_02		14408
 	915946584	grass_walk_03	.cache\DD\{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_03		13580
+	924193480	distorted-scream	.cache\F0\{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\distorted-scream		217232
 	943118833	minocabro_idlegrunt_03	.cache\EC\{EC19BD2F-9107-C188-C86C-B918C0F9E0BE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_03		215720
 	946854841	Mino_Collapse	.cache\8F\{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Collapse		53000
 	964848831	Potion_Drink	.cache\38\{38E8EA58-9EAD-748A-9F4D-A3523BEB9882}.wem		\Containers\Default Work Unit\Objects\Player\Potion_Drink		14336
-	966202110	i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4	.cache\66\{667284D9-98AF-EC77-A9EF-9374BFD813DC}.wem		\Containers\Default Work Unit\BGM_Switch\Level1_Combat_Playlist\Level1_Combat\i-added-yoshi-drums-to-dark-sanctuary-deltarune-ch-4		5270480
 	966255002	apolo_mask	.cache\D7\{D7337D12-1B41-0377-E697-95027EB2FA51}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Switch\apolo_mask		68480
 	969457714	owl_00	.cache\C5\{C5619610-4902-0938-FA93-DAFB723E0FB8}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_00		62216
 	970219648	grass_walk_05	.cache\E3\{E34F5FEB-6BF1-BF0E-D50A-7C6D629985F0}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_05		13400
@@ -435,6 +450,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	995547947	wood_run_03	.cache\3F\{3FB49B9D-2007-DA74-BA61-5F50DE56E269}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_03		7532
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1003627683	sword_sand_stab_00	.cache\B8\{B89C31F8-5639-BC78-1850-4C5954703FEB}.wem		\Containers\Default Work Unit\Objects\Player\WakeUp\sword_sand_stab_00		26360
+	1015733933	classic-ghost	.cache\1F\{1F40A780-DE16-D606-E518-BE37A5A98BFE}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\CartoonGhosts\classic-ghost		199088
 	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496
 	1041846858	AIGUA1	.cache\F8\{F8099315-4FEC-B24F-7CDC-D2DB17EA153F}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA1		1354328
 	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244

@@ -512,8 +512,8 @@ local function UpdateIdle(self, dist, dt)
 
         if self.playerInRange then
             --Engine.Log("Triggering Combat Music from Siren detection range")
-           -- _G.TriggerCombatMusic()
-           if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
+       
+           --if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
         end
 
         if self.isShowing then
@@ -884,7 +884,7 @@ function Update(self, dt)
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)
       --  Engine.Log("Destroyed Siren")
-        if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
+        --if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
         --self:Destroy() 
 
         return  

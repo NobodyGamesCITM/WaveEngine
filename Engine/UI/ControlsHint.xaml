@@ -30,7 +30,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             <StackPanel x:Name="HintSlot1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image x:Name="HintImg_ApoloFuerte" Source="Textures/AtaqueFuerteConEstatua.png" Width="300" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Image x:Name="HintImg_ApoloDisparo" Source="Textures/MainCharacter_Skill Apolo.png" Width="300" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="HintImg_ApoloDisparo" Source="Textures/ApoloDisparoEstatua.png" Width="300" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="1" ScaleX="1"/>
@@ -50,7 +50,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </Image>
                     <Image x:Name="HintImt_Ares" Source="Textures/MainCharacter_Skill Ares.png" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Caminar" Source="Textures/Caminar.PNG" Width="180" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Image x:Name="HintImg_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Opacity="0.454"/>
+                    <Image x:Name="HintImg_AtaqueNormal" Source="Textures/AtaqueNormal.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_AtaqueFuerte" Source="Textures/AtaqueFuerte.PNG" Width="90" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_Correr" Source="Textures/Correr.PNG" Width="180" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintImg_CambiarMascaras" Source="Textures/CanviarMascaras.PNG" Width="90" Height="90" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>

@@ -130,8 +130,10 @@ namespace AK
             {
                 static const AkUniqueID AFTERBOSS = 1221996634U;
                 static const AkUniqueID BOSS = 1560169506U;
+                static const AkUniqueID BOSS_INTRO = 1720208925U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
+                static const AkUniqueID LEVEL1_INTRO = 2339009721U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
                 static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;

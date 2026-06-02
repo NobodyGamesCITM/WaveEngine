@@ -1,10 +1,11 @@
--- BG Music Remover Script
+-- BG Music Actcivator Script
 local enteredNewLevel
 local fadeTimer 
 local volume
 local finishedTransition
 local musicSource = nil
 local bgMusic = nil
+local aquilesDefeated = false
 
 public = {
 	fadeTime = 1.5,
@@ -50,8 +51,15 @@ local function TryChangeMusicState(self, finalMusicState)
 		end
 	end
 
-	if found then Audio.SetMusicState(tostring(finalMusicState)) 
-	else --Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
+	if found then 
+		if aquilesDefeated then 
+			Audio.SetMusicState("AfterBoss")
+		else 
+			Audio.SetMusicState(tostring(finalMusicState)) 
+		end
+	else 
+		--Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
+		
 	end
 end
 
@@ -101,6 +109,8 @@ end
 
 
 function Update(self, dt)
+
+	if _G._AquilesDefeated then aquilesDefeated = true end
     FadeInMusic(self, dt)
 end
 

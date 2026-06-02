@@ -1324,11 +1324,11 @@ function Update(self, dt)
         FindAquilesParticles(self)
     end
 
-    -- if Input.GetKey("0") then
-    --     fase1 = false
-    --     TakeDamage(self, hp, self.transform.worldPosition)
-    --     return
-    -- end
+    if Input.GetKey("0") then
+        fase1 = false
+        TakeDamage(self, hp, self.transform.worldPosition)
+        return
+    end
 
 
     if Input.GetKeyDown("K") then

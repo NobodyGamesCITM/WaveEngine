@@ -218,7 +218,10 @@ local function EngageLock(self)
 end
 
 function Update(self, dt)
-    if _G.CinematicActive then return end
+    if _G.CinematicActive then 
+        if lockParticleObj then lockParticleObj:SetActive(false) end
+        return 
+    end
 
     if not player or not cineCam then return end
 

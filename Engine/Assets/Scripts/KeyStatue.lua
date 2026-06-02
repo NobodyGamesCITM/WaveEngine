@@ -1,7 +1,7 @@
 -- KeyStatue.lua
 public = {
-    statueId = "Circle", -- Inspector
-    statueBitValue = 1,  -- 1 (Circle), 2 (Arch), 4 (T)
+    statueId = "Circle",
+    statueBitValue = 1,
     interactionRadius = 8.0,
     updateWhenPaused = true
 }
@@ -20,20 +20,22 @@ function Start(self)
     initialChains = GameObject.FindInChildren(self.gameObject, "chains")
     brokenChains = GameObject.FindInChildren(self.gameObject, "broken_chains")
     
-    local currentState = _G.PortalState or 0
-    if (currentState & self.public.statueBitValue) ~= 0 then
-        isUnlocked = true
-        if initialChains then initialChains:SetActive(false) end
-        if brokenChains then brokenChains:SetActive(true) end
-        return
-    end
-
     if initialChains then initialChains:SetActive(true) end
     if brokenChains then brokenChains:SetActive(false) end
 end
 
 function Update(self, dt)
-    if isUnlocked then return end
+    local currentState = _G.PortalState or 0
+    if (currentState & self.public.statueBitValue) ~= 0 then
+        if not isUnlocked then
+            isUnlocked = true
+            if initialChains then initialChains:SetActive(false) end
+            if brokenChains then brokenChains:SetActive(true) end
+            if _G.HideControlsHint and inRange then _G.HideControlsHint() end
+        end
+        return
+    end
+
     if not player then player = GameObject.Find("Player"); return end
 
     local myPos = self.transform.worldPosition

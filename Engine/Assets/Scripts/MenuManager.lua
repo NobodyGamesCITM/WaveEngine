@@ -83,17 +83,23 @@ function _G.SaveManager.SaveGame()
         end
     end
 
-    local doors = GameObject.FindByTag("Door")
-    if doors then
-        for _, door in ipairs(doors) do
-            local dName = door.name
-            if dName then
-                if not saveData.doors[dName] then saveData.doors[dName] = {} end
-                local script = door:GetComponent("Script")
-                if script then
+    local doorTags = {"Door", "Door_Combat_1"}
+    for _, tag in ipairs(doorTags) do
+        local doors = GameObject.FindByTag(tag)
+        if doors then
+            for _, door in ipairs(doors) do
+                local dName = door.name
+                if dName then
+                    if not saveData.doors[dName] then saveData.doors[dName] = {} end
+                    local script = door:GetComponent("Script")
                     local state = false
-                    if script.isOpen ~= nil then state = script.isOpen elseif script.isClose ~= nil then state = not script.isClose end
-                    table.insert(saveData.doors[dName], { open = state })
+                    if script then
+                        if script.isOpen ~= nil then state = script.isOpen 
+                        elseif script.isClose ~= nil then state = not script.isClose end
+                    end
+                    local dPos = door.transform.worldPosition
+                    local dRot = door.transform.rotation
+                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z, rotY = dRot.y })
                 end
             end
         end
@@ -197,27 +203,37 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
     end
 
     local doorCounters = {}
-    local doors = GameObject.FindByTag("Door")
-    if doors and data.doors then
-        for _, door in ipairs(doors) do
-            pcall(function()
-                local dName = door.name
-                if dName then
-                    doorCounters[dName] = (doorCounters[dName] or 0) + 1
-                    local dList = data.doors[dName]
-                    if dList and doorCounters[dName] <= #dList then
-                        local dData = dList[doorCounters[dName]]
-                        local script = door:GetComponent("Script")
-                        if script then
-                            if dData.open then
-                                if script.ForceOpen then script:ForceOpen() end
-                            else
-                                if script.ForceClose then script:ForceClose() end
+    local doorTags = {"Door", "Door_Combat_1"}
+    for _, tag in ipairs(doorTags) do
+        local doors = GameObject.FindByTag(tag)
+        if doors and data.doors then
+            for _, door in ipairs(doors) do
+                pcall(function()
+                    local dName = door.name
+                    if dName then
+                        doorCounters[dName] = (doorCounters[dName] or 0) + 1
+                        local dList = data.doors[dName]
+                        if dList and doorCounters[dName] <= #dList then
+                            local dData = dList[doorCounters[dName]]
+                            
+                            -- Restaurar transform matrix global
+                            if door.transform then
+                                door.transform:SetPosition(dData.x, dData.y, dData.z)
+                                door.transform:SetRotation(0, dData.rotY, 0)
+                            end
+
+                            local script = door:GetComponent("Script")
+                            if script then
+                                if dData.open then
+                                    if script.ForceOpen then script:ForceOpen() end
+                                else
+                                    if script.ForceClose then script:ForceClose() end
+                                end
                             end
                         end
                     end
-                end
-            end)
+                end)
+            end
         end
     end
 
@@ -663,22 +679,21 @@ function Update(self, dt)
 
         -- Lógica de Muerte: Prioritaria sobre cinemáticas si el jugador ya está muerto
         if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-            -- Aseguramos que la UI sea visible si no hay una transición en curso
             if not self.fading then self.canvas:SetOpacity(1.0) end
 
             self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
-            local currentDeathDelay = DEATH_MENU_DELAY
-
-            if playerIsDrowning then
-                currentDeathDelay = DROWNING_DEATH_MENU_DELAY
-            end
+            local currentDeathDelay = playerIsDrowning and DROWNING_DEATH_MENU_DELAY or DEATH_MENU_DELAY
             if self.deathTimer >= currentDeathDelay then
                 self.deathTimer = 0.0
                 self.history = {}
                 NavigateTo(self, "LoseMenu.xaml")
             end
-        elseif not playerIsDead then
+        elseif _G.CinematicActive then
+            if self.canvas then self.canvas:SetOpacity(0.0) end
             self.deathTimer = 0.0
+        else
+            self.deathTimer = 0.0
+            if not self.fading and self.canvas then self.canvas:SetOpacity(1.0) end
         end
 
         if not _G.CinematicActive and not playerIsDead then
@@ -707,11 +722,13 @@ function Update(self, dt)
 
         if UI.WasClicked("StartButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] StartButton clicked.")
+                Engine.Log("[MenuManager] StartButton clicked. Limpiando globales.")
                 _G.PendingSaveDataApply = false
                 _G.IsLoadingSaveGame = false
                 _G.LoadedFromSave = false
                 
+                _G.ForceStartXAML = nil
+                _G.CurrentXAML = "HUD.xaml"
                 _G.CurrentLevel = "Level1"
                 _G.DialogsShown = {} 
                 
@@ -758,16 +775,16 @@ function Update(self, dt)
             self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
         end
-        if UI.WasClicked("BackToMenuButton") then
+                if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] BackToMenuButton.")
+                Engine.Log("[MenuManager] BackToMenuButton. Limpiando sesión de juego.")
                 _G._PlayerController_isDead = false
                 self.deathTimer = 0.0
-                if _G.PlayerInstance then
-                    _G.PlayerInstance.public.health  = 100
-                    _G.PlayerInstance.public.stamina = 100
-                end
-                _G.SkipSplash     = true
+                
+                _G.CurrentLevel = "MainMenu"
+                _G.ForceStartXAML = "MainMenu.xaml"
+                _G.SkipSplash = true
+
                 self.pendingScene = "Splash.scene"
                 self.fading       = true
                 self.canvas:PlayStoryboard("FadeOut")

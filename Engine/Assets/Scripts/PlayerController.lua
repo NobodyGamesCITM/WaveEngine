@@ -340,8 +340,10 @@ local function GetLockOnDir(self)
     if not _G.TargetLockManager_IsLocked then return nil, nil end
     local target = _G.TargetLockManager_CurrentTarget
     if not target then return nil, nil end
+    
     local pPos = self.transform.worldPosition
-    local tPos = target.transform.position
+    local tPos = target.transform.worldPosition 
+    
     local dx = tPos.x - pPos.x
     local dz = tPos.z - pPos.z
     local len = math.sqrt(dx*dx + dz*dz)

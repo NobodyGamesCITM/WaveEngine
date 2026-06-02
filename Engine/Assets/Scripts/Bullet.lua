@@ -146,7 +146,7 @@ end
 function OnTriggerEnter(self, other)
     if hasHit then return end
     --versión 1 (todo la destruye menos algunas excepciones que atraviesa)
-    if other:CompareTag("Water") or other:CompareTag("Player") or other:CompareTag("Bullet") or other:CompareTag("Statue") then return end
+    if other:CompareTag("Water") or other:CompareTag("Player") or other:CompareTag("Bullet") or other:CompareTag("Statue") or other:CompareTag("InvisibleWall") then return end
     hasHit = true
 
     --versión 2 (todo lo atraviesa menos algunas expcepciones que la destruyen)

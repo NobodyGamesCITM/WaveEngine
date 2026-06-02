@@ -50,6 +50,7 @@ _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
 _G._MaskCount = 0
+_G._PlayerController_drownDeath = false
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -505,6 +506,7 @@ local function EquipMask(self, newMask, skipSword)
         ApplyMaskVisual(self, newMask)
         self.public.health = 0
         _G._PlayerController_isDead = true
+        _G._PlayerController_drownDeath = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
         UpdateSwordMaterial()
@@ -1431,6 +1433,7 @@ function Start(self)
     attackCooldown = 0
     rollCooldown = 0
     stepTimer    = 0.5
+    _G._PlayerController_drownDeath = false
     
     Player.currentState    = nil
     Player.currentMask     = nil
@@ -2586,6 +2589,7 @@ function ResetPlayer(self)
     attackNum = 0
 
     _G._PlayerController_isDead           = false
+    _G._PlayerController_drownDeath = false
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
     accumulatedAlpha = 0.0

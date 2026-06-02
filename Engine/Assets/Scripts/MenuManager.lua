@@ -310,6 +310,7 @@ public = {
 }
 local FADE_IN_DURATION = 0.4
 local DEATH_MENU_DELAY = 6.2
+local DROWNING_DEATH_MENU_DELAY = 2.0
 
 local function ApplyFullVolume(self)
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
@@ -540,8 +541,10 @@ function Update(self, dt)
     -- Ensure canvas is always valid at the very beginning of Update
     -- Calculamos salud para la lógica de muerte antes de cualquier early return
     local playerHealth = 101
+    local playerIsDrowning = false
     if _G.PlayerInstance and _G.PlayerInstance.public then
         playerHealth = _G.PlayerInstance.public.health
+        playerIsDrowning = _G._PlayerController_drownDeath or false
     else
         local playerObj = GameObject.Find("Player")
         if playerObj then
@@ -549,6 +552,7 @@ function Update(self, dt)
             if pScript then
                 _G.PlayerInstance = pScript
                 playerHealth = pScript.public and pScript.public.health or 101
+                playerIsDrowning = _G._PlayerController_drownDeath or false
             end
         end
     end
@@ -727,7 +731,12 @@ function Update(self, dt)
             if not self.fading then self.canvas:SetOpacity(1.0) end
 
             self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
-            if self.deathTimer >= DEATH_MENU_DELAY then
+            local currentDeathDelay = DEATH_MENU_DELAY
+
+            if playerIsDrowning then
+                currentDeathDelay = DROWNING_DEATH_MENU_DELAY
+            end
+            if self.deathTimer >= currentDeathDelay then
                 self.deathTimer = 0.0
                 self.history = {}
                 NavigateTo(self, "LoseMenu.xaml")

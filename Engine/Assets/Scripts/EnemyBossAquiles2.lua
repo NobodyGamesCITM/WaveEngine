@@ -19,6 +19,7 @@ local State = {
     STUN        = "Stun",
     DEAD        = "Dead",
 }
+
 public = {
     doorName = "Puerta_Final",
 	lockOnSize      = 14.0,
@@ -196,7 +197,9 @@ end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(eventName) end
-    if not audioComp then Engine.Log("Could not retrieve "..tostring(audioComp).." Audio Source") end
+    if not audioComp then 
+        --Engine.Log("Could not retrieve "..tostring(audioComp).." Audio Source") 
+    end
 end
 
 local function Dist(a, b)
@@ -406,6 +409,7 @@ local function UpdateFase2(self, dt)
         if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
         if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
  
+        
         Engine.Log("[AQUILES] Fase 3 comenzada")
         ChangeState(State.COMBAT_MOVE)
     end

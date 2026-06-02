@@ -94,7 +94,7 @@ function Update(self, dt)
 
     local pos = self.transform.position
     if pos == nil then
-        Engine.Log("[Bullet] ERROR: Position is nil")
+        --Engine.Log("[Bullet] ERROR: Position is nil")
         return
     end
 
@@ -115,9 +115,9 @@ function Update(self, dt)
             pos = { x = pp.x, y = pp.y, z = pp.z }
             self.pendingPosition = nil
         end
-        Engine.Log("[Bullet] wasRedirected set to true")
+        --Engine.Log("[Bullet] wasRedirected set to true")
         local p = self.transform.position
-        Engine.Log("[Bullet] Redirected at pos: " .. p.x .. ", " .. p.y .. ", " .. p.z)
+        --Engine.Log("[Bullet] Redirected at pos: " .. p.x .. ", " .. p.y .. ", " .. p.z)
     end
 
     if self.rb then
@@ -145,10 +145,10 @@ end
 
 function OnTriggerEnter(self, other)
     if hasHit then return end
-    --versión 1 (todo la destruye menos algunas excepciones que atraviesa)
+    --versiï¿½n 1 (todo la destruye menos algunas excepciones que atraviesa)
     if other:CompareTag("Water") or other:CompareTag("Player") or other:CompareTag("Bullet") or other:CompareTag("Statue") or other:CompareTag("InvisibleWall") then return end
     hasHit = true
 
-    --versión 2 (todo lo atraviesa menos algunas expcepciones que la destruyen)
+    --versiï¿½n 2 (todo lo atraviesa menos algunas expcepciones que la destruyen)
     --if other:CompareTag("Sand") or other:CompareTag("Dirt") or other:CompareTag("Enemy") or other:CompareTag("Stone") or other:CompareTag("Wall") or other:CompareTag("Grass") then hasHit = true end
 end

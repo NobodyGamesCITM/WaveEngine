@@ -14,6 +14,7 @@ local musicFadeTimer = 0.0
 local volume = 100.0
 local startDelay = 1.5
 local loadingTimer = 0.0
+local portalExitTimer = 0.0
 
 public = {
     targetScene = "Level2",
@@ -63,6 +64,10 @@ function Start(self)
     end
 
     self.StartTransition = StartTransition
+
+    if self.public.currentLevel == "Level2" then
+        portalExitTimer = 8.0
+    end
 end
 
 function Update(self, dt)
@@ -99,6 +104,21 @@ function Update(self, dt)
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
+
+    if portalExitTimer > 0 then
+        portalExitTimer = portalExitTimer - dt
+        if portalExitTimer <= 0 and _G.PlayerInstance then
+            portalExitTimer = 0
+            _G.PlayerInstance.public.canMove = false
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
+            if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
+            local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("Idle", 0.0) end)
+                pcall(function() anim:Play("PortalExit", 0.0) end)
+            end
+        end
+    end
 
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)

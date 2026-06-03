@@ -387,6 +387,12 @@ function Update(self, dt)
         state.inputConsumed = false
     end
 
+    if state.active and not wasAmbient then
+        if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+            onAdvancePressed()
+        end
+    end
+
     if not state.active or state.isComplete then return end
 
     state.timer = state.timer + dt

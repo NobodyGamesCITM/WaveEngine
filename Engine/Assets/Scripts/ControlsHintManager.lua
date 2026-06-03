@@ -48,18 +48,21 @@ PRESETS = {
     },
     ares_puzzle = {
         duration = 5.0,
+        condition = function() return _G._UnlockedMasks and _G._UnlockedMasks.Ares == true end,
         slots = {
             { img = "HintImg_Ares",         key = "HintKey_Q",      gp = "HintGP_Y" },
         },
     },
     apolo_puzzle = {
         duration = 5.0,
+        condition = function() return _G._UnlockedMasks and _G._UnlockedMasks.Apollo == true end,
         slots = {
             { img = "HintImg_ApoloFuerte",      key = "HintKey_E",           gp = "HintGP_Y" },
         },
     },
     apolo_puzzleDisparo = {
         duration = 5.0,
+        condition = function() return _G._UnlockedMasks and _G._UnlockedMasks.Apollo == true end,
         slots = {
             { img = "HintImg_ApoloDisparo",         key = "HintKey_Q",      gp = "HintGP_Y" },
         },
@@ -67,13 +70,16 @@ PRESETS = {
 }
 
 local ONCE_ONLY = {
-    intro          = true,
-    run            = true,
-    combat         = true,
-    heavy_attack   = true,
-    change_mask    = true,
-    potion_health  = true,
-    potion_berserk = true,
+    intro                = true,
+    run                  = true,
+    combat               = true,
+    heavy_attack         = true,
+    change_mask          = true,
+    potion_health        = true,
+    potion_berserk       = true,
+    ares_puzzle          = true,
+    apolo_puzzle         = true,
+    apolo_puzzleDisparo  = true,
 }
 
 local ALL_IMGS = {
@@ -187,14 +193,19 @@ end
 local function showPreset(presetName, overrideDuration)
     if not overrideDuration then
         if ONCE_ONLY[presetName] and seenPresets[presetName] then
-            Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
+            --Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
             return
         end
     end
 
     local preset = PRESETS[presetName]
     if not preset then
-        Engine.Log("[ControlsHint] Preset no encontrado: " .. presetName)
+        --Engine.Log("[ControlsHint] Preset no encontrado: " .. presetName)
+        return
+    end
+
+    if preset.condition and not preset.condition() then
+        --Engine.Log("[ControlsHint] Condición no cumplida, ignorando: " .. presetName)
         return
     end
 
@@ -205,14 +216,14 @@ local function showPreset(presetName, overrideDuration)
     currentPreset = presetName
     timer         = 0.0
     duration      = overrideDuration or preset.duration
-    Engine.Log("[ControlsHint] Timer RESET para: " .. presetName .. " duration=" .. tostring(duration))
+    --Engine.Log("[ControlsHint] Timer RESET para: " .. presetName .. " duration=" .. tostring(duration))
 
     applySlots(preset)
     UI.SetElementVisibility("ControlsHintPanel", true)
     _G._IsHintActive = true
-    Engine.Log("[ControlsHint] Mostrando: " .. presetName
-        .. (overrideDuration and (" (restante: " .. string.format("%.1f", overrideDuration) .. "s)") or "")
-        .. " [" .. (usingGamepad() and "GAMEPAD" or "TECLADO") .. "]")
+    --Engine.Log("[ControlsHint] Mostrando: " .. presetName
+      --  .. (overrideDuration and (" (restante: " .. string.format("%.1f", overrideDuration) .. "s)") or "")
+        --.. " [" .. (usingGamepad() and "GAMEPAD" or "TECLADO") .. "]")
 end
 
 -- Start
@@ -235,7 +246,7 @@ function Start(self)
     end
 
     _G.ShowChangeMaskTutorial = function()
-        Engine.Log("[ChangeMaskTutorial] Llamado!")
+        Engine.Log("[ChangeMaskTutorial] Llamado")
         UI.SetElementVisibility("ChangeMaskTutorialPanel", true)
         changeMaskTutorialActive  = false
         changeMaskTutorialPending = true

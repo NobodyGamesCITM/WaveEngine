@@ -2313,6 +2313,15 @@ function Update(self, dt)
                 _G.ShowMaskObtained(Player.pendingObtainMask:lower())
             end
 
+            if _G.ShowControlsHint and Player.pendingObtainMask then
+                if Player.pendingObtainMask == Mask.APOLLO then
+                    _G.ShowControlsHint("apolo_puzzle")
+                    _G.ShowControlsHint("apolo_puzzleDisparo")
+                elseif Player.pendingObtainMask == Mask.ARES then
+                    _G.ShowControlsHint("ares_puzzle")
+                end
+            end
+
             Player.isGetMaskAnim = false
             Player.pendingObtainMask = nil
             Player.isPortalEnterAnim = false

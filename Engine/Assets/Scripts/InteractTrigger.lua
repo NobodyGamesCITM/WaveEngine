@@ -150,8 +150,9 @@ local function refreshSharedLockOnPrompt()
             local myPos = trigger.transform.worldPosition
             if myPos and playerPos then
                 local dx = myPos.x - playerPos.x
+                local dy = myPos.y - playerPos.y
                 local dz = myPos.z - playerPos.z
-                local dist = math.sqrt(dx * dx + dz * dz)
+                local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
 
                 if dist < trigger.public.promptRadius and dist < bestDist then
                     bestDist = dist
@@ -210,8 +211,9 @@ function Update(self, dt)
     if not myPos or not playerPos or not myPos.x or not playerPos.x then return end
 
     local dx = myPos.x - playerPos.x
+    local dy = myPos.y - playerPos.y
     local dz = myPos.z - playerPos.z
-    local dist = math.sqrt(dx*dx + dz*dz)
+    local dist = math.sqrt(dx*dx + dy*dy + dz*dz)
 
     if dist < self.public.promptRadius then
         inPromptRange = true

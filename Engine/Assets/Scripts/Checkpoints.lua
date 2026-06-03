@@ -29,7 +29,7 @@ local canSaveAgain = false
 
 local function ChangeTexture(texUUID, checkpoint)
     if not checkpoint then 
-        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
@@ -37,7 +37,7 @@ local function ChangeTexture(texUUID, checkpoint)
     if buhoObj then
         local buhoMat = buhoObj:GetComponent("Material")
         if not buhoMat then 
-            ---Engine.Log("[CHECKPOINTS] Unable to retrieve Buho Material Component")
+            --Engine.Log("[CHECKPOINTS] Unable to retrieve Buho Material Component")
         else
             buhoMat.SetTexture(texUUID)
 
@@ -49,15 +49,12 @@ local function ChangeTexture(texUUID, checkpoint)
         end
     end
 
-
-    --the base looks the same in both so it isn't really needed in the base object, I guess
-
 end
 
 
 local function ActivateParticles(vfxName, checkpoint)
     if not checkpoint then 
-        --Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
+        Engine.Log("[CHECKPOINT SCRIPT] Checkpoint was nil!")
         return 
     end
 
@@ -101,7 +98,7 @@ local function StopParticles(vfxName, checkpoint)
             end
             
         else 
-            --Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
+            Engine.Log("[Checkpoints] Couldn't find Particle System on "..tostring(vfxName).. " GameObject")
         end
 
         VFXobj:SetActive(false)
@@ -135,7 +132,7 @@ local function Initialize(self)
 
     checkpoints = GameObject.FindByTag("CheckPoint")
     for i, checkpoint in ipairs(checkpoints) do
-       -- Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
+        Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
         StopParticles("LastCheckpointVFX", checkpoint)
         StopParticles("BlueSparkles", checkpoint)
         ActivateParticles("YellowSparkles", checkpoint)
@@ -188,12 +185,7 @@ function Update(self, dt)
                     end
 
                     Engine.Log("[CHECKPOINT SCRIPT] Checkpoint taken")
-
-                    if _G.RestorePotions then
-                        _G.RestorePotions()
-                    end
-
-					
+				
                     previousCheckpoint = currentCheckpoint
                     currentCheckpoint = checkpoint
                     
@@ -227,6 +219,11 @@ function Update(self, dt)
 
                     isInCoolDown = true
                     saveAgainTimer = 0
+
+                    if _G.RestorePotions then
+                        --moved all way down cuz it was causing issues and interrumping the script
+                        _G.RestorePotions()
+                    end
                     
                     
                 end

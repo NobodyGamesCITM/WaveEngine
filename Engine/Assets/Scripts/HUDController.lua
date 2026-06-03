@@ -98,7 +98,7 @@ local function RefreshStaminaBar(targetStamina, dt)
         UI.SetElementOpacity("StaminaBarContainer", alpha)
     else
         staminaPulseTimer = 0
-        UI.SetElementOpacity("StaminaBarContainer", 1.0)
+        --UI.SetElementOpacity("StaminaBarContainer", 1.0)
     end
 end
 

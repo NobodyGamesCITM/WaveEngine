@@ -1840,7 +1840,7 @@
 								<Action Name="" ID="{C36A2B93-113C-4683-9F30-4A211FDFCCCD}" ShortID="230697136">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="UI_SkipDialog" ID="{57B108D4-AA4D-4F28-BA20-874142400E4C}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="UI_ButtonSelected" ID="{1DB1F4E1-7444-414B-B0CB-31653FB4FE1D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1897,7 +1897,7 @@
 								<Action Name="" ID="{43C5CE05-4CF2-4F75-919A-F734F13F8186}" ShortID="251743251">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="skipdialog_00" ID="{4D17F66D-508C-4CAF-9287-F4657961E61D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="UI_SliderTest" ID="{ADA637CF-19EB-4933-B27B-FCFD657F5357}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

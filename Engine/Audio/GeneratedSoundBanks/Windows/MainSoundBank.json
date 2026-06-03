@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{5321B4E7-2325-AA54-8CFC-73F1C97B8C86}",
+    "Hash": "{17248705-A1C2-E24E-D389-57171A868868}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -480,14 +480,6 @@
       "CachePath": "C3/{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem"
      },
      {
-      "Id": "212589712",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "skipdialog_01.wav",
-      "CachePath": "49/{493114E9-56AC-3F02-CE52-9A4497898792}.wem"
-     },
-     {
       "Id": "213938119",
       "Language": "SFX",
       "Streaming": "false",
@@ -854,14 +846,6 @@
       "Location": "Memory",
       "ShortName": "aquiles_stuck_00.wav",
       "CachePath": "41/{41A126F0-098C-EF3C-5CFE-50583ACC3A7F}.wem"
-     },
-     {
-      "Id": "387208315",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "skipdialog_02.wav",
-      "CachePath": "FC/{FC857FBB-919E-0510-B6BB-F267F082AA2F}.wem"
      },
      {
       "Id": "395188084",
@@ -1301,7 +1285,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skipdialog_00.wav",
-      "CachePath": "2F/{2F588D12-1528-1FF4-D402-3932DC71BBEC}.wem"
+      "CachePath": "27/{2723CBF8-2AEC-A483-9AA5-F79728ED7F8E}.wem"
      },
      {
       "Id": "632941085",
@@ -2118,14 +2102,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_idlegrunt_02.wav",
       "CachePath": "3D/{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem"
-     },
-     {
-      "Id": "1040823208",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "universfield-interface-124464.wav",
-      "CachePath": "80/{80D74B93-B97A-0ABA-83CF-3DFE6DA24A26}.wem"
      },
      {
       "Id": "1041846858",
@@ -4829,36 +4805,12 @@
       "GUID": "{560BA397-C2BB-482D-8B8B-58CC00524E86}",
       "DurationType": "OneShot",
       "DurationMin": "0.036641233",
-      "DurationMax": "0.92673016",
+      "DurationMax": "0.036641233",
       "MediaRefs": [
        {
         "Id": "151597588"
-       },
-       {
-        "Id": "212589712"
-       },
-       {
-        "Id": "387208315"
-       },
-       {
-        "Id": "630631481"
-       },
-       {
-        "Id": "1040823208"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "850748628"
-        }
-       ],
-       "ShareSets": [
-        {
-         "Id": "701863527"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "1643144237",
@@ -5386,6 +5338,6 @@
     ]
    }
   ],
-  "FileHash": "{73925A89-FA95-11C5-871B-1FC79EE6E2BD}"
+  "FileHash": "{72069062-D522-85BF-001E-0ED09B6D0126}"
  }
 }

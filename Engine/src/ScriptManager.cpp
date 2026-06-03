@@ -1836,6 +1836,47 @@ static int Lua_GameObject_FindByTag(lua_State* L) {
     return 1;
 }
 
+static int Lua_GameObject_GetChildren(lua_State* L) {
+    GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+
+    if (!objPtr || !*objPtr || !GameObject::IsAlive(*objPtr) || (*objPtr)->IsMarkedForDeletion()) {
+        LOG_CONSOLE("[Lua] ERROR: Cannot get component from invalid/deleted GameObject");
+        lua_pushnil(L);
+        return 1;
+    }
+
+    GameObject* obj = *objPtr;
+
+    std::vector<GameObject*> results;
+    std::function<void(GameObject*)> getChildren;
+    getChildren = [&](GameObject* node) {
+        if (node) {
+            results.push_back(node);
+        }
+        for (GameObject* child : node->GetChildren()) {
+            getChildren(child);
+        }
+    };
+
+    getChildren(obj);
+
+
+    lua_newtable(L);
+
+    int index = 1;
+    for (GameObject* obj : results) {
+        GameObject** udata = static_cast<GameObject**>(lua_newuserdata(L, sizeof(GameObject*)));
+        *udata = obj;
+
+        luaL_getmetatable(L, "GameObject");
+        lua_setmetatable(L, -2);
+
+        lua_rawseti(L, -2, index++);
+    }
+
+    return 1;
+}
+
 // Helper functions for GameObject methods
 static int Lua_GameObject_SetActive(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
@@ -1917,6 +1958,52 @@ static int Lua_GameObject_AddComponent_Material(lua_State* L) {
     return 1;
 }
 
+static int Lua_GameObject_AddComponent_ConvexCollider(lua_State* L) {
+    GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+
+    if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
+        LOG_CONSOLE("[Lua] ERROR: Cannot add component to invalid/deleted GameObject");
+        lua_pushboolean(L, false);
+        return 1;
+    }
+
+    GameObject* obj = *objPtr;
+
+    // Enqueue component addition for PostUpdate
+    auto& app = Application::GetInstance();
+    app.scripts->EnqueueOperation([obj]() {
+        if (!obj->IsMarkedForDeletion()) {
+            obj->CreateComponent(ComponentType::CONVEX_COLLIDER);
+        }
+        });
+
+    lua_pushboolean(L, true);
+    return 1;
+}
+
+static int Lua_GameObject_AddComponent_Rigidbody(lua_State* L) {
+    GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
+
+    if (!objPtr || !*objPtr || (*objPtr)->IsMarkedForDeletion()) {
+        LOG_CONSOLE("[Lua] ERROR: Cannot add component to invalid/deleted GameObject");
+        lua_pushboolean(L, false);
+        return 1;
+    }
+
+    GameObject* obj = *objPtr;
+
+    // Enqueue component addition for PostUpdate
+    auto& app = Application::GetInstance();
+    app.scripts->EnqueueOperation([obj]() {
+        if (!obj->IsMarkedForDeletion()) {
+            obj->CreateComponent(ComponentType::RIGIDBODY);
+        }
+        });
+
+    lua_pushboolean(L, true);
+    return 1;
+}
+
 static int Lua_GameObject_AddComponent(lua_State* L) {
     GameObject* obj = *static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
     const char* componentType = luaL_checkstring(L, 2);
@@ -1927,6 +2014,14 @@ static int Lua_GameObject_AddComponent(lua_State* L) {
 
     if (strcmp(componentType, "Material") == 0) {
         return Lua_GameObject_AddComponent_Material(L);
+    }
+
+    if (strcmp(componentType, "Convex Collider") == 0) {
+        return Lua_GameObject_AddComponent_ConvexCollider(L);
+    }
+
+    if (strcmp(componentType, "Rigidbody") == 0) {
+        return Lua_GameObject_AddComponent_Rigidbody(L);
     }
 
     lua_pushboolean(L, false);
@@ -3246,6 +3341,9 @@ void ScriptManager::RegisterGameObjectAPI() {
 
     lua_pushcfunction(L, Lua_GameObject_FindByTag);
     lua_setfield(L, -2, "FindByTag");
+
+    lua_pushcfunction(L, Lua_GameObject_GetChildren);
+    lua_setfield(L, -2, "GetChildren");
 
     lua_setglobal(L, "GameObject");
 

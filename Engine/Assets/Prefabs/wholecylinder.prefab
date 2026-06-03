@@ -1,0 +1,78 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "castShadows": true,
+                        "meshUID": 9411134454097651331,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 6862979727529866711,
+                        "overrideTiling": false,
+                        "type": 3
+                    }
+                ],
+                "name": "polySurface1",
+                "tag": "",
+                "uid": 14652767786282985711
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -13.782986640930176,
+                    1.5494316816329956,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "type": 0
+            }
+        ],
+        "name": "wholecylinder",
+        "tag": "",
+        "uid": 13898785672696301843
+    }
+]

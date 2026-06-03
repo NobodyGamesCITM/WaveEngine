@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{09D6B1B5-6D7A-D107-583C-8B84A9D5C2AD}",
+    "Hash": "{5321B4E7-2325-AA54-8CFC-73F1C97B8C86}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -445,7 +445,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "heartbeat-sound-snmqh-3.wav",
-      "CachePath": "9D/{9D816A48-BC10-B5C6-E10B-7C4813CB4473}.wem"
+      "CachePath": "6E/{6E3E9B47-5EEC-D54B-7444-64E693BA291B}.wem"
      },
      {
       "Id": "202134863",
@@ -478,6 +478,14 @@
       "Location": "Memory",
       "ShortName": "hermes_spin_01.wav",
       "CachePath": "C3/{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem"
+     },
+     {
+      "Id": "212589712",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skipdialog_01.wav",
+      "CachePath": "49/{493114E9-56AC-3F02-CE52-9A4497898792}.wem"
      },
      {
       "Id": "213938119",
@@ -630,14 +638,6 @@
       "Location": "Memory",
       "ShortName": "minocabro_hurt_02.wav",
       "CachePath": "BF/{BF222142-8DC0-F421-A977-3DBE384408D4}.wem"
-     },
-     {
-      "Id": "286989592",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628.wav",
-      "CachePath": "AF/{AF379FC9-8AF9-1EAD-EEEB-BB120AF6E97C}.wem"
      },
      {
       "Id": "294731171",
@@ -854,6 +854,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_stuck_00.wav",
       "CachePath": "41/{41A126F0-098C-EF3C-5CFE-50583ACC3A7F}.wem"
+     },
+     {
+      "Id": "387208315",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skipdialog_02.wav",
+      "CachePath": "FC/{FC857FBB-919E-0510-B6BB-F267F082AA2F}.wem"
      },
      {
       "Id": "395188084",
@@ -1286,6 +1294,14 @@
       "Location": "Memory",
       "ShortName": "sword_slice_soft.wav",
       "CachePath": "50/{500A7620-3D3B-0D66-4878-7359F88B5448}.wem"
+     },
+     {
+      "Id": "630631481",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skipdialog_00.wav",
+      "CachePath": "2F/{2F588D12-1528-1FF4-D402-3932DC71BBEC}.wem"
      },
      {
       "Id": "632941085",
@@ -2104,6 +2120,14 @@
       "CachePath": "3D/{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem"
      },
      {
+      "Id": "1040823208",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "universfield-interface-124464.wav",
+      "CachePath": "80/{80D74B93-B97A-0ABA-83CF-3DFE6DA24A26}.wem"
+     },
+     {
       "Id": "1041846858",
       "Language": "SFX",
       "Streaming": "false",
@@ -2259,6 +2283,14 @@
        "LibId": "8519683"
       },
       {
+       "Id": "850748628",
+       "Name": "Time Stretch (Custom)",
+       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\UI\\UI_SkipDialog\\skipdialog_00\\[Effect Slot [1]: (Time Stretch)]\\Time Stretch (Custom)",
+       "GUID": "{61E55891-AC7A-421C-BF47-8A4DDE5AF958}",
+       "LibName": "Wwise Time Stretch",
+       "LibId": "8519683"
+      },
+      {
        "Id": "972658868",
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\pressure_plate\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
@@ -2273,6 +2305,14 @@
        "Name": "Have_U_Ever_Been_Outside",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Exteriors\\Have_U_Ever_Been_Outside",
        "GUID": "{FE29AE8D-FD86-4652-A95D-68D32F5760EC}",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "701863527",
+       "Name": "Inside_My_Head",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
+       "GUID": "{94B53301-9AA1-468F-8419-92AEDAAE39DF}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
       },
@@ -4789,26 +4829,62 @@
       "GUID": "{560BA397-C2BB-482D-8B8B-58CC00524E86}",
       "DurationType": "OneShot",
       "DurationMin": "0.036641233",
-      "DurationMax": "0.036641233",
+      "DurationMax": "0.92673016",
       "MediaRefs": [
        {
         "Id": "151597588"
+       },
+       {
+        "Id": "212589712"
+       },
+       {
+        "Id": "387208315"
+       },
+       {
+        "Id": "630631481"
+       },
+       {
+        "Id": "1040823208"
        }
-      ]
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "850748628"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "701863527"
+        }
+       ]
+      }
      },
      {
       "Id": "1643144237",
       "Name": "UI_SliderTest",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_SliderTest",
-      "GUID": "{CE81DDD1-67B1-42D4-A294-A341B3DB1815}",
+      "GUID": "{C1F8A63D-4BBC-41CA-BA37-DBB9C710752E}",
       "DurationType": "OneShot",
-      "DurationMin": "3.0196111",
-      "DurationMax": "3.0196111",
+      "DurationMin": "0.18020095",
+      "DurationMax": "0.18020095",
       "MediaRefs": [
        {
-        "Id": "286989592"
+        "Id": "630631481"
        }
-      ]
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "850748628"
+        }
+       ],
+       "ShareSets": [
+        {
+         "Id": "701863527"
+        }
+       ]
+      }
      },
      {
       "Id": "3718241572",
@@ -5310,6 +5386,6 @@
     ]
    }
   ],
-  "FileHash": "{C2B4AF08-7166-0CCF-A6F0-90751B65846B}"
+  "FileHash": "{73925A89-FA95-11C5-871B-1FC79EE6E2BD}"
  }
 }

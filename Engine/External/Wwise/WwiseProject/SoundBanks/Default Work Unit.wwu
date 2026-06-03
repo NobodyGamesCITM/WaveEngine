@@ -15,6 +15,7 @@
 						<ObjectRef Name="SFX_DoorStop" ID="{44D2366F-762A-4133-980D-A8110E41216E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GM_StatueOn" ID="{67B384E0-9A2C-4133-B2A7-B4E444D8858B}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SpearPrep" ID="{6EA91C80-7E4A-4175-AFD2-944C76E148C7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="UI_SliderTest" ID="{C1F8A63D-4BBC-41CA-BA37-DBB9C710752E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoDieCry" ID="{1F244A86-91E6-4259-8207-3AC52A875CED}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_DoorMove" ID="{9D486567-4554-4275-B8DE-2D663F79B9F8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

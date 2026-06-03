@@ -1892,6 +1892,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="UI_SliderTest" ID="{C1F8A63D-4BBC-41CA-BA37-DBB9C710752E}">
+							<ChildrenList>
+								<Action Name="" ID="{43C5CE05-4CF2-4F75-919A-F734F13F8186}" ShortID="251743251">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skipdialog_00" ID="{4D17F66D-508C-4CAF-9287-F4657961E61D}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

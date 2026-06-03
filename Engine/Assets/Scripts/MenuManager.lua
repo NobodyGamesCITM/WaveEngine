@@ -651,7 +651,9 @@ function Update(self, dt)
                 Audio.SetSFXVolume(val)
                 --Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
 
-                if pressedSFX then pressedSFX:SelectPlayAudioEvent("UI_SliderTest") end
+                if self.pressSFX then 
+                    if not Audio.IsEventPlaying("UI_SliderTest") then self.pressSFX:SelectPlayAudioEvent("UI_SliderTest") end
+                end
             end
 
             if UI.SliderValueChanged("MusicSlider") then

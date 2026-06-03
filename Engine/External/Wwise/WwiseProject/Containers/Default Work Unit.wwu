@@ -15577,9 +15577,18 @@
 									<ChildrenList>
 										<Sound Name="skipdialog_00" ID="{4D17F66D-508C-4CAF-9287-F4657961E61D}" ShortID="438384700">
 											<PropertyList>
-												<Property Name="Inclusion" Type="bool">
+												<Property Name="CenterPercentage" Type="int32">
 													<ValueList>
-														<Value>False</Value>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>5</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -15593,6 +15602,12 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="skipdialog_00" ID="{8C4FA70C-0A3A-435D-87A7-66FADD3A4384}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0986444786400479"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0365062264033726"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.216707168284998"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>skipdialog_00.wav</AudioFile>
 													<MediaIDList>
@@ -15600,18 +15615,39 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{A6C4A799-6A4A-4D73-ADD0-989EB688C089}" ShortID="847635647">
+														<PropertyList>
+															<Property Name="Bypass" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Inside_My_Head" ID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+													<EffectSlot Name="" ID="{92029921-85E7-4F43-AA30-513C1D2535E4}" ShortID="183120980">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{61E55891-AC7A-421C-BF47-8A4DDE5AF958}" ShortID="850748628" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="PitchShift" Type="Real32" Value="-1100"/>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="skipdialog_00" ID="{8C4FA70C-0A3A-435D-87A7-66FADD3A4384}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="skipdialog_01" ID="{81958BF1-DD26-4BEF-863E-A29CAFDECB34}" ShortID="533189379">
-											<PropertyList>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -15634,13 +15670,6 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="skipdialog_02" ID="{0BDE61D2-5028-4DE3-BCE9-600EA8DD1DAD}" ShortID="582113580">
-											<PropertyList>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
@@ -15736,11 +15765,6 @@
 										<Sound Name="UI_ButtonPressed_01" ID="{9F422711-ED95-4ECB-98D0-02FA3A1D5A82}" ShortID="529500331">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
 												<Property Name="OverrideEffect" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -15882,6 +15906,62 @@
 										</Sound>
 									</ChildrenList>
 								</Folder>
+								<Sound Name="UI_SliderTest" ID="{ADA637CF-19EB-4933-B27B-FCFD657F5357}" ShortID="444772980">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628" ID="{C55F882C-B58C-4956-9623-4BBDBB279835}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="1.0884644694529"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="3.17008997806998"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="594122696"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<EffectSlot Name="" ID="{A79014C9-89F0-4E2D-AA87-813C7BB2F244}" ShortID="813614791">
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Time Stretch (Custom)" ID="{E6073AC9-8E8C-431D-A505-5D561DC57737}" ShortID="460637203" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																<PropertyList>
+																	<Property Name="QualityEnable" Type="int16" Value="1"/>
+																	<Property Name="TimeStretch" Type="Real32" Value="60"/>
+																</PropertyList>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628" ID="{C55F882C-B58C-4956-9623-4BBDBB279835}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

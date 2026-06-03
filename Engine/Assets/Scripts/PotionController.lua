@@ -43,6 +43,7 @@ local berserkPulseTimer   = 0.0
 local healVigTimer        = 0.0
 local healWasActive       = false
 local healElapsed         = 0.0
+local currentHealColor    = {0.0, 0.7, 0.1}
 
 local lowHealthSettleTimer    = 0.0
 local lowHealthPulseTimer     = 0.0
@@ -57,6 +58,13 @@ local potionSFX = nil
 function _G.TriggerHealVignette()
     healVigTimer = HEAL_TOTAL_TIME
     healElapsed  = 0.0
+    currentHealColor = {0.0, 0.7, 0.1} 
+end
+
+function _G.TriggerBlueVignette()
+    healVigTimer = HEAL_TOTAL_TIME
+    healElapsed  = 0.0
+    currentHealColor = {0.0, 0.5, 1.0} 
 end
 
 public = {
@@ -194,11 +202,12 @@ local function UpdateHealVignette(dt)
             local t = (healElapsed - HEAL_FADE_IN - HEAL_HOLD) / HEAL_FADE_OUT
             envelope = 1.0 - smoothstep(t)
         end
-        local finalAlpha = HEAL_ALPHA_MAX * envelope
+        local pulseFactor = (math.sin(healElapsed * HEAL_PULSE_FREQ * math.pi * 2.0) + 1.0) * 0.5
+        local finalAlpha = (HEAL_ALPHA_MIN + (HEAL_ALPHA_MAX - HEAL_ALPHA_MIN) * pulseFactor) * envelope
 
         healVignetteData.active    = true
         _G._healVigActive          = true
-        healVignetteData.color     = {0.0, 0.7, 0.1, finalAlpha}
+        healVignetteData.color     = {currentHealColor[1], currentHealColor[2], currentHealColor[3], finalAlpha}
         healVignetteData.intensity  = 0.25
         healVignetteData.smoothness = HEAL_SMOOTHNESS
         healWasActive = true

@@ -145,6 +145,8 @@ local Player = {
 
     AnimTimer = 0.0,
     isGetMaskAnim     = false,
+    isPortalEnterAnim   = false,
+    isPortalExitAnim    = false,
     pendingObtainMask = nil,
     getMaskEvent1Done = false,
     getMaskEvent2Done = false,
@@ -246,6 +248,18 @@ function _G.TriggerCameraShake(duration, magnitude, freq)
             cineCam:Shake(duration or 0.3, magnitude or 6.0, freq or 25.0)
         end
     end
+end
+
+_G.SetPlayerAnimTimer = function(duration)
+    Player.AnimTimer = duration
+end
+
+_G.StartPortalEnterAnim = function()
+    Player.isPortalEnterAnim = true
+end
+
+_G.StartPortalExitAnim = function()
+    Player.isPortalExitAnim = true
 end
 
 local function normalizeInput(x, z)
@@ -2238,6 +2252,15 @@ function Update(self, dt)
             end
         end
 
+        if Player.isPortalEnterAnim then
+            self.transform:SetPosition(97.633, -0.811, -178.289)
+            if Player.rb then Player.rb:SetRotation(0, 63.986, 0) end
+        end
+
+        if Player.isPortalExitAnim then
+            if Player.rb then Player.rb:SetRotation(180, 90, 180) end
+        end
+
         if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_KnockBack") end
         end
@@ -2292,6 +2315,8 @@ function Update(self, dt)
 
             Player.isGetMaskAnim = false
             Player.pendingObtainMask = nil
+            Player.isPortalEnterAnim = false
+            Player.isPortalExitAnim  = false
 
             if WinBoss then WinBoss = false end
 

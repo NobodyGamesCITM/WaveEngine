@@ -32,6 +32,11 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Stretch="Fill"/>
+                <Grid x:Name="DamageBarContainer" Margin="123,0,43,118" HorizontalAlignment="Left" ClipToBounds="True">
+                    <Grid x:Name="DamageBarGrid" HorizontalAlignment="Left" Width="334">
+                        <Image x:Name="HealthDamage" HorizontalAlignment="Left" Stretch="Fill" Source="Textures/HealthBar_Hurt.png"/>
+                    </Grid>
+                </Grid>
 
                 <Grid x:Name="HealthBarContainer" Margin="123,0,43,118"
                       HorizontalAlignment="Left"

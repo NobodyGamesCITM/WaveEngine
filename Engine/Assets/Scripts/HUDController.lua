@@ -2,8 +2,10 @@ local HEALTH_BAR_MAX_WIDTH  = 334.0
 local STAMINA_BAR_MAX_WIDTH = 251.0
 
 local currentDisplayHealth  = 100.0
+local currentDisplayDamage  = 100.0
 local currentDisplayStamina = 100.0
 local LERP_SPEED = 10.0
+local DAMAGE_LERP_SPEED = 2.5
 
 local MASK_DISPLAY_ORDER = { "Apolo", "Hermes", "Ares" }
 
@@ -20,11 +22,23 @@ end
 
 -- ─── Barras
 local function RefreshHealthBar(targetHealth, dt)
-    currentDisplayHealth = dt
-        and Lerp(currentDisplayHealth, targetHealth, dt * LERP_SPEED)
-        or  targetHealth
-    local clamped = math.max(0, math.min(100, currentDisplayHealth))
-    UI.SetElementWidth("HealthBarContainer", (clamped / 100.0) * HEALTH_BAR_MAX_WIDTH)
+    if dt then
+        currentDisplayHealth = Lerp(currentDisplayHealth, targetHealth, dt * LERP_SPEED)
+        currentDisplayDamage = Lerp(currentDisplayDamage, targetHealth, dt * DAMAGE_LERP_SPEED)
+
+        if currentDisplayDamage < currentDisplayHealth then
+            currentDisplayDamage = currentDisplayHealth
+        end
+    else
+        currentDisplayHealth = targetHealth
+        currentDisplayDamage = targetHealth
+    end
+
+    local clampedHP = math.max(0, math.min(100, currentDisplayHealth))
+    UI.SetElementWidth("HealthBarContainer", (clampedHP / 100.0) * HEALTH_BAR_MAX_WIDTH)
+
+    local clampedDmg = math.max(0, math.min(100, currentDisplayDamage))
+    UI.SetElementWidth("DamageBarContainer", (clampedDmg / 100.0) * HEALTH_BAR_MAX_WIDTH)
 end
 
 local function RefreshStaminaBar(targetStamina, dt)
@@ -91,11 +105,13 @@ function ForceRefreshHUD()
     if _G.PlayerInstance and _G.PlayerInstance.public then
         local p = _G.PlayerInstance.public
         currentDisplayHealth  = p.health
+        currentDisplayDamage  = p.health
         currentDisplayStamina = p.stamina
         RefreshHealthBar(p.health)
         RefreshStaminaBar(p.stamina)
     else
         currentDisplayHealth  = 100.0
+        currentDisplayDamage  = 100.0
         currentDisplayStamina = 100.0
         RefreshHealthBar(100)
         RefreshStaminaBar(100)

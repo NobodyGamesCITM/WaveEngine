@@ -26,12 +26,36 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                   Margin="20,20,0,0"
                   Width="500"
                   Height="168">
+                <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="ApolloMask" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Apolo_Inactive" Source="Textures/Apolo.PNG" Opacity="0.4" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Apolo_Active" Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
+                    </Grid>
+                    <Grid x:Name="HermesMask" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Hermes_Inactive" Source="Textures/Hermes.PNG" Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Hermes_Active" Source="Textures/Hermes.PNG" Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
+                    </Grid>
+                    <Grid x:Name="AresMask" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="Image_Ares_Inactive" Source="Textures/Ares.PNG" Opacity="0.4" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
+                        <Image x:Name="Image_Ares_Active" Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="MasksBackgroundGrid" Width="234" HorizontalAlignment="Left">
+                    <Image x:Name="ApolloBackground_Image" Source="Textures/HUDMascara_Background.PNG" Opacity="0.4" Margin="0,80,150 ,0"/>
+                    <Image x:Name="HermesBackground_Image" Source="Textures/HUDMascara_Background.PNG" Opacity="0.4" Margin="38,0,38,10"/>
+                    <Image x:Name="AresBackground_Image" Source="Textures/HUDMascara_Background.PNG" Opacity="0.4" Margin="150,80,0,0"/>
+                </Grid>
 
                 <Image x:Name="HUD_Base" Source="Textures/MainHUD.PNG"
                        Width="500" Height="168"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
-                       Stretch="Fill"/>
+                       Stretch="Fill" d:IsHidden="True"/>
                 <Grid x:Name="DamageBarContainer" Margin="123,0,43,118" HorizontalAlignment="Left" ClipToBounds="True">
                     <Grid x:Name="DamageBarGrid" HorizontalAlignment="Left" Width="334">
                         <Image x:Name="HealthDamage" HorizontalAlignment="Left" Stretch="Fill" Source="Textures/HealthBar_Hurt.png"/>
@@ -231,36 +255,6 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
-
-                <Grid x:Name="MasksContainer" Width="234" HorizontalAlignment="Left" ClipToBounds="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Apollo — izquierda (columna 0) -->
-                    <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image x:Name="Image_Apolo_Inactive" Source="Textures/Apolo.PNG"
-                               Opacity="0.4" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
-                        <Image x:Name="Image_Apolo_Active"   Source="Textures/Apolo.PNG" Height="45" Margin="2,35,-2,-35" Visibility="Collapsed"/>
-                    </Grid>
-
-                    <!-- Hermes — centro (columna 1) -->
-                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image x:Name="Image_Hermes_Inactive" Source="Textures/Hermes.PNG"
-                               Opacity="0.4" Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
-                        <Image x:Name="Image_Hermes_Active"   Source="Textures/Hermes.PNG"
-                               Height="75" Width="75" Margin="-3,-12,3,12" Visibility="Collapsed"/>
-                    </Grid>
-
-                    <!-- Ares — derecha (columna 2) -->
-                    <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image x:Name="Image_Ares_Inactive" Source="Textures/Ares.PNG"
-                               Opacity="0.4" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
-                        <Image x:Name="Image_Ares_Active"   Source="Textures/Ares.PNG" Height="45" Margin="-4,35,4,-35" Visibility="Collapsed"/>
-                    </Grid>
-                </Grid>
 
                 <StackPanel x:Name="UsedBerserkPotionStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="400" Margin="222,103,-122,-35">
                     <Image x:Name="UsedBerserk1" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Source="Textures/BerserkAcabao.PNG">
@@ -634,7 +628,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
 
         <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right"/>
         <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
-        <Canvas Margin="-7,0,7,0" Grid.ColumnSpan="3" Grid.RowSpan="3">
+        <Canvas Margin="-7,0,7,0" Grid.RowSpan="3">
             <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
                 <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
                 <Image x:Name="LockOn_Keyboard" Source="Textures/R.PNG" Width="30" Height="30"/>

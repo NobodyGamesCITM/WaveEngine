@@ -24,6 +24,7 @@ public = {
     doorName = "Puerta_Final",
 	lockOnSize      = 14.0,
     attackAreaFinalScale = 25.0,
+    excludeFromSave = true
 }
 
 local currentState = State.IDLE
@@ -1279,6 +1280,8 @@ function Start(self)
 
 
         minDistanceToPlayer=6.0,
+
+        excludeFromSave = true
     }
 
     currentMaxHp = self.public.maxHp
@@ -1352,7 +1355,7 @@ function Start(self)
     self.targetDeathYisEnter = false
 
     self.CheckAlive = function(self)
-        return not isDead
+        return isDead
     end
 end
 

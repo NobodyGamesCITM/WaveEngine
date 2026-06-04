@@ -290,11 +290,23 @@ end
 local function CalcSpawnPos(myPos, index, total)
     local baseAngle = (2 * math.pi / total) * (index - 1)
     local angle = baseAngle + ((math.random() - 0.5) * 0.8)
-    local radius = 3 + math.random() * 2         
-    return
-        myPos.x + math.cos(angle) * radius,
-        myPos.y,
-        myPos.z + math.sin(angle) * radius
+    local radius = 6 + math.random() * 3      
+    
+    local targetX = myPos.x + math.cos(angle) * radius
+    local targetY = myPos.y
+    local targetZ = myPos.z + math.sin(angle) * radius
+
+    --Comprobar que estan dentro del navmesh
+    if nav and nav.FindNearestPoint then
+        local validPos = nav:FindNearestPoint(targetX, targetY, targetZ)
+        if validPos and validPos.x and validPos.z then
+            targetX = validPos.x
+            targetY = validPos.y
+            targetZ = validPos.z
+        end
+    end
+
+    return targetX, targetY, targetZ
 end
 
 local function QueueSpawn(self, prefabPath, index, total)
@@ -315,16 +327,16 @@ local series = {
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                       
 }
-local lastTandaIdx = 0 
+local lastSerieIdx = 0 
 
-local function SpawnSeries(self)
+local function SpawnSeries(self) --Bucle aleatorio que sea diferente al anterior
     math.randomseed(os.time() + math.random(1000))
 
     local idx
     repeat
         idx = math.random(#series)
-    until idx ~= lastTandaIdx
-    lastTandaIdx = idx
+    until idx ~= lastSerieIdx
+    lastSerieIdx = idx
 
     local list = series[idx]
     local total = #list
@@ -655,15 +667,26 @@ local function MovementWalk(self, dt, speedOverride)
     end
 end
 local function UpdateIdle(self, dist)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle")
-    end
-    if dist <= self.public.detectRange and _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
-        _G.BossBar_SetVisibility(true)
-        _G.BossBar_RefreshHealth(hp, currentMaxHp)
-    end
-    if dist <= self.public.detectRange then
-        ChangeState(State.COMBAT_MOVE)
+    if playerGO and playerGO.transform then
+        local pPos = playerGO.transform.worldPosition
+
+        if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
+            
+            if dist <= self.public.detectRange then
+                
+                if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                    _G.BossBar_SetVisibility(true)
+                    _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                end
+                
+                ChangeState(State.COMBAT_MOVE)
+                return
+            end
+        else
+            if anim and not anim:IsPlayingAnimation("Idle") then
+                anim:Play("Idle", 0.2)
+            end
+        end
     end
 end
 
@@ -1266,7 +1289,7 @@ function Start(self)
 
         preparationTime = 1.0,
         chargeSpeed     = 30.0, -- antes 22
-        chargeDuration  = 0.8, --antes 0.4
+        chargeDuration  = 0.6, --antes 0.8 -- antes 0.4
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
@@ -1501,15 +1524,17 @@ function Update(self, dt)
         pp = playerGO.transform.worldPosition
 
         if currentState ~= State.DEAD then
+            local currentVel = rb:GetLinearVelocity()
             local currentPos = self.transform.worldPosition
-            local floorheight = -1.5
+            
+            local floorheight = -1.0
 
             if currentPos.y > floorheight then
-                self.transform:SetPosition(currentPos.x, floorheight, currentPos.z)
-                
-                if rb then
-                    rb:SetLinearVelocity(slideVelX or 0, 0, slideVelZ or 0)
-                end
+            -- Si está flotando aunque sea un milímetro, le metemos un empujón brutal hacia abajo
+                self.transform:SetPosition(currentPos.x, -10, currentPos.z)
+            else
+                -- Si está en el suelo, estabilizamos para que no acumule fuerza infinita
+                rb:SetLinearVelocity(currentVel.x, 0, currentVel.z)
             end
         end
     end

@@ -77,7 +77,8 @@ function _G.SaveManager.SaveGame()
                             if script.CheckAlive then isDead = script:CheckAlive()
                             elseif script.isDead ~= nil then isDead = script.isDead
                             elseif script.hp ~= nil then isDead = (script.hp <= 0) end
-                            
+                            if script.GetAres then isDead = script:GetAres() end
+
                             local currentHp = 0
                             if script.GetHP then currentHp = script:GetHP()
                             elseif script.hp ~= nil then currentHp = script.hp end

@@ -26,6 +26,7 @@ local Skeleton = {
     navRefreshTimer = 0,
     hp              = 30,
     isDead          = false,
+    Ares            = false,
     initPos         = nil,
     bonesPS         = nil,
     bonePS          = nil,
@@ -173,6 +174,7 @@ local function TakeDamage(self, amount, attackerPos)
         Game.SetTimeScale(0.3)
         _impactFrameTimer = 0.2
         initChase = false
+        Skeleton.Ares = false
         ChangeState(self, State.DEAD)
     else
         --hitGiven = false
@@ -280,6 +282,10 @@ function Start(self)
         revive = true
     end
 
+    self.GetAres = function(self) 
+        if Skeleton.Ares then return false 
+        else return true end
+    end
     self.GetHP = function(self) return Skeleton.hp end
     self.SetHP = function(self, val) Skeleton.hp = val end
 
@@ -795,6 +801,7 @@ function Update(self, dt)
     end
     if setDead then
         ChangeState(self, State.DEAD)
+        Skeleton.Ares = true
         setDead = false
     end
 

@@ -16,10 +16,41 @@ local myCanvas = nil
 
 -- ─── Tamaños de iconos: activo vs inactivo
 local MASK_ICON_SIZE = {
-    apollo = { active = 75, inactive = 27 },
-    hermes = { active = 75, inactive = 27 },
-    ares   = { active = 75, inactive = 27 },
+    apollo = { active = 75, inactive = 35 },
+    hermes = { active = 75, inactive = 35 },
+    ares   = { active = 75, inactive = 35 },
 }
+
+-- ─── Transición de márgenes de máscaras
+local MARGIN_LERP_SPEED = 8.0
+
+local currentMargins = {
+    apollo = {  28,  80, 124,   0 },
+    hermes = {  76,  26,  76,  54 },
+    ares   = { 124,  80,  28,   0 },
+}
+local targetMargins = {
+    apollo = {  28,  80, 124,   0 },
+    hermes = {  76,  26,  76,  54 },
+    ares   = { 124,  80,  28,   0 },
+}
+
+-- ─── Transición de tamaño de iconos de máscara
+local ICON_SIZE_LERP_SPEED_NORMAL = 8.0
+local ICON_SIZE_LERP_SPEED_FAST   = 20.0
+
+local currentIconSizes = {
+    apollo = 35,
+    hermes = 35,
+    ares   = 35,
+}
+local targetIconSizes = {
+    apollo = 35,
+    hermes = 35,
+    ares   = 35,
+}
+
+local prevActiveMaskForSize = ""
 
 -- ─── Helpers
 local function Lerp(a, b, t)
@@ -27,6 +58,7 @@ local function Lerp(a, b, t)
 end
 
 -- ─── Márgenes de los grupos de máscara (background + icono juntos)
+-- Formato: { left, top, right, bottom }
 local MASK_BG_MARGINS = {
     [""] = {
         apollo = {  28,  80, 124,   0 },
@@ -50,42 +82,89 @@ local MASK_BG_MARGINS = {
     },
 }
 
--- ─── Mover los grupos y escalar iconos según estado activo/inactivo
+-- ─── Actualiza solo los targets de margen (el lerp se aplica en Update)
 local function RefreshMaskBackgrounds(activeMask)
     local key = activeMask or ""
     local margins = MASK_BG_MARGINS[key] or MASK_BG_MARGINS[""]
 
     local a = margins.apollo
-    UI.SetElementMargin("ApolloMaskGroup", a[1], a[2], a[3], a[4])
+    targetMargins.apollo = { a[1], a[2], a[3], a[4] }
 
     local h = margins.hermes
-    UI.SetElementMargin("HermesMaskGroup", h[1], h[2], h[3], h[4])
+    targetMargins.hermes = { h[1], h[2], h[3], h[4] }
 
     local r = margins.ares
-    UI.SetElementMargin("AresMaskGroup", r[1], r[2], r[3], r[4])
+    targetMargins.ares = { r[1], r[2], r[3], r[4] }
 end
 
+-- ─── Lerp de márgenes cada frame y aplicación a la UI
+local function UpdateMaskMarginLerp(dt)
+    local changed = false
+    for _, key in ipairs({ "apollo", "hermes", "ares" }) do
+        local cur = currentMargins[key]
+        local tgt = targetMargins[key]
+        for i = 1, 4 do
+            local prev = cur[i]
+            cur[i] = Lerp(cur[i], tgt[i], dt * MARGIN_LERP_SPEED)
+            if math.abs(cur[i] - prev) > 0.01 then changed = true end
+        end
+    end
+
+    if changed then
+        local a = currentMargins.apollo
+        UI.SetElementMargin("ApolloMaskGroup", a[1], a[2], a[3], a[4])
+        local h = currentMargins.hermes
+        UI.SetElementMargin("HermesMaskGroup", h[1], h[2], h[3], h[4])
+        local r = currentMargins.ares
+        UI.SetElementMargin("AresMaskGroup",   r[1], r[2], r[3], r[4])
+    end
+end
+
+-- ─── Actualiza solo los targets de tamaño de icono
 local function ApplyMaskIconSizes(activeMask)
-    -- Apollo
-    local apolloSize = (activeMask == "Apolo") and MASK_ICON_SIZE.apollo.active or MASK_ICON_SIZE.apollo.inactive
-    UI.SetElementWidth ("Image_Apolo_Active",   apolloSize)
-    UI.SetElementHeight("Image_Apolo_Active",   apolloSize)
-    UI.SetElementWidth ("Image_Apolo_Inactive", apolloSize)
-    UI.SetElementHeight("Image_Apolo_Inactive", apolloSize)
+    targetIconSizes.apollo = (activeMask == "Apolo")  and MASK_ICON_SIZE.apollo.active or MASK_ICON_SIZE.apollo.inactive
+    targetIconSizes.hermes = (activeMask == "Hermes") and MASK_ICON_SIZE.hermes.active or MASK_ICON_SIZE.hermes.inactive
+    targetIconSizes.ares   = (activeMask == "Ares")   and MASK_ICON_SIZE.ares.active   or MASK_ICON_SIZE.ares.inactive
+end
 
-    -- Hermes
-    local hermesSize = (activeMask == "Hermes") and MASK_ICON_SIZE.hermes.active or MASK_ICON_SIZE.hermes.inactive
-    UI.SetElementWidth ("Image_Hermes_Active",   hermesSize)
-    UI.SetElementHeight("Image_Hermes_Active",   hermesSize)
-    UI.SetElementWidth ("Image_Hermes_Inactive", hermesSize)
-    UI.SetElementHeight("Image_Hermes_Inactive", hermesSize)
+-- ─── Lerp de tamaños de iconos cada frame y aplicación a la UI
+local function UpdateMaskIconSizeLerp(dt, activeMask)
+    local fastShrink = (
+        (prevActiveMaskForSize == "Ares"  and activeMask == "Apolo") or
+        (prevActiveMaskForSize == "Apolo" and activeMask == "Ares")
+    )
 
-    -- Ares
-    local aresSize = (activeMask == "Ares") and MASK_ICON_SIZE.ares.active or MASK_ICON_SIZE.ares.inactive
-    UI.SetElementWidth ("Image_Ares_Active",   aresSize)
-    UI.SetElementHeight("Image_Ares_Active",   aresSize)
-    UI.SetElementWidth ("Image_Ares_Inactive", aresSize)
-    UI.SetElementHeight("Image_Ares_Inactive", aresSize)
+    for _, key in ipairs({ "apollo", "hermes", "ares" }) do
+        local cur = currentIconSizes[key]
+        local tgt = targetIconSizes[key]
+
+        local speed = ICON_SIZE_LERP_SPEED_NORMAL
+        if fastShrink and cur > tgt then
+            speed = ICON_SIZE_LERP_SPEED_FAST
+        end
+
+        currentIconSizes[key] = Lerp(cur, tgt, dt * speed)
+    end
+
+    local a = math.floor(currentIconSizes.apollo + 0.5)
+    UI.SetElementWidth ("Image_Apolo_Active",   a)
+    UI.SetElementHeight("Image_Apolo_Active",   a)
+    UI.SetElementWidth ("Image_Apolo_Inactive", a)
+    UI.SetElementHeight("Image_Apolo_Inactive", a)
+
+    local h = math.floor(currentIconSizes.hermes + 0.5)
+    UI.SetElementWidth ("Image_Hermes_Active",   h)
+    UI.SetElementHeight("Image_Hermes_Active",   h)
+    UI.SetElementWidth ("Image_Hermes_Inactive", h)
+    UI.SetElementHeight("Image_Hermes_Inactive", h)
+
+    local r = math.floor(currentIconSizes.ares + 0.5)
+    UI.SetElementWidth ("Image_Ares_Active",   r)
+    UI.SetElementHeight("Image_Ares_Active",   r)
+    UI.SetElementWidth ("Image_Ares_Inactive", r)
+    UI.SetElementHeight("Image_Ares_Inactive", r)
+
+    prevActiveMaskForSize = activeMask
 end
 
 -- ─── Barras
@@ -175,11 +254,34 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         UI.SetElementVisibility("Image_Ares_Inactive", false)
     end
 
-    -- Tamaños según activa/inactiva
+    -- Actualiza targets de tamaño e inicia transición de márgenes
     ApplyMaskIconSizes(activeMask)
-
-    -- Mover grupos (icono centrado dentro automáticamente)
     RefreshMaskBackgrounds(activeMask)
+end
+
+-- ─── Snap instantáneo de márgenes y tamaños (usado en ForceRefreshHUD)
+local function SnapMaskMargins(activeMask)
+    local key = activeMask or ""
+    local margins = MASK_BG_MARGINS[key] or MASK_BG_MARGINS[""]
+
+    currentMargins.apollo = { margins.apollo[1], margins.apollo[2], margins.apollo[3], margins.apollo[4] }
+    currentMargins.hermes = { margins.hermes[1], margins.hermes[2], margins.hermes[3], margins.hermes[4] }
+    currentMargins.ares   = { margins.ares[1],   margins.ares[2],   margins.ares[3],   margins.ares[4]   }
+    targetMargins.apollo  = { margins.apollo[1], margins.apollo[2], margins.apollo[3], margins.apollo[4] }
+    targetMargins.hermes  = { margins.hermes[1], margins.hermes[2], margins.hermes[3], margins.hermes[4] }
+    targetMargins.ares    = { margins.ares[1],   margins.ares[2],   margins.ares[3],   margins.ares[4]   }
+
+    UI.SetElementMargin("ApolloMaskGroup", margins.apollo[1], margins.apollo[2], margins.apollo[3], margins.apollo[4])
+    UI.SetElementMargin("HermesMaskGroup", margins.hermes[1], margins.hermes[2], margins.hermes[3], margins.hermes[4])
+    UI.SetElementMargin("AresMaskGroup",   margins.ares[1],   margins.ares[2],   margins.ares[3],   margins.ares[4])
+
+    currentIconSizes.apollo = (activeMask == "Apolo")  and MASK_ICON_SIZE.apollo.active or MASK_ICON_SIZE.apollo.inactive
+    currentIconSizes.hermes = (activeMask == "Hermes") and MASK_ICON_SIZE.hermes.active or MASK_ICON_SIZE.hermes.inactive
+    currentIconSizes.ares   = (activeMask == "Ares")   and MASK_ICON_SIZE.ares.active   or MASK_ICON_SIZE.ares.inactive
+    targetIconSizes.apollo  = currentIconSizes.apollo
+    targetIconSizes.hermes  = currentIconSizes.hermes
+    targetIconSizes.ares    = currentIconSizes.ares
+    prevActiveMaskForSize   = activeMask
 end
 
 -- ─── API pública
@@ -205,12 +307,13 @@ function ForceRefreshHUD()
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
 
-    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
-    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
-    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
+    local hasHermes  = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres    = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    local hasApolo   = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
     local activeMask = _G._PlayerController_currentMask or ""
 
     RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
+    SnapMaskMargins(activeMask)
 
     prevHasHermes  = hasHermes
     prevHasAres    = hasAres
@@ -272,10 +375,10 @@ function Update(self, dt)
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Máscaras (solo actualizamos si algo cambió)
-    local hasHermes = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
-    local hasAres   = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
-    local hasApolo  = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
+    -- Máscaras (solo actualizamos visibilidad si algo cambió)
+    local hasHermes  = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
+    local hasAres    = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
+    local hasApolo   = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
     local activeMask = _G._PlayerController_currentMask or ""
 
     if hasHermes ~= prevHasHermes or hasAres ~= prevHasAres
@@ -286,6 +389,12 @@ function Update(self, dt)
         prevHasApolo   = hasApolo
         prevActiveMask = activeMask
     end
+
+    -- Lerp de márgenes de máscaras (siempre, cada frame)
+    UpdateMaskMarginLerp(dt)
+
+    -- Lerp de tamaños de iconos de máscaras (siempre, cada frame)
+    UpdateMaskIconSizeLerp(dt, activeMask)
 
     -- Icono de guardado
     if saveIconTimer > 0 then

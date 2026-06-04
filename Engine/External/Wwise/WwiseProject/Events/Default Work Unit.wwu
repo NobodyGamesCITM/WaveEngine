@@ -1897,7 +1897,7 @@
 								<Action Name="" ID="{43C5CE05-4CF2-4F75-919A-F734F13F8186}" ShortID="251743251">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="UI_SliderTest" ID="{ADA637CF-19EB-4933-B27B-FCFD657F5357}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+											<ObjectRef Name="LyreNotes" ID="{214968E9-2181-4BC8-A32A-32BD168E15BD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

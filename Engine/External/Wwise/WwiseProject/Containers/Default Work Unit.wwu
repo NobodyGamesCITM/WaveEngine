@@ -15925,7 +15925,191 @@
 										</Sound>
 									</ChildrenList>
 								</Folder>
-								<Sound Name="UI_SliderTest" ID="{ADA637CF-19EB-4933-B27B-FCFD657F5357}" ShortID="444772980">
+								<RandomSequenceContainer Name="LyreNotes" ID="{214968E9-2181-4BC8-A32A-32BD168E15BD}" ShortID="53828640">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="note1" ID="{CCB5D27F-C7F4-4369-807B-69B019C49F03}" ShortID="16103360">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-lyre-33610" ID="{C6C2492D-FDA6-49DD-97EF-116EDFE17412}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.327744656978194"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="8.22658844306586"/>
+														<Property Name="TrimEnd" Type="Real64" Value="8.80311121766776"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-lyre-33610.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="70490002"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-lyre-33610" ID="{C6C2492D-FDA6-49DD-97EF-116EDFE17412}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="note2" ID="{F2CF18B0-628F-43FC-906E-E1C44B7F6E8E}" ShortID="220723460">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-lyre-33610" ID="{77051844-C74E-477C-BC8F-56751E74CA32}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.332997238026415"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="8.94907268261706"/>
+														<Property Name="TrimEnd" Type="Real64" Value="9.51323537345307"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-lyre-33610.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="29933371"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-lyre-33610" ID="{77051844-C74E-477C-BC8F-56751E74CA32}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="note3" ID="{8CD35A3B-F9A7-4686-B72B-43D1360E1F11}" ShortID="26036577">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-lyre-33610" ID="{5C831697-6D04-476C-A654-FEBFDA3E4DAE}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.227441594171445"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="9.64261855858385"/>
+														<Property Name="TrimEnd" Type="Real64" Value="10.1204370156822"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-lyre-33610.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="803247289"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-lyre-33610" ID="{5C831697-6D04-476C-A654-FEBFDA3E4DAE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="note4" ID="{F3C8E387-D542-4577-BC13-562F5F3FA34E}" ShortID="11098148">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-lyre-33610" ID="{9B913775-B6DF-49CB-B361-FFD30A1C1C41}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.217119382828791"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="11.7085381919487"/>
+														<Property Name="TrimEnd" Type="Real64" Value="12.2013462556717"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-lyre-33610.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="954672987"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-lyre-33610" ID="{9B913775-B6DF-49CB-B361-FFD30A1C1C41}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="note5" ID="{826C8D23-44A9-464E-9E8C-1A5B6C4697AC}" ShortID="885574374">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-lyre-33610" ID="{DDEF1F2C-195F-4111-AA79-92102F581CB6}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.303933445021592"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="13.1591279928253"/>
+														<Property Name="TrimEnd" Type="Real64" Value="13.7188992237669"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-lyre-33610.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="540444189"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-lyre-33610" ID="{DDEF1F2C-195F-4111-AA79-92102F581CB6}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="UI_LyreArpeggio" ID="{ADA637CF-19EB-4933-B27B-FCFD657F5357}" ShortID="444772980">
 									<PropertyList>
 										<Property Name="CenterPercentage" Type="int32">
 											<ValueList>

@@ -2,7 +2,7 @@
 
 public = {
     maxLockDistance = 30.0,
-    tagsToLock = {"Enemy", "Lockable"},
+    tagsToLock = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares", "Lockable"}, --added enemies in level2 gauntlets
     particleYOffset = 1.0,
     baseParticleSize = 3.5
 }

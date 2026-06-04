@@ -132,7 +132,7 @@ local function Initialize(self)
 
     checkpoints = GameObject.FindByTag("CheckPoint")
     for i, checkpoint in ipairs(checkpoints) do
-        Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
+        --Engine.Log("[Checkpoints] Deactivating particles from checkpoint ".. i)
         StopParticles("LastCheckpointVFX", checkpoint)
         StopParticles("BlueSparkles", checkpoint)
         ActivateParticles("YellowSparkles", checkpoint)

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{17248705-A1C2-E24E-D389-57171A868868}",
+    "Hash": "{D0700DB3-57C5-B9B7-C35F-6060749DEC6E}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -78,6 +78,14 @@
       "Location": "Memory",
       "ShortName": "zoom_out.wav",
       "CachePath": "A7/{A7EA81A2-3517-3547-5728-8BB928872479}.wem"
+     },
+     {
+      "Id": "29933371",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lyre-33610.wav",
+      "CachePath": "4C/{4CCD919B-CBF7-A795-69D2-384E9C03E198}.wem"
      },
      {
       "Id": "30290516",
@@ -158,6 +166,14 @@
       "Location": "Memory",
       "ShortName": "SonOfIthaca_LVL1.wav",
       "CachePath": "16/{16C6E68C-E74F-FFC9-10DF-D3BA8A1BD784}.wem"
+     },
+     {
+      "Id": "70490002",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lyre-33610.wav",
+      "CachePath": "60/{6081F671-7D04-2A96-DE2C-98E7CCADA596}.wem"
      },
      {
       "Id": "70539538",
@@ -1088,6 +1104,14 @@
       "CachePath": "17/{17071574-C850-84B6-CCE7-EB5C946E6022}.wem"
      },
      {
+      "Id": "540444189",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lyre-33610.wav",
+      "CachePath": "F0/{F09A8478-4310-2091-2C54-BCB0159903FB}.wem"
+     },
+     {
       "Id": "540918898",
       "Language": "SFX",
       "Streaming": "false",
@@ -1278,14 +1302,6 @@
       "Location": "Memory",
       "ShortName": "sword_slice_soft.wav",
       "CachePath": "50/{500A7620-3D3B-0D66-4878-7359F88B5448}.wem"
-     },
-     {
-      "Id": "630631481",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "skipdialog_00.wav",
-      "CachePath": "27/{2723CBF8-2AEC-A483-9AA5-F79728ED7F8E}.wem"
      },
      {
       "Id": "632941085",
@@ -1648,6 +1664,14 @@
       "CachePath": "A5/{A5384AD1-3666-22DD-9A97-5DE54F3A968A}.wem"
      },
      {
+      "Id": "803247289",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lyre-33610.wav",
+      "CachePath": "3D/{3DCADDA4-D037-49A8-03C9-4185885B82BF}.wem"
+     },
+     {
       "Id": "804853606",
       "Language": "SFX",
       "Streaming": "false",
@@ -1984,6 +2008,14 @@
       "CachePath": "8F/{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem"
      },
      {
+      "Id": "954672987",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-lyre-33610.wav",
+      "CachePath": "42/{42A08D94-A62B-1676-4CE1-FBFD857EDD0F}.wem"
+     },
+     {
       "Id": "964848831",
       "Language": "SFX",
       "Streaming": "false",
@@ -2259,14 +2291,6 @@
        "LibId": "8519683"
       },
       {
-       "Id": "850748628",
-       "Name": "Time Stretch (Custom)",
-       "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\UI\\UI_SkipDialog\\skipdialog_00\\[Effect Slot [1]: (Time Stretch)]\\Time Stretch (Custom)",
-       "GUID": "{61E55891-AC7A-421C-BF47-8A4DDE5AF958}",
-       "LibName": "Wwise Time Stretch",
-       "LibId": "8519683"
-      },
-      {
        "Id": "972658868",
        "Name": "Time Stretch (Custom)",
        "ObjectPath": "\\Containers\\Default Work Unit\\Objects\\Puzzles\\pressure_plate\\[Effect Slot [0]: (Time Stretch)]\\Time Stretch (Custom)",
@@ -2281,14 +2305,6 @@
        "Name": "Have_U_Ever_Been_Outside",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Exteriors\\Have_U_Ever_Been_Outside",
        "GUID": "{FE29AE8D-FD86-4652-A95D-68D32F5760EC}",
-       "LibName": "Wwise RoomVerb",
-       "LibId": "7733251"
-      },
-      {
-       "Id": "701863527",
-       "Name": "Inside_My_Head",
-       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Claustrophobia\\Inside_My_Head",
-       "GUID": "{94B53301-9AA1-468F-8419-92AEDAAE39DF}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
       },
@@ -4818,25 +4834,25 @@
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_SliderTest",
       "GUID": "{C1F8A63D-4BBC-41CA-BA37-DBB9C710752E}",
       "DurationType": "OneShot",
-      "DurationMin": "0.18020095",
-      "DurationMax": "0.18020095",
+      "DurationMin": "0.3903575",
+      "DurationMax": "0.47099474",
       "MediaRefs": [
        {
-        "Id": "630631481"
+        "Id": "29933371"
+       },
+       {
+        "Id": "70490002"
+       },
+       {
+        "Id": "540444189"
+       },
+       {
+        "Id": "803247289"
+       },
+       {
+        "Id": "954672987"
        }
-      ],
-      "PluginRefs": {
-       "Custom": [
-        {
-         "Id": "850748628"
-        }
-       ],
-       "ShareSets": [
-        {
-         "Id": "701863527"
-        }
-       ]
-      }
+      ]
      },
      {
       "Id": "3718241572",
@@ -5338,6 +5354,6 @@
     ]
    }
   ],
-  "FileHash": "{72069062-D522-85BF-001E-0ED09B6D0126}"
+  "FileHash": "{788A49ED-15C2-5F1E-35BB-B656A5B5C4CA}"
  }
 }

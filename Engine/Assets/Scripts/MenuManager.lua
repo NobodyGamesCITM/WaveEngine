@@ -38,7 +38,8 @@ function _G.SaveManager.SaveGame()
 
     local pScript = _G.PlayerInstance.public
     local potScript = _G.PotionSystem.public
-    local pPos = player.transform.worldPosition
+    
+    local pPos = player.transform.position 
     local pRot = player.transform.rotation
 
     local saveData = {
@@ -78,13 +79,12 @@ function _G.SaveManager.SaveGame()
                             if script.CheckAlive then isDead = script:CheckAlive()
                             elseif script.isDead ~= nil then isDead = script.isDead
                             elseif script.hp ~= nil then isDead = (script.hp <= 0) end
-                            if script.GetAres then isDead = script:GetAres() end
-
+                            
                             local currentHp = 0
                             if script.GetHP then currentHp = script:GetHP()
                             elseif script.hp ~= nil then currentHp = script.hp end
                             
-                            local ePos = enemy.transform.worldPosition
+                            local ePos = enemy.transform.position
                             local eRot = enemy.transform.rotation
                             table.insert(saveData.enemies[eName], { dead = isDead, hp = currentHp, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
                         end
@@ -139,6 +139,8 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
         local rb = player:GetComponent("Rigidbody")
         if rb then rb:SetLinearVelocity(0,0,0) end
         
+        _G.lastCheckpoint = { x = data.player.x, y = data.player.y, z = data.player.z }
+        
         if _G.PlayerInstance then
             _G.PlayerInstance.public.health = data.player.hp
             _G.PlayerInstance.public.stamina = data.player.stamina
@@ -168,7 +170,6 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
         _G._PlayerController_introAnim = false 
         _G.ForcePortalUpdate = true 
         
-
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
     end
 
@@ -192,6 +193,11 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                         local eList = data.enemies[eName]
                         if eList and enemyCounters[eName] <= #eList then
                             local eData = eList[enemyCounters[eName]]
+                            
+                            if eData.hp <= 0 then
+                                eData.dead = true
+                            end
+
                             if eData.dead then
                                 if enemy.transform then enemy.transform:SetPosition(0, -1000, 0) end
                                 if script then 
@@ -209,6 +215,7 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                                 if rb then rb:SetLinearVelocity(0,0,0) end
                                 if script then 
                                     if script.SetHP then script:SetHP(eData.hp) else script.hp = eData.hp end
+                                    if script.SetAlive then script:SetAlive() end
                                 end
                                 if enemy.SetActive then enemy:SetActive(true) end
                             end

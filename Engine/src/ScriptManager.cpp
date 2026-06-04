@@ -1117,6 +1117,28 @@ static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     return 0;
 }
 
+static int Lua_UI_SetRadialGradientCenter(lua_State * L) {
+    std::string name(luaL_checkstring(L, 1));
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    Application::GetInstance().scripts->EnqueueOperation([name, x, y]() {
+        UIManager::GetInstance().SetRadialGradientCenter(name, x, y);
+        });
+    return 0;
+}
+
+static int Lua_UI_SetRadialGradientCenterAndRadius(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    float radiusX = (float)luaL_checknumber(L, 4);
+    float radiusY = (float)luaL_checknumber(L, 5);
+    Application::GetInstance().scripts->EnqueueOperation([name, x, y, radiusX, radiusY]() {
+        UIManager::GetInstance().SetRadialGradientCenterAndRadius(name, x, y, radiusX, radiusY);
+        });
+    return 0;
+}
+
 // UI
 static int Lua_UI_WasClicked(lua_State* L) {
     const char* name = luaL_checkstring(L, 1);
@@ -1441,6 +1463,9 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SliderValueChanged);    lua_setfield(L, -2, "SliderValueChanged");
     lua_pushcfunction(L, Lua_UI_SetSliderValue);        lua_setfield(L, -2, "SetSliderValue");
     lua_pushcfunction(L, Lua_UI_GetCanvasSliders);      lua_setfield(L, -2, "GetCanvasSliders");
+    lua_pushcfunction(L, Lua_UI_SetRadialGradientCenter); lua_setfield(L, -2, "SetRadialGradientCenter");
+    lua_pushcfunction(L, Lua_UI_SetRadialGradientCenterAndRadius);
+    lua_setfield(L, -2, "SetRadialGradientCenterAndRadius");
     lua_pushcfunction(L, +[](lua_State* L) -> int {
         std::string name(luaL_checkstring(L, 1));
         float left = (float)luaL_checknumber(L, 2);

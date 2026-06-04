@@ -1137,101 +1137,71 @@ local function UpdateStun(self, dt)
 end
 
 local function UpdateDeath(self, dt)
-
-    if fase1 == true then
-        hp      = 500 
-        posture = 100 
-        isDead  = false
-
-        self.public.detectRange    = 27.0
-        self.public.chargeDamage      = 45
-        self.public.chargeSpeed       = 40.0 
-        self.public.chargeCooldown    = 1.5
-        self.public.lanceDamage       = 30
-        self.public.lanceCooldown     = 0.4
-        self.public.moveSpeed         = 8
-        self.public.preparationTime   = 0.5 
-        self.public.wallStunTime      = 1.0
-        self.public.afterStunTime     = 0.7
-        self.public.stunDuration      = 1.5
-        self.public.predictionTime    = 0.2 
-
-
-        currentState = State.IDLE
-        fase1 = false
-
-        currentMaxHp = 500
-        if _G.BossBar_ResetToFull then
-            _G.BossBar_ResetToFull(500)
-        end
-
-        return
-    else
         
-        deathTimer = deathTimer - dt
-        
-        if rb then
-            rb:SetLinearVelocity(0, 0, 0)
-            rb:SetBody(2)
-        end
-        if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
-            if anim then anim:Play("CinematicDeath") end
-            self.transform:SetPosition(131.563, -0.926, -657.100)
-            self.transform:SetRotation(-180, 76.951, -180)
-            deathAnimDone = true
-        end
+    deathTimer = deathTimer - dt
+    
+    if rb then
+        rb:SetLinearVelocity(0, 0, 0)
+        rb:SetBody(2)
+    end
+    if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
+        if anim then anim:Play("CinematicDeath") end
+        self.transform:SetPosition(131.563, -0.926, -657.100)
+        self.transform:SetRotation(-180, 76.951, -180)
+        deathAnimDone = true
+    end
 
-        -- if deathAnimDone then 
-        --     if anim then anim:Play("Idle") end
-        -- end
+    -- if deathAnimDone then 
+    --     if anim then anim:Play("Idle") end
+    -- end
 
-        if deathTimer <= 0 then
-            if self.targetDeathYisEnter == false then
-                local currentY = self.transform.position.y
-                self.targetDeathY = currentY - 10.0
-                self.targetDeathYisEnter = true
+    if deathTimer <= 0 then
+        if self.targetDeathYisEnter == false then
+            local currentY = self.transform.position.y
+            self.targetDeathY = currentY - 10.0
+            self.targetDeathYisEnter = true
+            
+            local colision = self.gameObject:GetComponent("Box Collider")
+            if colision then 
+                colision:Disable() 
                 
+                if rb then rb:SetUseGravity(false) end
+            end
+            
+            DestroyChargeFeedback(self)
+            Audio.SetMusicState("AfterBoss")
+        end
+
+        local pos = self.transform.position
+        if pos.y > self.targetDeathY then
+            self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
+        else
+            if not isDead then
+                    local door = GameObject.Find("Puerta_Final") 
+                if door then
+                    local doorScript = door:GetComponent("Script")
+                    if doorScript and doorScript.OpenDoor then
+                        doorScript:OpenDoor()
+                    end
+                end
+
                 local colision = self.gameObject:GetComponent("Box Collider")
                 if colision then 
                     colision:Disable() 
-                    
                     if rb then rb:SetUseGravity(false) end
                 end
+                isDead = true
+                Engine.Log("[Aquiles] DEAD i enterrat")
+
                 
-                DestroyChargeFeedback(self)
-                Audio.SetMusicState("AfterBoss")
-            end
 
-            local pos = self.transform.position
-            if pos.y > self.targetDeathY then
-                self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
-            else
-                if not isDead then
-                      local door = GameObject.Find("Puerta_Final") 
-                    if door then
-                        local doorScript = door:GetComponent("Script")
-                        if doorScript and doorScript.OpenDoor then
-                            doorScript:OpenDoor()
-                        end
-                    end
-
-                    local colision = self.gameObject:GetComponent("Box Collider")
-                    if colision then 
-                        colision:Disable() 
-                        if rb then rb:SetUseGravity(false) end
-                    end
-                    isDead = true
-                    Engine.Log("[Aquiles] DEAD i enterrat")
-
-                  
-
-                    rb       = nil
-                    anim     = nil
-                    playerGO = nil
-                end
+                rb       = nil
+                anim     = nil
+                playerGO = nil
             end
         end
     end
+    
 end
 
 local function FindAquilesAudioComponents(self)
@@ -1294,7 +1264,7 @@ function Start(self)
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
         chargeCooldown  = 2.0,
-        chargeDamage    = 35,
+        chargeDamage    = 25,
         stepInterval    = 0.6,
 
         knockbackForce  = 10.0,

@@ -52,6 +52,8 @@ public:
     void SetElementMargin(const std::string& elementName, float left, float top, float right, float bottom);
     void SetCanvasOpacity(ComponentCanvas* canvas, float opacity);
     void SetCanvasPosition(const std::string& elementName, float left, float top);
+    void SetRadialGradientCenter(const std::string& name, float x, float y);
+    void SetRadialGradientCenterAndRadius(const std::string& name, float x, float y, float radiusX, float radiusY); // NUEVO
 
 private:
     UIManager() = default;

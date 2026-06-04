@@ -232,7 +232,9 @@ function Start(self)
     _G.LastInputType  = _G.LastInputType or "keyboard"  -- fuente de verdad compartida
     hideAll()
     UI.SetElementVisibility("ControlsHintPanel", false)
-    UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
+    UI.SetElementVisibility("ChangeMaskTutorialBackground", false)
+    UI.SetElementVisibility("ChangeMaskTutorialGradient",   false)
+    UI.SetElementVisibility("ChangeMaskTutorialPanel",      false)
 
     _G.ShowControlsHint = showPreset
     _G.HideControlsHint = hideHints
@@ -247,7 +249,12 @@ function Start(self)
 
     _G.ShowChangeMaskTutorial = function()
         Engine.Log("[ChangeMaskTutorial] Llamado")
-        UI.SetElementVisibility("ChangeMaskTutorialPanel", true)
+        UI.SetElementVisibility("ChangeMaskTutorialBackground", true)
+        UI.SetElementVisibility("ChangeMaskTutorialGradient",   true)
+        UI.SetElementVisibility("ChangeMaskTutorialPanel",      true)
+        if _G.ApplyChangeMaskTutorialGradient then
+            _G.ApplyChangeMaskTutorialGradient(true)
+        end
         changeMaskTutorialActive  = false
         changeMaskTutorialPending = true
     end
@@ -283,7 +290,9 @@ function Update(self, dt)
     if changeMaskTutorialActive then
         if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
             Engine.Log("[ChangeMaskTutorial] Cerrando")
-            UI.SetElementVisibility("ChangeMaskTutorialPanel", false)
+            UI.SetElementVisibility("ChangeMaskTutorialBackground", false)
+            UI.SetElementVisibility("ChangeMaskTutorialGradient",   false)
+            UI.SetElementVisibility("ChangeMaskTutorialPanel",      false)
             changeMaskTutorialActive = false
         end
     end

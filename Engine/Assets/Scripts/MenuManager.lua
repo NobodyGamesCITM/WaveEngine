@@ -56,7 +56,7 @@ function _G.SaveManager.SaveGame()
             portalState = _G.PortalState or 0,
             dialogs = _G.DialogsShown or {}
         },
-        enemies = {}, doors = {} -- Eliminados los puzzles
+        enemies = {}, doors = {} 
     }
 
     local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
@@ -66,17 +66,27 @@ function _G.SaveManager.SaveGame()
             for _, enemy in ipairs(enemies) do
                 local eName = enemy.name
                 if eName then
-                    if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
                     local script = enemy:GetComponent("Script")
+                    
                     if script then
-                        local isDead = false
-                        if script.CheckAlive then isDead = script:CheckAlive()
-                        elseif script.isDead ~= nil then isDead = script.isDead
-                        elseif script.hp ~= nil then isDead = (script.hp <= 0) end
-                        
-                        local ePos = enemy.transform.worldPosition
-                        local eRot = enemy.transform.rotation
-                        table.insert(saveData.enemies[eName], { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                        if not (script.public and script.public.excludeFromSave) then
+                            
+                            if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
+                            
+                            local isDead = false
+                            if script.CheckAlive then isDead = script:CheckAlive()
+                            elseif script.isDead ~= nil then isDead = script.isDead
+                            elseif script.hp ~= nil then isDead = (script.hp <= 0) end
+                            if script.GetAres then isDead = script:GetAres() end
+
+                            local currentHp = 0
+                            if script.GetHP then currentHp = script:GetHP()
+                            elseif script.hp ~= nil then currentHp = script.hp end
+                            
+                            local ePos = enemy.transform.worldPosition
+                            local eRot = enemy.transform.rotation
+                            table.insert(saveData.enemies[eName], { dead = isDead, hp = currentHp, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                        end
                     end
                 end
             end
@@ -171,15 +181,20 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                 pcall(function()
                     local eName = enemy.name
                     if eName then
+                        local script = enemy:GetComponent("Script")
+                        
+                        if not script or (script.public and script.public.excludeFromSave) then
+                            return
+                        end
+
                         enemyCounters[eName] = (enemyCounters[eName] or 0) + 1
                         local eList = data.enemies[eName]
                         if eList and enemyCounters[eName] <= #eList then
                             local eData = eList[enemyCounters[eName]]
                             if eData.dead then
                                 if enemy.transform then enemy.transform:SetPosition(0, -1000, 0) end
-                                local script = enemy:GetComponent("Script")
                                 if script then 
-                                    script.hp = 0
+                                    if script.SetHP then script:SetHP(0) else script.hp = 0 end
                                     script.isDead = true
                                     if script.SetDead then script:SetDead() end
                                 end
@@ -191,8 +206,9 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                                 end
                                 local rb = enemy:GetComponent("Rigidbody")
                                 if rb then rb:SetLinearVelocity(0,0,0) end
-                                local script = enemy:GetComponent("Script")
-                                if script then script.hp = eData.hp end
+                                if script then 
+                                    if script.SetHP then script:SetHP(eData.hp) else script.hp = eData.hp end
+                                end
                                 if enemy.SetActive then enemy:SetActive(true) end
                             end
                         end

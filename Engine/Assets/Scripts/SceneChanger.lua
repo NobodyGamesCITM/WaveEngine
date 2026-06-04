@@ -67,6 +67,8 @@ function Start(self)
 
     if self.public.currentLevel == "Level2" then
         portalExitTimer = 8.0
+        _G.PlayerInstance.public.canMove = false
+        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
     end
 end
 

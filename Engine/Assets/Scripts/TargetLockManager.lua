@@ -2,7 +2,7 @@
 
 public = {
     maxLockDistance = 30.0,
-    tagsToLock = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares", "Lockable"}, --added enemies in level2 gauntlets
+    tagsToLock = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares", "Lockable"},
     particleYOffset = 1.0,
     baseParticleSize = 3.5
 }
@@ -74,12 +74,16 @@ local function FindBestTarget(self)
                 if not IsTargetDead(candidate) then
                     local cPos = candidate.transform.worldPosition
                     local dx = cPos.x - playerPos.x
+                    local dy = cPos.y - playerPos.y
                     local dz = cPos.z - playerPos.z
-                    local sqrDist = (dx*dx) + (dz*dz)
+                    
+                    if math.abs(dy) <= 15.0 then
+                        local sqrDist = (dx*dx) + (dy*dy) + (dz*dz)
 
-                    if sqrDist < minSqrDist then
-                        minSqrDist = sqrDist
-                        bestTarget = candidate
+                        if sqrDist < minSqrDist then
+                            minSqrDist = sqrDist
+                            bestTarget = candidate
+                        end
                     end
                 end
             end
@@ -141,22 +145,26 @@ local function SwitchTarget(self, directionStr)
                 if candidate ~= currentTarget and not IsTargetDead(candidate) then
                     local cPos = candidate.transform.worldPosition
                     local dx = cPos.x - playerPos.x
+                    local dy = cPos.y - playerPos.y
                     local dz = cPos.z - playerPos.z
-                    local sqrDist = (dx*dx) + (dz*dz)
+                    
+                    if math.abs(dy) <= 15.0 then
+                        local sqrDist = (dx*dx) + (dy*dy) + (dz*dz)
 
-                    if sqrDist < (self.public.maxLockDistance * self.public.maxLockDistance) then
-                        local dirToCandX = cPos.x - currentPos.x
-                        local dirToCandZ = cPos.z - currentPos.z
-                        local lenDir = math.sqrt(dirToCandX^2 + dirToCandZ^2)
-                        if lenDir > 0.001 then
-                            dirToCandX = dirToCandX / lenDir
-                            dirToCandZ = dirToCandZ / lenDir
-                            local dot = (dirToCandX * refDir.x) + (dirToCandZ * refDir.z)
-                            if dot > 0.4 then
-                                local score = sqrDist - (dot * 50.0)
-                                if score < bestScore then
-                                    bestScore = score
-                                    bestTarget = candidate
+                        if sqrDist < (self.public.maxLockDistance * self.public.maxLockDistance) then
+                            local dirToCandX = cPos.x - currentPos.x
+                            local dirToCandZ = cPos.z - currentPos.z
+                            local lenDir = math.sqrt(dirToCandX^2 + dirToCandZ^2)
+                            if lenDir > 0.001 then
+                                dirToCandX = dirToCandX / lenDir
+                                dirToCandZ = dirToCandZ / lenDir
+                                local dot = (dirToCandX * refDir.x) + (dirToCandZ * refDir.z)
+                                if dot > 0.4 then
+                                    local score = sqrDist - (dot * 50.0)
+                                    if score < bestScore then
+                                        bestScore = score
+                                        bestTarget = candidate
+                                    end
                                 end
                             end
                         end
@@ -243,9 +251,10 @@ function Update(self, dt)
 
         local pPos = player.transform.worldPosition
         local cPos = currentTarget.transform.worldPosition
-        local sqrDist = ((cPos.x - pPos.x)^2) + ((cPos.z - pPos.z)^2)
+        local dy = cPos.y - pPos.y
+        local sqrDist = ((cPos.x - pPos.x)^2) + (dy^2) + ((cPos.z - pPos.z)^2)
         
-        if sqrDist > (self.public.maxLockDistance * self.public.maxLockDistance) then
+        if sqrDist > (self.public.maxLockDistance * self.public.maxLockDistance) or math.abs(dy) > 15.0 then
             ClearLockInternal(self)
             return
         end

@@ -2636,6 +2636,8 @@ function ResetPlayer(self)
     _PlayerController_pendingDamagePos = nil
     accumulatedAlpha = 0.0
 
+    _G.CombatStates = {}
+    
     Player.isDrowning            = false
     _PlayerController_isDrowning = false
     Player.hermesGraceTimer      = 0

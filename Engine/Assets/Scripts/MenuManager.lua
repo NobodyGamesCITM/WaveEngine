@@ -54,7 +54,8 @@ function _G.SaveManager.SaveGame()
         world = { 
             keysCollected = _G.keysCollected or 0,
             portalState = _G.PortalState or 0,
-            dialogs = _G.DialogsShown or {}
+            dialogs = _G.DialogsShown or {},
+            combats = _G.CombatStates or {}
         },
         enemies = {}, doors = {} 
     }
@@ -107,8 +108,7 @@ function _G.SaveManager.SaveGame()
                         if script.isOpen ~= nil then state = script.isOpen 
                         elseif script.isClose ~= nil then state = not script.isClose end
                     end
-                    local dPos = door.transform.worldPosition
-                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z })
+                    table.insert(saveData.doors[dName], { open = state })
                 end
             end
         end
@@ -164,6 +164,7 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
         _G.keysCollected = data.world.keysCollected or 0
         _G.PortalState = data.world.portalState or 0
         _G.DialogsShown = data.world.dialogs or {}
+        _G.CombatStates = data.world.combats or {}
         _G._PlayerController_introAnim = false 
         _G.ForcePortalUpdate = true 
         
@@ -232,11 +233,6 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                         if dList and doorCounters[dName] <= #dList then
                             local dData = dList[doorCounters[dName]]
                             
-                            -- Restaurar transform matrix global
-                            if door.transform then
-                                door.transform:SetPosition(dData.x, dData.y, dData.z)
-                            end
-
                             local script = door:GetComponent("Script")
                             if script then
                                 if dData.open then
@@ -755,7 +751,8 @@ function Update(self, dt)
                 _G.ForceStartXAML = nil
                 _G.CurrentXAML = "HUD.xaml"
                 _G.CurrentLevel = "Level1"
-                _G.DialogsShown = {} 
+                _G.DialogsShown = {}
+                _G.CombatStates = {}
                 
                 self.pendingScene = "Level1.scene"
                 self.fading = true

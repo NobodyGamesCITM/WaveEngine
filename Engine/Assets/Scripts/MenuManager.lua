@@ -157,6 +157,7 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
         _G._PlayerController_introAnim = false 
         _G.ForcePortalUpdate = true 
         
+
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
     end
 
@@ -261,6 +262,7 @@ public = {
 local FADE_IN_DURATION = 0.4
 local DEATH_MENU_DELAY = 6.2
 local DROWNING_DEATH_MENU_DELAY = 2.0
+local triedAgain = false
 
 local function ApplyFullVolume(self)
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
@@ -446,16 +448,14 @@ function Initialize(self)
         _G.CurrentXAML = self.current
     end
 
+    --setting music state on Init
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
-        Audio.SetMusicState("MainMenu")
+        -- Audio.SetMusicState("MainMenu")
+        -- Engine.Log("[MenuManager] Setting BGM to MainMenu on Init")
         self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
-        if sceneVal == "Level1.scene" then
-            Audio.SetMusicState("Level1")
-        elseif sceneVal == "Level2.scene" then
-            Audio.SetMusicState("Level2")
-        end
+        
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
@@ -542,7 +542,12 @@ function Update(self, dt)
 
         local musicState = "None"
         if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
-            musicState = "Level1"
+            
+            if _G.CinematicActive then
+                musicState = "Vignettes"
+            else
+                musicState = "Level1"
+            end
         elseif sceneVal:find("Level2")  or sceneVal == "Level2.scene" then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
@@ -553,9 +558,10 @@ function Update(self, dt)
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
             self.musicComp:SelectPlayAudioEvent("MUS_BGM")
-            Engine.Log("Started playing BGM from MenuManager")
+            Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
+
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -774,11 +780,22 @@ function Update(self, dt)
         end
         if UI.WasClicked("ResumeButton")   then NavigateTo(self, "HUD.xaml") end
         if UI.WasClicked("TryAgainButton") then
-            _G._PlayerController_isDead = false
+           
+            -- if self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level1")
+            --     Engine.Log("[MenuManager] Setting BGM to Level1 on Death")
+            -- elseif self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level2")
+            --     Engine.Log("[MenuManager] Setting BGM to Level2 on Death")
+            -- end
+             _G._PlayerController_isDead = false
+            triedAgain = true
+            
             self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
+           
         end
-                if UI.WasClicked("BackToMenuButton") then
+        if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
                 Engine.Log("[MenuManager] BackToMenuButton. Limpiando sesión de juego.")
                 _G._PlayerController_isDead = false
@@ -883,11 +900,12 @@ function Update(self, dt)
             elseif self.public.currentScene == "Level2.scene" then
                 
                 local currentMusicState = tostring(Audio.GetMusicState())
-                
-                if currentMusicState ~= "Boss" and currentMusicState ~= "AfterBoss" and currentMusicState ~= "Boss_Intro"  then
-                    Audio.SetMusicState("Level2")
-                    
+            
+                if triedAgain then
+                    Audio.SetMusicState("Level2") 
+                    triedAgain = false
                 end
+                
             end
             if previous == "PauseMenu.xaml" then
                 

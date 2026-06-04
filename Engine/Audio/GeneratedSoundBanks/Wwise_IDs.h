@@ -139,6 +139,7 @@ namespace AK
                 static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID VIGNETTES = 55449706U;
             } // namespace STATE
         } // namespace BGM_STATE
 

@@ -1777,6 +1777,8 @@ function Update(self, dt)
             _G._PlayerController_introAnim = false
             wakeUpCinematic = false
             Engine.Log("[Player] Cinemática de intro cancelada por carga de partida.")
+            Audio.SetMusicState("Level1")
+            Engine.Log("[Player] Switched to Level1 BGM")
         else
             Player.AnimTimer = 20.0
             local anim = self.gameObject:GetComponent("Animation")
@@ -1788,6 +1790,8 @@ function Update(self, dt)
                 _G.PlayWakeUpCinematic() 
             end
             wakeUpCinematic = true
+            --Audio.SetMusicState("Level1_Intro")
+            --Engine.Log("[Player] Switched to Level1_Intro BGM")
         end
     end
 
@@ -2128,6 +2132,8 @@ function Update(self, dt)
 
             if Player.AnimTimer < 0 then 
                 wakeUpCinematic = false
+                Audio.SetMusicState("Level1")
+                Engine.Log("[Player] Switched to Level1 BGM")
                 Player.AnimTimer = 0
             end
 

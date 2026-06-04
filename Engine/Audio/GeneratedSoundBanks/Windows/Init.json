@@ -344,6 +344,12 @@
       "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
+        "Id": "55449706",
+        "Name": "Vignettes",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Vignettes",
+        "GUID": "{C82A7278-3A50-431C-B888-0645573B6E31}"
+       },
+       {
         "Id": "447801688",
         "Name": "Level2_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2_Combat",
@@ -1027,6 +1033,6 @@
     ]
    }
   ],
-  "FileHash": "{E2DCE931-281C-2D9E-48B1-230ECAE37907}"
+  "FileHash": "{029D9F8A-FA34-B42F-DED9-6DAEF0FAD5E8}"
  }
 }

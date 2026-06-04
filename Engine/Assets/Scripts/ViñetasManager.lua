@@ -27,6 +27,7 @@ local pageTurnSFX  = nil
 local owlHootSFX   = nil
 local owlWingSFX   = nil
 local ambianceSFX  = nil
+local televoiceSFX = nil
 
 
 local function show(name, v)
@@ -68,9 +69,23 @@ local function loadStep(index)
         if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")        end
         if owlWingSFX  then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly")         end
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_TreeAmbience") end
+
     elseif entry.panel == "Page1_V2" or entry.panel == "Page2_V2" then
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
         if owlHootSFX  then owlHootSFX:SelectPlayAudioEvent("UI_OwlHoot")        end
+        if televoiceSFX then
+            if entry.panel == "Page1_V2" then 
+                Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX) 
+            elseif entry.panel == "Page2_V2" then
+                Audio.SetSwitch("Player_Voice", "Generic", televoiceSFX) 
+            end
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")  
+        end
+    elseif entry.panel == "Page2_V1" then 
+        if televoiceSFX then 
+            Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")  
+        end
     elseif entry.panel == "Page2_V3" then
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater")     end
     else
@@ -123,6 +138,16 @@ local function FindAudioSources(self)
         else
             --Engine.Log("[Cinematic] Could not find ItemSource")
         end
+
+        local voiceSource = GameObject.FindInChildren(player, "VoiceSource")
+        if voiceSource then 
+            televoiceSFX = voiceSource:GetComponent("Audio Source")
+            if not televoiceSFX then
+                Engine.Log("[Cinematic] Unable to retrieve TeleVoice SFX") 
+            end
+        else
+            Engine.Log("[Cinematic] Could not find VoiceSource")
+        end
     end
 end
 
@@ -136,6 +161,7 @@ function Start(self)
     end
 
     _G.CinematicActive = true
+    Audio.SetMusicState("Vignettes")
     if _G.UpdatePauseState then _G.UpdatePauseState() end
     Game.Pause()
 
@@ -162,19 +188,21 @@ end
 function Update(self, dt)
     if not initialized then return end
 
-    
-
     if state == "done" then
-    if timer >= FADE_DURATION then
-        if canvas then canvas:SetOpacity(0) end
-        _G.CinematicActive = false
-        _G._PlayerController_introAnim = true
-        if _G.UpdatePauseState then _G.UpdatePauseState() end
-        Game.Resume()
-        state = "finished"
-    end
-    timer = timer + math.min(dt, 0.05)
-    return
+        if timer >= FADE_DURATION then
+            if canvas then canvas:SetOpacity(0) end
+            _G.CinematicActive = false
+            _G._PlayerController_introAnim = true
+            
+            if _G.UpdatePauseState then _G.UpdatePauseState() end
+            Game.Resume()
+            state = "finished"
+        end
+
+        timer = timer + math.min(dt, 0.05)
+
+        if Audio.GetMusicState() ~= "Level1_Intro" then Audio.SetMusicState("Level1_Intro") end
+        return
     end
     if state == "finished" then return end
 

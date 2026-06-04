@@ -280,6 +280,9 @@ function Start(self)
         revive = true
     end
 
+    self.GetHP = function(self) return Skeleton.hp end
+    self.SetHP = function(self, val) Skeleton.hp = val end
+
     Engine.RequestResource("17109277834976977864")
     Engine.RequestResource("15645066021049183995")
     Engine.RequestResource("13296577326446124640")

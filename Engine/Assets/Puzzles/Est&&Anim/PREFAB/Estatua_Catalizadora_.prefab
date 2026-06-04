@@ -22,8 +22,8 @@
                                                         "active": true,
                                                         "position": [
                                                             0.0,
-                                                            0.0,
-                                                            0.0
+                                                            -1.9073486328125e-06,
+                                                            1.52587890625e-05
                                                         ],
                                                         "rotation": [
                                                             0.0,
@@ -423,6 +423,34 @@
                 "name": "Sun_$AssimpFbx$_Translation",
                 "tag": "",
                 "uid": 9581061423257627473
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "Lockable",
+                "tag": "Lockable",
+                "uid": 7874570121061025283
             }
         ],
         "components": [
@@ -451,13 +479,13 @@
                         "UID": 7986882879035393977,
                         "loop": true,
                         "name": "Idle",
-                        "speed": 1.0
+                        "speed": 0.5
                     },
                     {
                         "UID": 12265622382311114839,
                         "loop": true,
                         "name": "Shoot",
-                        "speed": 1.0
+                        "speed": 0.5
                     }
                 ],
                 "active": true,
@@ -472,19 +500,19 @@
                         "value": 0.0
                     },
                     {
+                        "name": "shootDuration",
+                        "type": 0,
+                        "value": 0.10000000149011612
+                    },
+                    {
                         "name": "dirX",
                         "type": 0,
                         "value": 0.0
                     },
                     {
-                        "name": "onlyRedirected",
-                        "type": 2,
-                        "value": false
-                    },
-                    {
-                        "name": "heightOffset",
+                        "name": "shootDelay",
                         "type": 0,
-                        "value": 3.5
+                        "value": 0.5
                     },
                     {
                         "name": "doorName",
@@ -492,14 +520,29 @@
                         "value": ""
                     },
                     {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": -1.0
+                    },
+                    {
+                        "name": "shootMode",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "heightOffset",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
                         "name": "fordwardOffset",
                         "type": 0,
                         "value": 0.5
                     },
                     {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": -1.0
+                        "name": "onlyRedirected",
+                        "type": 2,
+                        "value": false
                     }
                 ],
                 "scriptUID": 3213472682470300881,

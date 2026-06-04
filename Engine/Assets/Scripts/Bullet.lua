@@ -51,6 +51,12 @@ function Update(self, dt)
         timeAlive = 0
         self.initialized = false
         self.wasRedirected = nil
+        self.pendingHide = nil
+    end
+
+    if self.pendingHide then
+        self.pendingHide = false
+        hasHit = true
     end
 
     if sleep then return end
@@ -81,7 +87,7 @@ function Update(self, dt)
 
             self.initialized = true
             self.pendingRedirect = nil
-            self.wasRedirected = nil
+            self.wasRedirected = data.wasRedirected or nil
 
             if ps then ps:Play() end
             return

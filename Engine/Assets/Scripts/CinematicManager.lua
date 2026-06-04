@@ -154,9 +154,9 @@ function Start(self)
     _G.PlayPortalEnterCinematic = function()
         local track = {
             { time = 0.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } },
-            { time = 5.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
+            { time = 20.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
         }
-        SendTrackToCamera(track, 5.0)
+        SendTrackToCamera(track, 20.0)
     end
 
     _G.PlayPortalExitCinematic = function()

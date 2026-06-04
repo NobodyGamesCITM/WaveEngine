@@ -164,7 +164,7 @@ local spawnTimer     = 0
 local SPAWN_INTERVAL = 20 
 
 local Prefab_Skeleton  = "/Prefabs/Skeleton_Fase2.prefab"
-local Prefab_Minocabro = "/Prefabs/MinocabroPrefab.prefab"
+local Prefab_Minocabro = "/Prefabs/Minocabro_Fase2.prefab"
 
 local spawnedEnemies = {}
 local pendingPositions = {}

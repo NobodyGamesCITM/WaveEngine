@@ -52,12 +52,10 @@ end
 local function DisableColision(self) 
     local colision = GameObject.Find(self.public.myColision)
     if colision then
-        Engine.Log("Door colision found")
         local Box = colision:GetComponent("Box Collider")
         if Box then 
             Box:Disable() 
             ColisionDisabled = true
-            Engine.Log("Box disable")
         else
             Engine.Log("Box not found")
         end
@@ -96,11 +94,7 @@ function Update (self, deltaTime)
             else 
                 if not ColisionDisabled then
                     DisableColision(self)
-                    
                 end
-                Engine.Log("---------------------------------------------------------------------")
-                Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
-                Engine.Log("---------------------------------------------------------------------")
                 rb:SetLinearVelocity(0, 0, 0)
                 if doorSFX then doorSFX:SelectPlayAudioEvent("SFX_DoorStop") end
                 openDoor2 = false

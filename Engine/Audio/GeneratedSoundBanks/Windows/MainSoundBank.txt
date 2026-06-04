@@ -136,6 +136,7 @@ State Group	ID	Name			Wwise Object Path	Notes
 	3086301423	BGM_State			\Default Work Unit\BGM_State	
 
 State	ID	Name	State Group			Notes
+	55449706	Vignettes	BGM_State			
 	447801688	Level2_Combat	BGM_State			
 	748895195	None	BGM_State			
 	1221996634	AfterBoss	BGM_State			
@@ -256,6 +257,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
 	210183454	hermes_spin_01	.cache\C3\{C3369181-1647-C44D-6D44-6F6F9C906B29}.wem		\Containers\Default Work Unit\Objects\Player\Attack_Spin\hermes_spin_01		8000
 	213938119	chain_break_00	.cache\CD\{CDA3AAD9-F800-E375-0F42-C39FC5EE0CA5}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_00		38744
+	216880571	telemelancholy	.cache\72\{72418ECE-612F-EE03-FD1D-EC233B4AC55E}.wem		\Containers\Default Work Unit\BGM_Switch\Vignettes_Playlist\telemelancholy (a bard's tale)\telemelancholy		1025864
 	217331738	scary-female-ghost_01	.cache\5D\{5DA55DBE-9BAD-FCE5-93CD-7CA21E7B68F4}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\scary-female-ghost_01		254384
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424

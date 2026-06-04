@@ -150,6 +150,25 @@ function Start(self)
         }
         SendTrackToCamera(track, 3.0)
     end
+
+    _G.PlayPortalEnterCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } },
+            { time = 5.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
+        }
+        SendTrackToCamera(track, 5.0)
+    end
+
+    _G.PlayPortalExitCinematic = function()
+        local track = {
+            { time = 0.0,  pos = { 79.969, 2.200, 94.524 }, rot = { 168.200, 19.880, 180.000 } },
+            { time = 4.0,  pos = { 79.969, 2.200, 94.524 }, rot = { 168.200, 19.880, 180.000 } },
+            { time = 6.0,  pos = { 84.469, 0.800, 102.724 }, rot = { 174.000, 88.780, 180.000 } },
+            { time = 8.0,  pos = { 82.769, -0.300, 106.924 }, rot = { 185.800, 143.480, 180.000 } },
+            { time = 14.0, pos = { 82.769, -0.300, 106.924 }, rot = { 185.800, 143.480, 180.000 } }
+        }
+        SendTrackToCamera(track, 2.0)
+    end
 end
 
 function Update(self, dt)

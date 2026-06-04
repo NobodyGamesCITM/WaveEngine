@@ -242,12 +242,6 @@ function Update(self, dt)
             else
                 --Engine.Log("[MASKDROP] Material Component not found on Bust Statue, unable to set asleep texture!")
             end
-            if self.public.DropAresMask then
-                local combat = GameObject.FindInChildren(self.gameObject, "AresCombat")
-                local combatScript = combat:GetComponent("Script")
-                if combatScript then combatScript.startCombat() end 
-                self.finished = true
-            end
         end
     end
 end

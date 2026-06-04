@@ -7,9 +7,14 @@
 #include <NsGui/Slider.h>
 #include <NsCore/Nullable.h>
 #include <NsGui/Canvas.h>
+#include <NsGui/Shape.h>
+#include <NsGui/Brush.h>
+#include <NsGui/GradientBrush.h>
+#include <NsGui/GradientStop.h>
 #include <algorithm>
 #include <functional>
 #include <NsDrawing/Thickness.h>
+#include <NsGui/RadialGradientBrush.h>
 
 UIManager& UIManager::GetInstance() {
     static UIManager instance;
@@ -39,9 +44,9 @@ bool UIManager::WasButtonJustFocused(const std::string& name) const {
     return m_justFocusedButtons.count(name) > 0;
 }
 
-void UIManager::ClearFrameClicks()    { m_justClickedButtons.clear(); }
-void UIManager::ClearFrameFocused()   { m_justFocusedButtons.clear(); }
-void UIManager::ClearCanvasButtons()  { m_canvasButtons.clear(); }
+void UIManager::ClearFrameClicks() { m_justClickedButtons.clear(); }
+void UIManager::ClearFrameFocused() { m_justFocusedButtons.clear(); }
+void UIManager::ClearCanvasButtons() { m_canvasButtons.clear(); }
 
 // ---- Sliders ----
 
@@ -112,10 +117,10 @@ void UIManager::StepFocusedSlider(float delta) {
     if (!fe) return;
 
     if (auto* slider = Noesis::DynamicCast<Noesis::Slider*>(fe)) {
-        float current  = (float)slider->GetValue();
-        float minVal   = (float)slider->GetMinimum();
-        float maxVal   = (float)slider->GetMaximum();
-        float newVal   = std::clamp(current + delta, minVal, maxVal);
+        float current = (float)slider->GetValue();
+        float minVal = (float)slider->GetMinimum();
+        float maxVal = (float)slider->GetMaximum();
+        float newVal = std::clamp(current + delta, minVal, maxVal);
         slider->SetValue(newVal);
         m_sliderValues[m_focusedSlider] = newVal;
         m_changedSliders.insert(m_focusedSlider);
@@ -148,7 +153,7 @@ void* UIManager::FindElement(const std::string& elementName) {
             uint32_t count = Noesis::VisualTreeHelper::GetChildrenCount(el);
             for (uint32_t i = 0; i < count; ++i)
                 search(Noesis::VisualTreeHelper::GetChild(el, i));
-        };
+            };
         search(root);
         if (found) return found;
     }
@@ -205,4 +210,41 @@ void UIManager::SetCanvasPosition(const std::string& elementName, float left, fl
     if (!fe) return;
     Noesis::Canvas::SetLeft(fe, left);
     Noesis::Canvas::SetTop(fe, top);
+}
+
+void UIManager::SetRadialGradientCenter(const std::string& name, float x, float y) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(name));
+    if (!fe) return;
+
+    Noesis::Shape* shape = Noesis::DynamicCast<Noesis::Shape*>(fe);
+    if (!shape) return;
+
+    Noesis::Brush* brush = shape->GetFill();
+    if (!brush) return;
+
+    Noesis::RadialGradientBrush* rgb = Noesis::DynamicCast<Noesis::RadialGradientBrush*>(brush);
+    if (!rgb) return;
+
+    rgb->SetCenter(Noesis::Point(x, y));
+    rgb->SetGradientOrigin(Noesis::Point(x, y));
+}
+
+void UIManager::SetRadialGradientCenterAndRadius(const std::string& name, float x, float y, float radiusX, float radiusY) {
+    auto* fe = static_cast<Noesis::FrameworkElement*>(FindElement(name));
+    if (!fe) return;
+
+    Noesis::Shape* shape = Noesis::DynamicCast<Noesis::Shape*>(fe);
+    if (!shape) return;
+
+    Noesis::Brush* brush = shape->GetFill();
+    if (!brush) return;
+
+    Noesis::RadialGradientBrush* rgb = Noesis::DynamicCast<Noesis::RadialGradientBrush*>(brush);
+    if (!rgb) return;
+
+    rgb->SetMappingMode(Noesis::BrushMappingMode_Absolute);
+    rgb->SetCenter(Noesis::Point(x, y));
+    rgb->SetGradientOrigin(Noesis::Point(x, y));
+    rgb->SetRadiusX(radiusX);
+    rgb->SetRadiusY(radiusY);
 }

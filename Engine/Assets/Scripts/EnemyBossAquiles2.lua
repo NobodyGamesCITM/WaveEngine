@@ -24,6 +24,7 @@ public = {
     doorName = "Puerta_Final",
 	lockOnSize      = 14.0,
     attackAreaFinalScale = 25.0,
+    excludeFromSave = true
 }
 
 local currentState = State.IDLE
@@ -164,7 +165,7 @@ local spawnTimer     = 0
 local SPAWN_INTERVAL = 20 
 
 local Prefab_Skeleton  = "/Prefabs/Skeleton_Fase2.prefab"
-local Prefab_Minocabro = "/Prefabs/MinocabroPrefab.prefab"
+local Prefab_Minocabro = "/Prefabs/Minocabro_Fase2.prefab"
 
 local spawnedEnemies = {}
 local pendingPositions = {}
@@ -290,11 +291,23 @@ end
 local function CalcSpawnPos(myPos, index, total)
     local baseAngle = (2 * math.pi / total) * (index - 1)
     local angle = baseAngle + ((math.random() - 0.5) * 0.8)
-    local radius = 3 + math.random() * 2         
-    return
-        myPos.x + math.cos(angle) * radius,
-        myPos.y,
-        myPos.z + math.sin(angle) * radius
+    local radius = 6 + math.random() * 3      
+    
+    local targetX = myPos.x + math.cos(angle) * radius
+    local targetY = myPos.y
+    local targetZ = myPos.z + math.sin(angle) * radius
+
+    --Comprobar que estan dentro del navmesh
+    if nav and nav.FindNearestPoint then
+        local validPos = nav:FindNearestPoint(targetX, targetY, targetZ)
+        if validPos and validPos.x and validPos.z then
+            targetX = validPos.x
+            targetY = validPos.y
+            targetZ = validPos.z
+        end
+    end
+
+    return targetX, targetY, targetZ
 end
 
 local function QueueSpawn(self, prefabPath, index, total)
@@ -315,16 +328,16 @@ local series = {
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
     { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                       
 }
-local lastTandaIdx = 0 
+local lastSerieIdx = 0 
 
-local function SpawnSeries(self)
+local function SpawnSeries(self) --Bucle aleatorio que sea diferente al anterior
     math.randomseed(os.time() + math.random(1000))
 
     local idx
     repeat
         idx = math.random(#series)
-    until idx ~= lastTandaIdx
-    lastTandaIdx = idx
+    until idx ~= lastSerieIdx
+    lastSerieIdx = idx
 
     local list = series[idx]
     local total = #list
@@ -655,15 +668,26 @@ local function MovementWalk(self, dt, speedOverride)
     end
 end
 local function UpdateIdle(self, dist)
-    if anim and not anim:IsPlayingAnimation("Idle") then
-        anim:Play("Idle")
-    end
-    if dist <= self.public.detectRange and _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
-        _G.BossBar_SetVisibility(true)
-        _G.BossBar_RefreshHealth(hp, currentMaxHp)
-    end
-    if dist <= self.public.detectRange then
-        ChangeState(State.COMBAT_MOVE)
+    if playerGO and playerGO.transform then
+        local pPos = playerGO.transform.worldPosition
+
+        if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
+            
+            if dist <= self.public.detectRange then
+                
+                if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                    _G.BossBar_SetVisibility(true)
+                    _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                end
+                
+                ChangeState(State.COMBAT_MOVE)
+                return
+            end
+        else
+            if anim and not anim:IsPlayingAnimation("Idle") then
+                anim:Play("Idle", 0.2)
+            end
+        end
     end
 end
 
@@ -1114,101 +1138,71 @@ local function UpdateStun(self, dt)
 end
 
 local function UpdateDeath(self, dt)
-
-    if fase1 == true then
-        hp      = 500 
-        posture = 100 
-        isDead  = false
-
-        self.public.detectRange    = 27.0
-        self.public.chargeDamage      = 45
-        self.public.chargeSpeed       = 40.0 
-        self.public.chargeCooldown    = 1.5
-        self.public.lanceDamage       = 30
-        self.public.lanceCooldown     = 0.4
-        self.public.moveSpeed         = 8
-        self.public.preparationTime   = 0.5 
-        self.public.wallStunTime      = 1.0
-        self.public.afterStunTime     = 0.7
-        self.public.stunDuration      = 1.5
-        self.public.predictionTime    = 0.2 
-
-
-        currentState = State.IDLE
-        fase1 = false
-
-        currentMaxHp = 500
-        if _G.BossBar_ResetToFull then
-            _G.BossBar_ResetToFull(500)
-        end
-
-        return
-    else
         
-        deathTimer = deathTimer - dt
-        
-        if rb then
-            rb:SetLinearVelocity(0, 0, 0)
-            rb:SetBody(2)
-        end
-        if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
-            if anim then anim:Play("CinematicDeath") end
-            self.transform:SetPosition(131.563, -0.926, -657.100)
-            self.transform:SetRotation(-180, 76.951, -180)
-            deathAnimDone = true
-        end
+    deathTimer = deathTimer - dt
+    
+    if rb then
+        rb:SetLinearVelocity(0, 0, 0)
+        rb:SetBody(2)
+    end
+    if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
+        if anim then anim:Play("CinematicDeath") end
+        self.transform:SetPosition(131.563, -0.926, -657.100)
+        self.transform:SetRotation(-180, 76.951, -180)
+        deathAnimDone = true
+    end
 
-        -- if deathAnimDone then 
-        --     if anim then anim:Play("Idle") end
-        -- end
+    -- if deathAnimDone then 
+    --     if anim then anim:Play("Idle") end
+    -- end
 
-        if deathTimer <= 0 then
-            if self.targetDeathYisEnter == false then
-                local currentY = self.transform.position.y
-                self.targetDeathY = currentY - 10.0
-                self.targetDeathYisEnter = true
+    if deathTimer <= 0 then
+        if self.targetDeathYisEnter == false then
+            local currentY = self.transform.position.y
+            self.targetDeathY = currentY - 10.0
+            self.targetDeathYisEnter = true
+            
+            local colision = self.gameObject:GetComponent("Box Collider")
+            if colision then 
+                colision:Disable() 
                 
+                if rb then rb:SetUseGravity(false) end
+            end
+            
+            DestroyChargeFeedback(self)
+            Audio.SetMusicState("AfterBoss")
+        end
+
+        local pos = self.transform.position
+        if pos.y > self.targetDeathY then
+            self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
+        else
+            if not isDead then
+                    local door = GameObject.Find("Puerta_Final") 
+                if door then
+                    local doorScript = door:GetComponent("Script")
+                    if doorScript and doorScript.OpenDoor then
+                        doorScript:OpenDoor()
+                    end
+                end
+
                 local colision = self.gameObject:GetComponent("Box Collider")
                 if colision then 
                     colision:Disable() 
-                    
                     if rb then rb:SetUseGravity(false) end
                 end
+                isDead = true
+                Engine.Log("[Aquiles] DEAD i enterrat")
+
                 
-                DestroyChargeFeedback(self)
-                Audio.SetMusicState("AfterBoss")
-            end
 
-            local pos = self.transform.position
-            if pos.y > self.targetDeathY then
-                self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
-            else
-                if not isDead then
-                      local door = GameObject.Find("Puerta_Final") 
-                    if door then
-                        local doorScript = door:GetComponent("Script")
-                        if doorScript and doorScript.OpenDoor then
-                            doorScript:OpenDoor()
-                        end
-                    end
-
-                    local colision = self.gameObject:GetComponent("Box Collider")
-                    if colision then 
-                        colision:Disable() 
-                        if rb then rb:SetUseGravity(false) end
-                    end
-                    isDead = true
-                    Engine.Log("[Aquiles] DEAD i enterrat")
-
-                  
-
-                    rb       = nil
-                    anim     = nil
-                    playerGO = nil
-                end
+                rb       = nil
+                anim     = nil
+                playerGO = nil
             end
         end
     end
+    
 end
 
 local function FindAquilesAudioComponents(self)
@@ -1266,12 +1260,12 @@ function Start(self)
 
         preparationTime = 1.0,
         chargeSpeed     = 30.0, -- antes 22
-        chargeDuration  = 0.8, --antes 0.4
+        chargeDuration  = 0.6, --antes 0.8 -- antes 0.4
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
         chargeCooldown  = 2.0,
-        chargeDamage    = 35,
+        chargeDamage    = 25,
         stepInterval    = 0.6,
 
         knockbackForce  = 10.0,
@@ -1286,6 +1280,8 @@ function Start(self)
 
 
         minDistanceToPlayer=6.0,
+
+        excludeFromSave = true
     }
 
     currentMaxHp = self.public.maxHp
@@ -1357,6 +1353,10 @@ function Start(self)
 
     self.targetDeathY        = nil
     self.targetDeathYisEnter = false
+
+    self.CheckAlive = function(self)
+        return isDead
+    end
 end
 
 function Update(self, dt)
@@ -1497,15 +1497,17 @@ function Update(self, dt)
         pp = playerGO.transform.worldPosition
 
         if currentState ~= State.DEAD then
+            local currentVel = rb:GetLinearVelocity()
             local currentPos = self.transform.worldPosition
-            local floorheight = -1.5
+            
+            local floorheight = -1.0
 
             if currentPos.y > floorheight then
-                self.transform:SetPosition(currentPos.x, floorheight, currentPos.z)
-                
-                if rb then
-                    rb:SetLinearVelocity(slideVelX or 0, 0, slideVelZ or 0)
-                end
+            -- Si está flotando aunque sea un milímetro, le metemos un empujón brutal hacia abajo
+                self.transform:SetPosition(currentPos.x, -10, currentPos.z)
+            else
+                -- Si está en el suelo, estabilizamos para que no acumule fuerza infinita
+                rb:SetLinearVelocity(currentVel.x, 0, currentVel.z)
             end
         end
     end

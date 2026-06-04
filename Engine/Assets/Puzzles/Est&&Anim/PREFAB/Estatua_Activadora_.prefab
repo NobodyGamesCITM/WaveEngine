@@ -451,7 +451,7 @@
                         "UID": 14634409997259477018,
                         "loop": true,
                         "name": "Idle",
-                        "speed": 1.0
+                        "speed": 0.5
                     }
                 ],
                 "active": true,
@@ -466,14 +466,34 @@
                         "value": 0.0
                     },
                     {
+                        "name": "shootDuration",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
                         "name": "dirX",
                         "type": 0,
                         "value": 0.0
                     },
                     {
-                        "name": "onlyRedirected",
+                        "name": "shootDelay",
+                        "type": 0,
+                        "value": 0.5
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": "Puerta_Sala_1"
+                    },
+                    {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": 1.0
+                    },
+                    {
+                        "name": "shootMode",
                         "type": 2,
-                        "value": true
+                        "value": false
                     },
                     {
                         "name": "heightOffset",
@@ -481,19 +501,14 @@
                         "value": 2.5
                     },
                     {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": ""
-                    },
-                    {
                         "name": "fordwardOffset",
                         "type": 0,
                         "value": 0.5
                     },
                     {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": 1.0
+                        "name": "onlyRedirected",
+                        "type": 2,
+                        "value": true
                     }
                 ],
                 "scriptUID": 3213472682470300881,

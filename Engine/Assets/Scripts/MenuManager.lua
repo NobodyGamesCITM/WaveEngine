@@ -54,9 +54,10 @@ function _G.SaveManager.SaveGame()
         world = { 
             keysCollected = _G.keysCollected or 0,
             portalState = _G.PortalState or 0,
-            dialogs = _G.DialogsShown or {}
+            dialogs = _G.DialogsShown or {},
+            combats = _G.CombatStates or {}
         },
-        enemies = {}, doors = {} -- Eliminados los puzzles
+        enemies = {}, doors = {} 
     }
 
     local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
@@ -66,24 +67,34 @@ function _G.SaveManager.SaveGame()
             for _, enemy in ipairs(enemies) do
                 local eName = enemy.name
                 if eName then
-                    if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
                     local script = enemy:GetComponent("Script")
+                    
                     if script then
-                        local isDead = false
-                        if script.CheckAlive then isDead = script:CheckAlive()
-                        elseif script.isDead ~= nil then isDead = script.isDead
-                        elseif script.hp ~= nil then isDead = (script.hp <= 0) end
-                        
-                        local ePos = enemy.transform.worldPosition
-                        local eRot = enemy.transform.rotation
-                        table.insert(saveData.enemies[eName], { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                        if not (script.public and script.public.excludeFromSave) then
+                            
+                            if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
+                            
+                            local isDead = false
+                            if script.CheckAlive then isDead = script:CheckAlive()
+                            elseif script.isDead ~= nil then isDead = script.isDead
+                            elseif script.hp ~= nil then isDead = (script.hp <= 0) end
+                            if script.GetAres then isDead = script:GetAres() end
+
+                            local currentHp = 0
+                            if script.GetHP then currentHp = script:GetHP()
+                            elseif script.hp ~= nil then currentHp = script.hp end
+                            
+                            local ePos = enemy.transform.worldPosition
+                            local eRot = enemy.transform.rotation
+                            table.insert(saveData.enemies[eName], { dead = isDead, hp = currentHp, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                        end
                     end
                 end
             end
         end
     end
 
-    local doorTags = {"Door", "Door_Combat_1"}
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
     for _, tag in ipairs(doorTags) do
         local doors = GameObject.FindByTag(tag)
         if doors then
@@ -97,9 +108,7 @@ function _G.SaveManager.SaveGame()
                         if script.isOpen ~= nil then state = script.isOpen 
                         elseif script.isClose ~= nil then state = not script.isClose end
                     end
-                    local dPos = door.transform.worldPosition
-                    local dRot = door.transform.rotation
-                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z, rotY = dRot.y })
+                    table.insert(saveData.doors[dName], { open = state })
                 end
             end
         end
@@ -155,9 +164,11 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
         _G.keysCollected = data.world.keysCollected or 0
         _G.PortalState = data.world.portalState or 0
         _G.DialogsShown = data.world.dialogs or {}
+        _G.CombatStates = data.world.combats or {}
         _G._PlayerController_introAnim = false 
         _G.ForcePortalUpdate = true 
         
+
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
     end
 
@@ -171,15 +182,20 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                 pcall(function()
                     local eName = enemy.name
                     if eName then
+                        local script = enemy:GetComponent("Script")
+                        
+                        if not script or (script.public and script.public.excludeFromSave) then
+                            return
+                        end
+
                         enemyCounters[eName] = (enemyCounters[eName] or 0) + 1
                         local eList = data.enemies[eName]
                         if eList and enemyCounters[eName] <= #eList then
                             local eData = eList[enemyCounters[eName]]
                             if eData.dead then
                                 if enemy.transform then enemy.transform:SetPosition(0, -1000, 0) end
-                                local script = enemy:GetComponent("Script")
                                 if script then 
-                                    script.hp = 0
+                                    if script.SetHP then script:SetHP(0) else script.hp = 0 end
                                     script.isDead = true
                                     if script.SetDead then script:SetDead() end
                                 end
@@ -191,8 +207,9 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                                 end
                                 local rb = enemy:GetComponent("Rigidbody")
                                 if rb then rb:SetLinearVelocity(0,0,0) end
-                                local script = enemy:GetComponent("Script")
-                                if script then script.hp = eData.hp end
+                                if script then 
+                                    if script.SetHP then script:SetHP(eData.hp) else script.hp = eData.hp end
+                                end
                                 if enemy.SetActive then enemy:SetActive(true) end
                             end
                         end
@@ -203,7 +220,7 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
     end
 
     local doorCounters = {}
-    local doorTags = {"Door", "Door_Combat_1"}
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
     for _, tag in ipairs(doorTags) do
         local doors = GameObject.FindByTag(tag)
         if doors and data.doors then
@@ -216,12 +233,6 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                         if dList and doorCounters[dName] <= #dList then
                             local dData = dList[doorCounters[dName]]
                             
-                            -- Restaurar transform matrix global
-                            if door.transform then
-                                door.transform:SetPosition(dData.x, dData.y, dData.z)
-                                door.transform:SetRotation(0, dData.rotY, 0)
-                            end
-
                             local script = door:GetComponent("Script")
                             if script then
                                 if dData.open then
@@ -263,6 +274,7 @@ public = {
 local FADE_IN_DURATION = 0.4
 local DEATH_MENU_DELAY = 6.2
 local DROWNING_DEATH_MENU_DELAY = 2.0
+local triedAgain = false
 
 local function ApplyFullVolume(self)
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
@@ -448,16 +460,14 @@ function Initialize(self)
         _G.CurrentXAML = self.current
     end
 
+    --setting music state on Init
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
-        Audio.SetMusicState("MainMenu")
+        -- Audio.SetMusicState("MainMenu")
+        -- Engine.Log("[MenuManager] Setting BGM to MainMenu on Init")
         self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
-        if sceneVal == "Level1.scene" then
-            Audio.SetMusicState("Level1")
-        elseif sceneVal == "Level2.scene" then
-            Audio.SetMusicState("Level2")
-        end
+        
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
@@ -544,7 +554,12 @@ function Update(self, dt)
 
         local musicState = "None"
         if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
-            musicState = "Level1"
+            
+            if _G.CinematicActive then
+                musicState = "Vignettes"
+            else
+                musicState = "Level1"
+            end
         elseif sceneVal:find("Level2")  or sceneVal == "Level2.scene" then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
@@ -555,9 +570,10 @@ function Update(self, dt)
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
             self.musicComp:SelectPlayAudioEvent("MUS_BGM")
-            Engine.Log("Started playing BGM from MenuManager")
+            Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
+
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -735,7 +751,8 @@ function Update(self, dt)
                 _G.ForceStartXAML = nil
                 _G.CurrentXAML = "HUD.xaml"
                 _G.CurrentLevel = "Level1"
-                _G.DialogsShown = {} 
+                _G.DialogsShown = {}
+                _G.CombatStates = {}
                 
                 self.pendingScene = "Level1.scene"
                 self.fading = true
@@ -776,11 +793,22 @@ function Update(self, dt)
         end
         if UI.WasClicked("ResumeButton")   then NavigateTo(self, "HUD.xaml") end
         if UI.WasClicked("TryAgainButton") then
-            _G._PlayerController_isDead = false
+           
+            -- if self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level1")
+            --     Engine.Log("[MenuManager] Setting BGM to Level1 on Death")
+            -- elseif self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level2")
+            --     Engine.Log("[MenuManager] Setting BGM to Level2 on Death")
+            -- end
+             _G._PlayerController_isDead = false
+            triedAgain = true
+            
             self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
+           
         end
-                if UI.WasClicked("BackToMenuButton") then
+        if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
                 Engine.Log("[MenuManager] BackToMenuButton. Limpiando sesión de juego.")
                 _G._PlayerController_isDead = false
@@ -885,11 +913,12 @@ function Update(self, dt)
             elseif self.public.currentScene == "Level2.scene" then
                 
                 local currentMusicState = tostring(Audio.GetMusicState())
-                
-                if currentMusicState ~= "Boss" and currentMusicState ~= "AfterBoss" and currentMusicState ~= "Boss_Intro"  then
-                    Audio.SetMusicState("Level2")
-                    
+            
+                if triedAgain then
+                    Audio.SetMusicState("Level2") 
+                    triedAgain = false
                 end
+                
             end
             if previous == "PauseMenu.xaml" then
                 

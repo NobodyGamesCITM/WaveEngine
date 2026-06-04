@@ -632,6 +632,10 @@ function Start(self)
 
     PlayAnim(self.public.animIdle, 0.0)
     Engine.Log("[Boss] Start OK  HP=" .. hp)
+
+    self.CheckAlive = function(self)
+        return not isDead
+    end
 end
 
 -- ─────────────────────────────────────────────────────────────────────────

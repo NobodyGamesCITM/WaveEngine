@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{D0700DB3-57C5-B9B7-C35F-6060749DEC6E}",
+    "Hash": "{FBF9DF38-2FAB-0D09-EBBE-932258F34C1E}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -502,6 +502,14 @@
       "Location": "Memory",
       "ShortName": "chain_break_00.wav",
       "CachePath": "CD/{CDA3AAD9-F800-E375-0F42-C39FC5EE0CA5}.wem"
+     },
+     {
+      "Id": "216880571",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "telemelancholy.wav",
+      "CachePath": "72/{72418ECE-612F-EE03-FD1D-EC233B4AC55E}.wem"
      },
      {
       "Id": "217331738",
@@ -2470,6 +2478,19 @@
         "MediaRefs": [
          {
           "Id": "179764612"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "3086301423",
+         "Id": "55449706",
+         "GUID": "{C82A7278-3A50-431C-B888-0645573B6E31}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "216880571"
          }
         ]
        }
@@ -4860,8 +4881,8 @@
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_TeleVocals",
       "GUID": "{D928F13C-65B0-4DED-860E-0DEE6BA11F85}",
       "DurationType": "OneShot",
-      "DurationMin": "0.71687824",
-      "DurationMax": "1.7901528",
+      "DurationMin": "0.9168782",
+      "DurationMax": "1.9901528",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -5148,6 +5169,12 @@
       "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
+        "Id": "55449706",
+        "Name": "Vignettes",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Vignettes",
+        "GUID": "{C82A7278-3A50-431C-B888-0645573B6E31}"
+       },
+       {
         "Id": "447801688",
         "Name": "Level2_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2_Combat",
@@ -5354,6 +5381,6 @@
     ]
    }
   ],
-  "FileHash": "{788A49ED-15C2-5F1E-35BB-B656A5B5C4CA}"
+  "FileHash": "{FE319A82-1962-8BFC-F712-40EA970DFE5B}"
  }
 }

@@ -1850,7 +1850,7 @@
 							<ChildrenList>
 								<Action Name="" ID="{642FFEF6-C96E-46A6-9E9E-BA2F12D03E4A}" ShortID="505358334">
 									<PropertyList>
-										<Property Name="Delay" Type="Real64" Value="0.5"/>
+										<Property Name="Delay" Type="Real64" Value="0.7"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">

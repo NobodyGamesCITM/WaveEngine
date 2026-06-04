@@ -66,7 +66,15 @@ function Start(self)
     self.StartTransition = StartTransition
 
     if self.public.currentLevel == "Level2" then
-        portalExitTimer = 8.0
+        if not _G.LoadedFromSave then
+            portalExitTimer = 8.0
+            if _G.PlayerInstance then 
+                _G.PlayerInstance.public.canMove = false 
+            end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
+        else
+            portalExitTimer = 0.0
+        end
     end
 end
 
@@ -112,6 +120,9 @@ function Update(self, dt)
             _G.PlayerInstance.public.canMove = false
             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
             if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
+            
+            if _G.PlayPortalExitCinematic then _G.PlayPortalExitCinematic() end
+
             local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
             if anim then
                 pcall(function() anim:Play("Idle", 0.0) end)

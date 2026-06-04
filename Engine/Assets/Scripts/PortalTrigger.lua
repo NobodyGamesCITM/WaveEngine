@@ -60,6 +60,9 @@ function Update(self, dt)
                             _G.PlayerInstance.public.canMove = false
                             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(20.0) end
                             if _G.StartPortalEnterAnim then _G.StartPortalEnterAnim() end
+                            
+                            if _G.PlayPortalEnterCinematic then _G.PlayPortalEnterCinematic() end
+
                             _G.PlayerInstance.transform:SetPosition(97.633, -0.811, -178.289)
                             local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
                             if anim then

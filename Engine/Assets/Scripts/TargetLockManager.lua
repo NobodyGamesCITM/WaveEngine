@@ -231,6 +231,14 @@ function Update(self, dt)
         return 
     end
 
+    if _G.PlayerInAnim or _G._PlayerController_isDead then
+        if isLocked then 
+            ClearLockInternal(self) 
+        end
+        if lockParticleObj then lockParticleObj:SetActive(false) end
+        return
+    end
+
     if not player or not cineCam then return end
 
     if switchCooldown > 0 then switchCooldown = switchCooldown - dt end

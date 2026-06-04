@@ -27,6 +27,8 @@ namespace AK
         static const AkUniqueID SFX_AQUILESSPEARHIT = 2157393365U;
         static const AkUniqueID SFX_AQUILESSPEARSWING = 276386536U;
         static const AkUniqueID SFX_AQUILESSTEPS = 3602580268U;
+        static const AkUniqueID SFX_AQUILESSTUCK = 3348356153U;
+        static const AkUniqueID SFX_AQUILESWALLHIT = 2719394510U;
         static const AkUniqueID SFX_AQUILESWARCRY = 2836803753U;
         static const AkUniqueID SFX_ARESCHARGE = 1489981256U;
         static const AkUniqueID SFX_CALMWATER = 2864737081U;
@@ -38,6 +40,9 @@ namespace AK
         static const AkUniqueID SFX_DOORSTOP = 2620143605U;
         static const AkUniqueID SFX_FINISHHIM = 376918614U;
         static const AkUniqueID SFX_FLOWINGWATER = 1141598152U;
+        static const AkUniqueID SFX_GHOSTSCREAMS = 1423014660U;
+        static const AkUniqueID SFX_GHOSTSTHEMIN = 2416315390U;
+        static const AkUniqueID SFX_GHOSTWHISPERS = 1939663439U;
         static const AkUniqueID SFX_GM_FALLDOWN = 118434115U;
         static const AkUniqueID SFX_GM_KNOCKBACK = 605795181U;
         static const AkUniqueID SFX_GM_MASKFLY = 336495419U;
@@ -102,6 +107,8 @@ namespace AK
         static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
         static const AkUniqueID SFX_UNSHEATHE = 796310264U;
         static const AkUniqueID SFX_ZOOMOUT = 2621714572U;
+        static const AkUniqueID UI_BERSERKERLOW = 4284527793U;
+        static const AkUniqueID UI_BERSERKERPULSE = 3704504596U;
         static const AkUniqueID UI_BUTTONPRESS = 416781375U;
         static const AkUniqueID UI_BUTTONSELECT = 2295055714U;
         static const AkUniqueID UI_CLOSEWINDOW = 767454882U;
@@ -110,6 +117,7 @@ namespace AK
         static const AkUniqueID UI_PAGETURN = 1569503582U;
         static const AkUniqueID UI_POTIONGET = 3610360561U;
         static const AkUniqueID UI_SKIPDIALOG = 344780467U;
+        static const AkUniqueID UI_SLIDERTEST = 1643144237U;
         static const AkUniqueID UI_TELEVOCALS = 3718241572U;
     } // namespace EVENTS
 
@@ -123,12 +131,15 @@ namespace AK
             {
                 static const AkUniqueID AFTERBOSS = 1221996634U;
                 static const AkUniqueID BOSS = 1560169506U;
+                static const AkUniqueID BOSS_INTRO = 1720208925U;
                 static const AkUniqueID LEVEL1 = 2678230382U;
                 static const AkUniqueID LEVEL1_COMBAT = 1499148877U;
+                static const AkUniqueID LEVEL1_INTRO = 2339009721U;
                 static const AkUniqueID LEVEL2 = 2678230381U;
                 static const AkUniqueID LEVEL2_COMBAT = 447801688U;
                 static const AkUniqueID MAINMENU = 3604647259U;
                 static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID VIGNETTES = 55449706U;
             } // namespace STATE
         } // namespace BGM_STATE
 

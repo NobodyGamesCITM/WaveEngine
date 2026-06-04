@@ -1,3 +1,4 @@
+--Scene Changer Script
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
@@ -13,6 +14,7 @@ local musicFadeTimer = 0.0
 local volume = 100.0
 local startDelay = 1.5
 local loadingTimer = 0.0
+local portalExitTimer = 0.0
 
 public = {
     targetScene = "Level2",
@@ -28,7 +30,11 @@ function Start(self)
 
     
     if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
-        _G._PlayerController_introAnim = true 
+        if _G.LoadedFromSave then
+            _G._PlayerController_introAnim = false 
+        else
+            _G._PlayerController_introAnim = true 
+        end
     else
         _G._PlayerController_introAnim = false 
     end
@@ -42,23 +48,28 @@ function Start(self)
     _G.CurrentLevel = self.public.currentLevel
     canvasComponent = self.gameObject:GetComponent("Canvas") 
 
-    self.musicSource = GameObject.Find("MusicSource")
-    if self.musicSource then 
-        self.musicComp = self.musicSource:GetComponent("Audio Source")
-        if self.musicComp then 
-            Engine.Log("[SceneChanger] Music Audio Source Component Found") 
-        end
-    end
+    -- self.musicSource = GameObject.Find("MusicSource")
+    -- if self.musicSource then 
+    --     self.musicComp = self.musicSource:GetComponent("Audio Source")
+    --     if self.musicComp then 
+    --         Engine.Log("[SceneChanger] Music Audio Source Component Found") 
+    --     end
+    -- end
 
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró Canvas.")
     else
         canvasComponent:LoadXAML("LoadingScreen.xaml")
         canvasComponent:SetOpacity(1.0) 
-        _G.CurrentXAML = "LoadingScreen.xaml"
     end
 
     self.StartTransition = StartTransition
+
+    if self.public.currentLevel == "Level2" then
+        portalExitTimer = 8.0
+        _G.PlayerInstance.public.canMove = false
+        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
+    end
 end
 
 function Update(self, dt)
@@ -68,32 +79,48 @@ function Update(self, dt)
         StartTransition(self, "Level2")
     end
 	
-	if not Audio.IsEventPlaying("MUS_BGM") then
-        local sceneVal = self.public.currentLevel
-        local musicState = "None"
+	-- if not Audio.IsEventPlaying("MUS_BGM") then
+    --     local sceneVal = self.public.currentLevel
+    --     local musicState = "None"
         
-        if self.public.currentLevel == "Level1" then 
-           musicState = "Level1"
-        elseif self.public.currentLevel == "Level2" then 
-           musicState = "Level2"
-        elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
-            musicState = "MainMenu"
-        else
-            Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
-        end
+    --     if self.public.currentLevel == "Level1" then 
+    --        musicState = "Level1"
+    --     elseif self.public.currentLevel == "Level2" then 
+    --        musicState = "Level2"
+    --     elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
+    --         musicState = "MainMenu"
+    --     else
+    --         Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
+    --     end
         
-        Audio.SetMusicState(tostring(musicState))
-        self.musicSource = GameObject.Find("MusicSource")
-        if self.musicSource then 
-            self.musicComp = self.musicSource:GetComponent("Audio Source")
-            if self.musicComp then 
-                self.musicComp:PlayAudioEvent() 
-            end
-        end
-    end
+    --     Audio.SetMusicState(tostring(musicState))
+    --     self.musicSource = GameObject.Find("MusicSource")
+    --     if self.musicSource then 
+    --         self.musicComp = self.musicSource:GetComponent("Audio Source")
+    --         if self.musicComp then 
+    --             self.musicComp:SelectPlayAudioEvent("MUS_BGM") 
+    --             Engine.Log("Started playing BGM from SceneChanger")
+    --         end
+    --     end
+    -- end
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
+
+    if portalExitTimer > 0 then
+        portalExitTimer = portalExitTimer - dt
+        if portalExitTimer <= 0 and _G.PlayerInstance then
+            portalExitTimer = 0
+            _G.PlayerInstance.public.canMove = false
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
+            if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
+            local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("Idle", 0.0) end)
+                pcall(function() anim:Play("PortalExit", 0.0) end)
+            end
+        end
+    end
 
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)
@@ -109,6 +136,7 @@ function Update(self, dt)
 			_G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
+        SetSFXVolume(volume)
         SetCanvasAlpha(currentAlpha)
 
     elseif currentState == State.LOADING then
@@ -140,6 +168,7 @@ function Update(self, dt)
             currentState = State.LOADING
             SetCanvasAlpha(currentAlpha)
             SetMusicVolume(volume)
+            SetSFXVolume(volume)
 
             if canvasComponent then
                 canvasComponent:LoadXAML("LoadingScreen.xaml")
@@ -148,6 +177,8 @@ function Update(self, dt)
         
         SetCanvasAlpha(currentAlpha)
         SetMusicVolume(volume)
+        SetSFXVolume(volume)
+
     end
 end
 
@@ -190,6 +221,13 @@ end
 function SetMusicVolume(volume)
     if volume then 
         Audio.SetMusicVolume(volume)
+    else
+    end
+end
+
+function SetSFXVolume(volume)
+    if volume then
+        Audio.SetSFXVolume(volume)
     else
     end
 end

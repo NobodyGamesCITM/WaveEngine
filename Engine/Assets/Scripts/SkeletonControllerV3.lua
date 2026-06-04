@@ -90,6 +90,13 @@ local initChase = false
 local alreadyDodge = false
 local dodgeTimer = 0.0
 
+local slotManager = nil
+local targetSlotId = nil
+local targetSlotPos = nil
+local slotRetryTimer = 0
+local slotFailCount = 0
+local MAX_SLOT_RETRIES = 3
+
 local function Lerp(a, b, t)  return a + (b-a)*t  end
 
 local function Clamp(v, lo, hi)
@@ -103,11 +110,19 @@ local function CheckDistance(self, dist, near)
     local playerPos = obj.transform.position
     local pos = self.transform.position
     
-   -- Engine.Log("[Skeleton] NOT NEAR ENOUGH: " .. tostring(dist))
     if near == true then 
         return math.abs(pos.x - playerPos.x) < dist and math.abs(pos.z - playerPos.z) < dist and math.abs(pos.y - playerPos.y) < self.public.nearYDist
     else
         return math.abs(pos.x - playerPos.x) > dist or math.abs(pos.z - playerPos.z) > dist or math.abs(pos.y - playerPos.y) > self.public.nearYDist
+    end
+end
+
+local function CheckSlotDistance(self, dist, target ,near)
+    local pos = self.transform.position
+    if near == true then 
+        return math.abs(pos.x - target.x) < dist and math.abs(pos.z - target.z) < dist and math.abs(pos.y - target.y) < self.public.nearYDist
+    else
+        return math.abs(pos.x - target.x) > dist or math.abs(pos.z - target.z) > dist or math.abs(pos.y - target.y) > self.public.nearYDist
     end
 end
 
@@ -157,6 +172,7 @@ local function TakeDamage(self, amount, attackerPos)
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
         Game.SetTimeScale(0.3)
         _impactFrameTimer = 0.2
+        initChase = false
         ChangeState(self, State.DEAD)
     else
         --hitGiven = false
@@ -166,47 +182,63 @@ local function TakeDamage(self, amount, attackerPos)
 end
 local function FindAudioComponents(self)
     local attackSource = GameObject.FindInChildren(self.gameObject, "SK_KopisSource")
-    if not attackSource then Engine.Log("Could not retrieve GameObject containing Skeleton attackSFX")
+    if not attackSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton attackSFX")
     else
         self.attackSFX = attackSource:GetComponent("Audio Source")
-        if not self.attackSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton attackSFX") end
+        if not self.attackSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton attackSFX") 
+        end
     end
 
     local hurtSource = GameObject.FindInChildren(self.gameObject, "SK_HurtSource")
-    if not hurtSource then Engine.Log("Could not retrieve GameObject containing Skeleton hurtSFX")
+    if not hurtSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton hurtSFX")
     else
         self.hurtSFX = hurtSource:GetComponent("Audio Source")
-        if not self.hurtSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton hurtSFX") end
+        if not self.hurtSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton hurtSFX") 
+        end
     end
 
     local dieSource = GameObject.FindInChildren(self.gameObject, "SK_DieSource")
-    if not dieSource then Engine.Log("Could not retrieve GameObject containing Skeleton deathSFX")
+    if not dieSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton deathSFX")
     else
         self.dieSFX = dieSource:GetComponent("Audio Source")
-        if not self.dieSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dieSFX") end
+        if not self.dieSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton dieSFX") 
+        end
     end
 
     local dodgeSource = GameObject.FindInChildren(self.gameObject, "SK_DodgeSource")
-    if not dodgeSource then Engine.Log("Could not retrieve GameObject containing Skeleton dodgeSFX")
+    if not dodgeSource then 
+        --Engine.Log("Could not retrieve GameObject containing Skeleton dodgeSFX")
     else
         self.dodgeSFX = dodgeSource:GetComponent("Audio Source")
-        if not self.dodgeSFX then Engine.Log("Could not retrieve Audio Source component to play Skeleton dodgeSFX") end
+        if not self.dodgeSFX then 
+            --Engine.Log("Could not retrieve Audio Source component to play Skeleton dodgeSFX")
+        end
     end
 
     self.stepSFX = self.gameObject:GetComponent("Audio Source")
     if not self.stepSFX then
-        Engine.Log("[SKELETON AUDIO] Make sure there's an Audio Source with Steps SFX in the Skeleton's parent GameObject!")
+        --Engine.Log("[SKELETON AUDIO] Make sure there's an Audio Source with Steps SFX in the Skeleton's parent GameObject!")
     end
 end
 
 local function PlaySFX(audioComp)
     if audioComp then audioComp:PlayAudioEvent()
-    else Engine.Log("Could not play configured event in Audio Source " .. tostring(audioComp) .. ", component not found") end
+    else 
+        --Engine.Log("Could not play configured event in Audio Source " .. tostring(audioComp) .. ", component not found") 
+    end
 end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(audioComp, eventName)
-    else Engine.Log("Could not play " .. eventName .. ", Audio Source component " .. tostring(audioComp) .. " not found") end
+    else 
+        --Engine.Log("Could not play " .. eventName .. ", Audio Source component " .. tostring(audioComp) .. " not found") 
+    end
 end
 
 function Start(self)
@@ -281,6 +313,8 @@ function Start(self)
         if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
         vfxDodge:SetActive(false)
     end
+    local combatScrip = GameObject.Find("CombatSlots")
+    slotManager = combatScrip:GetComponent("Script")
 end
 
 States[State.IDLE] = {
@@ -381,7 +415,8 @@ States[State.PATROL] = {
         if States[State.PATROL].timeA >= 4.0 then
             local pos = self.transform.position
             States[State.PATROL].timeA = 0.0
-            if math.abs(pos.x - States[State.PATROL].tempPos.x) < 0.8 and math.abs(pos.z - States[State.PATROL].tempPos.z) < 0.8 then
+            local distMoved = math.sqrt((pos.x - States[State.PATROL].tempPos.x)^2 + (pos.z - States[State.PATROL].tempPos.z)^2)
+            if distMoved < 2.0 then
                 patrolWait   = self.public.patrolWaitMin
                     + math.random() * (self.public.patrolWaitMax - self.public.patrolWaitMin)
                 ChangeState(self, State.IDLE)
@@ -390,7 +425,7 @@ States[State.PATROL] = {
                 States[State.PATROL].tempPos = pos
             end
         else   
-            States[State.PATROL].timeA = States[State.PATROL].timeA + 0.1
+            States[State.PATROL].timeA = States[State.PATROL].timeA + dt
         end
 
     end
@@ -398,30 +433,80 @@ States[State.PATROL] = {
 
 States[State.CHASE] = {
     Enter = function(self)
+        if targetSlotId == nil then
+            local slotData = slotManager:ClaimSlot(self)
+            if slotData ~= nil then
+                targetSlotId = slotData.id
+                targetSlotPos = slotData.position
+            end
+        end
+
         local anim = self.gameObject:GetComponent("Animation")
         if anim then 
             pcall(function() anim:Play("Run", 0.2) end)
         end
-
     end,
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
+        if targetSlotId ~= nil then
+            targetSlotPos = slotManager:GetSlotPosition(targetSlotId)
+        end
+        local destination = targetSlotPos or plPos
         local cantChase = true
-        
+
         Skeleton.navRefreshTimer = Skeleton.navRefreshTimer - dt
         if Skeleton.navRefreshTimer <= 0 then
-            cantChase = Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z)
+            cantChase = Skeleton.nav:CheckDestination(destination.x, destination.y, destination.z)
+            if cantChase then Skeleton.nav:SetDestination(destination.x, destination.y, destination.z) 
+            else 
+                initChase = false
+                Skeleton.nav:SetDestination(plPos.x, plPos.y, plPos.z) 
+            end
+
+            if not cantChase and targetSlotId ~= nil then
+                slotFailCount = (slotFailCount or 0) + 1
+
+                slotManager:ReleaseSlot(targetSlotId)
+                targetSlotId = nil
+                targetSlotPos = nil
+
+                if slotFailCount >= MAX_SLOT_RETRIES then
+                    slotFailCount = 0
+                    slotRetryTimer = 2.0 
+                else
+                    local slotData = slotManager:ClaimSlot(self)
+                    if slotData ~= nil then
+                        targetSlotId = slotData.id
+                        targetSlotPos = slotData.position
+                    end
+                end
+            else
+                slotFailCount = 0
+            end
             Skeleton.navRefreshTimer = self.public.navRefreshRate
         end
 
-        if CheckDistance(self,self.public.nearDist,true) then
+        if slotRetryTimer ~= nil and slotRetryTimer > 0 then
+            slotRetryTimer = slotRetryTimer - dt
+            Skeleton.rb:SetLinearVelocity(0, 0, 0) 
+            FaceTargetSmooth(self, playerGO.transform.worldPosition, dt)
+            return
+        end
+
+        if CheckSlotDistance(self, 1.0, destination ,true) or CheckDistance(self, 1.5, true) then
             initChase = false
             ChangeState(self, State.ATTACK)
             return
         end
+
         if not initChase then
-            if CheckDistance(self,self.public.detectDist+3,false) or not cantChase then
-                if not self.public.activeGuard then ChangeState(self, State.IDLE)
+            if CheckDistance(self, self.public.detectDist + 3, false) or not cantChase then
+                slotManager:ReleaseSlot(targetSlotId)
+                targetSlotId = nil
+                targetSlotPos = nil
+
+                if not self.public.activeGuard then 
+                    ChangeState(self, State.IDLE)
                 else  
                     OnStartPos = false
                     ChangeState(self, State.GUARD) 
@@ -434,7 +519,7 @@ States[State.CHASE] = {
         targetVelX = dx * self.public.chaseSpeed
         targetVelZ = dz * self.public.chaseSpeed
         ApplyMoveVelocity(dt, 1.5)
-        FaceTargetSmooth(self, plPos, dt)
+        FaceTargetSmooth(self, self.targetSlotPos or plPos, dt)
     end
 }
 
@@ -450,13 +535,16 @@ States[State.ATTACK] = {
     Update = function(self, dt)
         local plPos = playerGO.transform.worldPosition
         attackTimer = attackTimer + dt
-        if CheckDistance(self,self.public.nearDist, false) and not States[State.ATTACK].attacking then
+
+        if CheckDistance(self, self.public.nearDist, false) and not States[State.ATTACK].attacking then
+            slotManager:ReleaseSlot(targetSlotId)
+            targetSlotId = nil
             ChangeState(self, State.CHASE)
             hitGiven = false
             attackTimer = 0
             return
         end
-        --Engine.Log(tostring(attackTimer))
+
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
@@ -465,10 +553,10 @@ States[State.ATTACK] = {
                     pcall(function() anim:Play("Attack", 0.0) end)
                 end
             end
-            States[State.ATTACK].attacking = true
+            States[State.ATTACK].attacking = false
         end
 
-        if attackTimer >= self.public.attackColDelay and not hitGiven and not CheckDistance(self,self.public.nearDist, false) then
+        if attackTimer >= self.public.attackColDelay and not hitGiven and not CheckDistance(self, self.public.nearDist, false) then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
                 PlaySFX(self.attackSFX)
@@ -484,13 +572,16 @@ States[State.ATTACK] = {
                 pcall(function() anim:Play("Orbit", 0.5) end)
             end
             hitGiven = false
-            attackTimer   = 0
+            attackTimer = 0
             States[State.ATTACK].attacking = false
         end
 
         if _G.PlayerInAnim then 
+            slotManager:ReleaseSlot(self.targetSlotId)
+            targetSlotId = nil
             ChangeState(self, State.IDLE)
         end
+
         FaceTargetSmooth(self, plPos, dt)
         Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
@@ -519,7 +610,8 @@ cnt = 0.0,
     Update = function(self, dt)
         States[State.HIT].cnt = States[State.HIT].cnt + dt
         if States[State.HIT].cnt >= hitCooldown then 
-            ChangeState(self, State.ATTACK)
+            if initChase then ChangeState(self, State.CHASE)
+            else ChangeState(self, State.ATTACK) end
         end
     end,
     Exit = function(self)
@@ -604,6 +696,9 @@ States[State.DEAD] = {
         end
         if revive then States[State.DEAD].deadAnim = true  
         else States[State.DEAD].deadAnim = false end
+        slotManager:ReleaseSlot(targetSlotId)
+        targetSlotId = nil
+        targetSlotPos = nil
     end,
     Update = function(self, dt)
         if not Skeleton.isDead  then
@@ -612,7 +707,7 @@ States[State.DEAD] = {
             if colision then 
                 colision:Disable()
                 Skeleton.rb:SetUseGravity(false)
-                self.gameObject:SetActive(false)
+                --self.gameObject:SetActive(false)
             else  Engine.Log("Sphere not found") end
 
             if self.public.level2 then BaseMat.SetTexture("9184343178901509246")
@@ -689,7 +784,6 @@ function Update(self, dt)
             alreadyDodge = false
             dodgeTimer = 0.0
         end
-        --Engine.Log("[Skeleton] Dodge on Coldown: "..tostring(dodgeTimer))
     end
 
     if setAlive then
@@ -702,7 +796,6 @@ function Update(self, dt)
     end
 
     if CheckDistance(self,self.public.detectDist,true) then
-        --Engine.Log("Triggering Combat Music from Skeleton Detection Range")
         if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
     end
 end
@@ -726,7 +819,6 @@ function OnTriggerEnter(self, other)
                             TakeDamage(self, dmg, ap) 
                             if not alreadyDodge then 
                                 self.public.dodgeChance = self.public.dodgeChance + self.public.dodgeIncrement 
-                                --Engine.Log("[Skeleton] Dodge on Increment : ".. tostring(self.public.dodgeChance))
                             end
                         end
                     end
@@ -739,11 +831,8 @@ function OnTriggerEnter(self, other)
             if not alreadyHit then
                 local ap  = other.transform.worldPosition
                 local dmg = 15
+                if CheckDistance(self,self.public.nearDist, false) then initChase = true end
                 TakeDamage(self, dmg, ap)
-                if CheckDistance(self,self.public.nearDist, false) then 
-                    initChase = true
-                    ChangeState(self,State.CHASE)
-                end
             end
         end
     else 

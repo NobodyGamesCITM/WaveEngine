@@ -5564,44 +5564,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "staminaRecover",
+                            "name": "hermesWaterMax",
                             "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "heavyDuration",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "speedIncrease",
-                            "type": 0,
-                            "value": 8.0
+                            "value": 2.0
                         },
                         {
                             "name": "giveAresMask",
@@ -5609,9 +5574,14 @@
                             "value": false
                         },
                         {
-                            "name": "comboCooldown",
+                            "name": "speedHermesBonus",
                             "type": 0,
-                            "value": 1.0
+                            "value": 7.0
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
                         },
                         {
                             "name": "hpLossCost",
@@ -5619,24 +5589,34 @@
                             "value": 30.0
                         },
                         {
-                            "name": "attackBufferDuration",
+                            "name": "staminaCost",
                             "type": 0,
-                            "value": 0.6000000238418579
+                            "value": 80.0
                         },
                         {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
                         },
                         {
-                            "name": "bulletSpawnY",
+                            "name": "rollStaminaCost",
                             "type": 0,
-                            "value": 1.5
+                            "value": 25.0
                         },
                         {
-                            "name": "stamina",
+                            "name": "hitShakeDuration",
                             "type": 0,
-                            "value": 100.0
+                            "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
                         },
                         {
                             "name": "speed",
@@ -5649,79 +5629,29 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "speedHermesBonus",
-                            "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "heavyStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "shootDuration",
+                            "name": "rollCooldownMax",
                             "type": 0,
                             "value": 0.5
                         },
                         {
-                            "name": "rollDuration",
+                            "name": "bulletSpawnY",
                             "type": 0,
-                            "value": 0.5
+                            "value": 1.5
+                        },
+                        {
+                            "name": "attackImpulseForce",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.4000000059604645
                         },
                         {
                             "name": "berserkActive",
@@ -5734,9 +5664,34 @@
                             "value": true
                         },
                         {
+                            "name": "attackBufferDuration",
+                            "type": 0,
+                            "value": 0.6000000238418579
+                        },
+                        {
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "heavyUpImpulse",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
                             "name": "heavyAttackDelay",
                             "type": 0,
                             "value": 0.3499999940395355
+                        },
+                        {
+                            "name": "heavyDuration",
+                            "type": 0,
+                            "value": 0.699999988079071
                         },
                         {
                             "name": "attackImpulseWindow",
@@ -5744,29 +5699,14 @@
                             "value": 0.15000000596046448
                         },
                         {
-                            "name": "attackImpulseForce",
-                            "type": 0,
-                            "value": 8.0
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
                         },
                         {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "rollCooldownMax",
+                            "name": "knockbackForce",
                             "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
+                            "value": 14.0
                         },
                         {
                             "name": "rollSpeed",
@@ -5774,19 +5714,79 @@
                             "value": 15.0
                         },
                         {
-                            "name": "hitShakeDuration",
+                            "name": "comboCooldown",
                             "type": 0,
-                            "value": 0.30000001192092896
+                            "value": 1.0
                         },
                         {
-                            "name": "attackCooldown",
+                            "name": "hpRecover",
                             "type": 0,
-                            "value": 0.4000000059604645
+                            "value": 30.0
                         },
                         {
-                            "name": "tiredMultiplier",
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "health",
                             "type": 0,
-                            "value": 0.699999988079071
+                            "value": 100.0
+                        },
+                        {
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "speedIncrease",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -6028,7 +6028,7 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "maxBerserk",
+                            "name": "maxPotions",
                             "type": 0,
                             "value": 0.0
                         },
@@ -6038,14 +6038,14 @@
                             "value": 2.0
                         },
                         {
+                            "name": "maxBerserk",
+                            "type": 0,
+                            "value": 0.0
+                        },
+                        {
                             "name": "potionCount",
                             "type": 0,
                             "value": 2.0
-                        },
-                        {
-                            "name": "maxPotions",
-                            "type": 0,
-                            "value": 0.0
                         }
                     ],
                     "scriptUID": 17781908272799701194,
@@ -6054,6 +6054,11 @@
                 {
                     "active": true,
                     "publicVariables": [
+                        {
+                            "name": "saveCooldown",
+                            "type": 0,
+                            "value": 5.0
+                        },
                         {
                             "name": "offsetY",
                             "type": 0,
@@ -6180,7 +6185,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 0.9559859037399292,
+                    "aspectRatio": 0.951438844203949,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -7538,12 +7543,22 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "promptRadius",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "anchorName",
+                                    "type": 1,
+                                    "value": "InteractAnchor"
+                                },
+                                {
                                     "name": "sequenceId",
                                     "type": 1,
                                     "value": ""
                                 },
                                 {
-                                    "name": "oneShot",
+                                    "name": "updateWhenPaused",
                                     "type": 2,
                                     "value": true
                                 },
@@ -7553,24 +7568,14 @@
                                     "value": 3.0
                                 },
                                 {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
                                     "name": "action",
                                     "type": 1,
                                     "value": "Interact"
+                                },
+                                {
+                                    "name": "oneShot",
+                                    "type": 2,
+                                    "value": true
                                 }
                             ],
                             "scriptUID": 11869449068228775486,
@@ -8211,6 +8216,11 @@
                             "value": 8.0
                         },
                         {
+                            "name": "DropAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
                             "name": "DropApoloMask",
                             "type": 2,
                             "value": false
@@ -8219,11 +8229,6 @@
                             "name": "DropHermesMask",
                             "type": 2,
                             "value": true
-                        },
-                        {
-                            "name": "DropAresMask",
-                            "type": 2,
-                            "value": false
                         }
                     ],
                     "scriptUID": 6059332998782319931,
@@ -10386,12 +10391,22 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "promptRadius",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "anchorName",
+                                    "type": 1,
+                                    "value": "InteractAnchor"
+                                },
+                                {
                                     "name": "sequenceId",
                                     "type": 1,
                                     "value": ""
                                 },
                                 {
-                                    "name": "oneShot",
+                                    "name": "updateWhenPaused",
                                     "type": 2,
                                     "value": true
                                 },
@@ -10401,24 +10416,14 @@
                                     "value": 3.0
                                 },
                                 {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
                                     "name": "action",
                                     "type": 1,
                                     "value": "Interact"
+                                },
+                                {
+                                    "name": "oneShot",
+                                    "type": 2,
+                                    "value": true
                                 }
                             ],
                             "scriptUID": 11869449068228775486,
@@ -10624,12 +10629,22 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "anchorName",
+                            "type": 1,
+                            "value": "InteractAnchor"
+                        },
+                        {
                             "name": "sequenceId",
                             "type": 1,
                             "value": ""
                         },
                         {
-                            "name": "oneShot",
+                            "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
                         },
@@ -10639,24 +10654,14 @@
                             "value": 3.0
                         },
                         {
-                            "name": "anchorName",
-                            "type": 1,
-                            "value": "InteractAnchor"
-                        },
-                        {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
                             "name": "action",
                             "type": 1,
                             "value": "Interact"
+                        },
+                        {
+                            "name": "oneShot",
+                            "type": 2,
+                            "value": true
                         }
                     ],
                     "scriptUID": 11869449068228775486,
@@ -11055,12 +11060,22 @@
                             "active": true,
                             "publicVariables": [
                                 {
+                                    "name": "promptRadius",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "anchorName",
+                                    "type": 1,
+                                    "value": "InteractAnchor"
+                                },
+                                {
                                     "name": "sequenceId",
                                     "type": 1,
                                     "value": ""
                                 },
                                 {
-                                    "name": "oneShot",
+                                    "name": "updateWhenPaused",
                                     "type": 2,
                                     "value": true
                                 },
@@ -11070,24 +11085,14 @@
                                     "value": 3.0
                                 },
                                 {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
                                     "name": "action",
                                     "type": 1,
                                     "value": "Interact"
+                                },
+                                {
+                                    "name": "oneShot",
+                                    "type": 2,
+                                    "value": true
                                 }
                             ],
                             "scriptUID": 11869449068228775486,
@@ -11293,12 +11298,22 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "anchorName",
+                            "type": 1,
+                            "value": "InteractAnchor"
+                        },
+                        {
                             "name": "sequenceId",
                             "type": 1,
                             "value": ""
                         },
                         {
-                            "name": "oneShot",
+                            "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
                         },
@@ -11308,24 +11323,14 @@
                             "value": 3.0
                         },
                         {
-                            "name": "anchorName",
-                            "type": 1,
-                            "value": "InteractAnchor"
-                        },
-                        {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
                             "name": "action",
                             "type": 1,
                             "value": "Interact"
+                        },
+                        {
+                            "name": "oneShot",
+                            "type": 2,
+                            "value": true
                         }
                     ],
                     "scriptUID": 11869449068228775486,
@@ -13687,14 +13692,14 @@
                             "value": 1.0
                         },
                         {
-                            "name": "statueId",
-                            "type": 1,
-                            "value": "Circle"
-                        },
-                        {
                             "name": "interactionRadius",
                             "type": 0,
                             "value": 8.0
+                        },
+                        {
+                            "name": "statueId",
+                            "type": 1,
+                            "value": "Circle"
                         },
                         {
                             "name": "updateWhenPaused",
@@ -13710,6 +13715,138 @@
             "prefabInstance": 5495363434040424515,
             "tag": "",
             "uid": 13416978058705887430
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        },
+                        {
+                            "active": true,
+                            "castShadows": true,
+                            "meshUID": 9411134454097651331,
+                            "silhouetteColor": [
+                                0.5686274766921997,
+                                0.5686274766921997,
+                                0.5686274766921997,
+                                1.0
+                            ],
+                            "silhouetteEnabled": false,
+                            "type": 1
+                        },
+                        {
+                            "active": true,
+                            "materialUID": 6862979727529866711,
+                            "overrideTiling": false,
+                            "type": 3
+                        }
+                    ],
+                    "name": "polySurface1",
+                    "tag": "",
+                    "uid": 14942947130757594107
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        -13.782986640930176,
+                        0.5157576203346252,
+                        13.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        0.75,
+                        0.75,
+                        0.75
+                    ],
+                    "type": 0
+                },
+                {
+                    "Center": [
+                        0.0,
+                        1.0,
+                        0.0
+                    ],
+                    "DynamicFriction": 0.5,
+                    "Restitution": 0.6000000238418579,
+                    "Size": [
+                        2.0,
+                        2.0,
+                        2.0
+                    ],
+                    "StaticFriction": 0.5,
+                    "Trigger": false,
+                    "active": true,
+                    "type": 10
+                },
+                {
+                    "AngularDamping": 0.0,
+                    "FreezePos": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "FreezeRot": [
+                        false,
+                        false,
+                        false
+                    ],
+                    "LinearDamping": 0.0,
+                    "Mass": 1.0,
+                    "Type": 0,
+                    "UseCCD": false,
+                    "UseGravity": true,
+                    "active": true,
+                    "type": 8
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "meshObjName",
+                            "type": 1,
+                            "value": "polySurface1"
+                        },
+                        {
+                            "name": "brokenPrefabName",
+                            "type": 1,
+                            "value": "brokencylinder"
+                        }
+                    ],
+                    "scriptUID": 13377007971056880363,
+                    "type": 6
+                }
+            ],
+            "name": "wholecylinder",
+            "prefabInstance": 9202619475468498588,
+            "tag": "",
+            "uid": 9635732707274406432
         }
     ],
     "version": 1

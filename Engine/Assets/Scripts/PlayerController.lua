@@ -50,6 +50,7 @@ _PlayerController_isDrowning         = false
 _G._PlayerController_isDead          = false  
 _G.PlayerInstance                    = nil
 _G._MaskCount = 0
+_G._PlayerController_drownDeath = false
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -144,6 +145,8 @@ local Player = {
 
     AnimTimer = 0.0,
     isGetMaskAnim     = false,
+    isPortalEnterAnim   = false,
+    isPortalExitAnim    = false,
     pendingObtainMask = nil,
     getMaskEvent1Done = false,
     getMaskEvent2Done = false,
@@ -247,6 +250,18 @@ function _G.TriggerCameraShake(duration, magnitude, freq)
     end
 end
 
+_G.SetPlayerAnimTimer = function(duration)
+    Player.AnimTimer = duration
+end
+
+_G.StartPortalEnterAnim = function()
+    Player.isPortalEnterAnim = true
+end
+
+_G.StartPortalExitAnim = function()
+    Player.isPortalExitAnim = true
+end
+
 local function normalizeInput(x, z)
     local len = sqrt(x*x + z*z)
     if len > INPUT_SCALE then
@@ -339,8 +354,10 @@ local function GetLockOnDir(self)
     if not _G.TargetLockManager_IsLocked then return nil, nil end
     local target = _G.TargetLockManager_CurrentTarget
     if not target then return nil, nil end
+    
     local pPos = self.transform.worldPosition
-    local tPos = target.transform.position
+    local tPos = target.transform.worldPosition 
+    
     local dx = tPos.x - pPos.x
     local dz = tPos.z - pPos.z
     local len = math.sqrt(dx*dx + dz*dz)
@@ -472,7 +489,12 @@ function _G.TriggerDrinkAnimation(self, isInternalHeal)
 end
 
 local function ApplyMaskVisual(self, newMask)
-    if not maskApolo or not maskAres or not maskHermes then FindMasks(self) end
+    if not maskApolo or not maskApolo.transform or 
+       not maskAres or not maskAres.transform or 
+       not maskHermes or not maskHermes.transform then 
+        FindMasks(self) 
+    end
+    
     if newMask == Mask.APOLLO then
         if maskAres   then maskAres:SetActive(false)  end
         if maskApolo  then maskApolo:SetActive(true)   end
@@ -494,10 +516,13 @@ end
 
 
 local function EquipMask(self, newMask, skipSword)
+    if not self.gameObject or not self.gameObject.transform then return end
+
     if Player.currentMask == Mask.HERMES and Player.isDrowning and newMask ~= Mask.HERMES then
         ApplyMaskVisual(self, newMask)
         self.public.health = 0
         _G._PlayerController_isDead = true
+        _G._PlayerController_drownDeath = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         ChangeState(self, State.DEAD)
         UpdateSwordMaterial()
@@ -505,9 +530,12 @@ local function EquipMask(self, newMask, skipSword)
     end
     if Player.maskAnimTimer > 0 then return end
 
-    if not maskApolo or not maskAres or not maskHermes then
+    if not maskApolo or not maskApolo.transform or 
+       not maskAres or not maskAres.transform or 
+       not maskHermes or not maskHermes.transform then
         FindMasks(self)
     end
+    
     ApplyMaskVisual(self, newMask)
 
     if Player.currentMask == newMask or Player.currentState == State.DEAD then return end
@@ -1376,7 +1404,7 @@ local function TakeDamage(self, amount, attackerPos)
 end
 
 local function RefreshAudioSources(self)
-    Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
+    --Engine.Log("[Player] RefreshAudioSources: Refreshing audio component references")
     local go = self.gameObject
     
     local stepGo   = GameObject.FindInChildren(go, "StepSource") or GameObject.FindInChildren(go, "SFX_FootSteps")
@@ -1389,7 +1417,7 @@ local function RefreshAudioSources(self)
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
-        Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
+        --Engine.Log("[Player] WARNING: No root Audio Source found on Player object!")
     end
 
     Player.stepSFX       = (stepGo and stepGo:GetComponent("Audio Source")) or rootSource
@@ -1421,6 +1449,7 @@ function Start(self)
     attackCooldown = 0
     rollCooldown = 0
     stepTimer    = 0.5
+    _G._PlayerController_drownDeath = false
     
     Player.currentState    = nil
     Player.currentMask     = nil
@@ -1598,6 +1627,9 @@ FindMasks = function(self)
 end
 
 InitParticles = function(self)
+
+    if not self.gameObject or not self.gameObject.transform then return end
+
     vfxApolo        = GameObject.FindInChildren(self.gameObject, "VFXapolo")
     swordApolo      = GameObject.FindInChildren(self.gameObject, "Xiphos_Apolo")
     vfxApoloAttack  = GameObject.FindInChildren(self.gameObject, "VFXapoloAttack")
@@ -1741,17 +1773,26 @@ function Update(self, dt)
     end
 
     if _G._PlayerController_introAnim then
-        Player.AnimTimer = 20.0
-        local anim = self.gameObject:GetComponent("Animation")
-        if anim then
-            pcall(function() anim:Play("WakeUp", 0.0) end)
+        if _G.LoadedFromSave then
+            _G._PlayerController_introAnim = false
+            wakeUpCinematic = false
+            Engine.Log("[Player] Cinemática de intro cancelada por carga de partida.")
+            Audio.SetMusicState("Level1")
+            Engine.Log("[Player] Switched to Level1 BGM")
+        else
+            Player.AnimTimer = 20.0
+            local anim = self.gameObject:GetComponent("Animation")
+            if anim then
+                pcall(function() anim:Play("WakeUp", 0.0) end)
+            end
+            _G._PlayerController_introAnim = false
+            if _G.PlayWakeUpCinematic then 
+                _G.PlayWakeUpCinematic() 
+            end
+            wakeUpCinematic = true
+            --Audio.SetMusicState("Level1_Intro")
+            --Engine.Log("[Player] Switched to Level1_Intro BGM")
         end
-        _G._PlayerController_introAnim = false
-        if _G.PlayWakeUpCinematic then 
-            _G.PlayWakeUpCinematic() 
-            
-        end
-        wakeUpCinematic = true
     end
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
@@ -1794,7 +1835,7 @@ function Update(self, dt)
             if Player.currentState ~= State.DEAD then
                 if not Audio.IsEventPlaying("SFX_HermesWind") then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_HermesWind")
-                    Engine.Log("[PLAYER] Playing Wind Hover SFX") 
+                    --Engine.Log("[PLAYER] Playing Wind Hover SFX") 
                 end
             end
 
@@ -1802,7 +1843,7 @@ function Update(self, dt)
             
                 if not Audio.IsEventPlaying("SFX_HermesFlare") then 
                     Player.voiceSFX:SelectPlayAudioEvent("SFX_HermesFlare")
-                    Engine.Log("[PLAYER] Playing Hover SFX") 
+                    --Engine.Log("[PLAYER] Playing Hover SFX") 
                 end
             else
                 Player.voiceSFX:SelectStopAudioEvent("SFX_HermesFlare") 
@@ -1852,60 +1893,73 @@ function Update(self, dt)
 
         Player.restoreListenerFrames = 2
         
-        local spawn = GameObject.Find("SpawnPoint")
-        if spawn then
-            pcall(function()
-                local p = spawn.transform.position
-                self.transform:SetPosition(p.x, p.y, p.z)
-                Engine.Log("[Player] Teleported to SpawnPoint successfully")
-            end)
-        end
-        
         Player.masterAudioTimer = 5.0
         Audio.SetGlobalVolume(100.0)
         mGo = GameObject.Find("MusicSource")
         if mGo then
             musicComp = mGo:GetComponent("Audio Source")
-            if musicComp then
-                musicComp:SetSourceVolume(100.0)
-            else
-                Engine.Log("[Player] ERROR: MusicSource found but NO 'Audio Source' component!")
-            end
-        else
-            Engine.Log("[Player] WARNING: No 'MusicSource' object found to restore audio.")
+            if musicComp then musicComp:SetSourceVolume(100.0) end
         end
         
         RefreshAudioSources(self)
-
         InitParticles(self)
         FindMasks(self)
 
-        local maskToRestore = Mask.NONE
+        if _G.IsLoadingSaveGame and _G.SaveManager then
+            Engine.Log("[Player] CARGANDO PARTIDA: Aplicando datos guardados...")
+            _G.SaveManager.ApplyLoadedData(self.gameObject)
+            _G.IsLoadingSaveGame = false
+            
+            _G._PlayerController_introAnim = false 
+            wakeUpCinematic = false
+            
+            if _G._UnlockedMasks.Apollo then Mask.APOLLO = "Apolo" end
+            if _G._UnlockedMasks.Hermes then Mask.HERMES = "Hermes" end
+            if _G._UnlockedMasks.Ares   then Mask.ARES   = "Ares" end
 
-        if _G._MidRunTransition then
-            _G._MidRunTransition = false
-            _G._UnlockedMasks = _G._UnlockedMasks or {}
-            if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
-            if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
-            if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
-
-            if _G._SavedCurrentMask == "Apolo" then maskToRestore = Mask.APOLLO
-            elseif _G._SavedCurrentMask == "Hermes" then maskToRestore = Mask.HERMES
-            elseif _G._SavedCurrentMask == "Ares" then maskToRestore = Mask.ARES
-            end
+            local loadedMask = Mask.NONE
+            if _G._PlayerController_currentMask == "Apolo" then loadedMask = Mask.APOLLO
+            elseif _G._PlayerController_currentMask == "Hermes" then loadedMask = Mask.HERMES
+            elseif _G._PlayerController_currentMask == "Ares" then loadedMask = Mask.ARES end
+            
+            Player.currentMask = nil
+            FindMasks(self)
+            EquipMask(self, loadedMask)
+            UpdateSwordMaterial()
+            
         else
-            _G._UnlockedMasks    = {}
-            _G._MaskState_Apolo  = false
-            _G._MaskState_Hermes = false
-            _G._MaskState_Ares   = false
+            Engine.Log("[Player] NUEVA PARTIDA / TRANSICIÓN: Configurando estado por defecto...")
+            local spawn = GameObject.Find("SpawnPoint")
+            if spawn then
+                pcall(function()
+                    local p = spawn.transform.position
+                    self.transform:SetPosition(p.x, p.y, p.z)
+                end)
+            end
+
+            local maskToRestore = Mask.NONE
+            if _G._MidRunTransition then
+                _G._MidRunTransition = false
+                _G._UnlockedMasks = _G._UnlockedMasks or {}
+                if _G._UnlockedMasks.Apollo  then Mask.APOLLO = "Apolo";  _G._MaskState_Apolo  = true end
+                if _G._UnlockedMasks.Hermes  then Mask.HERMES = "Hermes"; _G._MaskState_Hermes = true end
+                if _G._UnlockedMasks.Ares    then Mask.ARES   = "Ares";   _G._MaskState_Ares   = true end
+
+                if _G._SavedCurrentMask == "Apolo" then maskToRestore = Mask.APOLLO
+                elseif _G._SavedCurrentMask == "Hermes" then maskToRestore = Mask.HERMES
+                elseif _G._SavedCurrentMask == "Ares" then maskToRestore = Mask.ARES
+                end
+            else
+                _G._UnlockedMasks    = {}
+                _G._MaskState_Apolo  = false
+                _G._MaskState_Hermes = false
+                _G._MaskState_Ares   = false
+            end
+
+            Player.currentMask = nil
+            EquipMask(self, maskToRestore)
+            UpdateSwordMaterial()
         end
-
-        Player.currentMask = nil
-        EquipMask(self, maskToRestore)
-        UpdateSwordMaterial()
-
-       
-       
 
         self.public.staminaCost    = 20.0   
         self.public.staminaRecover = 15.0 
@@ -2078,6 +2132,8 @@ function Update(self, dt)
 
             if Player.AnimTimer < 0 then 
                 wakeUpCinematic = false
+                Audio.SetMusicState("Level1")
+                Engine.Log("[Player] Switched to Level1 BGM")
                 Player.AnimTimer = 0
             end
 
@@ -2089,7 +2145,7 @@ function Update(self, dt)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
 
             if musicComp and Audio.IsEventPlaying("MUS_BGM") then 
-                Engine.Log("Stopped MUS_BGM")
+                --Engine.Log("Stopped MUS_BGM")
                 musicComp:StopAudioEvent() --WIP, should fade gradually
             end
 
@@ -2108,7 +2164,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 15.16 and Player.AnimTimer >= 15.00 and not playedSwordPrep then
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_SwordPrep") 
-                    Engine.Log("[PLAYER] Playing SwordPrep")
+                    --Engine.Log("[PLAYER] Playing SwordPrep")
                     playedSwordPrep = true
                 end
                  
@@ -2202,6 +2258,15 @@ function Update(self, dt)
             end
         end
 
+        if Player.isPortalEnterAnim then
+            self.transform:SetPosition(97.633, -0.811, -178.289)
+            if Player.rb then Player.rb:SetRotation(0, 63.986, 0) end
+        end
+
+        if Player.isPortalExitAnim then
+            if Player.rb then Player.rb:SetRotation(180, 90, 180) end
+        end
+
         if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 
             if Player.itemSFX then Player.itemSFX:SelectPlayAudioEvent("SFX_GM_KnockBack") end
         end
@@ -2254,8 +2319,19 @@ function Update(self, dt)
                 _G.ShowMaskObtained(Player.pendingObtainMask:lower())
             end
 
+            if _G.ShowControlsHint and Player.pendingObtainMask then
+                if Player.pendingObtainMask == Mask.APOLLO then
+                    _G.ShowControlsHint("apolo_puzzle")
+                    _G.ShowControlsHint("apolo_puzzleDisparo")
+                elseif Player.pendingObtainMask == Mask.ARES then
+                    _G.ShowControlsHint("ares_puzzle")
+                end
+            end
+
             Player.isGetMaskAnim = false
             Player.pendingObtainMask = nil
+            Player.isPortalEnterAnim = false
+            Player.isPortalExitAnim  = false
 
             if WinBoss then WinBoss = false end
 
@@ -2406,7 +2482,7 @@ function Update(self, dt)
                 
                 winBossCinematic = true
 
-                Engine.Log("[[PLAYER] Attempting to fire Win Boss Cinematic!")
+                --Engine.Log("[[PLAYER] Attempting to fire Win Boss Cinematic!")
             end
 
         end
@@ -2555,6 +2631,7 @@ function ResetPlayer(self)
     attackNum = 0
 
     _G._PlayerController_isDead           = false
+    _G._PlayerController_drownDeath = false
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
     accumulatedAlpha = 0.0
@@ -2618,7 +2695,7 @@ function OnCollisionEnter(self, other)
                 end
                 if Player.stepSFX then
                     Audio.SetSwitch("Surface_Type", tostring(surface), Player.stepSFX)
-                    Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
+                    --Engine.Log("[PLAYER FOOTSTEPS] Switching to ".. tostring(surface).." by collider")
                 end
             end
         end
@@ -2654,10 +2731,17 @@ end
 
 function UpdateSwordMaterial()
     if not Player.currentMask then return end
+
+    if swordApolo and not swordApolo.transform then swordApolo = nil end
+    if swordHermes and not swordHermes.transform then swordHermes = nil end
+    if swordAres and not swordAres.transform then swordAres = nil end
+    if swordGameObject and not swordGameObject.transform then swordGameObject = nil end
+
     if swordApolo      then swordApolo:SetActive(Player.currentMask      == Mask.APOLLO) end
     if swordHermes     then swordHermes:SetActive(Player.currentMask     == Mask.HERMES) end
     if swordAres       then swordAres:SetActive(Player.currentMask       == Mask.ARES)   end
     if swordGameObject then swordGameObject:SetActive(Player.currentMask == Mask.NONE)   end
+    
     if Player.aresPs   then
         if Player.currentMask == Mask.ARES   then Player.aresPs:Play()   else Player.aresPs:Stop()   end
     end

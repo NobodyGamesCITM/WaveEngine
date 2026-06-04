@@ -512,8 +512,8 @@ local function UpdateIdle(self, dist, dt)
 
         if self.playerInRange then
             --Engine.Log("Triggering Combat Music from Siren detection range")
-           -- _G.TriggerCombatMusic()
-           if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
+       
+           --if _G.TriggerCombatMusic then _G.TriggerCombatMusic() end
         end
 
         if self.isShowing then
@@ -758,7 +758,7 @@ function Start(self)
         rotationSpeed    = 15.0,    -- velocidad de giro para encarar al player Antes estaba a 6
 
         maxLifetime      = 10.0,
-        riseHeight       = 1.0,
+        riseHeight       = 1.4, --Antes 1
         riseSpeed        = 6.0, -- Antes estaba a 3
         level2 = isLevel2,
 
@@ -852,11 +852,14 @@ function Start(self)
     self.targetDeathY=nil
     self.targetDeathYisEnter=false
 
-
-
     self.shell = Prefab.Instantiate(finalPath)
-    self.shell:SetActive(true)
-    self.shell.transform:SetPosition( self.transform.position.x,  self.transform.position.y -5.0,  self.transform.position.z)
+    if self.shell then
+        if self.shell.SetActive then self.shell:SetActive(true) end
+        if self.shell.transform and self.transform then
+            local p = self.transform.position
+            self.shell.transform:SetPosition(p.x, p.y - 5.0, p.z)
+        end
+    end
 
 
 end
@@ -881,7 +884,7 @@ function Update(self, dt)
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)
       --  Engine.Log("Destroyed Siren")
-        if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
+        --if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
         --self:Destroy() 
 
         return  
@@ -900,8 +903,9 @@ function Update(self, dt)
             -- if self.quaverPs then self.quaverPs:Stop() end
             -- if self.semiQuaverPs then self.semiQuaverPs:Stop() end
 
+            if self.windupFeedback and self.windupFeedback.SetActive then
             self.windupFeedback:SetActive(false)
-            self.windupFeedbackSet = false
+            end
             
             
         end
@@ -1027,7 +1031,7 @@ function Update(self, dt)
     elseif self.currentState == State.COOLDOWN then UpdateCooldown(self, dist, dt)
     end
 
-   
+   SyncCollider(self)
 
 end
 

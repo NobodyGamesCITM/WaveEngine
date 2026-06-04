@@ -56,10 +56,12 @@ public:
     float opacity = 1.0f;
     
     Noesis::IView* GetView() const { return view.GetPtr(); }
+    void OnGamepadDPad(float x, float y);
 private:
     void GenerateFramebuffer(int w, int h);
-    void TryNavigateStick(float x, float y);
-
+    void TryNavigateStick(float x, float y, bool isDPad);
+    void TryNavigateButtons(float x, float y);
+    
     Noesis::Ptr<Noesis::IView> view;
     Noesis::Ptr<Noesis::RenderDevice> device;
 
@@ -73,12 +75,22 @@ private:
 
     float stickX = 0.0f;
     float stickY = 0.0f;
-    double stickRepeatTimer = 0.0;
-    bool stickInitialFired = false;
+    float dpadX = 0.0f;
+    float dpadY = 0.0f;
+    float sliderHoldTime = 0.0f;
 
-    static constexpr float  STICK_THRESHOLD = 0.5f;
-    static constexpr double STICK_INITIAL_DELAY = 0.4;
-    static constexpr double STICK_REPEAT_RATE = 0.15;
+    double stickRepeatTimer  = 0.0;
+    bool   stickInitialFired = false;
+
+    double dpadRepeatTimer   = 0.0;   
+    bool   dpadInitialFired  = false;  
+
+    static constexpr double STICK_INITIAL_DELAY = 0.50; 
+    static constexpr double STICK_REPEAT_RATE   = 0.35;   
+    static constexpr double DPAD_INITIAL_DELAY  = 0.50;   
+    static constexpr double DPAD_REPEAT_RATE    = 0.35;   
+    static constexpr float  STICK_THRESHOLD     = 0.30f;
+
     bool needsHookEvents = false;
     int uiLayer = 0;
 };

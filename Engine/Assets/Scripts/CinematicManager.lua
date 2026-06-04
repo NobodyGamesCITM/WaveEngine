@@ -4,6 +4,9 @@ public = {
     updateWhenPaused = true
 }
 
+local cinematicCamComp = nil
+local wasPlaying = false
+
 local function SendTrackToCamera(track, blendBackTime)
     local camObj = GameObject.Find("MainCamera")
     if not camObj then 
@@ -11,16 +14,27 @@ local function SendTrackToCamera(track, blendBackTime)
         return 
     end
     
-    local cinematicCam = camObj:GetComponent("CinematicCamera")
-    if cinematicCam then
-        cinematicCam:PlayCinematic(track, blendBackTime)
-    else
-        Engine.Log("[CinematicManager] ERROR: MainCamera no tiene el componente CinematicCamera.")
+    cinematicCamComp = camObj:GetComponent("CinematicCamera")
+    if cinematicCamComp then
+        _G.CinematicActive = true
+        
+        if _G.TargetLockManager_ClearLock then _G.TargetLockManager_ClearLock() end
+        if _G.TargetLockManager_SetParticleVisibility then _G.TargetLockManager_SetParticleVisibility(false) end
+        
+        local uiManager = GameObject.Find("UIManager")
+        if uiManager then
+            local uiCanvas = uiManager:GetComponent("Canvas")
+            if uiCanvas then
+                uiCanvas:SetOpacity(0.0)
+            end
+        end
+
+        cinematicCamComp:PlayCinematic(track, blendBackTime)
+        wasPlaying = true
     end
 end
 
 function Start(self)
-
     _G.PlayWakeUpCinematic = function()
         local track = {
             { time = 0.0,  pos = { 21.2, 0.0, 14.1 }, rot = { -184.6, -67.0, -180.0 } },
@@ -51,7 +65,6 @@ function Start(self)
                 { time = 30.0, pos = { 196.905, 36.936, -176.291 }, rot = { 5.3, -73.973, 0 } }
             }
             SendTrackToCamera(track, 3.0)
-            
         elseif maskName == "Hermes" then
             local track = {
                 { time = 0.0,  pos = { -60.878, 5.180, -323.548 }, rot = { 0, 90.0, 0 } },
@@ -71,7 +84,6 @@ function Start(self)
                 { time = 30.0, pos = { -66.423, 5.096, -314.120 }, rot = { 0, 18.0, 0 } }
             }
             SendTrackToCamera(track, 3.0)
-            
         elseif maskName == "Ares" then
             local track = {
                 { time = 0.0,  pos = { 82.006, 11.253, -108.783 }, rot = { 0, 90.0, 0 } },
@@ -91,60 +103,43 @@ function Start(self)
                 { time = 30.0, pos = { 78.5, 10.717, -102.0 }, rot = { 0, 13.5, 0 } }
             }
             SendTrackToCamera(track, 3.0)
-            
-        else
-            Engine.Log("[CinematicManager] ERROR: Mascara desconocida para CinematicManager.")
         end
     end
 
     _G.PlayStatueCinematic = function(statueId)
         local track = {}
-
         if statueId == "Circle" then
             track = {
-                -- Estatua del Círculo
                 { time = 0.00, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
                 { time = 2.98, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
                 { time = 2.99, pos = { 86.162, 24.024, -339.759 }, rot = { 0, -1.465, 0 } },
-                
-                -- HARD CUT Portal
                 { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } },
                 { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } },
                 { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }
             }
         elseif statueId == "Arch" then
             track = {
-                -- Estatua Arco
                 { time = 0.00, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
                 { time = 2.98, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
                 { time = 2.99, pos = { 40.211, 20.273, -217.416 }, rot = { 0, -36.076, 0 } }, 
-                
-                -- HARD CUT Portal
                 { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }  
             }
         elseif statueId == "T" then
             track = {
-                -- Estatua T
                 { time = 0.00, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
                 { time = 2.98, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
                 { time = 2.99, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
-                
-                -- HARD CUT Portal
                 { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }  
             }
-        else
-            Engine.Log("[CinematicManager] ERROR: statueId desconocido: " .. tostring(statueId))
-            return
         end
-
         SendTrackToCamera(track, 0)
     end
-	
-	_G.PlayWinBossCinematic = function()
+    
+    _G.PlayWinBossCinematic = function()
         local track = {
             { time = 0.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
             { time = 5.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
@@ -155,8 +150,46 @@ function Start(self)
         }
         SendTrackToCamera(track, 3.0)
     end
+
+    _G.PlayPortalEnterCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } },
+            { time = 5.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
+        }
+        SendTrackToCamera(track, 5.0)
+    end
+
+    _G.PlayPortalExitCinematic = function()
+        local track = {
+            { time = 0.0,  pos = { 79.969, 2.200, 94.524 }, rot = { 168.200, 19.880, 180.000 } },
+            { time = 4.0,  pos = { 79.969, 2.200, 94.524 }, rot = { 168.200, 19.880, 180.000 } },
+            { time = 6.0,  pos = { 84.469, 0.800, 102.724 }, rot = { 174.000, 88.780, 180.000 } },
+            { time = 8.0,  pos = { 82.769, -0.300, 106.924 }, rot = { 185.800, 143.480, 180.000 } },
+            { time = 14.0, pos = { 82.769, -0.300, 106.924 }, rot = { 185.800, 143.480, 180.000 } }
+        }
+        SendTrackToCamera(track, 2.0)
+    end
 end
 
 function Update(self, dt)
-	
+    if wasPlaying and cinematicCamComp then
+        if not cinematicCamComp:IsPlayingCinematic() then
+            wasPlaying = false
+            _G.CinematicActive = false
+            
+            -- MOSTRAR PARTÍCULA DE LOCK ON DE NUEVO
+            if _G.TargetLockManager_SetParticleVisibility then
+                _G.TargetLockManager_SetParticleVisibility(true)
+            end
+            
+            -- RESTAURAR OPACIDAD DEL UIManager
+            local uiManager = GameObject.Find("UIManager")
+            if uiManager then
+                local uiCanvas = uiManager:GetComponent("Canvas")
+                if uiCanvas then
+                    uiCanvas:SetOpacity(1.0)
+                end
+            end
+        end
+    end
 end

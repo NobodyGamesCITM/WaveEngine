@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{80E2E611-3445-E49F-465D-F9DE42F1A10F}",
+    "Hash": "{3D60E932-8EEB-CBF8-D912-9A7BA7CDA023}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -344,6 +344,12 @@
       "GUID": "{944A03FA-98D6-4C56-80F7-CCC73D2C2AB5}",
       "States": [
        {
+        "Id": "55449706",
+        "Name": "Vignettes",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Vignettes",
+        "GUID": "{C82A7278-3A50-431C-B888-0645573B6E31}"
+       },
+       {
         "Id": "447801688",
         "Name": "Level2_Combat",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level2_Combat",
@@ -372,6 +378,18 @@
         "Name": "Boss",
         "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Boss",
         "GUID": "{D981B171-4E5B-4D03-865D-96211F0A656A}"
+       },
+       {
+        "Id": "1720208925",
+        "Name": "Boss_Intro",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Boss_Intro",
+        "GUID": "{59BCD825-DEA2-43C0-86E4-87DF5DE774F8}"
+       },
+       {
+        "Id": "2339009721",
+        "Name": "Level1_Intro",
+        "ObjectPath": "\\States\\Default Work Unit\\BGM_State\\Level1_Intro",
+        "GUID": "{86EC9FEF-AAE9-41EB-9092-3819CB802698}"
        },
        {
         "Id": "2678230381",
@@ -1015,6 +1033,6 @@
     ]
    }
   ],
-  "FileHash": "{D6CE8B5E-ACF8-AB37-7755-09D623BB0AFC}"
+  "FileHash": "{029D9F8A-FA34-B42F-DED9-6DAEF0FAD5E8}"
  }
 }

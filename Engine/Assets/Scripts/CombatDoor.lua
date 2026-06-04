@@ -17,7 +17,6 @@ local isMoving = false
 local function DisableColision(self) 
     local colision = GameObject.Find(self.public.myColision)
     if colision then
-        Engine.Log("Door colision found")
         local Box = colision:GetComponent("Box Collider")
         if Box then 
             Box:Disable() 
@@ -50,13 +49,29 @@ function Start(self)
         return isClose
     end
     
-    DisableColision(self) 
+    DisableColision(self)
+
+    self.ForceOpen = function(self)
+        isClose = false
+        closeDoor = false
+        openDoor = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, -finalY, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
+    end
+    self.ForceClose = function(self)
+        isClose = true
+        closeDoor = false
+        openDoor = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, finalY, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
+    end
 end
 
 local function EnableColision(self) 
     local colision = GameObject.Find(self.public.myColision)
     if colision then
-        Engine.Log("Door colision found")
         local Box = colision:GetComponent("Box Collider")
         if Box then 
             Box:Enable()
@@ -97,10 +112,6 @@ function Update (self, deltaTime)
                     isMoving = true
                 end
             else 
-
-                Engine.Log("---------------------------------------------------------------------")
-                Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
-                Engine.Log("---------------------------------------------------------------------")
                 rb:SetLinearVelocity(0, 0, 0)
                 if doorSFX then doorSFX:SelectPlayAudioEvent("SFX_DoorStop") end
                 closeDoor = false
@@ -110,7 +121,6 @@ function Update (self, deltaTime)
     end
 
     if  openDoor then 
-        Engine.Log("Try open door")
         local p = self.transform.worldPosition
         if isClose then
             if p.y >= -finalY then
@@ -121,10 +131,6 @@ function Update (self, deltaTime)
                     isMoving = true
                 end
             else 
-
-                Engine.Log("---------------------------------------------------------------------")
-                Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
-                Engine.Log("---------------------------------------------------------------------")
                 rb:SetLinearVelocity(0, 0, 0)
                 if doorSFX then doorSFX:SelectPlayAudioEvent("SFX_DoorStop") end
                 isClose =  false

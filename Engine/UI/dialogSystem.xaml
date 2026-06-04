@@ -62,76 +62,77 @@
                 </Grid.RenderTransform>
 
                 <!-- CAPA 1: Pergamino + texto (detrás) -->
-                <Grid Width="820" Height="160"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      Margin="360,0,0,30">
+<Grid Width="820" Height="185"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Bottom"
+      Margin="360,0,0,30">
 
-                    <Image Source="Textures/CuadroDialogo.PNG"
-                           Stretch="Fill"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"/>
+    <Image Source="Textures/CuadroDialogo.PNG"
+           Stretch="Fill"
+           HorizontalAlignment="Stretch"
+           VerticalAlignment="Stretch"/>
 
-                    <Grid Margin="85,45,50,10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+    <Grid Margin="85,20,50,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                        <TextBlock x:Name="CharacterName"
-                                   Grid.Row="0"
-                                   Text=""
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   FontFamily="Times New Roman"
-                                   Margin="0,0,0,5">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF5C3300"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
+        <TextBlock x:Name="CharacterName"
+                   Grid.Row="0"
+                   Text=""
+                   FontSize="24"
+                   FontWeight="Bold"
+                   FontFamily="Times New Roman"
+                   Margin="0,0,0,4">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="#FF5C3300"/>
+            </TextBlock.Foreground>
+        </TextBlock>
 
-                        <TextBlock x:Name="DialogText"
-                                   Grid.Row="1"
-                                   Text=""
-                                   FontSize="13"
-                                   FontFamily="Georgia"
-                                   FontStyle="Italic"
-                                   TextWrapping="Wrap"
-                                   LineHeight="20"
-                                   VerticalAlignment="Top">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF3D2200"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
+        <TextBlock x:Name="DialogText"
+                   Grid.Row="1"
+                   Text=""
+                   FontSize="16"
+                   FontFamily="Georgia"
+                   FontStyle="Italic"
+                   TextWrapping="Wrap"
+                   LineHeight="22"
+                   VerticalAlignment="Top">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="#FF3D2200"/>
+            </TextBlock.Foreground>
+        </TextBlock>
 
-                        <TextBlock x:Name="ContinueIcon"
-                                   Grid.Row="2"
-                                   Text="▼"
-                                   FontSize="15"
-                                   FontFamily="Times New Roman"
-                                   HorizontalAlignment="Right"
-                                   Margin="0,0,80,10"
-                                   Visibility="Collapsed">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="#FF7A4A00"/>
-                            </TextBlock.Foreground>
-                            <TextBlock.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </TextBlock.RenderTransform>
-                            <TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                    <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
-                                </EventTrigger>
-                            </TextBlock.Triggers>
-                        </TextBlock>
+    </Grid>
 
-                    </Grid>
+    <!-- Triángulo posicionado en esquina inferior derecha del pergamino -->
+    <TextBlock x:Name="ContinueIcon"
+               Text="▼"
+               FontSize="20"
+               FontFamily="Times New Roman"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Bottom"
+               Margin="0,0,40,22"
+               Visibility="Collapsed">
+        <TextBlock.Foreground>
+            <SolidColorBrush Color="#FF7A4A00"/>
+        </TextBlock.Foreground>
+        <TextBlock.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </TextBlock.RenderTransform>
+        <TextBlock.Triggers>
+            <EventTrigger RoutedEvent="TextBlock.Loaded">
+                <BeginStoryboard Storyboard="{StaticResource ContinueBounce}"/>
+            </EventTrigger>
+        </TextBlock.Triggers>
+    </TextBlock>
+
                 </Grid>
 
                 <!-- CAPA 2: Portraits (delante, declarados después) -->

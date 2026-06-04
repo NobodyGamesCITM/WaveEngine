@@ -17,8 +17,8 @@ public = {
     cinematicEndTime  = 10.0  
 }
 
-local portalState = 0 
-local activeFires = 0
+local portalState = _G.PortalState or 0 
+local activeFires = _G.keysCollected or 0
 local portalMatComp = nil
 local portalSource = nil
 local brokenChains  = nil
@@ -54,19 +54,24 @@ local function UpdatePortalVisuals(self)
         Engine.Log("[PortalManager] Material del portal actualizado al UID: " .. cleanUID)
     end
 
-    if activeFires <= 3 and fireParticles[activeFires] and fireSources[activeFires] then
-        fireParticles[activeFires]:Play()
-        fireSources[activeFires]:SelectPlayAudioEvent("SFX_TorchFire")
-        if portalSource then 
-            portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
-            Engine.Log("[PortalManager] Played SFX_PortalFireOn")
-        else
-            Engine.Log("[PortalManager] Portal Audio Source not found!")
+    for i = 1, activeFires do
+        if i <= 3 and fireParticles[i] and fireSources[i] then
+            if not fireParticles[i]:IsPlaying() then
+                fireParticles[i]:Play()
+                fireSources[i]:SelectPlayAudioEvent("SFX_TorchFire")
+            end
         end
-        
-        Engine.Log("[PortalManager] Fuego " .. activeFires .. " encendido.")
+    end
+    
+    if activeFires > 0 and portalSource then 
+        portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
     end
 end
+
+local pendingEffects = false
+local currentStatueObj = nil
+local currentInitChains = nil
+local currentBrokenChains = nil
 
 function Start(self)
     _G.PortalManagerInstance = self
@@ -77,8 +82,6 @@ function Start(self)
     if portalObj then
         portalMatComp = portalObj:GetComponent("Material")
         portalSource = portalObj:GetComponent("Audio Source")
-    else
-        Engine.Log("[PortalManager] ERROR: No se encontró el mesh del portal.")
     end
 
     for i = 1, 3 do
@@ -86,19 +89,18 @@ function Start(self)
         if fireObj then
             local ps = fireObj:GetComponent("ParticleSystem")
             local audiosource = fireObj:GetComponent("Audio Source")
-
             if ps then ps:Stop() end 
             if audiosource then audiosource:StopAudioEvent() end
-            
             fireParticles[i] = ps
             fireSources[i] = audiosource
         end
     end
 
-    self.ActivateStatue = function(self, bitValue, statueId, statueObj)
+    self.ActivateStatue = function(self, bitValue, statueId, statueObj, initChains, brokenChains)
         if inCinematic then return end 
         
         portalState = portalState | bitValue
+        _G.PortalState = portalState
         activeFires = activeFires + 1
         _G.keysCollected = activeFires
 
@@ -107,32 +109,13 @@ function Start(self)
         inCinematic = true
         cinTimer = 0.0
         pendingMaterialUpdate = true
+        
+        pendingEffects = true
+        currentStatueObj = statueObj
+        currentInitChains = initChains
+        currentBrokenChains = brokenChains
 
         if _G.PlayerInstance then _G.PlayerInstance.public.canMove = false end
-
-        local dustObj = GameObject.FindInChildren(statueObj, "DustParticles")
-        local chainsObj = GameObject.FindInChildren(statueObj, "ChainParticles")
-        local audioObj = GameObject.FindInChildren(statueObj, "StatueSource")
-        brokenChains = GameObject.FindInChildren(statueObj, "broken_chains")
-
-        if dustObj then
-            local ps = dustObj:GetComponent("ParticleSystem")
-            if ps then ps:Play() end
-        end
-        
-        if chainsObj then
-            local ps = chainsObj:GetComponent("ParticleSystem")
-            if ps then ps:Play() end
-        end
-
-        if audioObj then
-            local chainSFX = audioObj:GetComponent("Audio Source")
-            if chainSFX then chainSFX:SelectPlayAudioEvent("SFX_ChainBreak") 
-            else 
-                Engine.Log("[Portal Manager] Failed to retrieve Audio Source Component from Key Statue "..tostring(statueId)) 
-            end
-        end
-
 
         if _G.PlayStatueCinematic then
             _G.PlayStatueCinematic(statueId)
@@ -145,14 +128,39 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if not inCinematic then return end
+    if _G.ForcePortalUpdate then
+        portalState = _G.PortalState or 0
+        activeFires = _G.keysCollected or 0
+        UpdatePortalVisuals(self)
+        _G.ForcePortalUpdate = false
+    end
 
+    if not inCinematic then return end
     cinTimer = cinTimer + dt
 
-    if brokenChains then
+    if pendingEffects and cinTimer >= 1.0 then
+        pendingEffects = false
+        
+        if currentInitChains then currentInitChains:SetActive(false) end
+        if currentBrokenChains then currentBrokenChains:SetActive(true) end
 
-        if cinTimer >= 0.5 and not brokenChains:IsActive() then 
-            brokenChains:SetActive(true)
+        if currentStatueObj then
+            local dustObj = GameObject.FindInChildren(currentStatueObj, "DustParticles")
+            local chainsObj = GameObject.FindInChildren(currentStatueObj, "ChainParticles")
+            local audioObj = GameObject.FindInChildren(currentStatueObj, "StatueSource")
+
+            if dustObj then
+                local ps = dustObj:GetComponent("ParticleSystem")
+                if ps then ps:Play() end
+            end
+            if chainsObj then
+                local ps = chainsObj:GetComponent("ParticleSystem")
+                if ps then ps:Play() end
+            end
+            if audioObj then
+                local chainSFX = audioObj:GetComponent("Audio Source")
+                if chainSFX then chainSFX:SelectPlayAudioEvent("SFX_ChainBreak") end
+            end
         end
     end
 
@@ -164,9 +172,5 @@ function Update(self, dt)
     if cinTimer >= self.public.cinematicEndTime then
         inCinematic = false
         if _G.PlayerInstance then _G.PlayerInstance.public.canMove = true end
-        
-        if portalState == 7 then 
-            Engine.Log("[PortalManager] Portal completamente abierto.")
-        end
     end
 end

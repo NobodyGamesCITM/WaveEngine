@@ -435,7 +435,7 @@ void AudioSystem::SetSFXVolume(float vol) {
     if (vol < 0.0f) vol = 0.0f;
     if (vol > 100.0f) vol = 100.0f;
     sfxVolume = vol;
-    LOG_CONSOLE("[AudioSystem] SetSFXVolume called with: %.2f", vol); 
+    if (enableDebugLogs) LOG_CONSOLE("[AudioSystem] SetSFXVolume called with: %.2f", vol);
     AK::SoundEngine::SetRTPCValue(AK::GAME_PARAMETERS::SFX_VOLUME, (AkRtpcValue)vol, AK_INVALID_GAME_OBJECT);
     AK::SoundEngine::RenderAudio();
 }

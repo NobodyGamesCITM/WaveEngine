@@ -19,8 +19,11 @@ function Start(self)
     targetOffset  = 0.0
 	rotateSFX = self.gameObject:GetComponent("Audio Source")
 
-	if not rotateSFX then Engine.Log("[STATUE ROTATION] Could not retrieve Rotate Statue Audio Source") 
-	else Engine.Log("[STATUE ROTATION] Rotate Statue Audio Source found!") end
+	if not rotateSFX then 
+        --Engine.Log("[STATUE ROTATION] Could not retrieve Rotate Statue Audio Source") 
+	else 
+        --Engine.Log("[STATUE ROTATION] Rotate Statue Audio Source found!") 
+    end
 end
 
 function OnTriggerEnter(self, other)

@@ -21,10 +21,20 @@ bool ResourceTexture::LoadInMemory() {
     }
 
     TextureData textureData = TextureImporter::LoadFromCustomFormat(uid);
+    if (!textureData.IsValid() && !assetsFile.empty()) {
+        //LOG_DEBUG("[ResourceTexture] Library file invalid, reimporting: %s", assetsFile.c_str());
+        MetaFile meta = MetaFileManager::LoadMeta(assetsFile);
+        TextureImporter::ImportFromFile(assetsFile, meta);
+        textureData = TextureImporter::LoadFromCustomFormat(uid);
+    }
     if (!textureData.IsValid()) {
         LOG_DEBUG("[ResourceTexture] ERROR: Failed to load texture data");
         return false;
     }
+
+    MetaFile meta = MetaFileManager::LoadMeta(assetsFile);
+    bool useMipmaps  = (meta.uid != 0 && meta.importSettings.generateMipmaps);
+    bool hasPrebaked = textureData.mipSizes.size() > 1;
 
     glGenTextures(1, &gpu_id);
     glBindTexture(GL_TEXTURE_2D, gpu_id);
@@ -32,27 +42,42 @@ bool ResourceTexture::LoadInMemory() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    MetaFile meta = MetaFileManager::LoadMeta(assetsFile);
-    bool useMipmaps = (meta.uid != 0 && meta.importSettings.generateMipmaps);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-        useMipmaps ? meta.importSettings.GetGLFilterMode(true) : GL_LINEAR);
+    bool needsMipFilter = useMipmaps || hasPrebaked;
+    GLint minFilter = GL_LINEAR;
+    if (needsMipFilter)
+        minFilter = (meta.uid != 0) ? meta.importSettings.GetGLFilterMode(true) : GL_LINEAR_MIPMAP_LINEAR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    if (textureData.compressed) {
-        glCompressedTexImage2D(
-            GL_TEXTURE_2D, 0,
-            textureData.format,
-            textureData.width, textureData.height,
-            0,
-            textureData.dataSize,
-            textureData.pixels);
-    }
-    else {
-        GLenum fmt = (textureData.channels == 4) ? GL_RGBA : GL_RGB;
-        glTexImage2D(GL_TEXTURE_2D, 0, fmt,
-            textureData.width, textureData.height,
-            0, fmt, GL_UNSIGNED_BYTE, textureData.pixels);
+    if (hasPrebaked) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, (GLint)(textureData.mipSizes.size() - 1));
+        const unsigned char* ptr = textureData.pixels;
+        int mw = (int)textureData.width, mh = (int)textureData.height;
+        for (size_t lvl = 0; lvl < textureData.mipSizes.size(); lvl++) {
+            glCompressedTexImage2D(GL_TEXTURE_2D, (GLint)lvl, textureData.format, mw, mh, 0, textureData.mipSizes[lvl], ptr);
+            ptr += textureData.mipSizes[lvl];
+            mw = std::max(1, mw / 2);
+            mh = std::max(1, mh / 2);
+        }
+    } else {
+        if (textureData.compressed) {
+            glCompressedTexImage2D(
+                GL_TEXTURE_2D, 0,
+                textureData.format,
+                textureData.width, textureData.height,
+                0,
+                textureData.dataSize,
+                textureData.pixels);
+        }
+        else {
+            GLenum fmt = (textureData.channels == 4) ? GL_RGBA : GL_RGB;
+            glTexImage2D(GL_TEXTURE_2D, 0, fmt,
+                textureData.width, textureData.height,
+                0, fmt, GL_UNSIGNED_BYTE, textureData.pixels);
+        }
+        if (useMipmaps) {
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
     }
 
     GLenum glError = glGetError();
@@ -62,10 +87,6 @@ bool ResourceTexture::LoadInMemory() {
         glDeleteTextures(1, &gpu_id);
         gpu_id = 0;
         return false;
-    }
-
-    if (useMipmaps) {
-        glGenerateMipmap(GL_TEXTURE_2D);
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);

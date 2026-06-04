@@ -167,24 +167,8 @@ bool ModuleScene::LoadScene(const nlohmann::json& sceneHierarchy)
         root->SolveReferences();
 
     LOG_CONSOLE("Iniciando Auto-Bake de NavMeshes...");
-
-    std::function<void(GameObject*)> autoBakeNav = [&](GameObject* obj) {
-        if (!obj) return;
-
-        ComponentNavigation* nav = static_cast<ComponentNavigation*>(obj->GetComponent(ComponentType::NAVIGATION));
-
-        if (nav && nav->type == NavType::SURFACE) {
-            LOG_CONSOLE("Auto-Baking superficie: %s", obj->GetName().c_str());
-            Application::GetInstance().navMesh->Bake(obj);
-        }
-
-        for (GameObject* child : obj->GetChildren()) {
-            autoBakeNav(child);
-        }
-        };
-
     if (root) {
-        autoBakeNav(root);
+        Application::GetInstance().navMesh->Bake(root);
     }
 
 

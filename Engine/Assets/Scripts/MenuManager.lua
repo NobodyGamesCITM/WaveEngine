@@ -1,3 +1,245 @@
+_G.PendingSaveDataApply = _G.PendingSaveDataApply or false
+_G.IsLoadingSaveGame = _G.IsLoadingSaveGame or false
+_G.LoadedSaveData = _G.LoadedSaveData or nil
+_G.SaveManager = _G.SaveManager or {}
+local SAVE_FILENAME = "savegame.json"
+
+local function TableToString(tbl)
+    local result = "{"
+    for k, v in pairs(tbl) do
+        if type(k) == "string" then result = result .. '["' .. k .. '"]='
+        else result = result .. "[" .. tostring(k) .. "]=" end
+        
+        if type(v) == "table" then result = result .. TableToString(v) .. ","
+        elseif type(v) == "string" then result = result .. "\"" .. v .. "\","
+        elseif type(v) == "boolean" then result = result .. tostring(v) .. ","
+        elseif type(v) == "number" then result = result .. tostring(v) .. "," 
+        else result = result .. "nil," end
+    end
+    if result:sub(-1) == "," then result = result:sub(1, -2) end
+    return result .. "}"
+end
+
+local function StringToTable(str)
+    local func, err = load("return " .. str)
+    if func then 
+        local ok, res = pcall(func)
+        if ok then return res else Engine.Log("[SaveManager] Error pcall: "..tostring(res)) end
+    end
+    return nil
+end
+
+function _G.SaveManager.SaveGame()
+    if not Engine.SaveTextFile then return end
+    Engine.Log("[SaveManager] Recopilando datos de la escena...")
+    
+    local player = GameObject.Find("Player")
+    if not player or not _G.PlayerInstance then return end
+
+    local pScript = _G.PlayerInstance.public
+    local potScript = _G.PotionSystem.public
+    local pPos = player.transform.worldPosition
+    local pRot = player.transform.rotation
+
+    local saveData = {
+        scene = _G.CurrentLevel or "Level1",
+        player = {
+            x = pPos.x, y = pPos.y, z = pPos.z, rotY = pRot.y,
+            hp = pScript.health or 100, stamina = pScript.stamina or 100,
+            potions = potScript.potionCount or 0, maxPotions = potScript.maxPotions or 0,
+            berserk = potScript.berserkCount or 0, maxBerserk = potScript.maxBerserk or 0,
+            maskApolo = _G._MaskState_Apolo or false, maskHermes = _G._MaskState_Hermes or false,
+            maskAres = _G._MaskState_Ares or false, activeMask = _G._PlayerController_currentMask or ""
+        },
+        world = { 
+            keysCollected = _G.keysCollected or 0,
+            portalState = _G.PortalState or 0,
+            dialogs = _G.DialogsShown or {}
+        },
+        enemies = {}, doors = {} -- Eliminados los puzzles
+    }
+
+    local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
+    for _, tag in ipairs(enemyTags) do
+        local enemies = GameObject.FindByTag(tag)
+        if enemies then
+            for _, enemy in ipairs(enemies) do
+                local eName = enemy.name
+                if eName then
+                    if not saveData.enemies[eName] then saveData.enemies[eName] = {} end
+                    local script = enemy:GetComponent("Script")
+                    if script then
+                        local isDead = false
+                        if script.CheckAlive then isDead = script:CheckAlive()
+                        elseif script.isDead ~= nil then isDead = script.isDead
+                        elseif script.hp ~= nil then isDead = (script.hp <= 0) end
+                        
+                        local ePos = enemy.transform.worldPosition
+                        local eRot = enemy.transform.rotation
+                        table.insert(saveData.enemies[eName], { dead = isDead, hp = script.hp or 0, x = ePos.x, y = ePos.y, z = ePos.z, rotY = eRot.y })
+                    end
+                end
+            end
+        end
+    end
+
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
+    for _, tag in ipairs(doorTags) do
+        local doors = GameObject.FindByTag(tag)
+        if doors then
+            for _, door in ipairs(doors) do
+                local dName = door.name
+                if dName then
+                    if not saveData.doors[dName] then saveData.doors[dName] = {} end
+                    local script = door:GetComponent("Script")
+                    local state = false
+                    if script then
+                        if script.isOpen ~= nil then state = script.isOpen 
+                        elseif script.isClose ~= nil then state = not script.isClose end
+                    end
+                    local dPos = door.transform.worldPosition
+                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z })
+                end
+            end
+        end
+    end
+
+    local jsonString = TableToString(saveData)
+    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then Engine.Log("[SaveManager] Partida guardada con éxito.") end
+end
+
+function _G.SaveManager.LoadGameData()
+    if not Engine.LoadTextFile then return false end
+    local jsonString = Engine.LoadTextFile(SAVE_FILENAME)
+    if not jsonString then return false end
+    _G.LoadedSaveData = StringToTable(jsonString)
+    return _G.LoadedSaveData ~= nil
+end
+
+function _G.SaveManager.ApplyLoadedData(playerObj)
+    if not _G.LoadedSaveData then return end
+    Engine.Log("[SaveManager] Aplicando datos a la escena...")
+    local data = _G.LoadedSaveData
+
+    -- PLAYER
+    local player = playerObj
+    if player and player.transform then
+        player.transform:SetPosition(data.player.x, data.player.y, data.player.z)
+        player.transform:SetRotation(0, data.player.rotY, 0)
+        local rb = player:GetComponent("Rigidbody")
+        if rb then rb:SetLinearVelocity(0,0,0) end
+        
+        if _G.PlayerInstance then
+            _G.PlayerInstance.public.health = data.player.hp
+            _G.PlayerInstance.public.stamina = data.player.stamina
+        end
+        if _G.PotionSystem then
+            _G.PotionSystem.public.potionCount = data.player.potions
+            _G.PotionSystem.public.maxPotions = data.player.maxPotions
+            _G.PotionSystem.public.berserkCount = data.player.berserk
+            _G.PotionSystem.public.maxBerserk = data.player.maxBerserk
+        end
+        
+        _G._MaskState_Apolo = data.player.maskApolo
+        _G._MaskState_Hermes = data.player.maskHermes
+        _G._MaskState_Ares = data.player.maskAres
+        
+        _G._UnlockedMasks = _G._UnlockedMasks or {}
+        _G._UnlockedMasks.Apollo = data.player.maskApolo
+        _G._UnlockedMasks.Hermes = data.player.maskHermes
+        _G._UnlockedMasks.Ares = data.player.maskAres
+        
+        _G._PlayerController_currentMask = data.player.activeMask
+        
+        _G.keysCollected = data.world.keysCollected or 0
+        _G.PortalState = data.world.portalState or 0
+        _G.DialogsShown = data.world.dialogs or {}
+        _G._PlayerController_introAnim = false 
+        _G.ForcePortalUpdate = true 
+        
+
+        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
+    end
+
+    -- ENEMIGOS
+    local enemyCounters = {}
+    local enemyTags = {"Enemy", "Enemy_Combat_1", "Enemy_Combat_Ares"}
+    for _, tag in ipairs(enemyTags) do
+        local enemies = GameObject.FindByTag(tag)
+        if enemies and data.enemies then
+            for _, enemy in ipairs(enemies) do
+                pcall(function()
+                    local eName = enemy.name
+                    if eName then
+                        enemyCounters[eName] = (enemyCounters[eName] or 0) + 1
+                        local eList = data.enemies[eName]
+                        if eList and enemyCounters[eName] <= #eList then
+                            local eData = eList[enemyCounters[eName]]
+                            if eData.dead then
+                                if enemy.transform then enemy.transform:SetPosition(0, -1000, 0) end
+                                local script = enemy:GetComponent("Script")
+                                if script then 
+                                    script.hp = 0
+                                    script.isDead = true
+                                    if script.SetDead then script:SetDead() end
+                                end
+                                if enemy.SetActive then enemy:SetActive(false) end
+                            else
+                                if enemy.transform then
+                                    enemy.transform:SetPosition(eData.x, eData.y, eData.z)
+                                    enemy.transform:SetRotation(0, eData.rotY, 0)
+                                end
+                                local rb = enemy:GetComponent("Rigidbody")
+                                if rb then rb:SetLinearVelocity(0,0,0) end
+                                local script = enemy:GetComponent("Script")
+                                if script then script.hp = eData.hp end
+                                if enemy.SetActive then enemy:SetActive(true) end
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+    end
+
+    local doorCounters = {}
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
+    for _, tag in ipairs(doorTags) do
+        local doors = GameObject.FindByTag(tag)
+        if doors and data.doors then
+            for _, door in ipairs(doors) do
+                pcall(function()
+                    local dName = door.name
+                    if dName then
+                        doorCounters[dName] = (doorCounters[dName] or 0) + 1
+                        local dList = data.doors[dName]
+                        if dList and doorCounters[dName] <= #dList then
+                            local dData = dList[doorCounters[dName]]
+                            
+                            -- Restaurar transform matrix global
+                            if door.transform then
+                                door.transform:SetPosition(dData.x, dData.y, dData.z)
+                            end
+
+                            local script = door:GetComponent("Script")
+                            if script then
+                                if dData.open then
+                                    if script.ForceOpen then script:ForceOpen() end
+                                else
+                                    if script.ForceClose then script:ForceClose() end
+                                end
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+    end
+
+    _G.LoadedSaveData = nil
+    Engine.Log("[SaveManager] Datos aplicados correctamente.")
+end
+
 local NEXT_XAML_DEFAULT = "HUD.xaml"
 local MIN_LOADING_SCREEN_DURATION = 2.5
 local FADE_DURATION      = 0.5
@@ -19,6 +261,8 @@ public = {
 }
 local FADE_IN_DURATION = 0.4
 local DEATH_MENU_DELAY = 6.2
+local DROWNING_DEATH_MENU_DELAY = 2.0
+local triedAgain = false
 
 local function ApplyFullVolume(self)
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
@@ -53,6 +297,7 @@ local function NavigateTo(self, xaml)
     if self.current and not self.current:find("SplashScreen.xaml") then
         table.insert(self.history, self.current)
     end
+
     self.nextXaml = xaml
     SetPhase(self, "fadeOut")
     Engine.Log("[MenuManager] Navigating to: " .. xaml)
@@ -87,12 +332,10 @@ end
 function Initialize(self)
     if not self.public then
         self.public = {
-            updateWhenPaused = true,
-            currentScene = { type = "Scene", value = "" },
-            fullVolume = 100.0,
-            lowerVolume = 60.0
+            updateWhenPaused = true, currentScene = { type = "Scene", value = "" }, fullVolume = 100.0, lowerVolume = 60.0
         }
     end
+
 
     _G.CinematicActive = false
     Engine.Log("[MenuManager] Re-initializing instance on object: " .. (self.gameObject and self.gameObject.name or "Unknown"))
@@ -103,11 +346,11 @@ function Initialize(self)
         return false
     end
 
-    if not self.phase      then self.phase      = "idle" end
-    if not self.fadeTimer  then self.fadeTimer   = 0.0   end
-    if not self.current    then self.current     = ""    end
-    if not self.history    then self.history     = {}    end
-    if not self.deathTimer then self.deathTimer  = 0.0   end
+    self.phase = self.phase or "idle"
+    self.fadeTimer = self.fadeTimer or 0.0
+    self.current = self.current or ""
+    self.history = self.history or {}
+    self.deathTimer = self.deathTimer or 0.0
 
     self.fading                = false
     self.pendingScene          = nil
@@ -124,6 +367,18 @@ function Initialize(self)
 
     InitAudioSources(self)
     ApplyFullVolume(self)
+
+    if _G.IsLoadingSaveGame then
+        self.current = "HUD.xaml"
+        _G.CurrentXAML = "HUD.xaml"
+        self.canvas:LoadXAML("HUD.xaml")
+        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
+        Game.Resume()
+        self.lastPauseState = "running"
+        Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
+        self.loggedReady = true -- Mark as ready after loading game
+        return true
+    end
 
     if _G.SkipSplash and not _G.ForceStartXAML then
         self.waitingForSplash = true
@@ -158,11 +413,13 @@ function Initialize(self)
         return true
     end
 
-    local sceneVal = ""
-    if type(self.public.currentScene) == "table" then
-        sceneVal = self.public.currentScene.value or ""
-    elseif type(self.public.currentScene) == "string" then
-        sceneVal = self.public.currentScene
+    local sceneVal = _G.CurrentLevel or ""
+    if sceneVal == "" then
+        if type(self.public.currentScene) == "table" then
+            sceneVal = self.public.currentScene.value or ""
+        elseif type(self.public.currentScene) == "string" then
+            sceneVal = self.public.currentScene
+        end
     end
 
     local isGameplayScene = (sceneVal:find("Level1") ~= nil or sceneVal:find("Level2") ~= nil)
@@ -191,16 +448,14 @@ function Initialize(self)
         _G.CurrentXAML = self.current
     end
 
+    --setting music state on Init
     if self.current:find("MainMenu.xaml") and not isGameplayScene then
-        Audio.SetMusicState("MainMenu")
+        -- Audio.SetMusicState("MainMenu")
+        -- Engine.Log("[MenuManager] Setting BGM to MainMenu on Init")
         self.history = {}
         self.lastPauseState = "running"
     elseif isGameplayScene then
-        if sceneVal == "Level1.scene" then
-            Audio.SetMusicState("Level1")
-        elseif sceneVal == "Level2.scene" then
-            Audio.SetMusicState("Level2")
-        end
+        
         Game.Resume()
         Game.SetTimeScale(1.0)
         self.lastPauseState = "running"
@@ -215,12 +470,12 @@ function Initialize(self)
     end
 
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
+    self.loggedReady = true -- Mark as ready
     return true
 end
 
 function Start(self)
-    self.canvas = self.gameObject:GetComponent("Canvas")
-    if not self.canvas then
+    if not self.gameObject:GetComponent("Canvas") then -- Check if canvas component exists at all
         Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
         return
     end
@@ -234,12 +489,30 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if _G.TitleTrigger_Active then return end
+    -- Ensure canvas is always valid at the very beginning of Update
+    -- Calculamos salud para la lógica de muerte antes de cualquier early return
+    local playerHealth = 101
+    local playerIsDrowning = false
+    if _G.PlayerInstance and _G.PlayerInstance.public then
+        playerHealth = _G.PlayerInstance.public.health
+        playerIsDrowning = _G._PlayerController_drownDeath or false
+    else
+        local playerObj = GameObject.Find("Player")
+        if playerObj then
+            local pScript = GameObject.GetScript(playerObj)
+            if pScript then
+                _G.PlayerInstance = pScript
+                playerHealth = pScript.public and pScript.public.health or 101
+                playerIsDrowning = _G._PlayerController_drownDeath or false
+            end
+        end
+    end
 
-    if self.newSceneDelay and self.newSceneDelay > 0 then
-        self.newSceneDelay = self.newSceneDelay - dt
-        if self.newSceneDelay <= 0 then
-            self.newSceneDelay = nil
+    local playerIsDead = (playerHealth <= 0)
+
+    if self.newSceneDelay and self.newSceneDelay > 0 then -- Delay for new scene initialization
+        self.newSceneDelay = self.newSceneDelay - Time.GetRealDeltaTime()
+        if self.newSceneDelay <= 0 then self.newSceneDelay = nil
             Initialize(self)
         end
         return
@@ -255,6 +528,8 @@ function Update(self, dt)
         InitAudioSources(self)
     end
 
+    --Engine.Log("Current Music State: "..tostring(Audio.GetMusicState()))
+
     if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then
@@ -263,10 +538,17 @@ function Update(self, dt)
             sceneVal = self.public.currentScene
         end
 
+        --Engine.Log("Current scene = " ..tostring(sceneVal))
+
         local musicState = "None"
-        if sceneVal:find("Level1") then
-            musicState = "Level1"
-        elseif sceneVal:find("Level2") then
+        if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
+            
+            if _G.CinematicActive then
+                musicState = "Vignettes"
+            else
+                musicState = "Level1"
+            end
+        elseif sceneVal:find("Level2")  or sceneVal == "Level2.scene" then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
@@ -275,9 +557,11 @@ function Update(self, dt)
         end
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
-            self.musicComp:PlayAudioEvent()
+            self.musicComp:SelectPlayAudioEvent("MUS_BGM")
+            Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
+
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -293,7 +577,8 @@ function Update(self, dt)
         if self.waitingForSplash then return end
     end
 
-    local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml"))
+    -- Consideramos "SonOfIthaca.xaml" como parte del gameplay (HUD), no como un menú que pausa el juego automáticamente
+    local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml") and not self.current:find("SonOfIthaca.xaml"))
 
     if isActualMenu then
         if self.current:find("MainMenu.xaml") then
@@ -349,7 +634,7 @@ function Update(self, dt)
     end
 
     if self.phase ~= "idle" then
-        self.fadeTimer = self.fadeTimer + dt
+        self.fadeTimer = self.fadeTimer + Time.GetRealDeltaTime()
     end
 
     if self.phase == "idle" then
@@ -366,16 +651,20 @@ function Update(self, dt)
             if UI.SliderValueChanged("SoundEffectsSlider") then
                 local val = UI.GetSliderValue("SoundEffectsSlider")
                 _G.SavedSoundEffectsVolume = val
-                Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))
+                --Engine.Log("[MenuManager] SFX SLIDER CHANGED: " .. tostring(val))
                 Audio.SetSFXVolume(val)
-                Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+                --Engine.Log("[MenuManager] SFX volume set: " .. tostring(val))
+
+                if self.pressSFX then 
+                    if not Audio.IsEventPlaying("UI_SliderTest") then self.pressSFX:SelectPlayAudioEvent("UI_SliderTest") end
+                end
             end
 
             if UI.SliderValueChanged("MusicSlider") then
                 local val = UI.GetSliderValue("MusicSlider")
                 _G.SavedMusicVolume = val
                 Audio.SetMusicVolume(val)
-                Engine.Log("[MenuManager] Music volume: " .. tostring(val))
+                --Engine.Log("[MenuManager] Music volume: " .. tostring(val))
             end
         else
             if self.soundsMenuInitialized then
@@ -397,52 +686,42 @@ function Update(self, dt)
 
         if not self.deathTimer then self.deathTimer = 0.0 end
 
-        local playerHealth = 101
-        if _G.PlayerInstance and _G.PlayerInstance.public then
-            playerHealth = _G.PlayerInstance.public.health
-        else
-            local playerObj = GameObject.Find("Player")
-            if playerObj then
-                local pScript = GameObject.GetScript(playerObj)
-                if pScript then
-                    _G.PlayerInstance = pScript
-                    playerHealth = pScript.public and pScript.public.health or 101
-                end
+        -- Lógica de Muerte: Prioritaria sobre cinemáticas si el jugador ya está muerto
+        if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
+            if not self.fading then self.canvas:SetOpacity(1.0) end
+
+            self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
+            local currentDeathDelay = playerIsDrowning and DROWNING_DEATH_MENU_DELAY or DEATH_MENU_DELAY
+            if self.deathTimer >= currentDeathDelay then
+                self.deathTimer = 0.0
+                self.history = {}
+                NavigateTo(self, "LoseMenu.xaml")
             end
+        elseif _G.CinematicActive then
+            if self.canvas then self.canvas:SetOpacity(0.0) end
+            self.deathTimer = 0.0
+        else
+            self.deathTimer = 0.0
+            if not self.fading and self.canvas then self.canvas:SetOpacity(1.0) end
         end
 
-        local playerIsDead = (playerHealth <= 0)
-
-        if not _G.CinematicActive then
-            if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-                self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
-                Engine.Log("[MenuManager] Death timer: " .. tostring(self.deathTimer))
-                if self.deathTimer >= DEATH_MENU_DELAY then
-                    self.deathTimer = 0.0
-                    self.history = {}
-                    NavigateTo(self, "LoseMenu.xaml")
-                end
-            else
-                if not playerIsDead then self.deathTimer = 0.0 end
-            end
-
+        if not _G.CinematicActive and not playerIsDead then
             if Input.GetKeyDown("Escape") or Input.GetGamepadButtonDown("Start") then
                 Engine.Log("[MenuManager] Input detected! Current XAML: '" .. tostring(self.current) .. "'")
-                local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml")
+                local isHUD   = (self.current == "HUD.xaml")       or self.current:find("HUD.xaml") or self.current:find("SonOfIthaca.xaml")
                 local isPause = (self.current == "PauseMenu.xaml") or self.current:find("PauseMenu.xaml")
 
-                if _G.TitleTrigger_HUDShouldStartHidden and isHUD then
-                    return
-                end
                 if isHUD then
                     Engine.Log("[MenuManager] Logic: Open PauseMenu")
                     if _G.SuspendDialog then _G.SuspendDialog() end
                     NavigateTo(self, "PauseMenu.xaml")
                     Game.Pause()
+                    
                     ApplyLowerVolume(self)
                 elseif isPause then
                     Engine.Log("[MenuManager] Logic: Resume to HUD")
                     NavigateTo(self, "HUD.xaml")
+                   
                     ApplyFullVolume(self)
                 else
                     Engine.Log("[MenuManager] Logic: No HUD/Pause detected, ignoring Escape key.")
@@ -452,10 +731,46 @@ function Update(self, dt)
 
         if UI.WasClicked("StartButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] StartButton clicked.")
+                Engine.Log("[MenuManager] StartButton clicked. Limpiando globales.")
+                _G.PendingSaveDataApply = false
+                _G.IsLoadingSaveGame = false
+                _G.LoadedFromSave = false
+                
+                _G.ForceStartXAML = nil
+                _G.CurrentXAML = "HUD.xaml"
+                _G.CurrentLevel = "Level1"
+                _G.DialogsShown = {} 
+                
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")
+            end
+        end
+
+        if UI.WasClicked("ContinueButton") then
+            if not self.fading then
+                if _G.SaveManager and _G.SaveManager.LoadGameData() then
+                    Engine.Log("[MenuManager] ContinueButton clicked. LOAD GAME.")
+                    _G.PendingSaveDataApply = true
+                    _G.IsLoadingSaveGame = true
+                    _G.LoadedFromSave = true
+                    
+                    local sName = _G.LoadedSaveData.scene
+                    if sName == "Level_01" then sName = "Level1" end
+                    if sName == "Level_02" then sName = "Level2" end
+                    
+                    if sName:find(".scene") == nil then
+                        sName = sName .. ".scene"
+                    end
+                    
+                    self.pendingScene = sName
+                    _G.CurrentLevel = sName:gsub(".scene", "")
+                    
+                    self.fading = true
+                    self.canvas:PlayStoryboard("FadeOut")
+                else
+                    Engine.Log("[MenuManager] No hay partida guardada.")
+                end
             end
         end
         if UI.WasClicked("SettingsButton") then NavigateTo(self, "SettingsMenu.xaml") end
@@ -465,20 +780,31 @@ function Update(self, dt)
         end
         if UI.WasClicked("ResumeButton")   then NavigateTo(self, "HUD.xaml") end
         if UI.WasClicked("TryAgainButton") then
-            _G._PlayerController_isDead = false
+           
+            -- if self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level1")
+            --     Engine.Log("[MenuManager] Setting BGM to Level1 on Death")
+            -- elseif self.public.currentScene == "Level1.scene" then
+            --     Audio.SetMusicState("Level2")
+            --     Engine.Log("[MenuManager] Setting BGM to Level2 on Death")
+            -- end
+             _G._PlayerController_isDead = false
+            triedAgain = true
+            
             self.deathTimer = 0.0
             NavigateTo(self, "HUD.xaml")
+           
         end
         if UI.WasClicked("BackToMenuButton") then
             if not self.fading then
-                Engine.Log("[MenuManager] BackToMenuButton.")
+                Engine.Log("[MenuManager] BackToMenuButton. Limpiando sesión de juego.")
                 _G._PlayerController_isDead = false
                 self.deathTimer = 0.0
-                if _G.PlayerInstance then
-                    _G.PlayerInstance.public.health  = 100
-                    _G.PlayerInstance.public.stamina = 100
-                end
-                _G.SkipSplash     = true
+                
+                _G.CurrentLevel = "MainMenu"
+                _G.ForceStartXAML = "MainMenu.xaml"
+                _G.SkipSplash = true
+
                 self.pendingScene = "Splash.scene"
                 self.fading       = true
                 self.canvas:PlayStoryboard("FadeOut")
@@ -560,30 +886,41 @@ function Update(self, dt)
         end
 
         local previous = self.current
-        self.canvas:LoadXAML(self.nextXaml)
-        self.current   = self.nextXaml
-        _G.CurrentXAML = self.current
+        if self.nextXaml and self.nextXaml ~= "" then
+            self.canvas:LoadXAML(self.nextXaml)
+            self.current   = self.nextXaml
+            _G.CurrentXAML = self.current
+        end
 
         self.lastPauseState = nil
 
         if self.current == "HUD.xaml" then
             if self.public.currentScene == "Level1.scene" then
                 Audio.SetMusicState("Level1")
-            elseif self.public.currentScene == "Blockout2Nuevo.scene"
-                or self.public.currentScene == "Level2.scene" then
-                if Audio.GetMusicState() ~= "Boss" or Audio.GetMusicState() ~= "AfterBoss" then
-                    Audio.SetMusicState("Level2")
+            elseif self.public.currentScene == "Level2.scene" then
+                
+                local currentMusicState = tostring(Audio.GetMusicState())
+            
+                if triedAgain then
+                    Audio.SetMusicState("Level2") 
+                    triedAgain = false
                 end
+                
             end
             if previous == "PauseMenu.xaml" then
+                
                 Game.Resume()
                 self.lastPauseState    = "running"
                 if _G.ForceRefreshHUD then
                     _G.ForceRefreshHUD()
                 end
             else
-                if _G.ResetPlayer and _G.PlayerInstance then
-                    _G.ResetPlayer(_G.PlayerInstance)
+                if not _G.IsLoadingSaveGame then
+                    if _G.ResetPlayer and _G.PlayerInstance then
+                        _G.ResetPlayer(_G.PlayerInstance)
+                    else
+                        _G._PlayerController_isDead = false
+                    end
                 else
                     _G._PlayerController_isDead = false
                 end
@@ -600,7 +937,7 @@ function Update(self, dt)
             self.lastPauseState = "running"
         end
 
-        Engine.Log("[MenuManager] Swapped to: " .. self.nextXaml .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
+        Engine.Log("[MenuManager] Swapped to: " .. tostring(self.nextXaml) .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
         if _G.TitleTrigger_HUDShouldStartHidden and self.nextXaml == "HUD.xaml" then
             self.canvas:SetOpacity(0.0)
             SetPhase(self, "idle")
@@ -626,14 +963,17 @@ function Update(self, dt)
     elseif self.phase == "loadingScreenAnimating" then
         if self.pendingScene then
             if not self.loadingXAMLStarted then
-                Engine.Log("[MenuManager] Mostrando LoadingScreen...")
                 if self.canvas then self.canvas:LoadXAML("LoadingScreen.xaml") end
                 self.loadingXAMLStarted = true
             end
             self.loadingScreenTimer = self.loadingScreenTimer + dt
             if self.loadingScreenTimer < MIN_LOADING_SCREEN_DURATION then return end
+            
             Engine.Log("[MenuManager] Cargando escena: " .. self.pendingScene)
             self.loadingXAMLStarted = false
+            
+            _G.CurrentLevel = self.pendingScene:gsub(".scene", "")
+            
             Engine.LoadScene(self.pendingScene)
             self.pendingScene = nil
             return

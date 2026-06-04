@@ -255,14 +255,14 @@ static void DispatchInputToCanvases(Input* input)
     // Gamepad
     if (input->HasGamepad())
     {
-        const GamepadButton allButtons[] = {
+        const GamepadButton digitalButtons[] = {
             GP_SOUTH, GP_EAST, GP_WEST, GP_NORTH,
             GP_BACK, GP_START,
             GP_LEFT_SHOULDER, GP_RIGHT_SHOULDER,
             GP_DPAD_UP, GP_DPAD_DOWN, GP_DPAD_LEFT, GP_DPAD_RIGHT
         };
 
-        for (GamepadButton btn : allButtons)
+        for (GamepadButton btn : digitalButtons)
         {
             KeyState ks = input->GetGamepadButton(btn, 0);
             Noesis::Key nsKey = GamepadButtonToNoesisKey(btn);
@@ -275,6 +275,15 @@ static void DispatchInputToCanvases(Input* input)
                 for (ComponentCanvas* canvas : canvases)
                     canvas->OnKeyUp(nsKey);
         }
+
+        float dX = 0.0f, dY = 0.0f;
+        if (input->IsGamepadButtonPressed(GP_DPAD_LEFT, 0))  dX -= 1.0f;
+        if (input->IsGamepadButtonPressed(GP_DPAD_RIGHT, 0)) dX += 1.0f;
+        if (input->IsGamepadButtonPressed(GP_DPAD_UP, 0))    dY -= 1.0f;
+        if (input->IsGamepadButtonPressed(GP_DPAD_DOWN, 0))  dY += 1.0f;
+        
+        for (ComponentCanvas* canvas : canvases)
+            canvas->OnGamepadDPad(dX, dY);
 
         glm::vec2 ls = input->GetLeftStick(0);
         for (ComponentCanvas* canvas : canvases)

@@ -22,24 +22,40 @@ function Start(self)
     finalY = p.y - distance
 
     doorSFX = self.gameObject:GetComponent("Audio Source")
-    if not doorSFX then Engine.Log("[DOOR] Could not retrieve Door Audio Source") 
-    else Engine.Log("[DOOR] Door Audio Source Found!") end
+    if not doorSFX then 
+        --Engine.Log("[DOOR] Could not retrieve Door Audio Source") 
+    else 
+        --Engine.Log("[DOOR] Door Audio Source Found!") 
+    end
 
     self.OpenDoor = function(self)
         if not isOpen then openDoor2 = true end
         return isOpen
+    end
+
+    self.ForceOpen = function(self)
+        isOpen = true
+        openDoor2 = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, finalY, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
+    end
+    self.ForceClose = function(self)
+        isOpen = false
+        openDoor2 = false
+        local p = self.transform.worldPosition
+        self.transform:SetPosition(p.x, finalY + distance, p.z)
+        if rb then rb:SetLinearVelocity(0,0,0) end
     end
 end
 
 local function DisableColision(self) 
     local colision = GameObject.Find(self.public.myColision)
     if colision then
-        Engine.Log("Door colision found")
         local Box = colision:GetComponent("Box Collider")
         if Box then 
             Box:Disable() 
             ColisionDisabled = true
-            Engine.Log("Box disable")
         else
             Engine.Log("Box not found")
         end
@@ -78,11 +94,7 @@ function Update (self, deltaTime)
             else 
                 if not ColisionDisabled then
                     DisableColision(self)
-                    
                 end
-                Engine.Log("---------------------------------------------------------------------")
-                Engine.Log("[Door] Bad Gyal, Govana - Open The Door ft. DJ Papis")
-                Engine.Log("---------------------------------------------------------------------")
                 rb:SetLinearVelocity(0, 0, 0)
                 if doorSFX then doorSFX:SelectPlayAudioEvent("SFX_DoorStop") end
                 openDoor2 = false

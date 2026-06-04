@@ -1357,6 +1357,10 @@ function Start(self)
 
     self.targetDeathY        = nil
     self.targetDeathYisEnter = false
+
+    self.CheckAlive = function(self)
+        return not isDead
+    end
 end
 
 function Update(self, dt)

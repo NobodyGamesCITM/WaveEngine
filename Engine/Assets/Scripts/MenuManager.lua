@@ -83,7 +83,7 @@ function _G.SaveManager.SaveGame()
         end
     end
 
-    local doorTags = {"Door", "Door_Combat_1"}
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
     for _, tag in ipairs(doorTags) do
         local doors = GameObject.FindByTag(tag)
         if doors then
@@ -98,8 +98,7 @@ function _G.SaveManager.SaveGame()
                         elseif script.isClose ~= nil then state = not script.isClose end
                     end
                     local dPos = door.transform.worldPosition
-                    local dRot = door.transform.rotation
-                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z, rotY = dRot.y })
+                    table.insert(saveData.doors[dName], { open = state, x = dPos.x, y = dPos.y, z = dPos.z })
                 end
             end
         end
@@ -203,7 +202,7 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
     end
 
     local doorCounters = {}
-    local doorTags = {"Door", "Door_Combat_1"}
+    local doorTags = {"Door", "Door_Combat_1", "Door_Combat_Ares"}
     for _, tag in ipairs(doorTags) do
         local doors = GameObject.FindByTag(tag)
         if doors and data.doors then
@@ -219,7 +218,6 @@ function _G.SaveManager.ApplyLoadedData(playerObj)
                             -- Restaurar transform matrix global
                             if door.transform then
                                 door.transform:SetPosition(dData.x, dData.y, dData.z)
-                                door.transform:SetRotation(0, dData.rotY, 0)
                             end
 
                             local script = door:GetComponent("Script")

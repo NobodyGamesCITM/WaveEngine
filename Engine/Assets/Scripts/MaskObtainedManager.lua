@@ -25,6 +25,7 @@ local ALL_PANELS    = { "MaskPanel_Hermes", "MaskPanel_Apolo", "MaskPanel_Ares" 
 
 local active      = false
 local pendingHint = nil
+local aresActive  = false
 
 local ALL_KEY_IMGS = { "MaskKey_Q", "MaskKey_Shift" }
 
@@ -78,6 +79,9 @@ local function showMaskObtained(maskKey)
     active      = true
     pendingHint = data.hint
 
+    -- Ares combat
+    if data.name == "MÁSCARA DE ARES" then aresActive = true end
+
     -- UIQueueManager
     _G._IsMaskActive = true
     Engine.Log("[MaskObtained] Mostrando: " .. maskKey .. " | _IsMaskActive = true")
@@ -98,6 +102,14 @@ function Update(self, dt)
     if not active then return end
 
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
+        
+        if aresActive then 
+            local combat = GameObject.Find("AresCombat")
+            local combatScript = combat:GetComponent("Script")
+            if combatScript then combatScript.startCombat() end 
+            aresActive = false
+        end
+        
         closeMaskPanel()
     end
 end

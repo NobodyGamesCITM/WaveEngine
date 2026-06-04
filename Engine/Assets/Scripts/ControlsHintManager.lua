@@ -50,7 +50,7 @@ PRESETS = {
         duration = 5.0,
         condition = function() return _G._UnlockedMasks and _G._UnlockedMasks.Ares == true end,
         slots = {
-            { img = "HintImg_Ares",         key = "HintKey_Q",      gp = "HintGP_Y" },
+            { img = "HintImg_Ares",            key = "HintKey_Q",      gp = "HintGP_Y" },
         },
     },
     apolo_puzzle = {
@@ -82,46 +82,64 @@ local ONCE_ONLY = {
     apolo_puzzleDisparo  = true,
 }
 
-local ALL_IMGS = {
-    "HintImg_Caminar",
-    "HintImg_AtaqueNormal",
-    "HintImg_AtaqueFuerte",
-    "HintImg_Correr",
-    "HintImg_CambiarMascaras",
-    "HintImg_Health",
-    "HintImg_Berserk",
-    "HintImg_Estatua",
-    "HintImg2_Roll",
-    "HintImg2_AtaqueNormal",
-    "HintImg_ApoloFuerte",
-    "HintImg_ApoloDisparo",
-}
+local PANEL_WIDTH         = 767
+local PANEL_PADDING_X     = 40
+local PANEL_PADDING_Y     = 8
+local PANEL_MAX_CONTENT_W = PANEL_WIDTH - (2 * PANEL_PADDING_X)
+local PANEL_MAX_CONTENT_H = 172
+local SLOT_GAP            = 28
+local IMG_KEY_GAP         = 14
 
-local ALL_KEYS = {
-    -- teclado y gp
-    "HintKey_WASD",
-    "HintKey_E",
-    "HintKey_Q",
-    "HintKey_Ctrl",
-    "HintKey_Shift",
-    "HintKey_R",
-    "HintKey_F",
-    "HintKey_8",
-    "HintKey_Joystick",
-    "HintKey2_Ctrl",
-    "HintKey2_E",
-    "HintGP_Joystick",
-    "HintGP_X",
-    "HintGP_Y",
-    "HintGP_B",
-    "HintGP_LB",
-    "HintGP_RB",
-    "HintGP_LT",
-    "HintGP_Cruz",
-    "HintGP2_B",
-}
-
+local IMG_GRIDS = { "HintImgGrid1", "HintImgGrid2" }
 local KEY_GRIDS = { "HintKeyGrid1", "HintKeyGrid2" }
+
+local IMG_SIZES = {
+    HintImg_ApoloFuerte     = { w = 300, h = 80 },
+    HintImg_ApoloDisparo    = { w = 300, h = 90 },
+    HintImg_Ares            = { w = 90,  h = 90 },
+    HintImg_Caminar         = { w = 180, h = 100 },
+    HintImg_AtaqueNormal    = { w = 180, h = 120 },
+    HintImg_AtaqueFuerte    = { w = 90,  h = 60 },
+    HintImg_Correr          = { w = 180, h = 120 },
+    HintImg_CambiarMascaras = { w = 90,  h = 90 },
+    HintImg_Health          = { w = 180, h = 100 },
+    HintImg_Berserk         = { w = 90,  h = 90 },
+    HintImg2_Estatua        = { w = 75,  h = 75 },
+    HintImg2_ApoloFuerte    = { w = 180, h = 120 },
+    HintImg2_Roll           = { w = 197, h = 106 },
+    HintImg2_AtaqueNormal   = { w = 100, h = 70 },
+}
+
+local KEY_SIZES = {
+    HintKey_WASD     = { w = 100, h = 100 },
+    HintKey_E        = { w = 75,  h = 75 },
+    HintKey_Q        = { w = 75,  h = 75 },
+    HintKey_Ctrl     = { w = 75,  h = 75 },
+    HintKey_Shift    = { w = 75,  h = 75 },
+    HintKey_R        = { w = 75,  h = 75 },
+    HintKey_F        = { w = 75,  h = 75 },
+    HintKey_8        = { w = 75,  h = 75 },
+    HintKey2_Ctrl    = { w = 75,  h = 75 },
+    HintKey2_E       = { w = 75,  h = 75 },
+    HintGP_X         = { w = 45,  h = 45 },
+    HintGP_Cruz      = { w = 45,  h = 45 },
+    HintGP_Joystick  = { w = 45,  h = 45 },
+    HintGP_LB        = { w = 45,  h = 45 },
+    HintGP_RB        = { w = 45,  h = 45 },
+    HintGP_LT        = { w = 45,  h = 45 },
+    HintGP_Y         = { w = 45,  h = 45 },
+    HintGP2_B        = { w = 45,  h = 45 },
+}
+
+local ALL_IMGS = {}
+for name, _ in pairs(IMG_SIZES) do
+    ALL_IMGS[#ALL_IMGS + 1] = name
+end
+
+local ALL_KEYS = {}
+for name, _ in pairs(KEY_SIZES) do
+    ALL_KEYS[#ALL_KEYS + 1] = name
+end
 
 local SLOTS = { "HintSlot1", "HintSlot2" }
 
@@ -136,8 +154,34 @@ local function usingGamepad()
     return (_G.LastInputType == "gamepad")
 end
 
+local function getImgSize(name)
+    return IMG_SIZES[name] or { w = 120, h = 80 }
+end
 
--- Utilidades UI
+local function getKeySize(name)
+    return KEY_SIZES[name] or { w = 75, h = 75 }
+end
+
+local function resetElementSizes()
+    for name, sz in pairs(IMG_SIZES) do
+        UI.SetElementWidth(name, sz.w)
+        UI.SetElementHeight(name, sz.h)
+    end
+    for name, sz in pairs(KEY_SIZES) do
+        UI.SetElementWidth(name, sz.w)
+        UI.SetElementHeight(name, sz.h)
+    end
+    for _, gridName in ipairs(IMG_GRIDS) do
+        UI.SetElementWidth(gridName, 1)
+        UI.SetElementHeight(gridName, 1)
+    end
+    for _, gridName in ipairs(KEY_GRIDS) do
+        UI.SetElementWidth(gridName, 1)
+        UI.SetElementHeight(gridName, 1)
+        UI.SetElementMargin(gridName, 0, 0, 0, 0)
+    end
+end
+
 local function hideAll()
     for _, img in ipairs(ALL_IMGS) do
         UI.SetElementVisibility(img, false)
@@ -151,6 +195,77 @@ local function hideAll()
     for _, kg in ipairs(KEY_GRIDS) do
         UI.SetElementVisibility(kg, false)
     end
+    resetElementSizes()
+    UI.SetElementMargin("ControlsHintContent", PANEL_PADDING_X, PANEL_PADDING_Y, PANEL_PADDING_X, PANEL_PADDING_Y)
+    UI.SetElementMargin("HintSlot1", 0, 0, 0, 0)
+    UI.SetElementMargin("HintSlot2", 0, 0, 0, 0)
+end
+
+local function layoutSlots(preset)
+    local numSlots = #preset.slots
+    local totalW   = 0
+    local maxH     = 0
+    local slotInfos = {}
+
+    for i, slot in ipairs(preset.slots) do
+        local keyName = usingGamepad() and slot.gp or slot.key
+        local imgSz   = getImgSize(slot.img)
+        local keySz   = (keyName and keyName ~= "") and getKeySize(keyName) or { w = 0, h = 0 }
+        local keyGap  = (keyName and keyName ~= "") and IMG_KEY_GAP or 0
+        local slotW   = imgSz.w + keyGap + keySz.w
+        local slotH   = math.max(imgSz.h, keySz.h)
+        totalW = totalW + slotW
+        maxH   = math.max(maxH, slotH)
+        slotInfos[i] = {
+            img = slot.img,
+            key = keyName,
+            imgSz = imgSz,
+            keySz = keySz,
+            keyGap = keyGap,
+            slotW = slotW,
+        }
+    end
+
+    if numSlots > 1 then
+        totalW = totalW + SLOT_GAP
+    end
+
+    local scaleW = PANEL_MAX_CONTENT_W / math.max(totalW, 1)
+    local scaleH = PANEL_MAX_CONTENT_H / math.max(maxH, 1)
+    local scale  = math.min(1.0, scaleW, scaleH)
+
+    for i, info in ipairs(slotInfos) do
+        local imgW = info.imgSz.w * scale
+        local imgH = info.imgSz.h * scale
+        UI.SetElementWidth(IMG_GRIDS[i], imgW)
+        UI.SetElementHeight(IMG_GRIDS[i], imgH)
+        UI.SetElementWidth(info.img, imgW)
+        UI.SetElementHeight(info.img, imgH)
+        if info.key and info.key ~= "" then
+            local keyW = info.keySz.w * scale
+            local keyH = info.keySz.h * scale
+            local keyGap = info.keyGap * scale
+            UI.SetElementMargin(KEY_GRIDS[i], keyGap, 0, 0, 0)
+            UI.SetElementWidth(KEY_GRIDS[i], keyW)
+            UI.SetElementHeight(KEY_GRIDS[i], keyH)
+            UI.SetElementWidth(info.key, keyW)
+            UI.SetElementHeight(info.key, keyH)
+        else
+            UI.SetElementMargin(KEY_GRIDS[i], 0, 0, 0, 0)
+            UI.SetElementWidth(KEY_GRIDS[i], 1)
+            UI.SetElementHeight(KEY_GRIDS[i], 1)
+        end
+    end
+
+    UI.SetElementMargin("ControlsHintContent", PANEL_PADDING_X, PANEL_PADDING_Y, PANEL_PADDING_X, PANEL_PADDING_Y)
+
+    if numSlots > 1 then
+        UI.SetElementMargin("HintSlot1", 0, 0, SLOT_GAP * scale, 0)
+        UI.SetElementMargin("HintSlot2", 0, 0, 0, 0)
+    else
+        UI.SetElementMargin("HintSlot1", 0, 0, 0, 0)
+        UI.SetElementMargin("HintSlot2", 0, 0, 0, 0)
+    end
 end
 
 local function hideHints()
@@ -162,7 +277,6 @@ local function hideHints()
     _G._IsHintActive = false
 end
 
--- Aplica los slots del preset según dispositivo
 local function applySlots(preset)
     hideAll()
     for i, slot in ipairs(preset.slots) do
@@ -174,12 +288,7 @@ local function applySlots(preset)
             UI.SetElementVisibility(keyName, true)
         end
     end
-
-    if #preset.slots == 1 then
-        UI.SetElementMargin("HintSlot1", 200, 0, 0, 0)
-    else
-        UI.SetElementMargin("HintSlot1", 0, 0, 16, 0)
-    end
+    layoutSlots(preset)
 end
 
 function refreshCurrentHint()
@@ -189,23 +298,19 @@ function refreshCurrentHint()
     applySlots(preset)
 end
 
--- Mostrar preset
 local function showPreset(presetName, overrideDuration)
     if not overrideDuration then
         if ONCE_ONLY[presetName] and seenPresets[presetName] then
-            --Engine.Log("[ControlsHint] Ya mostrado: " .. presetName)
             return
         end
     end
 
     local preset = PRESETS[presetName]
     if not preset then
-        --Engine.Log("[ControlsHint] Preset no encontrado: " .. presetName)
         return
     end
 
     if preset.condition and not preset.condition() then
-        --Engine.Log("[ControlsHint] Condición no cumplida, ignorando: " .. presetName)
         return
     end
 
@@ -216,20 +321,15 @@ local function showPreset(presetName, overrideDuration)
     currentPreset = presetName
     timer         = 0.0
     duration      = overrideDuration or preset.duration
-    --Engine.Log("[ControlsHint] Timer RESET para: " .. presetName .. " duration=" .. tostring(duration))
 
     applySlots(preset)
     UI.SetElementVisibility("ControlsHintPanel", true)
     _G._IsHintActive = true
-    --Engine.Log("[ControlsHint] Mostrando: " .. presetName
-      --  .. (overrideDuration and (" (restante: " .. string.format("%.1f", overrideDuration) .. "s)") or "")
-        --.. " [" .. (usingGamepad() and "GAMEPAD" or "TECLADO") .. "]")
 end
 
--- Start
 function Start(self)
     _G._IsHintActive  = false
-    _G.LastInputType  = _G.LastInputType or "keyboard"  -- fuente de verdad compartida
+    _G.LastInputType  = _G.LastInputType or "keyboard"
     hideAll()
     UI.SetElementVisibility("ControlsHintPanel", false)
     UI.SetElementVisibility("ChangeMaskTutorialBackground", false)

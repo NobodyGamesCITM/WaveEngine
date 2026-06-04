@@ -62,9 +62,9 @@ local heavyAttackMoveSpeed = 7.0
 -- MASKS
 local Mask = {
     NONE   = "NoMask",
-    APOLLO = "None",
-    HERMES = "None",
-    ARES   = "None"
+    APOLLO = "Apolo",
+    HERMES = "Hermes",
+    ARES   = "Ares"
 }
 
 -- STATES
@@ -1580,19 +1580,10 @@ function Start(self)
     giveHermesMask      = false
     giveAresMask        = false
 
-    Mask.APOLLO = "None"
-    Mask.HERMES = "None"
-    Mask.ARES   = "None"
-
     _G._MaskState_Hermes = false
     _G._MaskState_Apolo  = false
     _G._MaskState_Ares   = false
 
-    maskAnimTimer = 0.0
-
-    Player.currentState = State.IDLE
-    ChangeState(self, State.IDLE, true)
-    Player.currentMask = nil
     FindMasks(self)
     InitParticles(self)
     EquipMask(self, Mask.NONE)
@@ -1603,6 +1594,12 @@ function Start(self)
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
     end
+
+    maskAnimTimer = 0.0
+    Player.currentState = State.IDLE
+    ChangeState(self, State.IDLE, true)
+
+    self.EquipMask = EquipMask
 
     -- Hit vignette init
     hitVigTimer = 0.0
@@ -2396,8 +2393,6 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    MaskScroll(self)
-
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
         debugMaskGive = true
@@ -2532,8 +2527,7 @@ end
 
 function ObtainMask(self)
     local maskObtained = false
-    if giveApoloMask and Mask.APOLLO == "None" then
-        Mask.APOLLO = "Apolo"
+    if giveApoloMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Apollo) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Apollo = true
@@ -2545,8 +2539,7 @@ function ObtainMask(self)
     end
     giveApoloMask = false
 
-    if giveHermesMask and Mask.HERMES == "None" then
-        Mask.HERMES = "Hermes"
+    if giveHermesMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Hermes) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Hermes = true
@@ -2558,8 +2551,7 @@ function ObtainMask(self)
     end
     giveHermesMask = false
 
-    if giveAresMask and Mask.ARES == "None" then
-        Mask.ARES = "Ares"
+    if giveAresMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Ares) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Ares = true

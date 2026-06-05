@@ -1,0 +1,1003 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 10401370341702970677,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 7982155793782274651,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    },
+                                                    {
+                                                        "AngularDamping": 0.0,
+                                                        "FreezePos": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "FreezeRot": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "LinearDamping": 0.0,
+                                                        "Mass": 1.0,
+                                                        "Type": 1,
+                                                        "UseCCD": false,
+                                                        "UseGravity": true,
+                                                        "active": true,
+                                                        "type": 8
+                                                    },
+                                                    {
+                                                        "Center": [
+                                                            0.0,
+                                                            4.5,
+                                                            0.0
+                                                        ],
+                                                        "DynamicFriction": 0.5,
+                                                        "Restitution": 0.6000000238418579,
+                                                        "Size": [
+                                                            5.0,
+                                                            3.0,
+                                                            5.0
+                                                        ],
+                                                        "StaticFriction": 0.5,
+                                                        "Trigger": false,
+                                                        "active": true,
+                                                        "type": 10
+                                                    }
+                                                ],
+                                                "name": "polySurface23",
+                                                "tag": "",
+                                                "uid": 8185968318630587700
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0,
+                                                    -6.185583591461182,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "polySurface23_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 921152940577323717
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            6.185583591461182,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "polySurface23_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 8332243320374981677
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0,
+                                    -6.185583591461182,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "polySurface23_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 11674208452812021950
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            6.185583591461182,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "polySurface23_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 6652771227026201252
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 12139173707170925669,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 7982155793782274651,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    },
+                                                    {
+                                                        "Center": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "DynamicFriction": 0.5,
+                                                        "Restitution": 0.6000000238418579,
+                                                        "StaticFriction": 0.5,
+                                                        "Trigger": false,
+                                                        "active": true,
+                                                        "type": 16
+                                                    },
+                                                    {
+                                                        "AngularDamping": 0.0,
+                                                        "FreezePos": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "FreezeRot": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "LinearDamping": 0.0,
+                                                        "Mass": 1.0,
+                                                        "Type": 1,
+                                                        "UseCCD": false,
+                                                        "UseGravity": true,
+                                                        "active": true,
+                                                        "type": 8
+                                                    }
+                                                ],
+                                                "name": "polySurface25",
+                                                "tag": "",
+                                                "uid": 3597638174262324378
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0,
+                                                    -6.185583591461182,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "polySurface25_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 9702336787877278145
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            6.185583591461182,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "polySurface25_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 16540395431631965604
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0,
+                                    -6.185583591461182,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "polySurface25_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 9414330019321705066
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            6.185583591461182,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "polySurface25_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 17564180207362852195
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 10882450821298770721,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 7982155793782274651,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    },
+                                                    {
+                                                        "Center": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "DynamicFriction": 0.5,
+                                                        "Restitution": 0.6000000238418579,
+                                                        "StaticFriction": 0.5,
+                                                        "Trigger": false,
+                                                        "active": true,
+                                                        "type": 16
+                                                    },
+                                                    {
+                                                        "AngularDamping": 0.0,
+                                                        "FreezePos": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "FreezeRot": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "LinearDamping": 0.0,
+                                                        "Mass": 1.0,
+                                                        "Type": 1,
+                                                        "UseCCD": false,
+                                                        "UseGravity": true,
+                                                        "active": true,
+                                                        "type": 8
+                                                    }
+                                                ],
+                                                "name": "polySurface27",
+                                                "tag": "",
+                                                "uid": 15508067252532975835
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0,
+                                                    -6.185583591461182,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "polySurface27_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 17875052584133429448
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            6.185583591461182,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "polySurface27_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 5246844577669541415
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0,
+                                    -6.185583591461182,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "polySurface27_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 13634581219101999266
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            6.185583591461182,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "polySurface27_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 8955143434107398536
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 14211482598726369237,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 7982155793782274651,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    },
+                                                    {
+                                                        "AngularDamping": 0.0,
+                                                        "FreezePos": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "FreezeRot": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "LinearDamping": 0.0,
+                                                        "Mass": 1.0,
+                                                        "Type": 1,
+                                                        "UseCCD": false,
+                                                        "UseGravity": true,
+                                                        "active": true,
+                                                        "type": 8
+                                                    }
+                                                ],
+                                                "name": "polySurface28",
+                                                "tag": "",
+                                                "uid": 11022324074150360613
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0,
+                                                    -6.185583591461182,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "polySurface28_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 14019848457381029841
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            6.185583591461182,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "polySurface28_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 7865929755058365013
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0,
+                                    -6.185583591461182,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "polySurface28_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 5396909053866363150
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            6.185583591461182,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "polySurface28_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 12324393175936899869
+            },
+            {
+                "active": true,
+                "children": [
+                    {
+                        "active": true,
+                        "children": [
+                            {
+                                "active": true,
+                                "children": [
+                                    {
+                                        "active": true,
+                                        "children": [
+                                            {
+                                                "active": true,
+                                                "children": [],
+                                                "components": [
+                                                    {
+                                                        "active": true,
+                                                        "position": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "rotation": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "scale": [
+                                                            1.0,
+                                                            1.0,
+                                                            1.0
+                                                        ],
+                                                        "type": 0
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "castShadows": true,
+                                                        "meshUID": 15559477953635845631,
+                                                        "silhouetteColor": [
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            0.5686274766921997,
+                                                            1.0
+                                                        ],
+                                                        "silhouetteEnabled": false,
+                                                        "type": 1
+                                                    },
+                                                    {
+                                                        "active": true,
+                                                        "materialUID": 7982155793782274651,
+                                                        "overrideTiling": false,
+                                                        "type": 3
+                                                    },
+                                                    {
+                                                        "AngularDamping": 0.0,
+                                                        "FreezePos": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "FreezeRot": [
+                                                            false,
+                                                            false,
+                                                            false
+                                                        ],
+                                                        "LinearDamping": 0.0,
+                                                        "Mass": 1.0,
+                                                        "Type": 1,
+                                                        "UseCCD": false,
+                                                        "UseGravity": true,
+                                                        "active": true,
+                                                        "type": 8
+                                                    },
+                                                    {
+                                                        "Center": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "DynamicFriction": 0.5,
+                                                        "Restitution": 0.6000000238418579,
+                                                        "StaticFriction": 0.5,
+                                                        "Trigger": false,
+                                                        "active": true,
+                                                        "type": 16
+                                                    }
+                                                ],
+                                                "name": "polySurface29",
+                                                "tag": "",
+                                                "uid": 920918656297773486
+                                            }
+                                        ],
+                                        "components": [
+                                            {
+                                                "active": true,
+                                                "position": [
+                                                    -0.0,
+                                                    -6.185583591461182,
+                                                    -0.0
+                                                ],
+                                                "rotation": [
+                                                    0.0,
+                                                    0.0,
+                                                    0.0
+                                                ],
+                                                "scale": [
+                                                    1.0,
+                                                    1.0,
+                                                    1.0
+                                                ],
+                                                "type": 0
+                                            }
+                                        ],
+                                        "name": "polySurface29_$AssimpFbx$_ScalingPivotInverse",
+                                        "tag": "",
+                                        "uid": 1490311970065423246
+                                    }
+                                ],
+                                "components": [
+                                    {
+                                        "active": true,
+                                        "position": [
+                                            0.0,
+                                            6.185583591461182,
+                                            0.0
+                                        ],
+                                        "rotation": [
+                                            0.0,
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "scale": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "type": 0
+                                    }
+                                ],
+                                "name": "polySurface29_$AssimpFbx$_ScalingPivot",
+                                "tag": "",
+                                "uid": 1228360834070887564
+                            }
+                        ],
+                        "components": [
+                            {
+                                "active": true,
+                                "position": [
+                                    -0.0,
+                                    -6.185583591461182,
+                                    -0.0
+                                ],
+                                "rotation": [
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "scale": [
+                                    1.0,
+                                    1.0,
+                                    1.0
+                                ],
+                                "type": 0
+                            }
+                        ],
+                        "name": "polySurface29_$AssimpFbx$_RotationPivotInverse",
+                        "tag": "",
+                        "uid": 16065654197982681866
+                    }
+                ],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            6.185583591461182,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "polySurface29_$AssimpFbx$_RotationPivot",
+                "tag": "",
+                "uid": 14471440638210598081
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    28.0,
+                    0.5,
+                    12.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.36000001430511475,
+                    0.36000001430511475,
+                    0.36000001430511475
+                ],
+                "type": 0
+            }
+        ],
+        "name": "brokenVase1",
+        "tag": "",
+        "uid": 9849707135920909591
+    }
+]

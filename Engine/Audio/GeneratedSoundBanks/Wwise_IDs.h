@@ -106,6 +106,7 @@ namespace AK
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
         static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
         static const AkUniqueID SFX_UNSHEATHE = 796310264U;
+        static const AkUniqueID SFX_VASEBREAK = 2756455359U;
         static const AkUniqueID SFX_ZOOMOUT = 2621714572U;
         static const AkUniqueID UI_BERSERKERLOW = 4284527793U;
         static const AkUniqueID UI_BERSERKERPULSE = 3704504596U;

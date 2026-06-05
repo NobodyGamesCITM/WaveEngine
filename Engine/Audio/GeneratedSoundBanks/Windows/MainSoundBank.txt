@@ -61,6 +61,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2665412091	SFX_GM_MaskOn			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_MaskOn	
 	2719394510	SFX_AquilesWallHit			\Default Work Unit\Aquiles\SFX_AquilesWallHit	
 	2754480747	SFX_SeaWater			\Default Work Unit\Other\SFX_SeaWater	
+	2756455359	SFX_VaseBreak			\Default Work Unit\Other\SFX_VaseBreak	
 	2772329599	MUS_FinalBlow			\Default Work Unit\Aquiles\FinalBlow_Cinematic\MUS_FinalBlow	
 	2836803753	SFX_AquilesWarcry			\Default Work Unit\Aquiles\SFX_AquilesWarcry	
 	2864737081	SFX_CalmWater			\Default Work Unit\Other\SFX_CalmWater	
@@ -260,11 +261,14 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	216880571	telemelancholy	.cache\72\{72418ECE-612F-EE03-FD1D-EC233B4AC55E}.wem		\Containers\Default Work Unit\BGM_Switch\Vignettes_Playlist\telemelancholy (a bard's tale)\telemelancholy		1025864
 	217331738	scary-female-ghost_01	.cache\5D\{5DA55DBE-9BAD-FCE5-93CD-7CA21E7B68F4}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\scary-female-ghost_01		254384
 	218509929	minocabro_footstep_04	.cache\6F\{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_04		29888
+	220937334	ceramic_break_03	.cache\88\{8818339C-3E7C-47EE-F619-C47A5096C3EA}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_03		71216
+	222515786	ceramic_break_00	.cache\8E\{8E11471D-5626-F88A-782A-B8F0A2B904DA}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_00		62936
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
 	244849618	ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 6)	.cache\26\{263A8569-A12D-A99C-072C-356125161973}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Grunts\ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 6)		34208
 	245550775	BAS_Player_Footstep_sand_walk_02	.cache\B5\{B52A5EFC-9106-5B80-4E84-0A0E1D2CDAE1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_02		10160
 	248587822	yodguard-spear_thrust-1-382402	.cache\B4\{B4A5313B-78DE-D74B-866C-3E6BE6B8E460}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-1-382402		399032
+	248679109	ceramic_break_01	.cache\95\{95EB2052-DBEA-2167-7C17-E0E8DFFE58F0}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_01		60272
 	250874789	grass_run_01	.cache\44\{44A3DFA2-4ED9-48C9-BB11-1095A26AB9BC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_01		7604
 	254338618	wood_run_04	.cache\D0\{D0759F5C-FC12-B2B6-973E-53D2445B1C48}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_04		7424
 	255095212	skeleton_attack	.cache\36\{36CAF579-42F5-2055-8E90-21EA990D926D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_Slashes\skeleton_attack		15344
@@ -418,6 +422,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	825492870	u_1cwn0vj1yq-mystical-chime-196405	.cache\4A\{4A380586-BB12-3F0D-EBD2-C283537C39B0}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Mystical_Chime\u_1cwn0vj1yq-mystical-chime-196405		184688
 	827699159	minocabro_hurt_01	.cache\D8\{D8995B34-25F3-316D-91E2-3BE003579390}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	828466913	Area_Expansion_0	.cache\65\{65F19F6F-C46F-0DA9-AD2D-BE7FF4DC62AA}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\Area_Expansion_0		37520
+	830587378	ceramic_break_02	.cache\E7\{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_02		74672
 	835188942	Grunt Ah 3	.cache\E6\{E68A9D0E-DA79-5DEB-BD59-1A8DA8AD5822}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Scared\Grunt Ah 3		26720
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	839908236	BAS_Player_Footstep_sand_walk_03	.cache\99\{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_03		10268

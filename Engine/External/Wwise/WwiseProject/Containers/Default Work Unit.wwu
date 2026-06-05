@@ -842,11 +842,6 @@
 						<MusicPlaylistContainer Name="Level1_Combat_Playlist" ID="{0A854664-B451-48B0-B981-8081E1514CA3}" ShortID="114316262">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="9"/>
-								<Property Name="Inclusion" Type="bool">
-									<ValueList>
-										<Value>False</Value>
-									</ValueList>
-								</Property>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
@@ -1429,11 +1424,6 @@
 						<MusicPlaylistContainer Name="Level2_Combat_Playlist" ID="{65A7E006-24DB-4979-935A-27D3182E8AA9}" ShortID="556542119">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="10"/>
-								<Property Name="Inclusion" Type="bool">
-									<ValueList>
-										<Value>False</Value>
-									</ValueList>
-								</Property>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
@@ -7149,11 +7139,6 @@
 												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="Pitch" Type="int32">
-													<ValueList>
-														<Value>-1200</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9174,6 +9159,382 @@
 										</GroupingList>
 									</GroupingInfo>
 								</SwitchContainer>
+								<Folder Name="EnterPortal" ID="{39E1E859-6AF3-4B9F-BA83-284F6535BE2C}" ShortID="827479313">
+									<ChildrenList>
+										<Sound Name="flick" ID="{F4E87B79-07E1-4997-92D0-4871587AE656}" ShortID="936760869">
+											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-10</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="flick-sfx-285363" ID="{6136CA46-F3A3-4A23-AED9-A5FD0EE67394}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.158023534509707"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.228547352350962"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.70641145282471"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>flick-sfx-285363.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="243917370"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="flick-sfx-285363" ID="{6136CA46-F3A3-4A23-AED9-A5FD0EE67394}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="Dark Energy" ID="{D8895C72-57D8-4534-9EE6-31D5C3FA5B04}" ShortID="915559352">
+											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="DARK ENERGY - Sound Effect (1)" ID="{9BEE6983-195B-4597-AA46-081542BDD9C1}">
+													<Language>SFX</Language>
+													<AudioFile>DARK ENERGY - Sound Effect (1).wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="304480829"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="DARK ENERGY - Sound Effect (1)" ID="{9BEE6983-195B-4597-AA46-081542BDD9C1}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="echo_riser" ID="{98F7273A-EF6C-4066-9617-AFA3457C08E3}" ShortID="615293285">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-352</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="riser_03" ID="{07EA3BC6-A3A6-4C4D-888F-A2B2ADC10F84}">
+													<Language>SFX</Language>
+													<AudioFile>riser_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="870299999"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{D934CF28-5E97-4D24-88FE-B39694D84589}" ShortID="148268404">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom CreatedFrom="{D20F3717-EBA2-4E3A-84F8-C8BD431563FB}">
+																	<Effect Name="Echoes_Linear (Custom)" ID="{E2563552-B6A7-4CE5-9FFA-C8A7076B2092}" ShortID="977914116" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
+																		<PropertyList>
+																			<Property Name="DelayTime" Type="Real32" Value="0.45"/>
+																			<Property Name="Feedback" Type="Real32" Value="50"/>
+																			<Property Name="OutputLevel" Type="Real32" Value="-3.5"/>
+																			<Property Name="WetDryMix" Type="Real32" Value="57.5"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="riser_03" ID="{07EA3BC6-A3A6-4C4D-888F-A2B2ADC10F84}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="EnterLVL2" ID="{89B5BD26-5179-445B-8847-CA4C5C2B9D3F}" ShortID="872784481">
+									<ChildrenList>
+										<Sound Name="breathing-in-out" ID="{DD5DD989-3BCB-4849-AAFC-6070A7137020}" ShortID="822901056">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>20</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="freesound_community-breathing-6811" ID="{1AD75582-9201-41D0-9807-E92577290953}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="9.62234798806021"/>
+														<Property Name="TrimEnd" Type="Real64" Value="14.2474923222582"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>freesound_community-breathing-6811.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1071923685"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{737792ED-8F2E-445B-95E1-B212D321440A}" ShortID="1031061756">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{78FE1289-FCF0-406A-9EFC-21B1FF751294}" ShortID="216057825" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="QualityEnable" Type="int16" Value="1"/>
+																			<Property Name="TimeStretch" Type="Real32" Value="64.5"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+													<EffectSlot Name="" ID="{75009405-A339-4663-B09C-0C30EA56ADC4}" ShortID="972645415">
+														<PropertyList>
+															<Property Name="Bypass" Type="bool" Value="True"/>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Inside_Your_Head" ID="{AE2D0AE1-8963-400A-AA4A-52A7A6397F89}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="freesound_community-breathing-6811" ID="{1AD75582-9201-41D0-9807-E92577290953}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="ghost_whispers_cinematic" ID="{20FA6EE4-A71A-4210-AE6E-9B5F3D4B1687}" ShortID="959868053">
+											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="OverridePositioning" Type="bool" Value="True"/>
+												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ghost_whispers_00" ID="{D410AD5A-FF34-4B1E-90BD-5674E7260679}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>ghost_whispers_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="402543928"/>
+													</MediaIDList>
+												</AudioFileSource>
+												<AudioFileSource Name="ghost_whispers_enterportal_cinematic" ID="{E71486AF-9CBC-4D33-B65D-FC1D5A4B51BF}">
+													<Language>SFX</Language>
+													<AudioFile>ghost_whispers_enterportal_cinematic.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="281408466"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<PositioningInfo>
+												<Panner Name="" ID="{5C2BE88B-6EFF-4C48-802E-A4C645172A26}">
+													<PropertyList>
+														<Property Name="PanX" Type="Real64" Value="-1.11022302462516E-16"/>
+														<Property Name="PanY" Type="Real64" Value="-1.22124532708767E-15"/>
+													</PropertyList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<RTPC Name="" ID="{5B339C4D-3AF7-43BB-AE0C-1B7AA52E819B}" ShortID="848189271">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="PanX"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="Ghost_Whispers_Time" ID="{6828AA21-DBDD-4CCB-ACCD-A0DFABB0A1BB}" WorkUnitID="{609764ED-C751-4750-9930-A50852E9BFCD}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{E498C5A5-B7DA-4F23-A039-D56EB84122F5}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="1"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-100</YPos>
+																						<Flags>5</Flags>
+																						<SegmentShape>SCurve</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>3.53097</XPos>
+																						<YPos>102.78788</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>SCurve</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>6.98557</XPos>
+																						<YPos>-99.21212</YPos>
+																						<Flags>0</Flags>
+																						<SegmentShape>SCurve</SegmentShape>
+																					</Point>
+																					<Point>
+																						<XPos>10.5</XPos>
+																						<YPos>100</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</ObjectList>
+													</ObjectLists>
+												</Panner>
+												<Position Name="" ID="{6F4E594A-71B6-438D-8DA8-C9BE115B1C31}">
+													<PropertyList>
+														<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+													</PropertyList>
+													<ChildrenList>
+														<Path2D Name="ghost_whispers_cinematic_Path" ID="{031568FB-7FF8-413A-A9E1-D9132F45CA1C}">
+															<PointList>
+																<Point>
+																	<XPos>-67.84923</XPos>
+																	<YPos>0.21645</YPos>
+																	<Flags>12</Flags>
+																	<Time>0</Time>
+																</Point>
+															</PointList>
+														</Path2D>
+													</ChildrenList>
+												</Position>
+											</PositioningInfo>
+											<ActiveSourceList>
+												<ActiveSource Name="ghost_whispers_enterportal_cinematic" ID="{E71486AF-9CBC-4D33-B65D-FC1D5A4B51BF}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="cinematic-whoosh-4" ID="{C0D9CF64-AE52-435F-812A-195248D36CB1}" ShortID="814120763">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="2"/>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-10</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Attenuation">
+													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
+												</Reference>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="dragon-studio-cinematic-whoosh-4-467484" ID="{31D33621-E693-4FBA-95D9-C7D34F08B2EF}">
+													<Language>SFX</Language>
+													<AudioFile>dragon-studio-cinematic-whoosh-4-467484.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="950267484"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{4B8B92D3-1F11-498C-9B6B-CC35E9357CF3}" ShortID="531186247">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{3F26ADF2-30D2-4DB5-800B-9E427CA5AD17}" ShortID="707277974" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="117.1"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="dragon-studio-cinematic-whoosh-4-467484" ID="{31D33621-E693-4FBA-95D9-C7D34F08B2EF}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</Folder>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Siren" ID="{D4817CC0-2B36-42AA-B4CC-A52B100AE522}" ShortID="476389932">
@@ -15047,39 +15408,6 @@
 												</ObjectList>
 											</ObjectLists>
 										</RandomSequenceContainer>
-										<Sound Name="ghost_whispers_cinematic" ID="{20FA6EE4-A71A-4210-AE6E-9B5F3D4B1687}" ShortID="959868053">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="CenterPercentage" Type="int32">
-													<ValueList>
-														<Value>100</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="WaveEngine" ID="{80A4D82D-8F91-4941-9D09-8EF01DD073FB}" WorkUnitID="{0404EC19-9B42-430B-8E41-87D911DF6FFB}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="ghost_whispers_00" ID="{D410AD5A-FF34-4B1E-90BD-5674E7260679}">
-													<Language>SFX</Language>
-													<AudioFile>ghost_whispers_00.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="402543928"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="ghost_whispers_00" ID="{D410AD5A-FF34-4B1E-90BD-5674E7260679}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<RandomSequenceContainer Name="GhostScreams" ID="{67F3254B-9549-4839-B3E2-F5C886E98842}" ShortID="270224186">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
@@ -15245,11 +15573,6 @@
 																</ModifierInfo>
 															</ModifierList>
 														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>5</Value>
-															</ValueList>
-														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -15364,6 +15687,130 @@
 										</RandomSequenceContainer>
 									</ChildrenList>
 								</Folder>
+								<RandomSequenceContainer Name="CeramicBreak" ID="{832B4A59-173A-4863-9D31-1A4D8CC45AFD}" ShortID="18075232">
+									<PropertyList>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="ceramic_break_00" ID="{E597BEBC-DCB7-40FE-8529-D01A0864EF04}" ShortID="471445630">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ceramic_break_00" ID="{3A86B86B-5B97-4A03-952F-53C8F6F42140}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="0.02549964820044"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.02549964820044"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>ceramic_break_00.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="222515786"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ceramic_break_00" ID="{3A86B86B-5B97-4A03-952F-53C8F6F42140}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="ceramic_break_01" ID="{4187B536-F0F1-4792-80B3-178BF186C7D8}" ShortID="581736658">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ceramic_break_01" ID="{14682110-9254-4A3A-BA51-4716E73EDE43}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="0.0244259518191576"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0244259518191576"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>ceramic_break_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="248679109"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ceramic_break_01" ID="{14682110-9254-4A3A-BA51-4716E73EDE43}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="ceramic_break_02" ID="{A8A17A7A-D3A7-495C-A1B4-91BC7E434D77}" ShortID="420061890">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ceramic_break_02" ID="{8CADBA64-9389-4EAA-BE4D-7B2A0981EE21}">
+													<Language>SFX</Language>
+													<AudioFile>ceramic_break_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="830587378"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ceramic_break_02" ID="{8CADBA64-9389-4EAA-BE4D-7B2A0981EE21}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="ceramic_break_03" ID="{8628CC39-606C-4323-B7CC-887188FBD722}" ShortID="352940516">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ceramic_break_03" ID="{165934C4-2A1B-4DA9-BA2C-3D50B0E0A897}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.265192051027995"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.049541372170065"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.48332699407767"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>ceramic_break_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="220937334"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ceramic_break_03" ID="{165934C4-2A1B-4DA9-BA2C-3D50B0E0A897}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="UI" ID="{8B76AAA6-CFF8-401D-9A58-F0C6DF5D4CCE}" ShortID="731753965">

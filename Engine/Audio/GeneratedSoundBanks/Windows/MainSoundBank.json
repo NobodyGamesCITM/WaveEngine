@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{FBF9DF38-2FAB-0D09-EBBE-932258F34C1E}",
+    "Hash": "{E1D9440B-906A-4EEC-72F1-EAC16C17495F}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -528,6 +528,22 @@
       "CachePath": "6F/{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem"
      },
      {
+      "Id": "220937334",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_03.wav",
+      "CachePath": "88/{8818339C-3E7C-47EE-F619-C47A5096C3EA}.wem"
+     },
+     {
+      "Id": "222515786",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_00.wav",
+      "CachePath": "8E/{8E11471D-5626-F88A-782A-B8F0A2B904DA}.wem"
+     },
+     {
       "Id": "232432669",
       "Language": "SFX",
       "Streaming": "false",
@@ -566,6 +582,14 @@
       "Location": "Memory",
       "ShortName": "yodguard-spear_thrust-1-382402.wav",
       "CachePath": "B4/{B4A5313B-78DE-D74B-866C-3E6BE6B8E460}.wem"
+     },
+     {
+      "Id": "248679109",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_01.wav",
+      "CachePath": "95/{95EB2052-DBEA-2167-7C17-E0E8DFFE58F0}.wem"
      },
      {
       "Id": "250874789",
@@ -1790,6 +1814,14 @@
       "Location": "Memory",
       "ShortName": "freesound_community-magic-strike-5856.wav",
       "CachePath": "65/{65F19F6F-C46F-0DA9-AD2D-BE7FF4DC62AA}.wem"
+     },
+     {
+      "Id": "830587378",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_02.wav",
+      "CachePath": "E7/{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem"
      },
      {
       "Id": "835188942",
@@ -4670,13 +4702,37 @@
       ]
      },
      {
+      "Id": "2756455359",
+      "Name": "SFX_VaseBreak",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_VaseBreak",
+      "GUID": "{FE823B3C-F0F2-456F-97B4-2DF7A7C23E34}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.212574",
+      "DurationMax": "1.503125",
+      "MediaRefs": [
+       {
+        "Id": "220937334"
+       },
+       {
+        "Id": "222515786"
+       },
+       {
+        "Id": "248679109"
+       },
+       {
+        "Id": "830587378"
+       }
+      ]
+     },
+     {
       "Id": "2621714572",
       "Name": "SFX_ZoomOut",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\WakeUp\\SFX_ZoomOut",
       "GUID": "{A33DE77F-9505-42EA-8358-EA12D669D38C}",
       "DurationType": "OneShot",
-      "DurationMin": "11.226309",
-      "DurationMax": "11.226309",
+      "DurationMin": "5.6131544",
+      "DurationMax": "5.6131544",
       "MediaRefs": [
        {
         "Id": "29395658"
@@ -5381,6 +5437,6 @@
     ]
    }
   ],
-  "FileHash": "{FE319A82-1962-8BFC-F712-40EA970DFE5B}"
+  "FileHash": "{8A7C9A14-E53C-7BD1-664A-47C260A3F52A}"
  }
 }

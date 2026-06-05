@@ -31,6 +31,7 @@ local currentState = State.IDLE
 local hp           = 0
 local posture       = 0     
 local isDead       = false
+local pendingReset = false
 local deathTimer = 20.1
 local deathAnimDone = false
 local blockHits = false
@@ -1357,16 +1358,112 @@ function Start(self)
     self.CheckAlive = function(self)
         return isDead
     end
+
+    local originalResetPlayer = _G.ResetPlayer
+    _G.ResetPlayer = function(playerInstance)
+        Engine.Log("[Aquiles] ResetPlayer interceptado")
+        pendingReset = true
+        if originalResetPlayer then originalResetPlayer(playerInstance) end
+    end
 end
 
 function Update(self, dt)
 
     if not self.gameObject then return end
+
+    if pendingReset then
+        pendingReset = false
+        isDead       = false
+        hp           = self.public.maxHp
+        posture      = self.public.maxPosture
+        currentState = State.IDLE
+        playerGO     = nil
+        fase1        = true
+        fase2Active  = false
+        blockHits    = false
+        currentMaxHp = self.public.maxHp
+
+        _PlayerController_pendingDamage    = 0
+        _PlayerController_pendingDamagePos = nil
+        _PlayerController_lastAttack       = nil
+        alreadyHit       = false
+        lanceHitActive   = false
+        attackAreaActive = false
+
+        rb   = self.gameObject:GetComponent("Rigidbody")
+        anim = self.gameObject:GetComponent("Animation")
+        nav  = self.gameObject:GetComponent("Navigation")
+
+        attackCol        = self.gameObject:GetComponent("Box Collider")
+        colliderLance    = GameObject.FindInChildren(self.gameObject, "LanceCollider")
+        if colliderLance then attacklanceCol = colliderLance:GetComponent("Sphere Collider") end
+        areaAttackColObj = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
+        if areaAttackColObj then colliderAreaAttack = areaAttackColObj:GetComponent("Sphere Collider") end
+
+        if attackCol          then attackCol:Disable() end
+        if attacklanceCol     then attacklanceCol:Disable() end
+        if colliderAreaAttack then colliderAreaAttack:Disable() end
+        if attackArea         then attackArea:SetActive(false) end
+
+        local allEnemies = GameObject.FindByTag("Enemy_Fase2")
+        if allEnemies then
+            for i = 1, #allEnemies do
+                local enemy = allEnemies[i]
+                if enemy then
+                    if enemy.TakeDamage then
+                        enemy:TakeDamage(enemy.hp, enemy.transform.worldPosition)
+                    else
+                        GameObject.Destroy(enemy)
+                    end
+                end
+            end
+        end
+
+        lanceTimer = 0; 
+        lanceAnimStarted = false
+        lanceCDTimer = 0; 
+        chargeCDTimer = 0; 
+        dashCDTimer = 0
+        hurtTimer = 0; 
+        wallStunTimer = 0; 
+        preparationTimer = 0
+        anticipationAnimStarted = false; 
+        recoveryAnimStarted = false
+        chargeAnimStarted = false; 
+        chargeDirX = 0; 
+        chargeDirZ = 0
+        slideVelX = 0; 
+        slideVelZ = 0; 
+        inOpportunity = false
+        stepTimer = 0; 
+        feedbackTimer = 0
+        currentFeedbackScale = 0; 
+        currentColliderScale = 0
+        isKinematic = false
+        spawnedEnemies = {};
+        pendingPositions = {}
+        hitsReceivedCounter = 0
+        stunAnimStarted = false; 
+        wallAnimStarted = false
+
+        if rb   then rb:SetBody(1) end
+        if anim then anim:Play("Idle") end
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        Engine.Log("[Aquiles] Reset completo")
+        return
+    end
+
     if isDead then return end
+
+    if _G._PlayerController_isDead then
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        return
+    end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not nav  then nav  = self.gameObject:GetComponent("Navigation") end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
+    if not anim then anim = self.gameObject:GetComponent("Animation")  end
 
     --local AQworldPos = self.gameObject.transform.worldPosition
     --local AQworldRot = self.gameObject.transform.worldRotation

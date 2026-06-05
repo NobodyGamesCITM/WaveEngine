@@ -38,7 +38,7 @@ public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
 	lockOnSize      = 4.0, -- partícula de fijado, no tocar.
-    chaseSpeed      = 6.5,
+    chaseSpeed      = 7.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
     attackColDelay  = 0.9,
@@ -542,18 +542,32 @@ States[State.ATTACK] = {
         end
     end,
     Update = function(self, dt)
+        local cancelDist = self.public.nearDist * 1.2
         local plPos = playerGO.transform.worldPosition
         attackTimer = attackTimer + dt
 
-        if CheckDistance(self, self.public.nearDist, false) and not States[State.ATTACK].attacking then
+        if CheckDistance(self, cancelDist, false) and not States[State.ATTACK].attacking then
             slotManager:ReleaseSlot(targetSlotId)
             targetSlotId = nil
+            Engine.Log("[Skeleton] : CANCEL ATTACK")
+
             ChangeState(self, State.CHASE)
             hitGiven = false
             attackTimer = 0
             return
         end
 
+        if targetSlotId ~= nil then targetSlotPos = slotManager:GetSlotPosition(targetSlotId) end
+        if not hitGiven and not CheckSlotDistance(self, 1.0 , targetSlotPos, true) and Skeleton.nav:CheckDestination(targetSlotPos.x, targetSlotPos.y, targetSlotPos.z) then
+            Skeleton.nav:SetDestination(targetSlotPos.x, targetSlotPos.y, targetSlotPos.z) 
+            local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
+            local chaseSpeed = 5.0
+            targetVelX = dx * chaseSpeed
+            targetVelZ = dz * chaseSpeed
+            ApplyMoveVelocity(dt, 1.5)
+        else
+            Skeleton.rb:SetLinearVelocity(0, 0, 0)
+        end
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
@@ -592,7 +606,6 @@ States[State.ATTACK] = {
         end
 
         FaceTargetSmooth(self, plPos, dt)
-        Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
 }
 

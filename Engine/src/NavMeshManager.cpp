@@ -174,6 +174,9 @@ void ModuleNavMesh::Bake(GameObject* /*triggerObj*/)
     navObstacles.clear();
     RecollectObstacles(Application::GetInstance().scene->GetRoot());
 
+    navLimits.clear();
+    RecollectLimits(Application::GetInstance().scene->GetRoot());
+
     // ── 4. Gather geometry and world-space AABB per surface individually ─────
     struct SurfaceInfo
     {
@@ -363,6 +366,26 @@ void ModuleNavMesh::BakeSurfaceGroup(GameObject* surface,
 
         rcMarkBoxArea(&ctx, obsMin, obsMax, RC_NULL_AREA, *chf);
         LOG_CONSOLE("NavMesh: Obstacle baked -> %s", obs->GetName().c_str());
+    }
+
+    for (GameObject* lim : navLimits)
+    {
+        if (!lim || !lim->IsActive()) continue;
+
+        BoxCollider* box = static_cast<BoxCollider*>(lim->GetComponent(ComponentType::BOX_COLLIDER));
+        if (!box) continue;
+
+        Transform* t = static_cast<Transform*>(lim->GetComponent(ComponentType::TRANSFORM));
+        if (!t) continue;
+
+        glm::vec3 worldPos = t->GetGlobalPosition() + (t->GetGlobalRotationQuat() * (box->GetCenter() * t->GetGlobalScale()));
+        glm::vec3 halfSize = (box->GetSize() * t->GetGlobalScale()) * 0.5f;
+
+        float limMin[3] = { worldPos.x - halfSize.x, worldPos.y - halfSize.y, worldPos.z - halfSize.z };
+        float limMax[3] = { worldPos.x + halfSize.x, worldPos.y + halfSize.y, worldPos.z + halfSize.z };
+
+        rcMarkBoxArea(&ctx, limMin, limMax, RC_NULL_AREA, *chf);
+        LOG_CONSOLE("NavMesh: Limit baked -> %s", lim->GetName().c_str());
     }
 
     rcErodeWalkableArea(&ctx, cfg.walkableRadius, *chf);
@@ -574,6 +597,19 @@ void ModuleNavMesh::RecollectObstacles(GameObject* obj)
         RecollectObstacles(child);
 }
 
+void ModuleNavMesh::RecollectLimits(GameObject* obj)
+{
+    if (!obj || !obj->IsActive()) return;
+
+    ComponentNavigation* nav =
+        (ComponentNavigation*)obj->GetComponent(ComponentType::NAVIGATION);
+    if (nav && nav->type == NavType::LIMIT)
+        navLimits.push_back(obj);
+
+    for (auto* child : obj->GetChildren())
+        RecollectLimits(child);
+}
+
 // ---------------------------------------------------------------------------
 // IsBlockedByObstacle
 // ---------------------------------------------------------------------------
@@ -671,14 +707,14 @@ ModuleNavMesh::NavMeshData* ModuleNavMesh::GetNavMeshData(GameObject* owner)
 // ---------------------------------------------------------------------------
 bool ModuleNavMesh::CleanUp()
 {
-   /* for (auto& mesh : navMeshes)
-    {
-        if (mesh.heightfield) rcFreeHeightField(mesh.heightfield);
-        if (mesh.navMesh)     dtFreeNavMesh(mesh.navMesh);
-        if (mesh.navQuery)    dtFreeNavMeshQuery(mesh.navQuery);
-        if (mesh.chf)         rcFreeCompactHeightfield(mesh.chf);
-    }
-    navMeshes.clear();*/
+    /* for (auto& mesh : navMeshes)
+     {
+         if (mesh.heightfield) rcFreeHeightField(mesh.heightfield);
+         if (mesh.navMesh)     dtFreeNavMesh(mesh.navMesh);
+         if (mesh.navQuery)    dtFreeNavMeshQuery(mesh.navQuery);
+         if (mesh.chf)         rcFreeCompactHeightfield(mesh.chf);
+     }
+     navMeshes.clear();*/
 
     for (auto& mesh : navMeshes)
     {
@@ -708,6 +744,7 @@ bool ModuleNavMesh::CleanUp()
     }
     navMeshes.clear();
     navObstacles.clear();
+    navLimits.clear();
 
     return true;
 }

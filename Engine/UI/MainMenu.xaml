@@ -318,8 +318,7 @@
                                                          RotationX="-8" RotationY="20"/>
                         </noesis:Element.Transform3D>
 
-                        <Button x:Name="StartButton" Content="START"
-                                Command="{Binding Path=Commands[StartButton]}"
+                        <Button x:Name="StartButton" Content="NEW GAME" Command="{Binding Path=Commands[StartButton]}"
                                 Style="{StaticResource TextButtonStyle}"
                                 HorizontalAlignment="Right" Margin="0,0,0,60"
                                 RenderTransformOrigin="0.5,0.5">
@@ -406,8 +405,7 @@
             </Grid>
         </Viewbox>
 
-        <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="3" Grid.RowSpan="5"
-                   Fill="Black" Opacity="0" IsHitTestVisible="False"/>
+        <Rectangle x:Name="FadeOverlay" Margin="0,-5,0,5" Grid.ColumnSpan="3" Grid.RowSpan="5" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
 
     </Grid>
 </Grid>

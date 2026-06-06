@@ -1,4 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
+	428513	SFX_EP_DarkEnergy			\Default Work Unit\Player\EnterPortal\SFX_EP_DarkEnergy	
 	2318810	SFX_DoorMove			\Default Work Unit\Puzzles\SFX_DoorMove	
 	112594585	SFX_CreepySounds			\Default Work Unit\Other\SFX_CreepySounds	
 	118434115	SFX_GM_FallDown			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_FallDown	
@@ -12,7 +13,9 @@ Event	ID	Name			Wwise Object Path	Notes
 	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
 	565814488	SFX_AquilesHurt			\Default Work Unit\Aquiles\SFX_AquilesHurt	
 	605795181	SFX_GM_KnockBack			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_KnockBack	
+	615264408	SFX_EL_ZoomOut			\Default Work Unit\Player\EnterLVL2\SFX_EL_ZoomOut	
 	638756417	MUS_BGM			\Default Work Unit\Music\MUS_BGM	
+	668554295	SFX_EL_GScream			\Default Work Unit\Player\EnterLVL2\SFX_EL_GScream	
 	724467519	SFX_PlayerFootSteps			\Default Work Unit\Player\SFX_PlayerFootSteps	
 	741791783	SFX_GM_StatueOff			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_StatueOff	
 	767454882	UI_CloseWindow			\Default Work Unit\UI\UI_CloseWindow	
@@ -25,18 +28,24 @@ Event	ID	Name			Wwise Object Path	Notes
 	1239040809	SFX_MinoPrecharge			\Default Work Unit\Minocabro\SFX_MinoPrecharge	
 	1248591155	SFX_MinoSteps			\Default Work Unit\Minocabro\SFX_MinoSteps	
 	1281281593	SFX_RockMove			\Default Work Unit\Puzzles\SFX_RockMove	
+	1411624972	SFX_EL_SwordDown			\Default Work Unit\Player\EnterLVL2\SFX_EL_SwordDown	
 	1423014660	SFX_GhostScreams			\Default Work Unit\Other\SFX_GhostScreams	
 	1489981256	SFX_AresCharge			\Default Work Unit\Player\SFX_AresCharge	
 	1569503582	UI_PageTurn			\Default Work Unit\UI\UI_PageTurn	
 	1619547218	SFX_SkeletonSwordSlash			\Default Work Unit\Skeleton\SFX_SkeletonSwordSlash	
 	1643144237	UI_SliderTest			\Default Work Unit\UI\UI_SliderTest	
+	1715130073	SFX_EP_TeleScared			\Default Work Unit\Player\EnterPortal\SFX_EP_TeleScared	
 	1720125317	SFX_HermesWind			\Default Work Unit\Player\SFX_HermesWind	
+	1725499756	SFX_CinematicStoneSteps			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_CinematicStoneSteps	
 	1742302713	SFX_SpearPull			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPull	
 	1803491951	SFX_SkeletonHit			\Default Work Unit\Skeleton\SFX_SkeletonHit	
 	1860584701	SFX_SpearPrep			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_SpearPrep	
+	1890454194	SFX_EL_Panting			\Default Work Unit\Player\EnterLVL2\SFX_EL_Panting	
+	1892836869	SFX_EL_GWhispers			\Default Work Unit\Player\EnterLVL2\SFX_EL_GWhispers	
 	1929205333	SFX_IntroRoar			\Default Work Unit\Aquiles\Encounter_Cinematic\SFX_IntroRoar	
 	1939663439	SFX_GhostWhispers			\Default Work Unit\Other\SFX_GhostWhispers	
 	1939684258	SFX_SkeletonDie			\Default Work Unit\Skeleton\SFX_SkeletonDie	
+	1981177256	SFX_EL_CamWhoosh			\Default Work Unit\Player\EnterLVL2\SFX_EL_CamWhoosh	
 	2001794665	SFX_MaskSwitch			\Default Work Unit\Player\SFX_MaskSwitch	
 	2050401325	SFX_SirenSing			\Default Work Unit\Siren\SFX_SirenSing	
 	2120819887	SFX_AquilesDeath			\Default Work Unit\Aquiles\SFX_AquilesDeath	
@@ -69,6 +78,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2971129212	SFX_MinoIdle			\Default Work Unit\Minocabro\SFX_MinoIdle	
 	3020549885	SFX_TorchFire			\Default Work Unit\Other\SFX_TorchFire	
 	3041839238	SFX_MinoCharge			\Default Work Unit\Minocabro\SFX_MinoCharge	
+	3094577138	SFX_EP_PortalRiser			\Default Work Unit\Player\EnterPortal\SFX_EP_PortalRiser	
 	3128226246	SFX_PotionDrink			\Default Work Unit\Player\SFX_PotionDrink	
 	3152724629	SFX_HermesFlare			\Default Work Unit\Player\SFX_HermesFlare	
 	3158516759	SFX_HeartBeat			\Default Work Unit\Player\SFX_HeartBeat	
@@ -79,6 +89,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3184356465	SFX_AquilesAreaExp			\Default Work Unit\Aquiles\SFX_AquilesAreaExp	
 	3212792312	SFX_MansionAmbience			\Default Work Unit\Other\SFX_MansionAmbience	
 	3246991747	SFX_SwordSandUnstab			\Default Work Unit\Player\WakeUp\SFX_SwordSandUnstab	
+	3292973211	SFX_EL_GThemin			\Default Work Unit\Player\EnterLVL2\SFX_EL_GThemin	
 	3348356153	SFX_AquilesStuck			\Default Work Unit\Aquiles\SFX_AquilesStuck	
 	3395391508	SFX_StatueTurn			\Default Work Unit\Puzzles\SFX_StatueTurn	
 	3426312362	UI_OwlHoot			\Default Work Unit\UI\UI_OwlHoot	
@@ -96,6 +107,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3684743831	SFX_HermesHover			\Default Work Unit\Player\SFX_HermesHover	
 	3704504596	UI_BerserkerPulse			\Default Work Unit\UI\UI_BerserkerPulse	
 	3718241572	UI_TeleVocals			\Default Work Unit\UI\UI_TeleVocals	
+	3723506089	SFX_EP_Ghosts			\Default Work Unit\Player\EnterPortal\SFX_EP_Ghosts	
 	3758894654	SFX_PlayerAttack			\Default Work Unit\Player\SFX_PlayerAttack	
 	3803980307	UI_OwlFly			\Default Work Unit\UI\UI_OwlFly	
 	3810757633	SFX_AngelsChant			\Default Work Unit\Other\SFX_AngelsChant	
@@ -104,6 +116,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3983796901	SFX_TreeAmbience			\Default Work Unit\Other\SFX_TreeAmbience	
 	4188719407	SFX_SirenDip			\Default Work Unit\Siren\SFX_SirenDip	
 	4188719418	SFX_SirenDie			\Default Work Unit\Siren\SFX_SirenDie	
+	4226777223	SFX_EL_SwordUp			\Default Work Unit\Player\EnterLVL2\SFX_EL_SwordUp	
 	4252929259	SFX_HermesSpin			\Default Work Unit\Player\SFX_HermesSpin	
 	4284527793	UI_BerserkerLow			\Default Work Unit\UI\UI_BerserkerLow	
 
@@ -160,6 +173,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 
 Modulator Time	ID	Name			Wwise Object Path	Notes
 	507207442	HeartBeat_Time			\Default Work Unit\HeartBeat_Time	
+	562956476	Ghost_Whispers_Time			\Default Work Unit\Ghost_Whispers_Time	
 	987219328	Aquiles_Scream_Time			\Default Work Unit\Aquiles_Scream_Time	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
@@ -265,6 +279,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	222515786	ceramic_break_00	.cache\8E\{8E11471D-5626-F88A-782A-B8F0A2B904DA}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_00		62936
 	232432669	water_run_04	.cache\2E\{2E12974A-356E-FF41-76C3-D8E06ABA2B69}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_04		7424
 	235060958	dirt_walk_03	.cache\D0\{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Walk\dirt_walk_03		13580
+	243917370	flick	.cache\A2\{A2C41FB9-A96C-759B-96B6-DA60C6BCD63B}.wem		\Containers\Default Work Unit\Objects\Player\EnterPortal\flick		64880
 	244849618	ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 6)	.cache\26\{263A8569-A12D-A99C-072C-356125161973}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Grunts\ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 6)		34208
 	245550775	BAS_Player_Footstep_sand_walk_02	.cache\B5\{B52A5EFC-9106-5B80-4E84-0A0E1D2CDAE1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_02		10160
 	248587822	yodguard-spear_thrust-1-382402	.cache\B4\{B4A5313B-78DE-D74B-866C-3E6BE6B8E460}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_SpearThrust\yodguard-spear_thrust-1-382402		399032
@@ -280,8 +295,10 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	278946100	minocabro_precharge_01	.cache\5B\{5B941942-8E0F-75DB-4E73-1191092BF5E9}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_PreCharge\minocabro_precharge_01		137888
 	280608782	chain_break_01	.cache\AD\{ADBB6FD7-245E-C680-4F61-79C8CEF2FAF2}.wem		\Containers\Default Work Unit\Objects\Ambiance\ChainBreak\chain_break_01		52856
 	281166023	minocabro_hurt_02	.cache\BF\{BF222142-8DC0-F421-A977-3DBE384408D4}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_02		62216
+	281408466	ghost_whispers_cinematic	.cache\5E\{5EF39E20-E93E-C615-FE03-69AE82763AFD}.wem		\Containers\Default Work Unit\Objects\Player\EnterLVL2\ghost_whispers_cinematic		519272
 	294731171	minocabro_footstep_06	.cache\A5\{A5314BB0-3F3D-E3A6-2402-F418B56CAEF8}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_FootSteps\minocabro_footstep_06		30032
 	296531997	owl_02	.cache\80\{807FE7B4-2EE7-ECCA-DEF0-EF0CD392DBAC}.wem		\Containers\Default Work Unit\Objects\UI\UI_OwlSFX\owl_02		66608
+	304480829	Dark Energy	.cache\37\{37B1838F-BB91-BDDD-A9B5-5DD9D59BC6EA}.wem		\Containers\Default Work Unit\Objects\Player\EnterPortal\Dark Energy		425168
 	307199709	door_end	.cache\ED\{EDB2A2B9-AF89-A392-C392-03C1B4846002}.wem		\Containers\Default Work Unit\Objects\Puzzles\door_end		108512
 	309921112	water_walk_03	.cache\EF\{EFB5A4FA-B5DA-C7A4-2293-9E80F36F327E}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Walk\water_walk_03		13580
 	313609596	aquiles_stuck_100	.cache\F9\{F91F5059-20C4-054E-90F7-563D8FD151D3}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Stuck\aquiles_stuck_100		20240
@@ -438,6 +455,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	863671011	moving_rock	.cache\7F\{7F462D61-3ED8-DEF5-D33E-3043B308A97D}.wem		\Containers\Default Work Unit\Objects\Puzzles\moving_rock		46880
 	864759864	minocabro_hurt_04	.cache\60\{604C3D1F-EF71-6FF1-30D9-879A2622DC7C}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_04		71648
 	864792433	aquiles_step_01	.cache\55\{558D82B8-87FE-C2A6-BE50-D0D7C8410D4F}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_01		33704
+	870299999	echo_riser	.cache\4F\{4F505ADD-1D61-EED6-FDE7-B6BD43A72A21}.wem		\Containers\Default Work Unit\Objects\Player\EnterPortal\echo_riser		367568
 	871849665	encounter_riser	.cache\30\{308BA59D-99C0-1972-E3F5-C7BE2A1C0AA7}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\encounter_riser		1263464
 	872826203	dirt_run_04	.cache\48\{482E95E5-EF1F-F06D-4B0D-20B5A42874E6}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_04		7424
 	893143398	Hermes_Hover_Flare	.cache\54\{546A0309-9FA9-4F25-5BA1-DF0607F0C336}.wem		\Containers\Default Work Unit\Objects\Player\Hermes_Hover_Flare		454832
@@ -451,6 +469,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	924193480	distorted-scream	.cache\F0\{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\distorted-scream		217232
 	943118833	minocabro_idlegrunt_03	.cache\EC\{EC19BD2F-9107-C188-C86C-B918C0F9E0BE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_03		215720
 	946854841	Mino_Collapse	.cache\8F\{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Collapse		53000
+	950267484	cinematic-whoosh-4	.cache\2E\{2EE4219C-81D6-6F04-ECC7-5A85B53EE947}.wem		\Containers\Default Work Unit\Objects\Player\EnterLVL2\cinematic-whoosh-4		235592
 	954672987	note4	.cache\42\{42A08D94-A62B-1676-4CE1-FBFD857EDD0F}.wem		\Containers\Default Work Unit\Objects\UI\LyreNotes\note4		24560
 	964848831	Potion_Drink	.cache\38\{38E8EA58-9EAD-748A-9F4D-A3523BEB9882}.wem		\Containers\Default Work Unit\Objects\Player\Potion_Drink		14336
 	966255002	apolo_mask	.cache\D7\{D7337D12-1B41-0377-E697-95027EB2FA51}.wem		\Containers\Default Work Unit\Objects\Player\Mask_Switch\apolo_mask		68480
@@ -478,5 +497,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1065543167	stone_walk_04	.cache\52\{528ACFC3-714E-8661-0F67-11DFD83C846C}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_04		12824
 	1066110828	angelic_chant_00	.cache\B7\{B79B4D9C-90C5-F288-E487-F605F317E60C}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Angelic_Chant\angelic_chant_00		340928
 	1068516576	siren_hurt	.cache\9F\{9F780056-22BE-15FA-B38E-A4EB69E14754}.wem		\Containers\Default Work Unit\Objects\Siren\siren_hurt		33200
+	1071923685	breathing-in-out	.cache\FF\{FFD4F5CF-0FFF-4B0E-83F2-512C8D58878A}.wem		\Containers\Default Work Unit\Objects\Player\EnterLVL2\breathing-in-out		150416
 	1073671797	UI_CloseWindowSFX	.cache\F0\{F0BF379C-1598-391F-95DD-A66C591C9110}.wem		\Containers\Default Work Unit\Objects\UI\UI_CloseWindowSFX		12608
 

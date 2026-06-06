@@ -13,6 +13,8 @@ local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 local winBossCinematic = false 
+local enterPortalCinematic = false
+local exitPortalCinematic = false
 local wakeUpCinematic = false
 local playedEpicBGM = false
 local playedSwordPrep = false
@@ -20,6 +22,15 @@ local playedUnsheathe = false
 local playedFinishHim = false
 local playedSwordSwing = false
 local playedFinalNote = false
+
+local playedStep1 = false
+local playedStep2 = false
+local playedStep3 = false
+local playedStep4 = false
+local playedStep5 = false
+local playedStep6 = false
+
+
 
 
 -- Hit vignette
@@ -1792,6 +1803,7 @@ function Update(self, dt)
         end
     end
 
+
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
         if Player.AnimTimer > 0 then
             _PlayerController_pendingDamage    = 0
@@ -1876,6 +1888,7 @@ function Update(self, dt)
         
         Game.Resume()
         Game.SetTimeScale(1.0)
+        
         
         Player.rb = self.gameObject:GetComponent("Rigidbody")
 
@@ -2054,12 +2067,10 @@ function Update(self, dt)
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
-        -- if WinBoss then
 
-        -- end
         if wakeUpCinematic then
-
-            -- step 1
+            
+           
             if Player.AnimTimer <= 18.0 and Player.AnimTimer >= 17.9 and not Audio.IsEventPlaying("SFX_SandStir") then
                 if Player.stepSFX then 
                     --Audio.SetSFXVolume(50.0)
@@ -2067,13 +2078,13 @@ function Update(self, dt)
                     --Engine.Log("[WAKE UP] Played Sand Stir!")
                     --Audio.SetSFXVolume(100.0)
                 end
-                
+            
             end
 
             -- step 2
             if Player.AnimTimer <= 10.5 and Player.AnimTimer >= 10.3 and not Audio.IsEventPlaying("SFX_SandStep1") then
                 if Player.stepSFX then 
-                   
+                
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep1")
                     --Engine.Log("[WAKE UP] Played Step 1!")
                 end
@@ -2101,7 +2112,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.4 and Player.AnimTimer >= 5.2 and not Audio.IsEventPlaying("SFX_SandStep2") then
                 if Player.stepSFX then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep2") 
-                   -- Engine.Log("[WAKE UP] Played Step 2!")
+                -- Engine.Log("[WAKE UP] Played Step 2!")
                 end
             end
 
@@ -2127,10 +2138,238 @@ function Update(self, dt)
                 --Engine.Log("[WAKE UP] Something's up with the PlayerTimer")
             end
 
+
+            
+
+            
+
             if Player.AnimTimer < 0 then 
                 wakeUpCinematic = false
                 Audio.SetMusicState("Level1")
-                Engine.Log("[Player] Switched to Level1 BGM")
+                --Engine.Log("[Player] Switched to Level1 BGM")
+                Player.AnimTimer = 0
+            end
+
+        end
+
+        if enterPortalCinematic then 
+            --timer = 20.0
+
+            -- if not anim then
+            --     enterPortalCinematic = false 
+            --     return 
+            -- end 
+
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("PortalEnter") then
+            --         enterPortalCinematic = false 
+            --         return 
+            --     end
+            -- end
+
+            Audio.SetMusicVolume(10)
+
+
+            --Steps SFX have to be fired too close to each other so another audiosource (heartsource) will be used to alternate 
+            --step 1
+            if Player.AnimTimer <= 19.32 and not playedStep1 then
+            
+                if not Player.heartSFX:IsPlaying("SFX_CinematicStoneSteps") then 
+                    if Player.heartSFX then 
+                        Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                        Engine.Log("Played Step 1") 
+                        playedStep1 = true
+                    else
+                        --Engine.Log("Unable to retrieve heartSFX Audio Source Component")
+                    end
+                else
+                    --Engine.Log("SFX_PlayerFootSteps already playing from heartSFX")
+                end
+            end
+
+            --step 2
+            if Player.stepSFX then
+                if Player.AnimTimer <= 19.21 and not playedStep2 then 
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") 
+                    Engine.Log("Played Step 2")
+                    playedStep2 = true
+                end
+            end
+            
+
+            --step 3
+            if Player.heartSFX then 
+                if Player.AnimTimer <= 18.33 and not playedStep3 then
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 3")
+                    playedStep3 = true
+                end
+            end
+
+            --step 4
+            if Player.stepSFX then 
+                if Player.AnimTimer <= 17.625 and not playedStep4 then
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 4")
+                    playedStep4 = true
+                end
+            end
+
+            --start ghost screams
+            if Player.AnimTimer <= 16.8 and Player.AnimTimer >= 16.6 and not Audio.IsEventPlaying("SFX_EP_Ghosts") then
+
+                --playing right in the player's ears BUT THIS SOUND HAS PANNING hehe :3
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EP_Ghosts")
+                    Engine.Log("Played Ghost Screams") 
+                end
+
+            end
+
+            --step 5
+            if Player.AnimTimer <= 16.66 and not playedStep5 then
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 5") 
+                    playedStep5 = true
+                end
+            end
+
+            -- DARK ENERGY
+            if Player.AnimTimer <= 13.8 and Player.AnimTimer >= 13.7 and not Audio.IsEventPlaying("SFX_EP_DarkEnergy") then
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_EP_DarkEnergy")
+                    Engine.Log("Played Dark Energy")  
+                end
+            end
+
+            --step 6
+            if Player.stepSFX then 
+                if Player.AnimTimer <= 11.625 and not playedStep6 then
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") 
+                    Engine.Log("Played Step 6")  
+                    playedStep6 = true
+                end
+            end
+            
+            if Player.AnimTimer <= 11.21 and Player.AnimTimer >= 11.1 and not Audio.IsEventPlaying("SFX_EP_TeleScared") then
+                if Player.voiceSFX then 
+                    Audio.SetSwitch("Player_Voice", "Scared", Player.voiceSFX)
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EP_TeleScared")
+                    Engine.Log("Played TeleScared")  
+                end
+            end
+
+            -- riser
+            if Player.AnimTimer <= 9.87 and Player.AnimTimer >= 9.7 and not Audio.IsEventPlaying("SFX_EP_PortalRiser") then
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EP_PortalRiser") 
+                     Engine.Log("Played Portal Riser")  
+                end
+            end
+
+            if Player.AnimTimer <= 0 then
+                enterPortalCinematic = false
+                playedStep1 = false
+                playedStep2 = false
+                playedStep3 = false
+                playedStep4 = false
+                playedStep5 = false
+                playedStep6 = false
+                Player.AnimTimer = 0
+                Engine.Log("Ended Enter Portal Cinematic")
+                Audio.SetMusicVolume(0)
+                
+            end
+
+
+        end
+
+        if exitPortalCinematic  then
+            --timer = 18.0
+
+            -- if not anim then
+            --     exitPortalCinematic = false 
+            --     return 
+            -- end 
+
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("PortalExit") then
+            --         exitPortalCinematic = false 
+            --         return 
+            --     end
+            -- end
+            
+            --breath in-out
+            if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_Panting") then 
+                if Player.voiceSFX then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_Panting") 
+                    Engine.Log("Played Panting SFX")
+                end
+                
+            end
+            
+            --whispering ghost
+            if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_GWhispers") then 
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_EL_GWhispers")
+                    Engine.Log("Played Whispering Ghosts SFX") 
+                end
+            end
+
+            --themin ghost
+            if Player.voiceSFX then
+                if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Player.voiceSFX:IsPlaying("SFX_EL_GThemin") then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_GThemin") 
+                    Engine.Log("Played Themin Ghosts") 
+                end
+            end
+
+            --screaming ghost
+            if Player.voiceSFX then
+                if Player.AnimTimer <= 12.2 and Player.AnimTimer >= 12.1 and not Player.voiceSFX:IsPlaying("SFX_EL_GScream") then 
+                    if Player.voiceSFX then 
+                        Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_GScream") 
+                        Engine.Log("Played Screaming Ghosts") 
+                    end
+                end
+            end
+
+
+            --cam pan whoosh
+            if Player.AnimTimer <= 16.2 and Player.AnimTimer >= 16.1 and not Audio.IsEventPlaying("SFX_EL_CamWhoosh") then 
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EL_CamWhoosh")
+                    Engine.Log("Played Camera Pan Whoosh SFX")  
+                end
+            end
+
+            --sword up
+            if Player.AnimTimer <= 6.4 and Player.AnimTimer >= 6.3 and not Audio.IsEventPlaying("SFX_EL_SwordUp") then 
+                if Player.swordSFX then
+                    Engine.Log("Played Sword Up SFX") 
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_EL_SwordUp") 
+                end
+            end
+
+            --sword down
+            if Player.AnimTimer <= 6.125 and Player.AnimTimer >= 6.0 and not Audio.IsEventPlaying("SFX_EL_SwordDown") then 
+                if Player.swordSFX then 
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_EL_SwordDown")
+                    Engine.Log("Played Sword Down SFX") 
+                end
+            end
+
+            --cam zoom out
+            if Player.AnimTimer <= 4.54 and Player.AnimTimer >= 4.4 and not Audio.IsEventPlaying("SFX_EL_ZoomOut") then 
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EL_ZoomOut")
+                    Engine.Log("Played Camera Zoom Out SFX") 
+                end
+            end
+            
+            if Player.AnimTimer <= 0 then
+                exitPortalCinematic = false
                 Player.AnimTimer = 0
             end
 
@@ -2138,8 +2377,22 @@ function Update(self, dt)
 
         if winBossCinematic then
 
+            -- if not anim then
+            --     winBossCinematic = false 
+            --     return 
+            -- end 
+
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("WinBoss") then
+            --         winBossCinematic = false 
+            --         return 
+            --     end
+            -- end
+
             self.transform:SetPosition(131.348, -1.259, -650.359)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+
+            
 
             if musicComp and Audio.IsEventPlaying("MUS_BGM") then 
                 --Engine.Log("Stopped MUS_BGM")
@@ -2230,6 +2483,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 0 then
                 winBossCinematic = false
                 Audio.SetMusicState("AfterBoss")
+                Player.AnimTimer = 0
                 if musicComp then musicComp:SelectPlayAudioEvent("MUS_BGM") end
                 playedEpicBGM = false
                 playedFinalNote = false
@@ -2242,7 +2496,7 @@ function Update(self, dt)
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
-                self.transform:SetPosition(-68.549, 2.357, -323.0) 
+                self.transform:SetPosition(-68.549, 3.280, -323.0) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 
@@ -2258,10 +2512,14 @@ function Update(self, dt)
         if Player.isPortalEnterAnim then
             self.transform:SetPosition(97.633, -0.811, -178.289)
             if Player.rb then Player.rb:SetRotation(0, 63.986, 0) end
+
+            enterPortalCinematic = true
+            
         end
 
         if Player.isPortalExitAnim then
             if Player.rb then Player.rb:SetRotation(180, 90, 180) end
+            exitPortalCinematic = true
         end
 
         if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 

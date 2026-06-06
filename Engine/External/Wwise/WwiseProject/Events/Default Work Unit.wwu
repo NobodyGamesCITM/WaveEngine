@@ -821,7 +821,51 @@
 								</Event>
 								<Event Name="SFX_EL_SwordUp" ID="{D1D5CBC3-0CDC-47CB-BC64-EC848B985BE2}">
 									<ChildrenList>
+										<Action Name="" ID="{47139050-5D90-4E6A-9E7B-5A947E1D1C98}" ShortID="394068725">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="-5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{2CC91EE9-6C89-4C25-BDD7-D6F056E33490}" ShortID="503601312">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+												<Property Name="Pitch" Type="int32" Value="475"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
 										<Action Name="" ID="{EE4AD4E6-56BF-4EDB-A49B-4AB1E4F7C475}" ShortID="388554290">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{F07BE20E-0FC6-4894-837D-0682CB535AF3}" ShortID="270151114">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="18"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{FA96CA23-8365-49CC-9F8D-D9EE6705AB53}" ShortID="784151665">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="16"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
 													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>

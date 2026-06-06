@@ -272,6 +272,7 @@ void AudioSystem::PlayEvent(AkUniqueID event, AkGameObjectID goID)
         {
             audioEvents[i]->playingID = 1L; //1L = event slot is now taken
             audioEvents[i]->eventID = event; //<-- new: storing the eventID passed as argument into the AudioEvent struct eventID field
+            audioEvents[i]->goID = goID;
             AK::SoundEngine::PostEvent(event, goID, AkCallbackType::AK_EndOfEvent, audioEvents[i]->eventCallback, (void*)audioEvents[i]);
 
             if (enableDebugLogs) LOG_DEBUG("Playing event from %d audiogameobject", goID);
@@ -324,6 +325,7 @@ bool AudioSystem::IsEventPlaying(AkUniqueID event) {
     return false;
 }
 
+
 bool AudioSystem::IsEventPlaying(const wchar_t* eventName) {
 
     AkUniqueID eventID = AK::SoundEngine::GetIDFromString(eventName);
@@ -333,6 +335,33 @@ bool AudioSystem::IsEventPlaying(const wchar_t* eventName) {
         return false;
     }
     return IsEventPlaying(eventID);
+}
+
+bool AudioSystem::IsSourcePlaying(AkUniqueID event, AkGameObjectID goID) {
+
+    for (size_t i = 0; i < audioEvents.size(); i++)
+    {
+        if (audioEvents[i]->IsEventPlaying() && audioEvents[i]->eventID == event && audioEvents[i]->goID == goID)
+            return true;
+    }
+    return false;
+}
+
+bool AudioSystem::IsSourcePlaying(const wchar_t* eventName, AkGameObjectID goID) {
+    AkUniqueID eventID = AK::SoundEngine::GetIDFromString(eventName);
+    if (eventID == AK_INVALID_UNIQUE_ID)
+    {
+        LOG_CONSOLE("Wwise Error: Event name '%ls' not found!", eventName);
+        return false;
+    }
+
+    if (goID == AK_INVALID_AUDIO_OBJECT_ID) {
+
+        LOG_CONSOLE("Wwise Error: Invalid Wwise GameObject ID '%ls'", goID);
+        return false;
+    }
+
+    return IsSourcePlaying(eventID, goID);
 }
 
 void AudioSystem::PauseEvent(AkUniqueID event, AkGameObjectID goID) {
@@ -827,6 +856,7 @@ void AudioSystem::EventCallBack(AkCallbackType in_eType, AkEventCallbackInfo* in
     {
         pEvent->playingID = 0L; 
         pEvent->eventID = AK_INVALID_UNIQUE_ID;
+        pEvent->goID = AK_INVALID_UNIQUE_ID;
     }
 }
 

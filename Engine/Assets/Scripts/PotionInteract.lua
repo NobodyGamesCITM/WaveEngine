@@ -8,7 +8,8 @@ public = {
     --chestAnim  = "Open",
     potionType = "Health", -- "Health" o "Berserk"
     updateWhenPaused = true,  
-    meshName = ""
+    meshName = "",
+    interactPromptName = "",
 }
 
 
@@ -33,12 +34,12 @@ local function showPrompt(self)
     local cx = (sx / vw) * CANVAS_W
     local cy = (sy / vh) * CANVAS_H
 
-    UI.SetElementMargin("InteractAnchor", cx - PROMPT_W * 0.5, cy - PROMPT_H, 0, 0)
-    UI.SetElementVisibility("InteractAnchor", true)
+    UI.SetElementMargin("InteractPrompt", cx - PROMPT_W * 0.5, cy - PROMPT_H, 0, 0)
+    UI.SetElementVisibility("InteractPrompt", true)
 end
 
 local function hidePrompt()
-    UI.SetElementVisibility("InteractAnchor", false)
+    UI.SetElementVisibility("InteractPrompt", false)
 end
 
 
@@ -73,14 +74,19 @@ local function showPopup(self)
             self.public.potionType,
             function() PotionGet(self) end
         )
+        --hidePrompt(self)
+
+        self.gameObject:SetActive(false)
+        --GameObject.Destroy(self.gameObject)
+        
     else
         Engine.Log("[Potion] ERROR: _G.ShowItemObtained es nil")
     end
 end
 
 local function FindPotionMesh(self)
-    self.meshObj = GameObject.FindInChildren(self.gameObject, tostring(self.public.meshName))
-    if not self.meshObj then Engine.Log("[Potion] Unable to retrieve Mesh Object") end
+    --self.meshObj = GameObject.FindInChildren(self.gameObject, tostring(self.public.meshName))
+    --if not self.meshObj then Engine.Log("[Potion] Unable to retrieve Mesh Object") end
 end
 
 function Initialize(self)
@@ -89,9 +95,10 @@ function Initialize(self)
     self.inputCooldown = 0.0
     self.waitingPopup  = false
     self.popupTimer    = 0.0
-    self.meshObj = nil
+    --self.closed = false
+    --self.meshObj = nil
 
-    FindPotionMesh(self)
+    --FindPotionMesh(self)
     
 end
 
@@ -105,7 +112,7 @@ function Update(self, dt)
 
     if not self.inputCooldown then self.inputCooldown = 0.0 end
 
-    if not self.meshObj then FindPotionMesh(self) end
+    --if not self.meshObj then FindPotionMesh(self) end
 	
     if self.inputCooldown > 0 then
         self.inputCooldown = self.inputCooldown - dt
@@ -131,27 +138,15 @@ function Update(self, dt)
             if _G.HideItemObtained then
                 _G.HideItemObtained()
             end
-
-            --if self.meshObj then self.meshObj:SetActive(false) end
-            if self.public.meshName ~= "" then
-                local meshObj = GameObject.FindInChildren(self.gameObject, tostring(self.public.meshName))
+            self.closed = true
             
-                if not meshObj then 
-                    Engine.Log("[Potion] Unable to retrieve Mesh Object")
-                else
-                    meshObj:SetActive(false)
-                    --meshObj = nil
-                
-                end
-            else
-                Engine.Log("[Potion] Mesh Name was empty")
-            end
+            --_G.ItemObtainedActive = false
+            --Initialize(self)
             
-            
-
         end
         return
     end
+
 
     if self.obtained then return end
 
@@ -168,15 +163,15 @@ function Update(self, dt)
    
 
     if dist < self.public.radius then
-        if not self.inRange then
-            self.inRange = true
+        self.inRange = true
+        if not _G.ItemObtainedActive then
             showPrompt(self)
         end
     else
-        if self.inRange then
+        
             self.inRange = false
-            hidePrompt()
-        end
+            hidePrompt(self)
+        
     end
 
     if self.inRange and not _G.ItemObtainedActive and self.inputCooldown <= 0 and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A")) then
@@ -184,12 +179,14 @@ function Update(self, dt)
         Engine.Log("[Potion] Obteniendo Poción")
 
         self.obtained = true
-        hidePrompt()
+        hidePrompt(self)
         self.inputCooldown = COOLDOWN_TIME
 
         --Lanzar popup con delay
         self.waitingPopup = true
         self.popupTimer   = 0.0
     end
+
+
 
 end

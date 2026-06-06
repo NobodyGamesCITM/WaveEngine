@@ -619,13 +619,41 @@
                 "name": "hPotion_Animated",
                 "tag": "",
                 "uid": 1198914075999695101
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.5926198959350586,
+                            1.4119977951049805,
+                            0.043681204319000244
+                        ],
+                        "rotation": [
+                            0.0,
+                            3.756604201043956e-05,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "hPotion_InteractPrompt",
+                "tag": "",
+                "uid": 14435421763797310100
             }
         ],
         "components": [
             {
                 "active": true,
                 "position": [
-                    3.0,
+                    22.38979148864746,
                     1.8386950492858887,
                     0.0
                 ],
@@ -705,10 +733,94 @@
             },
             {
                 "active": true,
+                "publicVariables": [
+                    {
+                        "name": "interactPromptName",
+                        "type": 1,
+                        "value": "hPotion_InteractPrompt"
+                    },
+                    {
+                        "name": "itemText",
+                        "type": 1,
+                        "value": "¡Poción obtenida!"
+                    },
+                    {
+                        "name": "actionText",
+                        "type": 1,
+                        "value": "Obtener Poción"
+                    },
+                    {
+                        "name": "meshName",
+                        "type": 1,
+                        "value": "hPotion_Animated"
+                    },
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "potionType",
+                        "type": 1,
+                        "value": "Health"
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 5.0
+                    }
+                ],
+                "scriptUID": 563081863142843385,
+                "type": 6
+            },
+            {
+                "active": true,
                 "opacity": 1.0,
                 "type": 30,
                 "uiLayer": 0,
-                "xamlPath": "ItemObtained.xaml"
+                "xamlPath": "ChestItem.xaml"
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "promptRadius",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "action",
+                        "type": 1,
+                        "value": "Interact"
+                    },
+                    {
+                        "name": "anchorName",
+                        "type": 1,
+                        "value": "hPotion_InteractPrompt"
+                    },
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "sequenceId",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "oneShot",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 3.0
+                    }
+                ],
+                "scriptUID": 11869449068228775486,
+                "type": 6
             }
         ],
         "name": "HealingPotion",

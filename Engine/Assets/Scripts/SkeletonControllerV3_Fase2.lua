@@ -337,6 +337,7 @@ States[State.IDLE] = {
         end
     end,
     Update = function(self, dt)
+        if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end
         local px, py, pz = Skeleton.nav:GetRandomPoint()
         local plPos = playerGO.transform.worldPosition
         if not self.public.activeGuard then
@@ -366,6 +367,7 @@ States[State.GUARD] = {
         Skeleton.nav:SetDestination(Skeleton.initPos.x, Skeleton.initPos.y, Skeleton.initPos.z)
     end,
     Update = function(self, dt)
+        if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end
         local plPos = playerGO.transform.worldPosition
         local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
         targetVelX = dx * self.public.patrolSpeed
@@ -400,6 +402,7 @@ States[State.PATROL] = {
         end
     end,
     Update = function(self, dt)
+        if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end
         local plPos = playerGO.transform.worldPosition
         local dx, dz = Skeleton.nav:GetMoveDirection(self.public.offset)
         targetVelX = dx * self.public.patrolSpeed

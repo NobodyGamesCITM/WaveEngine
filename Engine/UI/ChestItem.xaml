@@ -10,8 +10,8 @@ d:DesignWidth="1280" d:DesignHeight="720">
     </Grid.Background>
 
     <Grid.Resources>
-        <Storyboard x:Key="PotionAppear">
 
+        <Storyboard x:Key="PotionAppear">
             <DoubleAnimation
                 Storyboard.TargetName="PotionScale"
                 Storyboard.TargetProperty="ScaleX"
@@ -21,7 +21,6 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="8"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
-
             <DoubleAnimation
                 Storyboard.TargetName="PotionScale"
                 Storyboard.TargetProperty="ScaleY"
@@ -31,21 +30,78 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="8"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
-
         </Storyboard>
+
+        <Storyboard x:Key="PotionSpriteAnim" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="PotionSheetOffset"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:1">
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.02" Value="-120"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.04" Value="-240"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.06" Value="-360"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.08" Value="-480"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.10" Value="-600"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.12" Value="-720"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.14" Value="-840"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.16" Value="-960"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.18" Value="-1080"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.20" Value="-1200"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.22" Value="-1320"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.24" Value="-1440"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.26" Value="-1560"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.28" Value="-1680"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.30" Value="-1800"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.32" Value="-1920"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.34" Value="-2040"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.36" Value="-2160"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.38" Value="-2280"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.40" Value="-2400"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.42" Value="-2520"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.44" Value="-2640"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.46" Value="-2760"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.48" Value="-2880"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.50" Value="-3000"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.52" Value="-3120"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.54" Value="-3240"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.56" Value="-3360"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.58" Value="-3480"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.60" Value="-3600"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.62" Value="-3720"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.64" Value="-3840"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.66" Value="-3960"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.68" Value="-4080"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.70" Value="-4200"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.72" Value="-4320"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.74" Value="-4440"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.76" Value="-4560"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.78" Value="-4680"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.80" Value="-4800"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.82" Value="-4920"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.84" Value="-5040"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.86" Value="-5160"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.88" Value="-5280"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.90" Value="-5400"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.92" Value="-5520"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.94" Value="-5640"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.96" Value="-5760"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0.98" Value="-5880"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
     </Grid.Resources>
 
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1280" Height="720">
 
             <Grid x:Name="ItemObtainedPanel"
-                  Visibility="Hidden"
+                  Visibility="Collapsed"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Width="300"
                   Height="360">
 
-                <!-- Fondo con borde dorado -->
                 <Border CornerRadius="12" BorderThickness="2">
                     <Border.Background>
                         <SolidColorBrush Color="#E6000000"/>
@@ -62,7 +118,6 @@ d:DesignWidth="1280" d:DesignHeight="720">
                         <RowDefinition Height="55"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Título -->
                     <TextBlock x:Name="ItemObtainedText"
                                Grid.Row="0"
                                Text="¡Poción obtenida!"
@@ -78,42 +133,50 @@ d:DesignWidth="1280" d:DesignHeight="720">
                         </TextBlock.Foreground>
                     </TextBlock>
 
-                    <!-- Separador superior -->
                     <Rectangle Grid.Row="0" Height="1" VerticalAlignment="Bottom">
                         <Rectangle.Fill>
                             <SolidColorBrush Color="#66DDAA44"/>
                         </Rectangle.Fill>
                     </Rectangle>
 
-                    <!-- Imagen de la poción: dos imágenes superpuestas, se alterna visibilidad -->
-                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image x:Name="PotionImageHealth"
-                               Source="Textures/Pocion.PNG"
-                               Width="120" Height="120"
-                               Visibility="Visible"
-                               RenderTransformOrigin="0.5,0.5">
-                            <Image.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform x:Name="PotionScale" ScaleX="1" ScaleY="1"/>
-                                    <RotateTransform x:Name="PotionRotate" Angle="0" CenterX="60" CenterY="60"/>
-                                </TransformGroup>
-                            </Image.RenderTransform>
-                        </Image>
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="PotionScale" ScaleX="1" ScaleY="1"/>
+                                <RotateTransform x:Name="PotionRotate" Angle="0" CenterX="60" CenterY="60"/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+
+                        <Rectangle x:Name="PotionImageHealth"
+                                   Width="120" Height="68"
+                                   Visibility="Visible">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Textures/Pocion_sheet.png"
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                            AlignmentY="Top">
+                                    <ImageBrush.Transform>
+                                        <TranslateTransform x:Name="PotionSheetOffset" X="0" Y="0"/>
+                                    </ImageBrush.Transform>
+                                </ImageBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+
                         <Image x:Name="PotionImageBerserk"
                                Source="Textures/Berserk.png"
                                Width="120" Height="120"
                                Visibility="Hidden"
                                RenderTransformOrigin="0.5,0.5"/>
+
                     </Grid>
 
-                    <!-- Separador inferior -->
                     <Rectangle Grid.Row="2" Height="1" VerticalAlignment="Top">
                         <Rectangle.Fill>
                             <SolidColorBrush Color="#66DDAA44"/>
                         </Rectangle.Fill>
                     </Rectangle>
 
-                    <!-- Botón reclamar -->
                     <StackPanel Grid.Row="2"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Center"

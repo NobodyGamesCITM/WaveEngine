@@ -16,13 +16,11 @@ local function updateInputIcon()
     end
 end
 
--- Muestra el icono correcto según el tipo de poción
 local function updateItemIcon(potionType)
     if potionType == "Berserk" then
         UI.SetElementVisibility("PotionImageHealth",  false)
         UI.SetElementVisibility("PotionImageBerserk", true)
     else
-        -- "Health" o cualquier otro valor
         UI.SetElementVisibility("PotionImageHealth",  true)
         UI.SetElementVisibility("PotionImageBerserk", false)
     end
@@ -39,20 +37,24 @@ local function hide()
     Engine.Log("[ItemObtained] Cerrado")
 end
 
--- potionType: "Health" | "Berserk"  (opcional, por defecto "Health")
 local function show(itemText, potionType, onClose)
     _G.OnItemObtainedClosed = onClose
     UI.SetElementText("ItemObtainedText", itemText or "¡Objeto obtenido!")
-    -- Panel visible primero para que Noesis encuentre los hijos
     UI.SetElementVisibility("ItemObtainedPanel", true)
     updateInputIcon()
     updateItemIcon(potionType)
+
     if canvas then
-        canvas:PlayStoryboard("PotionAppear", "ItemObtainedPanel")
+        canvas:PlayStoryboard("PotionAppear")
         Engine.Log("[ItemObtained] Storyboard PotionAppear lanzado")
+        if potionType ~= "Berserk" then
+            canvas:PlayStoryboard("PotionSpriteAnim")
+            Engine.Log("[ItemObtained] Storyboard PotionSpriteAnim lanzado")
+        end
     else
-        Engine.Log("[ItemObtained] ERROR: canvas nil, no se puede lanzar PotionAppear")
+        Engine.Log("[ItemObtained] ERROR: canvas nil, no se lanza storyboard")
     end
+
     active = true
     _G.ItemObtainedActive = true
     Engine.Log("[ItemObtained] Mostrado: " .. tostring(itemText) .. " | Tipo: " .. tostring(potionType))
@@ -60,9 +62,13 @@ end
 
 function Start(self)
     canvas = self.gameObject:GetComponent("Canvas")
-    if not canvas then
-        Engine.Log("[ItemObtained] ERROR: No ComponentCanvas found")
+    if canvas then
+        canvas:LoadXAML("ChestItem.xaml")
+        Engine.Log("[ItemObtained] XAML ChestItem.xaml cargado")
+    else
+        Engine.Log("[ItemObtained] ERROR: no hay Canvas en este GameObject")
     end
+
     UI.SetElementVisibility("ItemObtainedPanel", false)
     _G.ItemObtainedActive = false
     _G.ShowItemObtained   = show

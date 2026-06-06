@@ -1,0 +1,175 @@
+[
+    {
+        "active": true,
+        "children": [
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -7.62939453125e-06,
+                            0.0,
+                            -9.1552734375e-05
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "active": true,
+                        "castShadows": true,
+                        "meshUID": 7008138963524495811,
+                        "silhouetteColor": [
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            0.5686274766921997,
+                            1.0
+                        ],
+                        "silhouetteEnabled": false,
+                        "type": 1
+                    },
+                    {
+                        "active": true,
+                        "materialUID": 7982155793782274651,
+                        "overrideTiling": false,
+                        "type": 3
+                    }
+                ],
+                "name": "Gerro_1",
+                "tag": "",
+                "uid": 13075894873321956562
+            }
+        ],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    33.0,
+                    0.5,
+                    9.0
+                ],
+                "rotation": [
+                    0.0,
+                    -29.999990463256836,
+                    0.0
+                ],
+                "scale": [
+                    0.36000001430511475,
+                    0.36000001430511475,
+                    0.36000001430511475
+                ],
+                "type": 0
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "Center": [
+                    0.0,
+                    7.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Restitution": 0.6000000238418579,
+                "Size": [
+                    7.0,
+                    14.0,
+                    6.0
+                ],
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 10
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "nearZ",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "meshObjName",
+                        "type": 1,
+                        "value": "Gerro_1"
+                    },
+                    {
+                        "name": "brokenPrefabName",
+                        "type": 1,
+                        "value": "brokenVase1"
+                    },
+                    {
+                        "name": "dropPrefabName",
+                        "type": 1,
+                        "value": "HealingPotion"
+                    },
+                    {
+                        "name": "cleanUpTime",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "nearX",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "breakOnTouch",
+                        "type": 2,
+                        "value": false
+                    },
+                    {
+                        "name": "nearY",
+                        "type": 0,
+                        "value": 5.0
+                    },
+                    {
+                        "name": "dropChance",
+                        "type": 0,
+                        "value": 0.0
+                    }
+                ],
+                "scriptUID": 13377007971056880363,
+                "type": 6
+            },
+            {
+                "active": true,
+                "eventName": "SFX_VaseBreak",
+                "playOnAwake": false,
+                "type": 26,
+                "volume": 100.0
+            }
+        ],
+        "name": "wholeVase1",
+        "tag": "",
+        "uid": 2093313537451589817
+    }
+]

@@ -5564,24 +5564,24 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "attackImpulseWindow",
+                            "name": "bulletSpawnY",
                             "type": 0,
-                            "value": 0.15000000596046448
+                            "value": 1.5
                         },
                         {
-                            "name": "heavyAttackDelay",
-                            "type": 0,
-                            "value": 0.3499999940395355
-                        },
-                        {
-                            "name": "berserkActive",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "chargeDuration",
+                            "name": "hitShakeDuration",
                             "type": 0,
                             "value": 0.30000001192092896
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "ROTATION_SPEED",
+                            "type": 0,
+                            "value": 780.0
                         },
                         {
                             "name": "speedIncrease",
@@ -5589,7 +5589,42 @@
                             "value": 8.0
                         },
                         {
-                            "name": "rollDuration",
+                            "name": "speedHermesBonus",
+                            "type": 0,
+                            "value": 7.0
+                        },
+                        {
+                            "name": "hpRecover",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "canMove",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "shootDuration",
                             "type": 0,
                             "value": 0.5
                         },
@@ -5599,19 +5634,9 @@
                             "value": 8.0
                         },
                         {
-                            "name": "hermesWaterMax",
+                            "name": "rollDuration",
                             "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 7.0
+                            "value": 0.5
                         },
                         {
                             "name": "staminaRecover",
@@ -5619,119 +5644,9 @@
                             "value": 50.0
                         },
                         {
-                            "name": "usingStamina",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "bulletSpawnY",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "heavyStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "canMove",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "attackBufferDuration",
-                            "type": 0,
-                            "value": 0.6000000238418579
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "heavyDuration",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "comboCooldown",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "ROTATION_SPEED",
-                            "type": 0,
-                            "value": 780.0
-                        },
-                        {
-                            "name": "speedHermesBonus",
+                            "name": "speed",
                             "type": 0,
                             "value": 7.0
-                        },
-                        {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
                         },
                         {
                             "name": "bulletBarrel",
@@ -5739,9 +5654,99 @@
                             "value": 1.5
                         },
                         {
-                            "name": "hpLossCost",
+                            "name": "stamina",
                             "type": 0,
-                            "value": 30.0
+                            "value": 100.0
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "heavyDuration",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
+                        },
+                        {
+                            "name": "attackBufferDuration",
+                            "type": 0,
+                            "value": 0.6000000238418579
+                        },
+                        {
+                            "name": "heavyUpImpulse",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "berserkActive",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "attackImpulseWindow",
+                            "type": 0,
+                            "value": 0.15000000596046448
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "heavyAttackDelay",
+                            "type": 0,
+                            "value": 0.3499999940395355
+                        },
+                        {
+                            "name": "bulletScale",
+                            "type": 0,
+                            "value": 1.0
+                        },
+                        {
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "rollStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
                         },
                         {
                             "name": "rollCooldownMax",
@@ -5754,39 +5759,34 @@
                             "value": 20.0
                         },
                         {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "hitShakeDuration",
+                            "name": "chargeDuration",
                             "type": 0,
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "attackCooldown",
+                            "name": "attackDuration",
                             "type": 0,
                             "value": 0.4000000059604645
                         },
                         {
-                            "name": "knockbackForce",
+                            "name": "tiredMultiplier",
                             "type": 0,
-                            "value": 14.0
+                            "value": 0.699999988079071
                         },
                         {
-                            "name": "rollStaminaCost",
+                            "name": "usingStamina",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "hpLossCost",
                             "type": 0,
-                            "value": 25.0
+                            "value": 30.0
+                        },
+                        {
+                            "name": "comboCooldown",
+                            "type": 0,
+                            "value": 1.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -6056,9 +6056,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "near",
+                            "name": "offsetY",
                             "type": 0,
-                            "value": 8.0
+                            "value": 0.0
                         },
                         {
                             "name": "offsetX",
@@ -6066,14 +6066,14 @@
                             "value": 0.0
                         },
                         {
-                            "name": "offsetY",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
                             "name": "saveCooldown",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "near",
+                            "type": 0,
+                            "value": 8.0
                         },
                         {
                             "name": "offsetZ",
@@ -6186,7 +6186,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 0.8812949657440186,
+                    "aspectRatio": 1.4172661304473877,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -7544,14 +7544,9 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "sequenceId",
-                                    "type": 1,
-                                    "value": ""
-                                },
-                                {
-                                    "name": "radius",
+                                    "name": "promptRadius",
                                     "type": 0,
-                                    "value": 3.0
+                                    "value": 6.0
                                 },
                                 {
                                     "name": "action",
@@ -7559,14 +7554,19 @@
                                     "value": "Interact"
                                 },
                                 {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
                                     "name": "anchorName",
                                     "type": 1,
                                     "value": "InteractAnchor"
+                                },
+                                {
+                                    "name": "updateWhenPaused",
+                                    "type": 2,
+                                    "value": true
+                                },
+                                {
+                                    "name": "sequenceId",
+                                    "type": 1,
+                                    "value": ""
                                 },
                                 {
                                     "name": "oneShot",
@@ -7574,9 +7574,9 @@
                                     "value": true
                                 },
                                 {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
+                                    "name": "radius",
+                                    "type": 0,
+                                    "value": 3.0
                                 }
                             ],
                             "scriptUID": 11869449068228775486,
@@ -8212,11 +8212,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "DropApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
                             "name": "near",
                             "type": 0,
                             "value": 8.0
@@ -8230,6 +8225,11 @@
                             "name": "DropHermesMask",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "DropApoloMask",
+                            "type": 2,
+                            "value": false
                         }
                     ],
                     "scriptUID": 6059332998782319931,
@@ -12355,14 +12355,14 @@
                             "value": 8.0
                         },
                         {
-                            "name": "statueId",
-                            "type": 1,
-                            "value": "Circle"
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "statueId",
+                            "type": 1,
+                            "value": "Circle"
                         },
                         {
                             "name": "statueBitValue",
@@ -12570,12 +12570,12 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "breakOnTouch",
-                            "type": 2,
-                            "value": false
+                            "name": "nearY",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
-                            "name": "cleanUpTime",
+                            "name": "nearZ",
                             "type": 0,
                             "value": 5.0
                         },
@@ -12585,7 +12585,7 @@
                             "value": 100.0
                         },
                         {
-                            "name": "nearZ",
+                            "name": "cleanUpTime",
                             "type": 0,
                             "value": 5.0
                         },
@@ -12595,14 +12595,14 @@
                             "value": "Gerro_2"
                         },
                         {
-                            "name": "brokenPrefabName",
-                            "type": 1,
-                            "value": "brokenvase2"
-                        },
-                        {
                             "name": "nearX",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "brokenPrefabName",
+                            "type": 1,
+                            "value": "brokenvase2"
                         },
                         {
                             "name": "dropPrefabName",
@@ -12610,9 +12610,9 @@
                             "value": "BerserkPotion"
                         },
                         {
-                            "name": "nearY",
-                            "type": 0,
-                            "value": 5.0
+                            "name": "breakOnTouch",
+                            "type": 2,
+                            "value": false
                         }
                     ],
                     "scriptUID": 13377007971056880363,
@@ -12781,12 +12781,12 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "breakOnTouch",
-                            "type": 2,
-                            "value": false
+                            "name": "nearY",
+                            "type": 0,
+                            "value": 5.0
                         },
                         {
-                            "name": "cleanUpTime",
+                            "name": "nearZ",
                             "type": 0,
                             "value": 5.0
                         },
@@ -12796,7 +12796,7 @@
                             "value": 50.0
                         },
                         {
-                            "name": "nearZ",
+                            "name": "cleanUpTime",
                             "type": 0,
                             "value": 5.0
                         },
@@ -12806,14 +12806,14 @@
                             "value": "Gerro_1"
                         },
                         {
-                            "name": "brokenPrefabName",
-                            "type": 1,
-                            "value": "brokenVase1"
-                        },
-                        {
                             "name": "nearX",
                             "type": 0,
                             "value": 5.0
+                        },
+                        {
+                            "name": "brokenPrefabName",
+                            "type": 1,
+                            "value": "brokenVase1"
                         },
                         {
                             "name": "dropPrefabName",
@@ -12821,9 +12821,9 @@
                             "value": "HealingPotion"
                         },
                         {
-                            "name": "nearY",
-                            "type": 0,
-                            "value": 5.0
+                            "name": "breakOnTouch",
+                            "type": 2,
+                            "value": false
                         }
                     ],
                     "scriptUID": 13377007971056880363,
@@ -12842,7 +12842,7 @@
             "uid": 2093313537451589817
         },
         {
-            "active": true,
+            "active": false,
             "children": [
                 {
                     "active": true,
@@ -13484,88 +13484,11 @@
                                 1.0
                             ],
                             "type": 0
-                        },
-                        {
-                            "active": true,
-                            "publicVariables": [
-                                {
-                                    "name": "sequenceId",
-                                    "type": 1,
-                                    "value": ""
-                                },
-                                {
-                                    "name": "radius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "action",
-                                    "type": 1,
-                                    "value": "Interact"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "oneShot",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                }
-                            ],
-                            "scriptUID": 11869449068228775486,
-                            "type": 6
                         }
                     ],
-                    "name": "InteractAnchor",
+                    "name": "hPotion_InteractPrompt",
                     "tag": "",
                     "uid": 14435421763797310100
-                },
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "scale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "opacity": 1.0,
-                            "type": 30,
-                            "uiLayer": 0,
-                            "xamlPath": "ChestItem.xaml"
-                        }
-                    ],
-                    "name": "PotionUI",
-                    "tag": "",
-                    "uid": 15859108780476560507
                 }
             ],
             "components": [
@@ -13654,24 +13577,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "potionType",
+                            "name": "interactPromptName",
                             "type": 1,
-                            "value": "Health"
-                        },
-                        {
-                            "name": "actionText",
-                            "type": 1,
-                            "value": "Obtener Poción"
-                        },
-                        {
-                            "name": "radius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "meshName",
-                            "type": 1,
-                            "value": "hPotion_Animated"
+                            "value": "hPotion_InteractPrompt"
                         },
                         {
                             "name": "itemText",
@@ -13679,9 +13587,29 @@
                             "value": "¡Poción obtenida!"
                         },
                         {
+                            "name": "actionText",
+                            "type": 1,
+                            "value": "Obtener Poción"
+                        },
+                        {
+                            "name": "meshName",
+                            "type": 1,
+                            "value": "hPotion_Animated"
+                        },
+                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "potionType",
+                            "type": 1,
+                            "value": "Health"
+                        },
+                        {
+                            "name": "radius",
+                            "type": 0,
+                            "value": 5.0
                         }
                     ],
                     "scriptUID": 563081863142843385,
@@ -13692,7 +13620,49 @@
                     "opacity": 1.0,
                     "type": 30,
                     "uiLayer": 0,
-                    "xamlPath": ""
+                    "xamlPath": "ChestItem.xaml"
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "action",
+                            "type": 1,
+                            "value": "Interact"
+                        },
+                        {
+                            "name": "anchorName",
+                            "type": 1,
+                            "value": "hPotion_InteractPrompt"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "sequenceId",
+                            "type": 1,
+                            "value": ""
+                        },
+                        {
+                            "name": "oneShot",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "radius",
+                            "type": 0,
+                            "value": 3.0
+                        }
+                    ],
+                    "scriptUID": 11869449068228775486,
+                    "type": 6
                 }
             ],
             "name": "HealingPotion",
@@ -13701,7 +13671,7 @@
             "uid": 12537387712125228050
         },
         {
-            "active": true,
+            "active": false,
             "children": [
                 {
                     "active": true,
@@ -14269,88 +14239,11 @@
                                 1.0
                             ],
                             "type": 0
-                        },
-                        {
-                            "active": true,
-                            "publicVariables": [
-                                {
-                                    "name": "sequenceId",
-                                    "type": 1,
-                                    "value": ""
-                                },
-                                {
-                                    "name": "radius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "action",
-                                    "type": 1,
-                                    "value": "Interact"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 5.0
-                                },
-                                {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "oneShot",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                }
-                            ],
-                            "scriptUID": 11869449068228775486,
-                            "type": 6
                         }
                     ],
-                    "name": "InteractAnchor",
+                    "name": "bPotion_InteractPrompt",
                     "tag": "",
                     "uid": 8908517664331032389
-                },
-                {
-                    "active": true,
-                    "children": [],
-                    "components": [
-                        {
-                            "active": true,
-                            "position": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "scale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "type": 0
-                        },
-                        {
-                            "active": true,
-                            "opacity": 1.0,
-                            "type": 30,
-                            "uiLayer": 0,
-                            "xamlPath": "ChestItem.xaml"
-                        }
-                    ],
-                    "name": "PotionUI",
-                    "tag": "",
-                    "uid": 14811823277523559924
                 }
             ],
             "components": [
@@ -14427,24 +14320,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "potionType",
+                            "name": "interactPromptName",
                             "type": 1,
-                            "value": "Berserk"
-                        },
-                        {
-                            "name": "actionText",
-                            "type": 1,
-                            "value": "Obtener Poción"
-                        },
-                        {
-                            "name": "radius",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "meshName",
-                            "type": 1,
-                            "value": "bPotionAnimated"
+                            "value": "bPotion_InteractPrompt"
                         },
                         {
                             "name": "itemText",
@@ -14452,9 +14330,29 @@
                             "value": "¡Poción obtenida!"
                         },
                         {
+                            "name": "actionText",
+                            "type": 1,
+                            "value": "Obtener Poción"
+                        },
+                        {
+                            "name": "meshName",
+                            "type": 1,
+                            "value": "bPotionAnimated"
+                        },
+                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "potionType",
+                            "type": 1,
+                            "value": "Berserk"
+                        },
+                        {
+                            "name": "radius",
+                            "type": 0,
+                            "value": 5.0
                         }
                     ],
                     "scriptUID": 563081863142843385,
@@ -14477,7 +14375,49 @@
                     "opacity": 1.0,
                     "type": 30,
                     "uiLayer": 0,
-                    "xamlPath": ""
+                    "xamlPath": "ChestItem.xaml"
+                },
+                {
+                    "active": true,
+                    "publicVariables": [
+                        {
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "action",
+                            "type": 1,
+                            "value": "Interact"
+                        },
+                        {
+                            "name": "anchorName",
+                            "type": 1,
+                            "value": "bPotion_InteractPrompt"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "sequenceId",
+                            "type": 1,
+                            "value": ""
+                        },
+                        {
+                            "name": "oneShot",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "radius",
+                            "type": 0,
+                            "value": 3.0
+                        }
+                    ],
+                    "scriptUID": 11869449068228775486,
+                    "type": 6
                 }
             ],
             "name": "BerserkPotion",
@@ -14628,14 +14568,14 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "radius",
-                                            "type": 0,
-                                            "value": 8.0
-                                        },
-                                        {
                                             "name": "controlsSet",
                                             "type": 1,
                                             "value": "intro"
+                                        },
+                                        {
+                                            "name": "radius",
+                                            "type": 0,
+                                            "value": 8.0
                                         }
                                     ],
                                     "scriptUID": 9071788124478833976,
@@ -14673,14 +14613,14 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "radius",
-                                            "type": 0,
-                                            "value": 8.0
-                                        },
-                                        {
                                             "name": "controlsSet",
                                             "type": 1,
                                             "value": "combat"
+                                        },
+                                        {
+                                            "name": "radius",
+                                            "type": 0,
+                                            "value": 8.0
                                         }
                                     ],
                                     "scriptUID": 9071788124478833976,
@@ -14718,14 +14658,14 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "radius",
-                                            "type": 0,
-                                            "value": 8.0
-                                        },
-                                        {
                                             "name": "controlsSet",
                                             "type": 1,
                                             "value": "run"
+                                        },
+                                        {
+                                            "name": "radius",
+                                            "type": 0,
+                                            "value": 8.0
                                         }
                                     ],
                                     "scriptUID": 9071788124478833976,
@@ -14763,14 +14703,14 @@
                                     "active": true,
                                     "publicVariables": [
                                         {
-                                            "name": "radius",
-                                            "type": 0,
-                                            "value": 8.0
-                                        },
-                                        {
                                             "name": "controlsSet",
                                             "type": 1,
                                             "value": "potion_health"
+                                        },
+                                        {
+                                            "name": "radius",
+                                            "type": 0,
+                                            "value": 8.0
                                         }
                                     ],
                                     "scriptUID": 9071788124478833976,
@@ -14844,14 +14784,14 @@
                             "value": 100.0
                         },
                         {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "lowerVolume",
+                            "type": 0,
+                            "value": 60.0
                         },
                         {
                             "name": "currentScene",
@@ -15255,48 +15195,6 @@
                                 1.0
                             ],
                             "type": 0
-                        },
-                        {
-                            "active": true,
-                            "publicVariables": [
-                                {
-                                    "name": "sequenceId",
-                                    "type": 1,
-                                    "value": ""
-                                },
-                                {
-                                    "name": "radius",
-                                    "type": 0,
-                                    "value": 3.0
-                                },
-                                {
-                                    "name": "action",
-                                    "type": 1,
-                                    "value": "Interact"
-                                },
-                                {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
-                                    "name": "anchorName",
-                                    "type": 1,
-                                    "value": "InteractAnchor"
-                                },
-                                {
-                                    "name": "oneShot",
-                                    "type": 2,
-                                    "value": true
-                                },
-                                {
-                                    "name": "updateWhenPaused",
-                                    "type": 2,
-                                    "value": true
-                                }
-                            ],
-                            "scriptUID": 11869449068228775486,
-                            "type": 6
                         }
                     ],
                     "name": "InteractAnchor",
@@ -15498,14 +15396,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "sequenceId",
-                            "type": 1,
-                            "value": ""
-                        },
-                        {
-                            "name": "radius",
+                            "name": "promptRadius",
                             "type": 0,
-                            "value": 3.0
+                            "value": 6.0
                         },
                         {
                             "name": "action",
@@ -15513,14 +15406,19 @@
                             "value": "Interact"
                         },
                         {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "anchorName",
                             "type": 1,
                             "value": "InteractAnchor"
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "sequenceId",
+                            "type": 1,
+                            "value": ""
                         },
                         {
                             "name": "oneShot",
@@ -15528,9 +15426,9 @@
                             "value": true
                         },
                         {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
+                            "name": "radius",
+                            "type": 0,
+                            "value": 3.0
                         }
                     ],
                     "scriptUID": 11869449068228775486,

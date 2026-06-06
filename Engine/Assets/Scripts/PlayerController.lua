@@ -184,7 +184,7 @@ public = {
     speedIncrease       = 10.0,
     speedHermesBonus    = 7.0,
     staminaCost      = 80.0,
-    staminaRecover   = 50.0,   
+    staminaRecover   = 25.0,   
     rollStaminaCost     = 25,
     heavyStaminaCost    = 25,
     usingStamina        = false,
@@ -1502,7 +1502,7 @@ function Start(self)
     _G.PlayWinBossCinematic     = false
 
     self.public.staminaCost    = 20.0   
-    self.public.staminaRecover = 15.0 
+    self.public.staminaRecover = 25.0
 
     local spawnPos  = self.transform.worldPosition
     
@@ -1983,7 +1983,7 @@ function Update(self, dt)
         end
 
         self.public.staminaCost    = 20.0   
-        self.public.staminaRecover = 15.0 
+        self.public.staminaRecover = 25.0 
         Player.baseSpeed = self.public.speed
         Player.currentSpeed = self.public.speed
 

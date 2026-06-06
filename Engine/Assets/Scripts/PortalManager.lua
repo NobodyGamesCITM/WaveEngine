@@ -11,7 +11,8 @@ public = {
     mat_4_T          = "UID_8973639582815948807", 
     mat_5_CircT      = "UID_854134053850521907", 
     mat_6_ArchT      = "UID_6492819221197486088", 
-    mat_7_All        = "UID_11329386542813936116", 
+    mat_7_All        = "UID_11329386542813936116",
+    mat_8_Blue       = "UID_7662836433364874083",
 
     cinematicMidPoint = 5.0, 
     cinematicEndTime  = 10.0  
@@ -37,13 +38,16 @@ local fireTransitionActive = false
 local fireTransitionTimer = 0.0
 local fireTransitionDuration = 1.0
 
+local pendingBlueMat = false
+local blueMatTimer = 0.0
+
 local initGradient = {
-    { time = 0.0, color = {1.0, 0.6, 0.0, 1.0} },
-    { time = 0.5, color = {1.0, 0.1, 0.0, 0.8} },
-    { time = 1.0, color = {0.1, 0.0, 0.0, 0.0} }
+    { time = 0.0, color = {1.0, 0.8, 0.0, 1.0} },
+    { time = 0.5, color = {1.0, 0.4, 0.0, 0.8} },
+    { time = 1.0, color = {0.8, 0.1, 0.0, 0.0} }
 }
 local initStartColor = {1.0, 0.8, 0.0, 1.0}
-local initEndColor   = {1.0, 0.0, 0.0, 0.0}
+local initEndColor   = {1.0, 0.2, 0.0, 0.0}
 
 local targetGradient = {
     { time = 0.25, color = {0.0, 0.737, 1.0, 1.0} },
@@ -76,11 +80,9 @@ local function UpdatePortalVisuals(self)
 
     local targetMatUID = matArray[portalState]
     if targetMatUID and targetMatUID ~= "UID_0" and targetMatUID ~= "" then
-        
+
         local cleanUID = string.sub(targetMatUID, 5)
-        
         portalMatComp.SetTexture(cleanUID)
-        Engine.Log("[PortalManager] Material del portal actualizado al UID: " .. cleanUID)
     end
 
     for i = 1, activeFires do
@@ -154,6 +156,9 @@ function Start(self)
         fireTransitionDuration = duration
         fireTransitionTimer = 0.0
         fireTransitionActive = true
+        
+        pendingBlueMat = true
+        blueMatTimer = 8.3
     end
 end
 
@@ -165,10 +170,22 @@ function Update(self, dt)
         _G.ForcePortalUpdate = false
     end
 
+    if pendingBlueMat then
+        blueMatTimer = blueMatTimer - dt
+        if blueMatTimer <= 0 then
+            pendingBlueMat = false
+            if portalMatComp and self.public.mat_8_Blue ~= "" then
+                local cleanUID = string.sub(self.public.mat_8_Blue, 5)
+                portalMatComp.SetTexture(cleanUID)
+                Engine.Log("[PortalManager] Material cambiado a Azul Mágico (mat_8_Blue)")
+            end
+        end
+    end
+
     if fireTransitionActive then
         fireTransitionTimer = fireTransitionTimer + dt
         local t = math.min(fireTransitionTimer / fireTransitionDuration, 1.0)
-        
+
         local smoothT = t * t * (3.0 - 2.0 * t)
         
         for i = 1, 3 do

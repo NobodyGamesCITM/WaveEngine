@@ -1,4 +1,3 @@
---Scene Changer Script
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
@@ -28,7 +27,6 @@ public = {
 
 function Start(self)
 
-    
     if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
         if _G.LoadedFromSave then
             _G._PlayerController_introAnim = false 
@@ -47,14 +45,6 @@ function Start(self)
 
     _G.CurrentLevel = self.public.currentLevel
     canvasComponent = self.gameObject:GetComponent("Canvas") 
-
-    -- self.musicSource = GameObject.Find("MusicSource")
-    -- if self.musicSource then 
-    --     self.musicComp = self.musicSource:GetComponent("Audio Source")
-    --     if self.musicComp then 
-    --         Engine.Log("[SceneChanger] Music Audio Source Component Found") 
-    --     end
-    -- end
 
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró Canvas.")
@@ -84,31 +74,6 @@ function Update(self, dt)
         Engine.Log("[DEBUG] F8 presionado: Forzando salto a Level2")
         StartTransition(self, "Level2")
     end
-	
-	-- if not Audio.IsEventPlaying("MUS_BGM") then
-    --     local sceneVal = self.public.currentLevel
-    --     local musicState = "None"
-        
-    --     if self.public.currentLevel == "Level1" then 
-    --        musicState = "Level1"
-    --     elseif self.public.currentLevel == "Level2" then 
-    --        musicState = "Level2"
-    --     elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
-    --         musicState = "MainMenu"
-    --     else
-    --         Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
-    --     end
-        
-    --     Audio.SetMusicState(tostring(musicState))
-    --     self.musicSource = GameObject.Find("MusicSource")
-    --     if self.musicSource then 
-    --         self.musicComp = self.musicSource:GetComponent("Audio Source")
-    --         if self.musicComp then 
-    --             self.musicComp:SelectPlayAudioEvent("MUS_BGM") 
-    --             Engine.Log("Started playing BGM from SceneChanger")
-    --         end
-    --     end
-    -- end
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
@@ -142,7 +107,15 @@ function Update(self, dt)
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
-			_G._MenuManager_NeedReinit = true
+
+            -- FIX: si tornem al MainMenu, avisem el MenuManager que ha d'esperar
+            -- i fer el fadeIn + disparar la Intro manualment
+            if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
+                _G.MainMenuNeedsIntro = true
+                Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")
+            end
+
+            _G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
         SetSFXVolume(volume)
@@ -230,13 +203,11 @@ end
 function SetMusicVolume(volume)
     if volume then 
         Audio.SetMusicVolume(volume)
-    else
     end
 end
 
 function SetSFXVolume(volume)
     if volume then
         Audio.SetSFXVolume(volume)
-    else
     end
 end

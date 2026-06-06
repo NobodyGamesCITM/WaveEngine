@@ -140,6 +140,30 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
 
+                <!-- MenuImageViewbox: ScaleY + TranslateX -->
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                    Storyboard.TargetName="MenuImageViewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                    Storyboard.TargetName="MenuImageViewbox">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="-200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.45" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
                 <!-- Pause_Viewbox: ScaleY + TranslateX -->
                 <DoubleAnimationUsingKeyFrames
                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
@@ -255,6 +279,18 @@
                     <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
 
+                <!-- MenuImageViewbox sale: ScaleY→0 + TranslateX→200 -->
+                <DoubleAnimation Storyboard.TargetName="MenuImageViewbox"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="MenuImageViewbox"
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                 To="200" BeginTime="0:0:0.0" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
                 <!-- ResumeButton sale: ScaleY→0 + TranslateX→200 -->
                 <DoubleAnimation Storyboard.TargetName="ResumeButton"
                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
@@ -321,7 +357,17 @@
             <ColumnDefinition Width="285*"/>
         </Grid.ColumnDefinitions>
 
-        <Viewbox Grid.Column="1">
+        <!-- *** FIXED: nombre + RenderTransform + TransformGroup para poder animarlo en FadeOut *** -->
+        <Viewbox x:Name="MenuImageViewbox" Grid.Column="1"
+                 RenderTransformOrigin="0.5,0.5">
+            <Viewbox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Viewbox.RenderTransform>
             <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
         </Viewbox>
 

@@ -9,15 +9,18 @@ public = {
     nearY = 5.0,
     nearZ = 5.0,
     --audioEvent = ""
-    dropsPotion = false,
+    dropChance = 0.0,
+    dropPrefabName = "HealingPotion",
     cleanUpTime = 5.0,
 }
 
 local broken = false
---local hidden = false
+local hidden = false
 
 local brokenPrefab = nil
-local prefabPath = ""
+local dropPrefab = nil
+local brokenPrefabPath = ""
+local dropPrefabPath = ""
 local audioSource = nil
 local aliveTimer = 0
 
@@ -28,9 +31,22 @@ local myScale
 
 local function BreakObject(self)
         
-    if prefabPath then 
+    if brokenPrefabPath then 
         --brokenPrefab:SetActive(true)
-        brokenPrefab = Prefab.Instantiate(prefabPath)
+        brokenPrefab = Prefab.Instantiate(brokenPrefabPath)
+
+        local rand = math.random(0,100)
+
+        if rand <= self.public.dropChance then 
+
+            Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", dropping item...")
+            if dropPrefabPath then
+                dropPrefab = Prefab.Instantiate(dropPrefabPath)
+            end
+
+        else
+            Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", no drop")
+        end
 
          
         if audioSource then audioSource:PlayAudioEvent() end
@@ -42,7 +58,7 @@ local function BreakObject(self)
         myScale = self.transform.scale
 
         if not brokenPrefab then
-            Engine.Log("Unable to load prefab from "..tostring(prefabPath))   
+            --Engine.Log("Unable to load prefab from "..tostring(prefabPath))   
         end
 
     end
@@ -51,18 +67,18 @@ end
 local function HideWholeModel(self)
 
     local meshObj = GameObject.FindInChildren(self.gameObject, tostring(self.public.meshObjName))
-    if meshObj then 
+    if meshObj and meshObj:IsActive() then 
         meshObj:SetActive(false)
-        --hidden = true 
-        Engine.Log("meshObj deactivated!")
+        local collider = self.gameObject:GetComponent("Box Collider")
+        if collider then collider:Disable() end
+
+        hidden = true 
+        --Engine.Log("meshObj deactivated!")
     else
         --Engine.Log("Unable to find meshObj")
     end
 
-    local collider = self.gameObject:GetComponent("Box Collider")
-
-    if collider then collider:Disable() end
-
+    
     
 
     --instantiated = true
@@ -71,7 +87,8 @@ end
 
 local function Initialize(self)
     
-    prefabPath = "Prefabs/" ..tostring(self.public.brokenPrefabName)..".prefab"
+    brokenPrefabPath = "Prefabs/" ..tostring(self.public.brokenPrefabName)..".prefab"
+    dropPrefabPath = "Prefabs/" ..tostring(self.public.dropPrefabName)..".prefab"
     --Engine.Log("[BreakObject] Prefab Path = "..tostring(prefabPath))
     
     --if brokenPrefab then brokenPrefab:SetActive(false) end
@@ -116,13 +133,24 @@ function Update(self, dt)
         
     end
 
-    if brokenPrefab then 
-        brokenPrefab.transform:SetPosition(myPos.x, myPos.y, myPos.z)
-        brokenPrefab.transform:SetRotation(myRot.x, myRot.y, myRot.z)
-        brokenPrefab.transform:SetScale(myScale.x, myScale.y, myScale.z)
-
-        HideWholeModel(self)
+    if brokenPrefab then
         
+        if brokenPrefab.transform then 
+            brokenPrefab.transform:SetPosition(myPos.x, myPos.y, myPos.z)
+            brokenPrefab.transform:SetRotation(myRot.x, myRot.y, myRot.z)
+            brokenPrefab.transform:SetScale(myScale.x, myScale.y, myScale.z)
+
+            if dropPrefab then
+                if dropPrefab.transform then
+                    dropPrefab.transform:SetPosition(myPos.x, myPos.y + 2.0, myPos.z)
+                    dropPrefab.transform:SetRotation(myRot.x, myRot.y, myRot.z)
+                    --dropPrefab.transform:SetScale(myScale.x, myScale.y, myScale.z)
+                end
+            end
+
+            if not hidden then HideWholeModel(self) end
+        end
+            
     end
 
     if broken then 
@@ -131,6 +159,7 @@ function Update(self, dt)
         if aliveTimer >= self.public.cleanUpTime then
             aliveTimer = 0
             GameObject.Destroy(brokenPrefab)
+            self.gameObject:SetActive(false)
             --GameObject.Destroy(self.gameObject)
             
         end

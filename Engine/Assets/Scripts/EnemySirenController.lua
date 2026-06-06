@@ -16,7 +16,7 @@ local State = {
     DEAD     = "Dead",
 }
 
-local DAMAGE_LIGHT = 10
+local DAMAGE_LIGHT = 15
 local DAMAGE_HEAVY = 25
 
 _EnemyDamage_mortar = 30
@@ -740,7 +740,7 @@ function Start(self)
      local isLevel2 = self.public.level2
 
     self.public = {
-        maxHp            = 50,
+        maxHp            = 45,
         knockbackForce   = 3.0,
 
         detectRange      = 22.0,   -- distancia máxima para disparar

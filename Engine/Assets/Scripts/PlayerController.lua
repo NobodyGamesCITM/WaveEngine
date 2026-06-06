@@ -2609,8 +2609,6 @@ function Update(self, dt)
                 if Player.pendingObtainMask == Mask.APOLLO then
                     _G.ShowControlsHint("apolo_puzzle")
                     _G.ShowControlsHint("apolo_puzzleDisparo")
-                elseif Player.pendingObtainMask == Mask.ARES then
-                    _G.ShowControlsHint("ares_puzzle")
                 end
             end
 

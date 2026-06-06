@@ -25,7 +25,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.9550561904907227,
+                    "aspectRatio": 1.908707857131958,
                     "farPlane": 1000.0,
                     "fov": 54.0,
                     "nearPlane": 0.30000001192092896,
@@ -158,14 +158,14 @@
                             "value": "MainMenu.xaml"
                         },
                         {
-                            "name": "totalDuration",
-                            "type": 0,
-                            "value": 6.5
-                        },
-                        {
                             "name": "fadeSpeed",
                             "type": 0,
                             "value": 0.5
+                        },
+                        {
+                            "name": "totalDuration",
+                            "type": 0,
+                            "value": 6.5
                         },
                         {
                             "name": "maxVolume",
@@ -180,24 +180,24 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "currentScene",
-                            "type": 5,
-                            "value": "Splash.scene"
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
                         },
                         {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
                             "name": "lowerVolume",
                             "type": 0,
                             "value": 60.0
+                        },
+                        {
+                            "name": "currentScene",
+                            "type": 5,
+                            "value": "Splash.scene"
+                        },
+                        {
+                            "name": "fullVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -4090,6 +4090,7 @@
                                                 {
                                                     "ArrivalThreshold": 0.25,
                                                     "IsStatic": true,
+                                                    "LimitIsTrigger": false,
                                                     "MaxSlope": 35.0,
                                                     "MoveSpeed": 5.0,
                                                     "NavType": 2,
@@ -4325,6 +4326,7 @@
                                                 {
                                                     "ArrivalThreshold": 0.25,
                                                     "IsStatic": true,
+                                                    "LimitIsTrigger": false,
                                                     "MaxSlope": 35.0,
                                                     "MoveSpeed": 5.0,
                                                     "NavType": 2,
@@ -10160,6 +10162,7 @@
                                                         {
                                                             "ArrivalThreshold": 0.25,
                                                             "IsStatic": true,
+                                                            "LimitIsTrigger": false,
                                                             "MaxSlope": 35.0,
                                                             "MoveSpeed": 5.0,
                                                             "NavType": 2,
@@ -10331,6 +10334,7 @@
                                                         {
                                                             "ArrivalThreshold": 0.25,
                                                             "IsStatic": true,
+                                                            "LimitIsTrigger": false,
                                                             "MaxSlope": 35.0,
                                                             "MoveSpeed": 5.0,
                                                             "NavType": 2,
@@ -10758,24 +10762,29 @@
                                                                     "active": true,
                                                                     "publicVariables": [
                                                                         {
-                                                                            "name": "sequenceId",
-                                                                            "type": 1,
-                                                                            "value": ""
-                                                                        },
-                                                                        {
                                                                             "name": "updateWhenPaused",
                                                                             "type": 2,
                                                                             "value": true
                                                                         },
                                                                         {
-                                                                            "name": "promptRadius",
+                                                                            "name": "radius",
                                                                             "type": 0,
-                                                                            "value": 6.0
+                                                                            "value": 3.0
+                                                                        },
+                                                                        {
+                                                                            "name": "sequenceId",
+                                                                            "type": 1,
+                                                                            "value": ""
                                                                         },
                                                                         {
                                                                             "name": "anchorName",
                                                                             "type": 1,
                                                                             "value": "InteractAnchor"
+                                                                        },
+                                                                        {
+                                                                            "name": "promptRadius",
+                                                                            "type": 0,
+                                                                            "value": 6.0
                                                                         },
                                                                         {
                                                                             "name": "action",
@@ -10786,11 +10795,6 @@
                                                                             "name": "oneShot",
                                                                             "type": 2,
                                                                             "value": true
-                                                                        },
-                                                                        {
-                                                                            "name": "radius",
-                                                                            "type": 0,
-                                                                            "value": 3.0
                                                                         }
                                                                     ],
                                                                     "scriptUID": 11869449068228775486,
@@ -10996,24 +11000,29 @@
                                                             "active": true,
                                                             "publicVariables": [
                                                                 {
-                                                                    "name": "sequenceId",
-                                                                    "type": 1,
-                                                                    "value": ""
-                                                                },
-                                                                {
                                                                     "name": "updateWhenPaused",
                                                                     "type": 2,
                                                                     "value": true
                                                                 },
                                                                 {
-                                                                    "name": "promptRadius",
+                                                                    "name": "radius",
                                                                     "type": 0,
-                                                                    "value": 6.0
+                                                                    "value": 3.0
+                                                                },
+                                                                {
+                                                                    "name": "sequenceId",
+                                                                    "type": 1,
+                                                                    "value": ""
                                                                 },
                                                                 {
                                                                     "name": "anchorName",
                                                                     "type": 1,
                                                                     "value": "InteractAnchor"
+                                                                },
+                                                                {
+                                                                    "name": "promptRadius",
+                                                                    "type": 0,
+                                                                    "value": 6.0
                                                                 },
                                                                 {
                                                                     "name": "action",
@@ -11024,11 +11033,6 @@
                                                                     "name": "oneShot",
                                                                     "type": 2,
                                                                     "value": true
-                                                                },
-                                                                {
-                                                                    "name": "radius",
-                                                                    "type": 0,
-                                                                    "value": 3.0
                                                                 }
                                                             ],
                                                             "scriptUID": 11869449068228775486,
@@ -12044,6 +12048,7 @@
                                                                 {
                                                                     "ArrivalThreshold": 0.25,
                                                                     "IsStatic": true,
+                                                                    "LimitIsTrigger": false,
                                                                     "MaxSlope": 35.0,
                                                                     "MoveSpeed": 5.0,
                                                                     "NavType": 2,
@@ -12335,6 +12340,7 @@
                                                                 {
                                                                     "ArrivalThreshold": 0.25,
                                                                     "IsStatic": true,
+                                                                    "LimitIsTrigger": false,
                                                                     "MaxSlope": 35.0,
                                                                     "MoveSpeed": 5.0,
                                                                     "NavType": 2,
@@ -14906,6 +14912,7 @@
                                                         {
                                                             "ArrivalThreshold": 0.25,
                                                             "IsStatic": true,
+                                                            "LimitIsTrigger": false,
                                                             "MaxSlope": 35.0,
                                                             "MoveSpeed": 5.0,
                                                             "NavType": 2,
@@ -15000,6 +15007,7 @@
                                                         {
                                                             "ArrivalThreshold": 0.25,
                                                             "IsStatic": true,
+                                                            "LimitIsTrigger": false,
                                                             "MaxSlope": 35.0,
                                                             "MoveSpeed": 5.0,
                                                             "NavType": 2,
@@ -25633,6 +25641,7 @@
                                                         {
                                                             "ArrivalThreshold": 0.25,
                                                             "IsStatic": true,
+                                                            "LimitIsTrigger": false,
                                                             "MaxSlope": 35.0,
                                                             "MoveSpeed": 5.0,
                                                             "NavType": 2,
@@ -29278,6 +29287,45 @@
             "name": "Xiphos_copy_copy",
             "tag": "",
             "uid": 8156742535396762271
+        },
+        {
+            "active": true,
+            "children": [],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": 0
+                },
+                {
+                    "Back face": 7260107851212855760,
+                    "Bottom face": 11811034919502725956,
+                    "Front face": 15852475360987254551,
+                    "Left face": 753614797694030837,
+                    "Right face": 6391991347837039777,
+                    "Top face": 9961805629634480532,
+                    "active": true,
+                    "type": 34
+                }
+            ],
+            "name": "Skybox",
+            "prefabInstance": 1589302029227367961,
+            "tag": "",
+            "uid": 1974839810417555854
         }
     ],
     "version": 1

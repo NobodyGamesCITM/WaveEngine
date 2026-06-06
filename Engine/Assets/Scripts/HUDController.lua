@@ -14,14 +14,12 @@ local prevHasApolo   = false
 local prevActiveMask = ""
 local myCanvas = nil
 
--- ─── Tamaños de iconos: activo vs inactivo
 local MASK_ICON_SIZE = {
     apollo = { active = 75, inactive = 35 },
     hermes = { active = 75, inactive = 35 },
     ares   = { active = 75, inactive = 35 },
 }
 
--- ─── Transición de márgenes de máscaras
 local MARGIN_LERP_SPEED = 8.0
 
 local currentMargins = {
@@ -35,7 +33,6 @@ local targetMargins = {
     ares   = { 124,  80,  28,   0 },
 }
 
--- ─── Transición de tamaño de iconos de máscara
 local ICON_SIZE_LERP_SPEED_NORMAL = 8.0
 local ICON_SIZE_LERP_SPEED_FAST   = 20.0
 
@@ -56,9 +53,6 @@ local prevActiveMaskForSize = ""
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
 end
-
--- ─── Márgenes de los grupos de máscara (background + icono juntos)
--- Formato: { left, top, right, bottom }
 local MASK_BG_MARGINS = {
     [""] = {
         apollo = {  28,  80, 124,   0 },
@@ -66,9 +60,9 @@ local MASK_BG_MARGINS = {
         ares   = { 124,  80,  28,   0 },
     },
     ["Hermes"] = {
-        apollo = {   0,  80, 150,   0 },
-        hermes = {  38,  -5,  38,  15 },
-        ares   = { 150,  80,   0,   0 },
+        apollo = {   5, 156,  80,   0 },
+        hermes = {  40,  46,   0,  10 },
+        ares   = { 150,   0,  80,   0 },
     },
     ["Ares"] = {
         apollo = {  24,  50, 128,  30 },
@@ -82,7 +76,6 @@ local MASK_BG_MARGINS = {
     },
 }
 
--- ─── Actualiza solo los targets de margen (el lerp se aplica en Update)
 local function RefreshMaskBackgrounds(activeMask)
     local key = activeMask or ""
     local margins = MASK_BG_MARGINS[key] or MASK_BG_MARGINS[""]
@@ -120,14 +113,12 @@ local function UpdateMaskMarginLerp(dt)
     end
 end
 
--- ─── Actualiza solo los targets de tamaño de icono
 local function ApplyMaskIconSizes(activeMask)
     targetIconSizes.apollo = (activeMask == "Apolo")  and MASK_ICON_SIZE.apollo.active or MASK_ICON_SIZE.apollo.inactive
     targetIconSizes.hermes = (activeMask == "Hermes") and MASK_ICON_SIZE.hermes.active or MASK_ICON_SIZE.hermes.inactive
     targetIconSizes.ares   = (activeMask == "Ares")   and MASK_ICON_SIZE.ares.active   or MASK_ICON_SIZE.ares.inactive
 end
 
--- ─── Lerp de tamaños de iconos cada frame y aplicación a la UI
 local function UpdateMaskIconSizeLerp(dt, activeMask)
     local fastShrink = (
         (prevActiveMaskForSize == "Ares"  and activeMask == "Apolo") or
@@ -221,7 +212,6 @@ local function RefreshPotionUI(potions, berserkPotions)
     end
 end
 
--- ─── Máscaras: visibilidad + tamaño + posición de grupos
 local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
 
     -- Apollo
@@ -254,12 +244,10 @@ local function RefreshMaskUI(hasHermes, hasAres, hasApolo, activeMask)
         UI.SetElementVisibility("Image_Ares_Inactive", false)
     end
 
-    -- Actualiza targets de tamaño e inicia transición de márgenes
     ApplyMaskIconSizes(activeMask)
     RefreshMaskBackgrounds(activeMask)
 end
 
--- ─── Snap instantáneo de márgenes y tamaños (usado en ForceRefreshHUD)
 local function SnapMaskMargins(activeMask)
     local key = activeMask or ""
     local margins = MASK_BG_MARGINS[key] or MASK_BG_MARGINS[""]
@@ -377,7 +365,6 @@ function Update(self, dt)
                     and _G.PotionSystem.public.berserkCount or 0
     RefreshPotionUI(potions, berserkPotions)
 
-    -- Máscaras (solo actualizamos visibilidad si algo cambió)
     local hasHermes  = (_G._MaskState_Hermes == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Hermes == true)
     local hasAres    = (_G._MaskState_Ares   == true) or (_G._UnlockedMasks and _G._UnlockedMasks.Ares == true)
     local hasApolo   = (_G._MaskState_Apolo  == true) or (_G._UnlockedMasks and (_G._UnlockedMasks.Apolo == true or _G._UnlockedMasks.Apollo == true))
@@ -392,10 +379,8 @@ function Update(self, dt)
         prevActiveMask = activeMask
     end
 
-    -- Lerp de márgenes de máscaras (siempre, cada frame)
     UpdateMaskMarginLerp(dt)
 
-    -- Lerp de tamaños de iconos de máscaras (siempre, cada frame)
     UpdateMaskIconSizeLerp(dt, activeMask)
 
     -- Icono de guardado

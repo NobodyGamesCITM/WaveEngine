@@ -156,6 +156,11 @@ local attackAreaTransform = nil
 local isWinBossPlaying = false
 local winBossCinematicTimer = 22.0
 
+local isIntroCinematic    = false
+local introCinematicTimer = 0.0
+local INTRO_DURATION      = 29.0
+local introPlayed         = false
+
 --Fase2
 
 local fase2Active    = false
@@ -675,14 +680,40 @@ local function UpdateIdle(self, dist)
         if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
             
             if dist <= self.public.detectRange then
-                
                 if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
                     _G.BossBar_SetVisibility(true)
                     _G.BossBar_RefreshHealth(hp, currentMaxHp)
                 end
-                
-                ChangeState(State.COMBAT_MOVE)
-                return
+
+                if not introPlayed then
+                    introPlayed         = true
+                    isIntroCinematic    = true
+                    introCinematicTimer = INTRO_DURATION
+                    blockHits           = true
+                    StopMovement()
+                    _G._BossIntroCinematic = true
+
+                    self.transform:SetPosition(131.059, -6.862, -648.939)
+                    rb:SetRotation(180, 79.759, 180)
+
+                    if _G.PlayerInstance then
+                        _G.PlayerInstance.public.canMove = false
+                        if _G.SetPlayerStateIdle then _G.SetPlayerStateIdle(_G.PlayerInstance) end
+                        local playerAnim = _G.PlayerInstance.gameObject:GetComponent("Animation")
+                        if playerAnim then
+                            pcall(function() playerAnim:Play("Idle", 0.0) end)
+                            pcall(function() playerAnim:Play("Boss", 0.3) end)
+                        end
+                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+                    end
+
+                    if anim then
+                        anim:Play("Idle", 0.0)
+                        anim:Play("BossIntro", 0.3)
+                    end
+                else
+                    ChangeState(State.COMBAT_MOVE)
+                end
             end
         else
             if anim and not anim:IsPlayingAnimation("Idle") then
@@ -1445,6 +1476,9 @@ function Update(self, dt)
         hitsReceivedCounter = 0
         stunAnimStarted = false; 
         wallAnimStarted = false
+        isIntroCinematic    = false
+        introCinematicTimer = 0.0
+        introPlayed         = false
 
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
@@ -1615,6 +1649,30 @@ function Update(self, dt)
 
     if fase2Active then
         UpdateFase2(self, dt)
+        return
+    end
+
+    if isIntroCinematic then
+        introCinematicTimer = introCinematicTimer - dt
+
+        if _G.PlayerInstance then
+            _G.PlayerInstance.transform:SetPosition(130.532, -6.661, -635.263)
+            if _G.PlayerInstance.rb then
+                _G.PlayerInstance.rb:SetRotation(-180, 0, -180)
+            end
+        end
+
+        StopMovement()
+        if introCinematicTimer <= 0 then
+            isIntroCinematic = false
+            _G._BossIntroCinematic = false
+            blockHits        = false
+            if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                _G.BossBar_SetVisibility(true)
+                _G.BossBar_RefreshHealth(hp, currentMaxHp)
+            end
+            ChangeState(State.COMBAT_MOVE)
+        end
         return
     end
 

@@ -356,7 +356,9 @@ function Update(self, dt)
             local current = _G._PlayerController_currentMask or ""
             local check = (targetMask == "NoMask") and "" or targetMask
             if current ~= check then
-                _G.PlayerInstance:EquipMask(targetMask)
+                if _G.PlayerInstance.MaskScroll then
+                    _G.PlayerInstance.MaskScroll(_G.PlayerInstance)
+                end
             end
         end
     end

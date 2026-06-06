@@ -62,6 +62,7 @@ _G._PlayerController_isDead          = false
 _G.PlayerInstance                    = nil
 _G._MaskCount = 0
 _G._PlayerController_drownDeath = false
+_G._BossIntroCinematic = false
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -69,6 +70,9 @@ local ATTACK_BUFFER = 0.5
 local hurtTimer = 0.0
 local HURT_DURATION = 0.5
 local heavyAttackMoveSpeed = 7.0
+
+local iFramesTimer    = 0.0
+local IFRAME_DURATION = 1.0
 
 -- MASKS
 local Mask = {
@@ -475,6 +479,10 @@ local function ChangeState(self, newState, force)
     if States[newState].Enter then
         States[newState].Enter(self)
     end
+end
+
+_G.SetPlayerStateIdle = function(playerSelf)
+    ChangeState(playerSelf, State.IDLE, true)
 end
 
 function _G.TriggerDrinkAnimation(self, isInternalHeal)
@@ -1364,12 +1372,14 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
     if Player.AnimTimer > 0 then return end
+    if iFramesTimer > 0 then return end
 
     local anim = self.gameObject:GetComponent("Animation")
     if anim and Player.AnimTimer == 0 then
         anim:Play("Idle", 0.0)
         anim:Play("Hurt", 0.0)
         hurtTimer = HURT_DURATION
+        iFramesTimer = IFRAME_DURATION
     end
 
     if Player.thinBloodPs then Player.thinBloodPs:Play() end
@@ -1606,11 +1616,12 @@ function Start(self)
         Player.rb:SetLinearVelocity(0, 0, 0)
     end
 
-    maskAnimTimer = 0.0
+    Player.maskAnimTimer = 0.0
     Player.currentState = State.IDLE
     ChangeState(self, State.IDLE, true)
 
     self.EquipMask = EquipMask
+    self.MaskScroll = MaskScroll
 
     -- Hit vignette init
     hitVigTimer = 0.0
@@ -2034,8 +2045,9 @@ function Update(self, dt)
             Player.maskAnimTimer = 0
             self.public.canMove = true
             ChangeState(self, State.IDLE)
+            local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.3) end)
                     if not ok then
                     Engine.Log("[Player] anim:Play failed: " .. tostring(err))
                 end
@@ -2062,12 +2074,20 @@ function Update(self, dt)
         end
     end
 
+    if iFramesTimer > 0 then
+        iFramesTimer = iFramesTimer - dt
+        if iFramesTimer <= 0 then iFramesTimer = 0 end
+    end
+
     if Player.AnimTimer > 0 then
         _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
-
+        if _G._BossIntroCinematic then
+            if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+        end
+        
         if wakeUpCinematic then
             
            
@@ -2567,6 +2587,17 @@ function Update(self, dt)
             _G.PlayerInAnim = false
             Player.AnimTimer = 0
             self.public.canMove = true
+            if exitPortalCinematic then
+                exitPortalCinematic = false
+            end
+
+            if Player.isPortalExitAnim then
+                Player.lastDirX  = 0
+                Player.lastDirZ  = 1
+                Player.lastAngle = 0
+                if Player.rb then Player.rb:SetRotation(0, 180, 0) end
+            end
+
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
 
@@ -2884,6 +2915,8 @@ function ResetPlayer(self)
     _G._PlayerController_drownDeath = false
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
+    iFramesTimer = 0.0
+
     accumulatedAlpha = 0.0
 
     _G.CombatStates = {}

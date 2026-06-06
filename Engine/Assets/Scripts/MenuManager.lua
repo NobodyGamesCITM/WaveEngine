@@ -508,8 +508,6 @@ function Start(self)
 end
 
 function Update(self, dt)
-    -- Ensure canvas is always valid at the very beginning of Update
-    -- Calculamos salud para la lógica de muerte antes de cualquier early return
     local playerHealth = 101
     local playerIsDrowning = false
     if _G.PlayerInstance and _G.PlayerInstance.public then
@@ -581,7 +579,6 @@ function Update(self, dt)
         end
     end
 
-
     if self.waitingForSplash then
         if _G.ForceStartXAML then
             self.waitingForSplash = false
@@ -595,8 +592,6 @@ function Update(self, dt)
         Initialize(self)
         if self.waitingForSplash then return end
     end
-
-    -- Consideramos "SonOfIthaca.xaml" como parte del gameplay (HUD), no como un menú que pausa el juego automáticamente
     local isActualMenu = (self.current ~= nil and self.current ~= "" and not self.current:find("HUD.xaml") and not self.current:find("SonOfIthaca.xaml"))
 
     if isActualMenu then
@@ -704,10 +699,10 @@ function Update(self, dt)
         end
 
         if not self.deathTimer then self.deathTimer = 0.0 end
-
-        -- Lógica de Muerte: Prioritaria sobre cinemáticas si el jugador ya está muerto
         if playerIsDead and self.current ~= "LoseMenu.xaml" and self.current ~= "MainMenu.xaml" then
-            if not self.fading then self.canvas:SetOpacity(1.0) end
+            if not self.fading and not _G.TitleTrigger_Active then 
+                self.canvas:SetOpacity(1.0) 
+            end
 
             self.deathTimer = self.deathTimer + Time.GetRealDeltaTime()
             local currentDeathDelay = playerIsDrowning and DROWNING_DEATH_MENU_DELAY or DEATH_MENU_DELAY
@@ -721,7 +716,12 @@ function Update(self, dt)
             self.deathTimer = 0.0
         else
             self.deathTimer = 0.0
-            if not self.fading and self.canvas then self.canvas:SetOpacity(1.0) end
+            if not self.fading and self.canvas then 
+                local isGameplayHUD = (self.current == "HUD.xaml" or self.current == "SonOfIthaca.xaml")
+                if not (isGameplayHUD and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden)) then
+                    self.canvas:SetOpacity(1.0) 
+                end
+            end
         end
 
         if not _G.CinematicActive and not playerIsDead then
@@ -865,7 +865,13 @@ function Update(self, dt)
         local t = math.min(self.fadeTimer / duration, 1.0)
 
         if not self.pendingScene then
-            self.canvas:SetOpacity(1.0 - EaseInOutQuad(t))
+            local alpha = 1.0 - EaseInOutQuad(t)
+
+            local isGameplayHUD = (self.current == "HUD.xaml" or self.current == "SonOfIthaca.xaml")
+            if isGameplayHUD and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden) then
+                alpha = 0.0
+            end
+            self.canvas:SetOpacity(alpha)
         else
             Audio.SetMusicVolume(_G.SavedMusicVolume * (1.0 - EaseInOutQuad(t)))
             Audio.SetSFXVolume(_G.SavedSoundEffectsVolume * (1.0 - EaseInOutQuad(t)))
@@ -928,11 +934,12 @@ function Update(self, dt)
                 
             end
             if previous == "PauseMenu.xaml" then
-                
                 Game.Resume()
-                self.lastPauseState    = "running"
-                if _G.ForceRefreshHUD then
-                    _G.ForceRefreshHUD()
+                self.lastPauseState = "running"
+                if not _G.TitleTrigger_Active then
+                    if _G.ForceRefreshHUD then
+                        _G.ForceRefreshHUD()
+                    end
                 end
             else
                 if not _G.IsLoadingSaveGame then
@@ -958,7 +965,9 @@ function Update(self, dt)
         end
 
         Engine.Log("[MenuManager] Swapped to: " .. tostring(self.nextXaml) .. ". TitleTrigger_HUDShouldStartHidden: " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
-        if _G.TitleTrigger_HUDShouldStartHidden and self.nextXaml == "HUD.xaml" then
+        
+        local isGameplayHUD = (self.nextXaml == "HUD.xaml" or self.nextXaml == "SonOfIthaca.xaml")
+        if (isGameplayHUD and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden)) then
             self.canvas:SetOpacity(0.0)
             SetPhase(self, "idle")
         else

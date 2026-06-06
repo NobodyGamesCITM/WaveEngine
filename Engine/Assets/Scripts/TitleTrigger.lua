@@ -4,11 +4,6 @@ local FADE_IN_DURATION   = 1.75
 local HOLD_DURATION      = 2.0
 local FADE_OUT_DURATION  = 1.5
 local HUD_FADE_DURATION  = 0.8
-
-local triggered = false
-local phase     = "idle"
-local timer     = 0.0
-local myPos     = nil
 local canvas    = nil
 
 local function EaseInOutQuad(t)
@@ -37,42 +32,43 @@ local function FindCanvas()
     return nil
 end
 
-local function PlayerInZone(playerPos)
-    if not myPos then return false end
-    local dx = playerPos.x - myPos.x
-    local dz = playerPos.z - myPos.z
-    return (dx*dx + dz*dz) <= (TRIGGER_RADIUS * TRIGGER_RADIUS)
-end
-
 function Start(self)
-    triggered = false
-    phase     = "idle"
-    timer     = 0.0
+    self.triggered = false
+    self.phase     = "idle"
+    self.timer     = 0.0
     canvas    = nil
-    myPos     = self.transform.worldPosition
+    self.myPos     = self.transform.worldPosition
 
     _G.TitleTrigger_HUDShouldStartHidden = true
     _G.TitleTrigger_Active = false
 
     Engine.Log("[TitleTrigger] Iniciado. Pos=("
-        .. tostring(myPos.x) .. ", " .. tostring(myPos.z)
+        .. tostring(self.myPos.x) .. ", " .. tostring(self.myPos.z)
         .. ") Radio=" .. TRIGGER_RADIUS)
 end
 
 function Update(self, dt)
-    if phase == "done" then return end
+    if self.phase == "done" then return end
 
-    myPos = self.transform.worldPosition
+    if _G._PlayerController_isDead then
+        _G.TitleTrigger_Active = false
+        self.phase = "done"
+        return
+    end
 
-    if phase == "idle" then
-        if triggered then return end
+    self.myPos = self.transform.worldPosition
+
+    if self.phase == "idle" then
+        if self.triggered then return end
 
         local player = _G.PlayerInstance
         if not player then return end
         local pPos = player.transform and player.transform.worldPosition
         if not pPos then return end
 
-        if not PlayerInZone(pPos) then return end
+        local dx = pPos.x - self.myPos.x
+        local dz = pPos.z - self.myPos.z
+        if (dx*dx + dz*dz) > (TRIGGER_RADIUS * TRIGGER_RADIUS) then return end
 
         canvas = FindCanvas()
         if not canvas then
@@ -80,7 +76,7 @@ function Update(self, dt)
             return
         end
 
-        triggered = true
+        self.triggered = true
         _G.TitleTrigger_Active = true
         Engine.Log("[TitleTrigger] Secuencia iniciada.")
 
@@ -93,37 +89,38 @@ function Update(self, dt)
             _G.CurrentXAML = "SonOfIthaca.xaml"
         end
 
-        phase = "fadeIn"
-        timer = 0.0
+        self.phase = "fadeIn"
+        self.timer = 0.0
         return
     end
 
-    timer = timer + dt
+    self.timer = self.timer + Time.GetRealDeltaTime()
 
     if not canvas then
         canvas = FindCanvas()
         if not canvas then return end
     end
 
-    if phase == "fadeIn" then
-        local t = math.min(timer / FADE_IN_DURATION, 1.0)
+    if self.phase == "fadeIn" then
+        local t = math.min(self.timer / FADE_IN_DURATION, 1.0)
         canvas:SetOpacity(EaseInOutQuad(t))
         if t >= 1.0 then
             canvas:SetOpacity(1.0)
-            phase = "hold"
-            timer = 0.0
+            self.phase = "hold"
+            self.timer = 0.0
             Engine.Log("[TitleTrigger] Fade in completado.")
         end
 
-    elseif phase == "hold" then
-        if timer >= HOLD_DURATION then
-            phase = "fadeOut"
-            timer = 0.0
+    elseif self.phase == "hold" then
+        canvas:SetOpacity(1.0)
+        if self.timer >= HOLD_DURATION then
+            self.phase = "fadeOut"
+            self.timer = 0.0
             Engine.Log("[TitleTrigger] Hold terminado, fade out.")
         end
 
-    elseif phase == "fadeOut" then
-        local t = math.min(timer / FADE_OUT_DURATION, 1.0)
+    elseif self.phase == "fadeOut" then
+        local t = math.min(self.timer / FADE_OUT_DURATION, 1.0)
         canvas:SetOpacity(1.0 - EaseInOutQuad(t))
         if t >= 1.0 then
             canvas:SetOpacity(0.0)
@@ -133,6 +130,7 @@ function Update(self, dt)
             local mm = _G.GlobalMenuManagerInstance
             if mm then
                 mm.current     = "HUD.xaml"
+                _G.CurrentXAML = "HUD.xaml"
                 mm.phase       = "idle"
                 mm.fadeTimer   = 0.0
                 mm.loggedReady = false
@@ -140,19 +138,19 @@ function Update(self, dt)
 
             if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
 
-            phase = "hudFade"
-            timer = 0.0
+            self.phase = "hudFade"
+            self.timer = 0.0
             Engine.Log("[TitleTrigger] HUD preparado (invisible), iniciando fade in.")
         end
 
-    elseif phase == "hudFade" then
-        local t = math.min(timer / HUD_FADE_DURATION, 1.0)
+    elseif self.phase == "hudFade" then
+        local t = math.min(self.timer / HUD_FADE_DURATION, 1.0)
         canvas:SetOpacity(EaseInOutQuad(t))
         if t >= 1.0 then
             canvas:SetOpacity(1.0)
             _G.TitleTrigger_HUDShouldStartHidden = false
             _G.TitleTrigger_Active = false
-            phase = "done"
+            self.phase = "done"
             Engine.Log("[TitleTrigger] Secuencia completada. HUD activo.")
         end
     end

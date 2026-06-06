@@ -1,5 +1,5 @@
 {
-    "AlbedoMapUID": 4730055181493824379,
+    "AlbedoMapUID": 0,
     "Color": [
         1.0,
         1.0,
@@ -12,7 +12,7 @@
         0.0
     ],
     "EmissiveMapUID": 0,
-    "HeightMapUID": 3859102188586059556,
+    "HeightMapUID": 0,
     "HeightScale": 0.05000000074505806,
     "Metallic": 0.0,
     "MetallicMapUID": 0,
@@ -22,12 +22,10 @@
         0.0,
         0.0
     ],
-    "Opacity": 1.0,
     "Roughness": 0.5,
     "RoughnessMapUID": 0,
     "Tiling": [
         1.0,
         1.0
-    ],
-    "Type": 0
+    ]
 }

@@ -97,7 +97,7 @@
                                                 ],
                                                 "name": "polySurface23",
                                                 "tag": "",
-                                                "uid": 8185968318630587700
+                                                "uid": 5243339133740744193
                                             }
                                         ],
                                         "components": [
@@ -123,7 +123,7 @@
                                         ],
                                         "name": "polySurface23_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 921152940577323717
+                                        "uid": 14813939114091267099
                                     }
                                 ],
                                 "components": [
@@ -149,7 +149,7 @@
                                 ],
                                 "name": "polySurface23_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 8332243320374981677
+                                "uid": 14031905275242778219
                             }
                         ],
                         "components": [
@@ -175,7 +175,7 @@
                         ],
                         "name": "polySurface23_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 11674208452812021950
+                        "uid": 11968017825495852186
                     }
                 ],
                 "components": [
@@ -201,7 +201,7 @@
                 ],
                 "name": "polySurface23_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 6652771227026201252
+                "uid": 6347356217223980975
             },
             {
                 "active": true,
@@ -293,7 +293,7 @@
                                                 ],
                                                 "name": "polySurface25",
                                                 "tag": "",
-                                                "uid": 3597638174262324378
+                                                "uid": 4558674344585632316
                                             }
                                         ],
                                         "components": [
@@ -319,7 +319,7 @@
                                         ],
                                         "name": "polySurface25_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 9702336787877278145
+                                        "uid": 16997765148239097296
                                     }
                                 ],
                                 "components": [
@@ -345,7 +345,7 @@
                                 ],
                                 "name": "polySurface25_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 16540395431631965604
+                                "uid": 8640229094989052533
                             }
                         ],
                         "components": [
@@ -371,7 +371,7 @@
                         ],
                         "name": "polySurface25_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 9414330019321705066
+                        "uid": 16022526915064958341
                     }
                 ],
                 "components": [
@@ -397,7 +397,7 @@
                 ],
                 "name": "polySurface25_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 17564180207362852195
+                "uid": 14890156429103952896
             },
             {
                 "active": true,
@@ -489,7 +489,7 @@
                                                 ],
                                                 "name": "polySurface27",
                                                 "tag": "",
-                                                "uid": 15508067252532975835
+                                                "uid": 15271128003903868230
                                             }
                                         ],
                                         "components": [
@@ -515,7 +515,7 @@
                                         ],
                                         "name": "polySurface27_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 17875052584133429448
+                                        "uid": 14273799967111535222
                                     }
                                 ],
                                 "components": [
@@ -541,7 +541,7 @@
                                 ],
                                 "name": "polySurface27_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 5246844577669541415
+                                "uid": 14220984650602658452
                             }
                         ],
                         "components": [
@@ -567,7 +567,7 @@
                         ],
                         "name": "polySurface27_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 13634581219101999266
+                        "uid": 634378574547272605
                     }
                 ],
                 "components": [
@@ -593,7 +593,7 @@
                 ],
                 "name": "polySurface27_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 8955143434107398536
+                "uid": 15636202663512791639
             },
             {
                 "active": true,
@@ -668,11 +668,24 @@
                                                         "UseGravity": true,
                                                         "active": true,
                                                         "type": 8
+                                                    },
+                                                    {
+                                                        "Center": [
+                                                            0.0,
+                                                            0.0,
+                                                            0.0
+                                                        ],
+                                                        "DynamicFriction": 0.5,
+                                                        "Restitution": 0.6000000238418579,
+                                                        "StaticFriction": 0.5,
+                                                        "Trigger": false,
+                                                        "active": true,
+                                                        "type": 16
                                                     }
                                                 ],
                                                 "name": "polySurface28",
                                                 "tag": "",
-                                                "uid": 11022324074150360613
+                                                "uid": 4381171047935253101
                                             }
                                         ],
                                         "components": [
@@ -698,7 +711,7 @@
                                         ],
                                         "name": "polySurface28_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 14019848457381029841
+                                        "uid": 14864903683409218850
                                     }
                                 ],
                                 "components": [
@@ -724,7 +737,7 @@
                                 ],
                                 "name": "polySurface28_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 7865929755058365013
+                                "uid": 18143484191457246902
                             }
                         ],
                         "components": [
@@ -750,7 +763,7 @@
                         ],
                         "name": "polySurface28_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 5396909053866363150
+                        "uid": 9038180704385350171
                     }
                 ],
                 "components": [
@@ -776,7 +789,7 @@
                 ],
                 "name": "polySurface28_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 12324393175936899869
+                "uid": 17757657064550735011
             },
             {
                 "active": true,
@@ -868,7 +881,7 @@
                                                 ],
                                                 "name": "polySurface29",
                                                 "tag": "",
-                                                "uid": 920918656297773486
+                                                "uid": 17270138048958435389
                                             }
                                         ],
                                         "components": [
@@ -894,7 +907,7 @@
                                         ],
                                         "name": "polySurface29_$AssimpFbx$_ScalingPivotInverse",
                                         "tag": "",
-                                        "uid": 1490311970065423246
+                                        "uid": 4513619451358015948
                                     }
                                 ],
                                 "components": [
@@ -920,7 +933,7 @@
                                 ],
                                 "name": "polySurface29_$AssimpFbx$_ScalingPivot",
                                 "tag": "",
-                                "uid": 1228360834070887564
+                                "uid": 10594060708445556480
                             }
                         ],
                         "components": [
@@ -946,7 +959,7 @@
                         ],
                         "name": "polySurface29_$AssimpFbx$_RotationPivotInverse",
                         "tag": "",
-                        "uid": 16065654197982681866
+                        "uid": 267714871017367047
                     }
                 ],
                 "components": [
@@ -972,7 +985,7 @@
                 ],
                 "name": "polySurface29_$AssimpFbx$_RotationPivot",
                 "tag": "",
-                "uid": 14471440638210598081
+                "uid": 17794447817081150406
             }
         ],
         "components": [
@@ -998,6 +1011,6 @@
         ],
         "name": "brokenVase1",
         "tag": "",
-        "uid": 9849707135920909591
+        "uid": 17017087347296558188
     }
 ]

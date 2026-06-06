@@ -9,6 +9,8 @@ public = {
     nearY = 5.0,
     nearZ = 5.0,
     --audioEvent = ""
+    dropsPotion = false,
+    cleanUpTime = 5.0,
 }
 
 local broken = false
@@ -17,6 +19,7 @@ local broken = false
 local brokenPrefab = nil
 local prefabPath = ""
 local audioSource = nil
+local aliveTimer = 0
 
 local myPos 
 local myRot 
@@ -120,6 +123,17 @@ function Update(self, dt)
 
         HideWholeModel(self)
         
+    end
+
+    if broken then 
+        aliveTimer = aliveTimer + dt
+
+        if aliveTimer >= self.public.cleanUpTime then
+            aliveTimer = 0
+            GameObject.Destroy(brokenPrefab)
+            --GameObject.Destroy(self.gameObject)
+            
+        end
     end
 end
 

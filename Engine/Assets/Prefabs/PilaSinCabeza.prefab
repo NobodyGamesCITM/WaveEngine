@@ -1,0 +1,98 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    -89.15609741210938,
+                    28.860517501831055,
+                    -228.09146118164063
+                ],
+                "rotation": [
+                    0.0,
+                    -71.17322540283203,
+                    0.0
+                ],
+                "scale": [
+                    1.2200000286102295,
+                    1.2200000286102295,
+                    1.2200000286102295
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "castShadows": true,
+                "meshUID": 14146067018137838986,
+                "pivotOffset": [
+                    -36.34657287597656,
+                    -2.1820831298828125,
+                    39.616249084472656
+                ],
+                "silhouetteColor": [
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    0.5686274766921997,
+                    1.0
+                ],
+                "silhouetteEnabled": false,
+                "type": 1
+            },
+            {
+                "active": true,
+                "materialUID": 9019383533494326734,
+                "overrideTiling": false,
+                "type": 3
+            },
+            {
+                "Center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "DynamicFriction": 0.5,
+                "Radius": 8.0,
+                "Restitution": 0.6000000238418579,
+                "StaticFriction": 0.5,
+                "Trigger": false,
+                "active": true,
+                "type": 11
+            },
+            {
+                "AngularDamping": 0.0,
+                "FreezePos": [
+                    false,
+                    false,
+                    false
+                ],
+                "FreezeRot": [
+                    false,
+                    false,
+                    false
+                ],
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Type": 0,
+                "UseCCD": false,
+                "UseGravity": true,
+                "active": true,
+                "type": 8
+            },
+            {
+                "ArrivalThreshold": 0.25,
+                "IsStatic": true,
+                "LimitIsTrigger": false,
+                "MaxSlope": 35.0,
+                "MoveSpeed": 5.0,
+                "NavType": 2,
+                "active": true,
+                "type": 24
+            }
+        ],
+        "name": "PilaSinCabeza",
+        "tag": "",
+        "uid": 14163209682588479368
+    }
+]

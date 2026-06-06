@@ -89,7 +89,7 @@ function Update (self, deltaTime)
             end
         end
         
-        if numEnim > 0 and deads == numEnim then 
+        if numEnim <= 0 or deads == numEnim then 
             for i, door in ipairs(doors) do
                 if door then
                     local doorScript = door:GetComponent("Script")

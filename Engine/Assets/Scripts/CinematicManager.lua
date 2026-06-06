@@ -141,12 +141,12 @@ function Start(self)
     
     _G.PlayWinBossCinematic = function()
         local track = {
-            { time = 0.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
-            { time = 5.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
-            { time = 8.0, pos = { 130.677, 0.217, -645.161 }, rot = { 0, 0, 0 } },
-            { time = 10.0, pos = { 136.165, 0.217, -653.307 }, rot = { 180, 57.172, 180 } },
-            { time = 12.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } },
-            { time = 22.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } }
+            { time = 0.0,  pos = { 130.677, -5.185, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 5.0,  pos = { 130.677, -5.185, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 8.0, pos = { 130.677, -5.185, -645.161 }, rot = { 0, 0, 0 } },
+            { time = 10.0, pos = { 136.165, -5.185, -653.307 }, rot = { 180, 57.172, 180 } },
+            { time = 12.0, pos = { 138.832, -5.185, -664.079 }, rot = { 180, 56.315, 180 } },
+            { time = 22.0, pos = { 138.832, -5.185, -664.079 }, rot = { 180, 56.315, 180 } }
         }
         SendTrackToCamera(track, 3.0)
     end
@@ -168,6 +168,54 @@ function Start(self)
             { time = 14.0, pos = { 82.769, -0.300, 106.924 }, rot = { 185.800, 143.480, 180.000 } }
         }
         SendTrackToCamera(track, 2.0)
+    end
+
+    _G.PlayApolo1DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } },
+            { time = 3.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayApolo2Door2Cinematic = function()
+        local track = {
+            { time = 0.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } },
+            { time = 3.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayPreApoloHermes3TripleCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } },
+            { time = 4.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayApoloHermes3Door2Cinematic = function()
+        local track = {
+            { time = 0.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } },
+            { time = 3.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayAres1DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } },
+            { time = 3.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayCombined2DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } },
+            { time = 3.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
     end
 end
 

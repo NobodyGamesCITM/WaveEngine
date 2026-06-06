@@ -2751,7 +2751,7 @@ function Update(self, dt)
                 Player.currentState = State.IDLE
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 self.public.canMove = false
-                self.transform:SetPosition(131.348, -1.259, -650.359)
+                self.transform:SetPosition(131.348, -6.661, -650.359)
                 if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
                 Player.AnimTimer = 22.0
                 local anim = self.gameObject:GetComponent("Animation")

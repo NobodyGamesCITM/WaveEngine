@@ -1179,7 +1179,7 @@ local function UpdateDeath(self, dt)
     end
     if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
         if anim then anim:Play("CinematicDeath") end
-        self.transform:SetPosition(131.563, -0.926, -657.100)
+        self.transform:SetPosition(131.563, -6.862, -657.100)
         self.transform:SetRotation(-180, 76.951, -180)
         deathAnimDone = true
     end

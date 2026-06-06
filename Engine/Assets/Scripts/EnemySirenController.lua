@@ -16,7 +16,7 @@ local State = {
     DEAD     = "Dead",
 }
 
-local DAMAGE_LIGHT = 10
+local DAMAGE_LIGHT = 15
 local DAMAGE_HEAVY = 25
 
 _EnemyDamage_mortar = 30
@@ -740,7 +740,7 @@ function Start(self)
      local isLevel2 = self.public.level2
 
     self.public = {
-        maxHp            = 50,
+        maxHp            = 45,
         knockbackForce   = 3.0,
 
         detectRange      = 22.0,   -- distancia máxima para disparar
@@ -1037,9 +1037,9 @@ end
 
 -- OnTriggerEnter
 function OnTriggerEnter(self, other)
-    if  self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+    if  self.isDead then return end
 
-	if not other then 
+    if not other then 
         --Engine.Log("[SIREN] other was nil"); 
         return 
     end
@@ -1064,6 +1064,10 @@ function OnTriggerEnter(self, other)
         end
     end
 
+    
+    if self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+
+	
     if other:CompareTag("Bullet") then
         -- La bala golpea a la sirena
         if not self.alreadyHit then

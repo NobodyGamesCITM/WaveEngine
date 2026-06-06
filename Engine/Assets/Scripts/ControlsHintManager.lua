@@ -299,18 +299,16 @@ function refreshCurrentHint()
 end
 
 local function showPreset(presetName, overrideDuration)
-    if not overrideDuration then
-        if ONCE_ONLY[presetName] and seenPresets[presetName] then
-            return
-        end
-    end
-
     local preset = PRESETS[presetName]
     if not preset then
         return
     end
 
     if preset.condition and not preset.condition() then
+        return
+    end
+
+    if ONCE_ONLY[presetName] and seenPresets[presetName] then
         return
     end
 

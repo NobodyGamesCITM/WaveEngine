@@ -1037,9 +1037,9 @@ end
 
 -- OnTriggerEnter
 function OnTriggerEnter(self, other)
-    if  self.isDead or self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+    if  self.isDead then return end
 
-	if not other then 
+    if not other then 
         --Engine.Log("[SIREN] other was nil"); 
         return 
     end
@@ -1064,6 +1064,10 @@ function OnTriggerEnter(self, other)
         end
     end
 
+    
+    if self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+
+	
     if other:CompareTag("Bullet") then
         -- La bala golpea a la sirena
         if not self.alreadyHit then

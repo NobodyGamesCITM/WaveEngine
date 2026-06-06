@@ -185,6 +185,7 @@ end
 
 -- State functions
 local function UpdateIdle(self, dist)
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end 
     if not self.nav then return end
 
     if self.anim and not self.anim:IsPlayingAnimation("Idle") then
@@ -209,7 +210,7 @@ local function UpdateIdle(self, dist)
 end
 
 local function UpdatePatrol(self, dt)
-
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end 
     if self.dustPs and self.dustPs:IsPlaying() then self.dustPs:Stop() end
 
     if not self.nav or not self.playerGO then return end

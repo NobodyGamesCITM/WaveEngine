@@ -56,6 +56,10 @@ function Update(self, dt)
                     if transitionScript and transitionScript.StartTransition then
                         Engine.Log("[Portal] Iniciando transición a: " .. self.public.targetScene)
 
+                        if _G.PortalManagerInstance.StartFireTransition then
+                            _G.PortalManagerInstance:StartFireTransition(14.0)
+                        end
+
                         if _G.PlayerInstance then
                             _G.PlayerInstance.public.canMove = false
                             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(20.0) end

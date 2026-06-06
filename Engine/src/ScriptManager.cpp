@@ -2418,6 +2418,49 @@ static int Lua_ParticleSystem_Reset(lua_State* L) {
     return 0;
 }
 
+static int Lua_ParticleSystem_ClearColorGradient(lua_State* L) {
+    ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    if (Component::IsAlive(ps)) {
+        if (EmitterInstance* emitter = ps->GetEmitter()) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    static_cast<ModuleEmitterSpawn*>(m)->colorGradient.clear();
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+static int Lua_ParticleSystem_AddColorGradientKey(lua_State* L) {
+    ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float time = (float)luaL_checknumber(L, 2);
+    float r = (float)luaL_checknumber(L, 3);
+    float g = (float)luaL_checknumber(L, 4);
+    float b = (float)luaL_checknumber(L, 5);
+    float a = (float)luaL_checknumber(L, 6);
+
+    if (Component::IsAlive(ps)) {
+        if (EmitterInstance* emitter = ps->GetEmitter()) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    auto* spawner = static_cast<ModuleEmitterSpawn*>(m);
+                    ColorKey key;
+                    key.time = time;
+                    key.color = glm::vec4(r, g, b, a);
+                    spawner->colorGradient.push_back(key);
+
+                    std::sort(spawner->colorGradient.begin(), spawner->colorGradient.end(),
+                        [](const ColorKey& a, const ColorKey& b) { return a.time < b.time; });
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
 
@@ -3677,6 +3720,10 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetEndColor");
     lua_pushcfunction(L, Lua_ParticleSystem_SetSize);
     lua_setfield(L, -2, "SetSize");
+    lua_pushcfunction(L, Lua_ParticleSystem_ClearColorGradient);
+    lua_setfield(L, -2, "ClearColorGradient");
+    lua_pushcfunction(L, Lua_ParticleSystem_AddColorGradientKey);
+    lua_setfield(L, -2, "AddColorGradientKey");
     lua_pop(L, 1);
 }
 

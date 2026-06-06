@@ -144,7 +144,7 @@ local isKinematic = false
 
 local fase1 = true
 
-local currentMaxHp = 300
+local currentMaxHp = 150
 
 local AquilesFeedback = "/Prefabs/AquilesFeedback.prefab"
 local AttackAreaFeedback = "/Prefabs/AQ_ATKArea_Feedback.prefab"
@@ -322,12 +322,12 @@ local function QueueSpawn(self, prefabPath, index, total)
 end
 
 local series = {
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro }, 
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton,  Prefab_Minocabro  },
-    { Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },                                    
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                       
+    { Prefab_Skeleton, Prefab_Minocabro },
+    { Prefab_Minocabro }, 
+    { Prefab_Skeleton, Prefab_Skeleton },
+    { Prefab_Minocabro, Prefab_Minocabro },                                    
+    { Prefab_Skeleton },                                      
+    { Prefab_Skeleton },                                       
 }
 local lastSerieIdx = 0 
 
@@ -408,8 +408,8 @@ local function UpdateFase2(self, dt)
         spawnedEnemies = {}
  
         -- Stats fase 3
-        hp      = 400
-        posture = 150
+        hp      = 200
+        posture = 50
         self.public.chargeDamage   = 30
         self.public.chargeSpeed    = 40.0
         self.public.chargeCooldown = 1.5
@@ -418,7 +418,7 @@ local function UpdateFase2(self, dt)
         self.public.moveSpeed      = 8
  
         blockHits    = false   
-        currentMaxHp = 400
+        currentMaxHp = 200
         if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
         if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
         if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
@@ -1241,8 +1241,8 @@ end
 function Start(self)
 
     self.public = {
-        maxHp           = 200, --Antes 300
-        maxPosture      = 100,
+        maxHp           = 150, --Antes 300
+        maxPosture      = 50,
 
         detectRange     = 30.0, --Antes 25
         Lance360Range   = 8.0, --Antes 2
@@ -1257,7 +1257,7 @@ function Start(self)
         lanceDuration       = 2.0,
         feedbackScaleTime   = 3.0,   
         lanceCooldown       = 1.0, -- Antes1.2
-        lanceDamage         = 20,
+        lanceDamage         = 15,
 
         preparationTime = 1.0,
         chargeSpeed     = 30.0, -- antes 22
@@ -1266,7 +1266,7 @@ function Start(self)
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
         chargeCooldown  = 2.0,
-        chargeDamage    = 25,
+        chargeDamage    = 20,
         stepInterval    = 0.6,
 
         knockbackForce  = 10.0,
@@ -1798,13 +1798,13 @@ function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
 
-        if hp <= 60 then
+        if hp <= 40 then
             BaseMat.SetTexture("10242481670410472725")
-        elseif hp > 60 and hp <= 120 then
+        elseif hp > 40 and hp <= 70 then
             BaseMat.SetTexture("15230868181932546860")        
-        elseif hp > 120 and hp <= 180 then
+        elseif hp > 70 and hp <= 100 then
             BaseMat.SetTexture("770031546471412972")
-        elseif hp > 180 and hp <= 240 then
+        elseif hp > 100 and hp <= 150 then
             BaseMat.SetTexture("14923760841240419563")
         else
             BaseMat.SetTexture("14923760841240419563")

@@ -28,6 +28,35 @@ local pendingMaterialUpdate = false
 local fireParticles = {}
 local fireSources = {}
 
+local pendingEffects = false
+local currentStatueObj = nil
+local currentInitChains = nil
+local currentBrokenChains = nil
+
+local fireTransitionActive = false
+local fireTransitionTimer = 0.0
+local fireTransitionDuration = 1.0
+
+local initGradient = {
+    { time = 0.0, color = {1.0, 0.6, 0.0, 1.0} },
+    { time = 0.5, color = {1.0, 0.1, 0.0, 0.8} },
+    { time = 1.0, color = {0.1, 0.0, 0.0, 0.0} }
+}
+local initStartColor = {1.0, 0.8, 0.0, 1.0}
+local initEndColor   = {1.0, 0.0, 0.0, 0.0}
+
+local targetGradient = {
+    { time = 0.25, color = {0.0, 0.737, 1.0, 1.0} },
+    { time = 0.5,  color = {0.18, 1.0, 0.831, 0.6} },
+    { time = 1.0,  color = {0.0, 0.031, 1.0, 1.0} }
+}
+local targetStartColor = {0.0, 0.796, 1.0, 1.0}
+local targetEndColor   = {0.439, 0.0, 1.0, 1.0}
+
+local function Lerp(a, b, t)
+    return a + (b - a) * t
+end
+
 local function UpdatePortalVisuals(self)
     if not portalMatComp then 
         Engine.Log("[PortalManager] ERROR: No hay componente Material en el Portal.")
@@ -67,11 +96,6 @@ local function UpdatePortalVisuals(self)
         portalSource:SelectPlayAudioEvent("SFX_PortalFireOn") 
     end
 end
-
-local pendingEffects = false
-local currentStatueObj = nil
-local currentInitChains = nil
-local currentBrokenChains = nil
 
 function Start(self)
     _G.PortalManagerInstance = self
@@ -125,6 +149,12 @@ function Start(self)
     self.IsPortalOpen = function(self)
         return portalState == 7
     end
+
+    self.StartFireTransition = function(self, duration)
+        fireTransitionDuration = duration
+        fireTransitionTimer = 0.0
+        fireTransitionActive = true
+    end
 end
 
 function Update(self, dt)
@@ -133,6 +163,44 @@ function Update(self, dt)
         activeFires = _G.keysCollected or 0
         UpdatePortalVisuals(self)
         _G.ForcePortalUpdate = false
+    end
+
+    if fireTransitionActive then
+        fireTransitionTimer = fireTransitionTimer + dt
+        local t = math.min(fireTransitionTimer / fireTransitionDuration, 1.0)
+        
+        local smoothT = t * t * (3.0 - 2.0 * t)
+        
+        for i = 1, 3 do
+            if fireParticles[i] then
+                fireParticles[i]:ClearColorGradient()
+                
+                for k = 1, 3 do
+                    local kt = Lerp(initGradient[k].time, targetGradient[k].time, smoothT)
+                    local kr = Lerp(initGradient[k].color[1], targetGradient[k].color[1], smoothT)
+                    local kg = Lerp(initGradient[k].color[2], targetGradient[k].color[2], smoothT)
+                    local kb = Lerp(initGradient[k].color[3], targetGradient[k].color[3], smoothT)
+                    local ka = Lerp(initGradient[k].color[4], targetGradient[k].color[4], smoothT)
+                    fireParticles[i]:AddColorGradientKey(kt, kr, kg, kb, ka)
+                end
+                
+                local sr = Lerp(initStartColor[1], targetStartColor[1], smoothT)
+                local sg = Lerp(initStartColor[2], targetStartColor[2], smoothT)
+                local sb = Lerp(initStartColor[3], targetStartColor[3], smoothT)
+                local sa = Lerp(initStartColor[4], targetStartColor[4], smoothT)
+                fireParticles[i]:SetStartColor(sr, sg, sb, sa)
+                
+                local er = Lerp(initEndColor[1], targetEndColor[1], smoothT)
+                local eg = Lerp(initEndColor[2], targetEndColor[2], smoothT)
+                local eb = Lerp(initEndColor[3], targetEndColor[3], smoothT)
+                local ea = Lerp(initEndColor[4], targetEndColor[4], smoothT)
+                fireParticles[i]:SetEndColor(er, eg, eb, ea)
+            end
+        end
+        
+        if t >= 1.0 then
+            fireTransitionActive = false
+        end
     end
 
     if not inCinematic then return end

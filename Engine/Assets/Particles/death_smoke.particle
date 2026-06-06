@@ -1,0 +1,88 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": false,
+    "alignToVelocity": false,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 1.0,
+    "colorEnd": [
+        0.31770506501197815,
+        0.5441176891326904,
+        0.3040657639503479,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.39977413415908813,
+                0.6421568393707275,
+                0.5352232456207275,
+                0.800000011920929
+            ],
+            "time": 0.6119999885559082
+        },
+        {
+            "color": [
+                0.20739619433879852,
+                0.305840402841568,
+                0.30882352590560913,
+                0.0
+            ],
+            "time": 0.8220000267028809
+        }
+    ],
+    "colorStart": [
+        0.47461947798728943,
+        0.7990195751190186,
+        0.4543444812297821,
+        0.7400000095367432
+    ],
+    "coneAngle": 28.381000518798828,
+    "coneRadius": 1.5,
+    "duration": 5.0,
+    "emissionArea": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 20.0,
+    "emissionRateDist": 0.0,
+    "emitFromShell": false,
+    "gravity": [
+        0.0,
+        2.200000047683716,
+        0.0
+    ],
+    "initRotMax": 360.0,
+    "initRotMin": -360.0,
+    "lifetimeMax": 1.7999999523162842,
+    "lifetimeMin": 1.0,
+    "looping": false,
+    "luminance": false,
+    "maxParticles": 500,
+    "noiseActive": false,
+    "noiseFreq": 0.5,
+    "noiseStrength": 1.0,
+    "oneShot": true,
+    "oneShotCount": 12,
+    "prewarm": false,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 360.0,
+    "rotSpeedMin": -360.0,
+    "shape": 2,
+    "simulationSpace": 1,
+    "sizeCurve": [],
+    "sizeEnd": 0.0,
+    "sizeStart": 4.0,
+    "speedMax": 1.100000023841858,
+    "speedMin": 0.20000000298023224,
+    "textureCols": 1,
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Dirt_Hard_03_TEST.PNG",
+    "textureRows": 1,
+    "textureUID": 9212615947990570654,
+    "type": 7
+}

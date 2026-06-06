@@ -2085,7 +2085,7 @@ function Update(self, dt)
         Player.AnimTimer = Player.AnimTimer - dt
 
         if _G._BossIntroCinematic then
-            if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+            if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
         end
         
         if wakeUpCinematic then

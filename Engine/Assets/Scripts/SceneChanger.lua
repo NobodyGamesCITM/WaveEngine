@@ -1,3 +1,16 @@
+
+--Scene Changer Script
+public = {
+    targetScene = "Level2",
+    fadeSpeed   = 1.0,
+    musicFadeTime = 2.0,
+    currentLevel = "Level1",
+    loadingDuration = 2.5,
+    maxVolume = 100.0,
+    fullIntro = false
+}
+
+
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
@@ -15,15 +28,7 @@ local startDelay = 1.5
 local loadingTimer = 0.0
 local portalExitTimer = 0.0
 
-public = {
-    targetScene = "Level2",
-    fadeSpeed   = 1.0,
-    musicFadeTime = 2.0,
-    currentLevel = "Level1",
-    loadingDuration = 2.5,
-    maxVolume = 100.0,
-    fullIntro = false
-}
+
 
 function Start(self)
 
@@ -140,6 +145,7 @@ function Update(self, dt)
 
         if minTimeReached and cinematicReady then
             if _G._NewSceneLoaded then
+                if not _G.CinematicActive then
                 currentState = State.FADE_OUT
                 _G._NewSceneLoaded = false
                 if canvasComponent then canvasComponent:LoadXAML("FadePanel.xaml") end

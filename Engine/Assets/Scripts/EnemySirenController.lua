@@ -705,6 +705,8 @@ local function FindSirenParticles(self)
        -- end
    -- else 
         --Engine.Log("[Siren] Could not retrieve Blood Drops VFX GameObject") 
+        if self.bloodPs then self.bloodPs:Stop() end
+        bloodVFX:SetActive(false)
     end
 
     local waterVFX = GameObject.FindInChildren(self.gameObject, "WaterDrops")
@@ -717,6 +719,8 @@ local function FindSirenParticles(self)
       --  end
    -- else 
        -- Engine.Log("[Siren] Could not retrieve Water Drops VFX GameObject") 
+       if self.waterPs then self.waterPs:Stop() end
+       waterVFX:SetActive(false)
     end
 
     local wavesVFX = GameObject.FindInChildren(self.gameObject, "WaterCircles")
@@ -729,6 +733,23 @@ local function FindSirenParticles(self)
       --  end
   --  else 
       --  Engine.Log("[Siren] Could not retrieve Water Circles VFX GameObject") 
+        if self.wavesPs then self.wavesPs:Stop() end
+        wavesVFX:SetActive(false)
+    end
+
+    local deathVFX = GameObject.FindInChildren(self.gameObject, "DeathSmoke")
+    if deathVFX then 
+        self.deathPs = deathVFX:GetComponent("ParticleSystem") 
+        if not self.deathPs then 
+           --Engine.Log("[Siren] Death Particle System NOT found!")
+        else
+           --Engine.Log("[Siren] Death Particle System FOUND!")
+           self.deathPs:Stop()
+           deathVFX:SetActive(false)
+        end
+   else 
+       --Engine.Log("[Siren] Could not retrieve Death Smoke VFX GameObject") 
+
     end
 end
 
@@ -793,6 +814,7 @@ function Start(self)
     self.bloodPs = nil
     self.waterPs = nil
     self.wavesPs = nil
+    self.deathPs = nil
 
     FindSirenParticles(self)
 
@@ -871,6 +893,7 @@ function Update(self, dt)
     if not self.feedbackPreloaded then
         self.feedbackPreloaded = true
         self.windupFeedback = Prefab.Instantiate(finalPath_Feedback)
+        if self.windupFeedback then self.windupFeedback:SetActive(false) end
 
         -- if self.windupFeedback then 
         --     FindFeedbackParticles(self)
@@ -880,7 +903,12 @@ function Update(self, dt)
     
 
 
-    if self.pendingDestroy and self.deathTimer <= 0 then
+    if self.pendingDestroy and self.deathTimer <= 0 and self.gameObject:IsActive() then
+        if self.deathPs then
+            Engine.Log("[Siren] Playing Death Particles") 
+            self.deathPs:Play() 
+        end
+        
         self.deathTimer = 2.5
         self.gameObject:SetActive(false)
       --  Engine.Log("Destroyed Siren")
@@ -910,7 +938,7 @@ function Update(self, dt)
             
         end
         self.deathTimer = self.deathTimer - dt
-
+        
         if self.targetDeathYisEnter == false then
             local currentY = self.transform.position.y
             self.targetDeathY = currentY - 3.0
@@ -926,11 +954,8 @@ function Update(self, dt)
             self.transform:SetPosition(pos.x, pos.y - 0.5 * dt, pos.z)
         end
 
-      
 
         if self.deathTimer <= 0 then
-           -- Engine.Log("Siren pending to destroy")
-
             self.pendingDestroy = true
             
         end

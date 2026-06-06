@@ -184,7 +184,7 @@ public = {
     speedIncrease       = 10.0,
     speedHermesBonus    = 7.0,
     staminaCost      = 80.0,
-    staminaRecover   = 50.0,   
+    staminaRecover   = 25.0,   
     rollStaminaCost     = 25,
     heavyStaminaCost    = 25,
     usingStamina        = false,
@@ -1502,7 +1502,7 @@ function Start(self)
     _G.PlayWinBossCinematic     = false
 
     self.public.staminaCost    = 20.0   
-    self.public.staminaRecover = 15.0 
+    self.public.staminaRecover = 25.0
 
     local spawnPos  = self.transform.worldPosition
     
@@ -1983,7 +1983,7 @@ function Update(self, dt)
         end
 
         self.public.staminaCost    = 20.0   
-        self.public.staminaRecover = 15.0 
+        self.public.staminaRecover = 25.0 
         Player.baseSpeed = self.public.speed
         Player.currentSpeed = self.public.speed
 
@@ -2516,7 +2516,7 @@ function Update(self, dt)
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
-                self.transform:SetPosition(-68.549, 3.280, -323.0) 
+                self.transform:SetPosition(-68.549, 2.357, -323.0) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{A6CC9D02-EF15-F454-8C96-401FCF88BF96}",
+    "Hash": "{2EB0C3AC-3DBE-C0D8-D1BF-EED4EA767D1A}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -3841,7 +3841,7 @@
       "Name": "SFX_MinoIdle",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoIdle",
       "GUID": "{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "2.628038",
       "DurationMax": "4.3457294",
@@ -5719,6 +5719,6 @@
     ]
    }
   ],
-  "FileHash": "{C7BF3235-E570-9C4E-7A7D-FBBFA37F1120}"
+  "FileHash": "{FE9E4099-523E-A701-7749-383DBDC1038F}"
  }
 }

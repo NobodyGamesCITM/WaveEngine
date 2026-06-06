@@ -27,7 +27,14 @@ local active      = false
 local pendingHint = nil
 local aresActive  = false
 
-local ALL_KEY_IMGS = { "MaskKey_Q", "MaskKey_Shift" }
+local ALL_KEY_IMGS_GP = { "MaskKey_Q_GP", "MaskKey_Q1_GP", "MaskKey_Q2_GP", "MaskKey_Shift_GP" }
+local ALL_KEY_IMGS_KB = { "MaskKey_Q_KB", "MaskKey_Q1_KB", "MaskKey_Q2_KB", "MaskKey_Shift_KB" }
+
+local function updateMaskKeys()
+    local isGamepad = (_G.LastInputType == "gamepad")
+    for _, img in ipairs(ALL_KEY_IMGS_GP) do UI.SetElementVisibility(img, isGamepad)  end
+    for _, img in ipairs(ALL_KEY_IMGS_KB) do UI.SetElementVisibility(img, not isGamepad) end
+end
 
 local lastW, lastH = 0, 0
 
@@ -107,6 +114,8 @@ local function showMaskObtained(maskKey)
     active      = true
     pendingHint = data.hint
 
+    updateMaskKeys()
+
     -- Ares combat
     if data.name == "MÁSCARA DE ARES" then aresActive = true end
 
@@ -135,6 +144,8 @@ function Update(self, dt)
     applyTutorialGradient()
 
     if not active then return end
+
+    updateMaskKeys()
 
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         

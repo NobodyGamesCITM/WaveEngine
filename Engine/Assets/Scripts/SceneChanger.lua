@@ -57,14 +57,20 @@ function Start(self)
 
     if self.public.currentLevel == "Level2" then
         if not _G.LoadedFromSave then
+            -- FIX: bloquejem la loading screen fins que la cinemàtica de portal estigui llesta
+            _G.PortalCinematicReady = false
             portalExitTimer = 8.0
             if _G.PlayerInstance then 
                 _G.PlayerInstance.public.canMove = false 
             end
             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
         else
+            _G.PortalCinematicReady = true
             portalExitTimer = 0.0
         end
+    else
+        -- Altres escenes no necessiten esperar cap cinemàtica
+        _G.PortalCinematicReady = true
     end
 end
 
@@ -93,6 +99,10 @@ function Update(self, dt)
                 pcall(function() anim:Play("Idle", 0.0) end)
                 pcall(function() anim:Play("PortalExit", 0.0) end)
             end
+
+            -- FIX: la cinemàtica ja s'ha llançat, ara podem fer el fade out de la loading screen
+            _G.PortalCinematicReady = true
+            Engine.Log("[SceneChanger] PortalCinematicReady activat.")
         end
     end
 
@@ -108,8 +118,7 @@ function Update(self, dt)
             musicFadeTimer = 0
             currentState = State.IDLE
 
-            -- FIX: si tornem al MainMenu, avisem el MenuManager que ha d'esperar
-            -- i fer el fadeIn + disparar la Intro manualment
+            -- FIX: si tornem al MainMenu, avisem el MenuManager
             if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
                 _G.MainMenuNeedsIntro = true
                 Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")
@@ -123,7 +132,13 @@ function Update(self, dt)
 
     elseif currentState == State.LOADING then
         loadingTimer = loadingTimer + dt
-        if loadingTimer >= (self.public.loadingDuration or 2.5) then
+
+        -- FIX: per Level2 (sense save), esperem tant el loadingDuration mínim
+        -- com que la cinemàtica de portal estigui llesta (_G.PortalCinematicReady)
+        local minTimeReached = loadingTimer >= (self.public.loadingDuration or 2.5)
+        local cinematicReady = (_G.PortalCinematicReady == true)
+
+        if minTimeReached and cinematicReady then
             if _G._NewSceneLoaded then
                 currentState = State.FADE_OUT
                 _G._NewSceneLoaded = false

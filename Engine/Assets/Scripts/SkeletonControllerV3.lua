@@ -32,6 +32,7 @@ local Skeleton = {
     bonePS          = nil,
     teethPS         = nil,
     dodgePS         = nil,
+    deathPS         = nil,
 }
 
 public = {
@@ -52,6 +53,7 @@ public = {
     patrolWaitMin   = 2.0,
     patrolWaitMax   = 2.8,
     deathTime       = 3.5,
+    --deathParticlesTime = 1.8,
     
     activeGuard     = false,
 
@@ -64,6 +66,7 @@ public = {
     dodgeIncrement  = 10.0,
     dodgeColdown    = 3.0,
 
+
     stunTime    = 0.3,
 }
 local OnStartPos = false
@@ -75,6 +78,8 @@ local attackTimer = 0
 local pendingDeath = false
 local stepTimer = 0.5
 local deathTimer = 0
+local deathParticlesTimer = 0
+--local deathParticlesTime = 0
 local revive = false
 
 local targetVelX = 0
@@ -248,6 +253,8 @@ function Start(self)
     currentYaw = (self.transform.worldRotation and self.transform.worldRotation.y) or 0
     playerGO = GameObject.Find("Player")
 
+    --deathParticlesTime = self.public.deathTime/2 + 0.25
+
     Skeleton.rb = self.gameObject:GetComponent("Rigidbody")
     if not Skeleton.rb then
         Skeleton.Log("[Skeleton] No rigidbody found")
@@ -322,6 +329,14 @@ function Start(self)
         if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
         vfxDodge:SetActive(false)
     end
+
+    local vfxDeath = GameObject.FindInChildren(self.gameObject, "VFXDeath")
+    if vfxDeath then
+        Skeleton.deathPS = vfxDeath:GetComponent("ParticleSystem")
+        if Skeleton.deathPS then Skeleton.deathPS:Stop() end
+        vfxDeath:SetActive(false)
+    end
+
     local combatScrip = GameObject.Find("CombatSlots")
     slotManager = combatScrip:GetComponent("Script")
 end
@@ -741,20 +756,37 @@ States[State.DEAD] = {
             end
         elseif not States[State.DEAD].deadAnim then
             deathTimer = deathTimer + dt
+            deathParticlesTimer = deathParticlesTimer + dt
+            --Engine.Log("deathparticlestimer = "..tostring(deathParticlesTimer))
+
             if deathTimer >= self.public.deathTime then 
-                States[State.DEAD].deadAnim = true 
+                States[State.DEAD].deadAnim = true
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
-            else 
-                Skeleton.rb:SetLinearVelocity(0,0, 0) 
+
+            
+                if deathParticlesTimer >= (self.public.deathTime/2 + 0.2) then
+                    
+                    if Skeleton.deathPS then Skeleton.deathPS:Play() end
+                    deathParticlesTimer = 0
+                end
+               
+            else
+                Skeleton.rb:SetLinearVelocity(0, 0, 0) 
+                
             end
         else 
+            -- if Skeleton.rb:GetLinearVelocity().y == -2.0 then
+            --     if Skeleton.deathPS then Skeleton.deathPS:Play() end
+            -- end
+            deathParticlesTimer = 0
             Skeleton.rb:SetLinearVelocity(0, 0, 0) 
         end
     end,
     Exit = function(self)
         Skeleton.isDead = false
+        
         local colision = self.gameObject:GetComponent("Box Collider")
         if colision then 
             colision:Enable()

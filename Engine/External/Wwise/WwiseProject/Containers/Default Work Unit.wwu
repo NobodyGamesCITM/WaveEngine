@@ -10523,7 +10523,7 @@
 								</Sound>
 								<RandomSequenceContainer Name="Mino_Idle" ID="{3920C546-63E8-4113-AEE3-C4FE184105EA}" ShortID="854158079">
 									<PropertyList>
-										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+										<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2.5"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>20</Value>

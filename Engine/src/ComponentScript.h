@@ -122,6 +122,9 @@ private:
     std::string luaTableName;
     bool startCalled = false;
 
+    int  isUIScriptCache = -1;
+    float reloadCheckTimer = 0.0f;
+
     std::vector<ScriptVariable> publicVariables;
     std::vector<std::string> variableOrder;  
 

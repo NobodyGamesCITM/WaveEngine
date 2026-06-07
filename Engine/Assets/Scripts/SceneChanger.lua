@@ -119,13 +119,12 @@ function Update(self, dt)
         local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
         volume = (self.public.maxVolume or 100.0) * (progressPercent)
         
-        if currentAlpha <= 0.0 and volume >= (self.public.maxVolume or 100.0) then
+        if currentAlpha <= 0.0 and volume >= ((self.public.maxVolume or 100.0) - 0.5) then
             volume = self.public.maxVolume or 100.0
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
 
-            -- FIX: si tornem al MainMenu, avisem el MenuManager
             if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
                 _G.MainMenuNeedsIntro = true
                 Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")

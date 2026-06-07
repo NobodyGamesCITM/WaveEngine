@@ -71,7 +71,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <Image x:Name="HintKey_R" Source="Textures/R.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintKey_F" Source="Textures/F.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintKey_8" Source="Textures/8.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Image x:Name="HintGP_LB" Source="Textures/LB.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <Image x:Name="HintGP_LB" Width="75" Source="Textures/Lb.PNG" Stretch="Uniform" Height="62" Margin="0,13,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintGP_RB" Source="Textures/RB.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintGP_LT" Source="Textures/LT.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Image x:Name="HintGP_Y" Source="Textures/Y.PNG" Width="75" Height="75" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>

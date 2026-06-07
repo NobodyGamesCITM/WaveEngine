@@ -397,11 +397,11 @@
             <ColumnDefinition Width="275"/>
         </Grid.ColumnDefinitions>
 
-        <Viewbox x:Name="BackgroundViewBox" Grid.Column="1">
+        <Viewbox x:Name="BackgroundViewBox" Width="668" Height="688" Grid.Column="1">
             <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Grid x:Name="Menu" Grid.Column="1" Margin="66,0">
+        <Grid x:Name="Menu" Margin="98,39" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="167*"/>
                 <RowDefinition Height="85*"/>
@@ -418,8 +418,7 @@
                     </TransformGroup>
                 </Viewbox.RenderTransform>
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" TextAlignment="Center" FontSize="65" Width="445"
-                               Text="SOUND" FontFamily="./#ForgottenUncial">
+                    <TextBlock x:Name="MainMenu_text" FontFamily="./#Cinzel Decorative" FontWeight="Bold" TextAlignment="Center" FontSize="65" Text="AUDIO" Width="445" Margin="0,22,0,-30">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
@@ -430,7 +429,7 @@
                 </Grid>
             </Viewbox>
 
-            <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Grid.Row="2" Height="277" Margin="0,0,0,79">
+            <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Margin="128,58,128,82" Grid.Row="2" Height="277">
                 <Grid x:Name="Buttons" Margin="36,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0*"/>
@@ -443,10 +442,8 @@
 
                     <Slider x:Name="SoundEffectsSlider" Grid.Row="1"
                             Style="{StaticResource MenuSliderStyle}"
-                            Tag="SOUND EFFECTS"
                             Value="{Binding Path=SoundEffectsVolume, Mode=TwoWay}"
-                            Margin="0,0,0,10"
-                            RenderTransformOrigin="0.5,0.5">
+                            Margin="0,0,0,10" FontFamily="./#Cinzel" FontWeight="Medium" Tag="SFX" RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -467,9 +464,8 @@
 
                     <Slider x:Name="MusicSlider" Grid.Row="3"
                             Style="{StaticResource MenuSliderStyle}"
-                            Tag="MUSIC"
                             Value="{Binding Path=MusicVolume, Mode=TwoWay}"
-                            Margin="0,0,0,10"
+                            Margin="0,0,0,10" FontFamily="./#Cinzel" Tag="Music"
                             RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
                             <TransformGroup>
@@ -487,8 +483,7 @@
                     </Slider>
 
                     <Button x:Name="BackButton" Grid.Row="5"
-                            Style="{StaticResource TextButtonStyle}" Content="BACK"
-                            Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30"
+                            Style="{StaticResource TextButtonStyle}" Content="Back" Command="{Binding Path=Commands[BackButton]}" Margin="0,0,0,30" FontFamily="./#Cinzel" FontWeight="Medium"
                             RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>

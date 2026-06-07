@@ -358,8 +358,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- *** FIXED: nombre + RenderTransform + TransformGroup para poder animarlo en FadeOut *** -->
-        <Viewbox x:Name="MenuImageViewbox" Grid.Column="1"
-                 RenderTransformOrigin="0.5,0.5">
+        <Viewbox x:Name="MenuImageViewbox" RenderTransformOrigin="0.5,0.5" Margin="21,26" Grid.Column="1">
             <Viewbox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -371,8 +370,8 @@
             <Image Height="100" Width="100" Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Viewbox Grid.Column="1" Margin="0,126,0,105" Width="590">
-            <Grid x:Name="ButtonsGrid" Margin="0,0,0,21">
+        <Viewbox Width="489" Margin="111,199,111,119" Grid.Column="1">
+            <Grid x:Name="ButtonsGrid" Margin="0,13,0,8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="31"/>
                     <RowDefinition Height="90"/>
@@ -384,32 +383,9 @@
                 </Grid.RowDefinitions>
 
                 <!-- Pause_Viewbox: TransformGroup completo igual que los botones de ButtonsSample -->
-                <Viewbox x:Name="Pause_Viewbox" Stretch="Uniform" Grid.Row="1"
-                         RenderTransformOrigin="0.5,0.5">
-                    <Viewbox.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Viewbox.RenderTransform>
-                    <TextBlock x:Name="Pause_text" Text="PAUSE"
-                               FontFamily="./#ForgottenUncial" FontSize="65"
-                               TextAlignment="Center">
-                        <TextBlock.Foreground>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                <GradientStop Offset="1" Color="#FFFFFFFF"/>
-                            </LinearGradientBrush>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </Viewbox>
 
                 <!-- ResumeButton: TransformGroup completo, sin Opacity inicial -->
-                <Button x:Name="ResumeButton" Content="RESUME"
-                        Command="{Binding Path=Commands[ResumeButton]}"
-                        Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Button x:Name="ResumeButton" Content="Resume" Command="{Binding Path=Commands[ResumeButton]}" Margin="0,10,0,85" Grid.Row="3" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontFamily="./#Cinzel" FontWeight="Medium"
                         Style="{StaticResource TextButtonStyle}"
                         RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
@@ -431,11 +407,9 @@
                 </Button>
 
                 <!-- SettingsButton: TransformGroup completo, sin Opacity inicial -->
-                <Button x:Name="SettingsButton" Content="SETTINGS"
-                        Command="{Binding Commands[SettingsButton]}"
-                        Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         Style="{StaticResource TextButtonStyle}"
-                        Margin="0,4.927,0,-4.927"
+                        FontFamily="./#Cinzel" FontWeight="Medium"
                         RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
@@ -453,11 +427,9 @@
                 </Button>
 
                 <!-- BackToMenuButton: TransformGroup completo, sin Opacity inicial -->
-                <Button x:Name="BackToMenuButton" Content="BACK TO MENU"
-                        Command="{Binding Path=Commands[BackToMenuButton]}"
-                        Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Button x:Name="BackToMenuButton" Content="Back To Menu" Command="{Binding Path=Commands[BackToMenuButton]}" Margin="0,85,0,10" Grid.Row="4" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         Style="{StaticResource TextButtonStyle}"
-                        Margin="0,4.927,0,-4.927"
+                        FontFamily="./#Cinzel" FontWeight="Medium"
                         RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
@@ -488,6 +460,24 @@
             </Grid.RowDefinitions>
             <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" HorizontalAlignment="Right"/>
         </Grid>
+        <Viewbox x:Name="Pause_Viewbox" RenderTransformOrigin="0.5,0.5" Stretch="Uniform" Margin="243,215,243,416" Grid.Column="1">
+            <Viewbox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Viewbox.RenderTransform>
+            <TextBlock x:Name="Pause_text" Text="PAUSE" FontFamily="./#Cinzel Decorative" FontSize="65" FontWeight="Bold" TextAlignment="Center">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                        <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </Viewbox>
 
     </Grid>
 </Grid>

@@ -390,11 +390,11 @@
             <RowDefinition Height="78*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox x:Name="BackgroundImageViewBox" Grid.Column="1" Grid.RowSpan="3">
+        <Viewbox x:Name="BackgroundImageViewBox" Width="688" Height="688" Grid.Column="1" Grid.RowSpan="3">
             <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Grid Grid.Column="1" RenderTransformOrigin="0.5,0.5" Margin="0" Grid.Row="1">
+        <Grid Margin="44,36" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="54*"/>
                 <RowDefinition Height="76*"/>
@@ -416,15 +416,13 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Viewbox.RenderTransform>
-                <TextBlock Text="GRAPHICS"
-                           FontFamily="./#ForgottenUncial"
-                           FontSize="65"
-                           Foreground="White"
+                <TextBlock Text="GRAPHICS" FontFamily="Fonts/#Cinzel Decorative" FontSize="65"
+                           Foreground="White" FontWeight="Bold"
                            TextAlignment="Center"
-                           Width="445"/>
+                           Width="445" Margin="0,4,0,-4"/>
             </Viewbox>
 
-            <Viewbox x:Name="ButtonsViewbox" Stretch="Uniform" Grid.Row="2" Grid.Column="1" Margin="0,1,0,44">
+            <Viewbox x:Name="ButtonsViewbox" Stretch="Uniform" Margin="39,25,39,20" Grid.Row="2" Grid.Column="1">
               <Grid x:Name="ButtonsGrid" Width="570">
                 <Grid.RowDefinitions>
                     <!-- Row 0: top padding -->
@@ -454,9 +452,8 @@
 
                 <CheckBox x:Name="FullScreen"
                         Grid.Row="1"
-                        Content="FULLSCREEN"
                         Style="{StaticResource SettingToggleStyle}"
-                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                        RenderTransformOrigin="0.5,0.5" Content="Fullscreen" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -488,9 +485,8 @@
 
                 <CheckBox x:Name="AntiAliasing"
                         Grid.Row="3"
-                        Content="ANTI-ALIASING"
                         Style="{StaticResource SettingToggleStyle}"
-                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                        RenderTransformOrigin="0.5,0.5" Content="Anti-Aliasing" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -534,10 +530,8 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="RESOLUTION"
-                            FontFamily="./#ForgottenUncial"
-                            FontSize="26"
-                            Foreground="#F0F0F0"
+                    <TextBlock FontFamily="./#Cinzel" FontSize="26" FontWeight="Medium"
+                            Foreground="#F0F0F0" Text="Resolution"
                             VerticalAlignment="Center"/>
 
                     <Border Grid.Column="1"
@@ -563,12 +557,10 @@
                                 </Button.RenderTransform>
                             </Button>
                             <TextBlock x:Name="ResolutionValue"
-                                    Text="1920 x 1080"
-                                    FontFamily="./#ForgottenUncial"
+                                    Text="1920 x 1080" FontFamily="./#Cinzel"
                                     FontSize="22"
                                     Foreground="White"
-                                    Width="140"
-                                    TextAlignment="Center"
+                                    Width="140" FontWeight="Bold" TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                             <Button x:Name="ResolutionNext"
                                     Style="{StaticResource ArrowButtonStyle}"
@@ -586,10 +578,9 @@
                 <Button x:Name="ApplyButton"
                         Grid.Row="8"
                         Style="{StaticResource TextButtonStyle}"
-                        Content="APPLY"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                        RenderTransformOrigin="0.5,0.5" Content="Apply" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -608,10 +599,9 @@
                 <Button x:Name="BackButton"
                         Grid.Row="10"
                         Style="{StaticResource TextButtonStyle}"
-                        Content="BACK"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                        RenderTransformOrigin="0.5,0.5" Content="Back" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>

@@ -8,9 +8,9 @@
   d:DesignHeight="1080">
   <Grid x:Name="Title">
     <Grid.RowDefinitions>
-      <RowDefinition Height="112*"/>
-      <RowDefinition Height="269*"/>
-      <RowDefinition Height="699*"/>
+      <RowDefinition Height="126*"/>
+      <RowDefinition Height="235*"/>
+      <RowDefinition Height="719*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="375*"/>

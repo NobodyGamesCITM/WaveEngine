@@ -4,23 +4,30 @@ public = {
 
 local MASK_DATA = {
     hermes = {
-        name    = "MASK OF HERMES",
-        maskImg = "MaskImg_Hermes",
-        panel   = "MaskPanel_Hermes",
+        name      = "MASK OF HERMES",
+        maskImg   = "MaskImg_Hermes",
+        maskImg001 = "MaskImg_Hermes001",
+        panel     = "MaskPanel_Hermes",
     },
     apolo = {
-        name    = "MASK OF APOLO",
-        maskImg = "MaskImg_Apolo",
-        panel   = "MaskPanel_Apolo",
+        name      = "MASK OF APOLO",
+        maskImg   = "MaskImg_Apolo",
+        maskImg001 = "MaskImg_Apolo001",
+        panel     = "MaskPanel_Apolo",
     },
     ares = {
-        name    = "MASK OF ARES",
-        maskImg = "MaskImg_Ares",
-        panel   = "MaskPanel_Ares",
+        name      = "MASK OF ARES",
+        maskImg   = "MaskImg_Ares",
+        maskImg001 = "MaskImg_Ares001",
+        panel     = "MaskPanel_Ares",
     },
 }
 
-local ALL_MASK_IMGS = { "MaskImg_Hermes", "MaskImg_Apolo", "MaskImg_Ares" }
+local ALL_MASK_IMGS = {
+    "MaskImg_Hermes", "MaskImg_Hermes001",
+    "MaskImg_Apolo",  "MaskImg_Apolo001",
+    "MaskImg_Ares",   "MaskImg_Ares001",
+}
 local ALL_PANELS    = { "MaskPanel_Hermes", "MaskPanel_Apolo", "MaskPanel_Ares" }
 
 local active      = false
@@ -107,6 +114,7 @@ local function showMaskObtained(maskKey)
     UI.SetElementText("MaskObtainedName", data.name)
     UI.SetElementVisibility("MaskObtainedName",       true)
     UI.SetElementVisibility(data.maskImg,             true)
+    UI.SetElementVisibility(data.maskImg001,          true)
     UI.SetElementVisibility(data.panel,               true)
     UI.SetElementVisibility("MaskObtainedBackground", true)
     UI.SetElementVisibility("MaskObtainedPanel",      true)

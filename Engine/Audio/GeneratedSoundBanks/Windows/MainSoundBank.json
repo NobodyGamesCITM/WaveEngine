@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{2EB0C3AC-3DBE-C0D8-D1BF-EED4EA767D1A}",
+    "Hash": "{6B5C7023-F06A-719C-471C-A19EEB4DD603}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -430,14 +430,6 @@
       "Location": "Memory",
       "ShortName": "skeleton_hit.wav",
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
-     },
-     {
-      "Id": "179764612",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SonOfIthaca_Boss_Intro.wav",
-      "CachePath": "23/{2385530E-4A58-4E33-76BD-B2794317BBFA}.wem"
      },
      {
       "Id": "190699463",
@@ -1038,6 +1030,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_02.wav",
       "CachePath": "0A/{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem"
+     },
+     {
+      "Id": "465533851",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SonOfIthaca_Boss_Intro_Loop.wav",
+      "CachePath": "77/{772D06CE-E2E1-D193-1679-96C781B22A87}.wem"
      },
      {
       "Id": "468250888",
@@ -2557,7 +2557,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "179764612"
+          "Id": "465533851"
          }
         ]
        },
@@ -3092,7 +3092,7 @@
       "Name": "SFX_EL_GScream",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GScream",
       "GUID": "{25FCD3FA-2BB2-4298-840D-D24FD63A742E}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "6.064416",
       "DurationMax": "7.4231706",
@@ -3107,7 +3107,7 @@
       "Name": "SFX_EL_GThemin",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GThemin",
       "GUID": "{1537CFFD-E08F-459D-B700-8AC7B33B6380}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "4.008961",
       "DurationMax": "5.19898",
@@ -3122,7 +3122,7 @@
       "Name": "SFX_EL_GWhispers",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GWhispers",
       "GUID": "{EF455109-D3CA-498E-994A-F535916851AE}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "OneShot",
       "DurationMin": "20.872",
       "DurationMax": "20.872",
@@ -3318,7 +3318,7 @@
       "Name": "SFX_GhostScreams",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostScreams",
       "GUID": "{32D371E9-BE5F-40EC-8217-2EAE66DF5B1A}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3340,7 +3340,7 @@
       "Name": "SFX_GhostsThemin",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostsThemin",
       "GUID": "{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3362,7 +3362,7 @@
       "Name": "SFX_GhostWhispers",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostWhispers",
       "GUID": "{CD022861-F08E-400E-9060-DB46B34397F5}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -5719,6 +5719,6 @@
     ]
    }
   ],
-  "FileHash": "{FE9E4099-523E-A701-7749-383DBDC1038F}"
+  "FileHash": "{E54E0B17-5F2C-1CBA-98C2-EFFB9BB38D9E}"
  }
 }

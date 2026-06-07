@@ -263,7 +263,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	174466694	doomsday_epicbgm_00	.cache\52\{527E3F14-E569-6A92-5529-96D9EE07FE3B}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\EpicBGM\doomsday_epicbgm_00		360296
 	174990516	wood_run_06	.cache\2A\{2AC7B201-0B0D-ADB4-9494-1B17FCB0EF66}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_06		7352
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
-	179764612	SonOfIthaca_Boss_Intro	.cache\23\{2385530E-4A58-4E33-76BD-B2794317BBFA}.wem		\Containers\Default Work Unit\BGM_Switch\Boss_Intro_Playlist\SonOfIthaca_Boss_Intro\SonOfIthaca_Boss_Intro		802952
 	190699463	coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458	.cache\10\{10128355-EE23-C610-836E-D8A03151E863}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458		129104
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
 	198456775	heartbeat	.cache\6E\{6E3E9B47-5EEC-D54B-7444-64E693BA291B}.wem		\Containers\Default Work Unit\Objects\Player\heartbeat		1311056
@@ -339,6 +338,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	447279618	totalwar_epicbgm_02	.cache\2A\{2AD2F4C1-3EEC-FF6D-9137-4D933A0EB8B4}.wem		\Containers\Default Work Unit\Objects\Aquiles\FinalBlowCinematic\EpicBGM\totalwar_epicbgm_02		1007288
 	447302312	BAS_Player_Footstep_sand_walk_06	.cache\8B\{8B7F6936-4919-27D2-9133-D4E680863521}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_06		6740
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
+	465533851	SonOfIthaca_Boss_Intro_Loop	.cache\77\{772D06CE-E2E1-D193-1679-96C781B22A87}.wem		\Containers\Default Work Unit\BGM_Switch\Boss_Intro_Playlist\SonOfIthaca_Boss_Intro\SonOfIthaca_Boss_Intro_Loop		794168
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
 	480176063	shield_dmg_02	.cache\E2\{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_02		61496

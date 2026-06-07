@@ -14861,7 +14861,7 @@
 										<RandomSequenceContainer Name="CartoonGhosts" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" ShortID="41779205">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="1.5"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>
@@ -15225,7 +15225,7 @@
 										<RandomSequenceContainer Name="GhostWhispers" ID="{2F7ED951-3830-4214-8E1C-FBC9E9968509}" ShortID="432982475">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="1.5"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>
@@ -15421,7 +15421,7 @@
 										<RandomSequenceContainer Name="GhostScreams" ID="{67F3254B-9549-4839-B3E2-F5C886E98842}" ShortID="270224186">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="1.5"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>

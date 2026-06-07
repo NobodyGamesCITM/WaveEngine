@@ -324,6 +324,9 @@ local function QueueSpawn(self, prefabPath, index, total)
         table.insert(spawnedEnemies, enemy)
         table.insert(pendingPositions, { enemy = enemy, x = x, y = y, z = z, frames = 3 })
     end
+
+    _G._Fase2SpawnGrace = 3.0 
+
 end
 
 local series = {
@@ -381,6 +384,11 @@ local function UpdateFase2(self, dt)
 
     ProcessPendingPositions()
 
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then
+        _G._Fase2SpawnGrace = _G._Fase2SpawnGrace - dt
+    end
+
+
     if rb then
         if isKinematic then
             rb:SetBody(1)
@@ -410,6 +418,9 @@ local function UpdateFase2(self, dt)
 
     elseif AllEnemiesDead() and totalLive==0  then
         fase2Active    = false
+        _G._Aquiles_Fase2Active = false
+        _G._Aquiles_Fase3Active = true
+        _G._AquilesDefeated = true
         spawnedEnemies = {}
  
         -- Stats fase 3
@@ -523,6 +534,8 @@ local function TakeDamage(self, amount, attackerPos)
     if hp <= 0 then
         if not fase1 then
             _G._AquilesDefeated = true
+            _G._Aquiles_Fase3Active = true
+            _G._Aquiles_Fase2Active = false
             Game.SetTimeScale(0.1)
             _impactFrameTimer = 0.3
             blockHits = true
@@ -533,6 +546,7 @@ local function TakeDamage(self, amount, attackerPos)
         elseif not fase2Active then
             fase1       = false
             fase2Active = true
+            _G._Aquiles_Fase2Active = true 
             fase2Timer  = Fase2_Duration
             spawnTimer  = 0
             spawnedEnemies = {}
@@ -1390,6 +1404,11 @@ function Start(self)
         return isDead
     end
 
+    --Columns
+    _G._Aquiles_Fase2Active = false
+    _G._Aquiles_Fase3Active = false
+    _G._AquilesDefeated     = false
+
     local originalResetPlayer = _G.ResetPlayer
     _G.ResetPlayer = function(playerInstance)
         Engine.Log("[Aquiles] ResetPlayer interceptado")
@@ -1480,6 +1499,12 @@ function Update(self, dt)
         introCinematicTimer = 0.0
         introPlayed         = false
 
+        _G._Aquiles_Fase2Active = false
+        _G._AquilesDefeated     = false
+        _G._Aquiles_Fase3Active = false
+        _G._Aquiles_ResetColumns = true
+
+
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
         if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
@@ -1554,17 +1579,17 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            if hp <= 60 then
+             if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
-            elseif hp > 60 and hp <= 120 then
-                BaseMat.SetTexture("15230868181932546860")            
-            elseif hp > 120 and hp <= 180 then
+            elseif hp > 40 and hp <= 70 then
+                BaseMat.SetTexture("15230868181932546860")        
+            elseif hp > 70 and hp <= 100 then
                 BaseMat.SetTexture("770031546471412972")
-            elseif hp > 180 and hp <= 240 then
+            elseif hp > 100 and hp <= 150 then
                 BaseMat.SetTexture("14923760841240419563")
             else
                 BaseMat.SetTexture("14923760841240419563")
-            end        
+            end       
         end
     end
 

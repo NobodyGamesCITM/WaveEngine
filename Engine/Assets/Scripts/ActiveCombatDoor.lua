@@ -150,6 +150,5 @@ function OnTriggerEnter(self, other)
             end
         end
         initCombat = true
-        reviveEnemies = true
     end
 end

@@ -344,16 +344,19 @@ function Initialize(self)
     ApplyFullVolume(self)
 
     if _G.IsLoadingSaveGame then
+        -- FIX: limpiar flags de TitleTrigger al cargar partida guardada
+        _G.TitleTrigger_HUDShouldStartHidden = false
+        _G.TitleTrigger_Active = false
+        _G.LoadedFromSave = true
         self.current = "HUD.xaml"
         _G.CurrentXAML = "HUD.xaml"
         self.canvas:LoadXAML("HUD.xaml")
+        self.canvas:SetOpacity(1.0)
         if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
         Game.Resume()
         self.lastPauseState = "running"
         Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
         self.loggedReady = true
-        -- FIX: Save game load doesn't use TitleTrigger, so opacity is always 1 here
-        self.canvas:SetOpacity(1.0)
         return true
     end
 
@@ -451,9 +454,6 @@ function Initialize(self)
 
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
 
-    -- ─── FIX: opacidad inicial unificada para gameplay Y non-gameplay scenes.
-    -- El TitleTrigger_HUDShouldStartHidden se setea en StartButton (MainMenu) y debe
-    -- sobrevivir a la carga de escena via _G para que esta comprobación funcione.
     if self.phase ~= "fadeIn" and self.phase ~= "waitForSceneChanger" then
         Engine.Log("[MenuManager] TitleTrigger_HUDShouldStartHidden = " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
         if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true then
@@ -479,7 +479,6 @@ function Start(self)
     end
 
     if _G._NewSceneLoaded then
-        -- Si cargamos escena nueva y hay secuencia de intro, forzamos opacidad 0 inmediatamente
         if (_G.TitleTrigger_HUDShouldStartHidden == true or _G.CinematicActive == true) and not _G.LoadedFromSave then
             self.canvas:SetOpacity(0.0)
         end
@@ -678,9 +677,11 @@ function Update(self, dt)
         else
             self.deathTimer = 0.0
             if not self.fading and self.canvas then
-                local isGameplayHUD = (self.current == "HUD.xaml" or self.current == "SonOfIthaca.xaml")
-                -- Cambiamos a una lógica explícita: si debe estar oculto, forzamos 0.0.
-                if isGameplayHUD and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
+                -- FIX Bug 1: si SonOfIthaca.xaml está activo, TitleTrigger controla
+                -- la opacidad completamente — MenuManager no debe tocarla
+                if self.current == "SonOfIthaca.xaml" then
+                    -- no-op: TitleTrigger owns opacity here
+                elseif self.current == "HUD.xaml" and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
                     self.canvas:SetOpacity(0.0)
                 else
                     self.canvas:SetOpacity(1.0)
@@ -728,7 +729,6 @@ function Update(self, dt)
                     _G.SaveManager.DeleteSave()
                 end
 
-                
                 _G.PortalState        = 0
                 _G._MidRunTransition  = false
                 _G._UnlockedMasks     = {}
@@ -751,6 +751,7 @@ function Update(self, dt)
                     _G.PendingSaveDataApply = true
                     _G.IsLoadingSaveGame = true
                     _G.LoadedFromSave = true
+                    -- FIX: limpiar flags de TitleTrigger para que el HUD sea visible desde el inicio
                     _G.TitleTrigger_HUDShouldStartHidden = false
                     _G.TitleTrigger_Active = false
                     local sName = _G.LoadedSaveData.scene
@@ -791,6 +792,7 @@ function Update(self, dt)
                 _G.SkipSplash     = true
                 _G.MainMenuNeedsIntro = true
                 _G.TitleTrigger_Active = nil
+                -- FIX: limpiar flag para que no persista entre sesiones
                 _G.TitleTrigger_HUDShouldStartHidden = nil
                 _G.CinematicActive = false
 

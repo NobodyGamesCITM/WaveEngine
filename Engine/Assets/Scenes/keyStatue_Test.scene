@@ -158,7 +158,7 @@
                     "active": true,
                     "position": [
                         23.0,
-                        0.46807435154914856,
+                        0.0,
                         8.0
                     ],
                     "rotation": [
@@ -5564,9 +5564,89 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "shootDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "health",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "hpLossCost",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "giveHermesMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "chargeDuration",
+                            "type": 0,
+                            "value": 0.30000001192092896
+                        },
+                        {
                             "name": "bulletSpawnY",
                             "type": 0,
                             "value": 1.5
+                        },
+                        {
+                            "name": "heavyAttackDelay",
+                            "type": 0,
+                            "value": 0.3499999940395355
+                        },
+                        {
+                            "name": "giveApoloMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "heavyStaminaCost",
+                            "type": 0,
+                            "value": 25.0
+                        },
+                        {
+                            "name": "chargeSpeed",
+                            "type": 0,
+                            "value": 30.0
+                        },
+                        {
+                            "name": "attackImpulseWindow",
+                            "type": 0,
+                            "value": 0.15000000596046448
+                        },
+                        {
+                            "name": "staminaRecover",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "bulletPrefab",
+                            "type": 1,
+                            "value": "Prefabs/Bullet.prefab"
+                        },
+                        {
+                            "name": "heavyUpImpulse",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "attackImpulseForce",
+                            "type": 0,
+                            "value": 8.0
+                        },
+                        {
+                            "name": "speed",
+                            "type": 0,
+                            "value": 7.0
+                        },
+                        {
+                            "name": "interact",
+                            "type": 2,
+                            "value": false
                         },
                         {
                             "name": "hitShakeDuration",
@@ -5574,9 +5654,9 @@
                             "value": 0.30000001192092896
                         },
                         {
-                            "name": "attackCooldown",
+                            "name": "rollStaminaCost",
                             "type": 0,
-                            "value": 0.4000000059604645
+                            "value": 25.0
                         },
                         {
                             "name": "ROTATION_SPEED",
@@ -5589,29 +5669,9 @@
                             "value": 8.0
                         },
                         {
-                            "name": "speedHermesBonus",
+                            "name": "comboCooldown",
                             "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "hpRecover",
-                            "type": 0,
-                            "value": 30.0
-                        },
-                        {
-                            "name": "interact",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "hitShakeMagnitude",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
-                            "name": "chargeSpeed",
-                            "type": 0,
-                            "value": 30.0
+                            "value": 1.0
                         },
                         {
                             "name": "canMove",
@@ -5619,159 +5679,9 @@
                             "value": true
                         },
                         {
-                            "name": "heavyStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "shootDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "attackImpulseForce",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "rollDuration",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "staminaRecover",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
-                            "name": "speed",
-                            "type": 0,
-                            "value": 7.0
-                        },
-                        {
-                            "name": "bulletBarrel",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "stamina",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "sprintMultiplier",
-                            "type": 0,
-                            "value": 1.5
-                        },
-                        {
-                            "name": "heavyDuration",
-                            "type": 0,
-                            "value": 0.699999988079071
-                        },
-                        {
-                            "name": "rollSpeed",
-                            "type": 0,
-                            "value": 15.0
-                        },
-                        {
                             "name": "attackBufferDuration",
                             "type": 0,
                             "value": 0.6000000238418579
-                        },
-                        {
-                            "name": "heavyUpImpulse",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "giveApoloMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "giveHermesMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "berserkActive",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "attackImpulseWindow",
-                            "type": 0,
-                            "value": 0.15000000596046448
-                        },
-                        {
-                            "name": "giveAresMask",
-                            "type": 2,
-                            "value": false
-                        },
-                        {
-                            "name": "heavyAttackDelay",
-                            "type": 0,
-                            "value": 0.3499999940395355
-                        },
-                        {
-                            "name": "bulletScale",
-                            "type": 0,
-                            "value": 1.0
-                        },
-                        {
-                            "name": "staminaCost",
-                            "type": 0,
-                            "value": 80.0
-                        },
-                        {
-                            "name": "bulletPrefab",
-                            "type": 1,
-                            "value": "Prefabs/Bullet.prefab"
-                        },
-                        {
-                            "name": "rollStaminaCost",
-                            "type": 0,
-                            "value": 25.0
-                        },
-                        {
-                            "name": "health",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
-                            "name": "hermesWaterMax",
-                            "type": 0,
-                            "value": 2.0
-                        },
-                        {
-                            "name": "knockbackForce",
-                            "type": 0,
-                            "value": 14.0
-                        },
-                        {
-                            "name": "rollCooldownMax",
-                            "type": 0,
-                            "value": 0.5
-                        },
-                        {
-                            "name": "flySpeed",
-                            "type": 0,
-                            "value": 20.0
-                        },
-                        {
-                            "name": "chargeDuration",
-                            "type": 0,
-                            "value": 0.30000001192092896
-                        },
-                        {
-                            "name": "attackDuration",
-                            "type": 0,
-                            "value": 0.4000000059604645
-                        },
-                        {
-                            "name": "tiredMultiplier",
-                            "type": 0,
-                            "value": 0.699999988079071
                         },
                         {
                             "name": "usingStamina",
@@ -5779,14 +5689,104 @@
                             "value": false
                         },
                         {
-                            "name": "hpLossCost",
+                            "name": "staminaCost",
+                            "type": 0,
+                            "value": 80.0
+                        },
+                        {
+                            "name": "giveAresMask",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "attackDuration",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "bulletBarrel",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "sprintMultiplier",
+                            "type": 0,
+                            "value": 1.5
+                        },
+                        {
+                            "name": "hpRecover",
                             "type": 0,
                             "value": 30.0
                         },
                         {
-                            "name": "comboCooldown",
+                            "name": "flySpeed",
+                            "type": 0,
+                            "value": 20.0
+                        },
+                        {
+                            "name": "hermesWaterMax",
+                            "type": 0,
+                            "value": 2.0
+                        },
+                        {
+                            "name": "hitShakeMagnitude",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "knockbackForce",
+                            "type": 0,
+                            "value": 14.0
+                        },
+                        {
+                            "name": "speedHermesBonus",
+                            "type": 0,
+                            "value": 7.0
+                        },
+                        {
+                            "name": "stamina",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "berserkActive",
+                            "type": 2,
+                            "value": false
+                        },
+                        {
+                            "name": "attackCooldown",
+                            "type": 0,
+                            "value": 0.4000000059604645
+                        },
+                        {
+                            "name": "bulletScale",
                             "type": 0,
                             "value": 1.0
+                        },
+                        {
+                            "name": "heavyDuration",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "tiredMultiplier",
+                            "type": 0,
+                            "value": 0.699999988079071
+                        },
+                        {
+                            "name": "rollCooldownMax",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "rollDuration",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
+                            "name": "rollSpeed",
+                            "type": 0,
+                            "value": 15.0
                         }
                     ],
                     "scriptUID": 8002383071243665151,
@@ -6029,11 +6029,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "maxBerserk",
-                            "type": 0,
-                            "value": 0.0
-                        },
-                        {
                             "name": "berserkCount",
                             "type": 0,
                             "value": 2.0
@@ -6047,6 +6042,11 @@
                             "name": "maxPotions",
                             "type": 0,
                             "value": 0.0
+                        },
+                        {
+                            "name": "maxBerserk",
+                            "type": 0,
+                            "value": 0.0
                         }
                     ],
                     "scriptUID": 17781908272799701194,
@@ -6055,6 +6055,11 @@
                 {
                     "active": true,
                     "publicVariables": [
+                        {
+                            "name": "near",
+                            "type": 0,
+                            "value": 8.0
+                        },
                         {
                             "name": "offsetY",
                             "type": 0,
@@ -6066,19 +6071,14 @@
                             "value": 0.0
                         },
                         {
-                            "name": "saveCooldown",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "near",
-                            "type": 0,
-                            "value": 8.0
-                        },
-                        {
                             "name": "offsetZ",
                             "type": 0,
                             "value": 0.0
+                        },
+                        {
+                            "name": "saveCooldown",
+                            "type": 0,
+                            "value": 5.0
                         }
                     ],
                     "scriptUID": 5857344251750767850,
@@ -6186,7 +6186,7 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.4172661304473877,
+                    "aspectRatio": 1.0665467977523804,
                     "farPlane": 1000.0,
                     "fov": 60.0,
                     "nearPlane": 0.30000001192092896,
@@ -7544,19 +7544,19 @@
                             "active": true,
                             "publicVariables": [
                                 {
-                                    "name": "promptRadius",
-                                    "type": 0,
-                                    "value": 6.0
-                                },
-                                {
                                     "name": "action",
                                     "type": 1,
                                     "value": "Interact"
                                 },
                                 {
-                                    "name": "anchorName",
+                                    "name": "promptRadius",
+                                    "type": 0,
+                                    "value": 6.0
+                                },
+                                {
+                                    "name": "sequenceId",
                                     "type": 1,
-                                    "value": "InteractAnchor"
+                                    "value": ""
                                 },
                                 {
                                     "name": "updateWhenPaused",
@@ -7564,9 +7564,9 @@
                                     "value": true
                                 },
                                 {
-                                    "name": "sequenceId",
+                                    "name": "anchorName",
                                     "type": 1,
-                                    "value": ""
+                                    "value": "InteractAnchor"
                                 },
                                 {
                                     "name": "oneShot",
@@ -8222,14 +8222,14 @@
                             "value": false
                         },
                         {
-                            "name": "DropHermesMask",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
                             "name": "DropApoloMask",
                             "type": 2,
                             "value": false
+                        },
+                        {
+                            "name": "DropHermesMask",
+                            "type": 2,
+                            "value": true
                         }
                     ],
                     "scriptUID": 6059332998782319931,
@@ -12350,14 +12350,9 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "interactionRadius",
+                            "name": "statueBitValue",
                             "type": 0,
-                            "value": 8.0
-                        },
-                        {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
+                            "value": 1.0
                         },
                         {
                             "name": "statueId",
@@ -12365,9 +12360,14 @@
                             "value": "Circle"
                         },
                         {
-                            "name": "statueBitValue",
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
+                        },
+                        {
+                            "name": "interactionRadius",
                             "type": 0,
-                            "value": 1.0
+                            "value": 8.0
                         }
                     ],
                     "scriptUID": 17001734923150013476,
@@ -12570,21 +12570,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "nearY",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "nearZ",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dropChance",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
                             "name": "cleanUpTime",
                             "type": 0,
                             "value": 5.0
@@ -12600,19 +12585,29 @@
                             "value": 5.0
                         },
                         {
-                            "name": "brokenPrefabName",
-                            "type": 1,
-                            "value": "brokenvase2"
-                        },
-                        {
                             "name": "dropPrefabName",
                             "type": 1,
                             "value": "BerserkPotion"
                         },
                         {
-                            "name": "breakOnTouch",
-                            "type": 2,
-                            "value": false
+                            "name": "dropChance",
+                            "type": 0,
+                            "value": 100.0
+                        },
+                        {
+                            "name": "nearZ",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "nearY",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "brokenPrefabName",
+                            "type": 1,
+                            "value": "brokenvase2"
                         }
                     ],
                     "scriptUID": 13377007971056880363,
@@ -12781,21 +12776,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "nearY",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "nearZ",
-                            "type": 0,
-                            "value": 5.0
-                        },
-                        {
-                            "name": "dropChance",
-                            "type": 0,
-                            "value": 50.0
-                        },
-                        {
                             "name": "cleanUpTime",
                             "type": 0,
                             "value": 5.0
@@ -12811,19 +12791,29 @@
                             "value": 5.0
                         },
                         {
-                            "name": "brokenPrefabName",
-                            "type": 1,
-                            "value": "brokenVase1"
-                        },
-                        {
                             "name": "dropPrefabName",
                             "type": 1,
                             "value": "HealingPotion"
                         },
                         {
-                            "name": "breakOnTouch",
-                            "type": 2,
-                            "value": false
+                            "name": "dropChance",
+                            "type": 0,
+                            "value": 50.0
+                        },
+                        {
+                            "name": "nearZ",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "nearY",
+                            "type": 0,
+                            "value": 5.0
+                        },
+                        {
+                            "name": "brokenPrefabName",
+                            "type": 1,
+                            "value": "brokenVase1"
                         }
                     ],
                     "scriptUID": 13377007971056880363,
@@ -13582,9 +13572,9 @@
                             "value": "hPotion_InteractPrompt"
                         },
                         {
-                            "name": "itemText",
+                            "name": "meshName",
                             "type": 1,
-                            "value": "¡Poción obtenida!"
+                            "value": "hPotion_Animated"
                         },
                         {
                             "name": "actionText",
@@ -13592,14 +13582,14 @@
                             "value": "Obtener Poción"
                         },
                         {
-                            "name": "meshName",
-                            "type": 1,
-                            "value": "hPotion_Animated"
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "itemText",
+                            "type": 1,
+                            "value": "¡Poción obtenida!"
                         },
                         {
                             "name": "potionType",
@@ -13626,19 +13616,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "action",
                             "type": 1,
                             "value": "Interact"
                         },
                         {
-                            "name": "anchorName",
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "sequenceId",
                             "type": 1,
-                            "value": "hPotion_InteractPrompt"
+                            "value": ""
                         },
                         {
                             "name": "updateWhenPaused",
@@ -13646,9 +13636,9 @@
                             "value": true
                         },
                         {
-                            "name": "sequenceId",
+                            "name": "anchorName",
                             "type": 1,
-                            "value": ""
+                            "value": "hPotion_InteractPrompt"
                         },
                         {
                             "name": "oneShot",
@@ -14325,9 +14315,9 @@
                             "value": "bPotion_InteractPrompt"
                         },
                         {
-                            "name": "itemText",
+                            "name": "meshName",
                             "type": 1,
-                            "value": "¡Poción obtenida!"
+                            "value": "bPotionAnimated"
                         },
                         {
                             "name": "actionText",
@@ -14335,14 +14325,14 @@
                             "value": "Obtener Poción"
                         },
                         {
-                            "name": "meshName",
-                            "type": 1,
-                            "value": "bPotionAnimated"
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
+                        },
+                        {
+                            "name": "itemText",
+                            "type": 1,
+                            "value": "¡Poción obtenida!"
                         },
                         {
                             "name": "potionType",
@@ -14381,19 +14371,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "action",
                             "type": 1,
                             "value": "Interact"
                         },
                         {
-                            "name": "anchorName",
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "sequenceId",
                             "type": 1,
-                            "value": "bPotion_InteractPrompt"
+                            "value": ""
                         },
                         {
                             "name": "updateWhenPaused",
@@ -14401,9 +14391,9 @@
                             "value": true
                         },
                         {
-                            "name": "sequenceId",
+                            "name": "anchorName",
                             "type": 1,
-                            "value": ""
+                            "value": "bPotion_InteractPrompt"
                         },
                         {
                             "name": "oneShot",
@@ -14779,11 +14769,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "fullVolume",
-                            "type": 0,
-                            "value": 100.0
-                        },
-                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
@@ -14797,6 +14782,11 @@
                             "name": "currentScene",
                             "type": 5,
                             "value": "Level1.scene"
+                        },
+                        {
+                            "name": "fullVolume",
+                            "type": 0,
+                            "value": 100.0
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -15396,19 +15386,19 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "promptRadius",
-                            "type": 0,
-                            "value": 6.0
-                        },
-                        {
                             "name": "action",
                             "type": 1,
                             "value": "Interact"
                         },
                         {
-                            "name": "anchorName",
+                            "name": "promptRadius",
+                            "type": 0,
+                            "value": 6.0
+                        },
+                        {
+                            "name": "sequenceId",
                             "type": 1,
-                            "value": "InteractAnchor"
+                            "value": ""
                         },
                         {
                             "name": "updateWhenPaused",
@@ -15416,9 +15406,9 @@
                             "value": true
                         },
                         {
-                            "name": "sequenceId",
+                            "name": "anchorName",
                             "type": 1,
-                            "value": ""
+                            "value": "InteractAnchor"
                         },
                         {
                             "name": "oneShot",
@@ -15439,6 +15429,523 @@
             "prefabInstance": 1304937945993579770,
             "tag": "CheckPoint",
             "uid": 12996620724717207870
+        },
+        {
+            "active": true,
+            "children": [
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.33422017097473145,
+                                        -0.06785601377487183,
+                                        -0.2813282310962677
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "castShadows": true,
+                                    "meshUID": 3302466758448381503,
+                                    "pivotOffset": [
+                                        -0.9404382705688477,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "silhouetteColor": [
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        1.0
+                                    ],
+                                    "silhouetteEnabled": false,
+                                    "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "materialUID": 2769884197530121142,
+                                    "overrideTiling": false,
+                                    "type": 3
+                                }
+                            ],
+                            "name": "Vela_Low",
+                            "tag": "",
+                            "uid": 15941566640314684806
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.11702652275562286,
+                                        0.8849918246269226,
+                                        -9.900331497192383e-05
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "activationRadius": 15.0,
+                                    "active": true,
+                                    "additive": true,
+                                    "alignToVelocity": false,
+                                    "animLoop": true,
+                                    "animSpeed": 0.550000011920929,
+                                    "bursts": [],
+                                    "circleRadius": 1.0,
+                                    "colorEnd": [
+                                        0.43921568989753723,
+                                        0.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "colorGradient": [
+                                        {
+                                            "color": [
+                                                0.0,
+                                                0.7372549176216125,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "time": 0.24899999797344208
+                                        },
+                                        {
+                                            "color": [
+                                                0.18039216101169586,
+                                                1.0,
+                                                0.8313725590705872,
+                                                0.6000000238418579
+                                            ],
+                                            "time": 0.5
+                                        },
+                                        {
+                                            "color": [
+                                                0.0,
+                                                0.0313725508749485,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "time": 1.0
+                                        }
+                                    ],
+                                    "colorStart": [
+                                        0.0,
+                                        0.7960784435272217,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "coneAngle": 0.0,
+                                    "coneRadius": 0.0010000000474974513,
+                                    "duration": 5.0,
+                                    "emissionArea": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "emissionRadius": 1.0,
+                                    "emissionRate": 0.8999999761581421,
+                                    "emissionRateDist": 2.9000000953674316,
+                                    "emitFromShell": false,
+                                    "gravity": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "initRotMax": 0.0,
+                                    "initRotMin": 0.0,
+                                    "lifetimeMax": 5.0,
+                                    "lifetimeMin": 5.0,
+                                    "looping": true,
+                                    "luminance": false,
+                                    "maxParticles": 2,
+                                    "noiseActive": false,
+                                    "noiseFreq": 0.5,
+                                    "noiseStrength": 1.0,
+                                    "oneShot": false,
+                                    "oneShotCount": 30,
+                                    "prewarm": true,
+                                    "proximityActivation": false,
+                                    "proximityTarget": "Player",
+                                    "rotSpeedMax": 0.0,
+                                    "rotSpeedMin": 0.0,
+                                    "shape": 2,
+                                    "simulationSpace": 0,
+                                    "sizeCurve": [],
+                                    "sizeEnd": 1.0,
+                                    "sizeStart": 1.0,
+                                    "speedMax": 0.0,
+                                    "speedMin": 0.0,
+                                    "textureCols": 9,
+                                    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
+                                    "textureRows": 1,
+                                    "textureUID": 16317242200390614680,
+                                    "type": 7
+                                }
+                            ],
+                            "name": "Flame",
+                            "tag": "",
+                            "uid": 8477992813137383279
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.44776099920272827,
+                                -0.033072009682655334,
+                                0.6669319272041321
+                            ],
+                            "rotation": [
+                                180.0,
+                                11.79313850402832,
+                                180.0
+                            ],
+                            "scale": [
+                                0.8136000037193298,
+                                0.8136000037193298,
+                                0.8136000037193298
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "Waxy_VelaPeke",
+                    "tag": "",
+                    "uid": 4468099964531386068
+                },
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        3.0949277877807617,
+                                        -0.22675080597400665,
+                                        -0.04790085554122925
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "castShadows": true,
+                                    "meshUID": 10346321220698012856,
+                                    "silhouetteColor": [
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        1.0
+                                    ],
+                                    "silhouetteEnabled": false,
+                                    "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "materialUID": 12076029417936252335,
+                                    "overrideTiling": false,
+                                    "type": 3
+                                }
+                            ],
+                            "name": "bichito_low",
+                            "tag": "",
+                            "uid": 6743367770635794394
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "Waxy_Bicho",
+                    "tag": "",
+                    "uid": 9724785518823001401
+                },
+                {
+                    "active": true,
+                    "children": [
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.33422017097473145,
+                                        -0.06785601377487183,
+                                        -0.2813282310962677
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "active": true,
+                                    "castShadows": true,
+                                    "meshUID": 3302466758448381503,
+                                    "pivotOffset": [
+                                        -0.9404382705688477,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "silhouetteColor": [
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        0.5686274766921997,
+                                        1.0
+                                    ],
+                                    "silhouetteEnabled": false,
+                                    "type": 1
+                                },
+                                {
+                                    "active": true,
+                                    "materialUID": 2769884197530121142,
+                                    "overrideTiling": false,
+                                    "type": 3
+                                }
+                            ],
+                            "name": "Vela_Low",
+                            "tag": "",
+                            "uid": 6706490909395568117
+                        },
+                        {
+                            "active": true,
+                            "children": [],
+                            "components": [
+                                {
+                                    "active": true,
+                                    "position": [
+                                        0.11702652275562286,
+                                        0.8849918246269226,
+                                        -9.900331497192383e-05
+                                    ],
+                                    "rotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "scale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "type": 0
+                                },
+                                {
+                                    "activationRadius": 15.0,
+                                    "active": true,
+                                    "additive": true,
+                                    "alignToVelocity": false,
+                                    "animLoop": true,
+                                    "animSpeed": 0.550000011920929,
+                                    "bursts": [],
+                                    "circleRadius": 1.0,
+                                    "colorEnd": [
+                                        0.43921568989753723,
+                                        0.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "colorGradient": [
+                                        {
+                                            "color": [
+                                                0.0,
+                                                0.7372549176216125,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "time": 0.24899999797344208
+                                        },
+                                        {
+                                            "color": [
+                                                0.18039216101169586,
+                                                1.0,
+                                                0.8313725590705872,
+                                                0.6000000238418579
+                                            ],
+                                            "time": 0.5
+                                        },
+                                        {
+                                            "color": [
+                                                0.0,
+                                                0.0313725508749485,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "time": 1.0
+                                        }
+                                    ],
+                                    "colorStart": [
+                                        0.0,
+                                        0.7960784435272217,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "coneAngle": 0.0,
+                                    "coneRadius": 0.0010000000474974513,
+                                    "duration": 5.0,
+                                    "emissionArea": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "emissionRadius": 1.0,
+                                    "emissionRate": 0.8999999761581421,
+                                    "emissionRateDist": 2.9000000953674316,
+                                    "emitFromShell": false,
+                                    "gravity": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "initRotMax": 0.0,
+                                    "initRotMin": 0.0,
+                                    "lifetimeMax": 5.0,
+                                    "lifetimeMin": 5.0,
+                                    "looping": true,
+                                    "luminance": false,
+                                    "maxParticles": 2,
+                                    "noiseActive": false,
+                                    "noiseFreq": 0.5,
+                                    "noiseStrength": 1.0,
+                                    "oneShot": false,
+                                    "oneShotCount": 30,
+                                    "prewarm": true,
+                                    "proximityActivation": false,
+                                    "proximityTarget": "Player",
+                                    "rotSpeedMax": 0.0,
+                                    "rotSpeedMin": 0.0,
+                                    "shape": 2,
+                                    "simulationSpace": 0,
+                                    "sizeCurve": [],
+                                    "sizeEnd": 1.0,
+                                    "sizeStart": 1.0,
+                                    "speedMax": 0.0,
+                                    "speedMin": 0.0,
+                                    "textureCols": 9,
+                                    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
+                                    "textureRows": 1,
+                                    "textureUID": 16317242200390614680,
+                                    "type": 7
+                                }
+                            ],
+                            "name": "Flame",
+                            "tag": "",
+                            "uid": 549453614937279689
+                        }
+                    ],
+                    "components": [
+                        {
+                            "active": true,
+                            "position": [
+                                -0.8641547560691833,
+                                -0.060112617909908295,
+                                0.14657942950725555
+                            ],
+                            "rotation": [
+                                0.0,
+                                -66.44618225097656,
+                                0.0
+                            ],
+                            "scale": [
+                                1.1299999952316284,
+                                1.1299999952316284,
+                                1.1299999952316284
+                            ],
+                            "type": 0
+                        }
+                    ],
+                    "name": "Waxy_Vela_copy",
+                    "tag": "",
+                    "uid": 11427768893469661221
+                }
+            ],
+            "components": [
+                {
+                    "active": true,
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        2.3399999141693115,
+                        2.3399999141693115,
+                        2.3399999141693115
+                    ],
+                    "type": 0
+                }
+            ],
+            "name": "Waxy_Full",
+            "tag": "",
+            "uid": 10849614760299633578
         }
     ],
     "version": 1

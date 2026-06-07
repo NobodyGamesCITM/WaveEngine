@@ -75,6 +75,9 @@ local heavyAttackMoveSpeed = 7.0
 local iFramesTimer    = 0.0
 local IFRAME_DURATION = 1.0
 
+local tiredPSCooldown = 0.0
+local TIRED_PS_COOLDOWN = 0.5
+
 -- MASKS
 local Mask = {
     NONE   = "NoMask",
@@ -119,6 +122,7 @@ local Player = {
 	apoloAttackPs         = nil,
 	trailPs         = nil,
     ghostsPs        = nil,
+    tiredPS = nil,
     aresLight         = nil,
 	apoloLight         = nil,
 	hermesLight         = nil,
@@ -362,8 +366,23 @@ local function GetMovementInput(self)
     return inputX * INPUT_SCALE, -inputZ * INPUT_SCALE, inputLen * INPUT_SCALE
 end
 
+local function PlayTiredPS()
+    if tiredPSCooldown > 0 then return end
+    if Player.tiredPS then
+        Player.tiredPS:Play()
+        tiredPSCooldown = TIRED_PS_COOLDOWN
+    end
+    _G.TriggerCameraShake(0.2, 0.5, 5.0)
+end
+
 local function GetAttackInput(self)
-    if attackCooldown > 0 and attackBuffer == false then return 0 end
+    if attackCooldown > 0 and attackBuffer == false then
+        if attackCooldown > self.public.attackCooldown then
+            if Input.GetKeyDown("E") or Input.GetGamepadButtonDown("X") then PlayTiredPS() end
+            if Input.GetKeyDown("Q") or Input.GetGamepadButtonDown("Y") then PlayTiredPS() end
+        end
+        return 0
+    end
     if Input.GetKeyDown("E") or Input.GetGamepadButtonDown("X") then return 1 end
     if Input.GetKeyDown("Q") or Input.GetGamepadButtonDown("Y") then return 2 end
     return 0
@@ -716,23 +735,31 @@ States[State.IDLE] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.ARES then
-                ChangeState(self, State.CHARGING)
-                return
-            end
-            if Player.currentMask == Mask.APOLLO then
-                ChangeState(self, State.SHOOTING)
-                return
-            end
-            if Player.currentMask == Mask.HERMES then
-                ChangeState(self, State.ATTACK_HEAVY)
-                return
+        if GetAttackInput(self) == 2 then
+            if self.public.stamina >= self.public.heavyStaminaCost then
+                if Player.currentMask == Mask.ARES then
+                    ChangeState(self, State.CHARGING)
+                    return
+                end
+                if Player.currentMask == Mask.APOLLO then
+                    ChangeState(self, State.SHOOTING)
+                    return
+                end
+                if Player.currentMask == Mask.HERMES then
+                    ChangeState(self, State.ATTACK_HEAVY)
+                    return
+                end
+            else
+                PlayTiredPS()
             end
         end
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
-            ChangeState(self, State.ROLL)
-            return
+        if Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B") then
+            if self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
+                ChangeState(self, State.ROLL)
+                return
+            elseif self.public.stamina < self.public.rollStaminaCost then
+                PlayTiredPS()
+            end
         end
     end
 }
@@ -785,25 +812,32 @@ States[State.WALK] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.ARES then
-                ChangeState(self, State.CHARGING)
-                return
-            end
-            if Player.currentMask == Mask.APOLLO then
-                ChangeState(self, State.SHOOTING)
-                return
-            end
-            if Player.currentMask == Mask.HERMES then
-                ChangeState(self, State.ATTACK_HEAVY)
-                return
+        if GetAttackInput(self) == 2 then
+            if self.public.stamina >= self.public.heavyStaminaCost then
+                if Player.currentMask == Mask.ARES then
+                    ChangeState(self, State.CHARGING)
+                    return
+                end
+                if Player.currentMask == Mask.APOLLO then
+                    ChangeState(self, State.SHOOTING)
+                    return
+                end
+                if Player.currentMask == Mask.HERMES then
+                    ChangeState(self, State.ATTACK_HEAVY)
+                    return
+                end
+            else
+                PlayTiredPS()
             end
         end
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
-            ChangeState(self, State.ROLL)
-            return
+        if Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B") then
+            if self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
+                ChangeState(self, State.ROLL)
+                return
+            elseif self.public.stamina < self.public.rollStaminaCost then
+                PlayTiredPS()
+            end
         end
-
         
         if Player.stepSFX then
             stepTimer = stepTimer + dt
@@ -929,23 +963,31 @@ States[State.RUNNING] = {
             ChangeState(self, State.ATTACK_LIGHT)
             return
         end
-        if GetAttackInput(self) == 2 and self.public.stamina >= self.public.heavyStaminaCost then
-            if Player.currentMask == Mask.ARES then
-                ChangeState(self, State.CHARGING)
-                return
-            end
-            if Player.currentMask == Mask.APOLLO then
-                ChangeState(self, State.SHOOTING)
-                return
-            end
-            if Player.currentMask == Mask.HERMES then
-                ChangeState(self, State.ATTACK_HEAVY)
-                return
+        if GetAttackInput(self) == 2 then
+            if self.public.stamina >= self.public.heavyStaminaCost then
+                if Player.currentMask == Mask.ARES then
+                    ChangeState(self, State.CHARGING)
+                    return
+                end
+                if Player.currentMask == Mask.APOLLO then
+                    ChangeState(self, State.SHOOTING)
+                    return
+                end
+                if Player.currentMask == Mask.HERMES then
+                    ChangeState(self, State.ATTACK_HEAVY)
+                    return
+                end
+            else
+                PlayTiredPS()
             end
         end
-        if (Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B")) and self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
-            ChangeState(self, State.ROLL)
-            return
+        if Input.GetKeyDown("LeftCtrl") or Input.GetGamepadButtonDown("B") then
+            if self.public.stamina >= self.public.rollStaminaCost and rollCooldown <= 0 then
+                ChangeState(self, State.ROLL)
+                return
+            elseif self.public.stamina < self.public.rollStaminaCost then
+                PlayTiredPS()
+            end
         end
 
         if Player.currentMask == Mask.HERMES and Player.isDrowning and not Player.inPuzzleArea then
@@ -1616,6 +1658,12 @@ function Start(self)
     if Player.ghostsPs then Player.ghostsPs:Stop() end
 
 
+    local tiredObj = GameObject.FindInChildren(self.gameObject, "TiredPS")
+    if tiredObj then
+        Player.tiredPS = tiredObj:GetComponent("ParticleSystem")
+        if Player.tiredPS then Player.tiredPS:Stop() end
+    end
+
     _G.SetPlayerCanMove = function(value)
         self.public.canMove = value
     end
@@ -1826,6 +1874,10 @@ function Update(self, dt)
     end
     if rollCooldown > 0 then
         rollCooldown = rollCooldown - dt
+    end
+    if tiredPSCooldown > 0 then
+        tiredPSCooldown = tiredPSCooldown - dt
+        if tiredPSCooldown < 0 then tiredPSCooldown = 0 end
     end
 
     if _G._PlayerController_introAnim then

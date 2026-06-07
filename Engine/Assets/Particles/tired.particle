@@ -1,0 +1,97 @@
+{
+    "activationRadius": 15.0,
+    "active": true,
+    "additive": false,
+    "alignToVelocity": true,
+    "animLoop": false,
+    "animSpeed": 1.0,
+    "bursts": [],
+    "circleRadius": 1.0,
+    "colorEnd": [
+        0.6666666865348816,
+        0.6666666865348816,
+        0.6666666865348816,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.21078431606292725,
+                0.8839389681816101,
+                1.0,
+                0.0
+            ],
+            "time": 0.10700000077486038
+        },
+        {
+            "color": [
+                0.13725490868091583,
+                0.6784313917160034,
+                0.843137264251709,
+                1.0
+            ],
+            "time": 0.5
+        },
+        {
+            "color": [
+                0.6705882549285889,
+                0.9058823585510254,
+                0.8980392217636108,
+                0.0
+            ],
+            "time": 0.7900000214576721
+        }
+    ],
+    "colorStart": [
+        0.1363898366689682,
+        0.6768437623977661,
+        0.843137264251709,
+        1.0
+    ],
+    "coneAngle": 60.0,
+    "coneRadius": 0.800000011920929,
+    "duration": 5.0,
+    "emissionArea": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 9.199999809265137,
+    "emissionRateDist": 0.0,
+    "emitFromShell": true,
+    "gravity": [
+        0.0,
+        -1.899999976158142,
+        0.0
+    ],
+    "initRotMax": 180.0,
+    "initRotMin": 180.0,
+    "lifetimeMax": 1.5,
+    "lifetimeMin": 0.10000000149011612,
+    "looping": false,
+    "luminance": false,
+    "maxParticles": 11,
+    "noiseActive": true,
+    "noiseFreq": 0.5799999833106995,
+    "noiseStrength": 0.20000000298023224,
+    "oneShot": true,
+    "oneShotCount": 30,
+    "prewarm": false,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 55.0,
+    "rotSpeedMin": 39.0,
+    "shape": 2,
+    "simulationSpace": 0,
+    "sizeCurve": [],
+    "sizeEnd": 0.20000000298023224,
+    "sizeStart": 0.800000011920929,
+    "speedMax": 2.0999999046325684,
+    "speedMin": 1.0,
+    "textureCols": 1,
+    "texturePath": "C:\\Users\\israp\\OneDrive\\Documentos\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Blood_Hard_02.PNG",
+    "textureRows": 1,
+    "textureUID": 9349459316526766944,
+    "type": 7
+}

@@ -1589,7 +1589,7 @@
 										<Action Name="" ID="{504CB662-3DFC-4568-8A44-0F32A18DC052}" ShortID="12682058">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="WelcomeRoar" ID="{6A452E47-F350-4BD6-95DD-053C4CA7162F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="demon-beast-howling-2" ID="{0D9853DA-EE9D-460B-BB2F-E8CBA4568725}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>

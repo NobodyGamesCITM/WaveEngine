@@ -16,6 +16,7 @@ local winBossCinematic = false
 local enterPortalCinematic = false
 local exitPortalCinematic = false
 local wakeUpCinematic = false
+local bossIntroCinematic = false
 local playedEpicBGM = false
 local playedSwordPrep = false
 local playedUnsheathe = false
@@ -2097,12 +2098,33 @@ function Update(self, dt)
 
         if _G._BossIntroCinematic then
             if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
+
+            --bossIntroCinematic = true
+
+            if Player.AnimTimer <= 27.8 and Player.AnimTimer >= 24.7 and not Audio.IsEventPlaying("SFX_TurnaroundRiser") then
+                if Player.heartSFX then Player.heartSFX:SelectPlayAudioEvent("SFX_TurnaroundRiser") end
+            end
+
+            if Player.AnimTimer <= 11.7 and Player.AnimTimer >= 11.5 and not Audio.IsEventPlaying("SFX_PlayerAttack") then
+
+                if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack") end
+            end
+
+            --FOR SOME FUCKING REASON AQUILES WON'T PLAY THAT ONE
+            if Player.AnimTimer <= 9.0 and Player.AnimTimer >= 8.9 and not Player.voiceSFX:IsPlaying("SFX_IntroRoar") then
+                if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_IntroRoar") end
+            end
             
-            if player.AnimTimer <= 0 then 
+            --Engine.Log("Player Anim Timer = "..tostring(Player.AnimTimer))
+            if Player.AnimTimer <= 4 then 
+                Engine.Log("Switching music state to Boss")
                 Audio.SetMusicState("Boss")
                 _G.BossIntroCinematic = false
+                Player.AnimTimer = 0
             end
         end
+
+        
         
         if wakeUpCinematic then
             

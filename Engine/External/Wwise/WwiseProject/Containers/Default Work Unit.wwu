@@ -1880,7 +1880,7 @@
 							<ChildrenList>
 								<MusicSegment Name="SonOfIthaca_Boss_Intro" ID="{DFA73F43-1BEA-4868-ABDF-2B5DED7733E4}" ShortID="376445262">
 									<PropertyList>
-										<Property Name="EndPosition" Type="Real64" Value="16181.4965986395"/>
+										<Property Name="EndPosition" Type="Real64" Value="16796.2616985881"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1891,14 +1891,14 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<MusicTrack Name="SonOfIthaca_Boss_Intro" ID="{31CF1515-DB71-444C-9EBD-F3246B675A9C}" ShortID="1047283789">
+										<MusicTrack Name="SonOfIthaca_Boss_Intro_Loop" ID="{86FEE7A4-E65C-4BBD-945B-8A9404BDB486}" ShortID="334842831">
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 												</Reference>
 												<Reference Name="TransitionRoot">
 													<Custom>
-														<MusicTransition Name="Root" ID="{7719B8DF-E2CA-4755-814F-E3B8159F1D01}">
+														<MusicTransition Name="Root" ID="{859ABFFB-B44A-4AF8-BDD0-E56B477D1E75}">
 															<PropertyList>
 																<Property Name="IsFolder" Type="bool" Value="True"/>
 															</PropertyList>
@@ -1908,26 +1908,26 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="SonOfIthaca_Boss_Intro" ID="{2FDEA298-5AB5-4254-BF18-D9A901161790}">
+												<AudioFileSource Name="SonOfIthaca_Boss_Intro_Loop" ID="{6083A363-3A20-43BE-AD96-17F7EF8F1D3C}">
 													<Language>SFX</Language>
-													<AudioFile>SonOfIthaca_Boss_Intro.wav</AudioFile>
+													<AudioFile>SonOfIthaca_Boss_Intro_Loop.wav</AudioFile>
 													<MediaIDList>
-														<MediaID ID="179764612"/>
+														<MediaID ID="465533851"/>
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ObjectLists>
 												<ObjectList Name="Sequences">
-													<MusicTrackSequence Name="" ID="{8932FA39-B823-4C37-B40E-C6F1DE7352DF}">
+													<MusicTrackSequence Name="" ID="{68F7B803-2C76-4667-8DF5-BE21BA1F715F}">
 														<ObjectLists>
 															<ObjectList Name="Clips">
-																<MusicClip Name="SonOfIthaca_Boss_Intro" ID="{35A3D76D-EC87-4721-95CD-12F7A991BE17}">
+																<MusicClip Name="SonOfIthaca_Boss_Intro_Loop" ID="{A092CD46-2550-472C-81E1-276126C89902}">
 																	<PropertyList>
-																		<Property Name="EndTrimOffset" Type="Real64" Value="16181.4965986395"/>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="16004.9206349206"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																	</PropertyList>
-																	<AudioSourceRef Name="SonOfIthaca_Boss_Intro" ID="{2FDEA298-5AB5-4254-BF18-D9A901161790}"/>
+																	<AudioSourceRef Name="SonOfIthaca_Boss_Intro_Loop" ID="{6083A363-3A20-43BE-AD96-17F7EF8F1D3C}"/>
 																</MusicClip>
 															</ObjectList>
 														</ObjectLists>
@@ -1942,7 +1942,7 @@
 											<MusicCue Name="Exit Cue" ID="{3CF8C93F-3527-411A-9605-00D69FDB36EC}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="16181.4965986395"/>
+													<Property Name="TimeMs" Type="Real64" Value="16000"/>
 												</PropertyList>
 											</MusicCue>
 										</ObjectList>
@@ -12614,19 +12614,24 @@
 								<Folder Name="FirstEncounterCinematic" ID="{21388A87-7C5C-46DC-B838-69294EFAD81C}" ShortID="1066623708">
 									<ChildrenList>
 										<RandomSequenceContainer Name="WelcomeRoar" ID="{6A452E47-F350-4BD6-95DD-053C4CA7162F}" ShortID="891427272">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="demon-beast-howling-2" ID="{0D9853DA-EE9D-460B-BB2F-E8CBA4568725}" ShortID="853659242">
 													<PropertyList>
 														<Property Name="3DSpatialization" Type="int16" Value="2"/>
+														<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
 														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="OverridePositioning" Type="bool" Value="True"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Attenuation">
@@ -12650,23 +12655,22 @@
 													</ChildrenList>
 													<ObjectLists>
 														<ObjectList Name="Effects">
-															<EffectSlot Name="" ID="{70ECAC96-2007-40EF-90BE-5E16C31B1FD7}" ShortID="475044602">
+															<EffectSlot Name="" ID="{FF6A9891-83B7-47F7-918A-0946AB0E4696}" ShortID="395362399">
 																<PropertyList>
 																	<Property Name="Render" Type="bool" Value="True"/>
 																</PropertyList>
 																<ReferenceList>
 																	<Reference Name="Effect">
 																		<Custom>
-																			<Effect Name="Delay (Custom)" ID="{B52B2E19-9530-42D8-85B0-F2C9908CF26C}" ShortID="964679005" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
+																			<Effect Name="Delay (Custom)" ID="{80CFF97E-0BF1-441F-9357-90BE3EEC3007}" ShortID="845491832" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
 																				<PropertyList>
-																					<Property Name="DelayTime" Type="Real32" Value="0.8"/>
-																					<Property Name="Feedback" Type="Real32" Value="60"/>
-																					<Property Name="OutputLevel" Type="Real32" Value="-6.7"/>
-																					<Property Name="WetDryMix" Type="Real32" Value="0"/>
+																					<Property Name="DelayTime" Type="Real32" Value="0.59"/>
+																					<Property Name="Feedback" Type="Real32" Value="44"/>
+																					<Property Name="WetDryMix" Type="Real32" Value="56.5"/>
 																				</PropertyList>
 																				<ObjectLists>
 																					<ObjectList Name="RTPC">
-																						<RTPC Name="" ID="{A743CB3D-C1D3-485D-A225-E4E290566128}" ShortID="169118632">
+																						<RTPC Name="" ID="{2E5C5C40-3781-4E2D-9C65-565359AC2D72}" ShortID="585260723">
 																							<PropertyList>
 																								<Property Name="PropertyName" Type="string" Value="WetDryMix"/>
 																							</PropertyList>
@@ -12676,35 +12680,26 @@
 																								</Reference>
 																								<Reference Name="Curve">
 																									<Custom>
-																										<Curve Name="" ID="{7BD7D14C-D6C9-4D12-B33C-187D41A30EA5}">
+																										<Curve Name="" ID="{1AA38DB8-A097-4B96-87F5-EBDA00BDACC5}">
 																											<PropertyList>
 																												<Property Name="Flags" Type="int32" Value="1"/>
 																											</PropertyList>
 																											<PointList>
 																												<Point>
 																													<XPos>0</XPos>
-																													<YPos>0.82988</YPos>
+																													<YPos>-75.57252</YPos>
 																													<Flags>5</Flags>
+																													<SegmentShape>Exp3</SegmentShape>
 																												</Point>
 																												<Point>
-																													<XPos>2.46596</XPos>
-																													<YPos>0.20817</YPos>
-																													<Flags>0</Flags>
-																												</Point>
-																												<Point>
-																													<XPos>3.04085</XPos>
-																													<YPos>75.4716</YPos>
-																													<Flags>0</Flags>
-																												</Point>
-																												<Point>
-																													<XPos>5.47655</XPos>
-																													<YPos>75.49187</YPos>
+																													<XPos>1.88197</XPos>
+																													<YPos>-56.32418</YPos>
 																													<Flags>0</Flags>
 																													<SegmentShape>Log3</SegmentShape>
 																												</Point>
 																												<Point>
 																													<XPos>10</XPos>
-																													<YPos>0.82988</YPos>
+																													<YPos>100</YPos>
 																													<Flags>37</Flags>
 																												</Point>
 																											</PointList>
@@ -13064,6 +13059,40 @@
 															</Reference>
 														</ReferenceList>
 													</EffectSlot>
+												</ObjectList>
+												<ObjectList Name="RTPC">
+													<RTPC Name="" ID="{D82F20A6-BEBF-4CCB-AAC4-8478E569563A}" ShortID="484516990">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HeartBeat_Time" ID="{B6488091-907D-42F3-8C55-2133769B35CB}" WorkUnitID="{609764ED-C751-4750-9930-A50852E9BFCD}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{EE3BDCC1-B8E7-459D-B716-1E0E68DA2229}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																				<SegmentShape>Log2</SegmentShape>
+																			</Point>
+																			<Point>
+																				<XPos>19</XPos>
+																				<YPos>5.95249</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
 												</ObjectList>
 											</ObjectLists>
 											<ActiveSourceList>

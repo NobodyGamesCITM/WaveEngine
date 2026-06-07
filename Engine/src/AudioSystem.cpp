@@ -31,6 +31,7 @@
 #include <AK/Plugin/AkTimeStretchFXFactory.h>
 #include <AK/Plugin/AkMatrixReverbFXFactory.h>
 #include <AK/Plugin/AkTremoloFXFactory.h>
+#include <AK/Plugin/AkDelayFXFactory.h>
 #include <windows.h>
 
 AudioEvent::AudioEvent() {

@@ -36,12 +36,12 @@ local function BreakObject(self)
         local rand = math.random(0,100)
 
         if rand <= self.public.dropChance then 
-            Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", dropping item...")
+            --Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", dropping item...")
             if dropPrefabPath then
                 dropPrefab = Prefab.Instantiate(dropPrefabPath)
             end
         else
-            Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", no drop")
+            --Engine.Log("[BreakObject] Random num was "..tostring(rand).." out of "..tostring(self.public.dropChance)..", no drop")
         end
 
         if audioSource then audioSource:PlayAudioEvent() end

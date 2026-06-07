@@ -731,6 +731,7 @@ local function UpdateIdle(self, dist)
                     end
                 else
                     ChangeState(State.COMBAT_MOVE)
+                    if Audio.GetMusicState() ~= "Boss" then Audio.SetMusicState("Boss") end
                 end
             end
         else
@@ -1690,6 +1691,32 @@ function Update(self, dt)
                 _G.PlayerInstance.rb:SetRotation(-180, 0, -180)
             end
         end
+
+        Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
+
+        if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
+            SelectPlaySFX(spearSFX, "SFX_SpearGrab") 
+            
+        end
+
+        if introCinematicTimer <= 25.58 and introCinematicTimer >= 25.4 and not Audio.IsEventPlaying("SFX_SpearPull") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPull")
+        end
+
+        --displaced
+        if introCinematicTimer <= 19.7 and introCinematicTimer >= 19.5 and not Audio.IsEventPlaying("SFX_SpearPlunge") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
+        end
+
+        if introCinematicTimer <= 7.4 and introCinematicTimer >= 7.3 and not Audio.IsEventPlaying("SFX_SpearPrep") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPrep")
+            Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
+        end
+
+        -- if introCinematicTimer <= 7.0 and introCinematicTimer >= 6.9 then
+        --     SelectPlaySFX(stepSFX, "SFX_IntroRoar")
+        --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
+        -- end
 
         StopMovement()
         if introCinematicTimer <= 0 then

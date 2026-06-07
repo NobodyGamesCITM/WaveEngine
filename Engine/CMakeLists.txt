@@ -459,6 +459,8 @@ target_link_libraries(Engine PRIVATE
     "${WWISE_LIB_DIR}/AkTimeStretchFX.lib"
     "${WWISE_LIB_DIR}/AkMatrixReverbFX.lib"
     "${WWISE_LIB_DIR}/AkTremoloFX.lib"
+    "${WWISE_LIB_DIR}/AkDelayFX.lib"
+
     ws2_32.lib 
     mswsock.lib 
     dinput8.lib 
@@ -616,6 +618,7 @@ target_link_libraries(SonOfIthaca PRIVATE
     "${WWISE_LIB_DIR}/AkTimeStretchFX.lib"
     "${WWISE_LIB_DIR}/AkMatrixReverbFX.lib"
     "${WWISE_LIB_DIR}/AkTremoloFX.lib"
+    "${WWISE_LIB_DIR}/AkDelayFX.lib"
     ws2_32.lib 
     mswsock.lib 
     dinput8.lib 

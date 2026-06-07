@@ -64,7 +64,7 @@ function Start(self)
 
     if self.public.currentLevel == "Level2" then
         if not _G.LoadedFromSave then
-            -- FIX: bloquejem la loading screen fins que la cinemàtica de portal estigui llesta
+            
             _G.PortalCinematicReady = false
             portalExitTimer = 8.0
             if _G.PlayerInstance then 

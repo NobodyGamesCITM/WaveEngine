@@ -39,6 +39,7 @@ local fireTransitionTimer = 0.0
 local fireTransitionDuration = 1.0
 
 local pendingBlueMat = false
+local pendingBrokenChains = false
 local blueMatTimer = 0.0
 
 local initGradient = {
@@ -227,7 +228,10 @@ function Update(self, dt)
         pendingEffects = false
         
         if currentInitChains then currentInitChains:SetActive(false) end
+        
         if currentBrokenChains then currentBrokenChains:SetActive(true) end
+        --if currentBrokenChains then currentBrokenChains:SetActive(true) end 
+        
 
         if currentStatueObj then
             local dustObj = GameObject.FindInChildren(currentStatueObj, "DustParticles")
@@ -247,6 +251,10 @@ function Update(self, dt)
                 if chainSFX then chainSFX:SelectPlayAudioEvent("SFX_ChainBreak") end
             end
         end
+    end
+
+    if pendingBrokenChains and cinTimer >= 1.25 then
+        if currentBrokenChains then currentBrokenChains:SetActive(true) end
     end
 
     if pendingMaterialUpdate and cinTimer >= self.public.cinematicMidPoint then

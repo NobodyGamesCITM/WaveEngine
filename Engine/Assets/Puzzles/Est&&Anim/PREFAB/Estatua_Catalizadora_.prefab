@@ -22,8 +22,8 @@
                                                         "active": true,
                                                         "position": [
                                                             0.0,
-                                                            -1.9073486328125e-06,
-                                                            1.52587890625e-05
+                                                            -5.7220458984375e-06,
+                                                            3.0517578125e-05
                                                         ],
                                                         "rotation": [
                                                             0.0,
@@ -59,6 +59,7 @@
                                                     {
                                                         "ArrivalThreshold": 0.25,
                                                         "IsStatic": true,
+                                                        "LimitIsTrigger": false,
                                                         "MaxSlope": 35.0,
                                                         "MoveSpeed": 5.0,
                                                         "NavType": 2,
@@ -451,6 +452,131 @@
                 "name": "Lockable",
                 "tag": "Lockable",
                 "uid": 7874570121061025283
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            0.0,
+                            4.464282989501953,
+                            3.0517578125e-05
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    }
+                ],
+                "name": "InteractAnchor",
+                "tag": "",
+                "uid": 13046826001100652553
+            },
+            {
+                "active": true,
+                "children": [],
+                "components": [
+                    {
+                        "active": true,
+                        "position": [
+                            -0.375335693359375,
+                            2.743349075317383,
+                            1.52587890625e-05
+                        ],
+                        "rotation": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "scale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "activationRadius": 15.0,
+                        "active": true,
+                        "additive": true,
+                        "alignToVelocity": true,
+                        "animLoop": false,
+                        "animSpeed": 1.0,
+                        "bursts": [],
+                        "circleRadius": 1.0,
+                        "colorEnd": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "colorGradient": [],
+                        "colorStart": [
+                            1.0,
+                            0.686274528503418,
+                            0.0,
+                            1.0
+                        ],
+                        "coneAngle": 25.0,
+                        "coneRadius": 0.5,
+                        "duration": 1.0,
+                        "emissionArea": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "emissionRadius": 0.30000001192092896,
+                        "emissionRate": 0.0,
+                        "emissionRateDist": 0.0,
+                        "emitFromShell": true,
+                        "gravity": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "initRotMax": 180.0,
+                        "initRotMin": 180.0,
+                        "lifetimeMax": 1.0,
+                        "lifetimeMin": 0.20000000298023224,
+                        "looping": false,
+                        "luminance": false,
+                        "maxParticles": 500,
+                        "noiseActive": false,
+                        "noiseFreq": 0.5,
+                        "noiseStrength": 1.0,
+                        "oneShot": false,
+                        "oneShotCount": 30,
+                        "prewarm": false,
+                        "proximityActivation": false,
+                        "proximityTarget": "Player",
+                        "rotSpeedMax": 0.0,
+                        "rotSpeedMin": 0.0,
+                        "shape": 1,
+                        "simulationSpace": 0,
+                        "sizeCurve": [],
+                        "sizeEnd": 0.0,
+                        "sizeStart": 1.0,
+                        "speedMax": 6.0,
+                        "speedMin": 1.0,
+                        "textureCols": 1,
+                        "texturePath": "C:\\Users\\haosh\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\NewPlayer\\Particles\\RayApolo_Mid_02_TEST.png",
+                        "textureRows": 1,
+                        "textureUID": 11062760510019095729,
+                        "type": 7
+                    }
+                ],
+                "name": "Particle",
+                "tag": "",
+                "uid": 16899762167135940949
             }
         ],
         "components": [
@@ -495,6 +621,21 @@
                 "active": true,
                 "publicVariables": [
                     {
+                        "name": "dirZ",
+                        "type": 0,
+                        "value": -1.0
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "shootMode",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
                         "name": "dirY",
                         "type": 0,
                         "value": 0.0
@@ -503,6 +644,11 @@
                         "name": "shootDuration",
                         "type": 0,
                         "value": 0.10000000149011612
+                    },
+                    {
+                        "name": "heightOffset",
+                        "type": 0,
+                        "value": 3.0
                     },
                     {
                         "name": "dirX",
@@ -515,34 +661,14 @@
                         "value": 0.5
                     },
                     {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": ""
-                    },
-                    {
-                        "name": "dirZ",
-                        "type": 0,
-                        "value": -1.0
-                    },
-                    {
-                        "name": "shootMode",
+                        "name": "onlyRedirected",
                         "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "heightOffset",
-                        "type": 0,
-                        "value": 3.0
+                        "value": false
                     },
                     {
                         "name": "fordwardOffset",
                         "type": 0,
                         "value": 0.5
-                    },
-                    {
-                        "name": "onlyRedirected",
-                        "type": 2,
-                        "value": false
                     }
                 ],
                 "scriptUID": 3213472682470300881,
@@ -582,6 +708,48 @@
                 "UseGravity": true,
                 "active": true,
                 "type": 8
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "promptRadius",
+                        "type": 0,
+                        "value": 6.0
+                    },
+                    {
+                        "name": "anchorName",
+                        "type": 1,
+                        "value": "InteractAnchor"
+                    },
+                    {
+                        "name": "radius",
+                        "type": 0,
+                        "value": 3.0
+                    },
+                    {
+                        "name": "action",
+                        "type": 1,
+                        "value": "LockOn"
+                    },
+                    {
+                        "name": "sequenceId",
+                        "type": 1,
+                        "value": ""
+                    },
+                    {
+                        "name": "oneShot",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    }
+                ],
+                "scriptUID": 11869449068228775486,
+                "type": 6
             }
         ],
         "name": "Estatua_Catalizadora_1",

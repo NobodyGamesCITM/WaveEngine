@@ -60,9 +60,9 @@ local MASK_BG_MARGINS = {
         ares   = { 124,  80,  28,   0 },
     },
     ["Hermes"] = {
-        apollo = {   5, 156,  80,   0 },
-        hermes = {  40,  46,   0,  10 },
-        ares   = { 150,   0,  80,   0 },
+        apollo = {  -5,  80, 156,   0 },
+        hermes = {  40,   0,  46,  10 },
+        ares   = { 150,  80,   0,   0 },
     },
     ["Ares"] = {
         apollo = {  24,  50, 128,  30 },

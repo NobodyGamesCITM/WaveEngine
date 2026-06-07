@@ -343,6 +343,8 @@ function Initialize(self)
         self.lastPauseState = "running"
         Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
         self.loggedReady = true
+        -- FIX: Save game load doesn't use TitleTrigger, so opacity is always 1 here
+        self.canvas:SetOpacity(1.0)
         return true
     end
 
@@ -365,8 +367,6 @@ function Initialize(self)
 
         if path:find("MainMenu.xaml") then
             if _G.MainMenuNeedsIntro then
-                -- FIX: venim de BackToMenu via SceneChanger.
-                -- Canvas ocult, esperem IDLE del SceneChanger, llavors fadeIn + Intro.
                 _G.MainMenuNeedsIntro = nil
                 self.pendingMainMenuIntro = true
                 self.canvas:SetOpacity(0.0)
@@ -376,7 +376,6 @@ function Initialize(self)
                 SetPhase(self, "waitForSceneChanger")
                 Engine.Log("[MenuManager] Esperant SceneChanger IDLE per fer fadeIn + Intro.")
             else
-                -- Inici normal des del splash: el XAML ja dispara la seva Intro via Loaded trigger
                 self.canvas:SetOpacity(1.0)
                 Game.Resume()
                 self.lastPauseState = "running"
@@ -443,12 +442,16 @@ function Initialize(self)
 
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
 
+    -- ─── FIX: opacidad inicial unificada para gameplay Y non-gameplay scenes.
+    -- El TitleTrigger_HUDShouldStartHidden se setea en StartButton (MainMenu) y debe
+    -- sobrevivir a la carga de escena via _G para que esta comprobación funcione.
     if self.phase ~= "fadeIn" and self.phase ~= "waitForSceneChanger" then
-        if not _G.TitleTrigger_HUDShouldStartHidden then
-            self.canvas:SetOpacity(1.0)
-        else
+        Engine.Log("[MenuManager] TitleTrigger_HUDShouldStartHidden = " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
+        if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true then
             self.canvas:SetOpacity(0.0)
             Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
+        else
+            self.canvas:SetOpacity(1.0)
         end
     end
 
@@ -458,7 +461,6 @@ function Initialize(self)
 end
 
 function Start(self)
-
     _G.GlobalMenuManagerInstance = nil
 
     if not self.gameObject:GetComponent("Canvas") then
@@ -594,6 +596,7 @@ function Update(self, dt)
         self.fadeTimer = self.fadeTimer + Time.GetRealDeltaTime()
     end
 
+    -- ─── WAIT FOR SCENE CHANGER ──────────────────────────────────────────────
     if self.phase == "waitForSceneChanger" then
         if _G.SceneManagerState == 1 then
             Engine.Log("[MenuManager] SceneChanger IDLE, iniciant fadeIn + Intro del MainMenu.")
@@ -651,13 +654,13 @@ function Update(self, dt)
                 NavigateTo(self, "LoseMenu.xaml")
             end
         elseif _G.CinematicActive then
-            if self.canvas then self.canvas:SetOpacity(0.0) end
+            if not self.fading and self.canvas then self.canvas:SetOpacity(0.0) end
             self.deathTimer = 0.0
         else
             self.deathTimer = 0.0
             if not self.fading and self.canvas then
                 local isGameplayHUD = (self.current == "HUD.xaml" or self.current == "SonOfIthaca.xaml")
-                if not (isGameplayHUD and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden)) then
+                if not (isGameplayHUD and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true)) then
                     self.canvas:SetOpacity(1.0)
                 end
             end
@@ -695,6 +698,9 @@ function Update(self, dt)
                 _G.CurrentLevel = "Level1"
                 _G.DialogsShown = {}
                 _G.CombatStates = {}
+                _G.TitleTrigger_HUDShouldStartHidden = true
+                _G.TitleTrigger_Active = false
+
                 
                 _G.PortalState        = 0
                 _G._MidRunTransition  = false
@@ -718,6 +724,9 @@ function Update(self, dt)
                     _G.PendingSaveDataApply = true
                     _G.IsLoadingSaveGame = true
                     _G.LoadedFromSave = true
+                    -- FIX: save game load nunca activa el TitleTrigger
+                    _G.TitleTrigger_HUDShouldStartHidden = false
+                    _G.TitleTrigger_Active = false
                     local sName = _G.LoadedSaveData.scene
                     if sName == "Level_01" then sName = "Level1" end
                     if sName == "Level_02" then sName = "Level2" end
@@ -751,7 +760,6 @@ function Update(self, dt)
                 _G._PlayerController_isDead = false
                 self.deathTimer = 0.0
 
-                -- Preparar globals per a la nova escena
                 _G.CurrentLevel   = "MainMenu"
                 _G.ForceStartXAML = "MainMenu.xaml"
                 _G.SkipSplash     = true
@@ -759,6 +767,7 @@ function Update(self, dt)
                 _G.TitleTrigger_Active = nil
                 _G.TitleTrigger_HUDShouldStartHidden = nil
                 _G.CinematicActive = false
+
                 local sceneManagerObj = GameObject.Find("SceneManager")
                 if sceneManagerObj then
                     local sceneScript = sceneManagerObj:GetComponent("Script")
@@ -926,7 +935,6 @@ function Update(self, dt)
             ApplyFullVolume(self)
             SetPhase(self, "idle")
             Engine.Log("[MenuManager] Fade IN completat.")
-            -- FIX: canvas visible, disparar la Intro del MainMenu
             if self.pendingMainMenuIntro then
                 self.pendingMainMenuIntro = false
                 self.canvas:PlayStoryboard("Intro")

@@ -25,18 +25,122 @@
                 },
                 {
                     "active": true,
-                    "aspectRatio": 1.908707857131958,
+                    "aspectRatio": 1.6542617082595825,
                     "farPlane": 1000.0,
                     "fov": 54.0,
                     "nearPlane": 0.30000001192092896,
                     "type": 4,
                     "uiCullingMask": 0,
-                    "usesPostProcessing": false
+                    "usesPostProcessing": true
                 },
                 {
                     "active": true,
                     "isDefault": true,
                     "type": 25
+                },
+                {
+                    "active": true,
+                    "autoExposure": {
+                        "enabled": false,
+                        "max": 2.0,
+                        "min": 0.10000000149011612,
+                        "speed": 1.0
+                    },
+                    "bloom": {
+                        "clamp": 65472.0,
+                        "diffusion": 7.0,
+                        "enabled": false,
+                        "intensity": 1.0,
+                        "softKnee": 0.5,
+                        "threshold": 1.0,
+                        "tint": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "blur": {
+                        "enabled": false,
+                        "intensity": 1.0,
+                        "spread": 1.0
+                    },
+                    "colorGrading": {
+                        "colorFilter": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "contrast": 1.0,
+                        "enabled": true,
+                        "exposure": 1.0,
+                        "gamma": 1.0,
+                        "saturation": 1.0,
+                        "temperature": 1200.0,
+                        "tint": 0.0,
+                        "toneMapper": 2
+                    },
+                    "depthOfField": {
+                        "distance": 9.0,
+                        "enabled": true,
+                        "farTint": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "range": 10.0,
+                        "strength": 1.0,
+                        "tiltShift": false,
+                        "tintIntensity": 0.0
+                    },
+                    "fog": {
+                        "color": [
+                            0.699999988079071,
+                            0.800000011920929,
+                            0.8999999761581421
+                        ],
+                        "density": 0.019999999552965164,
+                        "enabled": false,
+                        "end": 100.0,
+                        "heightFalloff": 0.10000000149011612,
+                        "heightStart": 0.0,
+                        "mode": 0,
+                        "start": 10.0,
+                        "useHeight": false
+                    },
+                    "grain": {
+                        "enabled": false,
+                        "intensity": 0.10000000149011612,
+                        "size": 1.600000023841858
+                    },
+                    "lens": {
+                        "caEnabled": false,
+                        "caIntensity": 0.0,
+                        "distEnabled": false,
+                        "distIntensity": 0.0,
+                        "vigColor": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "vigEnabled": false,
+                        "vigIntensity": 0.4000000059604645,
+                        "vigRoundness": 1.0,
+                        "vigSmoothness": 0.20000000298023224
+                    },
+                    "radialBlur": {
+                        "center": [
+                            0.5,
+                            0.5
+                        ],
+                        "enabled": false,
+                        "intensity": 0.10000000149011612
+                    },
+                    "sharpen": {
+                        "enabled": false,
+                        "intensity": 0.5
+                    },
+                    "type": 29
                 }
             ],
             "name": "Camera",
@@ -148,6 +252,11 @@
                     "active": true,
                     "publicVariables": [
                         {
+                            "name": "fadeSpeed",
+                            "type": 0,
+                            "value": 0.5
+                        },
+                        {
                             "name": "updateWhenPaused",
                             "type": 2,
                             "value": true
@@ -156,11 +265,6 @@
                             "name": "nextXaml",
                             "type": 1,
                             "value": "MainMenu.xaml"
-                        },
-                        {
-                            "name": "fadeSpeed",
-                            "type": 0,
-                            "value": 0.5
                         },
                         {
                             "name": "totalDuration",
@@ -180,16 +284,6 @@
                     "active": true,
                     "publicVariables": [
                         {
-                            "name": "updateWhenPaused",
-                            "type": 2,
-                            "value": true
-                        },
-                        {
-                            "name": "lowerVolume",
-                            "type": 0,
-                            "value": 60.0
-                        },
-                        {
                             "name": "currentScene",
                             "type": 5,
                             "value": "Splash.scene"
@@ -198,6 +292,16 @@
                             "name": "fullVolume",
                             "type": 0,
                             "value": 100.0
+                        },
+                        {
+                            "name": "lowerVolume",
+                            "type": 0,
+                            "value": 60.0
+                        },
+                        {
+                            "name": "updateWhenPaused",
+                            "type": 2,
+                            "value": true
                         }
                     ],
                     "scriptUID": 845068803312502122,
@@ -3967,7 +4071,7 @@
                     "speedMax": 0.07999999821186066,
                     "speedMin": 0.009999999776482582,
                     "textureCols": 1,
-                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
+                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Trees_Leafs.png",
                     "textureRows": 1,
                     "textureUID": 11107368379844993512,
                     "type": 7
@@ -10600,7 +10704,7 @@
                                                                     "speedMax": 0.25,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 1,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Statues_Sparks.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\Statues_Sparks.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 14600480670017023417,
                                                                     "type": 7
@@ -10725,7 +10829,7 @@
                                                                     "speedMax": 0.0,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 1,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Trail_Hard_02_TEST.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Trail_Hard_02_TEST.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 17887910495030493477,
                                                                     "type": 7
@@ -10762,9 +10866,9 @@
                                                                     "active": true,
                                                                     "publicVariables": [
                                                                         {
-                                                                            "name": "updateWhenPaused",
-                                                                            "type": 2,
-                                                                            "value": true
+                                                                            "name": "promptRadius",
+                                                                            "type": 0,
+                                                                            "value": 6.0
                                                                         },
                                                                         {
                                                                             "name": "radius",
@@ -10772,9 +10876,9 @@
                                                                             "value": 3.0
                                                                         },
                                                                         {
-                                                                            "name": "sequenceId",
-                                                                            "type": 1,
-                                                                            "value": ""
+                                                                            "name": "updateWhenPaused",
+                                                                            "type": 2,
+                                                                            "value": true
                                                                         },
                                                                         {
                                                                             "name": "anchorName",
@@ -10782,19 +10886,19 @@
                                                                             "value": "InteractAnchor"
                                                                         },
                                                                         {
-                                                                            "name": "promptRadius",
-                                                                            "type": 0,
-                                                                            "value": 6.0
-                                                                        },
-                                                                        {
-                                                                            "name": "action",
+                                                                            "name": "sequenceId",
                                                                             "type": 1,
-                                                                            "value": "Interact"
+                                                                            "value": ""
                                                                         },
                                                                         {
                                                                             "name": "oneShot",
                                                                             "type": 2,
                                                                             "value": true
+                                                                        },
+                                                                        {
+                                                                            "name": "action",
+                                                                            "type": 1,
+                                                                            "value": "Interact"
                                                                         }
                                                                     ],
                                                                     "scriptUID": 11869449068228775486,
@@ -10892,7 +10996,7 @@
                                                                     "speedMax": 0.5,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 1,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Sparkles_Soft_01.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Sparkles_Soft_01.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 10276969948647921116,
                                                                     "type": 7
@@ -11000,9 +11104,9 @@
                                                             "active": true,
                                                             "publicVariables": [
                                                                 {
-                                                                    "name": "updateWhenPaused",
-                                                                    "type": 2,
-                                                                    "value": true
+                                                                    "name": "promptRadius",
+                                                                    "type": 0,
+                                                                    "value": 6.0
                                                                 },
                                                                 {
                                                                     "name": "radius",
@@ -11010,9 +11114,9 @@
                                                                     "value": 3.0
                                                                 },
                                                                 {
-                                                                    "name": "sequenceId",
-                                                                    "type": 1,
-                                                                    "value": ""
+                                                                    "name": "updateWhenPaused",
+                                                                    "type": 2,
+                                                                    "value": true
                                                                 },
                                                                 {
                                                                     "name": "anchorName",
@@ -11020,19 +11124,19 @@
                                                                     "value": "InteractAnchor"
                                                                 },
                                                                 {
-                                                                    "name": "promptRadius",
-                                                                    "type": 0,
-                                                                    "value": 6.0
-                                                                },
-                                                                {
-                                                                    "name": "action",
+                                                                    "name": "sequenceId",
                                                                     "type": 1,
-                                                                    "value": "Interact"
+                                                                    "value": ""
                                                                 },
                                                                 {
                                                                     "name": "oneShot",
                                                                     "type": 2,
                                                                     "value": true
+                                                                },
+                                                                {
+                                                                    "name": "action",
+                                                                    "type": 1,
+                                                                    "value": "Interact"
                                                                 }
                                                             ],
                                                             "scriptUID": 11869449068228775486,
@@ -11499,7 +11603,7 @@
                                                                     "speedMax": 0.6000000238418579,
                                                                     "speedMin": 0.5099999904632568,
                                                                     "textureCols": 1,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Leaf_Hard_00.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Leaf_Hard_00.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 17139141216480885656,
                                                                     "type": 7
@@ -11647,7 +11751,7 @@
                                                                             "speedMax": 0.6000000238418579,
                                                                             "speedMin": 0.5099999904632568,
                                                                             "textureCols": 1,
-                                                                            "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Leaf_Hard_00.png",
+                                                                            "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Leaf_Hard_00.png",
                                                                             "textureRows": 1,
                                                                             "textureUID": 17139141216480885656,
                                                                             "type": 7
@@ -19246,7 +19350,7 @@
                                                                     "speedMax": 0.0,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 9,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 16317242200390614680,
                                                                     "type": 7
@@ -20709,7 +20813,7 @@
                                                                     "speedMax": 0.0,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 9,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 16317242200390614680,
                                                                     "type": 7
@@ -22172,7 +22276,7 @@
                                                                     "speedMax": 0.0,
                                                                     "speedMin": 0.0,
                                                                     "textureCols": 9,
-                                                                    "texturePath": "C:\\Users\\mfoyo\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
+                                                                    "texturePath": "C:\\Users\\Tonil\\Documents\\GitHub\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Fire_Animation_Hard_01_TEST.png",
                                                                     "textureRows": 1,
                                                                     "textureUID": 16317242200390614680,
                                                                     "type": 7

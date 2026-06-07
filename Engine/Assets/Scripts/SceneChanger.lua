@@ -145,7 +145,6 @@ function Update(self, dt)
 
         if minTimeReached and cinematicReady then
             if _G._NewSceneLoaded then
-                if not _G.CinematicActive then
                 currentState = State.FADE_OUT
                 _G._NewSceneLoaded = false
                 if canvasComponent then canvasComponent:LoadXAML("FadePanel.xaml") end

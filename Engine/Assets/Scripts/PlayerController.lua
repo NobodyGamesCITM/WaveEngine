@@ -2553,11 +2553,6 @@ function Update(self, dt)
                 end
             end
             
-            if Player.AnimTimer <= 0 then
-                exitPortalCinematic = false
-                Player.AnimTimer = 0
-            end
-
         end
 
         if winBossCinematic then
@@ -2765,6 +2760,22 @@ function Update(self, dt)
             self.public.canMove = true
             if exitPortalCinematic then
                 exitPortalCinematic = false
+                _G._PortalExitFadeTriggered = true
+            end
+            
+            -- Limpieza de cinemática de entrada al portal
+            if enterPortalCinematic then
+                enterPortalCinematic = false
+                playedStep1 = false
+                playedStep2 = false
+                playedStep3 = false
+                playedStep4 = false
+                playedStep5 = false
+                playedStep6 = false
+                
+                -- Lógica específica de fin de entrada
+                Engine.Log("Ended Enter Portal Cinematic")
+                Audio.SetMusicVolume(0)
             end
 
             if Player.isPortalExitAnim then

@@ -19,11 +19,10 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:4.5" Value="1"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:6.0" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimation Storyboard.TargetName="SplashScale" Storyboard.TargetProperty="ScaleX" From="0.95" To="1.15" Duration="0:0:6.5"/>
-            <DoubleAnimation Storyboard.TargetName="SplashScale" Storyboard.TargetProperty="ScaleY" From="0.95" To="1.25" Duration="0:0:6.5"/>
+            <DoubleAnimation Storyboard.TargetName="SplashScale" Storyboard.TargetProperty="ScaleX" From="0.5" To="0.9" Duration="0:0:6.5"/>
+            <DoubleAnimation Storyboard.TargetName="SplashScale" Storyboard.TargetProperty="ScaleY" From="0.5" To="0.9" Duration="0:0:6.5"/>
         </Storyboard>
 
-        <!-- Storyboard para el fundido de salida que llama el script -->
         <Storyboard x:Key="FadeOutBlack">
             <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5"/>
         </Storyboard>
@@ -44,7 +43,7 @@
         <Viewbox Grid.Column="1" Grid.Row="1">
             <Image x:Name="SplashImage" Source="Textures/Logo.png" Margin="410,182" RenderTransformOrigin="0.5,0.5" Opacity="0">
                 <Image.RenderTransform>
-                    <ScaleTransform x:Name="SplashScale" ScaleX="0.95" ScaleY="0.95"/>
+                    <ScaleTransform x:Name="SplashScale" ScaleX="0.5" ScaleY="0.5"/>
                 </Image.RenderTransform>
             </Image>
         </Viewbox>

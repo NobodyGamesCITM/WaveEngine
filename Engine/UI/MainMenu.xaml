@@ -44,9 +44,26 @@
                                            Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
+
+                                <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="-1"/>
+                                            <TranslateTransform x:Name="ArrowRTrans" X="30"/>
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>
                             </StackPanel>
 
                             <ControlTemplate.Triggers>
+
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="TextContent" Property="Foreground" Value="#666666"/>
+                                    <Setter TargetName="ButtonContent" Property="Opacity" Value="0.5"/>
+                                    <Setter TargetName="ArrowL" Property="Visibility" Value="Hidden"/>
+                                    <Setter TargetName="ArrowR" Property="Visibility" Value="Hidden"/>
+                                </Trigger>
+
                                 <Trigger Property="IsFocused" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard x:Name="HoverFocusStoryboard">
@@ -107,6 +124,7 @@
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>
                                 </Trigger>
+
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

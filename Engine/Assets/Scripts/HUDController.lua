@@ -49,6 +49,11 @@ local targetIconSizes = {
 
 local prevActiveMaskForSize = ""
 
+local fadeTimer = 0
+local FADE_DURATION = 1.0
+local isFadingIn = false
+local hadAnimActive = false
+
 -- ─── Helpers
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
@@ -325,6 +330,38 @@ end
 function Update(self, dt)
     if not myCanvas or myCanvas:GetCurrentXAML() ~= "HUD.xaml" then
         return
+    end
+
+    -- Gestión de visibilidad del HUD durante cinemáticas y transiciones de portal
+    if _G.CinematicActive or _G.PlayerInAnim then
+        if myCanvas then myCanvas:SetOpacity(0.0) end
+        isFadingIn = false
+        hadAnimActive = true
+        return
+    end
+
+    -- Si venimos de una transición de portal (exit), lanzamos el fundido de entrada
+    if _G._PortalExitFadeTriggered then
+        _G._PortalExitFadeTriggered = false
+        isFadingIn = true
+        fadeTimer = 0.0
+        hadAnimActive = false
+    end
+
+    -- Gestión del fade in
+    if isFadingIn then
+        fadeTimer = fadeTimer + dt
+        local alpha = math.min(fadeTimer / FADE_DURATION, 1.0)
+        if myCanvas then myCanvas:SetOpacity(alpha) end
+        if alpha >= 1.0 then
+            isFadingIn = false
+        end
+    elseif hadAnimActive then
+        -- Si salimos de una animación normal que no es el portal, restauramos opacidad al instante
+        if myCanvas and not _G.TitleTrigger_Active and not _G.TitleTrigger_HUDShouldStartHidden then 
+            myCanvas:SetOpacity(1.0) 
+        end
+        hadAnimActive = false
     end
 
     -- Cambio de máscara por D-Pad / teclas de flecha

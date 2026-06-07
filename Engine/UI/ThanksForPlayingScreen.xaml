@@ -22,8 +22,8 @@
     </Grid.RowDefinitions>
     <Grid.Background>
       <RadialGradientBrush>
-        <GradientStop Color="#00000000" Offset="0.77000004"/>
-        <GradientStop Offset="1" Color="#A6000000"/>
+        <GradientStop Color="#00000000"/>
+        <GradientStop Offset="1" Color="#FF000000"/>
       </RadialGradientBrush>
     </Grid.Background>
     <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="55.644,0">

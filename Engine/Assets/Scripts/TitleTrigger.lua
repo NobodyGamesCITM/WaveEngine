@@ -38,6 +38,16 @@ function Start(self)
     self.canvas    = nil
     self.myPos     = self.transform.worldPosition
 
+    if _G.LoadedFromSave then
+        _G.TitleTrigger_HUDShouldStartHidden = false
+        _G.TitleTrigger_Active = false
+        self.phase = "done"
+        -- FIX Bug 2: forzar canvas visible por si MenuManager no lo hizo aún
+        local c = FindCanvas()
+        if c then c:SetOpacity(1.0) end
+        return
+    end
+
     _G.TitleTrigger_HUDShouldStartHidden = true
     _G.TitleTrigger_Active = false
 

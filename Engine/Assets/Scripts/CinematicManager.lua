@@ -323,7 +323,8 @@ function Update(self, dt)
             local uiManager = GameObject.Find("UIManager")
             if uiManager then
                 local uiCanvas = uiManager:GetComponent("Canvas")
-                if uiCanvas then
+                -- Solo restauramos opacidad aquí si no hay una animación de jugador pendiente (como el portal)
+                if uiCanvas and not _G.PlayerInAnim then
                     uiCanvas:SetOpacity(1.0)
                 end
             end

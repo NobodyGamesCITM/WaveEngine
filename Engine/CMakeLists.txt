@@ -81,6 +81,8 @@ set(SHADERS_SRC
     src/ShaderNoTexture.cpp
     src/ShaderWater.h
     src/ShaderWater.cpp
+    src/ShaderWaterSoul.h
+    src/ShaderWaterSoul.cpp
     src/ShaderLines.h
     src/ShaderLines.cpp
     src/ShaderNormal.h

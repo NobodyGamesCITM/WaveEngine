@@ -1,6 +1,6 @@
-#include "ShaderWater.h"
+#include "ShaderWaterSoul.h"
 
-bool ShaderWater::CreateShader()
+bool ShaderWaterSoul::CreateShader()
 {
     std::string vert =
         "#version 460 core\n"
@@ -11,11 +11,11 @@ bool ShaderWater::CreateShader()
         "uniform mat4 view;\n"
         "uniform mat4 projection;\n"
         "void main() {\n"
-        "vec4 wPos = model * vec4(aPos, 1.0);\n"
-        "WorldPos = wPos.xyz;\n"
-        "vec4 clipPos = projection * view * wPos;\n"
-        "ScreenPos = clipPos;\n"
-        "gl_Position = clipPos;\n"
+        "    vec4 wPos = model * vec4(aPos, 1.0);\n"
+        "    WorldPos = wPos.xyz;\n"
+        "    vec4 clipPos = projection * view * wPos;\n"
+        "    ScreenPos = clipPos;\n"
+        "    gl_Position = clipPos;\n"
         "}\n";
 
     std::string frag =
@@ -122,11 +122,11 @@ bool ShaderWater::CreateShader()
         "    float mask = smoothstep(0.3, 0.7, noise(WorldPos.xz * 0.15 + sin(uTime * 0.2)));\n"
         "    float waterLines = lineWeight * mask;\n"
         "\n"
-            "    vec3 colorMar = vec3(0.32, 0.42, 0.48);      \n"
-            "    vec3 colorLineasRandom = vec3(0.70, 0.62, 0.50); \n"
-            "    vec3 colorLineaLejos   = vec3(0.28, 0.36, 0.42); \n"
-            "    vec3 colorLineaFina    = vec3(0.70, 0.62, 0.50);  \n"
-            "    vec3 colorOrilla = vec3(0.90, 0.83, 0.72);   \n"
+            "    vec3 colorMar = vec3(0.05, 0.55, 0.65);      \n"
+            "    vec3 colorLineasRandom = vec3(0.20, 0.90, 0.95); \n"
+            "    vec3 colorLineaLejos   = vec3(0.02, 0.35, 0.50); \n"
+            "    vec3 colorLineaFina    = vec3(0.60, 1.00, 1.00);  \n"
+            "    vec3 colorOrilla = vec3(0.80, 1.00, 1.00);   \n"
         "\n"
         "    vec3 finalColor = colorMar;\n"
         "    \n"

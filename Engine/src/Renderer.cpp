@@ -31,6 +31,7 @@
 #include "ShaderStandard.h"
 #include "ShaderUiOverlay.h"
 #include "ShaderWater.h"
+#include "ShaderWaterSoul.h"
 #include "ShaderSkybox.h"
 #include "ShaderPostPorcessing.h"
 
@@ -101,6 +102,14 @@ bool Renderer::Start()
     {
         LOG_DEBUG("ERROR: Failed to create water shader");
         LOG_CONSOLE("ERROR: Failed to compile water shader");
+        return false;
+    }
+
+    waterSoulShader = make_unique<ShaderWaterSoul>();
+    if (!waterSoulShader->CreateShader())
+    {
+        LOG_DEBUG("ERROR: Failed to create water soul shader");
+        LOG_CONSOLE("ERROR: Failed to compile water soul shader");
         return false;
     }
     
@@ -535,6 +544,7 @@ bool Renderer::RenderScene(CameraLens* camera)
     //Build Render List
     opaqueList.clear();
     waterList.clear();
+    waterSoulList.clear();
     transparentList.clear();
     particlesList.clear();
     silhouetteList.clear();
@@ -563,6 +573,8 @@ bool Renderer::RenderScene(CameraLens* camera)
     DrawSkybox(camera);
 
     DrawWaterList(waterList, camera);
+
+    DrawWaterSoulList(waterSoulList, camera);
 
     BuildSilhouetteStencil(camera);
 
@@ -639,6 +651,10 @@ void Renderer::BuildRenderLists(const CameraLens* camera)
             if (mesh->owner->CompareTag("Water"))
             {
                 waterList.push_back(renderObject);
+            }
+            else if (mesh->owner->CompareTag("WaterSoul"))
+            {
+                waterSoulList.push_back(renderObject);
             }
             else if (mesh->GetAttachedMaterial() && mesh->GetAttachedMaterial()->IsActive() && mesh->GetAttachedMaterial()->GetOpacity() != 1.0f)
             {
@@ -1210,6 +1226,132 @@ void Renderer::DrawWaterList(const std::vector<RenderObject>& list, const Camera
 
     glDepthMask(GL_TRUE);
 }
+
+void Renderer::DrawWaterSoulList(const std::vector<RenderObject>& list, const CameraLens* camera)
+{
+    if (list.empty() || !camera) return;
+
+    int w = camera->textureWidth;
+    int h = camera->textureHeight;
+    if (camera->fboID == 0) {
+        Application::GetInstance().window->GetWindowSize(w, h);
+    }
+
+    if (waterDepthFBO == 0 || w != waterDepthW || h != waterDepthH) {
+        if (waterDepthFBO != 0) {
+            glDeleteFramebuffers(1, &waterDepthFBO);
+            glDeleteTextures(1, &waterDepthTex);
+        }
+        glGenFramebuffers(1, &waterDepthFBO);
+        glGenTextures(1, &waterDepthTex);
+
+        glBindTexture(GL_TEXTURE_2D, waterDepthTex);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, w, h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, waterDepthFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, waterDepthTex, 0);
+
+        waterDepthW = w;
+        waterDepthH = h;
+    }
+
+    bool msaaActive = msaaEnabled && camera->msaaFBO != 0;
+    GLuint sceneFBO = msaaActive ? camera->msaaFBO : ((camera->fboID != 0) ? camera->fboID : 0);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, sceneFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, waterDepthFBO);
+    glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    // --- Water Mask Pass ---
+    ResizeWaterMask(w, h);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, sceneFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, waterMaskFBO);
+    glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, waterMaskFBO);
+    glViewport(0, 0, w, h);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    outlineShader->Use();
+    GLuint outlineProg = outlineShader->GetProgramID();
+    glUniformMatrix4fv(glGetUniformLocation(outlineProg, "view"), 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
+    glUniformMatrix4fv(glGetUniformLocation(outlineProg, "projection"), 1, GL_FALSE, glm::value_ptr(camera->GetProjectionMatrix()));
+    outlineShader->SetVec3("outlineColor", glm::vec3(1.0f));
+    outlineShader->SetFloat("outlineThickness", 0.0f);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    glDisable(GL_CULL_FACE);
+
+    GLint modelLoc = glGetUniformLocation(outlineProg, "model");
+    for (const RenderObject& obj : list) {
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(obj.globalModelMatrix));
+        DrawMesh(obj.mesh);
+    }
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_CULL_FACE);
+
+    // --- Draw WaterSoul to Scene ---
+    glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+    glViewport(0, 0, w, h);
+
+    glDepthMask(GL_FALSE);
+    waterSoulShader->Use();
+
+    glm::mat4 viewMat = camera->GetViewMatrix();
+    glm::mat4 projMat = camera->GetProjectionMatrix();
+
+    waterSoulShader->SetMat4("view", viewMat);
+    waterSoulShader->SetMat4("projection", projMat);
+
+    glm::mat4 inverseVP = glm::inverse(projMat * viewMat);
+    waterSoulShader->SetMat4("uInverseVP", inverseVP);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, waterDepthTex);
+    waterSoulShader->SetInt("uSceneDepthMap", 1);
+
+    waterSoulShader->SetVec3("uWaterColor", glm::vec3(0.05f, 0.45f, 0.8f));
+    waterSoulShader->SetVec3("uFoamColor", glm::vec3(0.6f, 0.9f, 1.0f));
+    waterSoulShader->SetFloat("uFoamOffset", 0.2f);
+    waterSoulShader->SetFloat("uFoamThickness", 0.1f);
+
+    float time = Application::GetInstance().time->GetTotalTime();
+    waterSoulShader->SetFloat("uTime", time);
+
+    ComponentPostProcessing* activePP = nullptr;
+    for (auto* pp : postProcessingComponents) {
+        if (pp->IsActive() && pp->owner && pp->owner->IsActive()) { activePP = pp; break; }
+    }
+
+    if (activePP && activePP->fog.enabled) {
+        waterSoulShader->SetBool("fogEnabled", true);
+        waterSoulShader->SetInt("fogMode", activePP->fog.mode);
+        waterSoulShader->SetVec3("fogColor", activePP->fog.color);
+        waterSoulShader->SetFloat("fogDensity", activePP->fog.density);
+        waterSoulShader->SetFloat("fogStart", activePP->fog.start);
+        waterSoulShader->SetFloat("fogEnd", activePP->fog.end);
+        waterSoulShader->SetBool("fogUseHeight", activePP->fog.useHeight);
+        waterSoulShader->SetFloat("fogHeightStart", activePP->fog.heightStart);
+        waterSoulShader->SetFloat("fogHeightFalloff", activePP->fog.heightFalloff);
+        waterSoulShader->SetVec3("uViewPos", camera->position);
+    }
+    else {
+        waterSoulShader->SetBool("fogEnabled", false);
+    }
+
+    for (const RenderObject& obj : list) {
+        waterSoulShader->SetMat4("model", obj.globalModelMatrix);
+        DrawMesh(obj.mesh);
+    }
+
+    glDepthMask(GL_TRUE);
+}
+
 void Renderer::DrawSkybox(const CameraLens* camera)
 {
     if (!activeSkybox || activeSkybox->GetCubemapID() == 0) return;
@@ -1542,6 +1684,7 @@ bool Renderer::CleanUp()
     if (outlineShader)  outlineShader->Delete();
     if (depthShader)    depthShader->Delete();
     if (waterShader)    waterShader->Delete();
+    if (waterSoulShader)    waterSoulShader->Delete();
     if (uiShader)       uiShader->Delete();
 
     if (quadVAO != 0)

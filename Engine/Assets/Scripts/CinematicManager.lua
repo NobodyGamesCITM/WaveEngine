@@ -5,7 +5,7 @@ public = {
 }
 
 local cinematicCamComp = nil
-local cinematicState = 0
+local wasPlaying = false
 
 local function SendTrackToCamera(track, blendBackTime)
     local camObj = GameObject.Find("MainCamera")
@@ -30,8 +30,7 @@ local function SendTrackToCamera(track, blendBackTime)
         end
 
         cinematicCamComp:PlayCinematic(track, blendBackTime)
-        
-        cinematicState = 1
+        wasPlaying = true
     end
 end
 
@@ -218,79 +217,25 @@ function Start(self)
         }
         SendTrackToCamera(track, 3.0)
     end
-
-    _G.PlayDoorCinematic = function(doorId)
-        local track = {}
-        
-        if doorId == "Door_Default" then
-            track = {
-                { time = 0.0, pos = { 0.0, 10.0, 0.0 }, rot = { 0, 0, 0 } },
-                { time = 2.0, pos = { 0.0, 10.0, 0.0 }, rot = { 0, 0, 0 } }
-            }
-        elseif doorId == "Apolo1Door" then
-            track = {
-                { time = 0.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } },
-                { time = 3.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } }
-            }
-        elseif doorId == "Apolo2Door2" then
-            track = {
-                { time = 0.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } },
-                { time = 3.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } }
-            }
-        elseif doorId == "PreApoloHermes3Triple" then
-            track = {
-                { time = 0.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } },
-                { time = 4.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } }
-            }
-        elseif doorId == "ApoloHermes3Door2" then
-            track = {
-                { time = 0.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } },
-                { time = 3.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } }
-            }
-        elseif doorId == "Ares1Door" then
-            track = {
-                { time = 0.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } },
-                { time = 3.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } }
-            }
-        elseif doorId == "Combined2Door" then
-            track = {
-                { time = 0.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } },
-                { time = 3.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } }
-            }
-        else
-            Engine.Log("[CinematicManager] WARNING: Cinematic track not found for door: " .. tostring(doorId))
-            track = {
-                { time = 0.0, pos = { 0, 10, 0 }, rot = { 0, 0, 0 } },
-                { time = 2.0, pos = { 0, 10, 0 }, rot = { 0, 0, 0 } }
-            }
-        end
-        
-        SendTrackToCamera(track, 1.5)
-    end
 end
 
 function Update(self, dt)
-    if cinematicCamComp then
-        if cinematicState == 1 then
-            if cinematicCamComp:IsPlayingCinematic() then
-                cinematicState = 2
+    if wasPlaying and cinematicCamComp then
+        if not cinematicCamComp:IsPlayingCinematic() then
+            wasPlaying = false
+            _G.CinematicActive = false
+            
+            -- MOSTRAR PARTÍCULA DE LOCK ON DE NUEVO
+            if _G.TargetLockManager_SetParticleVisibility then
+                _G.TargetLockManager_SetParticleVisibility(true)
             end
-        elseif cinematicState == 2 then
-            if not cinematicCamComp:IsPlayingCinematic() then
-                cinematicState = 0
-                _G.CinematicActive = false
-                
-                -- RESTAURAR UI Y LOCK-ON
-                if _G.TargetLockManager_SetParticleVisibility then
-                    _G.TargetLockManager_SetParticleVisibility(true)
-                end
-                
-                local uiManager = GameObject.Find("UIManager")
-                if uiManager then
-                    local uiCanvas = uiManager:GetComponent("Canvas")
-                    if uiCanvas then
-                        uiCanvas:SetOpacity(1.0)
-                    end
+            
+            -- RESTAURAR OPACIDAD DEL UIManager
+            local uiManager = GameObject.Find("UIManager")
+            if uiManager then
+                local uiCanvas = uiManager:GetComponent("Canvas")
+                if uiCanvas then
+                    uiCanvas:SetOpacity(1.0)
                 end
             end
         end

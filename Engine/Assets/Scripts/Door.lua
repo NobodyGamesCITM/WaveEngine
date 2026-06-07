@@ -2,11 +2,8 @@
 public = {
     distance = 10.0,
     speed = 1.0,
-    myColision = "Puerta_Sala_1_Colision",
-    hasCinematic = false,
-    cinematicName = "Door_Default"
+    myColision = "Puerta_Sala_1_Colision"
 }
-
 local openDoor2 = false
 local rb = nil
 local initialY = 0.0
@@ -19,8 +16,8 @@ local localToWorldRatioY = 1.0
 function Start(self)
     self.isOpen = false 
 
-    local distance = self.public.distance
-    local speed = self.public.speed
+    distance = self.public.distance
+    speed = self.public.speed
     rb =  self.gameObject:GetComponent("Rigidbody")
     
     local startLocalY = self.transform.position.y
@@ -41,13 +38,7 @@ function Start(self)
     doorSFX = self.gameObject:GetComponent("Audio Source")
 
     self.OpenDoor = function(self)
-        if not self.isOpen then 
-            openDoor2 = true 
-            
-            if self.public.hasCinematic and _G.PlayDoorCinematic then
-                _G.PlayDoorCinematic(self.public.cinematicName)
-            end
-        end
+        if not self.isOpen then openDoor2 = true end
         return self.isOpen
     end
 

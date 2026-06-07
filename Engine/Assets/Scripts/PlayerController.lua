@@ -1770,17 +1770,6 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
-    if _G.CinematicActive then
-        if Player.rb then 
-            local currentVel = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, math.min(0, currentVel.y), 0) 
-        end
-        if Player.currentState ~= State.IDLE then
-            ChangeState(self, State.IDLE, true)
-        end
-        return
-    end
-
     if not Player.bulletReady then
         Player.bulletReady = true
         _G.nextBulletData = { x=0, y=-1000, z=0, dirX=0, dirZ=1, angle=0, scale=self.public.bulletScale or 1.0 }
@@ -2184,19 +2173,19 @@ function Update(self, dt)
         end
 
         if enterPortalCinematic then 
-            timer = 20.0
+            --timer = 20.0
 
-            if not anim then
-                 enterPortalCinematic = false 
-                 return 
-            end 
+            -- if not anim then
+            --     enterPortalCinematic = false 
+            --     return 
+            -- end 
 
-            if anim then
-                if not anim:IsPlayingAnimation("PortalEnter") then
-                     enterPortalCinematic = false 
-                    return 
-                end
-            end
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("PortalEnter") then
+            --         enterPortalCinematic = false 
+            --         return 
+            --     end
+            -- end
 
             Audio.SetMusicVolume(10)
 
@@ -2317,19 +2306,19 @@ function Update(self, dt)
         end
 
         if exitPortalCinematic  then
-            timer = 18.0
+            --timer = 18.0
 
-            if not anim then
-                exitPortalCinematic = false 
-                return 
-            end 
+            -- if not anim then
+            --     exitPortalCinematic = false 
+            --     return 
+            -- end 
 
-            if anim then
-                if not anim:IsPlayingAnimation("PortalExit") then
-                    exitPortalCinematic = false 
-                    return 
-                end
-            end
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("PortalExit") then
+            --         exitPortalCinematic = false 
+            --         return 
+            --     end
+            -- end
             
             --breath in-out
             if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_Panting") then 
@@ -2408,17 +2397,17 @@ function Update(self, dt)
 
         if winBossCinematic then
 
-            if not anim then
-                winBossCinematic = false 
-                return 
-            end 
+            -- if not anim then
+            --     winBossCinematic = false 
+            --     return 
+            -- end 
 
-            if anim then
-                if not anim:IsPlayingAnimation("WinBoss") then
-                    winBossCinematic = false 
-                    return 
-               end
-            end
+            -- if anim then
+            --     if not anim:IsPlayingAnimation("WinBoss") then
+            --         winBossCinematic = false 
+            --         return 
+            --     end
+            -- end
 
             self.transform:SetPosition(131.348, -1.259, -650.359)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end

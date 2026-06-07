@@ -38,12 +38,23 @@ local function RefreshUI(self, animate)
 end
 
 local function ApplyChanges(self)
+    local wasFullScreen = _G.GraphicsSettings.fullScreen
+    local resChanged = (_G.GraphicsSettings.resolutionIndex ~= pending.resolutionIndex)
+
     _G.GraphicsSettings.resolutionIndex = pending.resolutionIndex
     _G.GraphicsSettings.fullScreen      = pending.fullScreen
     _G.GraphicsSettings.antiAliasing    = pending.antiAliasing
 
     local res = RESOLUTIONS[_G.GraphicsSettings.resolutionIndex]
     local w, h = res:match("(%d+) x (%d+)")
+
+    -- Si estamos en pantalla completa y la resolución cambia, desactivamos
+    -- momentáneamente para asegurar que el motor aplique el nuevo tamaño 
+    -- de ventana antes de volver a entrar en modo fullscreen con la nueva resolución.
+    if wasFullScreen and _G.GraphicsSettings.fullScreen and resChanged then
+        Engine.SetFullScreen(false)
+    end
+
     if w and h then
         Engine.SetResolution(tonumber(w), tonumber(h))
     end

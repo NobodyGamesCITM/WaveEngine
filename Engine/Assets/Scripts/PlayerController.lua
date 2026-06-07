@@ -1770,16 +1770,6 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
-    if _G.CinematicActive then
-        if Player.rb then 
-            local currentVel = Player.rb:GetLinearVelocity()
-            Player.rb:SetLinearVelocity(0, math.min(0, currentVel.y), 0) 
-        end
-        if Player.currentState ~= State.IDLE then
-            ChangeState(self, State.IDLE, true)
-        end
-        return
-    end
 
     if not Player.bulletReady then
         Player.bulletReady = true

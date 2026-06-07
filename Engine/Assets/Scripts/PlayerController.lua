@@ -118,7 +118,7 @@ local Player = {
 	aresAttackPs         = nil,
 	apoloAttackPs         = nil,
 	trailPs         = nil,
-    --ghostsPs        = nil,
+    ghostsPs        = nil,
     aresLight         = nil,
 	apoloLight         = nil,
 	hermesLight         = nil,
@@ -1461,6 +1461,19 @@ local function RefreshAudioSources(self)
     --Engine.Log(" - MaskSFX: " ..(maskGo and "CHILD FOUND" or "ROOT DEFAULT"))
 end
 
+local function FindGhostParticles(self)
+    local portalGhostsObj = GameObject.Find("PortalGhostParticles")
+    if portalGhostsObj then 
+        Player.ghostsPs = portalGhostsObj:GetComponent("ParticleSystem")
+        if not Player.ghostsPs then 
+            Engine.Log("Unable to retrieve Ghost Particle System")
+        end
+       
+    else
+        Engine.Log("Unable to retrieve Ghost VFX GameObject")
+    end
+end
+
 
 
 local FindMasks
@@ -1598,11 +1611,10 @@ function Start(self)
         end
     end
 
-    local portalGhostsObj = GameObject.Find("PortalGhostParticles")
-    if portalGhostsObj then 
-        local ghostsPs = portalGhostsObj:GetComponent("ParticleSystem") 
-        if ghostsPs then ghostsPs:Stop() end
-    end
+    if not Player.ghostsPs then FindGhostParticles(self) end
+    
+    if Player.ghostsPs then Player.ghostsPs:Stop() end
+
 
     _G.SetPlayerCanMove = function(value)
         self.public.canMove = value
@@ -2322,11 +2334,11 @@ function Update(self, dt)
                 --playing right in the player's ears BUT THIS SOUND HAS PANNING hehe :3
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_EP_Ghosts")
-                    local portalGhostsObj = GameObject.Find("PortalGhostParticles")
                     
-                    if portalGhostsObj then 
-                        local ghostsPs = portalGhostsObj:GetComponent("ParticleSystem") 
-                        if ghostsPs then ghostsPS:Play() end
+                    
+                    if Player.ghostsPs then 
+                        Player.ghostsPs:Play() 
+                        Player.ghostsPs:SetEmissionRate(1.0)
                     end
                 
                     --Engine.Log("Played Ghost Screams") 
@@ -2348,6 +2360,11 @@ function Update(self, dt)
                 if Player.heartSFX then 
                     Player.heartSFX:SelectPlayAudioEvent("SFX_EP_DarkEnergy")
                     --Engine.Log("Played Dark Energy")  
+
+                    if Player.ghostsPs then 
+                        if not Player.ghostsPs:IsPlaying() then Player.ghostsPs:Play() end
+                        Player.ghostsPs:SetEmissionRate(5.5)
+                    end
                 end
             end
 
@@ -2365,6 +2382,10 @@ function Update(self, dt)
                     Audio.SetSwitch("Player_Voice", "Scared", Player.voiceSFX)
                     Player.voiceSFX:SelectPlayAudioEvent("SFX_EP_TeleScared")
                     --Engine.Log("Played TeleScared")  
+                    if Player.ghostsPs then 
+                        if not Player.ghostsPs:IsPlaying() then Player.ghostsPs:Play() end
+                        Player.ghostsPs:SetEmissionRate(15.0)
+                    end
                 end
             end
 
@@ -2372,7 +2393,9 @@ function Update(self, dt)
             if Player.AnimTimer <= 9.87 and Player.AnimTimer >= 9.7 and not Audio.IsEventPlaying("SFX_EP_PortalRiser") then
                 if Player.itemSFX then 
                     Player.itemSFX:SelectPlayAudioEvent("SFX_EP_PortalRiser") 
-                     --Engine.Log("Played Portal Riser")  
+                    --Engine.Log("Played Portal Riser")
+                      
+                    
                 end
             end
 

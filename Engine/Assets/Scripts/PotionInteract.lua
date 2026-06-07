@@ -52,10 +52,26 @@ local function PotionGet(self)
             ps.berserkCount = (ps.berserkCount or 0) + 1
             ps.maxBerserk = (ps.maxBerserk or 0) + 1
             Engine.Log("[Potion] Poción de Berserk obtenida. Nueva capacidad: " .. ps.maxBerserk)
+
+            -- Mostrar hint la primera vez que se recoge una poción Berserk
+            if not _G._FirstBerserkObtained then
+                _G._FirstBerserkObtained = true
+                if _G.ShowControlsHint then
+                    _G.ShowControlsHint("potion_berserk")
+                end
+            end
         else
             ps.potionCount = (ps.potionCount or 0) + 1
             ps.maxPotions = (ps.maxPotions or 0) + 1
             Engine.Log("[Potion] Poción de Vida obtenida. Nueva capacidad: " .. ps.maxPotions)
+
+            -- Mostrar hint la primera vez que se recoge una poción de Vida
+            if not _G._FirstHealthPotionObtained then
+                _G._FirstHealthPotionObtained = true
+                if _G.ShowControlsHint then
+                    _G.ShowControlsHint("potion_health")
+                end
+            end
         end
 
         if _G.ForceRefreshHUD then

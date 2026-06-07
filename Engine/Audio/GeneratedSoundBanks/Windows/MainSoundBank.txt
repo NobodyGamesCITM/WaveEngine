@@ -202,6 +202,13 @@ Effect plug-ins	ID	Name	Type				Notes
 	765864838	Time Stretch (Custom)	Wwise Time Stretch			
 	972658868	Time Stretch (Custom)	Wwise Time Stretch			
 	1144018367	Plate_Large	Wwise RoomVerb			
+	1252796875	Light_Expander	Wwise Expander			
+	1431209347	One_Tap_One_Second	Wwise Delay			
+	1588715066	Echoes_Linear	Wwise Delay			
+	1590660382	Nearly_Forever	Wwise Delay			
+	1820854077	Noise_Gate_Fast_Attack	Wwise Expander			
+	1863245162	Noise_Gate_Slow_Attack	Wwise Expander			
+	2180422931	One_Tap_Quarter_Second	Wwise Delay			
 	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
 	2900412812	Robotic_Trash	Wwise RoomVerb			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
@@ -209,6 +216,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	3250156175	Say_what	Wwise Tremolo			
 	3290519051	Aluminium_Tank	Wwise RoomVerb			
 	3442768367	Hall_Large_Dark	Wwise RoomVerb			
+	3487820010	One_Tap_Half_Second	Wwise Delay			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	12524470	demon-beast-howling-2	.cache\10\{107EEBE5-6A91-A813-9543-76FA77897BD2}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\WelcomeRoar\demon-beast-howling-2		213344
@@ -265,7 +273,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	175711509	skeleton_hit	.cache\96\{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem		\Containers\Default Work Unit\Objects\Skeleton\skeleton_hit		33992
 	190699463	coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458	.cache\10\{10128355-EE23-C610-836E-D8A03151E863}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\coghezzi-sacred-rune-lock-02-arcane-seal-activation-536458		129104
 	193892419	open_chest_03	.cache\A7\{A7F5D7D7-AB30-5289-FB7A-567E84FC1105}.wem		\Containers\Default Work Unit\Objects\Player\Open_Chest\open_chest_03		125720
-	198456775	heartbeat	.cache\6E\{6E3E9B47-5EEC-D54B-7444-64E693BA291B}.wem		\Containers\Default Work Unit\Objects\Player\heartbeat		1311056
+	198456775	heartbeat	.cache\40\{407D73A3-6922-7AC8-7B08-2012FAD15FD1}.wem		\Containers\Default Work Unit\Objects\Player\heartbeat		1311056
 	202134863	freesounds123-magic-spell-333896	.cache\C5\{C5D7FA7F-5C35-AC5F-8976-223AAB2649A5}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\freesounds123-magic-spell-333896		59984
 	207196639	aquiles_step_02	.cache\E6\{E63E6E18-F1C7-39CF-C1FC-57F75497C17C}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_FootSteps\aquiles_step_02		38312
 	208970398	grass_run_05	.cache\5C\{5C8982F8-EB6E-44A2-0A2B-F1A499BF25F5}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Run\grass_run_05		6632
@@ -484,11 +492,11 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	995547947	wood_run_03	.cache\3F\{3FB49B9D-2007-DA74-BA61-5F50DE56E269}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_03		7532
 	1000988990	grass_walk_01	.cache\13\{1347AC88-5287-053B-C775-5E44884DE2FD}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_01		13364
 	1003627683	sword_sand_stab_00	.cache\B8\{B89C31F8-5639-BC78-1850-4C5954703FEB}.wem		\Containers\Default Work Unit\Objects\Player\WakeUp\sword_sand_stab_00		26360
+	1009377299	accelerating_heartbeat_01	.cache\8F\{8F34B71B-55A7-D7BA-BCF9-A91D3A338D83}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\accelerating_heartbeat_01		1095632
 	1015733933	classic-ghost	.cache\57\{5780CEDD-46D9-CA9F-F210-4B7D436D48D1}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\CartoonGhosts\classic-ghost		199088
 	1023245561	minocabro_idlegrunt_02	.cache\3D\{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_02		178496
 	1041846858	AIGUA1	.cache\F8\{F8099315-4FEC-B24F-7CDC-D2DB17EA153F}.wem		\Containers\Default Work Unit\Objects\Ambiance\FlowingWater\AIGUA1		1354328
 	1045497793	dirt_run_02	.cache\D9\{D9E41754-8D72-EB32-8656-806E11273942}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Dirt\Dirt_Run\dirt_run_02		7244
-	1046410207	accelerating_heartbeat	.cache\D2\{D23D9F74-2D05-8905-B058-5270E7BD4F52}.wem		\Containers\Default Work Unit\Objects\Aquiles\FirstEncounterCinematic\accelerating_heartbeat		1146824
 	1048801786	wood_run_05	.cache\85\{859CF0E8-439C-06C7-C96A-66FCF1E114FE}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_05		6632
 	1051108445	wood_run_01	.cache\1D\{1DAC6BE6-76E9-340B-B9FF-B8439DEEA9BC}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Wood\Wood_Run\wood_run_01		7604
 	1053237588	Mino_Charge	.cache\2B\{2B630395-DE9C-A067-BC08-8E1921E200EA}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Charge		102608

@@ -2179,6 +2179,11 @@ function Update(self, dt)
             if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
 
             -- local anim = self.gameObject:GetComponent("Animation")
+            -- if Player.AnimTimer >= 29.0 then
+            --     Engine.Log("Set Music State to Boss_Intro from PlayerController")
+            --     Audio.SetMusicState("Boss_Intro") 
+            --     Player.AnimTimer = 29.0 
+            -- end
 
             -- if not anim then 
             --     _G.BossIntroCinematic = false
@@ -2190,21 +2195,30 @@ function Update(self, dt)
             --     Engine.Log("Anim not playing, aborting Boss Intro Cinematic") 
             -- end
 
+            --Engine.Log("Player Anim Timer = "..tostring(Player.AnimTimer))
+
             --bossIntroCinematic = true
 
-            if Player.AnimTimer <= 27.8 and Player.AnimTimer >= 24.7 and not Audio.IsEventPlaying("SFX_TurnaroundRiser") then
+            if Player.AnimTimer <= 25.79 and Player.AnimTimer >= 25.7 and not Audio.IsEventPlaying("SFX_TurnaroundRiser") then
                 if Player.heartSFX then Player.heartSFX:SelectPlayAudioEvent("SFX_TurnaroundRiser") end
             end
 
-            if Player.AnimTimer <= 11.7 and Player.AnimTimer >= 11.5 and not Audio.IsEventPlaying("SFX_PlayerAttack") then
+            if Player.AnimTimer <= 8.8 and Player.AnimTimer >= 8.7 and not Audio.IsEventPlaying("SFX_PlayerAttack") then
 
                 if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack") end
             end
 
-            --FOR SOME FUCKING REASON AQUILES WON'T PLAY THAT ONE
-            if Player.AnimTimer <= 9.0 and Player.AnimTimer >= 8.9 and not Player.voiceSFX:IsPlaying("SFX_IntroRoar") then
-                if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_IntroRoar") end
+            if Player.AnimTimer <= 6.58 and Player.AnimTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
+                if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_SpearPrep") end
+                Engine.Log("Playing SpearPrep at "..tostring(Player.AnimTimer))
             end
+
+            if Player.AnimTimer <= 6.0 and Player.AnimTimer >= 5.8 and not Audio.IsEventPlaying("SFX_IntroRoar") then
+                if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_IntroRoar") end
+                Engine.Log("Playing IntroRoar at "..tostring(Player.AnimTimer))
+            end
+
+
             
             --Engine.Log("Player Anim Timer = "..tostring(Player.AnimTimer))
             if Player.AnimTimer <= 4 then 
@@ -2470,28 +2484,7 @@ function Update(self, dt)
 
         if exitPortalCinematic  then
 
-            -- timer = 18.0
-
-            -- local anim = self.gameObject:GetComponent("Animation")
-
-            -- if not anim then
-            --     exitPortalCinematic = false
-            --     Engine.Log("Anim not found, aborting exit portal cinematic") 
-            --     return 
-            -- end 
-
-            -- if anim then
-            --     if not anim:IsPlayingAnimation("PortalExit") then
-            --         Engine.Log("Anim not playing, aborting exit portal cinematic") 
-            --         exitPortalCinematic = false 
-            --         return 
-            --     end
-            -- end
-
-            -- Engine.Log("Playing Exit Portal Cinematic, timer = "..tostring(Player.AnimTimer))
-
-            -- Engine.Log("What timer is this?"..tostring(timer))
-            
+            --timer = 18
             --breath in-out
             if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_Panting") then 
                 if Player.voiceSFX then 
@@ -2584,7 +2577,7 @@ function Update(self, dt)
 
             
 
-            self.transform:SetPosition(131.348, -1.259, -650.359)
+            self.transform:SetPosition(131.348, -6.648, -650.359)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
 
             

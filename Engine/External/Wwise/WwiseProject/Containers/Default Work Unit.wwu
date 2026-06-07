@@ -13218,6 +13218,107 @@
 												</Sound>
 											</ChildrenList>
 										</Folder>
+										<Sound Name="accelerating_heartbeat_01" ID="{A33F61A8-D30F-46C7-B8C3-BE74DDFFE30E}" ShortID="272225113">
+											<PropertyList>
+												<Property Name="IsLoopingInfinite" Type="bool" Value="False"/>
+												<Property Name="Lowpass" Type="int16">
+													<ValueList>
+														<Value>55</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="accelerated_heartbeat_rendered_01" ID="{C55286E6-7600-41AF-854D-32C7307DDA53}">
+													<Language>SFX</Language>
+													<AudioFile>accelerated_heartbeat_rendered_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1009377299"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<EffectSlot Name="" ID="{83C8940F-08AC-4FB9-8488-766B44D65B0A}" ShortID="63385236">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Time Stretch (Custom)" ID="{EFC06A22-094F-42E0-B82B-30DE5120B17D}" ShortID="568423161" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+																		<PropertyList>
+																			<Property Name="TimeStretch" Type="Real32" Value="110"/>
+																		</PropertyList>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+													<EffectSlot Name="" ID="{5AF772F6-6869-4AB1-A22D-B8FFD17C718B}" ShortID="947655470">
+														<PropertyList>
+															<Property Name="Render" Type="bool" Value="True"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</ObjectList>
+												<ObjectList Name="RTPC">
+													<RTPC Name="" ID="{AF028E67-1AE7-40C1-861A-AD3B0472C96F}" ShortID="105558035">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HeartBeat_Time" ID="{B6488091-907D-42F3-8C55-2133769B35CB}" WorkUnitID="{609764ED-C751-4750-9930-A50852E9BFCD}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{2727A0D2-9BD4-40D4-99E3-8B7748B951A0}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																				<SegmentShape>Log2</SegmentShape>
+																			</Point>
+																			<Point>
+																				<XPos>19</XPos>
+																				<YPos>5.95249</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="accelerated_heartbeat_rendered_01" ID="{C55286E6-7600-41AF-854D-32C7307DDA53}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 									</ChildrenList>
 								</Folder>
 								<RandomSequenceContainer Name="Aquiles_Area_Exp" ID="{21982919-D236-4B5F-AF8C-C7EEF0C2EA22}" ShortID="387109797">
@@ -14890,7 +14991,7 @@
 										<RandomSequenceContainer Name="CartoonGhosts" ID="{817BA513-0AD3-4E00-BA59-9767CCD1E80C}" ShortID="41779205">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2.5"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>
@@ -15254,7 +15355,7 @@
 										<RandomSequenceContainer Name="GhostWhispers" ID="{2F7ED951-3830-4214-8E1C-FBC9E9968509}" ShortID="432982475">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2.5"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>
@@ -15450,7 +15551,7 @@
 										<RandomSequenceContainer Name="GhostScreams" ID="{67F3254B-9549-4839-B3E2-F5C886E98842}" ShortID="270224186">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="2"/>
-												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2"/>
+												<Property Name="AttenuationDistanceScaling" Type="Real32" Value="2.5"/>
 												<Property Name="InitialDelay" Type="Real64">
 													<ModifierList>
 														<ModifierInfo>

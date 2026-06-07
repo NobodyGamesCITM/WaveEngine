@@ -58,12 +58,13 @@ local function TryChangeMusicState(self, finalMusicState)
 	if found then 
 		if _G.BossIntroCinematic then 
 			Audio.SetMusicState("Boss_Intro") 
+			Engine.Log("Set Music State to Boss_Intro from BGMusicActivator")
 		
 		elseif aquilesDefeated then 
 			--Engine.Log("[BGMusicActivator] Aquiles Defeated!")
 			Audio.SetMusicState("AfterBoss")
 		else 
-			--Engine.Log("[BGMusicActivator] Setting music state to "..tostring(finalMusicState))
+			Engine.Log("[BGMusicActivator] Setting music state to "..tostring(finalMusicState))
 			Audio.SetMusicState(tostring(finalMusicState)) 
 		end
 	else 

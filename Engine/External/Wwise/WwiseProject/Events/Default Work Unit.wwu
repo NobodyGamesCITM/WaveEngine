@@ -1578,7 +1578,7 @@
 										<Action Name="" ID="{D274C6FF-0E24-479B-95DB-F572A43C933A}" ShortID="909721195">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="accelerating_heartbeat" ID="{061CC7A5-586F-49F3-91F5-535A6E565FC8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="accelerating_heartbeat_01" ID="{A33F61A8-D30F-46C7-B8C3-BE74DDFFE30E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>
@@ -1827,7 +1827,7 @@
 										<Action Name="" ID="{859D6010-9063-459C-9EFB-5C62BA829E9A}" ShortID="866225242">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="12"/>
-												<Property Name="Volume" Type="Real64" Value="15"/>
+												<Property Name="Volume" Type="Real64" Value="8"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">

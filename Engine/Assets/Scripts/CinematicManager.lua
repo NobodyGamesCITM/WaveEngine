@@ -293,6 +293,7 @@ function Start(self)
             { time = 25.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
             { time = 27.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
         }
+        Engine.Log("Sending Play2BossIntroCinematic to camera")
         SendTrackToCamera(track, 1.5)
     end
 

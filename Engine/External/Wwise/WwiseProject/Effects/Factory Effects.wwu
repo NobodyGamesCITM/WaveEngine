@@ -1322,7 +1322,7 @@
 								<Effect Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="3.3"/>
-										<Property Name="Density" Type="Real32" Value="100"/>
+										<Property Name="Density" Type="Real32" Value="46"/>
 										<Property Name="DryLevel" Type="Real32" Value="-3.3"/>
 										<Property Name="ERFrontBackDelay" Type="Real32" Value="51"/>
 										<Property Name="ERLevel" Type="Real32" Value="-36"/>

@@ -6,6 +6,7 @@
 
 #include "Transform.h"
 #include "ComponentMesh.h"
+#include "BoxCollider.h"
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -83,6 +84,7 @@ private:
     rcConfig CreateDefaultConfig(const float* minBounds, const float* maxBounds);
 
     void RecollectObstacles(GameObject* obj);
+    void RecollectLimits(GameObject* obj);
 
     // Core bake logic for a single group of (possibly merged) surfaces.
     // 'primary'      - the GameObject that owns the resulting NavMeshData.
@@ -97,6 +99,7 @@ private:
 
     std::vector<NavMeshData> navMeshes;
     std::vector<GameObject*> navObstacles;
+    std::vector<GameObject*> navLimits;
 
     float sampleDist = 6.0f;
     float sampleMaxError = 1.0f;

@@ -17,7 +17,7 @@ void ComponentNavigation::OnEditor()
     ImGui::Checkbox("Navigation Static", &isStatic);
 
     //Select Type
-    const char* items[] = { "Surface", "Agent", "Obstacle" };
+    const char* items[] = { "Surface", "Agent", "Obstacle", "Limit" };
 
     int currentType = static_cast<int>(type);
     if (ImGui::Combo("Nav Type", &currentType, items, IM_ARRAYSIZE(items)))
@@ -119,6 +119,14 @@ void ComponentNavigation::OnEditor()
             }
         }
     }
+    if (type == NavType::LIMIT)
+    {
+        ImGui::Text("Limit Settings");
+        ImGui::Separator();
+        ImGui::Checkbox("Is Trigger", &limitIsTrigger);
+        ImGui::TextWrapped("This object's collider will act as a hard boundary during NavMesh baking. Agents will not navigate beyond it.");
+    }
+
     ImGui::Spacing();
 
     if (type != NavType::AGENT) {
@@ -291,6 +299,7 @@ void ComponentNavigation::Serialize(nlohmann::json& componentObj) const {
     componentObj["MaxSlope"] = maxSlopeAngle;
     componentObj["MoveSpeed"] = moveSpeed;
     componentObj["ArrivalThreshold"] = arrivalThreshold;
+    componentObj["LimitIsTrigger"] = limitIsTrigger;
 
     if (linkedSurface) {
         componentObj["LinkedSurfaceUID"] = linkedSurface->GetUID();
@@ -312,6 +321,9 @@ void ComponentNavigation::Deserialize(const nlohmann::json& componentObj) {
 
     if (componentObj.contains("ArrivalThreshold"))
         arrivalThreshold = componentObj["ArrivalThreshold"];
+
+    if (componentObj.contains("LimitIsTrigger"))
+        limitIsTrigger = componentObj["LimitIsTrigger"];
 
     if (componentObj.contains("LinkedSurfaceUID")) {
         this->tempSurfaceUID = componentObj["LinkedSurfaceUID"];

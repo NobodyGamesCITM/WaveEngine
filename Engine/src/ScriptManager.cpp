@@ -1054,6 +1054,23 @@ static int Lua_Audio_IsEventPlaying(lua_State* L) {
     return 1;
 }
 
+static int Lua_Audio_IsAudioSourcePlaying(lua_State* L) {
+    lua_getfield(L, 1, "ptr");  // get "ptr" from the table (slot 1)
+    void* ud = lua_touserdata(L, -1);
+    if (!ud) { lua_pop(L, 1); return 0; }
+    AudioSource* source = *static_cast<AudioSource**>(ud);
+    if (!source) { lua_pop(L, 1); return 0; }
+
+    std::string eventName(luaL_checkstring(L, 2));
+    std::wstring wEventName(eventName.begin(), eventName.end());
+
+
+    bool isSourcePlaying = Application::GetInstance().audio.get()->audioSystem->IsSourcePlaying(wEventName.c_str(), source->goID);
+
+    lua_pushboolean(L, isSourcePlaying);
+    return 1;
+}
+
 static int Lua_Audio_SetSourceVolume(lua_State* L) {
     lua_getfield(L, 1, "ptr");  
     float volume = luaL_checknumber(L, 2);
@@ -1114,6 +1131,28 @@ static int Lua_Audio_SetAsDefaultListener(lua_State* L) {
     if (listener) {
         listener->SetAsDefaultListener();
     }
+    return 0;
+}
+
+static int Lua_UI_SetRadialGradientCenter(lua_State * L) {
+    std::string name(luaL_checkstring(L, 1));
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    Application::GetInstance().scripts->EnqueueOperation([name, x, y]() {
+        UIManager::GetInstance().SetRadialGradientCenter(name, x, y);
+        });
+    return 0;
+}
+
+static int Lua_UI_SetRadialGradientCenterAndRadius(lua_State* L) {
+    std::string name(luaL_checkstring(L, 1));
+    float x = (float)luaL_checknumber(L, 2);
+    float y = (float)luaL_checknumber(L, 3);
+    float radiusX = (float)luaL_checknumber(L, 4);
+    float radiusY = (float)luaL_checknumber(L, 5);
+    Application::GetInstance().scripts->EnqueueOperation([name, x, y, radiusX, radiusY]() {
+        UIManager::GetInstance().SetRadialGradientCenterAndRadius(name, x, y, radiusX, radiusY);
+        });
     return 0;
 }
 
@@ -1374,6 +1413,8 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_setfield(L, -2, "SelectStopAudioEvent");
     lua_pushcfunction(L, Lua_Audio_IsEventPlaying);
     lua_setfield(L, -2, "IsEventPlaying");
+    lua_pushcfunction(L, Lua_Audio_IsAudioSourcePlaying);
+    lua_setfield(L, -2, "IsPlaying");
     lua_pushcfunction(L, Lua_Audio_SetSwitch);
     lua_setfield(L, -2, "SetSwitch");
     lua_pushcfunction(L, Lua_Audio_SetRTPCValue);
@@ -1441,6 +1482,9 @@ void ScriptManager::RegisterEngineFunctions() {
     lua_pushcfunction(L, Lua_UI_SliderValueChanged);    lua_setfield(L, -2, "SliderValueChanged");
     lua_pushcfunction(L, Lua_UI_SetSliderValue);        lua_setfield(L, -2, "SetSliderValue");
     lua_pushcfunction(L, Lua_UI_GetCanvasSliders);      lua_setfield(L, -2, "GetCanvasSliders");
+    lua_pushcfunction(L, Lua_UI_SetRadialGradientCenter); lua_setfield(L, -2, "SetRadialGradientCenter");
+    lua_pushcfunction(L, Lua_UI_SetRadialGradientCenterAndRadius);
+    lua_setfield(L, -2, "SetRadialGradientCenterAndRadius");
     lua_pushcfunction(L, +[](lua_State* L) -> int {
         std::string name(luaL_checkstring(L, 1));
         float left = (float)luaL_checknumber(L, 2);
@@ -2374,6 +2418,49 @@ static int Lua_ParticleSystem_Reset(lua_State* L) {
     return 0;
 }
 
+static int Lua_ParticleSystem_ClearColorGradient(lua_State* L) {
+    ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    if (Component::IsAlive(ps)) {
+        if (EmitterInstance* emitter = ps->GetEmitter()) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    static_cast<ModuleEmitterSpawn*>(m)->colorGradient.clear();
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+static int Lua_ParticleSystem_AddColorGradientKey(lua_State* L) {
+    ComponentParticleSystem* ps = *static_cast<ComponentParticleSystem**>(lua_touserdata(L, 1));
+    float time = (float)luaL_checknumber(L, 2);
+    float r = (float)luaL_checknumber(L, 3);
+    float g = (float)luaL_checknumber(L, 4);
+    float b = (float)luaL_checknumber(L, 5);
+    float a = (float)luaL_checknumber(L, 6);
+
+    if (Component::IsAlive(ps)) {
+        if (EmitterInstance* emitter = ps->GetEmitter()) {
+            for (auto* m : emitter->modules) {
+                if (m->type == ParticleModuleType::SPAWNER) {
+                    auto* spawner = static_cast<ModuleEmitterSpawn*>(m);
+                    ColorKey key;
+                    key.time = time;
+                    key.color = glm::vec4(r, g, b, a);
+                    spawner->colorGradient.push_back(key);
+
+                    std::sort(spawner->colorGradient.begin(), spawner->colorGradient.end(),
+                        [](const ColorKey& a, const ColorKey& b) { return a.time < b.time; });
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 static int Lua_GameObject_GetComponent(lua_State* L) {
     GameObject** objPtr = static_cast<GameObject**>(luaL_checkudata(L, 1, "GameObject"));
 
@@ -2677,6 +2764,9 @@ static int Lua_GameObject_GetComponent(lua_State* L) {
 
         lua_pushcfunction(L, Lua_Audio_SetSourceVolume);
         lua_setfield(L, -2, "SetSourceVolume");
+
+        lua_pushcfunction(L, Lua_Audio_IsAudioSourcePlaying);
+        lua_setfield(L, -2, "IsPlaying");
 
         return 1;
     }
@@ -3630,6 +3720,10 @@ void ScriptManager::RegisterComponentAPI() {
     lua_setfield(L, -2, "SetEndColor");
     lua_pushcfunction(L, Lua_ParticleSystem_SetSize);
     lua_setfield(L, -2, "SetSize");
+    lua_pushcfunction(L, Lua_ParticleSystem_ClearColorGradient);
+    lua_setfield(L, -2, "ClearColorGradient");
+    lua_pushcfunction(L, Lua_ParticleSystem_AddColorGradientKey);
+    lua_setfield(L, -2, "AddColorGradientKey");
     lua_pop(L, 1);
 }
 

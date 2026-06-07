@@ -13,13 +13,25 @@ local attackCooldown = 0
 local rollCooldown = 0
 local stepTimer = 0.5
 local winBossCinematic = false 
+local enterPortalCinematic = false
+local exitPortalCinematic = false
 local wakeUpCinematic = false
+local bossIntroCinematic = false
 local playedEpicBGM = false
 local playedSwordPrep = false
 local playedUnsheathe = false
 local playedFinishHim = false
 local playedSwordSwing = false
 local playedFinalNote = false
+
+local playedStep1 = false
+local playedStep2 = false
+local playedStep3 = false
+local playedStep4 = false
+local playedStep5 = false
+local playedStep6 = false
+
+
 
 
 -- Hit vignette
@@ -51,6 +63,7 @@ _G._PlayerController_isDead          = false
 _G.PlayerInstance                    = nil
 _G._MaskCount = 0
 _G._PlayerController_drownDeath = false
+_G._BossIntroCinematic = false
 
 local INPUT_SCALE = 10
 local HERMES_GRACE_TIME      = 0.2
@@ -59,12 +72,15 @@ local hurtTimer = 0.0
 local HURT_DURATION = 0.5
 local heavyAttackMoveSpeed = 7.0
 
+local iFramesTimer    = 0.0
+local IFRAME_DURATION = 1.0
+
 -- MASKS
 local Mask = {
     NONE   = "NoMask",
-    APOLLO = "None",
-    HERMES = "None",
-    ARES   = "None"
+    APOLLO = "Apolo",
+    HERMES = "Hermes",
+    ARES   = "Ares"
 }
 
 -- STATES
@@ -169,7 +185,7 @@ public = {
     speedIncrease       = 10.0,
     speedHermesBonus    = 7.0,
     staminaCost      = 80.0,
-    staminaRecover   = 50.0,   
+    staminaRecover   = 25.0,   
     rollStaminaCost     = 25,
     heavyStaminaCost    = 25,
     usingStamina        = false,
@@ -464,6 +480,10 @@ local function ChangeState(self, newState, force)
     if States[newState].Enter then
         States[newState].Enter(self)
     end
+end
+
+_G.SetPlayerStateIdle = function(playerSelf)
+    ChangeState(playerSelf, State.IDLE, true)
 end
 
 function _G.TriggerDrinkAnimation(self, isInternalHeal)
@@ -1353,12 +1373,14 @@ local function TakeDamage(self, amount, attackerPos)
     if Player.currentState == State.ROLL then return end
     if Player.godMode then return end
     if Player.AnimTimer > 0 then return end
+    if iFramesTimer > 0 then return end
 
     local anim = self.gameObject:GetComponent("Animation")
     if anim and Player.AnimTimer == 0 then
         anim:Play("Idle", 0.0)
         anim:Play("Hurt", 0.0)
         hurtTimer = HURT_DURATION
+        iFramesTimer = IFRAME_DURATION
     end
 
     if Player.thinBloodPs then Player.thinBloodPs:Play() end
@@ -1481,7 +1503,7 @@ function Start(self)
     _G.PlayWinBossCinematic     = false
 
     self.public.staminaCost    = 20.0   
-    self.public.staminaRecover = 15.0 
+    self.public.staminaRecover = 25.0
 
     local spawnPos  = self.transform.worldPosition
     
@@ -1580,19 +1602,10 @@ function Start(self)
     giveHermesMask      = false
     giveAresMask        = false
 
-    Mask.APOLLO = "None"
-    Mask.HERMES = "None"
-    Mask.ARES   = "None"
-
     _G._MaskState_Hermes = false
     _G._MaskState_Apolo  = false
     _G._MaskState_Ares   = false
 
-    maskAnimTimer = 0.0
-
-    Player.currentState = State.IDLE
-    ChangeState(self, State.IDLE, true)
-    Player.currentMask = nil
     FindMasks(self)
     InitParticles(self)
     EquipMask(self, Mask.NONE)
@@ -1603,6 +1616,13 @@ function Start(self)
     if Player.rb then
         Player.rb:SetLinearVelocity(0, 0, 0)
     end
+
+    Player.maskAnimTimer = 0.0
+    Player.currentState = State.IDLE
+    ChangeState(self, State.IDLE, true)
+
+    self.EquipMask = EquipMask
+    self.MaskScroll = MaskScroll
 
     -- Hit vignette init
     hitVigTimer = 0.0
@@ -1751,6 +1771,17 @@ function UpdateHitVignette(dt)
 end
 
 function Update(self, dt)
+    if _G.CinematicActive then
+        if Player.rb then 
+            local currentVel = Player.rb:GetLinearVelocity()
+            Player.rb:SetLinearVelocity(0, math.min(0, currentVel.y), 0) 
+        end
+        if Player.currentState ~= State.IDLE then
+            ChangeState(self, State.IDLE, true)
+        end
+        return
+    end
+
     if not Player.bulletReady then
         Player.bulletReady = true
         _G.nextBulletData = { x=0, y=-1000, z=0, dirX=0, dirZ=1, angle=0, scale=self.public.bulletScale or 1.0 }
@@ -1794,6 +1825,7 @@ function Update(self, dt)
             --Engine.Log("[Player] Switched to Level1_Intro BGM")
         end
     end
+
 
     if _PlayerController_pendingDamage and _PlayerController_pendingDamage > 0 then
         if Player.AnimTimer > 0 then
@@ -1880,6 +1912,7 @@ function Update(self, dt)
         Game.Resume()
         Game.SetTimeScale(1.0)
         
+        
         Player.rb = self.gameObject:GetComponent("Rigidbody")
 
         self.gameObject:SetTag("PersistentPlayer")
@@ -1962,7 +1995,7 @@ function Update(self, dt)
         end
 
         self.public.staminaCost    = 20.0   
-        self.public.staminaRecover = 15.0 
+        self.public.staminaRecover = 25.0 
         Player.baseSpeed = self.public.speed
         Player.currentSpeed = self.public.speed
 
@@ -2024,8 +2057,9 @@ function Update(self, dt)
             Player.maskAnimTimer = 0
             self.public.canMove = true
             ChangeState(self, State.IDLE)
+            local anim = self.gameObject:GetComponent("Animation")
             if anim then 
-                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.05) end)
+                local ok, err = pcall(function() anim:Play(GetAnimName("Idle"), 0.3) end)
                     if not ok then
                     Engine.Log("[Player] anim:Play failed: " .. tostring(err))
                 end
@@ -2052,17 +2086,49 @@ function Update(self, dt)
         end
     end
 
+    if iFramesTimer > 0 then
+        iFramesTimer = iFramesTimer - dt
+        if iFramesTimer <= 0 then iFramesTimer = 0 end
+    end
+
     if Player.AnimTimer > 0 then
         _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
 
-        -- if WinBoss then
+        if _G._BossIntroCinematic then
+            if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
 
-        -- end
+            --bossIntroCinematic = true
+
+            if Player.AnimTimer <= 27.8 and Player.AnimTimer >= 24.7 and not Audio.IsEventPlaying("SFX_TurnaroundRiser") then
+                if Player.heartSFX then Player.heartSFX:SelectPlayAudioEvent("SFX_TurnaroundRiser") end
+            end
+
+            if Player.AnimTimer <= 11.7 and Player.AnimTimer >= 11.5 and not Audio.IsEventPlaying("SFX_PlayerAttack") then
+
+                if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_PlayerAttack") end
+            end
+
+            --FOR SOME FUCKING REASON AQUILES WON'T PLAY THAT ONE
+            if Player.AnimTimer <= 9.0 and Player.AnimTimer >= 8.9 and not Player.voiceSFX:IsPlaying("SFX_IntroRoar") then
+                if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_IntroRoar") end
+            end
+            
+            --Engine.Log("Player Anim Timer = "..tostring(Player.AnimTimer))
+            if Player.AnimTimer <= 4 then 
+                Engine.Log("Switching music state to Boss")
+                Audio.SetMusicState("Boss")
+                _G.BossIntroCinematic = false
+                Player.AnimTimer = 0
+            end
+        end
+
+        
+        
         if wakeUpCinematic then
-
-            -- step 1
+            
+           
             if Player.AnimTimer <= 18.0 and Player.AnimTimer >= 17.9 and not Audio.IsEventPlaying("SFX_SandStir") then
                 if Player.stepSFX then 
                     --Audio.SetSFXVolume(50.0)
@@ -2070,13 +2136,13 @@ function Update(self, dt)
                     --Engine.Log("[WAKE UP] Played Sand Stir!")
                     --Audio.SetSFXVolume(100.0)
                 end
-                
+            
             end
 
             -- step 2
             if Player.AnimTimer <= 10.5 and Player.AnimTimer >= 10.3 and not Audio.IsEventPlaying("SFX_SandStep1") then
                 if Player.stepSFX then 
-                   
+                
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep1")
                     --Engine.Log("[WAKE UP] Played Step 1!")
                 end
@@ -2104,7 +2170,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 5.4 and Player.AnimTimer >= 5.2 and not Audio.IsEventPlaying("SFX_SandStep2") then
                 if Player.stepSFX then 
                     Player.stepSFX:SelectPlayAudioEvent("SFX_SandStep2") 
-                   -- Engine.Log("[WAKE UP] Played Step 2!")
+                -- Engine.Log("[WAKE UP] Played Step 2!")
                 end
             end
 
@@ -2130,10 +2196,242 @@ function Update(self, dt)
                 --Engine.Log("[WAKE UP] Something's up with the PlayerTimer")
             end
 
+
+            
+
+            
+
             if Player.AnimTimer < 0 then 
                 wakeUpCinematic = false
                 Audio.SetMusicState("Level1")
-                Engine.Log("[Player] Switched to Level1 BGM")
+                --Engine.Log("[Player] Switched to Level1 BGM")
+                Player.AnimTimer = 0
+            end
+
+        end
+
+        if enterPortalCinematic then 
+
+            timer = 20.0
+
+            if not anim then
+                 enterPortalCinematic = false 
+                 return 
+            end 
+
+            if anim then
+                if not anim:IsPlayingAnimation("PortalEnter") then
+                     enterPortalCinematic = false 
+                    return 
+                end
+            end
+
+
+            Audio.SetMusicVolume(10)
+
+
+            --Steps SFX have to be fired too close to each other so another audiosource (heartsource) will be used to alternate 
+            --step 1
+            if Player.AnimTimer <= 19.32 and not playedStep1 then
+            
+                if not Player.heartSFX:IsPlaying("SFX_CinematicStoneSteps") then 
+                    if Player.heartSFX then 
+                        Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                        Engine.Log("Played Step 1") 
+                        playedStep1 = true
+                    else
+                        --Engine.Log("Unable to retrieve heartSFX Audio Source Component")
+                    end
+                else
+                    --Engine.Log("SFX_PlayerFootSteps already playing from heartSFX")
+                end
+            end
+
+            --step 2
+            if Player.stepSFX then
+                if Player.AnimTimer <= 19.21 and not playedStep2 then 
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") 
+                    Engine.Log("Played Step 2")
+                    playedStep2 = true
+                end
+            end
+            
+
+            --step 3
+            if Player.heartSFX then 
+                if Player.AnimTimer <= 18.33 and not playedStep3 then
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 3")
+                    playedStep3 = true
+                end
+            end
+
+            --step 4
+            if Player.stepSFX then 
+                if Player.AnimTimer <= 17.625 and not playedStep4 then
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 4")
+                    playedStep4 = true
+                end
+            end
+
+            --start ghost screams
+            if Player.AnimTimer <= 16.8 and Player.AnimTimer >= 16.6 and not Audio.IsEventPlaying("SFX_EP_Ghosts") then
+
+                --playing right in the player's ears BUT THIS SOUND HAS PANNING hehe :3
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EP_Ghosts")
+                    Engine.Log("Played Ghost Screams") 
+                end
+
+            end
+
+            --step 5
+            if Player.AnimTimer <= 16.66 and not playedStep5 then
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps")
+                    Engine.Log("Played Step 5") 
+                    playedStep5 = true
+                end
+            end
+
+            -- DARK ENERGY
+            if Player.AnimTimer <= 13.8 and Player.AnimTimer >= 13.7 and not Audio.IsEventPlaying("SFX_EP_DarkEnergy") then
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_EP_DarkEnergy")
+                    Engine.Log("Played Dark Energy")  
+                end
+            end
+
+            --step 6
+            if Player.stepSFX then 
+                if Player.AnimTimer <= 11.625 and not playedStep6 then
+                    Player.stepSFX:SelectPlayAudioEvent("SFX_CinematicStoneSteps") 
+                    Engine.Log("Played Step 6")  
+                    playedStep6 = true
+                end
+            end
+            
+            if Player.AnimTimer <= 11.21 and Player.AnimTimer >= 11.1 and not Audio.IsEventPlaying("SFX_EP_TeleScared") then
+                if Player.voiceSFX then 
+                    Audio.SetSwitch("Player_Voice", "Scared", Player.voiceSFX)
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EP_TeleScared")
+                    Engine.Log("Played TeleScared")  
+                end
+            end
+
+            -- riser
+            if Player.AnimTimer <= 9.87 and Player.AnimTimer >= 9.7 and not Audio.IsEventPlaying("SFX_EP_PortalRiser") then
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EP_PortalRiser") 
+                     Engine.Log("Played Portal Riser")  
+                end
+            end
+
+            if Player.AnimTimer <= 0 then
+                enterPortalCinematic = false
+                playedStep1 = false
+                playedStep2 = false
+                playedStep3 = false
+                playedStep4 = false
+                playedStep5 = false
+                playedStep6 = false
+                Player.AnimTimer = 0
+                Engine.Log("Ended Enter Portal Cinematic")
+                Audio.SetMusicVolume(0)
+                
+            end
+
+
+        end
+
+        if exitPortalCinematic  then
+
+            timer = 18.0
+
+            if not anim then
+                exitPortalCinematic = false 
+                return 
+            end 
+
+            if anim then
+                if not anim:IsPlayingAnimation("PortalExit") then
+                    exitPortalCinematic = false 
+                    return 
+                end
+            end
+
+            
+            --breath in-out
+            if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_Panting") then 
+                if Player.voiceSFX then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_Panting") 
+                    Engine.Log("Played Panting SFX")
+                end
+                
+            end
+            
+            --whispering ghost
+            if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_GWhispers") then 
+                if Player.heartSFX then 
+                    Player.heartSFX:SelectPlayAudioEvent("SFX_EL_GWhispers")
+                    Engine.Log("Played Whispering Ghosts SFX") 
+                end
+            end
+
+            --themin ghost
+            if Player.voiceSFX then
+                if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Player.voiceSFX:IsPlaying("SFX_EL_GThemin") then 
+                    Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_GThemin") 
+                    Engine.Log("Played Themin Ghosts") 
+                end
+            end
+
+            --screaming ghost
+            if Player.voiceSFX then
+                if Player.AnimTimer <= 12.2 and Player.AnimTimer >= 12.1 and not Player.voiceSFX:IsPlaying("SFX_EL_GScream") then 
+                    if Player.voiceSFX then 
+                        Player.voiceSFX:SelectPlayAudioEvent("SFX_EL_GScream") 
+                        Engine.Log("Played Screaming Ghosts") 
+                    end
+                end
+            end
+
+
+            --cam pan whoosh
+            if Player.AnimTimer <= 16.2 and Player.AnimTimer >= 16.1 and not Audio.IsEventPlaying("SFX_EL_CamWhoosh") then 
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EL_CamWhoosh")
+                    Engine.Log("Played Camera Pan Whoosh SFX")  
+                end
+            end
+
+            --sword up
+            if Player.AnimTimer <= 6.4 and Player.AnimTimer >= 6.3 and not Audio.IsEventPlaying("SFX_EL_SwordUp") then 
+                if Player.swordSFX then
+                    Engine.Log("Played Sword Up SFX") 
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_EL_SwordUp") 
+                end
+            end
+
+            --sword down
+            if Player.AnimTimer <= 6.125 and Player.AnimTimer >= 6.0 and not Audio.IsEventPlaying("SFX_EL_SwordDown") then 
+                if Player.swordSFX then 
+                    Player.swordSFX:SelectPlayAudioEvent("SFX_EL_SwordDown")
+                    Engine.Log("Played Sword Down SFX") 
+                end
+            end
+
+            --cam zoom out
+            if Player.AnimTimer <= 4.54 and Player.AnimTimer >= 4.4 and not Audio.IsEventPlaying("SFX_EL_ZoomOut") then 
+                if Player.itemSFX then 
+                    Player.itemSFX:SelectPlayAudioEvent("SFX_EL_ZoomOut")
+                    Engine.Log("Played Camera Zoom Out SFX") 
+                end
+            end
+            
+            if Player.AnimTimer <= 0 then
+                exitPortalCinematic = false
                 Player.AnimTimer = 0
             end
 
@@ -2141,8 +2439,24 @@ function Update(self, dt)
 
         if winBossCinematic then
 
+
+            if not anim then
+                winBossCinematic = false 
+                return 
+            end 
+
+            if anim then
+                if not anim:IsPlayingAnimation("WinBoss") then
+                    winBossCinematic = false 
+                    return 
+               end
+            end
+
+
             self.transform:SetPosition(131.348, -1.259, -650.359)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
+
+            
 
             if musicComp and Audio.IsEventPlaying("MUS_BGM") then 
                 --Engine.Log("Stopped MUS_BGM")
@@ -2233,6 +2547,7 @@ function Update(self, dt)
             if Player.AnimTimer <= 0 then
                 winBossCinematic = false
                 Audio.SetMusicState("AfterBoss")
+                Player.AnimTimer = 0
                 if musicComp then musicComp:SelectPlayAudioEvent("MUS_BGM") end
                 playedEpicBGM = false
                 playedFinalNote = false
@@ -2245,7 +2560,7 @@ function Update(self, dt)
         
         if Player.isGetMaskAnim and Player.pendingObtainMask then
             if Player.pendingObtainMask == Mask.HERMES then 
-                self.transform:SetPosition(-68.549, 3.280, -323.0) 
+                self.transform:SetPosition(-68.549, 2.357, -323.0) 
                 if Player.rb then Player.rb:SetRotation(180, 0, 180) end
             end
             if Player.pendingObtainMask == Mask.APOLLO then 
@@ -2261,10 +2576,14 @@ function Update(self, dt)
         if Player.isPortalEnterAnim then
             self.transform:SetPosition(97.633, -0.811, -178.289)
             if Player.rb then Player.rb:SetRotation(0, 63.986, 0) end
+
+            enterPortalCinematic = true
+            
         end
 
         if Player.isPortalExitAnim then
             if Player.rb then Player.rb:SetRotation(180, 90, 180) end
+            exitPortalCinematic = true
         end
 
         if Player.isGetMaskAnim and Player.AnimTimer <= 27.25 and Player.AnimTimer >= 27.0 and not Audio.IsEventPlaying("SFX_GM_KnockBack") then 
@@ -2312,6 +2631,17 @@ function Update(self, dt)
             _G.PlayerInAnim = false
             Player.AnimTimer = 0
             self.public.canMove = true
+            if exitPortalCinematic then
+                exitPortalCinematic = false
+            end
+
+            if Player.isPortalExitAnim then
+                Player.lastDirX  = 0
+                Player.lastDirZ  = 1
+                Player.lastAngle = 0
+                if Player.rb then Player.rb:SetRotation(0, 180, 0) end
+            end
+
             ChangeState(self, State.IDLE)
             ChangeState(self, State.IDLE, true)
 
@@ -2323,8 +2653,6 @@ function Update(self, dt)
                 if Player.pendingObtainMask == Mask.APOLLO then
                     _G.ShowControlsHint("apolo_puzzle")
                     _G.ShowControlsHint("apolo_puzzleDisparo")
-                elseif Player.pendingObtainMask == Mask.ARES then
-                    _G.ShowControlsHint("ares_puzzle")
                 end
             end
 
@@ -2402,8 +2730,6 @@ function Update(self, dt)
         Player.sprintHeld = false
     end
 
-    MaskScroll(self)
-
     if Input.GetKeyDown("F1") then 
         giveApoloMask = true
         debugMaskGive = true
@@ -2469,7 +2795,7 @@ function Update(self, dt)
                 Player.currentState = State.IDLE
                 if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
                 self.public.canMove = false
-                self.transform:SetPosition(131.348, -1.259, -650.359)
+                self.transform:SetPosition(131.348, -6.661, -650.359)
                 if Player.rb then Player.rb:SetRotation(-180, 90, -180) end
                 Player.AnimTimer = 22.0
                 local anim = self.gameObject:GetComponent("Animation")
@@ -2538,8 +2864,7 @@ end
 
 function ObtainMask(self)
     local maskObtained = false
-    if giveApoloMask and Mask.APOLLO == "None" then
-        Mask.APOLLO = "Apolo"
+    if giveApoloMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Apollo) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Apollo = true
@@ -2551,8 +2876,7 @@ function ObtainMask(self)
     end
     giveApoloMask = false
 
-    if giveHermesMask and Mask.HERMES == "None" then
-        Mask.HERMES = "Hermes"
+    if giveHermesMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Hermes) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Hermes = true
@@ -2564,8 +2888,7 @@ function ObtainMask(self)
     end
     giveHermesMask = false
 
-    if giveAresMask and Mask.ARES == "None" then
-        Mask.ARES = "Ares"
+    if giveAresMask and not (_G._UnlockedMasks and _G._UnlockedMasks.Ares) then
         _G._MaskCount = _G._MaskCount + 1
         _G._UnlockedMasks = _G._UnlockedMasks or {}
         _G._UnlockedMasks.Ares = true
@@ -2634,8 +2957,12 @@ function ResetPlayer(self)
     _G._PlayerController_drownDeath = false
     _PlayerController_pendingDamage    = 0
     _PlayerController_pendingDamagePos = nil
+    iFramesTimer = 0.0
+
     accumulatedAlpha = 0.0
 
+    _G.CombatStates = {}
+    
     Player.isDrowning            = false
     _PlayerController_isDrowning = false
     Player.hermesGraceTimer      = 0

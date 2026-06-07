@@ -10,7 +10,8 @@ enum class NavType
 {
     SURFACE,
     AGENT,
-    OBSTACLE
+    OBSTACLE,
+    LIMIT
 };
 
 class ComponentNavigation : public Component {
@@ -26,6 +27,7 @@ public:
 
     float maxSlopeAngle = 35.0f;
     GameObject* linkedSurface = nullptr;
+    bool limitIsTrigger = false;
 
     // Par�metros
     float moveSpeed = 5.0f;

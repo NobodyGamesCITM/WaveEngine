@@ -16,10 +16,12 @@
 						<ObjectRef Name="SFX_GM_StatueOn" ID="{67B384E0-9A2C-4133-B2A7-B4E444D8858B}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SpearPrep" ID="{6EA91C80-7E4A-4175-AFD2-944C76E148C7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_SliderTest" ID="{C1F8A63D-4BBC-41CA-BA37-DBB9C710752E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_ZoomOut" ID="{D841A630-9048-420F-B17C-2B7282331CF7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PotionDrink" ID="{69FBD98F-C3AB-4240-AF58-1326B0814BDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoDieCry" ID="{1F244A86-91E6-4259-8207-3AC52A875CED}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_DoorMove" ID="{9D486567-4554-4275-B8DE-2D663F79B9F8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SwordSandUnstab" ID="{024FB2ED-8E91-4281-BFB1-F911D4ABF36D}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_GScream" ID="{25FCD3FA-2BB2-4298-840D-D24FD63A742E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesSpearHit" ID="{2C188969-1DDA-429F-B4C1-44482CAD51F0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PressPlate" ID="{348B4560-5EB4-42B6-82A2-C2BD590D65B7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SpearPull" ID="{3B87FED3-F8DC-42BB-91B8-CC268262DDB9}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -49,11 +51,15 @@
 						<ObjectRef Name="SFX_AquilesDash" ID="{25DD6384-4AC8-4561-816E-4FECEC968FE7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoDie" ID="{527F17F1-9C7A-456D-8822-3CB81C90A7E8}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_OpenChest" ID="{FCCC1BF7-7FA4-456E-B237-B32C62410DCC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_VaseBreak" ID="{FE823B3C-F0F2-456F-97B4-2DF7A7C23E34}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EP_TeleScared" ID="{14E15F7B-F2B8-458B-99E6-4C09E3F13C6D}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_TorchFire" ID="{D448BFDB-F7C2-4599-97EF-D05104A452FB}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_GThemin" ID="{1537CFFD-E08F-459D-B700-8AC7B33B6380}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoFall" ID="{A2C4F39B-CAAB-45C8-9741-CE5BDD8D8D06}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesWarcry" ID="{216A9658-2893-45D3-98A2-4A7A58622BB0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GM_Sword2" ID="{18715E8F-A267-460A-A913-5A921DA01DEB}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AresCharge" ID="{C804D2B1-0E64-460D-92D0-6B978E1BF186}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EP_Ghosts" ID="{4CB152BD-1237-462E-9643-3FF3F0305D39}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Reverb_Robotic" ID="{E6B61723-32EF-463C-B0F0-CEE4AE0176BE}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SkeletonSteps" ID="{24A18DDB-708D-4647-93D0-41A7F1628ED1}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SpearPlunge" ID="{2CDD8FC0-2D15-4653-A9DA-4EA318359ED9}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -63,6 +69,7 @@
 						<ObjectRef Name="SFX_MaskSwitch" ID="{888B09A6-60B7-46C9-BEC1-ADA39DE0F851}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_BerserkerPulse" ID="{3919538E-087D-46E6-9C4A-55BEDCF8346A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_SwordDown" ID="{D6E68945-93F0-46EA-B906-751DBD4386FD}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesSpearSwing" ID="{458B2546-C1CC-46FD-867E-195D90C88CC9}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SirenDip" ID="{2EBF8624-7D76-470C-8C76-DB8780E16211}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesAreaExp" ID="{B361ABC7-8C64-472B-8BFE-BFFABD3D23A2}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -72,6 +79,7 @@
 						<ObjectRef Name="Reverb_LongDarkHall" ID="{D9EA95D1-1B49-4759-AD24-104B147B9973}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesDeath" ID="{BA867AD9-D7D5-4777-BC99-21D40C9472E0}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesCollapse" ID="{44819C89-61C8-47B9-BAD3-4AC548FC2718}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_SwordUp" ID="{D1D5CBC3-0CDC-47CB-BC64-EC848B985BE2}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_SkipDialog" ID="{560BA397-C2BB-482D-8B8B-58CC00524E86}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SirenHurt" ID="{97204195-8C58-4830-AF5D-F1BD949098CC}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoIdle" ID="{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -79,6 +87,7 @@
 						<ObjectRef Name="Reverb_AluminumTank" ID="{54A85C7B-0306-48FF-A2EF-D2B8948C1362}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_ChainBreak" ID="{12E07506-D9AB-490C-8839-C14192AF5CDA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SandStir" ID="{66D01C92-12E7-4975-AF97-505F22DF4670}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_GWhispers" ID="{EF455109-D3CA-498E-994A-F535916851AE}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PlayerAttack" ID="{1DC59726-223E-49EA-890E-78DBB7650DEB}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_ButtonPress" ID="{ADA38DA9-F51E-49FE-A165-7F7122F5008C}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_OwlFly" ID="{AD69EF8A-4A65-4A14-B26A-C6AFB91CE710}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -86,6 +95,8 @@
 						<ObjectRef Name="SFX_AquilesShield" ID="{B33E9F00-8627-4A23-A54D-B16E09F44577}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_FinishHim" ID="{33915AEF-7FC6-4A30-B1ED-3D62D517A258}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_HeartBeat" ID="{4F189E42-4049-4A4C-A252-2BF67E005C9B}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EP_DarkEnergy" ID="{737239F3-CB2C-4A9C-9B9D-1FE231330B43}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_Panting" ID="{D8EC1CBB-79FF-4ABB-AB60-4C1C31E4072D}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_FlowingWater" ID="{9E52DD8A-49E8-4ACA-B268-C9563C5F8EF7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_OwlHoot" ID="{FAE3AAA0-F678-4B07-B28B-5639A3A414AE}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_StatueTurn" ID="{676BBD1D-8F58-4B1E-BD80-B2817347EB98}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -97,6 +108,7 @@
 						<ObjectRef Name="SFX_CheckPointSave" ID="{0816B4D0-AEC7-4C06-880D-49724B112FA5}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GhostsThemin" ID="{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="UI_PotionGet" ID="{614E647E-F611-4C76-B7DD-C1FC0E69CDDD}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EL_CamWhoosh" ID="{156435F1-EFD7-4CB7-A256-855C92686E96}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SandStep2" ID="{39015B01-9DE9-4CC1-AFD3-6C4069113777}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_AquilesSteps" ID="{277F7057-B177-4CE2-BE5F-B45532FA2A5A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_GM_MaskOn" ID="{E5063C11-CF69-4CFA-BEF1-C90C191DAAB5}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
@@ -118,9 +130,11 @@
 						<ObjectRef Name="SFX_AquilesBigStep" ID="{E0F98816-8662-4ED2-BA70-AA9633F0BEBE}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="MUS_FinalNote" ID="{4B74D4A6-07FD-4ED5-AF9F-9C420421056A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_SwordSandStab" ID="{1E728673-1F5B-4EE3-9E90-1D9EB1663454}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_EP_PortalRiser" ID="{F2058209-D585-4EFB-AD60-708A1D69CB2F}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MansionAmbience" ID="{D8092CF2-62B7-4F0B-B962-689E720F0947}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoCharge" ID="{9C238639-0895-4F1D-A576-C0A266052C5A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_HermesSpin" ID="{39FB2737-DF72-4F43-A0D0-4CAF8463C7ED}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_CinematicStoneSteps" ID="{727EA8CF-4DA9-4F9A-BEA4-CF0C22EA3A7E}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

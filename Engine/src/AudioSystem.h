@@ -22,6 +22,7 @@ public:
 	AkUniqueID eventID;
 	std::string eventName;
 	AkPlayingID playingID;
+	AkGameObjectID goID;
 	AkCallbackFunc eventCallback; //callback function wwise uses to fire events
 };
 
@@ -47,6 +48,9 @@ public:
 
 	bool IsEventPlaying(AkUniqueID event);
 	bool IsEventPlaying(const wchar_t* eventName);
+
+	bool IsSourcePlaying(AkUniqueID event, AkGameObjectID goID);
+	bool IsSourcePlaying(const wchar_t* eventName, AkGameObjectID goID);
 
 	// ----------------------- STATES ---------------------- //
 	void SetState(AkStateGroupID stateGroup, AkStateID state);

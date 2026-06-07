@@ -44,15 +44,6 @@
                                            Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
-
-                                <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                    <Image.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="-1"/>
-                                            <TranslateTransform x:Name="ArrowRTrans" X="30"/>
-                                        </TransformGroup>
-                                    </Image.RenderTransform>
-                                </Image>
                             </StackPanel>
 
                             <ControlTemplate.Triggers>
@@ -267,14 +258,10 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Grid.Background>
-        <LinearGradientBrush EndPoint="0.949027,0.792452" StartPoint="-0.0148285,0.566729">
-            <GradientStop Color="#FF000000" Offset="1"/>
-            <GradientStop Color="#FF000000" Offset="0.89900005"/>
+        <LinearGradientBrush StartPoint="-0.0055607,0.772681" EndPoint="0.949027,0.792452">
+            <GradientStop Offset="1" Color="#6B000000"/>
             <GradientStop Color="#00000000"/>
-            <GradientStop Color="#68000000" Offset="0.721"/>
-            <GradientStop Color="#20000000" Offset="0.57000005"/>
-            <GradientStop Color="#09000000" Offset="0.43600002"/>
-            <GradientStop Color="#03000000" Offset="0.33800003"/>
+            <GradientStop Color="#38000000" Offset="0.48700002"/>
         </LinearGradientBrush>
     </Grid.Background>
 
@@ -302,26 +289,28 @@
             <RowDefinition Height="21*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox Stretch="Uniform" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
-            <Grid HorizontalAlignment="Right">
+        <Viewbox Stretch="Uniform" Margin="0,189,-54,89" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
+            <Grid Width="238" Height="278" Margin="-91,-109,-33,-75" HorizontalAlignment="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="151*"/>
                     <RowDefinition Height="489*"/>
                     <RowDefinition Height="80*"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="192*"/>
+                    <ColumnDefinition Width="84*"/>
+                    <ColumnDefinition Width="0*"/>
+                </Grid.ColumnDefinitions>
 
-                <Viewbox Grid.Row="1">
+                <Viewbox Margin="60,60,11,0" Grid.Row="1">
                     <StackPanel x:Name="ButtonsPanel">
                         <noesis:Element.Transform3D>
-                            <noesis:CompositeTransform3D CenterX="180" CenterY="150"
-                                                         TranslateX="-30"
-                                                         RotationX="-8" RotationY="20"/>
+                            <noesis:CompositeTransform3D CenterX="180" CenterY="150"/>
                         </noesis:Element.Transform3D>
 
-                        <Button x:Name="StartButton" Content="START"
-                                Command="{Binding Path=Commands[StartButton]}"
+                        <Button x:Name="StartButton" Content="New Game" Command="{Binding Path=Commands[StartButton]}"
                                 Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60"
+                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
                                 RenderTransformOrigin="0.5,0.5">
                             <Button.RenderTransform>
                                 <TransformGroup>
@@ -341,10 +330,9 @@
                             </b:Interaction.Triggers>
                         </Button>
 
-                        <Button x:Name="ContinueButton" Content="CONTINUE"
-                                Command="{Binding Path=Commands[StartButton]}"
+                        <Button x:Name="ContinueButton" Content="Continue" Command="{Binding Path=Commands[StartButton]}"
                                 Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60"
+                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
                                 RenderTransformOrigin="0.5,0.5">
                             <Button.RenderTransform>
                                 <TransformGroup>
@@ -361,10 +349,9 @@
                             </b:Interaction.Triggers>
                         </Button>
 
-                        <Button x:Name="SettingsButton" Content="SETTINGS"
-                                Command="{Binding Commands[SettingsButton]}"
+                        <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}"
                                 Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60"
+                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
                                 RenderTransformOrigin="0.5,0.5">
                             <Button.RenderTransform>
                                 <TransformGroup>
@@ -379,16 +366,21 @@
                                     <noesis:SetFocusAction/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
+                            <Button.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.LayoutTransform>
                         </Button>
 
-                        <Button x:Name="ExitButton" Content="EXIT"
-                                Command="{Binding Commands[ExitButton]}"
-                                Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right"
-                                RenderTransformOrigin="0.5,0.5">
+                        <Button x:Name="ExitButton" RenderTransformOrigin="0.5,0.5" Content="Exit" Command="{Binding Commands[ExitButton]}"
+                                Style="{StaticResource TextButtonStyle}" Margin="0,0,5,0" HorizontalAlignment="Right" FontFamily="./#Cinzel" FontWeight="Medium">
                             <Button.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform ScaleY="0"/>
+                                    <ScaleTransform/>
                                     <SkewTransform/>
                                     <RotateTransform/>
                                     <TranslateTransform X="200"/>
@@ -406,8 +398,8 @@
             </Grid>
         </Viewbox>
 
-        <Rectangle x:Name="FadeOverlay" Margin="0" Grid.ColumnSpan="3" Grid.RowSpan="5"
-                   Fill="Black" Opacity="0" IsHitTestVisible="False"/>
+        <Rectangle x:Name="FadeOverlay" Margin="0,-5,0,5" Grid.ColumnSpan="3" Grid.RowSpan="5" Fill="Black" Opacity="0" IsHitTestVisible="False" d:IsLocked="True"/>
+        <TextBlock Text="SON OF ITHACA" Margin="189,40,31,335" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Foreground="#FFFFFFFF" FontFamily="./#Cinzel Decorative" FontSize="70" FontWeight="Bold" TextWrapping="Wrap"/>
 
     </Grid>
 </Grid>

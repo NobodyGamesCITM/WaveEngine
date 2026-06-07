@@ -312,23 +312,6 @@
                 </DoubleAnimationUsingKeyFrames>
 
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                              Storyboard.TargetName="AntiAliasingRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                              Storyboard.TargetName="AntiAliasingRow">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="-200"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3"  Value="-200"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.7"  Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction><CircleEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                               Storyboard.TargetName="ResolutionRow">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.0"  Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.4"  Value="0"/>
@@ -407,16 +390,16 @@
             <RowDefinition Height="78*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox Grid.Column="1" Grid.RowSpan="3">
-            <Image Source="Textures/Menu.PNG"/>
+        <Viewbox x:Name="BackgroundImageViewBox" Width="688" Height="688" Grid.Column="1" Grid.RowSpan="3">
+            <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
         </Viewbox>
 
-        <Grid Grid.Column="1" RenderTransformOrigin="0.5,0.5" Margin="0" Grid.Row="1">
+        <Grid Margin="44,36" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30*"/>
-                <RowDefinition Height="90*"/>
-                <RowDefinition Height="370*"/>
-                <RowDefinition Height="30*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="76*"/>
+                <RowDefinition Height="392*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="105*"/>
@@ -433,205 +416,207 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Viewbox.RenderTransform>
-                <TextBlock Text="GRAPHICS"
-                           FontFamily="./#ForgottenUncial"
-                           FontSize="65"
-                           Foreground="White"
+                <TextBlock Text="GRAPHICS" FontFamily="Fonts/#Cinzel Decorative" FontSize="65"
+                           Foreground="White" FontWeight="Bold"
                            TextAlignment="Center"
-                           Width="445"/>
+                           Width="445" Margin="0,4,0,-4"/>
             </Viewbox>
 
-            <Viewbox x:Name="ButtonsViewbox" Stretch="Uniform" Grid.Row="2" Grid.Column="1">
-                <Grid x:Name="ButtonsGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="8*"/>
-                        <RowDefinition Height="36*"/>
-                        <RowDefinition Height="24*"/>
-                        <RowDefinition Height="36*"/>
-                        <RowDefinition Height="24*"/>
-                        <RowDefinition Height="48*"/>
-                        <RowDefinition Height="32*"/>
-                        <RowDefinition Height="48*"/>
-                        <RowDefinition Height="20*"/>
-                        <RowDefinition Height="48*"/>
-                        <RowDefinition Height="8*"/>
-                    </Grid.RowDefinitions>
+            <Viewbox x:Name="ButtonsViewbox" Stretch="Uniform" Margin="39,25,39,20" Grid.Row="2" Grid.Column="1">
+              <Grid x:Name="ButtonsGrid" Width="570">
+                <Grid.RowDefinitions>
+                    <!-- Row 0: top padding -->
+                    <RowDefinition Height="20"/>
+                    <!-- Row 1: FULLSCREEN toggle -->
+                    <RowDefinition Height="44"/>
+                    <!-- Row 2: gap -->
+                    <RowDefinition Height="30"/>
+                    <!-- Row 3: ANTI-ALIASING toggle -->
+                    <RowDefinition Height="44"/>
+                    <!-- Row 4: gap -->
+                    <RowDefinition Height="30"/>
+                    <!-- Row 5: RESOLUTION picker -->
+                    <RowDefinition Height="52"/>
+                    <!-- Row 6: gap -->
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <!-- Row 7: APPLY button -->
+                    <RowDefinition Height="52"/>
+                    <!-- Row 8: gap -->
+                    <RowDefinition Height="28"/>
+                    <!-- Row 9: BACK button -->
+                    <RowDefinition Height="52"/>
+                    <!-- Row 10: bottom padding -->
+                    <RowDefinition Height="0"/>
+                </Grid.RowDefinitions>
 
-                    <CheckBox x:Name="FullScreen"
-                              Grid.Row="1"
-                              Content="FULLSCREEN"
-                              Style="{StaticResource SettingToggleStyle}"
-                              RenderTransformOrigin="0.5,0.5">
-                        <CheckBox.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </CheckBox.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </CheckBox>
-                    <Border x:Name="FullScreenRow"
-                            Grid.Row="1"
-                            Background="Transparent"
-                            IsHitTestVisible="False"
-                            RenderTransformOrigin="0.5,0.5">
-                        <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Border.RenderTransform>
+                <CheckBox x:Name="FullScreen"
+                        Grid.Row="1"
+                        Style="{StaticResource SettingToggleStyle}"
+                        RenderTransformOrigin="0.5,0.5" Content="Fullscreen" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </CheckBox>
+                <Border x:Name="FullScreenRow"
+                        Grid.Row="1"
+                        Background="Transparent"
+                        IsHitTestVisible="False"
+                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+
+                <CheckBox x:Name="AntiAliasing"
+                        Grid.Row="3"
+                        Style="{StaticResource SettingToggleStyle}"
+                        RenderTransformOrigin="0.5,0.5" Content="Anti-Aliasing" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </CheckBox>
+                <Border x:Name="AntiAliasingRow"
+                        Grid.Row="3"
+                        Background="Transparent"
+                        IsHitTestVisible="False"
+                        RenderTransformOrigin="0.5,0.5" Margin="0">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+
+                <Grid x:Name="ResolutionRow" Grid.Row="5" RenderTransformOrigin="0.5,0.5" Margin="0">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock FontFamily="./#Cinzel" FontSize="26" FontWeight="Medium"
+                            Foreground="#F0F0F0" Text="Resolution"
+                            VerticalAlignment="Center"/>
+
+                    <Border Grid.Column="1"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="4,8" Background="#FF333333" BorderBrush="#FF5A5A5A">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button x:Name="ResolutionPrev"
+                                    Style="{StaticResource ArrowButtonStyle}"
+                                    Content="◄" RenderTransformOrigin="0.5,0.5">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseEnter">
+                                        <noesis:SetFocusAction/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="-180"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+                            <TextBlock x:Name="ResolutionValue"
+                                    Text="1920 x 1080" FontFamily="./#Cinzel"
+                                    FontSize="22"
+                                    Foreground="White"
+                                    Width="140" FontWeight="Bold" TextAlignment="Center"
+                                    VerticalAlignment="Center"/>
+                            <Button x:Name="ResolutionNext"
+                                    Style="{StaticResource ArrowButtonStyle}"
+                                    Content="►">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseEnter">
+                                        <noesis:SetFocusAction/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
                     </Border>
-
-                    <CheckBox x:Name="AntiAliasing"
-                              Grid.Row="3"
-                              Content="ANTI-ALIASING"
-                              Style="{StaticResource SettingToggleStyle}"
-                              RenderTransformOrigin="0.5,0.5">
-                        <CheckBox.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </CheckBox.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </CheckBox>
-                    <Border x:Name="AntiAliasingRow"
-                            Grid.Row="3"
-                            Background="Transparent"
-                            IsHitTestVisible="False"
-                            RenderTransformOrigin="0.5,0.5">
-                        <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Border.RenderTransform>
-                    </Border>
-
-                    <Grid x:Name="ResolutionRow" Grid.Row="5" RenderTransformOrigin="0.5,0.5">
-                        <Grid.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Grid.RenderTransform>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="RESOLUTION"
-                                   FontFamily="./#ForgottenUncial"
-                                   FontSize="26"
-                                   Foreground="#F0F0F0"
-                                   VerticalAlignment="Center"/>
-
-                        <Border Grid.Column="1"
-                                BorderThickness="1"
-                                CornerRadius="6"
-                                Padding="4,8" BorderBrush="#FFA89881" Background="#FFD1BA9A">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button x:Name="ResolutionPrev"
-                                        Style="{StaticResource ArrowButtonStyle}"
-                                        Content="◄" RenderTransformOrigin="0.5,0.5">
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="MouseEnter">
-                                            <noesis:SetFocusAction/>
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
-                                    <Button.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="-180"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </Button.RenderTransform>
-                                </Button>
-                                <TextBlock x:Name="ResolutionValue"
-                                           Text="1920 x 1080"
-                                           FontFamily="./#ForgottenUncial"
-                                           FontSize="22"
-                                           Foreground="White"
-                                           Width="140"
-                                           TextAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                                <Button x:Name="ResolutionNext"
-                                        Style="{StaticResource ArrowButtonStyle}"
-                                        Content="►">
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="MouseEnter">
-                                            <noesis:SetFocusAction/>
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
-                                </Button>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Button x:Name="ApplyButton"
-                            Grid.Row="7"
-                            Style="{StaticResource TextButtonStyle}"
-                            Content="APPLY"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            RenderTransformOrigin="0.5,0.5">
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="BackButton"
-                            Grid.Row="9"
-                            Style="{StaticResource TextButtonStyle}"
-                            Content="BACK"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            RenderTransformOrigin="0.5,0.5">
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </Button>
                 </Grid>
+
+                <Button x:Name="ApplyButton"
+                        Grid.Row="8"
+                        Style="{StaticResource TextButtonStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin="0.5,0.5" Content="Apply" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button x:Name="BackButton"
+                        Grid.Row="10"
+                        Style="{StaticResource TextButtonStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin="0.5,0.5" Content="Back" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <noesis:SetFocusAction/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+            </Grid>
             </Viewbox>
         </Grid>
 

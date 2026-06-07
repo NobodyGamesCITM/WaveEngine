@@ -15,22 +15,29 @@ d:DesignWidth="1920" d:DesignHeight="1080">
           Background="#BF000000"
           IsHitTestVisible="False"/>
 
-    <Grid x:Name="ChangeMaskTutorialBackground" Visibility="Collapsed" IsHitTestVisible="False">
-        <Rectangle Opacity="0.479" Fill="#FF000000" Stroke="#FF000000">
-            <Rectangle.OpacityMask>
+    <Grid x:Name="ChangeMaskTutorialBackground"
+          Visibility="Collapsed"
+          IsHitTestVisible="False">
+        <Rectangle x:Name="TutorialGradientRect"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch">
+            <Rectangle.Fill>
                 <RadialGradientBrush
-                    RadiusX="0.12"
-                    RadiusY="0.18"
-                    GradientOrigin="0.0714,0.0963"
-                    Center="0.0714,0.0963">
+                    MappingMode="Absolute"
+                    RadiusX="320"
+                    RadiusY="160"
+                    GradientOrigin="146,104"
+                    Center="146,104">
                     <GradientStop Color="#00000000" Offset="0.0"/>
-                    <GradientStop Color="#00000000" Offset="0.35"/>
-                    <GradientStop Color="#FF000000" Offset="0.60"/>
-                    <GradientStop Color="#FF000000" Offset="1.0"/>
+                    <GradientStop Color="#00000000" Offset="0.38"/>
+                    <GradientStop Color="#AA000000" Offset="0.72"/>
+                    <GradientStop Color="#CC000000" Offset="1.0"/>
                 </RadialGradientBrush>
-            </Rectangle.OpacityMask>
+            </Rectangle.Fill>
         </Rectangle>
     </Grid>
+
+    <Grid x:Name="ChangeMaskTutorialGradient" Visibility="Collapsed" IsHitTestVisible="False"/>
 
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
@@ -66,7 +73,10 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     <TextBlock x:Name="MaskObtainedName" Margin="314,368,0,647" HorizontalAlignment="Center" Foreground="#FF5F5341" StrokeThickness="70" FontFamily="./#ForgottenUncial" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" TextDecorations="Underline"/>
                 </Grid>
                 <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="466" Margin="496,300,158,100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Image x:Name="MaskKey_Q" Source="Textures/Y.PNG" Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="82" Height="82">
+                        <Image x:Name="MaskKey_Q_GP" Source="Textures/Y.PNG"   Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q_KB" Source="Textures/Q.PNG"   Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
                     <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="355" Height="185" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image.RenderTransform>
                             <TransformGroup>
@@ -80,12 +90,21 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </StackPanel>
                 <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Width="614.66406" Margin="297,180,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Attack.png" Width="185" Height="202" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Q1" Source="Textures/Y.PNG" Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="83" Height="100">
+                        <Image x:Name="MaskKey_Q1_GP" Source="Textures/Y.PNG"     Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q1_KB" Source="Textures/Q.PNG"     Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
                     <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Skill.png" Width="242" Height="171" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Image x:Name="MaskKey_Shift" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="105" Height="98">
+                        <Image x:Name="MaskKey_Shift_GP" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG"    Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Shift_KB" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
                 </StackPanel>
                 <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Margin="300,200,0,70" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Image x:Name="MaskKey_Q2" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="84" Height="87">
+                        <Image x:Name="MaskKey_Q2_GP" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q2_KB" Source="Textures/Q.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
                     <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Ares_Attack.png" Width="423" Height="258">
                         <Image.RenderTransform>
                             <TransformGroup>

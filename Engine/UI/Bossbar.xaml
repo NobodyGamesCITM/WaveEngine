@@ -65,17 +65,14 @@
             <TranslateTransform Y="0"/>
         </Viewbox.RenderTransform>
         <TextBlock x:Name="Text"
-                   Text="Aquiles"
                    FontFamily="./#ForgottenUncial"
                    FontSize="20"
                    FontWeight="Bold"
                    Foreground="#FFC73D05"
-                   HorizontalAlignment="Center"
                    TextAlignment="Center"
                    RenderOptions.ClearTypeHint="Enabled"
-                   VerticalAlignment="Center"
                    CharacterSpacing="80"
-                   TextOptions.TextFormattingMode="Display"/>
+                   TextOptions.TextFormattingMode="Display" Text="Achilles "/>
     </Viewbox>
 
     <Viewbox x:Name="BossBarViewbox" Grid.Column="1" Grid.Row="3" Stretch="Uniform" Opacity="0" RenderTransformOrigin="0.5,0.5">
@@ -85,26 +82,22 @@
                 <TranslateTransform Y="0"/>
             </TransformGroup>
         </Viewbox.RenderTransform>
-
-        <Grid x:Name="BossBarRoot" Width="840" Height="120">
-            <Image x:Name="BossbarImage"
-                   Source="Textures/Bossbar.png"
-                   Stretch="Fill"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   RenderOptions.BitmapScalingMode="HighQuality"/>
-
-            <Grid x:Name="BossBarFill"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  ClipToBounds="True"
-                  Margin="106,46,0,0" Width="627" Height="19.5">
-                <Image x:Name="InteriorImage"
-                       Source="Textures/BossbarInterior.png"
-                       Stretch="Fill"
-                       HorizontalAlignment="Left"
-                       Width="627" Height="19.5"
-                       RenderOptions.BitmapScalingMode="HighQuality"/>
+        <Grid x:Name="BossbarGrid">
+            <Grid x:Name="BossBarInterior" Width="840" Height="120" HorizontalAlignment="Right">
+                <Image x:Name="BossbarBackground" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality" Source="Textures/Bossbar_Background.PNG"/>
+                <Grid x:Name="BossBar_Health" ClipToBounds="True">
+                    <Image x:Name="Healthbar" Stretch="Fill" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="HighQuality" Source="Textures/Bossbar_Health.PNG"/>
+                </Grid>
+                <Grid x:Name="Bossbar_Shield" ClipToBounds="True">
+                    <Image x:Name="ShieldBar" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality" Source="Textures/Bossbar_Shield.PNG"/>
+                    <Grid x:Name="BossbarExterior">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="43*"/>
+                            <RowDefinition Height="77*"/>
+                        </Grid.RowDefinitions>
+                        <Image x:Name="BossbarExterior_Image" Source="Textures/bossbarExterior.png" Grid.Row="1" Margin="0,22,0,14"/>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     </Viewbox>

@@ -185,10 +185,14 @@ end
 
 -- State functions
 local function UpdateIdle(self, dist)
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end 
     if not self.nav then return end
 
     if self.anim and not self.anim:IsPlayingAnimation("Idle") then
         self.anim:Play("Idle")
+        if self.voiceSFX and not self.voiceSFX:IsPlaying("SFX_MinoIdle") then 
+            self.voiceSFX:SelectPlayAudioEvent("SFX_MinoIdle") 
+        end
     end
 
     if self.playerGO then
@@ -209,7 +213,7 @@ local function UpdateIdle(self, dist)
 end
 
 local function UpdatePatrol(self, dt)
-
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then return end 
     if self.dustPs and self.dustPs:IsPlaying() then self.dustPs:Stop() end
 
     if not self.nav or not self.playerGO then return end
@@ -559,7 +563,7 @@ local function UpdateDeath(self, dt)
     end
 
     if self.voiceSFX then
-        if not Audio.IsEventPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 then 
+        if not self.voiceSFX:IsPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 then 
             self.voiceSFX:StopAudioEvent()
             self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDieCry") 
             --Engine.Log("[Minocabro] Playing Death SFX Part 1")
@@ -571,8 +575,9 @@ local function UpdateDeath(self, dt)
         --Engine.Log("[Minocabro] Unable to retrieve Voice Audio Source component")
     end
 
-    if not Audio.IsEventPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
-        if self.stepSFX then self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall")
+    if not self.voiceSFX:IsPlaying("SFX_MinoFall") and self.deathTimer <= 1.75 and self.deathTimer >= 1.5 then 
+        if self.stepSFX then 
+            self.stepSFX:SelectPlayAudioEvent("SFX_MinoFall")
             --Engine.Log("[Minocabro] Playing Death SFX Part 2")
         else
             --Engine.Log("[Minocabro] DeathSFX Part2 already playing!")
@@ -596,6 +601,8 @@ local function UpdateDeath(self, dt)
                 colision:Disable() 
                 self.rb:SetUseGravity(false)
             end
+
+            if self.deathPs then self.deathPs:Play() end
         end
         
         local pos = self.transform.position
@@ -628,8 +635,10 @@ local function FindMinocabroParticles(self)
         if not self.thinBloodPs then 
             --Engine.Log("[Minocabro] Thin Blood Particle System NOT found!")
         else
+            self.thinBloodPs:Stop()
             --Engine.Log("[Minocabro] Thin Blood Particle System FOUND!")
         end
+        self.thinBloodVFX:SetActive(false)
     else 
         --Engine.Log("[Minocabro] Could not retrieve Thin Blood Drops VFX GameObject") 
     end
@@ -640,8 +649,10 @@ local function FindMinocabroParticles(self)
         if not self.wideBloodPs then 
             --Engine.Log("[Minocabro] Wide Blood Particle System NOT found!")
         else
+            self.wideBloodPs:Stop()
             --Engine.Log("[Minocabro] Wide Blood Particle System FOUND!")
         end
+        self.wideBloodVFX:SetActive(false)
     else 
         --Engine.Log("[Minocabro] Could not retrieve Wide Blood Drops VFX GameObject") 
     end
@@ -652,8 +663,10 @@ local function FindMinocabroParticles(self)
         if not self.dustPs then 
             --Engine.Log("[Minocabro] Running Dust Particle System NOT found!")
         else
+            self.dustPs:Stop()
             --Engine.Log("[Minocabro] Running Dust Particle System FOUND!")
         end
+        self.dustVFX:SetActive(false)
     else 
         --Engine.Log("[Minocabro] Could not retrieve Running Dust VFX GameObject") 
     end
@@ -664,10 +677,26 @@ local function FindMinocabroParticles(self)
         if not self.hoofPs then 
             --Engine.Log("[Minocabro] Hoof Dust Particle System NOT found!")
         else
+            self.hoofPs:Stop()
             --Engine.Log("[Minocabro] Hoof Dust Particle System FOUND!")
         end
+        self.hoofVFX:SetActive(false)
     else 
         --Engine.Log("[Minocabro] Could not retrieve Hoof Dust VFX GameObject") 
+    end
+
+    self.deathVFX = GameObject.FindInChildren(self.gameObject, "DeathSmoke")
+    if self.deathVFX then 
+        self.deathPs = self.deathVFX:GetComponent("ParticleSystem") 
+        if not self.deathPs then 
+            --Engine.Log("[Minocabro] Death Smoke Particle System NOT found!")
+        else
+            self.deathPs:Stop()
+            --Engine.Log("[Minocabro] Death Smoke Particle System FOUND!")
+        end
+        self.deathVFX:SetActive(false)
+    else 
+        --Engine.Log("[Minocabro] Could not retrieve Death Smoke VFX GameObject") 
     end
 
 end
@@ -755,13 +784,7 @@ function Start(self)
 
     self.stepTimer = 0.5
 
-    --particle components
-    FindMinocabroParticles(self)
-    if self.thinBloodPs then self.thinBloodPs:Stop() end
-    if self.wideBloodPs then self.wideBloodPs:Stop() end
-    if self.dustPs then self.dustPs:Stop() end
-    if self.hoofPs then self.hoofPs:Stop() end
-
+    
 
     if self.anim then self.anim:Play("Idle") end
 
@@ -794,6 +817,17 @@ function Start(self)
     self.CheckAlive = function(self)
         return deadEn
     end
+
+
+    --particle components
+    FindMinocabroParticles(self)
+    if self.thinBloodPs then self.thinBloodPs:Stop() end
+    if self.wideBloodPs then self.wideBloodPs:Stop() end
+    if self.dustPs then self.dustPs:Stop() end
+    if self.hoofPs then self.hoofPs:Stop() end
+    if self.deathPs then self.deathPs:Stop() end
+
+
 end
 
 function Update(self, dt)
@@ -975,10 +1009,10 @@ function OnTriggerEnter(self, other)
             StopMovement(self)
             self.slideVelX=0
             self.slideVelZ= 0
-            if self.chargeFeedbackGO then
-                GameObject.Destroy(self.chargeFeedbackGO)
-                self.chargeFeedbackGO = nil
-            end
+            -- if self.chargeFeedbackGO then
+            --     GameObject.Destroy(self.chargeFeedbackGO)
+            self.chargeFeedbackGO = nil
+            -- end
             ChangeState(self, State.RECOVERY)
             --Engine.Log("[Minocabro] Impacto tras " .. timeCharge .. "s. Daño: " .. _EnemyDamage_minocabro)        
         end

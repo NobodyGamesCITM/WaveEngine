@@ -22,6 +22,7 @@ local shootTimer     = 0.0
 local delaying       = false
 local delayTimer     = 0.0
 local fireCooldown   = 0.0
+local shootParticle  = nil
 
 function Start(self)
     dirX           = self.public.dirX
@@ -32,6 +33,9 @@ function Start(self)
 
     anim = self.gameObject:GetComponent("Animation")
     if anim then anim:Play("Idle", 0.0) end
+
+    local vfx = GameObject.FindInChildren(self.gameObject, "Particle")
+    if vfx then shootParticle = vfx:GetComponent("ParticleSystem") end
 end
 
 function Update(self, dt)
@@ -57,6 +61,8 @@ function Update(self, dt)
 
     shooting     = false
     fireCooldown = 0.5
+
+    if shootParticle then shootParticle:Burst(40) end
 
     local fwd = self.transform.worldForward
     local rgt = self.transform.worldRight

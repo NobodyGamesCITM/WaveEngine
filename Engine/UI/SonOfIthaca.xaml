@@ -9,8 +9,8 @@
   <Grid x:Name="Title">
     <Grid.RowDefinitions>
       <RowDefinition Height="112*"/>
-      <RowDefinition Height="143*"/>
-      <RowDefinition Height="825*"/>
+      <RowDefinition Height="269*"/>
+      <RowDefinition Height="699*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="375*"/>
@@ -18,7 +18,7 @@
       <ColumnDefinition Width="376*"/>
     </Grid.ColumnDefinitions>
     <Viewbox x:Name="TitleViewBiox" Grid.Row="1" Grid.Column="1">
-      <TextBlock x:Name="TitleText" FontFamily="./#ForgottenUncial" TextWrapping="Wrap" Text="Son Of Ithaca" Foreground="#FFFFFFFF"/>
+      <TextBlock x:Name="TitleText" FontFamily="./#Cinzel Decorative Bold" FontSize="100" TextWrapping="Wrap" Text="Son Of Ithaca" Foreground="#FFFFFFFF"/>
     </Viewbox>
   </Grid>
 </Page>

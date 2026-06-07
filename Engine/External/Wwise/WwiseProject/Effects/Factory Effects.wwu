@@ -809,7 +809,8 @@
 								<Effect Name="Hall_Large_Dark" ID="{0F6A7D6D-131C-4650-9561-FC05F5C7A37B}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="5.2"/>
-										<Property Name="Density" Type="Real32" Value="70"/>
+										<Property Name="Density" Type="Real32" Value="10"/>
+										<Property Name="Diffusion" Type="Real32" Value="20"/>
 										<Property Name="ERLevel" Type="Real32" Value="-25"/>
 										<Property Name="ERPattern" Type="int32" Value="11"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="490"/>
@@ -818,6 +819,7 @@
 										<Property Name="Filter3Freq" Type="Real32" Value="11000"/>
 										<Property Name="Filter3Gain" Type="Real32" Value="-11.5"/>
 										<Property Name="HFDamping" Type="Real32" Value="5.05"/>
+										<Property Name="LFELevel" Type="Real32" Value="-2.3"/>
 										<Property Name="PreDelay" Type="Real32" Value="75"/>
 										<Property Name="Quality" Type="int32" Value="16"/>
 										<Property Name="ReverbLevel" Type="Real32" Value="-25"/>
@@ -1092,7 +1094,7 @@
 								<Effect Name="Inside_My_Head" ID="{94B53301-9AA1-468F-8419-92AEDAAE39DF}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="1.6"/>
-										<Property Name="Density" Type="Real32" Value="100"/>
+										<Property Name="Density" Type="Real32" Value="32"/>
 										<Property Name="Diffusion" Type="Real32" Value="0"/>
 										<Property Name="DryLevel" Type="Real32" Value="0"/>
 										<Property Name="ERFrontBackDelay" Type="Real32" Value="44"/>
@@ -1114,7 +1116,7 @@
 								<Effect Name="Inside_Your_Head" ID="{AE2D0AE1-8963-400A-AA4A-52A7A6397F89}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="1"/>
-										<Property Name="Density" Type="Real32" Value="82"/>
+										<Property Name="Density" Type="Real32" Value="42"/>
 										<Property Name="Diffusion" Type="Real32" Value="0"/>
 										<Property Name="DryLevel" Type="Real32" Value="-96"/>
 										<Property Name="ERLevel" Type="Real32" Value="-3"/>

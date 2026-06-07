@@ -27,12 +27,45 @@ local active      = false
 local pendingHint = nil
 local aresActive  = false
 
-local ALL_KEY_IMGS = { "MaskKey_Q", "MaskKey_Shift" }
+local ALL_KEY_IMGS_GP = { "MaskKey_Q_GP", "MaskKey_Q1_GP", "MaskKey_Q2_GP", "MaskKey_Shift_GP" }
+local ALL_KEY_IMGS_KB = { "MaskKey_Q_KB", "MaskKey_Q1_KB", "MaskKey_Q2_KB", "MaskKey_Shift_KB" }
+
+local function updateMaskKeys()
+    local isGamepad = (_G.LastInputType == "gamepad")
+    for _, img in ipairs(ALL_KEY_IMGS_GP) do UI.SetElementVisibility(img, isGamepad)  end
+    for _, img in ipairs(ALL_KEY_IMGS_KB) do UI.SetElementVisibility(img, not isGamepad) end
+end
+
+local lastW, lastH = 0, 0
 
 local function hideAll()
     for _, img in ipairs(ALL_MASK_IMGS) do UI.SetElementVisibility(img, false) end
     for _, p   in ipairs(ALL_PANELS)    do UI.SetElementVisibility(p,   false) end
     UI.SetElementVisibility("MaskObtainedName", false)
+end
+
+local TUTORIAL_GRADIENT_CENTER_X = 146
+local TUTORIAL_GRADIENT_CENTER_Y = 104
+local TUTORIAL_GRADIENT_RADIUS_X = 320
+local TUTORIAL_GRADIENT_RADIUS_Y = 160
+
+local function applyTutorialGradient(force)
+    local w, h = Camera.GetViewportSize()
+    if not w or w == 0 or not h or h == 0 then return end
+    if not force and w == lastW and h == lastH then return end
+    lastW, lastH = w, h
+
+    local scale   = math.min(w / 1920, h / 1080)
+    local offsetX = (w - 1920 * scale) * 0.5
+    local offsetY = (h - 1080 * scale) * 0.5
+    local centerX = offsetX + TUTORIAL_GRADIENT_CENTER_X * scale
+    local centerY = offsetY + TUTORIAL_GRADIENT_CENTER_Y * scale
+    UI.SetRadialGradientCenterAndRadius(
+        "TutorialGradientRect",
+        centerX, centerY,
+        TUTORIAL_GRADIENT_RADIUS_X * scale,
+        TUTORIAL_GRADIENT_RADIUS_Y * scale
+    )
 end
 
 local function closeMaskPanel()
@@ -48,7 +81,9 @@ local function closeMaskPanel()
             _G.ShowChangeMaskTutorial()
         else
             UI.SetElementVisibility("ChangeMaskTutorialBackground", true)
+            UI.SetElementVisibility("ChangeMaskTutorialGradient",   true)
             UI.SetElementVisibility("ChangeMaskTutorialPanel",      true)
+            applyTutorialGradient(true)
         end
     end
 
@@ -79,6 +114,8 @@ local function showMaskObtained(maskKey)
     active      = true
     pendingHint = data.hint
 
+    updateMaskKeys()
+
     -- Ares combat
     if data.name == "MÁSCARA DE ARES" then aresActive = true end
 
@@ -95,18 +132,35 @@ function Start(self)
     _G._IsMaskActive    = false
     _G.ShowMaskObtained = showMaskObtained
 
+    applyTutorialGradient(true)
+    _G.ApplyChangeMaskTutorialGradient = function(force)
+        applyTutorialGradient(force)
+    end
+
     Engine.Log("[MaskObtained] Ready")
 end
 
 function Update(self, dt)
+    applyTutorialGradient()
+
     if not active then return end
+
+    updateMaskKeys()
 
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         
         if aresActive then 
+            if _G.PlayGauntletAresCinematic then
+                _G.PlayGauntletAresCinematic()
+            end
+            
             local combat = GameObject.Find("AresCombat")
-            local combatScript = combat:GetComponent("Script")
-            if combatScript then combatScript.startCombat() end 
+            if combat then
+                local combatScript = combat:GetComponent("Script")
+                if combatScript and combatScript.startCombat then 
+                    combatScript.startCombat() 
+                end 
+            end
             aresActive = false
         end
         

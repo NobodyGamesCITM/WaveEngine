@@ -31,6 +31,13 @@ local function SendTrackToCamera(track, blendBackTime)
 
         cinematicCamComp:PlayCinematic(track, blendBackTime)
         wasPlaying = true
+        
+        if _G.PlayerInstance then 
+            _G.PlayerInstance.public.canMove = false 
+            local duration = blendBackTime
+            if track and #track > 0 then duration = duration + track[#track].time end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(duration) end
+        end
     end
 end
 
@@ -67,21 +74,21 @@ function Start(self)
             SendTrackToCamera(track, 3.0)
         elseif maskName == "Hermes" then
             local track = {
-                { time = 0.0,  pos = { -60.878, 5.180, -323.548 }, rot = { 0, 90.0, 0 } },
-                { time = 2.0,  pos = { -61.929, 5.180, -323.548 }, rot = { 0, 90.0, 0 } },
-                { time = 3.0,  pos = { -59.599, 5.527, -323.548 }, rot = { 0, 90.0, 0 } },
-                { time = 7.0,  pos = { -61.148, 5.527, -323.548 }, rot = { 0, 90.0, 0 } },
-                { time = 8.0,  pos = { -61.148, 5.527, -323.548 }, rot = { 6.9, 120.98, 0 } },
-                { time = 10.0, pos = { -61.148, 5.527, -323.548 }, rot = { 6.9, 120.98, 0 } },
-                { time = 11.0, pos = { -60.074, 7.558, -314.913 }, rot = { 0, 51.98, 0 } },
-                { time = 14.0, pos = { -57.336, 7.558, -313.792 }, rot = { 0, 55.58, 0 } },
-                { time = 15.0, pos = { -57.861, 7.558, -320.419 }, rot = { 0, 100.0, 0 } },
-                { time = 18.0, pos = { -57.861, 7.558, -320.419 }, rot = { 0, 100.0, 0 } },
-                { time = 19.0, pos = { -57.861, 7.558, -320.419 }, rot = { -17.9, 100.0, 0 } },
-                { time = 21.0, pos = { -57.861, 7.558, -320.419 }, rot = { -17.9, 100.0, 0 } },
-                { time = 25.0, pos = { -62.528, 6.496, -314.910 }, rot = { -7.5, 50.4, 0 } },
-                { time = 26.0, pos = { -66.423, 5.096, -314.120 }, rot = { 0, 18.0, 0 } },
-                { time = 30.0, pos = { -66.423, 5.096, -314.120 }, rot = { 0, 18.0, 0 } }
+                { time = 0.0,  pos = { -60.878, 4.257, -323.548 }, rot = { 0, 90.0, 0 } },
+                { time = 2.0,  pos = { -61.929, 4.257, -323.548 }, rot = { 0, 90.0, 0 } },
+                { time = 3.0,  pos = { -59.599, 4.604, -323.548 }, rot = { 0, 90.0, 0 } },
+                { time = 7.0,  pos = { -61.148, 4.604, -323.548 }, rot = { 0, 90.0, 0 } },
+                { time = 8.0,  pos = { -61.148, 4.604, -323.548 }, rot = { 6.9, 120.98, 0 } },
+                { time = 10.0, pos = { -61.148, 4.604, -323.548 }, rot = { 6.9, 120.98, 0 } },
+                { time = 11.0, pos = { -60.074, 6.635, -314.913 }, rot = { 0, 51.98, 0 } },
+                { time = 14.0, pos = { -57.336, 6.635, -313.792 }, rot = { 0, 55.58, 0 } },
+                { time = 15.0, pos = { -57.861, 6.635, -320.419 }, rot = { 0, 100.0, 0 } },
+                { time = 18.0, pos = { -57.861, 6.635, -320.419 }, rot = { 0, 100.0, 0 } },
+                { time = 19.0, pos = { -57.861, 6.635, -320.419 }, rot = { -17.9, 100.0, 0 } },
+                { time = 21.0, pos = { -57.861, 6.635, -320.419 }, rot = { -17.9, 100.0, 0 } },
+                { time = 25.0, pos = { -62.528, 5.573, -314.910 }, rot = { -7.5, 50.4, 0 } },
+                { time = 26.0, pos = { -66.423, 4.173, -314.120 }, rot = { 0, 18.0, 0 } },
+                { time = 30.0, pos = { -66.423, 4.173, -314.120 }, rot = { 0, 18.0, 0 } }
             }
             SendTrackToCamera(track, 3.0)
         elseif maskName == "Ares" then
@@ -128,9 +135,9 @@ function Start(self)
             }
         elseif statueId == "T" then
             track = {
-                { time = 0.00, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
-                { time = 2.98, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
-                { time = 2.99, pos = { 154.742, 8.695, -209.378 }, rot = { -180, -88.906, 180 } }, 
+                { time = 0.00, pos = { 158.871, 13.489, -217.612 }, rot = { 160.5, -88.906, -180 } }, 
+                { time = 2.98, pos = { 158.871, 13.489, -217.612 }, rot = { 160.5, -88.906, -180 } }, 
+                { time = 2.99, pos = { 158.871, 13.489, -217.612 }, rot = { 160.5, -88.906, -180 } }, 
                 { time = 3.00, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 3.01, pos = { 96.217, 19.671, -144.390 }, rot = { -31.169, 0, 0 } }, 
                 { time = 10.00, pos = { 114.142, 16.863, -154.432 }, rot = { -31.169, 37.6, 0 } }  
@@ -141,12 +148,12 @@ function Start(self)
     
     _G.PlayWinBossCinematic = function()
         local track = {
-            { time = 0.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
-            { time = 5.0,  pos = { 130.677, 0.217, -649.282 }, rot = { 0, 0, 0 } },
-            { time = 8.0, pos = { 130.677, 0.217, -645.161 }, rot = { 0, 0, 0 } },
-            { time = 10.0, pos = { 136.165, 0.217, -653.307 }, rot = { 180, 57.172, 180 } },
-            { time = 12.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } },
-            { time = 22.0, pos = { 138.832, 0.217, -664.079 }, rot = { 180, 56.315, 180 } }
+            { time = 0.0,  pos = { 130.677, -5.185, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 5.0,  pos = { 130.677, -5.185, -649.282 }, rot = { 0, 0, 0 } },
+            { time = 8.0, pos = { 130.677, -5.185, -645.161 }, rot = { 0, 0, 0 } },
+            { time = 10.0, pos = { 136.165, -5.185, -653.307 }, rot = { 180, 57.172, 180 } },
+            { time = 12.0, pos = { 138.832, -5.185, -664.079 }, rot = { 180, 56.315, 180 } },
+            { time = 22.0, pos = { 138.832, -5.185, -664.079 }, rot = { 180, 56.315, 180 } }
         }
         SendTrackToCamera(track, 3.0)
     end
@@ -154,9 +161,9 @@ function Start(self)
     _G.PlayPortalEnterCinematic = function()
         local track = {
             { time = 0.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } },
-            { time = 5.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
+            { time = 20.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
         }
-        SendTrackToCamera(track, 5.0)
+        SendTrackToCamera(track, 20.0)
     end
 
     _G.PlayPortalExitCinematic = function()
@@ -169,6 +176,132 @@ function Start(self)
         }
         SendTrackToCamera(track, 2.0)
     end
+
+    _G.PlayApolo1DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } },
+            { time = 3.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayApolo2Door2Cinematic = function()
+        local track = {
+            { time = 0.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } },
+            { time = 3.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayPreApoloHermes3TripleCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } },
+            { time = 4.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayApoloHermes3Door2Cinematic = function()
+        local track = {
+            { time = 0.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } },
+            { time = 3.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayAres1DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } },
+            { time = 3.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayCombined2DoorCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } },
+            { time = 3.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } }
+        }
+        SendTrackToCamera(track, 3.0)
+    end
+
+    _G.PlayDoorCinematic = function(doorId)
+        local track = {}
+        
+        if doorId == "Door_Default" then
+            track = {
+                { time = 0.0, pos = { 0.0, 10.0, 0.0 }, rot = { 0, 0, 0 } },
+                { time = 2.0, pos = { 0.0, 10.0, 0.0 }, rot = { 0, 0, 0 } }
+            }
+        elseif doorId == "Apolo1Door" then
+            track = {
+                { time = 0.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } },
+                { time = 3.0, pos = { 170.891, 42.774, -188.327 }, rot = { -25.699, 0.0, -1.0 } }
+            }
+        elseif doorId == "Apolo2Door2" then
+            track = {
+                { time = 0.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } },
+                { time = 3.0, pos = { 110.837, 57.545, -323.940 }, rot = { -26.011, -7.535, 0.0 } }
+            }
+        elseif doorId == "PreApoloHermes3Triple" then
+            track = {
+                { time = 0.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } },
+                { time = 4.0, pos = { 87.248, 25.194, -204.308 }, rot = { -18.011, -53.135, 0.0 } }
+            }
+        elseif doorId == "ApoloHermes3Door2" then
+            track = {
+                { time = 0.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } },
+                { time = 3.0, pos = { 144.501, 20.794, -213.317 }, rot = { -23.511, -78.035, 0.0 } }
+            }
+        elseif doorId == "Ares1Door" then
+            track = {
+                { time = 0.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } },
+                { time = 3.0, pos = { -30.029, 19.456, -142.973 }, rot = { -19.800, -90.0, 0.0 } }
+            }
+        elseif doorId == "Combined2Door" then
+            track = {
+                { time = 0.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } },
+                { time = 3.0, pos = { 81.742, 36.446, -258.252 }, rot = { -19.800, -51.2, 0.0 } }
+            }
+        else
+            Engine.Log("[CinematicManager] WARNING: Cinematic track not found for door: " .. tostring(doorId))
+            track = {
+                { time = 0.0, pos = { 0, 10, 0 }, rot = { 0, 0, 0 } },
+                { time = 2.0, pos = { 0, 10, 0 }, rot = { 0, 0, 0 } }
+            }
+        end
+        
+        SendTrackToCamera(track, 1.5)
+    end
+
+    _G.PlayBoss2IntroCinematic = function()
+        local track = {
+            { time = 0.0,  pos = { 118.862, -0.390, -641.972 }, rot = { -9.193, 12.800, 0.0 } },
+            { time = 4.0,  pos = { 118.862, -0.390, -641.972 }, rot = { -9.193, 12.800, 0.0 } },
+            { time = 6.0,  pos = { 124.962, -2.590, -655.972 }, rot = { -4.693, -36.100, 0.0 } },
+            { time = 8.0,  pos = { 129.862, -5.650, -653.572 }, rot = { 5.207, -180.000, 0.0 } },
+            { time = 10.0, pos = { 129.862, -5.650, -653.572 }, rot = { 5.207, -180.000, 0.0 } },
+            { time = 14.0, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 14.98, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 14.99, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 15.0, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 15.01,pos = { 135.232, -4.661, -635.663 }, rot = { -6.200, 86.700, 0.0 } },
+            { time = 15.02,pos = { 135.232, -4.661, -635.663 }, rot = { -6.200, 86.700, 0.0 } },
+            { time = 17.0, pos = { 136.232, -4.661, -635.663 }, rot = { -3.600, 84.300, 0.0 } },
+            { time = 21.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
+            { time = 25.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
+            { time = 30.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
+        }
+        SendTrackToCamera(track, 2)
+    end
+
+    _G.PlayGauntletAresCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 95.608, 22.819, -60.763 }, rot = { -17.300, 38.600, 0.0 } },
+            { time = 3.0, pos = { 95.608, 22.819, -60.763 }, rot = { -17.300, 38.600, 0.0 } }
+        }
+        SendTrackToCamera(track, 0.5)
+    end
 end
 
 function Update(self, dt)
@@ -177,12 +310,14 @@ function Update(self, dt)
             wasPlaying = false
             _G.CinematicActive = false
             
-            -- MOSTRAR PARTÍCULA DE LOCK ON DE NUEVO
+            if _G.PlayerInstance then 
+                _G.PlayerInstance.public.canMove = true 
+            end
+            
             if _G.TargetLockManager_SetParticleVisibility then
                 _G.TargetLockManager_SetParticleVisibility(true)
             end
             
-            -- RESTAURAR OPACIDAD DEL UIManager
             local uiManager = GameObject.Find("UIManager")
             if uiManager then
                 local uiCanvas = uiManager:GetComponent("Canvas")

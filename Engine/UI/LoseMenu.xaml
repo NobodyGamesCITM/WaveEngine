@@ -16,7 +16,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontFamily" Value="./#ForgottenUncial"/>
+            <Setter Property="FontFamily" Value="./#Cinzel-VariableFont_wght"/>
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
@@ -151,25 +151,19 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="#AC000000">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="300*"/>
-            <RowDefinition Height="120*"/>
+            <RowDefinition Height="135*"/>
+            <RowDefinition Height="423*"/>
+            <RowDefinition Height="162*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <RadialGradientBrush>
-                <GradientStop Offset="0"/>
-                <GradientStop Offset="0.868" Color="#E1000000"/>
-            </RadialGradientBrush>
-        </Grid.Background>
 
-        <Grid Grid.Column="1" Grid.Row="1">
+        <Grid Margin="155,0,0,0" Grid.ColumnSpan="2" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200*"/>
                 <RowDefinition Height="800*"/>
@@ -177,25 +171,13 @@
 
             <Viewbox x:Name="YouLose_Viewbox" Stretch="Uniform" Width="445">
                 <Grid Height="80" Width="445">
-                    <TextBlock x:Name="YouLose_Text"
-                               TextAlignment="Center"
-                               FontSize="65"
-                               FontFamily="Arial"
-                               StrokeThickness="8"
-                               Width="445"
-                               Text="YOU LOSE">
+                    <TextBlock x:Name="YouLose_Text" Text="YOU LOSE" Margin="-66,-33" StrokeThickness="8" FontFamily="./#Cinzel Decorative" FontSize="100" FontWeight="Bold" TextAlignment="Center">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Offset="0" Color="#FFFFFFFF"/>
                                 <GradientStop Offset="1" Color="#FFFFFFFF"/>
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
-                        <TextBlock.Stroke>
-                            <RadialGradientBrush>
-                                <GradientStop Offset="1" Color="#FF4E0000"/>
-                                <GradientStop Color="#FF000000" Offset="0.669"/>
-                            </RadialGradientBrush>
-                        </TextBlock.Stroke>
                     </TextBlock>
                 </Grid>
             </Viewbox>
@@ -207,10 +189,8 @@
                         <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="TryAgainButton"
-                            Opacity="0"
-                            Content="TRY AGAIN"
-                            Style="{StaticResource TextButtonStyle}"
+                    <Button x:Name="TryAgainButton" Margin="64,69,64,0" Opacity="0" FontFamily="./#Cinzel" FontWeight="Medium"
+                            Style="{StaticResource TextButtonStyle}" Content="Try Again"
                             Command="{Binding Path=Commands[TryAgainButton]}">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
@@ -226,10 +206,9 @@
                     </Button>
 
                     <Button x:Name="BackToMenuButton"
-                            Opacity="0"
-                            Content="BACK TO MENU"
-                            Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding Path=Commands[BackToMenuButton]}" Grid.Row="1">
+                            Opacity="0" FontFamily="./#Cinzel" FontWeight="Medium"
+                            Style="{StaticResource TextButtonStyle}" Content="Back To Menu"
+                            Command="{Binding Path=Commands[BackToMenuButton]}" Margin="46,66,46,0" Grid.Row="1">
                         <Button.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Button.RenderTransform>

@@ -13,6 +13,12 @@
 						<Property Name="TimeModDuration" Type="Real64" Value="19"/>
 					</PropertyList>
 				</ModulatorTime>
+				<ModulatorTime Name="Ghost_Whispers_Time" ID="{6828AA21-DBDD-4CCB-ACCD-A0DFABB0A1BB}" ShortID="562956476">
+					<PropertyList>
+						<Property Name="TimeModDuration" Type="Real64" Value="10.5"/>
+						<Property Name="TimeModLoops" Type="int32" Value="0"/>
+					</PropertyList>
+				</ModulatorTime>
 			</ChildrenList>
 		</WorkUnit>
 	</Modulators>

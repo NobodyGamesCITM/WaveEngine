@@ -1,4 +1,16 @@
+
 --Scene Changer Script
+public = {
+    targetScene = "Level2",
+    fadeSpeed   = 1.0,
+    musicFadeTime = 2.0,
+    currentLevel = "Level1",
+    loadingDuration = 2.5,
+    maxVolume = 100.0,
+    fullIntro = false
+}
+
+
 local State = {
     FADE_OUT = 0,
     IDLE     = 1,
@@ -16,19 +28,10 @@ local startDelay = 1.5
 local loadingTimer = 0.0
 local portalExitTimer = 0.0
 
-public = {
-    targetScene = "Level2",
-    fadeSpeed   = 1.0,
-    musicFadeTime = 2.0,
-    currentLevel = "Level1",
-    loadingDuration = 2.5,
-    maxVolume = 100.0,
-    fullIntro = false
-}
+
 
 function Start(self)
 
-    
     if self.public.currentLevel == "Level1" and self.public.fullIntro and self.gameObject.name == "SceneManager" then 
         if _G.LoadedFromSave then
             _G._PlayerController_introAnim = false 
@@ -45,16 +48,10 @@ function Start(self)
     
     _G._NewSceneLoaded = true 
 
-    _G.CurrentLevel = self.public.currentLevel
+    if not _G.CurrentLevel or _G.CurrentLevel == "" or _G.CurrentLevel == "MainMenu" then
+        _G.CurrentLevel = self.public.currentLevel
+    end
     canvasComponent = self.gameObject:GetComponent("Canvas") 
-
-    -- self.musicSource = GameObject.Find("MusicSource")
-    -- if self.musicSource then 
-    --     self.musicComp = self.musicSource:GetComponent("Audio Source")
-    --     if self.musicComp then 
-    --         Engine.Log("[SceneChanger] Music Audio Source Component Found") 
-    --     end
-    -- end
 
     if not canvasComponent then
         Engine.Log("[SceneTransition] ERROR: No se encontró Canvas.")
@@ -66,9 +63,21 @@ function Start(self)
     self.StartTransition = StartTransition
 
     if self.public.currentLevel == "Level2" then
-        portalExitTimer = 8.0
-        _G.PlayerInstance.public.canMove = false
-        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
+        if not _G.LoadedFromSave then
+            -- FIX: bloquejem la loading screen fins que la cinemàtica de portal estigui llesta
+            _G.PortalCinematicReady = false
+            portalExitTimer = 8.0
+            if _G.PlayerInstance then 
+                _G.PlayerInstance.public.canMove = false 
+            end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(15.0) end
+        else
+            _G.PortalCinematicReady = true
+            portalExitTimer = 0.0
+        end
+    else
+        -- Altres escenes no necessiten esperar cap cinemàtica
+        _G.PortalCinematicReady = true
     end
 end
 
@@ -78,31 +87,6 @@ function Update(self, dt)
         Engine.Log("[DEBUG] F8 presionado: Forzando salto a Level2")
         StartTransition(self, "Level2")
     end
-	
-	-- if not Audio.IsEventPlaying("MUS_BGM") then
-    --     local sceneVal = self.public.currentLevel
-    --     local musicState = "None"
-        
-    --     if self.public.currentLevel == "Level1" then 
-    --        musicState = "Level1"
-    --     elseif self.public.currentLevel == "Level2" then 
-    --        musicState = "Level2"
-    --     elseif self.public.currentLevel == "MainMenu" and _G.SkipSplash then
-    --         musicState = "MainMenu"
-    --     else
-    --         Engine.Log("[SceneChanger] Current Scene = "..tostring(self.public.currentLevel))
-    --     end
-        
-    --     Audio.SetMusicState(tostring(musicState))
-    --     self.musicSource = GameObject.Find("MusicSource")
-    --     if self.musicSource then 
-    --         self.musicComp = self.musicSource:GetComponent("Audio Source")
-    --         if self.musicComp then 
-    --             self.musicComp:SelectPlayAudioEvent("MUS_BGM") 
-    --             Engine.Log("Started playing BGM from SceneChanger")
-    --         end
-    --     end
-    -- end
 
     if not canvasComponent then return end
     _G.SceneManagerState = currentState
@@ -114,11 +98,18 @@ function Update(self, dt)
             _G.PlayerInstance.public.canMove = false
             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
             if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
+            
+            if _G.PlayPortalExitCinematic then _G.PlayPortalExitCinematic() end
+
             local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
             if anim then
                 pcall(function() anim:Play("Idle", 0.0) end)
                 pcall(function() anim:Play("PortalExit", 0.0) end)
             end
+
+            -- FIX: la cinemàtica ja s'ha llançat, ara podem fer el fade out de la loading screen
+            _G.PortalCinematicReady = true
+            Engine.Log("[SceneChanger] PortalCinematicReady activat.")
         end
     end
 
@@ -133,7 +124,14 @@ function Update(self, dt)
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
-			_G._MenuManager_NeedReinit = true
+
+            -- FIX: si tornem al MainMenu, avisem el MenuManager
+            if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
+                _G.MainMenuNeedsIntro = true
+                Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")
+            end
+
+            _G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
         SetSFXVolume(volume)
@@ -141,7 +139,13 @@ function Update(self, dt)
 
     elseif currentState == State.LOADING then
         loadingTimer = loadingTimer + dt
-        if loadingTimer >= (self.public.loadingDuration or 2.5) then
+
+        -- FIX: per Level2 (sense save), esperem tant el loadingDuration mínim
+        -- com que la cinemàtica de portal estigui llesta (_G.PortalCinematicReady)
+        local minTimeReached = loadingTimer >= (self.public.loadingDuration or 2.5)
+        local cinematicReady = (_G.PortalCinematicReady == true)
+
+        if minTimeReached and cinematicReady then
             if _G._NewSceneLoaded then
                 currentState = State.FADE_OUT
                 _G._NewSceneLoaded = false
@@ -149,6 +153,9 @@ function Update(self, dt)
             else
                 if Engine.LoadScene then
                     _G._NewSceneLoaded = true
+                    local nextScene = self.public.targetScene:gsub(".scene", "")
+                    _G.CurrentLevel = nextScene
+                    
                     Engine.LoadScene(self.public.targetScene)
                 end
             end
@@ -221,13 +228,11 @@ end
 function SetMusicVolume(volume)
     if volume then 
         Audio.SetMusicVolume(volume)
-    else
     end
 end
 
 function SetSFXVolume(volume)
     if volume then
         Audio.SetSFXVolume(volume)
-    else
     end
 end

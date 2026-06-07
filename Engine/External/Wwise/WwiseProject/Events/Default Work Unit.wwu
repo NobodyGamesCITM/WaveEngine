@@ -421,7 +421,29 @@
 								</Event>
 								<Event Name="SFX_ZoomOut" ID="{A33DE77F-9505-42EA-8358-EA12D669D38C}">
 									<ChildrenList>
+										<Action Name="" ID="{4A035180-A4C3-480C-A30F-B63847DA4816}" ShortID="420500557">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+												<Property Name="Pitch" Type="int32" Value="-1200"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
 										<Action Name="" ID="{EB232E09-8813-4F4C-A62F-0B1B1053562C}" ShortID="507737538">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{1459507E-13F4-432E-8540-F6332101ECC7}" ShortID="610284155">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="18"/>
+												<Property Name="Delay" Type="Real64" Value="15"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
 													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
@@ -623,6 +645,313 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Folder Name="EnterPortal" ID="{0DAA1D89-49C2-44E9-9DE6-CB708938A466}" ShortID="662554283">
+							<ChildrenList>
+								<Event Name="SFX_EP_DarkEnergy" ID="{737239F3-CB2C-4A9C-9B9D-1FE231330B43}">
+									<ChildrenList>
+										<Action Name="" ID="{BD83901D-67CA-424A-B815-E198F9565378}" ShortID="162578710">
+											<PropertyList>
+												<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Dark Energy" ID="{D8895C72-57D8-4534-9EE6-31D5C3FA5B04}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EP_Ghosts" ID="{4CB152BD-1237-462E-9643-3FF3F0305D39}">
+									<ChildrenList>
+										<Action Name="" ID="{277A61E4-B5D8-4832-A07F-25E56C56FEF3}" ShortID="314439911">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="ghost_whispers_cinematic" ID="{20FA6EE4-A71A-4210-AE6E-9B5F3D4B1687}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EP_PortalRiser" ID="{F2058209-D585-4EFB-AD60-708A1D69CB2F}">
+									<ChildrenList>
+										<Action Name="" ID="{69BA4F0F-1AE6-49E9-BC42-3FF97B9CBD9F}" ShortID="285486974">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="echo_riser" ID="{98F7273A-EF6C-4066-9617-AFA3457C08E3}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{067352E3-E47A-44DE-A124-E0752C043966}" ShortID="621690610">
+											<PropertyList>
+												<Property Name="Delay" Type="Real64" Value="0.15"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="flick" ID="{F4E87B79-07E1-4997-92D0-4871587AE656}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EP_TeleScared" ID="{14E15F7B-F2B8-458B-99E6-4C09E3F13C6D}">
+									<ChildrenList>
+										<Action Name="" ID="{DB34AFA9-B555-465B-9598-60642324B81F}" ShortID="861108113">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Vocal_Scared" ID="{2B94F20D-537D-40F6-A206-6B1D2635A217}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="EnterLVL2" ID="{EA021FA9-D78E-4DCE-A184-7BF48CAB7A20}" ShortID="463803082">
+							<ChildrenList>
+								<Event Name="SFX_EL_Panting" ID="{D8EC1CBB-79FF-4ABB-AB60-4C1C31E4072D}">
+									<ChildrenList>
+										<Action Name="" ID="{84CDF78D-6E66-4476-84A2-0A31231767A4}" ShortID="488992044">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="breathing-in-out" ID="{DD5DD989-3BCB-4849-AAFC-6070A7137020}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_GWhispers" ID="{EF455109-D3CA-498E-994A-F535916851AE}">
+									<ChildrenList>
+										<Action Name="" ID="{4FC28E43-1DB5-40CD-B84B-56B05CC7A40A}" ShortID="378736987">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="ghost_whispers_03" ID="{D651F06F-88D3-4993-BC39-0A5D01042A64}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{5EFE1AFD-99BB-4771-B69A-BAC5564915AB}" ShortID="698169007">
+											<PropertyList>
+												<Property Name="Delay" Type="Real64" Value="10"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="ghost_whispers_03" ID="{D651F06F-88D3-4993-BC39-0A5D01042A64}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{65EBBABF-E4BD-4A62-A045-C39935459481}" ShortID="761608950">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+												<Property Name="Delay" Type="Real64" Value="16"/>
+												<Property Name="FadeTime" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="ghost_whispers_03" ID="{D651F06F-88D3-4993-BC39-0A5D01042A64}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_GThemin" ID="{1537CFFD-E08F-459D-B700-8AC7B33B6380}">
+									<ChildrenList>
+										<Action Name="" ID="{5E50F117-7B60-4A85-AD4F-C330E807BBC2}" ShortID="169727781">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="-20"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sad-ghost" ID="{8AF8A98E-5A8C-4DD8-9F04-4F1AD1CDB8EF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{B9D54271-29FC-4E82-944C-7E3374BA6558}" ShortID="362528209">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sad-ghost" ID="{8AF8A98E-5A8C-4DD8-9F04-4F1AD1CDB8EF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{3432FDD2-A0C6-498E-833C-35E1E225B953}" ShortID="478692564">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Delay" Type="Real64" Value="5"/>
+												<Property Name="Volume" Type="Real64" Value="-5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sad-ghost" ID="{8AF8A98E-5A8C-4DD8-9F04-4F1AD1CDB8EF}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_GScream" ID="{25FCD3FA-2BB2-4298-840D-D24FD63A742E}">
+									<ChildrenList>
+										<Action Name="" ID="{F7D71AF6-6429-4836-91A5-607724F33A82}" ShortID="311790866">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="-10"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="scary-female-ghost" ID="{97197926-2D14-41A4-9A7A-83E87BD6FA47}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{0C68179A-2BE6-4DC4-B9BC-31B1AF6343FF}" ShortID="471626725">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="scary-female-ghost" ID="{97197926-2D14-41A4-9A7A-83E87BD6FA47}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{9CF6DD54-F713-4949-B99F-262911582D12}" ShortID="448423196">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="16"/>
+												<Property Name="Delay" Type="Real64" Value="7"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="scary-female-ghost" ID="{97197926-2D14-41A4-9A7A-83E87BD6FA47}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_SwordUp" ID="{D1D5CBC3-0CDC-47CB-BC64-EC848B985BE2}">
+									<ChildrenList>
+										<Action Name="" ID="{47139050-5D90-4E6A-9E7B-5A947E1D1C98}" ShortID="394068725">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="-5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{2CC91EE9-6C89-4C25-BDD7-D6F056E33490}" ShortID="503601312">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+												<Property Name="Pitch" Type="int32" Value="475"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{EE4AD4E6-56BF-4EDB-A49B-4AB1E4F7C475}" ShortID="388554290">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{F07BE20E-0FC6-4894-837D-0682CB535AF3}" ShortID="270151114">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="18"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{FA96CA23-8365-49CC-9F8D-D9EE6705AB53}" ShortID="784151665">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="16"/>
+												<Property Name="Delay" Type="Real64" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_soft" ID="{9D4BCD1A-1121-4553-9658-72B799543ABD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_SwordDown" ID="{D6E68945-93F0-46EA-B906-751DBD4386FD}">
+									<ChildrenList>
+										<Action Name="" ID="{DC0FE5BF-A61A-4EAA-9421-F75DDE5097BE}" ShortID="750840835">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sword_slice_hard" ID="{328AEA01-17B2-4A17-AB1B-B4A6687AFB4B}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{269E2E74-44F2-4501-B564-FA7005E4364A}" ShortID="915852309">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Vocal_Decided" ID="{EE73325E-BA95-4AAC-986A-554FBFFD5821}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_CamWhoosh" ID="{156435F1-EFD7-4CB7-A256-855C92686E96}">
+									<ChildrenList>
+										<Action Name="" ID="{B98B54CE-21D7-4DA0-97F1-64C1FB875CA5}" ShortID="416441801">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="12"/>
+												<Property Name="Volume" Type="Real64" Value="3"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{C06DD48C-B6EB-4489-A946-7B255819074D}" ShortID="442256769">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="13"/>
+												<Property Name="Pitch" Type="int32" Value="-1061"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{42D9DAF8-18E4-4089-A86F-E408ACA23D89}" ShortID="336129102">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{02C66388-3F0E-4C70-8D91-1C8DBFB36E31}" ShortID="676390006">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="18"/>
+												<Property Name="Delay" Type="Real64" Value="15"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="zoom_out" ID="{C0CEB76F-A137-413E-9349-88F2D2DD9BEC}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="SFX_EL_ZoomOut" ID="{D841A630-9048-420F-B17C-2B7282331CF7}">
+									<ChildrenList>
+										<Action Name="" ID="{60EBA0CB-3D64-465B-8D0D-CFD23D89927A}" ShortID="307555201">
+											<PropertyList>
+												<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="cinematic-whoosh-4" ID="{C0D9CF64-AE52-435F-812A-195248D36CB1}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">
@@ -852,6 +1181,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="GhostScreams" ID="{67F3254B-9549-4839-B3E2-F5C886E98842}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="SFX_VaseBreak" ID="{FE823B3C-F0F2-456F-97B4-2DF7A7C23E34}">
+							<ChildrenList>
+								<Action Name="" ID="{2FE607DD-97A3-42FA-B2F2-8AE7F65AE8CF}" ShortID="822244140">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="CeramicBreak" ID="{832B4A59-173A-4863-9D31-1A4D8CC45AFD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1249,7 +1589,7 @@
 										<Action Name="" ID="{504CB662-3DFC-4568-8A44-0F32A18DC052}" ShortID="12682058">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="WelcomeRoar" ID="{6A452E47-F350-4BD6-95DD-053C4CA7162F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="demon-beast-howling-2" ID="{0D9853DA-EE9D-460B-BB2F-E8CBA4568725}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>

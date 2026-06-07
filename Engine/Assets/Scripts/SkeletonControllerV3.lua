@@ -26,18 +26,20 @@ local Skeleton = {
     navRefreshTimer = 0,
     hp              = 30,
     isDead          = false,
+    Ares            = false,
     initPos         = nil,
     bonesPS         = nil,
     bonePS          = nil,
     teethPS         = nil,
     dodgePS         = nil,
+    deathPS         = nil,
 }
 
 public = {
     maxHp           = 30,
     patrolSpeed     = 1.5,
 	lockOnSize      = 4.0, -- partícula de fijado, no tocar.
-    chaseSpeed      = 6.5,
+    chaseSpeed      = 7.5,
     navRefreshRate  = 0.18,
     attackDur       = 1.0,
     attackColDelay  = 0.9,
@@ -51,6 +53,7 @@ public = {
     patrolWaitMin   = 2.0,
     patrolWaitMax   = 2.8,
     deathTime       = 3.5,
+    --deathParticlesTime = 1.8,
     
     activeGuard     = false,
 
@@ -63,6 +66,7 @@ public = {
     dodgeIncrement  = 10.0,
     dodgeColdown    = 3.0,
 
+
     stunTime    = 0.3,
 }
 local OnStartPos = false
@@ -74,6 +78,8 @@ local attackTimer = 0
 local pendingDeath = false
 local stepTimer = 0.5
 local deathTimer = 0
+local deathParticlesTimer = 0
+--local deathParticlesTime = 0
 local revive = false
 
 local targetVelX = 0
@@ -173,6 +179,7 @@ local function TakeDamage(self, amount, attackerPos)
         Game.SetTimeScale(0.3)
         _impactFrameTimer = 0.2
         initChase = false
+        Skeleton.Ares = false
         ChangeState(self, State.DEAD)
     else
         --hitGiven = false
@@ -246,6 +253,8 @@ function Start(self)
     currentYaw = (self.transform.worldRotation and self.transform.worldRotation.y) or 0
     playerGO = GameObject.Find("Player")
 
+    --deathParticlesTime = self.public.deathTime/2 + 0.25
+
     Skeleton.rb = self.gameObject:GetComponent("Rigidbody")
     if not Skeleton.rb then
         Skeleton.Log("[Skeleton] No rigidbody found")
@@ -280,6 +289,13 @@ function Start(self)
         revive = true
     end
 
+    self.GetAres = function(self) 
+        if Skeleton.Ares then return false 
+        else return true end
+    end
+    self.GetHP = function(self) return Skeleton.hp end
+    self.SetHP = function(self, val) Skeleton.hp = val end
+
     Engine.RequestResource("17109277834976977864")
     Engine.RequestResource("15645066021049183995")
     Engine.RequestResource("13296577326446124640")
@@ -313,6 +329,14 @@ function Start(self)
         if Skeleton.dodgePS then Skeleton.dodgePS:Stop() end
         vfxDodge:SetActive(false)
     end
+
+    local vfxDeath = GameObject.FindInChildren(self.gameObject, "VFXDeath")
+    if vfxDeath then
+        Skeleton.deathPS = vfxDeath:GetComponent("ParticleSystem")
+        if Skeleton.deathPS then Skeleton.deathPS:Stop() end
+        vfxDeath:SetActive(false)
+    end
+
     local combatScrip = GameObject.Find("CombatSlots")
     slotManager = combatScrip:GetComponent("Script")
 end
@@ -533,18 +557,32 @@ States[State.ATTACK] = {
         end
     end,
     Update = function(self, dt)
+        local cancelDist = self.public.nearDist * 1.2
         local plPos = playerGO.transform.worldPosition
         attackTimer = attackTimer + dt
 
-        if CheckDistance(self, self.public.nearDist, false) and not States[State.ATTACK].attacking then
+        if CheckDistance(self, cancelDist, false) and not States[State.ATTACK].attacking then
             slotManager:ReleaseSlot(targetSlotId)
             targetSlotId = nil
+            Engine.Log("[Skeleton] : CANCEL ATTACK")
+
             ChangeState(self, State.CHASE)
             hitGiven = false
             attackTimer = 0
             return
         end
 
+        if targetSlotId ~= nil then targetSlotPos = slotManager:GetSlotPosition(targetSlotId) end
+        if not hitGiven and not CheckSlotDistance(self, 1.0 , targetSlotPos, true) and Skeleton.nav:CheckDestination(targetSlotPos.x, targetSlotPos.y, targetSlotPos.z) then
+            Skeleton.nav:SetDestination(targetSlotPos.x, targetSlotPos.y, targetSlotPos.z) 
+            local dx, dz = Skeleton.nav:GetMoveDirection(0.3)
+            local chaseSpeed = 5.0
+            targetVelX = dx * chaseSpeed
+            targetVelZ = dz * chaseSpeed
+            ApplyMoveVelocity(dt, 1.5)
+        else
+            Skeleton.rb:SetLinearVelocity(0, 0, 0)
+        end
         if attackTimer >= self.public.attackColDelay - self.public.attackAnimaAnticip and not hitGiven then
             local pending = _PlayerController_pendingDamage or 0
             if pending == 0 then
@@ -583,7 +621,6 @@ States[State.ATTACK] = {
         end
 
         FaceTargetSmooth(self, plPos, dt)
-        Skeleton.rb:SetLinearVelocity(0, 0, 0)
     end
 }
 
@@ -719,20 +756,37 @@ States[State.DEAD] = {
             end
         elseif not States[State.DEAD].deadAnim then
             deathTimer = deathTimer + dt
+            deathParticlesTimer = deathParticlesTimer + dt
+            --Engine.Log("deathparticlestimer = "..tostring(deathParticlesTimer))
+
             if deathTimer >= self.public.deathTime then 
-                States[State.DEAD].deadAnim = true 
+                States[State.DEAD].deadAnim = true
             elseif deathTimer >= self.public.deathTime/2 then
                Skeleton.rb:SetLinearVelocity(0,-2.0, 0)
                if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
-            else 
-                Skeleton.rb:SetLinearVelocity(0,0, 0) 
+
+            
+                if deathParticlesTimer >= (self.public.deathTime/2 + 0.2) then
+                    
+                    if Skeleton.deathPS then Skeleton.deathPS:Play() end
+                    deathParticlesTimer = 0
+                end
+               
+            else
+                Skeleton.rb:SetLinearVelocity(0, 0, 0) 
+                
             end
         else 
+            -- if Skeleton.rb:GetLinearVelocity().y == -2.0 then
+            --     if Skeleton.deathPS then Skeleton.deathPS:Play() end
+            -- end
+            deathParticlesTimer = 0
             Skeleton.rb:SetLinearVelocity(0, 0, 0) 
         end
     end,
     Exit = function(self)
         Skeleton.isDead = false
+        
         local colision = self.gameObject:GetComponent("Box Collider")
         if colision then 
             colision:Enable()
@@ -792,6 +846,7 @@ function Update(self, dt)
     end
     if setDead then
         ChangeState(self, State.DEAD)
+        Skeleton.Ares = true
         setDead = false
     end
 

@@ -24,12 +24,14 @@ public = {
     doorName = "Puerta_Final",
 	lockOnSize      = 14.0,
     attackAreaFinalScale = 25.0,
+    excludeFromSave = true
 }
 
 local currentState = State.IDLE
 local hp           = 0
 local posture       = 0     
 local isDead       = false
+local pendingReset = false
 local deathTimer = 20.1
 local deathAnimDone = false
 local blockHits = false
@@ -142,7 +144,7 @@ local isKinematic = false
 
 local fase1 = true
 
-local currentMaxHp = 300
+local currentMaxHp = 150
 
 local AquilesFeedback = "/Prefabs/AquilesFeedback.prefab"
 local AttackAreaFeedback = "/Prefabs/AQ_ATKArea_Feedback.prefab"
@@ -153,6 +155,11 @@ local attackAreaTransform = nil
 
 local isWinBossPlaying = false
 local winBossCinematicTimer = 22.0
+
+local isIntroCinematic    = false
+local introCinematicTimer = 0.0
+local INTRO_DURATION      = 29.0
+local introPlayed         = false
 
 --Fase2
 
@@ -317,15 +324,18 @@ local function QueueSpawn(self, prefabPath, index, total)
         table.insert(spawnedEnemies, enemy)
         table.insert(pendingPositions, { enemy = enemy, x = x, y = y, z = z, frames = 3 })
     end
+
+    _G._Fase2SpawnGrace = 3.0 
+
 end
 
 local series = {
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro }, 
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton,  Prefab_Minocabro  },
-    { Prefab_Skeleton, Prefab_Minocabro, Prefab_Minocabro },                                    
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                      
-    { Prefab_Skeleton, Prefab_Skeleton, Prefab_Skeleton },                                       
+    { Prefab_Skeleton, Prefab_Minocabro },
+    { Prefab_Minocabro }, 
+    { Prefab_Skeleton, Prefab_Skeleton },
+    { Prefab_Minocabro, Prefab_Minocabro },                                    
+    { Prefab_Skeleton },                                      
+    { Prefab_Skeleton },                                       
 }
 local lastSerieIdx = 0 
 
@@ -374,6 +384,11 @@ local function UpdateFase2(self, dt)
 
     ProcessPendingPositions()
 
+    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then
+        _G._Fase2SpawnGrace = _G._Fase2SpawnGrace - dt
+    end
+
+
     if rb then
         if isKinematic then
             rb:SetBody(1)
@@ -403,11 +418,14 @@ local function UpdateFase2(self, dt)
 
     elseif AllEnemiesDead() and totalLive==0  then
         fase2Active    = false
+        _G._Aquiles_Fase2Active = false
+        _G._Aquiles_Fase3Active = true
+        _G._AquilesDefeated = true
         spawnedEnemies = {}
  
         -- Stats fase 3
-        hp      = 400
-        posture = 150
+        hp      = 200
+        posture = 50
         self.public.chargeDamage   = 30
         self.public.chargeSpeed    = 40.0
         self.public.chargeCooldown = 1.5
@@ -416,7 +434,7 @@ local function UpdateFase2(self, dt)
         self.public.moveSpeed      = 8
  
         blockHits    = false   
-        currentMaxHp = 400
+        currentMaxHp = 200
         if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
         if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
         if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
@@ -516,6 +534,8 @@ local function TakeDamage(self, amount, attackerPos)
     if hp <= 0 then
         if not fase1 then
             _G._AquilesDefeated = true
+            _G._Aquiles_Fase3Active = true
+            _G._Aquiles_Fase2Active = false
             Game.SetTimeScale(0.1)
             _impactFrameTimer = 0.3
             blockHits = true
@@ -526,6 +546,7 @@ local function TakeDamage(self, amount, attackerPos)
         elseif not fase2Active then
             fase1       = false
             fase2Active = true
+            _G._Aquiles_Fase2Active = true 
             fase2Timer  = Fase2_Duration
             spawnTimer  = 0
             spawnedEnemies = {}
@@ -673,14 +694,45 @@ local function UpdateIdle(self, dist)
         if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
             
             if dist <= self.public.detectRange then
-                
                 if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
                     _G.BossBar_SetVisibility(true)
                     _G.BossBar_RefreshHealth(hp, currentMaxHp)
                 end
-                
-                ChangeState(State.COMBAT_MOVE)
-                return
+
+                if not introPlayed then
+                    introPlayed         = true
+                    isIntroCinematic    = true
+                    introCinematicTimer = INTRO_DURATION
+                    blockHits           = true
+                    StopMovement()
+                    _G._BossIntroCinematic = true
+                    Audio.SetMusicState("Boss_Intro")
+
+                    self.transform:SetPosition(131.059, -6.862, -648.939)
+                    rb:SetRotation(180, 79.759, 180)
+
+                    if _G.PlayerInstance then
+                        _G.PlayerInstance.public.canMove = false
+                        if _G.SetPlayerStateIdle then _G.SetPlayerStateIdle(_G.PlayerInstance) end
+                        local playerAnim = _G.PlayerInstance.gameObject:GetComponent("Animation")
+                        if playerAnim then
+                            pcall(function() playerAnim:Play("Idle", 0.0) end)
+                            pcall(function() playerAnim:Play("Boss", 0.3) end)
+                        end
+                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+                    end
+
+                    if anim then
+                        anim:Play("Idle", 0.0)
+                        anim:Play("BossIntro", 0.3)
+                    end
+                    if _G.PlayBoss2IntroCinematic then
+                        _G.PlayBoss2IntroCinematic()
+                    end
+                else
+                    ChangeState(State.COMBAT_MOVE)
+                    if Audio.GetMusicState() ~= "Boss" then Audio.SetMusicState("Boss") end
+                end
             end
         else
             if anim and not anim:IsPlayingAnimation("Idle") then
@@ -1146,7 +1198,7 @@ local function UpdateDeath(self, dt)
     end
     if _impactFrameTimer == 0 and _G._AquilesDefeated == false and deathAnimDone == false then
         if anim then anim:Play("CinematicDeath") end
-        self.transform:SetPosition(131.563, -0.926, -657.100)
+        self.transform:SetPosition(131.563, -6.862, -657.100)
         self.transform:SetRotation(-180, 76.951, -180)
         deathAnimDone = true
     end
@@ -1239,8 +1291,8 @@ end
 function Start(self)
 
     self.public = {
-        maxHp           = 200, --Antes 300
-        maxPosture      = 100,
+        maxHp           = 150, --Antes 300
+        maxPosture      = 50,
 
         detectRange     = 30.0, --Antes 25
         Lance360Range   = 8.0, --Antes 2
@@ -1255,7 +1307,7 @@ function Start(self)
         lanceDuration       = 2.0,
         feedbackScaleTime   = 3.0,   
         lanceCooldown       = 1.0, -- Antes1.2
-        lanceDamage         = 20,
+        lanceDamage         = 15,
 
         preparationTime = 1.0,
         chargeSpeed     = 30.0, -- antes 22
@@ -1264,7 +1316,7 @@ function Start(self)
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
         chargeCooldown  = 2.0,
-        chargeDamage    = 25,
+        chargeDamage    = 20,
         stepInterval    = 0.6,
 
         knockbackForce  = 10.0,
@@ -1279,6 +1331,8 @@ function Start(self)
 
 
         minDistanceToPlayer=6.0,
+
+        excludeFromSave = true
     }
 
     currentMaxHp = self.public.maxHp
@@ -1352,18 +1406,128 @@ function Start(self)
     self.targetDeathYisEnter = false
 
     self.CheckAlive = function(self)
-        return not isDead
+        return isDead
+    end
+
+    --Columns
+    _G._Aquiles_Fase2Active = false
+    _G._Aquiles_Fase3Active = false
+    _G._AquilesDefeated     = false
+
+    local originalResetPlayer = _G.ResetPlayer
+    _G.ResetPlayer = function(playerInstance)
+        Engine.Log("[Aquiles] ResetPlayer interceptado")
+        pendingReset = true
+        if originalResetPlayer then originalResetPlayer(playerInstance) end
     end
 end
 
 function Update(self, dt)
 
     if not self.gameObject then return end
+
+    if pendingReset then
+        pendingReset = false
+        isDead       = false
+        hp           = self.public.maxHp
+        posture      = self.public.maxPosture
+        currentState = State.IDLE
+        playerGO     = nil
+        fase1        = true
+        fase2Active  = false
+        blockHits    = false
+        currentMaxHp = self.public.maxHp
+
+        _PlayerController_pendingDamage    = 0
+        _PlayerController_pendingDamagePos = nil
+        _PlayerController_lastAttack       = nil
+        alreadyHit       = false
+        lanceHitActive   = false
+        attackAreaActive = false
+
+        rb   = self.gameObject:GetComponent("Rigidbody")
+        anim = self.gameObject:GetComponent("Animation")
+        nav  = self.gameObject:GetComponent("Navigation")
+
+        attackCol        = self.gameObject:GetComponent("Box Collider")
+        colliderLance    = GameObject.FindInChildren(self.gameObject, "LanceCollider")
+        if colliderLance then attacklanceCol = colliderLance:GetComponent("Sphere Collider") end
+        areaAttackColObj = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
+        if areaAttackColObj then colliderAreaAttack = areaAttackColObj:GetComponent("Sphere Collider") end
+
+        if attackCol          then attackCol:Disable() end
+        if attacklanceCol     then attacklanceCol:Disable() end
+        if colliderAreaAttack then colliderAreaAttack:Disable() end
+        if attackArea         then attackArea:SetActive(false) end
+
+        local allEnemies = GameObject.FindByTag("Enemy_Fase2")
+        if allEnemies then
+            for i = 1, #allEnemies do
+                local enemy = allEnemies[i]
+                if enemy then
+                    if enemy.TakeDamage then
+                        enemy:TakeDamage(enemy.hp, enemy.transform.worldPosition)
+                    else
+                        GameObject.Destroy(enemy)
+                    end
+                end
+            end
+        end
+
+        lanceTimer = 0; 
+        lanceAnimStarted = false
+        lanceCDTimer = 0; 
+        chargeCDTimer = 0; 
+        dashCDTimer = 0
+        hurtTimer = 0; 
+        wallStunTimer = 0; 
+        preparationTimer = 0
+        anticipationAnimStarted = false; 
+        recoveryAnimStarted = false
+        chargeAnimStarted = false; 
+        chargeDirX = 0; 
+        chargeDirZ = 0
+        slideVelX = 0; 
+        slideVelZ = 0; 
+        inOpportunity = false
+        stepTimer = 0; 
+        feedbackTimer = 0
+        currentFeedbackScale = 0; 
+        currentColliderScale = 0
+        isKinematic = false
+        spawnedEnemies = {};
+        pendingPositions = {}
+        hitsReceivedCounter = 0
+        stunAnimStarted = false; 
+        wallAnimStarted = false
+        isIntroCinematic    = false
+        introCinematicTimer = 0.0
+        introPlayed         = false
+
+        _G._Aquiles_Fase2Active = false
+        _G._AquilesDefeated     = false
+        _G._Aquiles_Fase3Active = false
+        _G._Aquiles_ResetColumns = true
+
+
+        if rb   then rb:SetBody(1) end
+        if anim then anim:Play("Idle") end
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        Engine.Log("[Aquiles] Reset completo")
+        return
+    end
+
     if isDead then return end
+
+    if _G._PlayerController_isDead then
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        return
+    end
 
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not nav  then nav  = self.gameObject:GetComponent("Navigation") end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
+    if not anim then anim = self.gameObject:GetComponent("Animation")  end
 
     --local AQworldPos = self.gameObject.transform.worldPosition
     --local AQworldRot = self.gameObject.transform.worldRotation
@@ -1420,17 +1584,17 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            if hp <= 60 then
+             if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
-            elseif hp > 60 and hp <= 120 then
-                BaseMat.SetTexture("15230868181932546860")            
-            elseif hp > 120 and hp <= 180 then
+            elseif hp > 40 and hp <= 70 then
+                BaseMat.SetTexture("15230868181932546860")        
+            elseif hp > 70 and hp <= 100 then
                 BaseMat.SetTexture("770031546471412972")
-            elseif hp > 180 and hp <= 240 then
+            elseif hp > 100 and hp <= 150 then
                 BaseMat.SetTexture("14923760841240419563")
             else
                 BaseMat.SetTexture("14923760841240419563")
-            end        
+            end       
         end
     end
 
@@ -1515,6 +1679,57 @@ function Update(self, dt)
 
     if fase2Active then
         UpdateFase2(self, dt)
+        return
+    end
+
+    if isIntroCinematic then
+        introCinematicTimer = introCinematicTimer - dt
+
+        if _G.PlayerInstance then
+            _G.PlayerInstance.transform:SetPosition(130.532, -6.661, -635.263)
+            if _G.PlayerInstance.rb then
+                _G.PlayerInstance.rb:SetRotation(-180, 0, -180)
+            end
+        end
+
+        --Why is this 3 seconds less than Player.AnimTimer??
+        --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
+
+        if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
+            SelectPlaySFX(spearSFX, "SFX_SpearGrab") 
+            
+        end
+
+        if introCinematicTimer <= 25.58 and introCinematicTimer >= 25.4 and not Audio.IsEventPlaying("SFX_SpearPull") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPull")
+        end
+
+        --displaced
+        if introCinematicTimer <= 19.7 and introCinematicTimer >= 19.5 and not Audio.IsEventPlaying("SFX_SpearPlunge") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
+        end
+
+        if introCinematicTimer <= 7.4 and introCinematicTimer >= 7.3 and not Audio.IsEventPlaying("SFX_SpearPrep") then
+            SelectPlaySFX(spearSFX, "SFX_SpearPrep")
+            Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
+        end
+
+        -- if introCinematicTimer <= 7.0 and introCinematicTimer >= 6.9 then
+        --     SelectPlaySFX(stepSFX, "SFX_IntroRoar")
+        --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
+        -- end
+
+        StopMovement()
+        if introCinematicTimer <= 0 then
+            isIntroCinematic = false
+            _G._BossIntroCinematic = false
+            blockHits        = false
+            if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                _G.BossBar_SetVisibility(true)
+                _G.BossBar_RefreshHealth(hp, currentMaxHp)
+            end
+            ChangeState(State.COMBAT_MOVE)
+        end
         return
     end
 
@@ -1698,13 +1913,13 @@ function OnTriggerExit(self, other)
     if other:CompareTag("Player") then 
         alreadyHit = false 
 
-        if hp <= 60 then
+        if hp <= 40 then
             BaseMat.SetTexture("10242481670410472725")
-        elseif hp > 60 and hp <= 120 then
+        elseif hp > 40 and hp <= 70 then
             BaseMat.SetTexture("15230868181932546860")        
-        elseif hp > 120 and hp <= 180 then
+        elseif hp > 70 and hp <= 100 then
             BaseMat.SetTexture("770031546471412972")
-        elseif hp > 180 and hp <= 240 then
+        elseif hp > 100 and hp <= 150 then
             BaseMat.SetTexture("14923760841240419563")
         else
             BaseMat.SetTexture("14923760841240419563")

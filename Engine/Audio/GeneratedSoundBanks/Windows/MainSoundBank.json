@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{FBF9DF38-2FAB-0D09-EBBE-932258F34C1E}",
+    "Hash": "{C46295E6-315B-EF2A-9AD9-F0D586219DBC}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -432,14 +432,6 @@
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
      },
      {
-      "Id": "179764612",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "SonOfIthaca_Boss_Intro.wav",
-      "CachePath": "23/{2385530E-4A58-4E33-76BD-B2794317BBFA}.wem"
-     },
-     {
       "Id": "190699463",
       "Language": "SFX",
       "Streaming": "false",
@@ -528,6 +520,22 @@
       "CachePath": "6F/{6F6A969B-6C56-4F58-B8FB-B827D2C9C86E}.wem"
      },
      {
+      "Id": "220937334",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_03.wav",
+      "CachePath": "88/{8818339C-3E7C-47EE-F619-C47A5096C3EA}.wem"
+     },
+     {
+      "Id": "222515786",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_00.wav",
+      "CachePath": "8E/{8E11471D-5626-F88A-782A-B8F0A2B904DA}.wem"
+     },
+     {
       "Id": "232432669",
       "Language": "SFX",
       "Streaming": "false",
@@ -542,6 +550,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_walk_03.wav",
       "CachePath": "D0/{D09547E6-446F-1D81-8C1F-3AB44FA18EEF}.wem"
+     },
+     {
+      "Id": "243917370",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "flick-sfx-285363.wav",
+      "CachePath": "A2/{A2C41FB9-A96C-759B-96B6-DA60C6BCD63B}.wem"
      },
      {
       "Id": "244849618",
@@ -566,6 +582,14 @@
       "Location": "Memory",
       "ShortName": "yodguard-spear_thrust-1-382402.wav",
       "CachePath": "B4/{B4A5313B-78DE-D74B-866C-3E6BE6B8E460}.wem"
+     },
+     {
+      "Id": "248679109",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_01.wav",
+      "CachePath": "95/{95EB2052-DBEA-2167-7C17-E0E8DFFE58F0}.wem"
      },
      {
       "Id": "250874789",
@@ -656,6 +680,14 @@
       "CachePath": "BF/{BF222142-8DC0-F421-A977-3DBE384408D4}.wem"
      },
      {
+      "Id": "281408466",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ghost_whispers_enterportal_cinematic.wav",
+      "CachePath": "5E/{5EF39E20-E93E-C615-FE03-69AE82763AFD}.wem"
+     },
+     {
       "Id": "294731171",
       "Language": "SFX",
       "Streaming": "false",
@@ -670,6 +702,14 @@
       "Location": "Memory",
       "ShortName": "owl_02.wav",
       "CachePath": "80/{807FE7B4-2EE7-ECCA-DEF0-EF0CD392DBAC}.wem"
+     },
+     {
+      "Id": "304480829",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "DARK ENERGY - Sound Effect (1).wav",
+      "CachePath": "37/{37B1838F-BB91-BDDD-A9B5-5DD9D59BC6EA}.wem"
      },
      {
       "Id": "307199709",
@@ -990,6 +1030,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_water_run_02.wav",
       "CachePath": "0A/{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem"
+     },
+     {
+      "Id": "465533851",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "SonOfIthaca_Boss_Intro_Loop.wav",
+      "CachePath": "77/{772D06CE-E2E1-D193-1679-96C781B22A87}.wem"
      },
      {
       "Id": "468250888",
@@ -1792,6 +1840,14 @@
       "CachePath": "65/{65F19F6F-C46F-0DA9-AD2D-BE7FF4DC62AA}.wem"
      },
      {
+      "Id": "830587378",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ceramic_break_02.wav",
+      "CachePath": "E7/{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem"
+     },
+     {
       "Id": "835188942",
       "Language": "SFX",
       "Streaming": "false",
@@ -1912,6 +1968,14 @@
       "CachePath": "55/{558D82B8-87FE-C2A6-BE50-D0D7C8410D4F}.wem"
      },
      {
+      "Id": "870299999",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "riser_03.wav",
+      "CachePath": "4F/{4F505ADD-1D61-EED6-FDE7-B6BD43A72A21}.wem"
+     },
+     {
       "Id": "871849665",
       "Language": "SFX",
       "Streaming": "false",
@@ -2014,6 +2078,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_collapse.wav",
       "CachePath": "8F/{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem"
+     },
+     {
+      "Id": "950267484",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "dragon-studio-cinematic-whoosh-4-467484.wav",
+      "CachePath": "2E/{2EE4219C-81D6-6F04-ECC7-5A85B53EE947}.wem"
      },
      {
       "Id": "954672987",
@@ -2230,6 +2302,14 @@
       "Location": "Memory",
       "ShortName": "siren_hurt.wav",
       "CachePath": "9F/{9F780056-22BE-15FA-B38E-A4EB69E14754}.wem"
+     },
+     {
+      "Id": "1071923685",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "freesound_community-breathing-6811.wav",
+      "CachePath": "FF/{FFD4F5CF-0FFF-4B0E-83F2-512C8D58878A}.wem"
      },
      {
       "Id": "1073671797",
@@ -2477,7 +2557,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "179764612"
+          "Id": "465533851"
          }
         ]
        },
@@ -2897,6 +2977,36 @@
       ]
      },
      {
+      "Id": "1725499756",
+      "Name": "SFX_CinematicStoneSteps",
+      "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_CinematicStoneSteps",
+      "GUID": "{727EA8CF-4DA9-4F9A-BEA4-CF0C22EA3A7E}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5128345",
+      "DurationMax": "0.5771882",
+      "MediaRefs": [
+       {
+        "Id": "151865345"
+       },
+       {
+        "Id": "495811719"
+       },
+       {
+        "Id": "578288656"
+       },
+       {
+        "Id": "680497514"
+       },
+       {
+        "Id": "914187209"
+       },
+       {
+        "Id": "1065543167"
+       }
+      ]
+     },
+     {
       "Id": "112594585",
       "Name": "SFX_CreepySounds",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_CreepySounds",
@@ -2964,6 +3074,210 @@
       ]
      },
      {
+      "Id": "1981177256",
+      "Name": "SFX_EL_CamWhoosh",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_CamWhoosh",
+      "GUID": "{156435F1-EFD7-4CB7-A256-855C92686E96}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.6131544",
+      "DurationMax": "5.6131544",
+      "MediaRefs": [
+       {
+        "Id": "29395658"
+       }
+      ]
+     },
+     {
+      "Id": "668554295",
+      "Name": "SFX_EL_GScream",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GScream",
+      "GUID": "{25FCD3FA-2BB2-4298-840D-D24FD63A742E}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "6.064416",
+      "DurationMax": "7.4231706",
+      "MediaRefs": [
+       {
+        "Id": "542743982"
+       }
+      ]
+     },
+     {
+      "Id": "3292973211",
+      "Name": "SFX_EL_GThemin",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GThemin",
+      "GUID": "{1537CFFD-E08F-459D-B700-8AC7B33B6380}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "4.008961",
+      "DurationMax": "5.19898",
+      "MediaRefs": [
+       {
+        "Id": "360078211"
+       }
+      ]
+     },
+     {
+      "Id": "1892836869",
+      "Name": "SFX_EL_GWhispers",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GWhispers",
+      "GUID": "{EF455109-D3CA-498E-994A-F535916851AE}",
+      "MaxAttenuation": "40",
+      "DurationType": "OneShot",
+      "DurationMin": "20.872",
+      "DurationMax": "20.872",
+      "MediaRefs": [
+       {
+        "Id": "371808571"
+       }
+      ]
+     },
+     {
+      "Id": "1890454194",
+      "Name": "SFX_EL_Panting",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_Panting",
+      "GUID": "{D8EC1CBB-79FF-4ABB-AB60-4C1C31E4072D}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "4.6251445",
+      "DurationMax": "4.6251445",
+      "MediaRefs": [
+       {
+        "Id": "1071923685"
+       }
+      ]
+     },
+     {
+      "Id": "1411624972",
+      "Name": "SFX_EL_SwordDown",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_SwordDown",
+      "GUID": "{D6E68945-93F0-46EA-B906-751DBD4386FD}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5438416",
+      "DurationMax": "1.2901528",
+      "MediaRefs": [
+       {
+        "Id": "19618195"
+       },
+       {
+        "Id": "88203208"
+       },
+       {
+        "Id": "122973818"
+       },
+       {
+        "Id": "316701262"
+       },
+       {
+        "Id": "395931650"
+       },
+       {
+        "Id": "699991876"
+       }
+      ]
+     },
+     {
+      "Id": "4226777223",
+      "Name": "SFX_EL_SwordUp",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_SwordUp",
+      "GUID": "{D1D5CBC3-0CDC-47CB-BC64-EC848B985BE2}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.21037447",
+      "DurationMax": "0.2650552",
+      "MediaRefs": [
+       {
+        "Id": "629385577"
+       }
+      ]
+     },
+     {
+      "Id": "615264408",
+      "Name": "SFX_EL_ZoomOut",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_ZoomOut",
+      "GUID": "{D841A630-9048-420F-B17C-2B7282331CF7}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "4.032",
+      "DurationMax": "4.032",
+      "MediaRefs": [
+       {
+        "Id": "950267484"
+       }
+      ]
+     },
+     {
+      "Id": "428513",
+      "Name": "SFX_EP_DarkEnergy",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterPortal\\SFX_EP_DarkEnergy",
+      "GUID": "{737239F3-CB2C-4A9C-9B9D-1FE231330B43}",
+      "DurationType": "OneShot",
+      "DurationMin": "8.568163",
+      "DurationMax": "8.568163",
+      "MediaRefs": [
+       {
+        "Id": "304480829"
+       }
+      ]
+     },
+     {
+      "Id": "3723506089",
+      "Name": "SFX_EP_Ghosts",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterPortal\\SFX_EP_Ghosts",
+      "GUID": "{4CB152BD-1237-462E-9643-3FF3F0305D39}",
+      "DurationType": "OneShot",
+      "DurationMin": "10.464694",
+      "DurationMax": "10.464694",
+      "MediaRefs": [
+       {
+        "Id": "281408466"
+       }
+      ]
+     },
+     {
+      "Id": "3094577138",
+      "Name": "SFX_EP_PortalRiser",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterPortal\\SFX_EP_PortalRiser",
+      "GUID": "{F2058209-D585-4EFB-AD60-708A1D69CB2F}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.833845",
+      "DurationMax": "2.833845",
+      "MediaRefs": [
+       {
+        "Id": "243917370"
+       },
+       {
+        "Id": "870299999"
+       }
+      ]
+     },
+     {
+      "Id": "1715130073",
+      "Name": "SFX_EP_TeleScared",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterPortal\\SFX_EP_TeleScared",
+      "GUID": "{14E15F7B-F2B8-458B-99E6-4C09E3F13C6D}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.35872388",
+      "DurationMax": "0.60936606",
+      "MediaRefs": [
+       {
+        "Id": "14695171"
+       },
+       {
+        "Id": "435047297"
+       },
+       {
+        "Id": "654262256"
+       },
+       {
+        "Id": "669181511"
+       },
+       {
+        "Id": "835188942"
+       }
+      ]
+     },
+     {
       "Id": "376918614",
       "Name": "SFX_FinishHim",
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\FinalBlow_Cinematic\\SFX_FinishHim",
@@ -3004,7 +3318,7 @@
       "Name": "SFX_GhostScreams",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostScreams",
       "GUID": "{32D371E9-BE5F-40EC-8217-2EAE66DF5B1A}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3026,7 +3340,7 @@
       "Name": "SFX_GhostsThemin",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostsThemin",
       "GUID": "{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3048,7 +3362,7 @@
       "Name": "SFX_GhostWhispers",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostWhispers",
       "GUID": "{CD022861-F08E-400E-9060-DB46B34397F5}",
-      "MaxAttenuation": "30",
+      "MaxAttenuation": "40",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3527,7 +3841,7 @@
       "Name": "SFX_MinoIdle",
       "ObjectPath": "\\Events\\Default Work Unit\\Minocabro\\SFX_MinoIdle",
       "GUID": "{E5B539C7-5A11-48B0-9C7F-16B3A42FE797}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "2.628038",
       "DurationMax": "4.3457294",
@@ -4670,13 +4984,37 @@
       ]
      },
      {
+      "Id": "2756455359",
+      "Name": "SFX_VaseBreak",
+      "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_VaseBreak",
+      "GUID": "{FE823B3C-F0F2-456F-97B4-2DF7A7C23E34}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "1.212574",
+      "DurationMax": "1.503125",
+      "MediaRefs": [
+       {
+        "Id": "220937334"
+       },
+       {
+        "Id": "222515786"
+       },
+       {
+        "Id": "248679109"
+       },
+       {
+        "Id": "830587378"
+       }
+      ]
+     },
+     {
       "Id": "2621714572",
       "Name": "SFX_ZoomOut",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\WakeUp\\SFX_ZoomOut",
       "GUID": "{A33DE77F-9505-42EA-8358-EA12D669D38C}",
       "DurationType": "OneShot",
-      "DurationMin": "11.226309",
-      "DurationMax": "11.226309",
+      "DurationMin": "5.6131544",
+      "DurationMax": "5.6131544",
       "MediaRefs": [
        {
         "Id": "29395658"
@@ -5381,6 +5719,6 @@
     ]
    }
   ],
-  "FileHash": "{FE319A82-1962-8BFC-F712-40EA970DFE5B}"
+  "FileHash": "{7748BA6C-90F8-A7D9-0E97-D5C6C284E5EC}"
  }
 }

@@ -352,8 +352,8 @@ function Initialize(self)
         _G.CurrentXAML = "HUD.xaml"
         self.canvas:LoadXAML("HUD.xaml")
         self.canvas:SetOpacity(1.0)
-        if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
         Game.Resume()
+        self.pendingHUDRefresh = true
         self.lastPauseState = "running"
         Engine.Log("[MenuManager] Forzando HUD por carga de partida.")
         self.loggedReady = true
@@ -677,11 +677,9 @@ function Update(self, dt)
         else
             self.deathTimer = 0.0
             if not self.fading and self.canvas then
-                -- FIX Bug 1: si SonOfIthaca.xaml está activo, TitleTrigger controla
-                -- la opacidad completamente — MenuManager no debe tocarla
                 if self.current == "SonOfIthaca.xaml" then
-                    -- no-op: TitleTrigger owns opacity here
-                elseif self.current == "HUD.xaml" and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
+                    -- no-op
+                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
                     self.canvas:SetOpacity(0.0)
                 else
                     self.canvas:SetOpacity(1.0)
@@ -943,7 +941,7 @@ function Update(self, dt)
         if self.nextXaml == "MainMenu.xaml" then
             self.canvas:SetOpacity(1.0)
             SetPhase(self, "idle")
-        elseif isGameplayHUD and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden) then
+        elseif isGameplayHUD and not _G.LoadedFromSave and (_G.TitleTrigger_Active or _G.TitleTrigger_HUDShouldStartHidden) then
             self.canvas:SetOpacity(0.0)
             SetPhase(self, "idle")
         else

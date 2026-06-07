@@ -41,7 +41,6 @@ local nav      = nil
 local anim     = nil
 local playerGO = nil
 local attackCol    = nil
-local attackCol    = nil
 
 local aquilesMesh = nil
 
@@ -88,10 +87,9 @@ local stunTimer     = 0
 local hurtTimer = 0
 local stepTimer = 0
 local navRecalcTimer = 0
-local NAV_RECALC_INTERVAL = 0.4  -- recalcula el path cada 0.4s, no cada frame
+local NAV_RECALC_INTERVAL = 0.4
 local fadeMusicTimer = 0
 local volume = 100
-
 
 local inOpportunity = false
 local pendingWallHit = false
@@ -121,7 +119,7 @@ local stunAnimStarted = false
 local opportunityHitTimer = 0 
 local chargeAnimStarted = false
 local lanceAnimStarted = false
-local lanceHitActive   = false  -- colisión solo activa durante la ventana de golpe
+local lanceHitActive   = false
 local attackAreaActive = false
 local anticipationAnimStarted = false
 local recoveryAnimStarted = false
@@ -132,8 +130,6 @@ local playedDeathCry = false
 local playedKneelDown = false
 local playedCollapse = false
 
-
-
 local hitCooldown = 0
 local finishedTransition = false
 
@@ -141,8 +137,6 @@ local TILE_SIZE = 3.744
 local lastPPos = {x = 0, z = 0}
 
 local isKinematic = false
-
-local fase1 = true
 
 local currentMaxHp = 150
 
@@ -160,22 +154,6 @@ local isIntroCinematic    = false
 local introCinematicTimer = 0.0
 local INTRO_DURATION      = 29.0
 local introPlayed         = false
-
---Fase2
-
-local fase2Active    = false
-local fase2Timer     = 0
-local Fase2_Duration = 60        
-
-local spawnTimer     = 0
-local SPAWN_INTERVAL = 20 
-
-local Prefab_Skeleton  = "/Prefabs/Skeleton_Fase2.prefab"
-local Prefab_Minocabro = "/Prefabs/Minocabro_Fase2.prefab"
-
-local spawnedEnemies = {}
-local pendingPositions = {}
-
 
 -- Helpers
 local function lerp(a, b, t)
@@ -204,9 +182,6 @@ end
 
 local function SelectPlaySFX(audioComp, eventName)
     if audioComp then audioComp:SelectPlayAudioEvent(eventName) end
-    if not audioComp then 
-        --Engine.Log("Could not retrieve "..tostring(audioComp).." Audio Source") 
-    end
 end
 
 local function Dist(a, b)
@@ -245,29 +220,16 @@ local function ChangeState(newState)
     pressureTimer = 0
     chargeAnimStarted    = false
     lanceAnimStarted     = false
-    --lanceHitActive       = false
-    --if colliderAreaAttack then colliderAreaAttack:Disable() end
-    --if attackArea then attackArea:SetActive(false) end
-    --feedbackTimer = 0
-    --currentFeedbackScale = 0
     anticipationAnimStarted = false
     recoveryAnimStarted  = false
     dashTimer = 0
 
-    --if colliderAreaAttack and newState == State.LANCE_360 then
-        --colliderAreaAttack:Enable()
-  ---  else
-        --colliderAreaAttack:Disable()
- --   end
-
-
-    if newState == State.CHARGE  then
+    if newState == State.CHARGE then
         if attacklanceCol then attacklanceCol:Enable() end        
         attackCol:Enable()
     else
         attackCol:Disable()
         if attacklanceCol then attacklanceCol:Disable() end
-
     end
 
     inOpportunity = (newState == State.WALL or newState == State.STUN)
@@ -291,159 +253,6 @@ local function FadeOutBossMusic(self, dt)
         fadeMusicTimer = 0
         Audio.SetMusicVolume(100)
     end 
-end
-
--- Fase2
-local function CalcSpawnPos(myPos, index, total)
-    local baseAngle = (2 * math.pi / total) * (index - 1)
-    local angle = baseAngle + ((math.random() - 0.5) * 0.8)
-    local radius = 6 + math.random() * 3      
-    
-    local targetX = myPos.x + math.cos(angle) * radius
-    local targetY = myPos.y
-    local targetZ = myPos.z + math.sin(angle) * radius
-
-    --Comprobar que estan dentro del navmesh
-    if nav and nav.FindNearestPoint then
-        local validPos = nav:FindNearestPoint(targetX, targetY, targetZ)
-        if validPos and validPos.x and validPos.z then
-            targetX = validPos.x
-            targetY = validPos.y
-            targetZ = validPos.z
-        end
-    end
-
-    return targetX, targetY, targetZ
-end
-
-local function QueueSpawn(self, prefabPath, index, total)
-    local myPos = self.transform.worldPosition
-    local x, y, z = CalcSpawnPos(myPos, index, total)
-    local enemy = Prefab.Instantiate(prefabPath)
-    if enemy then
-        table.insert(spawnedEnemies, enemy)
-        table.insert(pendingPositions, { enemy = enemy, x = x, y = y, z = z, frames = 3 })
-    end
-
-    _G._Fase2SpawnGrace = 3.0 
-
-end
-
-local series = {
-    { Prefab_Skeleton, Prefab_Minocabro },
-    { Prefab_Minocabro }, 
-    { Prefab_Skeleton, Prefab_Skeleton },
-    { Prefab_Minocabro, Prefab_Minocabro },                                    
-    { Prefab_Skeleton },                                      
-    { Prefab_Skeleton },                                       
-}
-local lastSerieIdx = 0 
-
-local function SpawnSeries(self) --Bucle aleatorio que sea diferente al anterior
-    math.randomseed(os.time() + math.random(1000))
-
-    local idx
-    repeat
-        idx = math.random(#series)
-    until idx ~= lastSerieIdx
-    lastSerieIdx = idx
-
-    local list = series[idx]
-    local total = #list
-
-    for i, prefabPath in ipairs(list) do
-        QueueSpawn(self, prefabPath, i, total)
-    end
-end
-
-local function ProcessPendingPositions()
-    for i = #pendingPositions, 1, -1 do
-        local entry = pendingPositions[i]
-        entry.frames = entry.frames - 1
-        if entry.frames <= 0 then
-            if entry.enemy and entry.enemy.transform then
-                entry.enemy.transform:SetPosition(entry.x, entry.y, entry.z)
-            end
-            table.remove(pendingPositions, i)
-        end
-    end
-end
-
-local function AllEnemiesDead()
-    for i = #spawnedEnemies, 1, -1 do
-        local e = spawnedEnemies[i]
-        if not e or not e.gameObject then
-            table.remove(spawnedEnemies, i)
-        end
-    end
-    return #spawnedEnemies == 0
-end
-
-
-local function UpdateFase2(self, dt)
-
-    ProcessPendingPositions()
-
-    if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then
-        _G._Fase2SpawnGrace = _G._Fase2SpawnGrace - dt
-    end
-
-
-    if rb then
-        if isKinematic then
-            rb:SetBody(1)
-            isKinematic = false
-        end
-        rb:SetLinearVelocity(0, 0, 0)
-    end
-
-    fase2Timer = fase2Timer - dt
-    local allEnemies  = GameObject.FindByTag("Enemy_Fase2")
-    local totalLive   = 0
-    if allEnemies then
-        for _, enemie in ipairs(allEnemies) do
-            if enemie:IsActive() then
-                    totalLive = totalLive + 1
-                end
-            end
-        
-    end
-
-    if fase2Timer > 0 then
-        spawnTimer = spawnTimer + dt
-        if spawnTimer >= SPAWN_INTERVAL or totalLive==0 then
-            spawnTimer = 0
-            SpawnSeries(self)
-        end
-
-    elseif AllEnemiesDead() and totalLive==0  then
-        fase2Active    = false
-        _G._Aquiles_Fase2Active = false
-        _G._Aquiles_Fase3Active = true
-        _G._AquilesDefeated = true
-        spawnedEnemies = {}
- 
-        -- Stats fase 3
-        hp      = 200
-        posture = 50
-        self.public.chargeDamage   = 30
-        self.public.chargeSpeed    = 40.0
-        self.public.chargeCooldown = 1.5
-        self.public.lanceDamage    = 20
-        self.public.lanceCooldown  = 0.4
-        self.public.moveSpeed      = 8
- 
-        blockHits    = false   
-        currentMaxHp = 200
-        if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
-        if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
-        if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
-        if _G.BossBar_RefreshShield  then _G.BossBar_RefreshShield(posture, 50) end
- 
-        
-        Engine.Log("[AQUILES] Fase 3 comenzada")
-        ChangeState(State.COMBAT_MOVE)
-    end
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -495,10 +304,8 @@ local function TakeDamage(self, amount, attackerPos)
     -- Baja vida
     if hasPosture and inOpportunity then
         dmg = amount * self.public.opportunityDamageMultiplier
-
     elseif not hasPosture and not inOpportunity then
         dmg = amount * 0.4 
-        
     else
         dmg = amount * self.public.opportunityDamageMultiplier
     end
@@ -515,20 +322,15 @@ local function TakeDamage(self, amount, attackerPos)
         _G.BossBar_RefreshShield(posture, self.public.maxPosture)
     end
 
-
     SelectPlaySFX(voiceSFX, "SFX_AquilesHurt")
     if bloodPs then bloodPs:Play() end
 
-    
     if inOpportunity then
         if currentState == State.WALL then
             anim:Play("Stuck_Hit", 0.1)
-            
-            
         elseif currentState == State.STUN then
             anim:Play("Stun_Hit", 0.1)
         end
-        
     else
         if currentState == State.COMBAT_MOVE or currentState == State.RECOVERY then
             StopMovement()
@@ -539,41 +341,15 @@ local function TakeDamage(self, amount, attackerPos)
 
     -- Dead
     if hp <= 0 then
-        if not fase1 then
-            _G._AquilesDefeated = true
-            _G._Aquiles_Fase3Active = true
-            _G._Aquiles_Fase2Active = false
-            Game.SetTimeScale(0.1)
-            _impactFrameTimer = 0.3
-            blockHits = true
-            ChangeState(State.DEAD)
-            SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
-            if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
- 
-        elseif not fase2Active then
-            fase1       = false
-            fase2Active = true
-            _G._Aquiles_Fase2Active = true 
-            fase2Timer  = Fase2_Duration
-            spawnTimer  = 0
-            spawnedEnemies = {}
- 
-            hp      = 1 
-            posture = 0
-            blockHits = true
- 
-            StopMovement()
-            if anim then anim:Play("Idle", 0.2) end
-
-            -- Primera serie
-            if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
-            if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, self.public.maxPosture) end
-            SpawnSeries(self)
-            Engine.Log("[AQUILES] Fase 2 iniciada")
-        end
+        _G._AquilesDefeated = true
+        Game.SetTimeScale(0.1)
+        _impactFrameTimer = 0.3
+        blockHits = true
+        ChangeState(State.DEAD)
+        SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
         return
     end
-
 
     if not inOpportunity and currentState == State.COMBAT_MOVE then
         hitsReceivedCounter = hitsReceivedCounter + 1
@@ -609,7 +385,6 @@ local function StartDash(self, dirX, dirZ)
     dashTimer = 0
     StopMovement()
     PlaySFX(dashSFX)
-    --PlayAnim("Dash", 0.1)
     ActiveDodge = true
     ChangeState(State.DASH)
 
@@ -654,7 +429,6 @@ local function IsWallBetween(a, b)
 
             local distToLine = sqrt(dx*dx + dz*dz)
 
-       
             if distToLine < 7.0 then
                 return true
             end
@@ -671,7 +445,6 @@ local function MovementWalk(self, dt, speedOverride)
     local pPos  = playerGO.transform.worldPosition
     local vel   = speedOverride or self.public.moveSpeed or 5.0
 
-    -- Actualizar destino navmesh cada poco tiempo (igual que Minocabro)
     self._navTimer = (self._navTimer or 0) - dt
     if self._navTimer <= 0 then
         local canReach = nav:SetDestination(pPos.x, pPos.y, pPos.z)
@@ -696,12 +469,12 @@ local function MovementWalk(self, dt, speedOverride)
         stepTimer = 0
     end
 end
+
 local function UpdateIdle(self, dist)
     if playerGO and playerGO.transform then
         local pPos = playerGO.transform.worldPosition
 
         if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
-            
             if dist <= self.public.detectRange then
                 if not introPlayed then
                     introPlayed         = true
@@ -724,7 +497,6 @@ local function UpdateIdle(self, dist)
                             pcall(function() playerAnim:Play("Idle", 0.0) end)
                             pcall(function() playerAnim:Play("Boss", 0.3) end)
                         end
-                        
                     end
 
                     if anim then
@@ -734,7 +506,6 @@ local function UpdateIdle(self, dist)
                     if _G.PlayBoss2IntroCinematic then
                         _G.PlayBoss2IntroCinematic()
                         if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
-
                     end
                 else
                     if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
@@ -780,16 +551,13 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     local len = sqrt(dx*dx + dz*dz)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
-
     if dashCDTimer <= 0 then
-        -- Hacia atrás
         if dist < self.public.Lance360Range and lanceCDTimer > 0 then
             dashCDTimer = 3.5
             StartDash(self, -dx, -dz) 
             return
         end
 
-        -- Hacia adelante
         if dist >= self.public.Lance360Range and dist <= self.public.dashApproachRange then
             if lanceCDTimer <= 0 then
                 dashCDTimer = 4.0
@@ -813,7 +581,6 @@ local function UpdateCombatMove(self, myPos, pp, dist, dt)
     end
 
     local wallBlocking = IsWallBetween(myPos, pp)
-
 
     if dist <= self.public.chargeRange and not wallBlocking then
         if chargeCDTimer <= 0 then
@@ -845,17 +612,12 @@ local function UpdateLance360(self, myPos, pp, dt)
         currentColliderScale = 0
     end
 
-    --if lanceAnimStarted then attackAreaActive = true end
     lanceTimer = lanceTimer + dt
 
-   if lanceTimer < self.public.lanceWindup or lanceTimer > (self.public.lanceWindup + 0.15) then
-        --if colliderAreaAttack then colliderAreaAttack:Disable() end
-        --if attackArea then attackArea:SetActive(false) end
-        
+    if lanceTimer < self.public.lanceWindup or lanceTimer > (self.public.lanceWindup + 0.15) then
         attackCol:Disable()          
         if attacklanceCol then attacklanceCol:Disable() end
-        --and lanceTimer <= (self.public.lanceWindup + 0.15)
-    elseif lanceTimer >= self.public.lanceWindup  and not attackAreaActive then
+    elseif lanceTimer >= self.public.lanceWindup and not attackAreaActive then
         if colliderAreaAttack then
             attackAreaActive = true 
             lanceHitActive = true
@@ -875,44 +637,29 @@ local function UpdateLance360(self, myPos, pp, dt)
                 attackArea = Prefab.Instantiate(AttackAreaFeedback)
             end
 
-            if attackArea then 
- 
+            if attackArea then
                 local t = areaAttackColObj.transform
                 if t then
-
                     local pos = t.worldPosition 
-                    --local rot = t.worldRotation
                     attackArea.transform:SetPosition(pos.x, pos.y + 0.5, pos.z)
-                    --attackArea.transform:SetRotation(rot.x, rot.y, rot.z)
                     attackArea.transform:SetScale(1.0, 1.0, 1.0)
                     SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
                     SelectPlaySFX(areaSFX, "SFX_AquilesAreaExp")
                 else
                     Engine.Log("AttackArea Collider Object Position not found!")
                 end
-
                 attackArea:SetActive(true)
-
-                
             end
-            
         end
     end
 
-    
-
-
     if lanceTimer >= self.public.lanceDuration then
-        --if colliderAreaAttack then colliderAreaAttack:Disable() end
-        --if attackArea then attackArea:SetActive(false) end
         lanceHitActive   = false
         lanceCDTimer     = self.public.lanceCooldown
         wallStunTimer    = self.public.recoveryLance
         ChangeState(State.RECOVERY)
         lanceTimer = 0
-        --attackAreaActive = false
     end
-    --cannot scale feedback here because it'd stop abruptly if the state changes
 end
 
 local function UpdateAnticipation(self, pp, dt)
@@ -924,11 +671,9 @@ local function UpdateAnticipation(self, pp, dt)
     if not self.chargeFeedbackGO then
         self.chargeFeedbackTiles = {}
         self.chargeFeedbackGO = true
-        
     end
     
     local myPos = self.transform.worldPosition
-    --local myLocalPos = self.transform.position
     local timeToPredict = self.public.predictionTime or 0.5
 
     local pVelX = (pp.x - lastPPos.x) / dt
@@ -1036,22 +781,19 @@ local function UpdateCharge(self, dt)
     if not chargeAnimStarted then
         chargeAnimStarted = true
         anim:Play("Charge_Loop")
-        --SelectPlaySFX("SFX_AquilesWarCry")
     end
     
     if rb then
         rb:SetLinearVelocity(chargeDirX * self.public.chargeSpeed, 0, chargeDirZ * self.public.chargeSpeed)
     end
 
-    local vel = speedOverride or self.public.moveSpeed
+    local vel = self.public.moveSpeed
     
     stepTimer = stepTimer + dt
     if stepTimer >= (self.public.stepInterval / 20 * vel) then
         SelectPlaySFX(stepSFX, "SFX_AquilesSteps")
         stepTimer = 0
     end
-
-    
 
     if chargeTimer >= self.public.chargeDuration then
         slideVelX = chargeDirX * 8.0
@@ -1078,7 +820,6 @@ local function UpdateWall(self, dt)
     if anim and not anim:IsPlayingAnimation("Stuck_Loop") and not anim:IsPlayingAnimation("Stuck_Hit") then
         SelectPlaySFX(spearSFX, "SFX_AquilesWallHit")
         anim:Play("Stuck_Loop", 0.1)
-        
     end
 
     if anim and anim:IsPlayingAnimation("Stuck_Loop") then
@@ -1086,7 +827,6 @@ local function UpdateWall(self, dt)
             SelectPlaySFX(voiceSFX, "SFX_AquilesStuck")
         end
     end
-
 
     wallStunTimer = wallStunTimer - dt
     if wallStunTimer <= 0 then
@@ -1101,7 +841,6 @@ local function UpdateWall(self, dt)
     end
 end
 
-
 local function UpdateDash(self, myPos, pp, dt)
     dashTimer = dashTimer + dt
 
@@ -1111,14 +850,11 @@ local function UpdateDash(self, myPos, pp, dt)
     if len > 0.001 then dx = dx/len; dz = dz/len end
 
     if rb then
-        
-        -- Detectar si vamos hacia adelante usando producto punto
         local dot = (dashDirX * dx) + (dashDirZ * dz)
         local currentSpeed = DASH_SPEED
         if dot > 0 then
-            currentSpeed = DASH_SPEED * 1.6 -- Le damos un impulso extra al dash de acercamiento para cubrir los 13 metros
+            currentSpeed = DASH_SPEED * 1.6
         end
-
         rb:SetLinearVelocity(dashDirX * currentSpeed, 0, dashDirZ * currentSpeed)
         RotateTowards(self, dx, dz, self.public.rotationSpeed * 2.0, dt)    
     end
@@ -1130,7 +866,6 @@ local function UpdateDash(self, myPos, pp, dt)
 
         local dist = Dist(myPos, pp)
 
-        -- Al terminar el dash, si estamos cerca (menor a 8.0) y listo, reventamos el suelo
         if dist < self.public.Lance360Range and lanceCDTimer <= 0 then  
             lanceTimer       = 0
             lanceAnimStarted = false
@@ -1200,7 +935,6 @@ local function UpdateStun(self, dt)
 end
 
 local function UpdateDeath(self, dt)
-        
     deathTimer = deathTimer - dt
     
     if rb then
@@ -1214,10 +948,6 @@ local function UpdateDeath(self, dt)
         deathAnimDone = true
     end
 
-    -- if deathAnimDone then 
-    --     if anim then anim:Play("Idle") end
-    -- end
-
     if deathTimer <= 0 then
         if self.targetDeathYisEnter == false then
             local currentY = self.transform.position.y
@@ -1227,7 +957,6 @@ local function UpdateDeath(self, dt)
             local colision = self.gameObject:GetComponent("Box Collider")
             if colision then 
                 colision:Disable() 
-                
                 if rb then rb:SetUseGravity(false) end
             end
             
@@ -1240,7 +969,7 @@ local function UpdateDeath(self, dt)
             self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
         else
             if not isDead then
-                    local door = GameObject.Find("Puerta_Final") 
+                local door = GameObject.Find("Puerta_Final") 
                 if door then
                     local doorScript = door:GetComponent("Script")
                     if doorScript and doorScript.OpenDoor then
@@ -1256,15 +985,12 @@ local function UpdateDeath(self, dt)
                 isDead = true
                 Engine.Log("[Aquiles] DEAD i enterrat")
 
-                
-
                 rb       = nil
                 anim     = nil
                 playerGO = nil
             end
         end
     end
-    
 end
 
 local function FindAquilesAudioComponents(self)
@@ -1302,11 +1028,11 @@ end
 function Start(self)
 
     self.public = {
-        maxHp           = 150, --Antes 300
+        maxHp           = 150,
         maxPosture      = 50,
 
-        detectRange     = 30.0, --Antes 25
-        Lance360Range   = 8.0, --Antes 2
+        detectRange     = 30.0,
+        Lance360Range   = 8.0,
         chargeRange     = 18.0,
         dashApproachRange = 13.0,
 
@@ -1317,12 +1043,12 @@ function Start(self)
         lanceWindup         = 0.6,    
         lanceDuration       = 2.0,
         feedbackScaleTime   = 3.0,   
-        lanceCooldown       = 1.0, -- Antes1.2
+        lanceCooldown       = 1.0,
         lanceDamage         = 15,
 
         preparationTime = 1.0,
-        chargeSpeed     = 30.0, -- antes 22
-        chargeDuration  = 0.6, --antes 0.8 -- antes 0.4
+        chargeSpeed     = 30.0,
+        chargeDuration  = 0.6,
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
@@ -1333,13 +1059,12 @@ function Start(self)
         knockbackForce  = 10.0,
         stunDuration    = 1.5,
         hurtStunTime    = 0.4,
-        predictionTime  = 0.2, --Antes 0.4
+        predictionTime  = 0.2,
 
         opportunityDamageMultiplier = 1.0,
         wallStunDuration = 2.0,
         recoveryLance    = 0.5,
-        recoveryCharge   = 0.5, -- Antes 1.0
-
+        recoveryCharge   = 0.5,
 
         minDistanceToPlayer=6.0,
 
@@ -1353,7 +1078,6 @@ function Start(self)
     isDead       = false
     currentState = State.IDLE
 
-    --cinematics
     isWinBossPlaying = false
     winBossCinematicTimer = 22.0
 
@@ -1391,7 +1115,6 @@ function Start(self)
 
     if anim then anim:Play("Idle") end
     
-    --feedbackTimer = 0
     lanceCDTimer  = 0
     chargeCDTimer = 0
     dashCDTimer   = 0
@@ -1400,13 +1123,9 @@ function Start(self)
     self.chargeFeedbackActive = false 
     self.chargeFeedbackTiles  = {}
 
-
     if not attackArea then 
         attackArea = Prefab.Instantiate(AttackAreaFeedback)
-        -- if attackArea then attackArea:SetActive(false) end
     end
-    --attackAreaActive = false
-    --lanceHitActive = false
 
     aquilesMesh = GameObject.FindInChildren(self.gameObject, "aquilesMesh")
     if aquilesMesh then
@@ -1420,10 +1139,7 @@ function Start(self)
         return isDead
     end
 
-    --Columns
-    _G._Aquiles_Fase2Active = false
-    _G._Aquiles_Fase3Active = false
-    _G._AquilesDefeated     = false
+    _G._AquilesDefeated = false
 
     local originalResetPlayer = _G.ResetPlayer
     _G.ResetPlayer = function(playerInstance)
@@ -1444,8 +1160,6 @@ function Update(self, dt)
         posture      = self.public.maxPosture
         currentState = State.IDLE
         playerGO     = nil
-        fase1        = true
-        fase2Active  = false
         blockHits    = false
         currentMaxHp = self.public.maxHp
 
@@ -1471,65 +1185,41 @@ function Update(self, dt)
         if colliderAreaAttack then colliderAreaAttack:Disable() end
         if attackArea         then attackArea:SetActive(false) end
 
-        local allEnemies = GameObject.FindByTag("Enemy_Fase2")
-        if allEnemies then
-            for i = 1, #allEnemies do
-                local enemy = allEnemies[i]
-                if enemy then
-                    if enemy.TakeDamage then
-                        enemy:TakeDamage(enemy.hp, enemy.transform.worldPosition)
-                    else
-                        GameObject.Destroy(enemy)
-                    end
-                end
-            end
-        end
-
-        lanceTimer = 0; 
+        lanceTimer = 0
         lanceAnimStarted = false
-        lanceCDTimer = 0; 
-        chargeCDTimer = 0; 
+        lanceCDTimer = 0
+        chargeCDTimer = 0
         dashCDTimer = 0
-        hurtTimer = 0; 
-        wallStunTimer = 0; 
+        hurtTimer = 0
+        wallStunTimer = 0
         preparationTimer = 0
-        anticipationAnimStarted = false; 
+        anticipationAnimStarted = false
         recoveryAnimStarted = false
-        chargeAnimStarted = false; 
-        chargeDirX = 0; 
+        chargeAnimStarted = false
+        chargeDirX = 0
         chargeDirZ = 0
-        slideVelX = 0; 
-        slideVelZ = 0; 
+        slideVelX = 0
+        slideVelZ = 0
         inOpportunity = false
-        stepTimer = 0; 
+        stepTimer = 0
         feedbackTimer = 0
-        currentFeedbackScale = 0; 
+        currentFeedbackScale = 0
         currentColliderScale = 0
         isKinematic = false
-        spawnedEnemies = {};
-        pendingPositions = {}
         hitsReceivedCounter = 0
-        stunAnimStarted = false; 
+        stunAnimStarted = false
         wallAnimStarted = false
         isIntroCinematic    = false
         introCinematicTimer = 0.0
         introPlayed         = false
 
-        _G._Aquiles_Fase2Active = false
-        _G._AquilesDefeated     = false
-        _G._Aquiles_Fase3Active = false
-        _G._Aquiles_ResetColumns = true
-
+        _G._AquilesDefeated = false
 
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
         if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
-        if _G.BossBar_RefreshHealth then
-            _G.BossBar_RefreshHealth(hp, currentMaxHp)
-        end
-        if _G.BossBar_RefreshShield then
-            _G.BossBar_RefreshShield(posture, self.public.maxPosture)
-        end
+        if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+        if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, self.public.maxPosture) end
         Engine.Log("[Aquiles] Reset completo")
         return
     end
@@ -1544,10 +1234,6 @@ function Update(self, dt)
     if not rb   then rb   = self.gameObject:GetComponent("Rigidbody")  end
     if not nav  then nav  = self.gameObject:GetComponent("Navigation") end
     if not anim then anim = self.gameObject:GetComponent("Animation")  end 
-    if not anim then anim = self.gameObject:GetComponent("Animation")  end
-
-    --local AQworldPos = self.gameObject.transform.worldPosition
-    --local AQworldRot = self.gameObject.transform.worldRotation
 
     if not stepSFX or not voiceSFX or not spearSFX or not dashSFX or not armorSFX or not areaSFX then
         FindAquilesAudioComponents(self)
@@ -1558,11 +1244,9 @@ function Update(self, dt)
     end
 
     if Input.GetKey("0") then
-        fase1 = false
         TakeDamage(self, hp, self.transform.worldPosition)
         return
     end
-
 
     if Input.GetKeyDown("K") then
         local damage = hp + 1
@@ -1570,7 +1254,6 @@ function Update(self, dt)
             TakeDamage(self, damage, self.transform.worldPosition)
         end
         return
-        
     end
 
     if pendingWallHit then
@@ -1591,9 +1274,7 @@ function Update(self, dt)
         playerGO = GameObject.Find("Player")
     end
     if not playerGO or _G._PlayerController_isDead then 
-        if _G.BossBar_SetVisibility then
-            _G.BossBar_SetVisibility(false)
-        end
+        if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
         return 
     end
 
@@ -1601,7 +1282,7 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-             if hp <= 40 then
+            if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
             elseif hp > 40 and hp <= 70 then
                 BaseMat.SetTexture("15230868181932546860")        
@@ -1615,27 +1296,20 @@ function Update(self, dt)
         end
     end
 
-    
     if attackArea and attackArea.SetActive then attackArea:SetActive(attackAreaActive) end
     if not attackAreaActive then colliderAreaAttack:Disable() end
     
     if attackAreaActive then 
         feedbackTimer = feedbackTimer + dt
 
-        --Engine.Log("Current feedback scale timer = " ..tostring(feedbackTimer))
-
         if feedbackTimer <= 1.0 then
             attackCol:Disable()
             if attacklanceCol then attacklanceCol:Disable() end
 
-            --scale feedback gradually
             local progressPercent = math.min((feedbackTimer/1.0), 1.0)
-            --Engine.Log("ProgressPercent = "..tostring(progressPercent))
             currentFeedbackScale = (self.public.attackAreaFinalScale or 25.0) * progressPercent
             currentColliderScale = 100.0 * progressPercent
-            --Engine.Log("currentFeedbackScale = "..tostring(currentFeedbackScale))
 
-            
             if attackArea then
                 attackCol:Disable()
                 if attacklanceCol then attacklanceCol:Disable() end
@@ -1646,20 +1320,14 @@ function Update(self, dt)
                 
                 attackCol:Disable()
                 if attacklanceCol then attacklanceCol:Disable() end
-
             end
             
         elseif feedbackTimer > 1.0 then
-            
             if attackArea then attackArea:SetActive(false) end
             feedbackTimer = 0
-            --currentFeedbackScale = 0.0
             attackAreaActive = false
-            --attackAreaTransform = nil
         end
     end
-    
-    
 
     local myPos
     local myLocalPos
@@ -1681,23 +1349,15 @@ function Update(self, dt)
             local floorheight = -1.0
 
             if currentPos.y > floorheight then
-            -- Si está flotando aunque sea un milímetro, le metemos un empujón brutal hacia abajo
                 self.transform:SetPosition(currentPos.x, -10, currentPos.z)
             else
-                -- Si está en el suelo, estabilizamos para que no acumule fuerza infinita
                 rb:SetLinearVelocity(currentVel.x, 0, currentVel.z)
             end
         end
     end
     if not pp then return end
 
-
     local dist = Dist(myPos, pp)   
-
-    if fase2Active then
-        UpdateFase2(self, dt)
-        return
-    end
 
     if isIntroCinematic then
         introCinematicTimer = introCinematicTimer - dt
@@ -1709,32 +1369,17 @@ function Update(self, dt)
             end
         end
 
-
-        --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
-
         if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
             SelectPlaySFX(spearSFX, "SFX_SpearGrab") 
-            
         end
 
         if introCinematicTimer <= 25.58 and introCinematicTimer >= 25.4 and not Audio.IsEventPlaying("SFX_SpearPull") then
             SelectPlaySFX(spearSFX, "SFX_SpearPull")
         end
 
-        --displaced (?)
         if introCinematicTimer <= 19.7 and introCinematicTimer >= 19.5 and not Audio.IsEventPlaying("SFX_SpearPlunge") then
             SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
         end
-
-        -- if introCinematicTimer <= 6.58 and introCinematicTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
-        --     SelectPlaySFX(spearSFX, "SFX_SpearPrep")
-        --     Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
-        -- end
-
-        -- if introCinematicTimer <= 6.0 and introCinematicTimer >= 6.9 and not Audio.IsEventPlaying("SFX_IntroRoar") then
-        --     SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
-        --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
-        -- end
 
         StopMovement()
         if introCinematicTimer <= 0 then
@@ -1765,17 +1410,13 @@ function Update(self, dt)
     elseif currentState == State.DEAD         then UpdateDeath(self, dt)
     end
 
-
     -- winboss cinematic
-
     if _G.PlayWinBossCinematic and _G._AquilesDefeated and not isWinBossPlaying then 
         isWinBossPlaying = true
         winBossCinematicTimer = 22.0
-        
     end
 
     if isWinBossPlaying then 
-
         winBossCinematicTimer = winBossCinematicTimer - dt
 
         if winBossCinematicTimer <= 21.8 and winBossCinematicTimer >= 21.00 and not playedDeepBreaths then 
@@ -1816,7 +1457,6 @@ function Update(self, dt)
             winBossCinematicTimer = 0
         end
     end
-    
 end
 
 function OnTriggerEnter(self, other)
@@ -1827,7 +1467,6 @@ function OnTriggerEnter(self, other)
         if currentState ~= State.CHARGE then
             return
         end
-
 
         local lancePos = colliderLance.transform.worldPosition
         local wallPos = other.transform.worldPosition
@@ -1849,17 +1488,12 @@ function OnTriggerEnter(self, other)
         slideVelZ = 0
         DestroyChargeFeedback(self)
 
-        if fase1 then
-            wallStunTimer = 5.0
-        else
-            wallStunTimer = self.public.wallStunTime + 1
-        end
+        wallStunTimer = self.public.wallStunTime
 
         anim:Play("Stuck_Start", 0.15)
         ChangeState(State.WALL)
         pendingWallHit = true
         return 
-       
     end
 
     if other:CompareTag("Bullet") then
@@ -1869,9 +1503,7 @@ function OnTriggerEnter(self, other)
             self.alreadyHit = true
             hitCooldown = 0.2
             BaseMat.SetTexture("6600101727014948682")
-            
             TakeDamage(self, dmg, ap)
-            
         end
     end
 
@@ -1891,7 +1523,6 @@ function OnTriggerEnter(self, other)
         end
 
         if (currentState == State.CHARGE or currentState == State.LANCE_360) and not alreadyHit and _PlayerController_pendingDamage == 0 and not isKinematic then
-            --SelectPlaySFX(spearSFX, "SFX_AquilesSpearHit")
             alreadyHit = true
 
             local finalDamage
@@ -1904,16 +1535,11 @@ function OnTriggerEnter(self, other)
             _PlayerController_pendingDamage      = finalDamage
             _PlayerController_pendingDamagePos   = self.transform.worldPosition
             _PlayerController_triggerCameraShake = true
-            
-            Engine.Log("he hecho dentro")
 
+            Engine.Log("he hecho dentro")
 
             if attackCol then attackCol:Disable() end
             if colliderLance then colliderLance:Disable() end
-            --if colliderAreaAttack then colliderAreaAttack:Disable() end
-            --if attackArea then attackArea:SetActive(false) end
-            --feedbackTimer = 0
-            --currentFeedbackScale = 0
 
             wallStunTimer = self.public.recoveryCharge
 
@@ -1926,7 +1552,6 @@ function OnTriggerEnter(self, other)
             end
         end
     end
-
 end
 
 function OnTriggerExit(self, other)

@@ -1,0 +1,106 @@
+{
+    "activationRadius": 95.0,
+    "active": true,
+    "additive": true,
+    "alignToVelocity": true,
+    "animLoop": true,
+    "animSpeed": 0.949999988079071,
+    "bursts": [],
+    "circleRadius": -0.8999999761581421,
+    "colorEnd": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+    ],
+    "colorGradient": [
+        {
+            "color": [
+                0.3364090621471405,
+                0.686274528503418,
+                0.686274528503418,
+                0.7799999713897705
+            ],
+            "time": 0.09399999678134918
+        },
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                0.5600000023841858
+            ],
+            "time": 0.296999990940094
+        },
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                0.17000000178813934
+            ],
+            "time": 0.6940000057220459
+        },
+        {
+            "color": [
+                0.9950980544090271,
+                0.9950980544090271,
+                0.9950980544090271,
+                0.0
+            ],
+            "time": 0.8930000066757202
+        }
+    ],
+    "colorStart": [
+        0.6323529481887817,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "coneAngle": 20.738000869750977,
+    "coneRadius": 7.800000190734863,
+    "duration": 5.0,
+    "emissionArea": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "emissionRadius": 1.0,
+    "emissionRate": 5.599999904632568,
+    "emissionRateDist": 7.300000190734863,
+    "emitFromShell": true,
+    "gravity": [
+        0.0,
+        0.5,
+        0.0
+    ],
+    "initRotMax": -90.0,
+    "initRotMin": -90.0,
+    "lifetimeMax": 3.9000000953674316,
+    "lifetimeMin": 1.2999999523162842,
+    "looping": true,
+    "luminance": false,
+    "maxParticles": 27,
+    "noiseActive": true,
+    "noiseFreq": 3.309999942779541,
+    "noiseStrength": 0.8999999761581421,
+    "oneShot": false,
+    "oneShotCount": 30,
+    "prewarm": true,
+    "proximityActivation": false,
+    "proximityTarget": "Player",
+    "rotSpeedMax": 10.0,
+    "rotSpeedMin": 2.0,
+    "shape": 2,
+    "simulationSpace": 1,
+    "sizeCurve": [],
+    "sizeEnd": 10.0,
+    "sizeStart": 4.0,
+    "speedMax": 6.699999809265137,
+    "speedMin": 3.4000000953674316,
+    "textureCols": 5,
+    "texturePath": "C:\\Users\\ccair\\Documents\\Uni_Temp\\NobodyGames\\WaveEngine\\Engine\\Assets\\Particles\\10-Particulas\\Ghost_Animation_Hard_00.png",
+    "textureRows": 2,
+    "textureUID": 17981048408314423416,
+    "type": 7
+}

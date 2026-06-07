@@ -1692,7 +1692,8 @@ function Update(self, dt)
             end
         end
 
-        Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
+        --Why is this 3 seconds less than Player.AnimTimer??
+        --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
 
         if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
             SelectPlaySFX(spearSFX, "SFX_SpearGrab") 

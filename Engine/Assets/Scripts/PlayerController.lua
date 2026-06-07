@@ -2097,6 +2097,11 @@ function Update(self, dt)
 
         if _G._BossIntroCinematic then
             if Player.rb then Player.rb:SetRotation(-180, 0, -180) end
+            
+            if player.AnimTimer <= 0 then 
+                Audio.SetMusicState("Boss")
+                _G.BossIntroCinematic = false
+            end
         end
         
         if wakeUpCinematic then
@@ -2184,6 +2189,7 @@ function Update(self, dt)
         end
 
         if enterPortalCinematic then 
+
             timer = 20.0
 
             if not anim then
@@ -2197,6 +2203,7 @@ function Update(self, dt)
                     return 
                 end
             end
+
 
             Audio.SetMusicVolume(10)
 
@@ -2317,6 +2324,7 @@ function Update(self, dt)
         end
 
         if exitPortalCinematic  then
+
             timer = 18.0
 
             if not anim then
@@ -2330,6 +2338,7 @@ function Update(self, dt)
                     return 
                 end
             end
+
             
             --breath in-out
             if Player.AnimTimer <= 17.8 and Player.AnimTimer >= 17.6 and not Audio.IsEventPlaying("SFX_EL_Panting") then 
@@ -2408,6 +2417,7 @@ function Update(self, dt)
 
         if winBossCinematic then
 
+
             if not anim then
                 winBossCinematic = false 
                 return 
@@ -2419,6 +2429,7 @@ function Update(self, dt)
                     return 
                end
             end
+
 
             self.transform:SetPosition(131.348, -1.259, -650.359)
             if Player.rb then Player.rb:SetRotation(-180, 90, -180) end

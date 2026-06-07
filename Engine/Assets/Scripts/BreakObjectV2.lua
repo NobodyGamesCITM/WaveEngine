@@ -4,7 +4,7 @@
 public = {
     brokenPrefabName = "",
     meshObjName = "",
-    breakOnTouch = false,
+    --breakOnTouch = false,
     nearX = 5.0,
     nearY = 5.0,
     nearZ = 5.0,
@@ -158,7 +158,8 @@ function Update(self, dt)
 
         if aliveTimer >= self.public.cleanUpTime then
             aliveTimer = 0
-            GameObject.Destroy(brokenPrefab)
+            --GameObject.Destroy(brokenPrefab)
+            brokenPrefab.SetActive(false)
             self.gameObject:SetActive(false)
             --GameObject.Destroy(self.gameObject)
             
@@ -167,8 +168,8 @@ function Update(self, dt)
 end
 
 function OnCollisionEnter(self, other)
-    if other:CompareTag("Player") and not broken and self.public.breakOnTouch then 
-        Engine.Log("[BreakObject] Collided with player")
+    if other:CompareTag("Enemy") and not broken then 
+        --Engine.Log("[BreakObject] Collided with Enemy")
         BreakObject(self)
         broken = true
     end

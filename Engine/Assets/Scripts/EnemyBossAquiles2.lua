@@ -692,6 +692,7 @@ local function UpdateIdle(self, dist)
                     blockHits           = true
                     StopMovement()
                     _G._BossIntroCinematic = true
+                    Audio.SetMusicState("Boss_Intro")
 
                     self.transform:SetPosition(131.059, -6.862, -648.939)
                     rb:SetRotation(180, 79.759, 180)

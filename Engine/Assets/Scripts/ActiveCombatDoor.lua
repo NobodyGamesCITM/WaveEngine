@@ -12,6 +12,9 @@ local initCombat = false
 local endCombat = false
 local reviveEnemies = false
 
+local isDelaying = false
+local delayTimer = 0.0
+
 function Start(self)
     doors = GameObject.FindByTag(self.public.doorsTag)
     enemies = GameObject.FindByTag(self.public.enemiesTag)
@@ -34,8 +37,8 @@ function Start(self)
 
     self.startCombat = function(self)
         if not initCombat and not endCombat then 
-            initCombat = true 
-            reviveEnemies = true
+            isDelaying = true
+            delayTimer = 1.0
         end
         return initCombat
     end
@@ -52,11 +55,22 @@ function Update (self, deltaTime)
         init = false
     end
 
+    if isDelaying then
+        delayTimer = delayTimer - deltaTime
+        if delayTimer <= 0 then
+            isDelaying = false
+            initCombat = true
+            reviveEnemies = true
+        end
+        return
+    end
+
     if endCombat then return end 
 
     if initCombat and reviveEnemies then
         for i, enemy in ipairs(enemies) do
             if enemy then
+                if enemy.SetActive then enemy:SetActive(true) end 
                 local enemyScript = enemy:GetComponent("Script")
                 if enemyScript and enemyScript.SetAlive then enemyScript:SetAlive() end
             end

@@ -294,6 +294,14 @@ function Start(self)
         }
         SendTrackToCamera(track, 2)
     end
+
+    _G.PlayGauntletAresCinematic = function()
+        local track = {
+            { time = 0.0, pos = { 95.608, 22.819, -60.763 }, rot = { -17.300, 38.600, 0.0 } },
+            { time = 3.0, pos = { 95.608, 22.819, -60.763 }, rot = { -17.300, 38.600, 0.0 } }
+        }
+        SendTrackToCamera(track, 0.5)
+    end
 end
 
 function Update(self, dt)

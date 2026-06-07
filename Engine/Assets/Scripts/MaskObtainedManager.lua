@@ -150,9 +150,17 @@ function Update(self, dt)
     if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
         
         if aresActive then 
+            if _G.PlayGauntletAresCinematic then
+                _G.PlayGauntletAresCinematic()
+            end
+            
             local combat = GameObject.Find("AresCombat")
-            local combatScript = combat:GetComponent("Script")
-            if combatScript then combatScript.startCombat() end 
+            if combat then
+                local combatScript = combat:GetComponent("Script")
+                if combatScript and combatScript.startCombat then 
+                    combatScript.startCombat() 
+                end 
+            end
             aresActive = false
         end
         

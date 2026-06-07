@@ -1,4 +1,3 @@
-
 --Scene Changer Script
 public = {
     targetScene = "Level2",

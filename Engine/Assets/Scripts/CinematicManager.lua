@@ -32,7 +32,6 @@ local function SendTrackToCamera(track, blendBackTime)
         cinematicCamComp:PlayCinematic(track, blendBackTime)
         wasPlaying = true
         
-        -- CONGELAR AL PLAYER (Método nativo, igual que las estatuas)
         if _G.PlayerInstance then 
             _G.PlayerInstance.public.canMove = false 
             local duration = blendBackTime
@@ -273,6 +272,27 @@ function Start(self)
         end
         
         SendTrackToCamera(track, 1.5)
+    end
+
+    _G.PlayBoss2IntroCinematic = function()
+        local track = {
+            { time = 0.0,  pos = { 118.862, -0.390, -641.972 }, rot = { -9.193, 12.800, 0.0 } },
+            { time = 4.0,  pos = { 118.862, -0.390, -641.972 }, rot = { -9.193, 12.800, 0.0 } },
+            { time = 6.0,  pos = { 124.962, -2.590, -655.972 }, rot = { -4.693, -36.100, 0.0 } },
+            { time = 8.0,  pos = { 129.862, -5.650, -653.572 }, rot = { 5.207, -180.000, 0.0 } },
+            { time = 10.0, pos = { 129.862, -5.650, -653.572 }, rot = { 5.207, -180.000, 0.0 } },
+            { time = 14.0, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 14.98, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 14.99, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 15.0, pos = { 130.162, 3.410, -650.272 }, rot = { -35.493, -180.000, 0.0 } },
+            { time = 15.01,pos = { 135.232, -4.661, -635.663 }, rot = { -6.200, 86.700, 0.0 } },
+            { time = 15.02,pos = { 135.232, -4.661, -635.663 }, rot = { -6.200, 86.700, 0.0 } },
+            { time = 17.0, pos = { 136.232, -4.661, -635.663 }, rot = { -3.600, 84.300, 0.0 } },
+            { time = 21.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
+            { time = 25.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
+            { time = 30.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
+        }
+        SendTrackToCamera(track, 2)
     end
 end
 

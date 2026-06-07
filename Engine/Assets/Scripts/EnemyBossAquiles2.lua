@@ -726,6 +726,9 @@ local function UpdateIdle(self, dist)
                         anim:Play("Idle", 0.0)
                         anim:Play("BossIntro", 0.3)
                     end
+                    if _G.PlayBoss2IntroCinematic then
+                        _G.PlayBoss2IntroCinematic()
+                    end
                 else
                     ChangeState(State.COMBAT_MOVE)
                 end

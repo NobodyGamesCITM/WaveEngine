@@ -210,13 +210,6 @@ function Update(self, dt)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave") end
 
-                   
-
-                    if _G.SaveManager then
-                        _G.SaveManager.SaveGame()
-                        if _G.ShowSaveIcon then _G.ShowSaveIcon() end
-                    end
-
                     isInCoolDown = true
                     saveAgainTimer = 0
 
@@ -250,5 +243,9 @@ function _G.RestorePotions()
 
     if _G.ForceRefreshHUD then
         _G.ForceRefreshHUD()
+    end
+
+    if _G.SaveManager and _G.SaveManager.SaveGame then
+        _G.SaveManager.SaveGame()
     end
 end

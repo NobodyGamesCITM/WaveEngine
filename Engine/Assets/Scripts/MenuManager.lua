@@ -100,7 +100,15 @@ function _G.SaveManager.SaveGame()
         end
     end
     local jsonString = TableToString(saveData)
-    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then Engine.Log("[SaveManager] Partida guardada con exito.") end
+    if Engine.SaveTextFile(SAVE_FILENAME, jsonString) then 
+        Engine.Log("[SaveManager] Partida guardada con exito.")
+        if _G.ShowSaveIcon then _G.ShowSaveIcon() end
+    end
+end
+
+function _G.SaveManager.DeleteSave()
+    if not Engine.SaveTextFile then return end
+    Engine.SaveTextFile(SAVE_FILENAME, "")
 end
 
 function _G.SaveManager.LoadGameData()
@@ -270,6 +278,7 @@ local function SetPhase(self, newPhase)
 end
 
 local function NavigateTo(self, xaml)
+    self.continueButtonChecked = false
     if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_CloseWindow") end
     if not self.history then self.history = {} end
     if self.current and not self.current:find("SplashScreen.xaml") then
@@ -462,12 +471,18 @@ end
 
 function Start(self)
     _G.GlobalMenuManagerInstance = nil
+    self.canvas = self.gameObject:GetComponent("Canvas")
 
-    if not self.gameObject:GetComponent("Canvas") then
+    if not self.canvas then
         Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
         return
     end
+
     if _G._NewSceneLoaded then
+        -- Si cargamos escena nueva y hay secuencia de intro, forzamos opacidad 0 inmediatamente
+        if (_G.TitleTrigger_HUDShouldStartHidden == true or _G.CinematicActive == true) and not _G.LoadedFromSave then
+            self.canvas:SetOpacity(0.0)
+        end
         self.newSceneDelay = 0.8
         self.sceneLoadedFlag = true
     else
@@ -596,7 +611,6 @@ function Update(self, dt)
         self.fadeTimer = self.fadeTimer + Time.GetRealDeltaTime()
     end
 
-    -- ─── WAIT FOR SCENE CHANGER ──────────────────────────────────────────────
     if self.phase == "waitForSceneChanger" then
         if _G.SceneManagerState == 1 then
             Engine.Log("[MenuManager] SceneChanger IDLE, iniciant fadeIn + Intro del MainMenu.")
@@ -606,7 +620,12 @@ function Update(self, dt)
 
     -- ─── IDLE ────────────────────────────────────────────────────────────────
     elseif self.phase == "idle" then
-
+        if self.current == "MainMenu.xaml" and not self.continueButtonChecked then
+            self.continueButtonChecked = true
+            local saveStr = Engine.LoadTextFile and Engine.LoadTextFile(SAVE_FILENAME)
+            local hasSave = (saveStr ~= nil and saveStr ~= "")
+            UI.SetButtonEnabled("ContinueButton", hasSave)
+        end
         if self.current == "SoundsMenu.xaml" then
             if not self.soundsMenuInitialized then
                 self.soundsMenuInitialized = true
@@ -660,7 +679,10 @@ function Update(self, dt)
             self.deathTimer = 0.0
             if not self.fading and self.canvas then
                 local isGameplayHUD = (self.current == "HUD.xaml" or self.current == "SonOfIthaca.xaml")
-                if not (isGameplayHUD and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true)) then
+                -- Cambiamos a una lógica explícita: si debe estar oculto, forzamos 0.0.
+                if isGameplayHUD and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
+                    self.canvas:SetOpacity(0.0)
+                else
                     self.canvas:SetOpacity(1.0)
                 end
             end
@@ -698,8 +720,13 @@ function Update(self, dt)
                 _G.CurrentLevel = "Level1"
                 _G.DialogsShown = {}
                 _G.CombatStates = {}
+                _G.CinematicActive = false
                 _G.TitleTrigger_HUDShouldStartHidden = true
                 _G.TitleTrigger_Active = false
+
+                if _G.SaveManager and _G.SaveManager.DeleteSave then
+                    _G.SaveManager.DeleteSave()
+                end
 
                 
                 _G.PortalState        = 0
@@ -724,7 +751,6 @@ function Update(self, dt)
                     _G.PendingSaveDataApply = true
                     _G.IsLoadingSaveGame = true
                     _G.LoadedFromSave = true
-                    -- FIX: save game load nunca activa el TitleTrigger
                     _G.TitleTrigger_HUDShouldStartHidden = false
                     _G.TitleTrigger_Active = false
                     local sName = _G.LoadedSaveData.scene

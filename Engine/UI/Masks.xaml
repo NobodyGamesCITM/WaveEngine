@@ -42,8 +42,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            <Grid x:Name="MaskObtainedPanel"
-                  Visibility="Collapsed"
+            <Grid x:Name="MaskObtainedPanel" Visibility="Collapsed"
                   Background="#00000000"
                   IsHitTestVisible="False">
                 <Image Source="Textures/PopUp.PNG" Margin="455,189,440,189"/>
@@ -70,7 +69,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <TextBlock x:Name="MaskObtainedName" Margin="314,368,0,647" HorizontalAlignment="Center" Foreground="#FF5F5341" StrokeThickness="70" FontFamily="./#ForgottenUncial" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" TextDecorations="Underline"/>
+                    <TextBlock x:Name="MaskObtainedName" Margin="314,368,0,647" HorizontalAlignment="Center" Foreground="#FF5F5341" StrokeThickness="70" FontFamily="./#Cinzel" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" TextDecorations="Underline"/>
                 </Grid>
                 <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="466" Margin="496,300,158,100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Grid Width="82" Height="82">
@@ -102,7 +101,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </StackPanel>
                 <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Margin="300,200,0,70" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Grid Width="84" Height="87">
-                        <Image x:Name="MaskKey_Q2_GP" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q2_GP" Source="Textures/Y.PNG" Width="83" Height="87" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <Image x:Name="MaskKey_Q2_KB" Source="Textures/Q.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                     <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Ares_Attack.png" Width="423" Height="258">

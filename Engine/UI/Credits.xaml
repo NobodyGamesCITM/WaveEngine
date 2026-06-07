@@ -33,19 +33,57 @@ VerticalAlignment="Stretch">
 
                             <Border Width="500" Height="260" Background="#0D0C0A"
                                     BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80"/>
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage1" Source="Textures/CreditsImage1.png" Stretch="UniformToFill"/>
+                            </Border>
 
                             <Border Width="500" Height="260" Background="#0D0C0A"
                                     BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80"/>
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage2" Source="Textures/CreditsImage2.png" Stretch="UniformToFill"/>
+                            </Border>
 
                             <Border Width="500" Height="260" Background="#0D0C0A"
                                     BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80"/>
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage3" Source="Textures/CreditsImage3.png" Stretch="UniformToFill"/>
+                            </Border>
 
                             <Border Width="500" Height="260" Background="#0D0C0A"
                                     BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80"/>
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage4" Source="Textures/CreditsImage4.png" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <Border Width="500" Height="260" Background="#0D0C0A"
+                                    BorderBrush="#2A2420" BorderThickness="1"
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage5" Source="Textures/CreditsImage5.png" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <Border Width="500" Height="260" Background="#0D0C0A"
+                                    BorderBrush="#2A2420" BorderThickness="1"
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage6" Source="Textures/CreditsImage6.png" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <Border Width="500" Height="260" Background="#0D0C0A"
+                                    BorderBrush="#2A2420" BorderThickness="1"
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage7" Source="Textures/CreditsImage7.png" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <Border Width="500" Height="260" Background="#0D0C0A"
+                                    BorderBrush="#2A2420" BorderThickness="1"
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage8" Source="Textures/CreditsImage8.png" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <Border Width="500" Height="260" Background="#0D0C0A"
+                                    BorderBrush="#2A2420" BorderThickness="1"
+                                    Margin="0,0,0,80">
+                                <Image x:Name="CreditsImage9" Source="Textures/CreditsImage9.png" Stretch="UniformToFill"/>
+                            </Border>
 
                             <Rectangle Height="500" Fill="Transparent"/>
 
@@ -71,93 +109,131 @@ VerticalAlignment="Stretch">
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
+                            <!-- ═══════════ PRODUCCIÓN ═══════════ -->
                             <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="PRODUCCI&#xD3;N" FontFamily="Georgia" FontSize="14" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                                <TextBlock Text="Xavier Chaparro" FontFamily="Georgia" FontSize="22" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="PRODUCER" FontFamily="Georgia" FontSize="12" Foreground="#887766" HorizontalAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock Text="PRODUCCI&#xD3;N" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+                                <TextBlock Text="Xavier Chaparro" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="PRODUCER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,6"/>
+                                <TextBlock Text="3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+                                <TextBlock Text="Oscar Alonso" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="LEAD PROGRAMMER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,24"/>
+
+                                <TextBlock Text="Asier Ulloa" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="LEAD GAME DESIGNER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,6"/>
+                                <TextBlock Text="Gameplay Designer · Level Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+                                <TextBlock Text="Clara Rodriguez" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="LEAD ARTIST" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,0"/>
                             </StackPanel>
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
+                            <!-- ═══════════ PROGRAMACIÓN ═══════════ -->
                             <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="PROGRAMACI&#xD3;N" FontFamily="Georgia" FontSize="14" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                                <TextBlock Text="Oscar Alonso" FontFamily="Georgia" FontSize="22" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="LEAD PROGRAMMER" FontFamily="Georgia" FontSize="12" Foreground="#887766" HorizontalAlignment="Center" Margin="0,3,0,36"/>
+                                <TextBlock Text="PROGRAMACI&#xD3;N" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
-                                <TextBlock Text="ENEMIGOS" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Ana" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Aniol" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Isaac" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Ana" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Engine Programmer · UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <Rectangle Width="80" Height="1" Fill="#2A2420" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                                <TextBlock Text="Aniol" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="MAIN CHARACTER" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Haosheng" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Jana" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Javi" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Haosheng" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Engine Programmer · Puzzle Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <Rectangle Width="80" Height="1" Fill="#2A2420" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                                <TextBlock Text="Isaac" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Player Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="ENGINE &amp; CORE SYSTEMS" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Joel" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Kai" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Marc" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Pablo" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Pau" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Toni" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Jana" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Enemy AI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Javi" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Level Designer · Technical Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Joel" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Enemy AI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Marc" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Engine Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Pablo" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Camera Programmer · Puzzle Programmer · VFX Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Pau" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Technical Artist · Level Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Toni" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                             </StackPanel>
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
+                            <!-- ═══════════ ARTE ═══════════ -->
                             <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="ARTE" FontFamily="Georgia" FontSize="14" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                                <TextBlock Text="Clara Rodriguez" FontFamily="Georgia" FontSize="22" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="ART LEAD" FontFamily="Georgia" FontSize="12" Foreground="#887766" HorizontalAlignment="Center" Margin="0,3,0,36"/>
+                                <TextBlock Text="ARTE" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
-                                <TextBlock Text="MODELADO 3D" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Arnau" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Arthur" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Bernat" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Arnau" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <Rectangle Width="80" Height="1" Fill="#2A2420" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                                <TextBlock Text="Arthur" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Concept Artist · 2D Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="ANIMACI&#xD3;N" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Claudia" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="David" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Ivan" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Bernat" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <Rectangle Width="80" Height="1" Fill="#2A2420" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                                <TextBlock Text="Claudia" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="ENTORNOS &amp; UI" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Lara" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Maria" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Marti Mira" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center"/>
+                                <TextBlock Text="David" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Music · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Ivan" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Kai" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · Technical Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Lara" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Maria" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · UI/HUD Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Marti Mira" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                             </StackPanel>
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
+                            <!-- ═══════════ DISEÑO ═══════════ -->
                             <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="DISE&#xD1;O" FontFamily="Georgia" FontSize="14" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
-                                <TextBlock Text="Asier Ulloa" FontFamily="Georgia" FontSize="22" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="LEAD DESIGNER" FontFamily="Georgia" FontSize="12" Foreground="#887766" HorizontalAlignment="Center" Margin="0,3,0,36"/>
+                                <TextBlock Text="DISE&#xD1;O" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
-                                <TextBlock Text="DISE&#xD1;O DE NIVELES" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Arnau P." FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Mario" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Marti Mach" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Arnau P." FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Gameplay Designer · Puzzle Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <Rectangle Width="80" Height="1" Fill="#2A2420" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                                <TextBlock Text="Mario" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Level Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="DISE&#xD1;O DE SISTEMAS" FontFamily="Georgia" FontSize="12" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,14"/>
-                                <TextBlock Text="Roger" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Sauc" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Victor" FontFamily="Georgia" FontSize="22" Foreground="#CCCCCC" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Marti Mach" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Enemy Designer · Level Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Roger" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Narrative Designer · UI/HUD Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Sa&#xFC;c" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="UI/HUD Designer · Narrative Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+
+                                <TextBlock Text="Victor" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBlock Text="Enemy Designer · Gameplay Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                             </StackPanel>
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <StackPanel Margin="0,60,0,40">
-                                <TextBlock Text="CON EL AGRADECIMIENTO ESPECIAL A" FontFamily="Georgia" FontSize="13" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,32"/>
+                                <TextBlock Text="CON EL AGRADECIMIENTO ESPECIAL A" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,32"/>
 
                                 <StackPanel Margin="0,0,0,28" HorizontalAlignment="Center">
                                     <Grid Width="220" Height="80">
@@ -171,21 +247,21 @@ VerticalAlignment="Stretch">
                                         <Rectangle Fill="White"/>
                                         <Image Source="Textures/Wwise.png"/>
                                     </Grid>
-                                    <TextBlock Text="AUDIO MIDDLEWARE" FontFamily="Georgia" FontSize="13" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                                    <TextBlock Text="AUDIO MIDDLEWARE" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                                 </StackPanel>
                             </StackPanel>
 
                             <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <StackPanel Margin="0,48,0,100" HorizontalAlignment="Center">
-                                <TextBlock Text="DESARROLLADO CON" FontFamily="Georgia" FontSize="13" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                                <TextBlock Text="DESARROLLADO CON" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
                                 <StackPanel HorizontalAlignment="Center">
                                     <Grid Width="220" Height="80">
                                         <Rectangle Fill="#0A0A0A"/>
                                         <Border BorderBrush="#2A2420" BorderThickness="1"/>
                                         <Image Source="Textures/WaveEngine.png"/>
                                     </Grid>
-                                    <TextBlock Text="GAME ENGINE" FontFamily="Georgia" FontSize="13" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                                    <TextBlock Text="GAME ENGINE" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                                 </StackPanel>
                             </StackPanel>
 

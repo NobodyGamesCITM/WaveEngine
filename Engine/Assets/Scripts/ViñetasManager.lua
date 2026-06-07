@@ -16,6 +16,9 @@ local sequence = {
     { page = "Page2", panel = "Page2_V1" },
     { page = "Page2", panel = "Page2_V2" },
     { page = "Page2", panel = "Page2_V3" },
+    { page = "Page3", panel = "Page3_V1" },
+    { page = "Page3", panel = "Page3_V2" },
+    { page = "Page3", panel = "Page3_V3" },
 }
 
 local currentStep  = 0
@@ -49,6 +52,7 @@ local function resetAllPanels()
     end
     setOpacity("Page1", 0)
     setOpacity("Page2", 0)
+    setOpacity("Page3", 0)
 end
 
 local function showPanel(name)
@@ -114,6 +118,16 @@ local function loadStep(index)
         end
 
     elseif entry.panel == "Page2_V3" then
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+
+    elseif entry.panel == "Page3_V1" then
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+
+    elseif entry.panel == "Page3_V2" then
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+
+    elseif entry.panel == "Page3_V3" then
+        if owlWingSFX then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly") end
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
 
     else

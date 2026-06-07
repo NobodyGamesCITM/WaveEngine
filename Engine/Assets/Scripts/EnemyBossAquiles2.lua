@@ -711,6 +711,7 @@ local function UpdateIdle(self, dist)
                     StopMovement()
                     _G._BossIntroCinematic = true
                     Audio.SetMusicState("Boss_Intro")
+                    Engine.Log("Setting Music State to Boss Intro from Aquiles Script")
 
                     self.transform:SetPosition(131.059, -6.862, -648.939)
                     rb:SetRotation(180, 79.759, 180)
@@ -723,7 +724,7 @@ local function UpdateIdle(self, dist)
                             pcall(function() playerAnim:Play("Idle", 0.0) end)
                             pcall(function() playerAnim:Play("Boss", 0.3) end)
                         end
-                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+                        
                     end
 
                     if anim then
@@ -732,6 +733,8 @@ local function UpdateIdle(self, dist)
                     end
                     if _G.PlayBoss2IntroCinematic then
                         _G.PlayBoss2IntroCinematic()
+                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+
                     end
                 else
                     if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
@@ -1706,7 +1709,7 @@ function Update(self, dt)
             end
         end
 
-        --Why is this 3 seconds less than Player.AnimTimer??
+
         --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
 
         if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
@@ -1718,18 +1721,18 @@ function Update(self, dt)
             SelectPlaySFX(spearSFX, "SFX_SpearPull")
         end
 
-        --displaced
+        --displaced (?)
         if introCinematicTimer <= 19.7 and introCinematicTimer >= 19.5 and not Audio.IsEventPlaying("SFX_SpearPlunge") then
             SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
         end
 
-        if introCinematicTimer <= 7.4 and introCinematicTimer >= 7.3 and not Audio.IsEventPlaying("SFX_SpearPrep") then
-            SelectPlaySFX(spearSFX, "SFX_SpearPrep")
-            Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
-        end
+        -- if introCinematicTimer <= 6.58 and introCinematicTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
+        --     SelectPlaySFX(spearSFX, "SFX_SpearPrep")
+        --     Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
+        -- end
 
-        -- if introCinematicTimer <= 7.0 and introCinematicTimer >= 6.9 then
-        --     SelectPlaySFX(stepSFX, "SFX_IntroRoar")
+        -- if introCinematicTimer <= 6.0 and introCinematicTimer >= 6.9 and not Audio.IsEventPlaying("SFX_IntroRoar") then
+        --     SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
         --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
         -- end
 
@@ -1833,7 +1836,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 2.0 then return end
+        if distLance > 6.0 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 

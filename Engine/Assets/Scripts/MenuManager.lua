@@ -693,6 +693,16 @@ function Update(self, dt)
                 _G.CurrentLevel = "Level1"
                 _G.DialogsShown = {}
                 _G.CombatStates = {}
+                
+                _G.PortalState        = 0
+                _G._MidRunTransition  = false
+                _G._UnlockedMasks     = {}
+                _G._MaskState_Apolo   = false
+                _G._MaskState_Hermes  = false
+                _G._MaskState_Ares    = false
+                _G._SavedCurrentMask  = nil
+                _G.keysCollected      = 0
+                
                 self.pendingScene = "Level1.scene"
                 self.fading = true
                 self.canvas:PlayStoryboard("FadeOut")

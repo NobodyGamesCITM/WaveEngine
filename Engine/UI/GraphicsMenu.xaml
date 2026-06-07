@@ -449,10 +449,6 @@
                         <RowDefinition Height="94"/>
                         <!-- Row 2: gap -->
                         <RowDefinition Height="54"/>
-                        <!-- Row 3: ANTI-ALIASING toggle -->
-                        <!-- Row 4: gap -->
-                        <!-- Row 5: RESOLUTION picker -->
-                        <!-- Row 6: gap -->
                         <RowDefinition Height="72"/>
                         <RowDefinition Height="20"/>
                         <!-- Row 7: APPLY button -->

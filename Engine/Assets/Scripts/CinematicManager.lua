@@ -290,9 +290,9 @@ function Start(self)
             { time = 17.0, pos = { 136.232, -4.661, -635.663 }, rot = { -3.600, 84.300, 0.0 } },
             { time = 21.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
             { time = 25.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
-            { time = 30.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
+            { time = 27.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
         }
-        SendTrackToCamera(track, 2)
+        SendTrackToCamera(track, 1.5)
     end
 
     _G.PlayGauntletAresCinematic = function()

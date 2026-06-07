@@ -95,10 +95,11 @@ function Update(self, dt)
         if portalExitTimer <= 0 and _G.PlayerInstance then
             portalExitTimer = 0
             _G.PlayerInstance.public.canMove = false
-            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
+            
             if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
             
             if _G.PlayPortalExitCinematic then _G.PlayPortalExitCinematic() end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
 
             local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
             if anim then

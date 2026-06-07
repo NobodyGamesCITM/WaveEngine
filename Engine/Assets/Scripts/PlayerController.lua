@@ -274,6 +274,7 @@ end
 
 _G.StartPortalEnterAnim = function()
     Player.isPortalEnterAnim = true
+    --Engine.Log("[Player] Starting Portal Enter Animation...") 
 end
 
 _G.StartPortalExitAnim = function()
@@ -2258,26 +2259,10 @@ function Update(self, dt)
 
         if enterPortalCinematic then 
 
-            -- timer = 20.0
-            -- Engine.Log("What timer is this?"..tostring(timer))
+            --Cinematic manager added a 2 second blendTime (total of a 22 second timer) so clamping it at 20 again:
+            if Player.AnimTimer >= 20.0 then Player.AnimTimer = 20.0 end
 
-            -- local anim = self.gameObject:GetComponent("Animation")
-
-            -- if not anim then
-            --     enterPortalCinematic = false 
-            --     Engine.Log("Anim not found, aborting enter portal cinematic")
-            --     return 
-            -- end 
-
-            -- if anim then
-            --     if not anim:IsPlayingAnimation("PortalEnter") then
-            --         Engine.Log("Anim not playing, aborting enter portal cinematic")
-            --         enterPortalCinematic = false 
-            --         return 
-            --     end
-            -- end
-
-            -- Engine.Log("Playing Wake Up Cinematic, timer = "..tostring(Player.AnimTimer))
+            --Engine.Log("Playing Enter Portal Cinematic, timer = "..tostring(Player.AnimTimer))
 
             
 
@@ -2507,7 +2492,7 @@ function Update(self, dt)
 
         if winBossCinematic then
 
-
+            if Player.AnimTimer >= 22.0 then Player.AnimTimer = 22.0 end
             -- if not anim then
             --     winBossCinematic = false 
             --     return 
@@ -2650,7 +2635,6 @@ function Update(self, dt)
         if Player.isPortalEnterAnim then
             self.transform:SetPosition(97.633, -0.811, -178.289)
             if Player.rb then Player.rb:SetRotation(0, 63.986, 0) end
-
             enterPortalCinematic = true
             
         end

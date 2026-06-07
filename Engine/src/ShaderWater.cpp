@@ -11,11 +11,11 @@ bool ShaderWater::CreateShader()
         "uniform mat4 view;\n"
         "uniform mat4 projection;\n"
         "void main() {\n"
-        "    vec4 wPos = model * vec4(aPos, 1.0);\n"
-        "    WorldPos = wPos.xyz;\n"
-        "    vec4 clipPos = projection * view * wPos;\n"
-        "    ScreenPos = clipPos;\n"
-        "    gl_Position = clipPos;\n"
+        "vec4 wPos = model * vec4(aPos, 1.0);\n"
+        "WorldPos = wPos.xyz;\n"
+        "vec4 clipPos = projection * view * wPos;\n"
+        "ScreenPos = clipPos;\n"
+        "gl_Position = clipPos;\n"
         "}\n";
 
     std::string frag =

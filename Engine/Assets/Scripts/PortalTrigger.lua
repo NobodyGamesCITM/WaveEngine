@@ -63,7 +63,10 @@ function Update(self, dt)
                         if _G.PlayerInstance then
                             _G.PlayerInstance.public.canMove = false
                             if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(20.0) end
-                            if _G.StartPortalEnterAnim then _G.StartPortalEnterAnim() end
+                            if _G.StartPortalEnterAnim then 
+                                _G.StartPortalEnterAnim()
+                                --Engine.Log("[PortalTrigger] Starting Portal Enter Cinematic...") 
+                            end
                             
                             if _G.PlayPortalEnterCinematic then _G.PlayPortalEnterCinematic() end
 
@@ -79,7 +82,7 @@ function Update(self, dt)
                         _G._PendingPortalTransition = {
                             script = transitionScript,
                             scene  = self.public.targetScene,
-                            timer  = 15.0
+                            timer  = 25.0
                         }
                     end
                 else

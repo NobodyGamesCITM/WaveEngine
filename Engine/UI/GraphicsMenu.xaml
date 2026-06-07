@@ -416,7 +416,7 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Viewbox.RenderTransform>
-                <TextBlock Text="GRAPHICS" FontFamily="Fonts/#Cinzel Decorative" FontSize="65"
+                <TextBlock Text="GRAPHICS" FontFamily="./#Cinzel Decorative" FontSize="65"
                            Foreground="White" FontWeight="Bold"
                            TextAlignment="Center"
                            Width="445" Margin="0,4,0,-4"/>

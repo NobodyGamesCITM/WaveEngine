@@ -5,7 +5,7 @@ public = {
 }
 
 local cinematicCamComp = nil
-local cinematicState = 0
+local wasPlaying = false
 
 local function SendTrackToCamera(track, blendBackTime)
     local camObj = GameObject.Find("MainCamera")
@@ -30,8 +30,15 @@ local function SendTrackToCamera(track, blendBackTime)
         end
 
         cinematicCamComp:PlayCinematic(track, blendBackTime)
+        wasPlaying = true
         
-        cinematicState = 1
+        -- CONGELAR AL PLAYER (Método nativo, igual que las estatuas)
+        if _G.PlayerInstance then 
+            _G.PlayerInstance.public.canMove = false 
+            local duration = blendBackTime
+            if track and #track > 0 then duration = duration + track[#track].time end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(duration) end
+        end
     end
 end
 
@@ -270,27 +277,24 @@ function Start(self)
 end
 
 function Update(self, dt)
-    if cinematicCamComp then
-        if cinematicState == 1 then
-            if cinematicCamComp:IsPlayingCinematic() then
-                cinematicState = 2
+    if wasPlaying and cinematicCamComp then
+        if not cinematicCamComp:IsPlayingCinematic() then
+            wasPlaying = false
+            _G.CinematicActive = false
+            
+            if _G.PlayerInstance then 
+                _G.PlayerInstance.public.canMove = true 
             end
-        elseif cinematicState == 2 then
-            if not cinematicCamComp:IsPlayingCinematic() then
-                cinematicState = 0
-                _G.CinematicActive = false
-                
-                -- RESTAURAR UI Y LOCK-ON
-                if _G.TargetLockManager_SetParticleVisibility then
-                    _G.TargetLockManager_SetParticleVisibility(true)
-                end
-                
-                local uiManager = GameObject.Find("UIManager")
-                if uiManager then
-                    local uiCanvas = uiManager:GetComponent("Canvas")
-                    if uiCanvas then
-                        uiCanvas:SetOpacity(1.0)
-                    end
+            
+            if _G.TargetLockManager_SetParticleVisibility then
+                _G.TargetLockManager_SetParticleVisibility(true)
+            end
+            
+            local uiManager = GameObject.Find("UIManager")
+            if uiManager then
+                local uiCanvas = uiManager:GetComponent("Canvas")
+                if uiCanvas then
+                    uiCanvas:SetOpacity(1.0)
                 end
             end
         end

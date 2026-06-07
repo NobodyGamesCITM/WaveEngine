@@ -4,7 +4,6 @@ local FADE_IN_DURATION   = 1.75
 local HOLD_DURATION      = 2.0
 local FADE_OUT_DURATION  = 1.5
 local HUD_FADE_DURATION  = 0.8
-local canvas    = nil
 
 local function EaseInOutQuad(t)
     if t < 0.5 then return 2*t*t
@@ -13,7 +12,7 @@ end
 
 local function FindCanvas()
     local mm = _G.GlobalMenuManagerInstance
-    if mm and mm.canvas then
+    if mm and mm.gameObject and mm.canvas then
         Engine.Log("[TitleTrigger] Canvas encontrado via GlobalMenuManagerInstance")
         return mm.canvas
     end
@@ -36,7 +35,7 @@ function Start(self)
     self.triggered = false
     self.phase     = "idle"
     self.timer     = 0.0
-    canvas    = nil
+    self.canvas    = nil
     self.myPos     = self.transform.worldPosition
 
     _G.TitleTrigger_HUDShouldStartHidden = true
@@ -56,13 +55,20 @@ function Update(self, dt)
         return
     end
 
+    if not self.canvas then
+        self.canvas = FindCanvas()
+        if not self.canvas and self.phase ~= "idle" then 
+            return 
+        end
+    end
+
     self.myPos = self.transform.worldPosition
 
     if self.phase == "idle" then
         if self.triggered then return end
 
         local player = _G.PlayerInstance
-        if not player then return end
+        if not player or not player.gameObject then return end
         local pPos = player.transform and player.transform.worldPosition
         if not pPos then return end
 
@@ -70,8 +76,7 @@ function Update(self, dt)
         local dz = pPos.z - self.myPos.z
         if (dx*dx + dz*dz) > (TRIGGER_RADIUS * TRIGGER_RADIUS) then return end
 
-        canvas = FindCanvas()
-        if not canvas then
+        if not self.canvas then
             Engine.Log("[TitleTrigger] Canvas no encontrado, reintentando...")
             return
         end
@@ -80,8 +85,8 @@ function Update(self, dt)
         _G.TitleTrigger_Active = true
         Engine.Log("[TitleTrigger] Secuencia iniciada.")
 
-        canvas:LoadXAML("SonOfIthaca.xaml")
-        canvas:SetOpacity(0.0)
+        self.canvas:LoadXAML("SonOfIthaca.xaml")
+        self.canvas:SetOpacity(0.0)
 
         local mm = _G.GlobalMenuManagerInstance
         if mm then
@@ -96,23 +101,18 @@ function Update(self, dt)
 
     self.timer = self.timer + Time.GetRealDeltaTime()
 
-    if not canvas then
-        canvas = FindCanvas()
-        if not canvas then return end
-    end
-
     if self.phase == "fadeIn" then
         local t = math.min(self.timer / FADE_IN_DURATION, 1.0)
-        canvas:SetOpacity(EaseInOutQuad(t))
+        self.canvas:SetOpacity(EaseInOutQuad(t))
         if t >= 1.0 then
-            canvas:SetOpacity(1.0)
+            self.canvas:SetOpacity(1.0)
             self.phase = "hold"
             self.timer = 0.0
             Engine.Log("[TitleTrigger] Fade in completado.")
         end
 
     elseif self.phase == "hold" then
-        canvas:SetOpacity(1.0)
+        self.canvas:SetOpacity(1.0)
         if self.timer >= HOLD_DURATION then
             self.phase = "fadeOut"
             self.timer = 0.0
@@ -121,11 +121,11 @@ function Update(self, dt)
 
     elseif self.phase == "fadeOut" then
         local t = math.min(self.timer / FADE_OUT_DURATION, 1.0)
-        canvas:SetOpacity(1.0 - EaseInOutQuad(t))
+        self.canvas:SetOpacity(1.0 - EaseInOutQuad(t))
         if t >= 1.0 then
-            canvas:SetOpacity(0.0)
-            canvas:LoadXAML("HUD.xaml")
-            canvas:SetOpacity(0.0)
+            self.canvas:SetOpacity(0.0)
+            self.canvas:LoadXAML("HUD.xaml")
+            self.canvas:SetOpacity(0.0)
 
             local mm = _G.GlobalMenuManagerInstance
             if mm then
@@ -145,9 +145,9 @@ function Update(self, dt)
 
     elseif self.phase == "hudFade" then
         local t = math.min(self.timer / HUD_FADE_DURATION, 1.0)
-        canvas:SetOpacity(EaseInOutQuad(t))
+        self.canvas:SetOpacity(EaseInOutQuad(t))
         if t >= 1.0 then
-            canvas:SetOpacity(1.0)
+            self.canvas:SetOpacity(1.0)
             _G.TitleTrigger_HUDShouldStartHidden = false
             _G.TitleTrigger_Active = false
             self.phase = "done"

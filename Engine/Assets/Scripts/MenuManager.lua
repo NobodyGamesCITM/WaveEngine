@@ -442,11 +442,14 @@ function Initialize(self)
     end
 
     Engine.Log("[MenuManager] Current XAML: " .. tostring(self.current))
-    if not _G.TitleTrigger_HUDShouldStartHidden then
-        self.canvas:SetOpacity(1.0)
-    else
-        self.canvas:SetOpacity(0.0)
-        Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
+
+    if self.phase ~= "fadeIn" and self.phase ~= "waitForSceneChanger" then
+        if not _G.TitleTrigger_HUDShouldStartHidden then
+            self.canvas:SetOpacity(1.0)
+        else
+            self.canvas:SetOpacity(0.0)
+            Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
+        end
     end
 
     Engine.Log("[MenuManager] Re-initialization COMPLETE.")
@@ -455,6 +458,9 @@ function Initialize(self)
 end
 
 function Start(self)
+
+    _G.GlobalMenuManagerInstance = nil
+
     if not self.gameObject:GetComponent("Canvas") then
         Engine.Log("[MenuManager] ERROR: No Canvas in Start, aborting.")
         return
@@ -584,14 +590,10 @@ function Update(self, dt)
         Engine.Log("[MenuManager] current era transitorio, corregido a: " .. self.current)
     end
 
-    -- El fadeTimer no avança durant waitForSceneChanger ni idle
     if self.phase ~= "idle" and self.phase ~= "waitForSceneChanger" then
         self.fadeTimer = self.fadeTimer + Time.GetRealDeltaTime()
     end
 
-    -- ─── WAIT FOR SCENE CHANGER ──────────────────────────────────────────────
-    -- Esperem que el SceneChanger (FadePanel fade out) arribi a State.IDLE=1
-    -- per assegurar-nos que la pantalla és completament negra abans del fadeIn.
     if self.phase == "waitForSceneChanger" then
         if _G.SceneManagerState == 1 then
             Engine.Log("[MenuManager] SceneChanger IDLE, iniciant fadeIn + Intro del MainMenu.")
@@ -753,10 +755,10 @@ function Update(self, dt)
                 _G.CurrentLevel   = "MainMenu"
                 _G.ForceStartXAML = "MainMenu.xaml"
                 _G.SkipSplash     = true
-                -- El SceneChanger activara MainMenuNeedsIntro quan arribi a IDLE (fade out acabat)
-                -- i el MenuManager de la nova escena fara el fadeIn + PlayStoryboard("Intro")
-
-                -- Cridar StartTransition al SceneChanger perque gestioni el FadePanel + LoadingScreen
+                _G.MainMenuNeedsIntro = true
+                _G.TitleTrigger_Active = nil
+                _G.TitleTrigger_HUDShouldStartHidden = nil
+                _G.CinematicActive = false
                 local sceneManagerObj = GameObject.Find("SceneManager")
                 if sceneManagerObj then
                     local sceneScript = sceneManagerObj:GetComponent("Script")

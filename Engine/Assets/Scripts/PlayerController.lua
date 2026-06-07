@@ -1469,6 +1469,8 @@ local InitParticles
 function Start(self)
     Engine.Log("[Player] Start() called - Initializing player")
 
+    _G.PlayerInstance = nil
+
     attackCol    = nil
     chargeCol    = nil
     heavyCol     = nil

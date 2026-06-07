@@ -438,6 +438,7 @@ local function UpdateFase2(self, dt)
         if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
         if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
         if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+        if _G.BossBar_RefreshShield  then _G.BossBar_RefreshShield(posture, 50) end
  
         
         Engine.Log("[AQUILES] Fase 3 comenzada")
@@ -470,6 +471,9 @@ local function TakeDamage(self, amount, attackerPos)
     if hasPosture and not inOpportunity then
         posture = posture - amount
         SelectPlaySFX(armorSFX, "SFX_AquilesShield")
+        if _G.BossBar_RefreshShield then
+            _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+        end
         if sparksPs then sparksPs:Play() end
 
         if posture > 0 then
@@ -506,6 +510,9 @@ local function TakeDamage(self, amount, attackerPos)
 
     if _G.BossBar_RefreshHealth then
         _G.BossBar_RefreshHealth(hp, currentMaxHp)
+    end
+    if _G.BossBar_RefreshShield then
+        _G.BossBar_RefreshShield(posture, self.public.maxPosture)
     end
 
 
@@ -559,6 +566,8 @@ local function TakeDamage(self, amount, attackerPos)
             if anim then anim:Play("Idle", 0.2) end
 
             -- Primera serie
+            if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+            if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, self.public.maxPosture) end
             SpawnSeries(self)
             Engine.Log("[AQUILES] Fase 2 iniciada")
         end
@@ -694,11 +703,6 @@ local function UpdateIdle(self, dist)
         if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
             
             if dist <= self.public.detectRange then
-                if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
-                    _G.BossBar_SetVisibility(true)
-                    _G.BossBar_RefreshHealth(hp, currentMaxHp)
-                end
-
                 if not introPlayed then
                     introPlayed         = true
                     isIntroCinematic    = true
@@ -730,6 +734,10 @@ local function UpdateIdle(self, dist)
                         _G.PlayBoss2IntroCinematic()
                     end
                 else
+                    if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                        _G.BossBar_SetVisibility(true)
+                        _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                    end
                     ChangeState(State.COMBAT_MOVE)
                     if Audio.GetMusicState() ~= "Boss" then Audio.SetMusicState("Boss") end
                 end
@@ -1513,6 +1521,12 @@ function Update(self, dt)
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
         if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        if _G.BossBar_RefreshHealth then
+            _G.BossBar_RefreshHealth(hp, currentMaxHp)
+        end
+        if _G.BossBar_RefreshShield then
+            _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+        end
         Engine.Log("[Aquiles] Reset completo")
         return
     end
@@ -1727,6 +1741,9 @@ function Update(self, dt)
             if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
                 _G.BossBar_SetVisibility(true)
                 _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                if _G.BossBar_RefreshShield then
+                    _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+                end
             end
             ChangeState(State.COMBAT_MOVE)
         end

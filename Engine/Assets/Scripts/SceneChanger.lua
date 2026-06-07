@@ -48,7 +48,9 @@ function Start(self)
     
     _G._NewSceneLoaded = true 
 
-    _G.CurrentLevel = self.public.currentLevel
+    if not _G.CurrentLevel or _G.CurrentLevel == "" or _G.CurrentLevel == "MainMenu" then
+        _G.CurrentLevel = self.public.currentLevel
+    end
     canvasComponent = self.gameObject:GetComponent("Canvas") 
 
     if not canvasComponent then
@@ -151,6 +153,9 @@ function Update(self, dt)
             else
                 if Engine.LoadScene then
                     _G._NewSceneLoaded = true
+                    local nextScene = self.public.targetScene:gsub(".scene", "")
+                    _G.CurrentLevel = nextScene
+                    
                     Engine.LoadScene(self.public.targetScene)
                 end
             end

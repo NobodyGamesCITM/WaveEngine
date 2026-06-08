@@ -66,6 +66,7 @@ function Start(self)
         if not _G.LoadedFromSave then
             
             _G.CinematicActive = true
+            _G.PlayerInAnim = true
             _G.PortalCinematicReady = false
             portalExitTimer = 8.0
             if _G.PlayerInstance then 
@@ -110,7 +111,6 @@ function Update(self, dt)
             end
            
             _G.PortalCinematicReady = true
-            _G.CinematicActive = false
             Engine.Log("[SceneChanger] PortalCinematicReady activat.")
         end
     end
@@ -202,7 +202,8 @@ function StartTransition(self, sceneName)
             _G._SavedBerserkCount = ps.berserkCount
             _G._SavedMaxBerserk   = ps.maxBerserk
         end
-
+        _G.TitleTrigger_HUDShouldStartHidden = false
+        _G.TitleTrigger_Active = false
         _G._SavedCurrentMask = _G._PlayerController_currentMask
         
         if sceneName then

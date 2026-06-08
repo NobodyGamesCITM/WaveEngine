@@ -455,7 +455,7 @@ function Initialize(self)
 
     if self.phase ~= "fadeIn" and self.phase ~= "waitForSceneChanger" then
         Engine.Log("[MenuManager] TitleTrigger_HUDShouldStartHidden = " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
-        if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true then
+        if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true or _G.CinematicActive == true then
             self.canvas:SetOpacity(0.0)
             Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
         else
@@ -537,6 +537,7 @@ function Update(self, dt)
     end
 
     if not Audio.IsEventPlaying("MUS_BGM") then
+        
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then sceneVal = self.public.currentScene.value or ""
         elseif type(self.public.currentScene) == "string" then sceneVal = self.public.currentScene end
@@ -547,8 +548,11 @@ function Update(self, dt)
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
+        elseif sceneVal == "Splash.scene" and not _G.SkipSplash then
+            --Engine.Log("Music state set to none because Splash Screen is still playing")
         else
-            Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal))
+            --Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal).. ", musicState stayed as None!!")
+            
         end
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
@@ -556,6 +560,8 @@ function Update(self, dt)
             Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
+
+    --Engine.Log("Current Music State = "..tostring(Audio.GetMusicState()))
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -687,10 +693,12 @@ function Update(self, dt)
         else
             self.deathTimer = 0.0
             if not self.fading and self.canvas and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
-                if self.current == "SonOfIthaca.xaml" then
+                if self.current == "SonOfIthaca.xaml" or _G.CinematicActive == true or _G.PlayerInAnim == true then
                     -- no-op
-                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
+                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) and not _G.HUD_IsFading then
                     self.canvas:SetOpacity(0.0)
+                elseif _G.HUD_IsFading == true then
+                    -- no-op: el HUDController está controlando el fundido
                 else
                     self.canvas:SetOpacity(1.0)
                 end
@@ -804,6 +812,10 @@ function Update(self, dt)
                 _G.TitleTrigger_HUDShouldStartHidden = nil
                 _G.CinematicActive = false
 
+                -- self.selectSFX = nil
+                -- self.pressSFX  = nil
+                -- self.musicComp = nil
+
                 local sceneManagerObj = GameObject.Find("SceneManager")
                 if sceneManagerObj then
                     local sceneScript = sceneManagerObj:GetComponent("Script")
@@ -833,6 +845,7 @@ function Update(self, dt)
         local allCanvasButtons = UI.GetCanvasButtons()
         for i, button in ipairs(allCanvasButtons) do
             if UI.WasFocused(tostring(button)) then
+                if not self.selectSFX then InitAudioSources(self) end
                 if self.selectSFX then self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect") end
             end
             if UI.WasClicked(tostring(button)) then

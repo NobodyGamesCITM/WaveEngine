@@ -319,15 +319,7 @@ function Update(self, dt)
             if _G.TargetLockManager_SetParticleVisibility then
                 _G.TargetLockManager_SetParticleVisibility(true)
             end
-            
-            local uiManager = GameObject.Find("UIManager")
-            if uiManager then
-                local uiCanvas = uiManager:GetComponent("Canvas")
-                -- Solo restauramos opacidad aquí si no hay una animación de jugador pendiente (como el portal)
-                if uiCanvas and not _G.PlayerInAnim then
-                    uiCanvas:SetOpacity(1.0)
-                end
-            end
+            -- Dejamos que el HUDController gestione la restauración de opacidad con su propio fade-in
         end
     end
 end

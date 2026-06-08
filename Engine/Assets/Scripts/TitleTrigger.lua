@@ -148,6 +148,7 @@ function Update(self, dt)
 
             if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
 
+            _G.HUD_IsFading = true
             self.phase = "hudFade"
             self.timer = 0.0
             Engine.Log("[TitleTrigger] HUD preparado (invisible), iniciando fade in.")
@@ -160,6 +161,7 @@ function Update(self, dt)
             self.canvas:SetOpacity(1.0)
             _G.TitleTrigger_HUDShouldStartHidden = false
             _G.TitleTrigger_Active = false
+            _G.HUD_IsFading = false
             self.phase = "done"
             Engine.Log("[TitleTrigger] Secuencia completada. HUD activo.")
         end

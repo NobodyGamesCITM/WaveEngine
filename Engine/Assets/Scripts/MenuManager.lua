@@ -511,10 +511,15 @@ function Update(self, dt)
     if self.newSceneDelay and self.newSceneDelay > 0 then
         self.newSceneDelay = self.newSceneDelay - Time.GetRealDeltaTime()
         if self.newSceneDelay <= 0 then
-            if _G.SceneManagerState == 3 then
+            local goingToMenu =
+                (_G.ForceStartXAML and tostring(_G.ForceStartXAML):find("MainMenu") ~= nil)
+                or (_G.CurrentXAML and tostring(_G.CurrentXAML):find("MainMenu") ~= nil)
+                or _G.CurrentLevel == "MainMenu"
+            if _G.SceneManagerState == 3 and not goingToMenu then
                 self.newSceneDelay = 0.1
                 return
             end
+            if _G.SceneManagerState == 3 then _G.SceneManagerState = 1 end
             self.newSceneDelay = nil
             Initialize(self)
         end

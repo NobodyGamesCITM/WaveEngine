@@ -171,6 +171,7 @@
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
+
     <Viewbox Stretch="Uniform">
         <Grid x:Name="RootContent" Width="1280" Height="720">
             <Grid.ColumnDefinitions>
@@ -187,7 +188,7 @@
                 <RowDefinition Height="21*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox Stretch="Uniform" Margin="0,189,-54,89" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
+            <Viewbox x:Name="TitleTextViewbox" Stretch="Uniform" Margin="0,189,-54,89" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
                 <Grid Width="238" Height="278" Margin="-91,-109,-33,-75" HorizontalAlignment="Right">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="151*"/>
@@ -243,27 +244,26 @@
                 </Grid>
             </Viewbox>
 
-            <TextBlock x:Name="TitleText"
-                       Text="SON OF ITHACA"
-                       Margin="189,40,31,335"
-                       Grid.Column="1" Grid.ColumnSpan="2"
-                       Grid.Row="1" Grid.RowSpan="2"
-                       HorizontalAlignment="Right"
-                       Foreground="#FFFFFFFF"
-                       FontFamily="./#Cinzel Decorative"
-                       FontSize="70"
-                       FontWeight="Bold"
-                       TextWrapping="Wrap"
-                       RenderTransformOrigin="0.5,0.5">
-                <TextBlock.RenderTransform>
+            <!-- ↓↓ CAMBIO: TextBlock reemplazado por Image con el logo Title.png ↓↓ -->
+            <Image x:Name="TitleText"
+                   Source="Textures/Title.png"
+                   Stretch="Uniform"
+                   Margin="189,40,31,335"
+                   Grid.Column="1" Grid.ColumnSpan="2"
+                   Grid.Row="1" Grid.RowSpan="2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"
+                   RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleY="0"/>
                         <SkewTransform/>
                         <RotateTransform/>
                         <TranslateTransform X="200"/>
                     </TransformGroup>
-                </TextBlock.RenderTransform>
-            </TextBlock>
+                </Image.RenderTransform>
+            </Image>
+
         </Grid>
     </Viewbox>
 

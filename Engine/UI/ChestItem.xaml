@@ -65,7 +65,7 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <!-- Título -->
                     <TextBlock x:Name="ItemObtainedText"
                                Grid.Row="0"
-                               Text="¡Poción obtenida!"
+                               Text="¡Potion obtained!"
                                FontSize="22"
                                FontFamily="./#Cinzel"
                                FontWeight="Bold"
@@ -132,7 +132,7 @@ d:DesignWidth="1280" d:DesignHeight="720">
                                Margin="0,0,8,0"
                                Visibility="Hidden"/>
 
-                        <TextBlock Text="Reclamar"
+                        <TextBlock Text="Claim"
                                    FontSize="20"
                                    FontFamily="Arial"
                                    VerticalAlignment="Center">

@@ -14,8 +14,8 @@ local wasAmbient = false
 _G._IsDialogActive = false
 
 local PORTRAIT_MAP = {
-    ["Telémaco"]    = "Portrait_Telemaco",
-    ["Atenea"]      = "Portrait_Atenea",
+    ["Telemachus"]  = "Portrait_Telemaco",
+    ["Athena"]      = "Portrait_Atenea",
     ["John cartel"] = "Portrait_JohnCartel",
 }
 
@@ -28,13 +28,13 @@ local allDialogs = {
         id = "intro",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
                 text      = "Telemachus, you finally awaken. The ocean turned against you, but there is no time to lose. Enter the forest, and do not be deceived by its peaceful appearance, evil dwells within it. Be cautious, because a single false step could be your last.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
                 text      = "Ugh… very well. Here I go!",
                 mood      = "Decided"
@@ -46,13 +46,13 @@ local allDialogs = {
         id = "checkpointInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
                 text      = "You have found one of my altars. If you activate them, they will shelter you. Keep your eyes open, you will find them where you need them most.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
                 text      = "Knowing that you watch over me, even from afar, brings me comfort. Thank you Athena.",
                 mood      = "Relieved"
@@ -64,13 +64,13 @@ local allDialogs = {
         id = "sanctuaryInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
                 text      = "The island’s sanctuary, once a place of worship to Hades, serves as a bridge to the Underworld. To open it, you must find and deactivate the statues of Cerberus.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
                 text      = "It will be a harsh mission, but I will not turn back now.",
                 mood      = "Generic"
@@ -82,7 +82,7 @@ local allDialogs = {
         id = "maskInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
                 text      = "The gods granted these masks as a gift to their faithful. Wear them, without their divine power you will not prevail.",
                 mood      = ""
@@ -94,13 +94,13 @@ local allDialogs = {
         id = "portalWarning",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
                 text      = "Tread with caution, Telemachus. Long ago, the Underworld had order, now chaos and cruelty reign within it. Remember all you have learned, you alone shall cross the portal. Do not hesitate to return if you encounter a threat beyond your strength.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
                 text      = "Alone? I will not deny that fear grips me, but I cannot stop now. I will gather the courage I need, cross the portal, and the next time you see me, I will be with Odysseus.",
                 mood      = "Scared"
@@ -180,9 +180,9 @@ local function loadDialogEntry(entry)
     setPortrait(entry.character)
 
     if charSFX then
-        if entry.character == "Atenea" then
+        if entry.character == "Athena" then
             charSFX:SelectPlayAudioEvent("UI_OwlHoot")
-        elseif entry.character == "Telémaco" or entry.character == "Telemaco" then
+        elseif entry.character == "Telemachus" or entry.character == "Telemaco" then
             Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
         end

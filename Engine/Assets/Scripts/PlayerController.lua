@@ -1508,11 +1508,11 @@ local function FindGhostParticles(self)
     if portalGhostsObj then 
         Player.ghostsPs = portalGhostsObj:GetComponent("ParticleSystem")
         if not Player.ghostsPs then 
-            Engine.Log("Unable to retrieve Ghost Particle System")
+            --Engine.Log("Unable to retrieve Ghost Particle System")
         end
        
     else
-        Engine.Log("Unable to retrieve Ghost VFX GameObject")
+        --Engine.Log("Unable to retrieve Ghost VFX GameObject")
     end
 end
 
@@ -1855,6 +1855,10 @@ function Update(self, dt)
         return
     end
 
+    --local musicState = Audio.GetMusicState()
+
+    --Engine.Log("Current Music State = "..tostring(musicState))
+
     if not Player.bulletReady then
         Player.bulletReady = true
         _G.nextBulletData = { x=0, y=-1000, z=0, dirX=0, dirZ=1, angle=0, scale=self.public.bulletScale or 1.0 }
@@ -1888,7 +1892,7 @@ function Update(self, dt)
             Audio.SetMusicState("Level1")
             Engine.Log("[Player] Switched to Level1 BGM")
         else
-            Player.AnimTimer = 20.0
+            
             local anim = self.gameObject:GetComponent("Animation")
             if anim then
                 pcall(function() anim:Play("WakeUp", 0.0) end)
@@ -2022,7 +2026,19 @@ function Update(self, dt)
             
             _G._PlayerController_introAnim = false 
             wakeUpCinematic = false
-            if Audio.GetMusicState() ~= "Level1" then Audio.SetMusicState("Level1") end
+
+            local musicState = Audio.GetMusicState()
+            if self.currentLevel == "Level1.scene" and musicState ~= "Level1" then 
+                Audio.SetMusicState("Level1") 
+                Engine.Log("Setting music state to Level1 from loading from save")
+
+            elseif self.currentLevel == "Level2.scene" and musicState ~= "Level2" then
+                Audio.SetMusicState("Level2") 
+                Engine.Log("Setting music state to Level2 from loading from save")
+            else
+
+                Engine.Log("music state was "..tostring(musicState))
+            end
             
             if _G._UnlockedMasks.Apollo then Mask.APOLLO = "Apolo" end
             if _G._UnlockedMasks.Hermes then Mask.HERMES = "Hermes" end
@@ -2210,12 +2226,12 @@ function Update(self, dt)
 
             if Player.AnimTimer <= 6.58 and Player.AnimTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
                 if Player.swordSFX then Player.swordSFX:SelectPlayAudioEvent("SFX_SpearPrep") end
-                Engine.Log("Playing SpearPrep at "..tostring(Player.AnimTimer))
+                --Engine.Log("Playing SpearPrep at "..tostring(Player.AnimTimer))
             end
 
             if Player.AnimTimer <= 6.0 and Player.AnimTimer >= 5.8 and not Audio.IsEventPlaying("SFX_IntroRoar") then
                 if Player.voiceSFX then Player.voiceSFX:SelectPlayAudioEvent("SFX_IntroRoar") end
-                Engine.Log("Playing IntroRoar at "..tostring(Player.AnimTimer))
+                --Engine.Log("Playing IntroRoar at "..tostring(Player.AnimTimer))
             end
 
 
@@ -2236,6 +2252,9 @@ function Update(self, dt)
             if Player.AnimTimer >= 20.0 then Player.AnimTimer = 20.0 end
 
             local anim = self.gameObject:GetComponent("Animation")
+
+            -- Audio.SetMusicState("Level1")
+            -- Engine.Log("[Player] Testing switching to Level1 BGM before cinematic over")
 
             if not anim then 
                 wakeUpCinematic = false
@@ -2286,10 +2305,10 @@ function Update(self, dt)
             -- sword retrieval
             if Player.AnimTimer <= 6.5 and Player.AnimTimer >= 6.3 and not Audio.IsEventPlaying("SFX_SwordSandUnStab") then
                 if Player.swordSFX then 
-                    Audio.SetSFXVolume(70.0)
+                   -- Audio.SetSFXVolume(70.0)
                     Player.swordSFX:SelectPlayAudioEvent("SFX_SwordSandUnStab") 
                     --Engine.Log("[WAKE UP] Played Unstab!")
-                    Audio.SetSFXVolume(100.0)
+                    --Audio.SetSFXVolume(100.0)
                 end
             end
 
@@ -2324,14 +2343,16 @@ function Update(self, dt)
             end
 
 
+            if not Audio.IsEventPlaying("MUS_BGM") then 
+                Engine.Log("MUS_BGM Stopped!")
+            end
             
 
-            
-
-            if Player.AnimTimer < 0 then 
+            if Player.AnimTimer <= 0.1 then 
                 wakeUpCinematic = false
+                
                 Audio.SetMusicState("Level1")
-                Engine.Log("[Player] Switched to Level1 BGM")
+                Engine.Log("[Player] Anim Timer reached 0, switching to Level1 BGM")
                 Player.AnimTimer = 0
             end
 

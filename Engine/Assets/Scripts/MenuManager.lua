@@ -537,6 +537,7 @@ function Update(self, dt)
     end
 
     if not Audio.IsEventPlaying("MUS_BGM") then
+        
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then sceneVal = self.public.currentScene.value or ""
         elseif type(self.public.currentScene) == "string" then sceneVal = self.public.currentScene end
@@ -547,8 +548,11 @@ function Update(self, dt)
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
+        elseif sceneVal == "Splash.scene" and not _G.SkipSplash then
+            --Engine.Log("Music state set to none because Splash Screen is still playing")
         else
-            Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal))
+            --Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal).. ", musicState stayed as None!!")
+            
         end
         Audio.SetMusicState(tostring(musicState))
         if self.musicComp then
@@ -556,6 +560,8 @@ function Update(self, dt)
             Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
+
+    --Engine.Log("Current Music State = "..tostring(Audio.GetMusicState()))
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -806,6 +812,10 @@ function Update(self, dt)
                 _G.TitleTrigger_HUDShouldStartHidden = nil
                 _G.CinematicActive = false
 
+                -- self.selectSFX = nil
+                -- self.pressSFX  = nil
+                -- self.musicComp = nil
+
                 local sceneManagerObj = GameObject.Find("SceneManager")
                 if sceneManagerObj then
                     local sceneScript = sceneManagerObj:GetComponent("Script")
@@ -835,6 +845,7 @@ function Update(self, dt)
         local allCanvasButtons = UI.GetCanvasButtons()
         for i, button in ipairs(allCanvasButtons) do
             if UI.WasFocused(tostring(button)) then
+                if not self.selectSFX then InitAudioSources(self) end
                 if self.selectSFX then self.selectSFX:SelectPlayAudioEvent("UI_ButtonSelect") end
             end
             if UI.WasClicked(tostring(button)) then

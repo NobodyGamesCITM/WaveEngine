@@ -2243,6 +2243,64 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="UI_ThunderStorm" ID="{CD86E32B-0232-4071-AAAC-47CF6835FDCA}">
+							<ChildrenList>
+								<Action Name="" ID="{B3641774-B548-47F1-A0D8-580575775FA4}" ShortID="539572489">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.5"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_ThunderClaps" ID="{1E1190FF-78E0-4036-8068-9FEF733825D4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{894F8890-3545-4F81-902D-9A32ADF9E317}" ShortID="397863398">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_Rain" ID="{032C20B5-7D65-44D1-B2B7-2CA805E20A9E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{662816F2-CEAE-4614-AA38-A3D56D03A607}" ShortID="730316280">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="12"/>
+										<Property Name="Volume" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{C6BADE56-127E-47EE-BCC6-C52B71FBB693}" ShortID="976693107">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{5160D8F9-9CC6-47A1-8020-B87A590ADDCC}" ShortID="608101086">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="16"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+										<Property Name="Volume" Type="Real64" Value="10"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

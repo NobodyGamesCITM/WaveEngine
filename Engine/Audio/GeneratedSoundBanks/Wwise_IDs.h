@@ -133,6 +133,7 @@ namespace AK
         static const AkUniqueID UI_SKIPDIALOG = 344780467U;
         static const AkUniqueID UI_SLIDERTEST = 1643144237U;
         static const AkUniqueID UI_TELEVOCALS = 3718241572U;
+        static const AkUniqueID UI_THUNDERSTORM = 433465711U;
     } // namespace EVENTS
 
     namespace STATES

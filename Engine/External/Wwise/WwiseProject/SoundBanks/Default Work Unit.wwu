@@ -6,6 +6,7 @@
 				<SoundBank Name="MainSoundBank" ID="{7C55CBAC-5186-4208-888F-0BCE02308A98}">
 					<ObjectInclusionList>
 						<ObjectRef Name="SFX_GhostWhispers" ID="{CD022861-F08E-400E-9060-DB46B34397F5}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="UI_ThunderStorm" ID="{CD86E32B-0232-4071-AAAC-47CF6835FDCA}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_DeepBreaths" ID="{F5F388EC-3B1A-408E-B9AD-626437DA0401}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_PlayerShot" ID="{F3BD7512-9ED5-40C7-B8F7-9CF0723BBA44}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="SFX_MinoCrash" ID="{CF6CBB00-EC82-40C7-8F29-32C4484F102A}" WorkUnitID="{F7D79E53-8C87-4B2D-9C7B-4D4D9C5E20AB}" Origin="Manual" Filter="7"/>

@@ -538,7 +538,7 @@ function Update(self, dt)
         local musicState = "None"
         if sceneVal:find("Level1") or sceneVal == "Level1.scene" then
             musicState = _G.CinematicActive and "Vignettes" or "Level1"
-        elseif sceneVal:find("Level2") or sceneVal == "Level2.scene" then
+        elseif (sceneVal:find("Level2") or sceneVal == "Level2.scene") and not _G.InTunnel  then
             musicState = "Level2"
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"

@@ -121,14 +121,22 @@ local function loadStep(index)
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
 
     elseif entry.panel == "Page3_V1" then
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if televoiceSFX then 
+            Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")
+        end
 
     elseif entry.panel == "Page3_V2" then
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
 
     elseif entry.panel == "Page3_V3" then
         if owlWingSFX then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly") end
-        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if televoiceSFX then 
+            Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")
+        end
 
     else
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
@@ -222,6 +230,9 @@ function Update(self, dt)
     end
 
     if state == "done" then
+        if ambianceSFX then 
+            if ambianceSFX:IsPlaying("UI_ThunderStorm") then ambianceSFX:StopAudioEvent() end
+        end
         if timer >= FADE_DURATION then
             if canvas then canvas:SetOpacity(0) end
             _G.CinematicActive = false

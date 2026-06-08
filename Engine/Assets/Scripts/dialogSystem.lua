@@ -180,9 +180,11 @@ local function loadDialogEntry(entry)
     setPortrait(entry.character)
 
     if charSFX then
-        if entry.character == "Athena" then
+
+        if entry.character == "Atenea" or entry.character == "Athena" then
             charSFX:SelectPlayAudioEvent("UI_OwlHoot")
-        elseif entry.character == "Telemachus" or entry.character == "Telemaco" then
+        elseif entry.character == "Telémaco" or entry.character == "Telemachus" then
+
             Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
         end

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{2ED2B15C-89AB-9BDC-23E0-ACF15BC8184F}",
+    "Hash": "{43C27A4D-0B80-F08F-B341-37D237CEF024}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -366,6 +366,14 @@
       "Location": "Memory",
       "ShortName": "unlock_statue.wav",
       "CachePath": "56/{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem"
+     },
+     {
+      "Id": "147922469",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "universfield-thunder-124463.wav",
+      "CachePath": "7A/{7AFCFDF3-6A4A-B06A-C07F-7056D5E0D244}.wem"
      },
      {
       "Id": "151597588",
@@ -1046,6 +1054,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_wallcrash_rubble.wav",
       "CachePath": "EA/{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem"
+     },
+     {
+      "Id": "469775460",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "tanweraman-thunder-strike-wav-321628.wav",
+      "CachePath": "80/{804DBF6F-D351-0B79-5A32-0C508DA4B1B4}.wem"
      },
      {
       "Id": "479303077",
@@ -1848,6 +1864,14 @@
       "CachePath": "E7/{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem"
      },
      {
+      "Id": "833986970",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "soundmarker33-thunder-clap-512544.wav",
+      "CachePath": "09/{093A96C0-1683-14E8-9530-BD71A0D52A89}.wem"
+     },
+     {
       "Id": "835188942",
       "Language": "SFX",
       "Streaming": "false",
@@ -2062,6 +2086,14 @@
       "Location": "Memory",
       "ShortName": "alex_jauk-supernatural-scream-192423.wav",
       "CachePath": "F0/{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem"
+     },
+     {
+      "Id": "927618683",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "juliush-heavy-rain-nature-sounds-8186.wav",
+      "CachePath": "43/{43D110F9-EF32-4117-00D4-B75314C9FB98}.wem"
      },
      {
       "Id": "943118833",
@@ -5393,6 +5425,30 @@
         ]
        }
       ]
+     },
+     {
+      "Id": "433465711",
+      "Name": "UI_ThunderStorm",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ThunderStorm",
+      "GUID": "{CD86E32B-0232-4071-AAAC-47CF6835FDCA}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "147922469"
+       },
+       {
+        "Id": "469775460"
+       },
+       {
+        "Id": "494683163"
+       },
+       {
+        "Id": "833986970"
+       },
+       {
+        "Id": "927618683"
+       }
+      ]
      }
     ],
     "Busses": [
@@ -5785,6 +5841,6 @@
     ]
    }
   ],
-  "FileHash": "{6214E614-2EB5-4379-863C-2B366698536A}"
+  "FileHash": "{AB700427-6094-29B0-62CE-CAB6890F11E8}"
  }
 }

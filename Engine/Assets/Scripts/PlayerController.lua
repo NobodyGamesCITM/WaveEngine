@@ -2331,7 +2331,7 @@ function Update(self, dt)
             if Player.AnimTimer < 0 then 
                 wakeUpCinematic = false
                 Audio.SetMusicState("Level1")
-                --Engine.Log("[Player] Switched to Level1 BGM")
+                Engine.Log("[Player] Switched to Level1 BGM")
                 Player.AnimTimer = 0
             end
 

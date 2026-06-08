@@ -416,7 +416,9 @@ local function UpdateFase2(self, dt)
             SpawnSeries(self)
         end
 
-    elseif AllEnemiesDead() and totalLive==0  then
+    elseif totalLive > 0 or not AllEnemiesDead() then
+        spawnTimer = 0
+    else
         fase2Active    = false
         _G._Aquiles_Fase2Active = false
         _G._Aquiles_Fase3Active = true
@@ -1836,7 +1838,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 6.0 then return end
+        if distLance > 4.0 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 

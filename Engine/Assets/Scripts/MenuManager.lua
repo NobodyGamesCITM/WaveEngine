@@ -455,7 +455,7 @@ function Initialize(self)
 
     if self.phase ~= "fadeIn" and self.phase ~= "waitForSceneChanger" then
         Engine.Log("[MenuManager] TitleTrigger_HUDShouldStartHidden = " .. tostring(_G.TitleTrigger_HUDShouldStartHidden))
-        if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true then
+        if _G.TitleTrigger_HUDShouldStartHidden == true or _G.TitleTrigger_Active == true or _G.CinematicActive == true then
             self.canvas:SetOpacity(0.0)
             Engine.Log("[MenuManager] TitleTrigger activo: HUD inicializado oculto.")
         else
@@ -687,10 +687,12 @@ function Update(self, dt)
         else
             self.deathTimer = 0.0
             if not self.fading and self.canvas and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
-                if self.current == "SonOfIthaca.xaml" then
+                if self.current == "SonOfIthaca.xaml" or _G.CinematicActive == true or _G.PlayerInAnim == true then
                     -- no-op
-                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then
+                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) and not _G.HUD_IsFading then
                     self.canvas:SetOpacity(0.0)
+                elseif _G.HUD_IsFading == true then
+                    -- no-op: el HUDController está controlando el fundido
                 else
                     self.canvas:SetOpacity(1.0)
                 end

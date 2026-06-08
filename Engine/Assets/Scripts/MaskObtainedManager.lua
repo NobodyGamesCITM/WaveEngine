@@ -125,7 +125,7 @@ local function showMaskObtained(maskKey)
     updateMaskKeys()
 
     -- Ares combat
-    if data.name == "MÁSCARA DE ARES" then aresActive = true end
+    if data.name == MASK_DATA["ares"].name then aresActive = true end
 
     -- UIQueueManager
     _G._IsMaskActive = true

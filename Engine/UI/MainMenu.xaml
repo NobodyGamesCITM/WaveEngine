@@ -171,8 +171,6 @@
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
     </Grid.Triggers>
-
-    <!-- EL TRUCO RESPONSIVO: Forzamos la resolución base en un Viewbox principal -->
     <Viewbox Stretch="Uniform">
         <Grid x:Name="RootContent" Width="1280" Height="720">
             <Grid.ColumnDefinitions>
@@ -245,8 +243,6 @@
                 </Grid>
             </Viewbox>
 
-            <Rectangle x:Name="FadeOverlay" Margin="0,-5,0,5" Grid.ColumnSpan="3" Grid.RowSpan="5" Fill="Black" Opacity="0" IsHitTestVisible="False" d:IsLocked="True"/>
-
             <TextBlock x:Name="TitleText"
                        Text="SON OF ITHACA"
                        Margin="189,40,31,335"
@@ -270,4 +266,7 @@
             </TextBlock>
         </Grid>
     </Viewbox>
+
+    <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
+
 </Grid>

@@ -5,8 +5,8 @@ public = {
     debugSkip          = true,
 }
 
-local FADE_DURATION       = 0.6
-local PANEL_FADE_DURATION = 0.5
+local FADE_DURATION       = 0
+local PANEL_FADE_DURATION = 0
 local PAGE_BREAK_DURATION = 0.6
 
 local sequence = {

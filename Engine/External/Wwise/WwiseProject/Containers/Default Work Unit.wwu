@@ -17209,6 +17209,181 @@
 										<ActiveSource Name="lesiakower-ancient-lyre-sound-short-arpeggio-sound-effect-430628" ID="{C55F882C-B58C-4956-9623-4BBDBB279835}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<RandomSequenceContainer Name="UI_ThunderClaps" ID="{1E1190FF-78E0-4036-8068-9FEF733825D4}" ShortID="986580831">
+									<PropertyList>
+										<Property Name="CenterPercentage" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="soundmarker33-thunder-clap-512544" ID="{3D3A7409-A6D9-424B-986D-982C027ABF4D}" ShortID="62052932">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-10</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="soundmarker33-thunder-clap-512544" ID="{2170B6A5-D615-4932-A624-99D823E0B1F0}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="3.03227894396433"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.501932034485805"/>
+														<Property Name="TrimEnd" Type="Real64" Value="5.06632416250173"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>soundmarker33-thunder-clap-512544.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="833986970"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="soundmarker33-thunder-clap-512544" ID="{2170B6A5-D615-4932-A624-99D823E0B1F0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="tanweraman-thunder-strike-wav-321628" ID="{423E3840-763C-4B7A-A4C8-F1007334FF70}" ShortID="364648000">
+											<PropertyList>
+												<Property Name="CenterPercentage" Type="int32">
+													<ValueList>
+														<Value>99</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="tanweraman-thunder-strike-wav-321628" ID="{EF7D23DD-6378-4BBF-9C68-2753CEF607E0}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="3.28676126243486"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.735888526074902"/>
+														<Property Name="TrimEnd" Type="Real64" Value="4.59054250124693"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>tanweraman-thunder-strike-wav-321628.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="469775460"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="tanweraman-thunder-strike-wav-321628" ID="{EF7D23DD-6378-4BBF-9C68-2753CEF607E0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="universfield-thunder-124463" ID="{189294F9-2A08-4AB5-8100-D3A1A7DF6466}" ShortID="817064434">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="universfield-thunder-124463" ID="{96FD4572-7C7D-482D-A74A-C100FB5E4F2B}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="3.66161111467763"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.091084853598946"/>
+														<Property Name="TrimEnd" Type="Real64" Value="4.77284649829986"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>universfield-thunder-124463.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="147922469"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="universfield-thunder-124463" ID="{96FD4572-7C7D-482D-A74A-C100FB5E4F2B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="UI_Rain" ID="{032C20B5-7D65-44D1-B2B7-2CA805E20A9E}" ShortID="343151876">
+									<PropertyList>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-7</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{FB418BE9-1BF2-46F3-B748-3C670469BE90}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX Bus" ID="{E901AF86-38FB-46EA-B16A-DDF987F9D27D}" WorkUnitID="{F0D31CEB-8F9E-4AA4-B822-589F2A4A8993}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="juliush-heavy-rain-nature-sounds-8186" ID="{034F39C7-CA18-49E8-A0A9-B18114117E4E}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="1.20312326393805"/>
+												<Property Name="TrimEnd" Type="Real64" Value="5.95965724602858"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>juliush-heavy-rain-nature-sounds-8186.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="927618683"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="juliush-heavy-rain-nature-sounds-8186" ID="{034F39C7-CA18-49E8-A0A9-B18114117E4E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

@@ -10,6 +10,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	376918614	SFX_FinishHim			\Default Work Unit\Aquiles\FinalBlow_Cinematic\SFX_FinishHim	
 	385136311	SFX_MinoCrash			\Default Work Unit\Minocabro\SFX_MinoCrash	
 	416781375	UI_ButtonPress			\Default Work Unit\UI\UI_ButtonPress	
+	433465711	UI_ThunderStorm			\Default Work Unit\UI\UI_ThunderStorm	
 	515751749	SFX_PlayerHit			\Default Work Unit\Player\SFX_PlayerHit	
 	565814488	SFX_AquilesHurt			\Default Work Unit\Aquiles\SFX_AquilesHurt	
 	605795181	SFX_GM_KnockBack			\Default Work Unit\Player\GetMaskAnim\Iteration2\SFX_GM_KnockBack	
@@ -263,6 +264,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	136280820	minocabro_idlegrunt_04	.cache\D1\{D1BE3F89-D98E-C374-1816-3DB1D381EABC}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_04		146240
 	141089093	player_roll_01	.cache\2F\{2F2F4F24-B24A-1799-98FE-96224BF84E04}.wem		\Containers\Default Work Unit\Objects\Player\player_roll_01		58904
 	146106055	unlock_statue	.cache\56\{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem		\Containers\Default Work Unit\Objects\Player\GetMask\Unlock_Statue\unlock_statue		111752
+	147922469	universfield-thunder-124463	.cache\7A\{7AFCFDF3-6A4A-B06A-C07F-7056D5E0D244}.wem		\Containers\Default Work Unit\Objects\UI\UI_ThunderClaps\universfield-thunder-124463		232424
 	151597588	UI_ButtonSelected	.cache\06\{063CCCC5-CC0A-41DE-54A1-20CF31486307}.wem		\Containers\Default Work Unit\Objects\UI\UI_SkipDialog\UI_ButtonSelected		1160
 	151865345	stone_walk_06	.cache\69\{6963510C-F00E-7B73-DB0D-312FA1E80729}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_06		13292
 	155918487	ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 5)	.cache\3F\{3F17DB42-AD05-0F4A-FE18-3D8C3B62DCD0}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Grunts\ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 5)		33992
@@ -348,6 +350,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	459666570	water_run_02	.cache\0A\{0A14F15D-4E4B-5E81-5CBC-E695385257C9}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Water\Water_Run\water_run_02		7244
 	465533851	SonOfIthaca_Boss_Intro_Loop	.cache\77\{772D06CE-E2E1-D193-1679-96C781B22A87}.wem		\Containers\Default Work Unit\BGM_Switch\Boss_Intro_Playlist\SonOfIthaca_Boss_Intro\SonOfIthaca_Boss_Intro_Loop		794168
 	468250888	minocabro_wallcrash_rubble	.cache\EA\{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_WallCrash\minocabro_wallcrash_rubble		52712
+	469775460	tanweraman-thunder-strike-wav-321628	.cache\80\{804DBF6F-D351-0B79-5A32-0C508DA4B1B4}.wem		\Containers\Default Work Unit\Objects\UI\UI_ThunderClaps\tanweraman-thunder-strike-wav-321628		191384
 	479303077	stone_run_05	.cache\E8\{E8C17008-D124-A5FE-ED6C-49629112DB44}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Run\stone_run_05		6632
 	480176063	shield_dmg_02	.cache\E2\{E265C27C-0791-A27A-85EF-2856D4D70F3A}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_ShieldDMG\shield_dmg_02		61496
 	485908222	page_turn_00	.cache\1B\{1B298758-4D67-EBF0-C2B5-BD0F7B93F549}.wem		\Containers\Default Work Unit\Objects\UI\UI_PageTurn\page_turn_00		23120
@@ -448,6 +451,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	827699159	minocabro_hurt_01	.cache\D8\{D8995B34-25F3-316D-91E2-3BE003579390}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Hurt\minocabro_hurt_01		62504
 	828466913	Area_Expansion_0	.cache\65\{65F19F6F-C46F-0DA9-AD2D-BE7FF4DC62AA}.wem		\Containers\Default Work Unit\Objects\Aquiles\Aquiles_Area_Exp\Area_Expansion_0		37520
 	830587378	ceramic_break_02	.cache\E7\{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem		\Containers\Default Work Unit\Objects\Ambiance\CeramicBreak\ceramic_break_02		74672
+	833986970	soundmarker33-thunder-clap-512544	.cache\09\{093A96C0-1683-14E8-9530-BD71A0D52A89}.wem		\Containers\Default Work Unit\Objects\UI\UI_ThunderClaps\soundmarker33-thunder-clap-512544		226592
 	835188942	Grunt Ah 3	.cache\E6\{E68A9D0E-DA79-5DEB-BD59-1A8DA8AD5822}.wem		\Containers\Default Work Unit\Objects\Player\Vocals\Vocal_Scared\Grunt Ah 3		26720
 	835964148	grass_walk_04	.cache\04\{0415CD86-202A-8E4B-D891-641347BBD750}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_04		12824
 	839908236	BAS_Player_Footstep_sand_walk_03	.cache\99\{994D0034-C9A8-6CA2-9194-0EDD888B1B11}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Sand\Sand_Walk\BAS_Player_Footstep_sand_walk_03		10268
@@ -475,6 +479,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	914187209	stone_walk_02	.cache\5C\{5C0CC3F7-5BFD-A008-78BA-2BEEF389DDB1}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Stone\Stone_Walk\stone_walk_02		14408
 	915946584	grass_walk_03	.cache\DD\{DDB6CFFF-5738-7FAA-9E6F-8DE658D6A6FF}.wem		\Containers\Default Work Unit\Objects\Player\Footstep_Surface\Footstep_Grass\Grass_Walk\grass_walk_03		13580
 	924193480	distorted-scream	.cache\F0\{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem		\Containers\Default Work Unit\Objects\Ambiance\Ghosts\GhostScreams\distorted-scream		217232
+	927618683	UI_Rain	.cache\43\{43D110F9-EF32-4117-00D4-B75314C9FB98}.wem		\Containers\Default Work Unit\Objects\UI\UI_Rain		236096
 	943118833	minocabro_idlegrunt_03	.cache\EC\{EC19BD2F-9107-C188-C86C-B918C0F9E0BE}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Idle\minocabro_idlegrunt_03		215720
 	946854841	Mino_Collapse	.cache\8F\{8FE2D839-0766-1712-64D0-7C39038C8BD1}.wem		\Containers\Default Work Unit\Objects\Minocabro\Mino_Collapse		53000
 	950267484	cinematic-whoosh-4	.cache\2E\{2EE4219C-81D6-6F04-ECC7-5A85B53EE947}.wem		\Containers\Default Work Unit\Objects\Player\EnterLVL2\cinematic-whoosh-4		235592

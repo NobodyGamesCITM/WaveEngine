@@ -563,6 +563,7 @@ local function TakeDamage(self, amount, attackerPos)
     -- Dead
     if hp <= 0 then
         if not fase1 then
+            -- Fase 3 terminada → muerte
             _G._AquilesDefeated = true
             _G._Aquiles_Fase3Active = true
             _G._Aquiles_Fase2Active = false
@@ -572,30 +573,34 @@ local function TakeDamage(self, amount, attackerPos)
             ChangeState(State.DEAD)
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")
             if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
- 
-        elseif not fase2Active then
-            DestroyChargeFeedback(self)
-            fase1       = false
-            fase2Active = true
-            _G._AquilesDefeated = false
-            _G._Aquiles_Fase3Active = false
-            _G._Aquiles_Fase2Active = true 
-            fase2Timer  = Fase2_Duration
-            spawnTimer  = 0
-            spawnedEnemies = {}
- 
-            hp      = 1 
-            posture = 0
-            blockHits = true
- 
-            StopMovement()
-            if anim then anim:Play("Start_Phase2", 0.2) end
 
-            -- Primera serie
+        else
+            DestroyChargeFeedback(self)
+            fase1 = false
+            _G._AquilesDefeated = false
+            _G._Aquiles_Fase2Active = false
+            _G._Aquiles_Fase3Active = true
+
+            -- Stats Fase 3
+            hp      = 200
+            posture = 50
+            self.public.chargeDamage   = 30
+            self.public.chargeSpeed    = 40.0
+            self.public.chargeCooldown = 1.5
+            self.public.lanceDamage    = 20
+            self.public.lanceCooldown  = 0.4
+            self.public.moveSpeed      = 8
+
+            blockHits    = false
+            currentMaxHp = 200
+            if _G.BossBar_ResetToFull   then _G.BossBar_ResetToFull(400) end
+            if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(true) end
             if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
-            if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, self.public.maxPosture) end
-            SpawnSeries(self)
-            Engine.Log("[AQUILES] Fase 2 iniciada")
+            if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, 50) end
+
+            BaseMat.SetTexture("8744963314714344684")
+            Engine.Log("[AQUILES] Fase 2 omitida. Fase 3 comenzada directamente")
+            ChangeState(State.COMBAT_MOVE)
         end
         return
     end
@@ -1547,6 +1552,9 @@ function Update(self, dt)
         introPlayed         = false
         timeAnimStartPhase2= 6
 
+        BaseMat.SetTexture("14923760841240419563")
+        alreadyHit = false 
+
         _G._Aquiles_Fase2Active = false
         _G._AquilesDefeated     = false
         _G._Aquiles_Fase3Active = false
@@ -1562,6 +1570,7 @@ function Update(self, dt)
         if _G.BossBar_RefreshShield then
             _G.BossBar_RefreshShield(posture, self.public.maxPosture)
         end
+
         Engine.Log("[Aquiles] Reset completo")
         return
     end
@@ -1854,7 +1863,7 @@ end
 
 function OnTriggerEnter(self, other)
     if blockHits then return end
-    if (isDead or fase2Active) and hp<=0 then return end
+    if isDead and hp<=0 then return end
 
     if other:CompareTag("Wall") then
         if currentState ~= State.CHARGE then
@@ -1963,10 +1972,10 @@ function OnTriggerEnter(self, other)
 end
 
 function OnTriggerExit(self, other)
-    if fase2Active or _G._Aquiles_Fase3Active then return end
 
     if other:CompareTag("Player") then 
         alreadyHit = false 
+        if fase2Active or _G._Aquiles_Fase3Active then return end
 
         if hp <= 40 then
             BaseMat.SetTexture("10242481670410472725")

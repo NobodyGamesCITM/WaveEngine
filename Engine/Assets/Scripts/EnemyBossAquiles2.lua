@@ -166,7 +166,7 @@ local introPlayed         = false
 local fase2Active    = false
 local fase2Timer     = 0
 local Fase2_Duration = 60        
-
+local timeAnimStartPhase2= 6
 local spawnTimer     = 0
 local SPAWN_INTERVAL = 20 
 
@@ -382,6 +382,13 @@ end
 
 local function UpdateFase2(self, dt)
 
+    if timeAnimStartPhase2>0 then
+        timeAnimStartPhase2 = timeAnimStartPhase2 -dt
+        return
+    else
+        anim:Play("Idle", 0.2) 
+    end
+
     ProcessPendingPositions()
 
     if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then
@@ -398,6 +405,20 @@ local function UpdateFase2(self, dt)
     end
 
     fase2Timer = fase2Timer - dt
+
+    if fase2Timer <= 12 then
+        BaseMat.SetTexture("14923760841240419563")
+    elseif fase2Timer > 12 and fase2Timer <= 24 then
+        BaseMat.SetTexture("14923760841240419563")
+    elseif fase2Timer > 24 and fase2Timer <= 36 then
+        BaseMat.SetTexture("770031546471412972")
+    elseif fase2Timer > 36 and fase2Timer <= 48 then
+        BaseMat.SetTexture("15230868181932546860")        
+    else
+        BaseMat.SetTexture("10242481670410472725")
+
+    end 
+
     local allEnemies  = GameObject.FindByTag("Enemy_Fase2")
     local totalLive   = 0
     if allEnemies then
@@ -416,8 +437,9 @@ local function UpdateFase2(self, dt)
             SpawnSeries(self)
         end
 
-    elseif totalLive == 0 or AllEnemiesDead() then
+    elseif totalLive == 0 and AllEnemiesDead() then
         fase2Active    = false
+         BaseMat.SetTexture("8744963314714344684")
         _G._Aquiles_Fase2Active = false
         _G._Aquiles_Fase3Active = true
        -- _G._AquilesDefeated = true
@@ -444,6 +466,7 @@ local function UpdateFase2(self, dt)
         Engine.Log("[AQUILES] Fase 3 comenzada")
         ChangeState(State.COMBAT_MOVE)
     end
+
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -565,7 +588,7 @@ local function TakeDamage(self, amount, attackerPos)
             blockHits = true
  
             StopMovement()
-            if anim then anim:Play("Idle", 0.2) end
+            if anim then anim:Play("Start_Phase2", 0.2) end
 
             -- Primera serie
             if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
@@ -1368,6 +1391,9 @@ function Start(self)
     Engine.RequestResource("770031546471412972")
     Engine.RequestResource("14923760841240419563")
 
+    --Rage
+    Engine.RequestResource("8744963314714344684")
+
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
 
@@ -1603,6 +1629,7 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
+            if fase2Active or _G._Aquiles_Fase3Active then return end
              if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
             elseif hp > 40 and hp <= 70 then
@@ -1932,7 +1959,7 @@ function OnTriggerEnter(self, other)
 end
 
 function OnTriggerExit(self, other)
-    if fase2Active then return end
+    if fase2Active or _G._Aquiles_Fase3Active then return end
 
     if other:CompareTag("Player") then 
         alreadyHit = false 

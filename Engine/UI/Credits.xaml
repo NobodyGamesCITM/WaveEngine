@@ -1,8 +1,11 @@
 <Grid x:Name="LayoutRoot"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
 HorizontalAlignment="Stretch"
-VerticalAlignment="Stretch">
+VerticalAlignment="Stretch" d:DesignWidth="1920" d:DesignHeight="1080">
 
     <Border Background="Black"
             HorizontalAlignment="Stretch"
@@ -16,260 +19,450 @@ VerticalAlignment="Stretch">
 
                 <Grid x:Name="CreditsPanel" Visibility="Visible">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.05*"/>
-                        <ColumnDefinition Width="4"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
+                    <!-- ═══════════ FONDO: SLIDESHOW CON FADE ═══════════ -->
+                    <!-- Lua controla Visibility; cada imagen tiene storyboard fade in/out -->
+                    <Grid x:Name="BgSlideshow">
 
-                    <Rectangle Grid.Column="0" Fill="Black"/>
-                    <Rectangle Grid.Column="1" Fill="#1A1612"/>
-                    <Rectangle Grid.Column="2" Fill="Black"/>
+                        <Grid x:Name="BgImage1" Visibility="Visible">
+                            <Image Source="Textures/ImageCredits/1.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                    <Border Grid.Column="0" ClipToBounds="True">
-                        <StackPanel x:Name="ImagesContent" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <Grid x:Name="BgImage2" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/2.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Rectangle Height="1284" Fill="Transparent"/>
+                        <Grid x:Name="BgImage3" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/3.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage1" Source="Textures/CreditsImage1.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Grid x:Name="BgImage4" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/4.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage2" Source="Textures/CreditsImage2.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Grid x:Name="BgImage5" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/5.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage3" Source="Textures/CreditsImage3.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Grid x:Name="BgImage6" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/6.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage4" Source="Textures/CreditsImage4.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Grid x:Name="BgImage7" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/7.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage5" Source="Textures/CreditsImage5.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Grid x:Name="BgImage8" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/8.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                        <Grid x:Name="BgImage9" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/9.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                        <Grid x:Name="BgImage10" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/10.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                        <Grid x:Name="BgImage11" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/11.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                        <Grid x:Name="BgImage12" Visibility="Hidden">
+                            <Image Source="Textures/ImageCredits/12.png" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage6" Source="Textures/CreditsImage6.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <Rectangle Fill="#CC000000"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"/>
+                    </Grid>
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage7" Source="Textures/CreditsImage7.png" Stretch="UniformToFill"/>
-                            </Border>
+                    <Border ClipToBounds="True"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Stretch"
+                            Width="860">
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage8" Source="Textures/CreditsImage8.png" Stretch="UniformToFill"/>
-                            </Border>
+                        <StackPanel x:Name="CreditsContent" Margin="0,-1260,0,-4055" HorizontalAlignment="Center"
+                                    Width="860">
 
-                            <Border Width="500" Height="260" Background="#0D0C0A"
-                                    BorderBrush="#2A2420" BorderThickness="1"
-                                    Margin="0,0,0,80">
-                                <Image x:Name="CreditsImage9" Source="Textures/CreditsImage9.png" Stretch="UniformToFill"/>
-                            </Border>
+                            <!-- Espaciado inicial -->
+                            <Rectangle Height="1117" Fill="Transparent"/>
 
-                            <Rectangle Height="500" Fill="Transparent"/>
-
-                        </StackPanel>
-                    </Border>
-
-                    <Border Grid.Column="2" ClipToBounds="True">
-                        <StackPanel x:Name="CreditsContent" HorizontalAlignment="Center" Width="560" Margin="0,0,0,0">
-
-                            <Rectangle Height="1080" Fill="Transparent"/>
-
-                            <StackPanel Margin="0,0,0,24" HorizontalAlignment="Center">
-                                <Border Width="160" Height="160" HorizontalAlignment="Center" Margin="0,0,0,24">
-                                    <Grid Background="#0D0C0A"/>
-                                </Border>
-                                <TextBlock Text="SON OF ITHACA" FontFamily="Georgia" FontSize="64" Foreground="White" HorizontalAlignment="Center"/>
-                                <TextBlock Text="A TALE OF ODYSSEUS" FontFamily="Georgia" FontSize="18" Foreground="#887766" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                            <!-- ═══ LOGO + TÍTULO ═══ -->
+                            <StackPanel Margin="0,0,0,138" HorizontalAlignment="Center">
+                                <Grid Width="824" Height="327">
+                                    <Image Source="Textures/WhiteLogo.png"/>
+                                </Grid>
                             </StackPanel>
-
-                            <StackPanel HorizontalAlignment="Center" Margin="0,0,0,60">
-                                <Image Source="Textures/Logoequipo.png" Width="120" Height="120"/>
-                            </StackPanel>
-
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <!-- ═══════════ PRODUCCIÓN ═══════════ -->
-                            <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="PRODUCCI&#xD3;N" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                            <StackPanel Margin="0,0,0,138">
+                                <TextBlock Text="PRODUCTION" FontFamily="./#Cinzel"
+                                           FontSize="36" Foreground="#C8A96E"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,32"/>
 
-                                <TextBlock Text="Xavier Chaparro" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="PRODUCER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,6"/>
-                                <TextBlock Text="3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Xavier Chaparro" FontFamily="./#Cinzel" FontSize="44"
+                                               Foreground="#FFFFFF"
+                                               HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="PRODUCER" FontFamily="./#Cinzel" FontSize="23" Foreground="#C8A96E"/>
+                                        <TextBlock Text="3D Animator" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Oscar Alonso" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="LEAD PROGRAMMER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,24"/>
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Oscar Alonso" FontFamily="./#Cinzel" FontSize="44"
+                                               Foreground="#FFFFFF"
+                                               HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="LEAD PROGRAMMER" Foreground="#C8A96E" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Build Engineer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Asier Ulloa" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="LEAD GAME DESIGNER" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,6"/>
-                                <TextBlock Text="Gameplay Designer · Level Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Asier Ulloa" FontFamily="./#Cinzel" FontSize="44"
+                                               Foreground="#FFFFFF"
+                                               HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="LEAD GAME DESIGNER" FontFamily="./#Cinzel" FontSize="23" Foreground="#C8A96E"/>
+                                        <TextBlock Text="Gameplay Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Level Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Clara Rodriguez" FontFamily="Georgia" FontSize="28" Foreground="#F0EAE0" HorizontalAlignment="Center"/>
-                                <TextBlock Text="LEAD ARTIST" FontFamily="Georgia" FontSize="15" Foreground="#887766" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Clara Rodriguez" FontFamily="./#Cinzel" FontSize="44"
+                                               Foreground="#FFFFFF"
+                                               HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="LEAD ARTIST" FontFamily="./#Cinzel" FontSize="23" Foreground="#C8A96E"/>
+                                        <TextBlock Text="Concept Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
-
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <!-- ═══════════ PROGRAMACIÓN ═══════════ -->
-                            <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="PROGRAMACI&#xD3;N" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                            <StackPanel Margin="0,0,0,138">
+                                <TextBlock Text="PROGRAMMERS" FontFamily="./#Cinzel"
+                                           FontSize="36" Foreground="#C8A96E"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,32"/>
 
-                                <TextBlock Text="Ana" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Engine Programmer · UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Ana Alcaraz" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Engine Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="UI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Aniol" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Aniol López" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="UI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Haosheng" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Engine Programmer · Puzzle Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Haosheng Li" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Engine Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Gameplay Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Isaac" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Player Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Isaac Ramírez" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Player Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Jana" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Enemy AI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Jana Puig" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Enemy AI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Javi" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Level Designer · Technical Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Javier Gómez" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Technical Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Enemy AI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Joel Vicente" Margin="0,0,28,0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#F0ECE4" FontFamily="./#Cinzel" FontSize="44"/>
+                                    <StackPanel Margin="28,0,0,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Text="Enemy AI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Gameplay Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Joel" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Enemy AI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Kai Caire " FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23" Text="Audio Programmer"/>
+                                        <TextBlock Text="Technical Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Marc" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Engine Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Marc Blánquez" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Engine Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Pablo" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Camera Programmer · Puzzle Programmer · VFX Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Pablo Sanjose" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Gameplay Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="VFX Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Pau" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Technical Artist · Level Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Pau Gutsens" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Technical Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Toni" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="UI Programmer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Toni Llovera" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="VFX Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="UI Programmer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
-
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <!-- ═══════════ ARTE ═══════════ -->
-                            <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="ARTE" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                            <StackPanel Margin="0,0,0,138">
+                                <TextBlock Text="ART" FontFamily="./#Cinzel"
+                                           FontSize="36" Foreground="#C8A96E"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,32"/>
 
-                                <TextBlock Text="Arnau" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Arnau Balasch" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Texture Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Arthur" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Concept Artist · 2D Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Arthur C" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Concept Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="2D Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Bernat" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Bernat Loza" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="3D Animator" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Claudia" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Claudia Ruiz" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="David" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Music · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="David Subirats" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Music Composer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Ivan" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Iván Álvarez" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Texture Artist" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Kai" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · Technical Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Lara Guevara" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="3D Animator" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Lara" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Maria Besora" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="3D Animator" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Martí Mira" Margin="0,0,28,0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#F0ECE4" FontFamily="./#Cinzel" FontSize="44"/>
+                                    <StackPanel Margin="28,0,0,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Text="3D Modeler" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Maria" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · UI/HUD Artist" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
-
-                                <TextBlock Text="Marti Mira" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="3D Modeler · 3D Animator" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Samuel Laborda" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23" Text="Music Composer"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
-
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
 
                             <!-- ═══════════ DISEÑO ═══════════ -->
-                            <StackPanel Margin="0,48,0,40">
-                                <TextBlock Text="DISE&#xD1;O" FontFamily="Georgia" FontSize="18" Foreground="#997755" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                            <StackPanel Margin="0,0,0,138">
+                                <TextBlock Text="DESIGN" FontFamily="./#Cinzel"
+                                           FontSize="36" Foreground="#C8A96E"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,32"/>
 
-                                <TextBlock Text="Arnau P." FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Gameplay Designer · Puzzle Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Arnau Pascual" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Gameplay Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Enemy Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Mario" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Level Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Mario Torrents" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="QA Tester" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Marti Mach" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Enemy Designer · Level Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Martí Mach" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Enemy Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="QA Tester" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Roger" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Narrative Designer · UI/HUD Designer" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Roger Miralles" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Narrative Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Level Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Sa&#xFC;c" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="UI/HUD Designer · Narrative Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,18"/>
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Saüc Pellejero" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="UI Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                        <TextBlock Text="Narrative Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
 
-                                <TextBlock Text="Victor" FontFamily="Georgia" FontSize="28" Foreground="#CCCCCC" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBlock Text="Enemy Designer · Gameplay Designer · QA" FontFamily="Georgia" FontSize="15" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Víctor González" FontFamily="./#Cinzel" FontSize="44" Foreground="#F0ECE4" HorizontalAlignment="Right" Margin="0,0,28,0" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Enemy Designer" Foreground="#FFE4CEAF" FontFamily="./#Cinzel" FontSize="23"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
 
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
+                            <!-- ═══ AGRADECIMIENTO ESPECIAL ═══ -->
+                            <StackPanel Margin="0,0,0,138" HorizontalAlignment="Center">
+                                <TextBlock Text="WITH SPECIAL THANKS TO" FontFamily="./#Cinzel"
+                                           FontSize="32" Foreground="#A89070" Margin="0,173,0,32" HorizontalAlignment="Center"/>
 
-                            <StackPanel Margin="0,60,0,40">
-                                <TextBlock Text="CON EL AGRADECIMIENTO ESPECIAL A" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,32"/>
-
-                                <StackPanel Margin="0,0,0,28" HorizontalAlignment="Center">
-                                    <Grid Width="220" Height="80">
-                                        <Rectangle Fill="White"/>
-                                        <Image Source="Textures/Noesis.png"/>
+                                <StackPanel HorizontalAlignment="Center" Margin="0,0,0,24">
+                                    <Grid Width="453" Height="190">
+                                        <Image Source="Textures/NoesisGUILogo.png"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <StackPanel Margin="0,0,0,28" HorizontalAlignment="Center">
-                                    <Grid Width="220" Height="80">
-                                        <Rectangle Fill="White"/>
-                                        <Image Source="Textures/Wwise.png"/>
-                                    </Grid>
-                                    <TextBlock Text="AUDIO MIDDLEWARE" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                </StackPanel>
-                            </StackPanel>
-
-                            <Rectangle Width="1" Height="56" Fill="#2A2420" HorizontalAlignment="Center"/>
-
-                            <StackPanel Margin="0,48,0,100" HorizontalAlignment="Center">
-                                <TextBlock Text="DESARROLLADO CON" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,0,0,24"/>
                                 <StackPanel HorizontalAlignment="Center">
-                                    <Grid Width="220" Height="80">
-                                        <Rectangle Fill="#0A0A0A"/>
-                                        <Border BorderBrush="#2A2420" BorderThickness="1"/>
-                                        <Image Source="Textures/WaveEngine.png"/>
+                                    <Grid Width="410" Height="195">
+                                        <Image Source="Textures/WwiseLogo.png"/>
                                     </Grid>
-                                    <TextBlock Text="GAME ENGINE" FontFamily="Georgia" FontSize="16" Foreground="#665544" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <Rectangle Height="600" Fill="Transparent"/>
+                            <!-- ═══ DESARROLLADO CON ═══ -->
+                            <StackPanel Margin="0,0,0,138" HorizontalAlignment="Center">
+                                <TextBlock FontFamily="./#Cinzel" FontSize="32" Foreground="#A89070" Text="DEVELOPED WITH WAVE ENGINE" Margin="0,115,0,24" HorizontalAlignment="Center"/>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <Grid Width="370" Height="270" Margin="0,16,0,0">
+                                        <Image Source="Textures/WaveEngineLogo.png" Margin="0,0,55,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center">
+                                <Grid>
+                                    <Image Source="Textures/Logo.png" Height="296" Margin="0,0,55,0"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Espaciado final -->
 
                         </StackPanel>
                     </Border>
 
+                    <!-- ═══ OVERLAYS DE FADE ═══ -->
                     <Grid x:Name="CreditsFade"
                           Visibility="Hidden"
                           IsHitTestVisible="False">
@@ -278,40 +471,13 @@ VerticalAlignment="Stretch">
                         </Grid.Background>
                     </Grid>
 
-                    <Grid x:Name="ThanksPanel"
-                          Visibility="Hidden"
+                    <Grid x:Name="ThanksPanel" Visibility="Hidden"
                           IsHitTestVisible="False">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <Trigger Property="Visibility" Value="Visible">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                                     From="0" To="1" Duration="0:0:1.0"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                    </Trigger>
-                                    <Trigger Property="Visibility" Value="Hidden">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                                     From="1" To="0" Duration="0:0:1.0"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
                         <Grid.Background>
                             <SolidColorBrush Color="#FF000000"/>
                         </Grid.Background>
-                        <TextBlock Text="THANKS FOR PLAYING"
-                                   FontFamily="Georgia" FontSize="64" Foreground="White"
+                        <TextBlock Text="THANKS FOR PLAYING" FontFamily="./#Cinzel" FontSize="100"
+                                   Foreground="White"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                     </Grid>
@@ -319,32 +485,6 @@ VerticalAlignment="Stretch">
                     <Grid x:Name="CreditsFadeOut"
                           Visibility="Hidden"
                           IsHitTestVisible="False">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <Trigger Property="Visibility" Value="Visible">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                                     From="0" To="1" Duration="0:0:1.5"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                    </Trigger>
-                                    <Trigger Property="Visibility" Value="Hidden">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                                     From="1" To="0" Duration="0:0:1.5"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
                         <Grid.Background>
                             <SolidColorBrush Color="#FF000000"/>
                         </Grid.Background>

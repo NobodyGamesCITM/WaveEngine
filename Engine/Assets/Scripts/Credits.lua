@@ -1,8 +1,9 @@
 public = {
-    scrollSpeed      = 80.0,
-    scrollDuration   = 55.0,
-    thanksDuration   = 3.0,
-    updateWhenPaused = true,
+    scrollSpeed       = 80.0,
+    scrollDuration    = 70.0,
+    thanksDuration    = 3.0,
+    slideshowInterval = 6.0, 
+    updateWhenPaused  = true,
 }
 
 local PHASE_IDLE      = 0
@@ -20,16 +21,28 @@ local triggered   = false
 local fadeStarted = false
 
 local UPDATE_RATE          = 0.016
-local FADE_DURATION        = 1.5
+local FADE_DURATION        = 2.5
 local THANKS_FADE_DURATION = 1.0
 
 local canvasComp = nil
+
+-- Slideshow
+local BG_IMAGE_COUNT = 12
+local bgCurrent      = 1
+local bgSlideTimer   = 0.0
+local bgFinished     = false  
 
 
 function Start(self)
     _G.CreditsController = self
     canvasComp = self.gameObject:GetComponent("Canvas")
     if canvasComp then canvasComp:SetOpacity(0) end
+
+    -- Todas las imágenes ocultas al inicio
+    for i = 1, BG_IMAGE_COUNT do
+        UI.SetElementVisibility("BgImage" .. i, false)
+    end
+
     Engine.Log("[Credits] Listo.")
 end
 
@@ -44,13 +57,21 @@ function ShowCredits(self)
     fadeStarted   = false
     phase         = PHASE_SCROLL
 
+    -- Reset slideshow: ocultar todo y mostrar solo la primera
+    bgCurrent    = 1
+    bgSlideTimer = 0.0
+    bgFinished   = false
+    for i = 1, BG_IMAGE_COUNT do
+        UI.SetElementVisibility("BgImage" .. i, false)
+    end
+    UI.SetElementVisibility("BgImage1", true)
+
     if canvasComp then canvasComp:SetOpacity(1) end
 
     UI.SetElementVisibility("ThanksPanel",    false)
     UI.SetElementVisibility("CreditsFadeOut", false)
     UI.SetElementVisibility("CreditsFade",    false)
     UI.SetElementMargin("CreditsContent", 0, 0, 0, 0)
-    UI.SetElementMargin("ImagesContent",  0, 0, 0, 0)
 
     if _G.PlayerInstance then
         _G.PlayerInstance.public.canMove = false
@@ -71,8 +92,30 @@ function OnTriggerEnter(self, other)
 end
 
 
+function UpdateSlideshow(self, dt)
+    if bgFinished then return end
+
+    bgSlideTimer = bgSlideTimer + dt
+    if bgSlideTimer >= self.public.slideshowInterval then
+        bgSlideTimer = 0.0
+
+        local bgNext = bgCurrent + 1
+        if bgNext > BG_IMAGE_COUNT then
+            bgFinished = true
+            return
+        end
+
+        UI.SetElementVisibility("BgImage" .. bgCurrent, false)
+        UI.SetElementVisibility("BgImage" .. bgNext,    true)
+        bgCurrent = bgNext
+    end
+end
+
+
 function Update(self, dt)
     if phase == PHASE_IDLE then return end
+
+    UpdateSlideshow(self, dt)
 
     phaseTimer = phaseTimer + dt
 
@@ -84,7 +127,6 @@ function Update(self, dt)
         if updateTimer >= UPDATE_RATE then
             updateTimer = 0.0
             UI.SetElementMargin("CreditsContent", 0, -scrollY, 0, 0)
-            UI.SetElementMargin("ImagesContent",  0, -scrollY, 0, 0)
         end
 
         if not fadeStarted and scrollTimer >= (self.public.scrollDuration - 2.0) then

@@ -1,5 +1,7 @@
 -- SplashScreen Script
 
+local bgMusic = nil   
+
 public = {
     nextXaml = "MainMenu.xaml", 
     totalDuration = 6.5,
@@ -20,10 +22,10 @@ local function InitState(self)
     self.currentAlpha    = 1.0
   
 
-    local bgMusic = GameObject.Find("MusicSource")
-    if bgMusic then
-        self.musicComp = bgMusic:GetComponent("Audio Source")
-        if not self.musicComp then Engine.Log("Could not find BGM Audio Source Component") end
+    local bgMusicObj = GameObject.Find("MusicSource")
+    if bgMusicObj then
+        bgMusic = bgMusicObj:GetComponent("Audio Source")
+        if not bgMusic then Engine.Log("Could not find BGM Audio Source Component") end
     else 
         --Engine.Log("Could not find BGM GameObject") 
     end
@@ -136,20 +138,13 @@ function Update(self, dt)
 
             Engine.Log("[SplashScreen] Skip detectado en Update. Forzando: " .. path)
 
-            
-            --FadeInMusic(self, dt)
-            
             self.splashFinished = true
-            _G.ForceStartXAML = path  
+            _G.ForceStartXAML = path  -- FIX: siempre setear, antes de intentar LoadXAML
             _G._MenuManager_NeedReinit = true
             _G.SkipSplash = nil
+            _G.CurrentXAML = path
 
-            if self.splashCanvas:LoadXAML(path) then
-             
-                _G.CurrentXAML = path
-            else 
-                Engine.Log("[SplashScreen] ERROR: No se pudo cargar " .. path .. ". Desbloqueando MenuManager de todos modos.")
-            end
+            self.splashCanvas:LoadXAML(path)
             return
         end
     end
@@ -193,20 +188,15 @@ function Update(self, dt)
                 local path = self.public.nextXaml
                 if type(path) == "table" then path = path.value end
 
-                Engine.Log("Splash Screen: Transición a " .. path)
-                if self.splashCanvas:LoadXAML(path) then
+                _G.ForceStartXAML = path
+                _G.CurrentXAML = path
+                _G.SkipSplash = nil
+                _G._MenuManager_NeedReinit = true
 
-                    self.splashCanvas:SetOpacity(1.0)
-                    
-                    _G.CurrentXAML = path
-                    _G._MenuManager_NeedReinit = true
-                    _G.SkipSplash = nil
-                    
-                    
-                else
-                    Engine.Log("Splash Screen ERROR: No se pudo cargar " .. path)
-                    _G._MenuManager_NeedReinit = true -- Forzamos el re-inicio del Manager aunque falle la carga para limpiar el historial
-                end
+                Engine.Log("Splash Screen: Transición a " .. path)
+                self.splashCanvas:LoadXAML(path)
+                self.splashCanvas:SetOpacity(1.0)
+                Engine.Log("Splash Screen: ForceStartXAML=" .. path .. " seteado.")
             end
         end
     end

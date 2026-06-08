@@ -311,7 +311,6 @@ function Initialize(self)
         self.public = { updateWhenPaused = true, currentScene = { type = "Scene", value = "" }, fullVolume = 100.0, lowerVolume = 60.0 }
     end
 
-    _G.CinematicActive = false
     Engine.Log("[MenuManager] Re-initializing on: " .. (self.gameObject and self.gameObject.name or "Unknown"))
 
     self.canvas = self.gameObject:GetComponent("Canvas")
@@ -512,6 +511,10 @@ function Update(self, dt)
     if self.newSceneDelay and self.newSceneDelay > 0 then
         self.newSceneDelay = self.newSceneDelay - Time.GetRealDeltaTime()
         if self.newSceneDelay <= 0 then
+            if _G.SceneManagerState == 3 then
+                self.newSceneDelay = 0.1
+                return
+            end
             self.newSceneDelay = nil
             Initialize(self)
         end
@@ -528,7 +531,7 @@ function Update(self, dt)
         InitAudioSources(self)
     end
 
-    if not Audio.IsEventPlaying("MUS_BGM") and not _G.InTunnel then
+    if not Audio.IsEventPlaying("MUS_BGM") then
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then sceneVal = self.public.currentScene.value or ""
         elseif type(self.public.currentScene) == "string" then sceneVal = self.public.currentScene end
@@ -597,10 +600,12 @@ function Update(self, dt)
             or self.current:find("LoadingScreen.xaml") ~= nil
             or self.current:find("FadePanel.xaml") ~= nil
     end
-    if currentIsTransient() then
-        local sv = ""
-        if type(self.public.currentScene) == "table" then sv = self.public.currentScene.value or ""
-        elseif type(self.public.currentScene) == "string" then sv = self.public.currentScene end
+    if currentIsTransient() and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
+        local sv = _G.CurrentLevel or ""
+        if sv == "" then
+            if type(self.public.currentScene) == "table" then sv = self.public.currentScene.value or ""
+            elseif type(self.public.currentScene) == "string" then sv = self.public.currentScene end
+        end
         self.current = (sv:find("Level1") or sv:find("Level2")) and "HUD.xaml" or "MainMenu.xaml"
         _G.CurrentXAML = self.current
         Engine.Log("[MenuManager] current era transitorio, corregido a: " .. self.current)
@@ -676,7 +681,7 @@ function Update(self, dt)
             self.deathTimer = 0.0
         else
             self.deathTimer = 0.0
-            if not self.fading and self.canvas then
+            if not self.fading and self.canvas and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
                 if self.current == "SonOfIthaca.xaml" then
                     -- no-op
                 elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) then

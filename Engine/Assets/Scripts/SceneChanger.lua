@@ -41,6 +41,7 @@ function Start(self)
         _G._PlayerController_introAnim = false 
     end
     
+    _G.SceneManagerState = State.LOADING
     currentState = State.LOADING
     currentAlpha = 1.0 
     loadingTimer = 0.0
@@ -64,6 +65,7 @@ function Start(self)
     if self.public.currentLevel == "Level2" then
         if not _G.LoadedFromSave then
             
+            _G.CinematicActive = true
             _G.PortalCinematicReady = false
             portalExitTimer = 8.0
             if _G.PlayerInstance then 
@@ -106,9 +108,9 @@ function Update(self, dt)
                 pcall(function() anim:Play("Idle", 0.0) end)
                 pcall(function() anim:Play("PortalExit", 0.0) end)
             end
-
-            -- FIX: la cinemàtica ja s'ha llançat, ara podem fer el fade out de la loading screen
+           
             _G.PortalCinematicReady = true
+            _G.CinematicActive = false
             Engine.Log("[SceneChanger] PortalCinematicReady activat.")
         end
     end

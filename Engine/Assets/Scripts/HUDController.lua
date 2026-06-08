@@ -332,15 +332,13 @@ function Update(self, dt)
         return
     end
 
-    -- Gestión de visibilidad del HUD durante cinemáticas y transiciones de portal
-    if _G.CinematicActive or _G.PlayerInAnim then
+    if _G.CinematicActive or _G.PlayerInAnim or _G.SceneManagerState == 3 then
         if myCanvas then myCanvas:SetOpacity(0.0) end
         isFadingIn = false
         hadAnimActive = true
         return
     end
 
-    -- Si venimos de una transición de portal (exit), lanzamos el fundido de entrada
     if _G._PortalExitFadeTriggered then
         _G._PortalExitFadeTriggered = false
         isFadingIn = true
@@ -357,7 +355,7 @@ function Update(self, dt)
             isFadingIn = false
         end
     elseif hadAnimActive then
-        -- Si salimos de una animación normal que no es el portal, restauramos opacidad al instante
+
         if myCanvas and not _G.TitleTrigger_Active and not _G.TitleTrigger_HUDShouldStartHidden then 
             myCanvas:SetOpacity(1.0) 
         end

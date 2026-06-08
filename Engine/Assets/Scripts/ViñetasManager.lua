@@ -128,11 +128,11 @@ local function loadStep(index)
         end
 
     elseif entry.panel == "Page3_V2" then
-        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
 
     elseif entry.panel == "Page3_V3" then
         if owlWingSFX then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly") end
-        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
         if televoiceSFX then 
             Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
             televoiceSFX:SelectPlayAudioEvent("UI_Televocals")

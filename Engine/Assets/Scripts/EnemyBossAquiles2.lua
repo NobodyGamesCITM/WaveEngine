@@ -58,6 +58,7 @@ local areaSFX = nil
 
 local bloodPs = nil
 local sparksPs = nil
+local deathPs = nil
 
 local alreadyHit   = false
 local playerAttackHandled = false
@@ -997,6 +998,13 @@ local function UpdateDeath(self, dt)
         local pos = self.transform.position
         if pos.y > self.targetDeathY then
             self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
+            if deathPs then 
+                deathPs:Play() 
+                Engine.Log("[Aquiles] Played Death Particles")
+            else
+                Engine.Log("[Aquiles] Unable to play Death Particles")
+            end
+            
         else
             if not isDead then
                 local door = GameObject.Find("Puerta_Final")
@@ -1052,6 +1060,11 @@ local function FindAquilesParticles(self)
     local sparksVFX = GameObject.FindInChildren(self.gameObject, "Sparks")
     if sparksVFX then
         sparksPs = sparksVFX:GetComponent("ParticleSystem")
+    end
+
+    local deathVFX = GameObject.FindInChildren(self.gameObject, "DeathSmoke")
+    if deathVFX then 
+        deathPs = deathVFX:GetComponent("ParticleSystem")
     end
 end
 
@@ -1124,6 +1137,8 @@ function Start(self)
 
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
+
+    if deathPs then deathPs:Stop() end
 
     areaAttackColObj = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
     if areaAttackColObj then
@@ -1284,7 +1299,9 @@ function Update(self, dt)
         FindAquilesAudioComponents(self)
     end
 
-    if not bloodPs or not sparksPs then
+
+    if not bloodPs or not sparksPs or not deathPs then 
+
         FindAquilesParticles(self)
     end
 

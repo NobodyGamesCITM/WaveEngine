@@ -6,6 +6,8 @@ local finishedTransition
 local musicSource = nil
 local bgMusic = nil
 
+_G.InTunnel = false
+
 public = {
 	fadeTime = 1.5,
 	--maxVolume = 100,
@@ -57,6 +59,7 @@ function FadeOutMusic(self, dt)
 
 	elseif exitedLevel and volume <= 0 and not finishedTransition then
 		finishedTransition = true
+		_G.InTunnel = true
 		if bgMusic then bgMusic:StopAudioEvent() end
 	end
 
@@ -66,6 +69,7 @@ function FadeOutMusic(self, dt)
 		finishedTransition = false
 		fadeTimer = 0
 		volume = _G.SavedMusicVolume or 100.0
+		_G.InTunnel = false
 	end 
 end
 

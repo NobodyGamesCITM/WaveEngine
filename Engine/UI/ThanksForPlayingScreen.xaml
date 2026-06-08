@@ -26,7 +26,7 @@
         </RadialGradientBrush>
       </Grid.Background>
       <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="55.644,0">
-        <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold" FontFamily="./#Cinzel Decorative Bold" Foreground="#FFFFFFFF"/>
+        <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold" FontFamily="./#ForgottenUncial" Foreground="#FFFFFFFF"/>
       </Viewbox>
       <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="3" Margin="70.484,0">
         <Image x:Name="Logo" Source="Textures/Logo.png"/>

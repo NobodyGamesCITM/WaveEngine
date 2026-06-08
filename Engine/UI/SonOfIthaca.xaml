@@ -1,4 +1,4 @@
-<Page
+<Grid x:Name="LayoutRoot"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,19 +6,32 @@
   mc:Ignorable="d"
   d:DesignWidth="1920"
   d:DesignHeight="1080">
-  <Grid x:Name="Title">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="126*"/>
-      <RowDefinition Height="235*"/>
-      <RowDefinition Height="719*"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="375*"/>
-      <ColumnDefinition Width="1169*"/>
-      <ColumnDefinition Width="376*"/>
-    </Grid.ColumnDefinitions>
-    <Viewbox x:Name="TitleViewBiox" Grid.Row="1" Grid.Column="1">
-      <TextBlock x:Name="TitleText" FontFamily="./#Cinzel Decorative Bold" FontSize="100" TextWrapping="Wrap" Text="Son Of Ithaca" Foreground="#FFFFFFFF"/>
-    </Viewbox>
-  </Grid>
-</Page>
+
+  <Viewbox
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
+    Stretch="Uniform"
+    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"
+    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}">
+
+    <Grid x:Name="Title" Width="1920" Height="1080">
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="60*"/>
+        <RowDefinition Height="392*"/>
+        <RowDefinition Height="628*"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="375*"/>
+        <ColumnDefinition Width="1169*"/>
+        <ColumnDefinition Width="376*"/>
+      </Grid.ColumnDefinitions>
+
+      <Viewbox x:Name="TitleViewBiox" Grid.Row="1" Grid.Column="1">
+        <Image Source="Textures/white_title.png" Width="379" Height="191"/>
+      </Viewbox>
+
+    </Grid>
+  </Viewbox>
+
+</Grid>

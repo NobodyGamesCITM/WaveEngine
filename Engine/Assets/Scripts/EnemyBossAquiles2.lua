@@ -390,9 +390,9 @@ local function UpdateFase2(self, dt)
 
 
     if rb then
-        if isKinematic then
-            rb:SetBody(1)
-            isKinematic = false
+        if not isKinematic then
+            rb:SetBody(2)
+            isKinematic = true
         end
         rb:SetLinearVelocity(0, 0, 0)
     end
@@ -416,9 +416,7 @@ local function UpdateFase2(self, dt)
             SpawnSeries(self)
         end
 
-    elseif totalLive > 0 or not AllEnemiesDead() then
-        spawnTimer = 0
-    else
+    elseif totalLive == 0 or AllEnemiesDead() then
         fase2Active    = false
         _G._Aquiles_Fase2Active = false
         _G._Aquiles_Fase3Active = true
@@ -555,6 +553,8 @@ local function TakeDamage(self, amount, attackerPos)
         elseif not fase2Active then
             fase1       = false
             fase2Active = true
+            _G._AquilesDefeated = false
+            _G._Aquiles_Fase3Active = false
             _G._Aquiles_Fase2Active = true 
             fase2Timer  = Fase2_Duration
             spawnTimer  = 0
@@ -1823,7 +1823,7 @@ end
 
 function OnTriggerEnter(self, other)
     if blockHits then return end
-    if isDead and hp<=0 then return end
+    if (isDead or fase2Active) and hp<=0 then return end
 
     if other:CompareTag("Wall") then
         if currentState ~= State.CHARGE then
@@ -1932,6 +1932,8 @@ function OnTriggerEnter(self, other)
 end
 
 function OnTriggerExit(self, other)
+    if fase2Active then return end
+
     if other:CompareTag("Player") then 
         alreadyHit = false 
 

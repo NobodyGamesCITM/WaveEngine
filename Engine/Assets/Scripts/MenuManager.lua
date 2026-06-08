@@ -528,7 +528,7 @@ function Update(self, dt)
         InitAudioSources(self)
     end
 
-    if not Audio.IsEventPlaying("MUS_BGM") then
+    if not Audio.IsEventPlaying("MUS_BGM") and not _G.InTunnel then
         local sceneVal = ""
         if type(self.public.currentScene) == "table" then sceneVal = self.public.currentScene.value or ""
         elseif type(self.public.currentScene) == "string" then sceneVal = self.public.currentScene end

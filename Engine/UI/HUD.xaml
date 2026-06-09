@@ -10,6 +10,55 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <SolidColorBrush Color="#00000000"/>
     </Grid.Background>
 
+    <Grid.Resources>
+        <Storyboard x:Key="SaveFeedbackAnim">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SaveIconContainer_ViewBox" Storyboard.TargetProperty="Opacity">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4.0" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MaskSlide" Storyboard.TargetProperty="Y">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="40"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4.0" Value="40">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseIn"/></EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Mask1" Storyboard.TargetProperty="Opacity" RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.80" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Mask2" Storyboard.TargetProperty="Opacity" RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.80" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.45" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.60" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Mask3" Storyboard.TargetProperty="Opacity" RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.60" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.75" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.25" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SaveIconContainer_ViewBox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <LinearDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SaveIconContainer_ViewBox" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <LinearThicknessKeyFrame KeyTime="00:00:00" Value="0,0,90,30"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Grid.Resources>
+
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
             <Grid.ColumnDefinitions>
@@ -427,26 +476,61 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </Grid>
         </Canvas>
 
-        <Grid x:Name="SaveIconContainer" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,40,40" Visibility="Hidden" Grid.Column="1" Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Guardando..." Foreground="#FFC8A84B" FontFamily="./#ForgottenUncial" FontWeight="Bold" FontSize="30" VerticalAlignment="Center" Margin="0,0,15,0"/>
-                <Image Source="Textures/LoadingImage.png" Width="45" Height="45" RenderTransformOrigin="0.5,0.5">
-                    <Image.RenderTransform>
-                        <RotateTransform x:Name="SaveSpinTransform" Angle="0"/>
-                    </Image.RenderTransform>
-                    <Image.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="SaveSpinTransform" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:1" RepeatBehavior="Forever"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Image.Triggers>
-                </Image>
-            </StackPanel>
+        <Grid x:Name="SaveIconContainer"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="3"
+            IsHitTestVisible="False">
+
+            <!-- Responsive como el HUD -->
+            <Viewbox Stretch="Uniform"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                <!-- Canvas de referencia 1920x1080 -->
+                <Grid Width="1920" Height="1080">
+
+                    <Viewbox x:Name="SaveIconContainer_ViewBox"
+                            Width="100"
+                            Height="100"
+                            Opacity="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,90,40">
+                        <Viewbox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform Y="40"/>
+                            </TransformGroup>
+                        </Viewbox.RenderTransform>
+
+                        <Grid x:Name="SaveIconGrid">
+                            <Image x:Name="Mask1"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Apolo.PNG"
+                                Stretch="Uniform"/>
+
+                            <Image x:Name="Mask2"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Ares.PNG"
+                                Stretch="Uniform"/>
+
+                            <Image x:Name="Mask3"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Hermes.PNG"
+                                Stretch="Uniform"/>
+                        </Grid>
+
+                    </Viewbox>
+                </Grid>
+            </Viewbox>
         </Grid>
-
     </Grid>
-
 </Grid>

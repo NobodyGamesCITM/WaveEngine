@@ -1,9 +1,6 @@
--- TitleTrigger.lua
-local TRIGGER_RADIUS     = 5.0
-local FADE_IN_DURATION   = 1.75
-local HOLD_DURATION      = 2.0
-local FADE_OUT_DURATION  = 1.5
-local HUD_FADE_DURATION  = 0.8
+local TRIGGER_RADIUS    = 5.0
+local TOTAL_DURATION    = 5.25
+local HUD_FADE_DURATION = 0.8
 
 local function EaseInOutQuad(t)
     if t < 0.5 then return 2*t*t
@@ -42,7 +39,6 @@ function Start(self)
         _G.TitleTrigger_HUDShouldStartHidden = false
         _G.TitleTrigger_Active = false
         self.phase = "done"
-        -- FIX Bug 2: forzar canvas visible por si MenuManager no lo hizo aún
         local c = FindCanvas()
         if c then c:SetOpacity(1.0) end
         return
@@ -67,9 +63,7 @@ function Update(self, dt)
 
     if not self.canvas then
         self.canvas = FindCanvas()
-        if not self.canvas and self.phase ~= "idle" then 
-            return 
-        end
+        if not self.canvas and self.phase ~= "idle" then return end
     end
 
     self.myPos = self.transform.worldPosition
@@ -85,10 +79,7 @@ function Update(self, dt)
         local dx = pPos.x - self.myPos.x
         local dz = pPos.z - self.myPos.z
         if (dx*dx + dz*dz) > (TRIGGER_RADIUS * TRIGGER_RADIUS) then return end
-
-        -- Solo activar si el SceneChanger ha terminado su fade inicial (IDLE = 1)
         if _G.SceneManagerState and _G.SceneManagerState ~= 1 then return end
-
         if not self.canvas then
             Engine.Log("[TitleTrigger] Canvas no encontrado, reintentando...")
             return
@@ -99,44 +90,24 @@ function Update(self, dt)
         Engine.Log("[TitleTrigger] Secuencia iniciada.")
 
         self.canvas:LoadXAML("SonOfIthaca.xaml")
-        self.canvas:SetOpacity(0.0)
+        self.canvas:SetOpacity(1.0)
+        self.canvas:PlayStoryboard("TitleAnim", "Title")
 
         local mm = _G.GlobalMenuManagerInstance
         if mm then
-            mm.current = "SonOfIthaca.xaml"
+            mm.current     = "SonOfIthaca.xaml"
             _G.CurrentXAML = "SonOfIthaca.xaml"
         end
 
-        self.phase = "fadeIn"
+        self.phase = "playing"
         self.timer = 0.0
         return
     end
 
     self.timer = self.timer + Time.GetRealDeltaTime()
 
-    if self.phase == "fadeIn" then
-        local t = math.min(self.timer / FADE_IN_DURATION, 1.0)
-        self.canvas:SetOpacity(EaseInOutQuad(t))
-        if t >= 1.0 then
-            self.canvas:SetOpacity(1.0)
-            self.phase = "hold"
-            self.timer = 0.0
-            Engine.Log("[TitleTrigger] Fade in completado.")
-        end
-
-    elseif self.phase == "hold" then
-        self.canvas:SetOpacity(1.0)
-        if self.timer >= HOLD_DURATION then
-            self.phase = "fadeOut"
-            self.timer = 0.0
-            Engine.Log("[TitleTrigger] Hold terminado, fade out.")
-        end
-
-    elseif self.phase == "fadeOut" then
-        local t = math.min(self.timer / FADE_OUT_DURATION, 1.0)
-        self.canvas:SetOpacity(1.0 - EaseInOutQuad(t))
-        if t >= 1.0 then
-            self.canvas:SetOpacity(0.0)
+    if self.phase == "playing" then
+        if self.timer >= TOTAL_DURATION then
             self.canvas:LoadXAML("HUD.xaml")
             self.canvas:SetOpacity(0.0)
 

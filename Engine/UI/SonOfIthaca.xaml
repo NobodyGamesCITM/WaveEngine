@@ -4,17 +4,76 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
-  d:DesignWidth="1920"
-  d:DesignHeight="1080">
+  d:DesignWidth="2048" d:DesignHeight="1080">
+
+  <Grid.Resources>
+    <Storyboard x:Key="TitleAnim">
+
+      <DoubleAnimationUsingKeyFrames
+          Storyboard.TargetName="TitleImage"
+          Storyboard.TargetProperty="Opacity">
+        <DiscreteDoubleKeyFrame KeyTime="0:0:0"    Value="0"/>
+        <EasingDoubleKeyFrame   KeyTime="0:0:1.75" Value="1">
+          <EasingDoubleKeyFrame.EasingFunction>
+            <QuadraticEase EasingMode="EaseInOut"/>
+          </EasingDoubleKeyFrame.EasingFunction>
+        </EasingDoubleKeyFrame>
+        <DiscreteDoubleKeyFrame KeyTime="0:0:3.75" Value="1"/>
+        <EasingDoubleKeyFrame   KeyTime="0:0:5.25" Value="0">
+          <EasingDoubleKeyFrame.EasingFunction>
+            <QuadraticEase EasingMode="EaseInOut"/>
+          </EasingDoubleKeyFrame.EasingFunction>
+        </EasingDoubleKeyFrame>
+      </DoubleAnimationUsingKeyFrames>
+
+      <DoubleAnimation
+          Storyboard.TargetName="TitleScale"
+          Storyboard.TargetProperty="ScaleX"
+          From="0.88" To="1.14"
+          Duration="0:0:5.25">
+        <DoubleAnimation.EasingFunction>
+          <QuadraticEase EasingMode="EaseInOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+
+      <DoubleAnimation
+          Storyboard.TargetName="TitleScale"
+          Storyboard.TargetProperty="ScaleY"
+          From="0.88" To="1.14"
+          Duration="0:0:5.25">
+        <DoubleAnimation.EasingFunction>
+          <QuadraticEase EasingMode="EaseInOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+
+    </Storyboard>
+  </Grid.Resources>
+
   <Grid.RowDefinitions>
-    <RowDefinition Height="126*"/>
-    <RowDefinition Height="235*"/>
-    <RowDefinition Height="719*"/>
+    <RowDefinition Height="70*"/>
+    <RowDefinition Height="348*"/>
+    <RowDefinition Height="662*"/>
   </Grid.RowDefinitions>
   <Grid.ColumnDefinitions>
-    <ColumnDefinition Width="375*"/>
-    <ColumnDefinition Width="1169*"/>
-    <ColumnDefinition Width="376*"/>
+    <ColumnDefinition Width="355*"/>
+    <ColumnDefinition Width="1206*"/>
+    <ColumnDefinition Width="359*"/>
   </Grid.ColumnDefinitions>
-  <Image x:Name="TitleImage" Source="Textures/Title.png" Grid.Row="1" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+  <Image x:Name="TitleImage"
+         Source="Textures/Title.png"
+         Stretch="Uniform"
+         Width="26%"
+         Height="Auto"
+         Opacity="0"
+         HorizontalAlignment="Center"
+         VerticalAlignment="Top"
+         RenderTransformOrigin="0.5,0.5"
+         Grid.ColumnSpan="3" Grid.RowSpan="2"
+         Margin="0,95,0,30">
+    <Image.RenderTransform>
+      <ScaleTransform x:Name="TitleScale" ScaleX="0.88" ScaleY="0.88"/>
+    </Image.RenderTransform>
+  </Image>
+
 </Grid>

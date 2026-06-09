@@ -210,6 +210,10 @@ function Update(self, dt)
 
                     if self.saveSFX then self.saveSFX:SelectPlayAudioEvent("SFX_CheckPointSave") end
 
+                    if _G.ShowSaveIcon then
+                        _G.ShowSaveIcon()
+                    end
+
                     isInCoolDown = true
                     saveAgainTimer = 0
 

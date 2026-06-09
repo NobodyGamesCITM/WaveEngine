@@ -50,6 +50,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 <EasingDoubleKeyFrame KeyTime="0:0:2.25" Value="1"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SaveIconContainer_ViewBox" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <LinearDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SaveIconContainer_ViewBox" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <LinearThicknessKeyFrame KeyTime="00:00:00" Value="0,0,90,30"/>
+            </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
     </Grid.Resources>
 
@@ -470,19 +476,59 @@ d:DesignWidth="1920" d:DesignHeight="1080">
             </Grid>
         </Canvas>
 
-        <Grid x:Name="SaveIconContainer" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="518*"/>
-                <RowDefinition Height="223*"/>
-            </Grid.RowDefinitions>
-            <Viewbox x:Name="SaveIconContainer_ViewBox" Opacity="0" Grid.RowSpan="2" Margin="89,475,89,40">
-                <Viewbox.RenderTransform>
-                    <TranslateTransform x:Name="MaskSlide" Y="40"/>
-                </Viewbox.RenderTransform>
-                <Grid x:Name="SaveIconGrid">
-                    <Image x:Name="Mask1" Width="100" Height="100" Opacity="0" Source="Textures/Apolo.PNG" Stretch="Uniform"/>
-                    <Image x:Name="Mask2" Width="100" Height="100" Opacity="0" Source="Textures/Ares.PNG" Stretch="Uniform"/>
-                    <Image x:Name="Mask3" Width="100" Height="100" Opacity="0" Source="Textures/Hermes.PNG" Stretch="Uniform"/>
+        <Grid x:Name="SaveIconContainer"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="3"
+            IsHitTestVisible="False">
+
+            <!-- Responsive como el HUD -->
+            <Viewbox Stretch="Uniform"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                <!-- Canvas de referencia 1920x1080 -->
+                <Grid Width="1920" Height="1080">
+
+                    <Viewbox x:Name="SaveIconContainer_ViewBox"
+                            Width="100"
+                            Height="100"
+                            Opacity="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,90,40">
+                        <Viewbox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform Y="40"/>
+                            </TransformGroup>
+                        </Viewbox.RenderTransform>
+
+                        <Grid x:Name="SaveIconGrid">
+                            <Image x:Name="Mask1"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Apolo.PNG"
+                                Stretch="Uniform"/>
+
+                            <Image x:Name="Mask2"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Ares.PNG"
+                                Stretch="Uniform"/>
+
+                            <Image x:Name="Mask3"
+                                Width="100"
+                                Height="100"
+                                Opacity="0"
+                                Source="Textures/Hermes.PNG"
+                                Stretch="Uniform"/>
+                        </Grid>
+
+                    </Viewbox>
                 </Grid>
             </Viewbox>
         </Grid>

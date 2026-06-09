@@ -318,8 +318,11 @@ _G.ForceRefreshHUD = ForceRefreshHUD
 local saveIconTimer = 0.0
 
 function _G.ShowSaveIcon()
+    if myCanvas then
+        myCanvas:PlayStoryboard("SaveFeedbackAnim")
+    end
     UI.SetElementVisibility("SaveIconContainer", true)
-    saveIconTimer = 2.0
+    saveIconTimer = 4.0
 end
 
 function Start(self)

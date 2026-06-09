@@ -332,7 +332,6 @@ function Update(self, dt)
         return
     end
 
-    -- Ocultar si hay cinemática activa, el jugador está en animación o si el SceneChanger está operando
     if _G.CinematicActive or _G.PlayerInAnim or _G.SceneManagerState == 3 or _G.SceneManagerState == 0 or _G.SceneManagerState == 2 then
         if myCanvas then myCanvas:SetOpacity(0.0) end
         isFadingIn = false
@@ -341,16 +340,13 @@ function Update(self, dt)
         return
     end
 
-    -- Bloqueo para Level 1: Si el TitleTrigger dice que debe empezar oculto, mantenemos HUD en 0
-    -- y evitamos que se dispare el fade-in automático al terminar la cinemática de intro.
     if (_G.TitleTrigger_HUDShouldStartHidden or _G.TitleTrigger_Active) and not _G.HUD_IsFading then
         if myCanvas then myCanvas:SetOpacity(0.0) end
         isFadingIn = false
-        hadAnimActive = false -- Consumimos el flag para que no haga fade-in después
+        hadAnimActive = false 
         return
     end
 
-    -- Gestión del fade in
     if isFadingIn then
         _G.HUD_IsFading = true
         fadeTimer = fadeTimer + dt
@@ -361,13 +357,11 @@ function Update(self, dt)
             _G.HUD_IsFading = false
         end
     elseif hadAnimActive then
-        -- En lugar de poner opacidad 1 de golpe, iniciamos el proceso de fade in
         isFadingIn = true
         fadeTimer = 0.0
         hadAnimActive = false
     end
 
-    -- Cambio de máscara por D-Pad / teclas de flecha
     if _G.PlayerInstance and not _G._PlayerController_isDead and not _G.PlayerInAnim then
         local targetMask = nil
         if Input.GetGamepadButtonDown("DPadLeft") or Input.GetKeyDown("Left") then
@@ -423,7 +417,6 @@ function Update(self, dt)
 
     UpdateMaskIconSizeLerp(dt, activeMask)
 
-    -- Icono de guardado
     if saveIconTimer > 0 then
         saveIconTimer = saveIconTimer - dt
         if saveIconTimer <= 0 then

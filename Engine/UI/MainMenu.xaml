@@ -6,7 +6,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-  d:DesignWidth="1280" d:DesignHeight="720">
+  d:DesignWidth="2048" d:DesignHeight="1080">
 
     <Grid.Resources>
         <ResourceDictionary>
@@ -172,98 +172,71 @@
         </EventTrigger>
     </Grid.Triggers>
 
-    <Viewbox Stretch="Uniform">
-        <Grid x:Name="RootContent" Width="1280" Height="720">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="726*"/>
-                <ColumnDefinition Width="305*"/>
-                <ColumnDefinition Width="249*"/>
-                <ColumnDefinition Width="0*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="39*"/>
-                <RowDefinition Height="98*"/>
-                <RowDefinition Height="466*"/>
-                <RowDefinition Height="96*"/>
-                <RowDefinition Height="21*"/>
-            </Grid.RowDefinitions>
+    <Viewbox Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+        <Grid x:Name="RootContent" Width="1920" Height="1080">
+            
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Width="600" Margin="0,0,40,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Viewbox x:Name="TitleTextViewbox" Stretch="Uniform" Margin="0,189,-54,89" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
-                <Grid Width="238" Height="278" Margin="-91,-109,-33,-75" HorizontalAlignment="Right">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="151*"/>
-                        <RowDefinition Height="489*"/>
-                        <RowDefinition Height="80*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="192*"/>
-                        <ColumnDefinition Width="84*"/>
-                        <ColumnDefinition Width="0*"/>
-                    </Grid.ColumnDefinitions>
+                <Image x:Name="TitleText"
+                       Grid.Row="0"
+                       Source="Textures/Title.png"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Right"
+                       RenderTransformOrigin="0.5,0.5" Width="553" Margin="0,0,0,60">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="0"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="200"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
 
-                    <Viewbox Margin="60,60,11,0" Grid.Row="1">
-                        <StackPanel x:Name="ButtonsPanel">
-                            <Button x:Name="StartButton" Content="New Game" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
-                                <Button.RenderTransform>
-                                    <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
-                                </Button.RenderTransform>
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded"><noesis:SetFocusAction/></b:EventTrigger>
-                                    <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </Button>
+                <StackPanel x:Name="ButtonsPanel" Grid.Row="1" HorizontalAlignment="Right">
+                    <Button x:Name="StartButton" Content="New Game" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Loaded"><noesis:SetFocusAction/></b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                            <Button x:Name="ContinueButton" Content="Continue" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
-                                <Button.RenderTransform>
-                                    <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
-                                </Button.RenderTransform>
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </Button>
+                    <Button x:Name="ContinueButton" Content="Continue" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                            <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
-                                <Button.RenderTransform>
-                                    <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
-                                </Button.RenderTransform>
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </Button>
+                    <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                            <Button x:Name="ExitButton" RenderTransformOrigin="0.5,0.5" Content="Exit" Command="{Binding Commands[ExitButton]}" Style="{StaticResource TextButtonStyle}" Margin="0,0,5,0" HorizontalAlignment="Right" FontFamily="./#Cinzel" FontWeight="Medium">
-                                <Button.RenderTransform>
-                                    <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
-                                </Button.RenderTransform>
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </Button>
-                        </StackPanel>
-                    </Viewbox>
-                </Grid>
-            </Viewbox>
-
-            <!-- ↓↓ CAMBIO: TextBlock reemplazado por Image con el logo Title.png ↓↓ -->
-            <Image x:Name="TitleText"
-                   Source="Textures/Title.png"
-                   Stretch="Uniform"
-                   Margin="189,40,31,335"
-                   Grid.Column="1" Grid.ColumnSpan="2"
-                   Grid.Row="1" Grid.RowSpan="2"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Bottom"
-                   RenderTransformOrigin="0.5,0.5">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="0"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform X="200"/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
-
+                    <Button x:Name="ExitButton" Content="Exit" Command="{Binding Commands[ExitButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,0" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+                
+            </Grid>
         </Grid>
     </Viewbox>
 

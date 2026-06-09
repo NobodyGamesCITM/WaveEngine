@@ -1,5 +1,3 @@
--- CinematicManager.lua
-
 public = {
     updateWhenPaused = true
 }
@@ -319,7 +317,6 @@ function Update(self, dt)
             if _G.TargetLockManager_SetParticleVisibility then
                 _G.TargetLockManager_SetParticleVisibility(true)
             end
-            -- Dejamos que el HUDController gestione la restauración de opacidad con su propio fade-in
         end
     end
 end

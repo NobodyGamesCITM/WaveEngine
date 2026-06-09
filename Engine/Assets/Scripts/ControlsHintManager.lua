@@ -37,7 +37,7 @@ PRESETS = {
     potion_health = {
         duration = 10.0,
         slots = {
-            { img = "HintImg_Health",          key = "HintKey_R",      gp = "HintGP_LB" },
+            { img = "HintImg_Health",          key = "HintKey_3",      gp = "HintGP_LB" },
         },
     },
     potion_berserk = {

@@ -456,8 +456,8 @@ d:DesignWidth="1920" d:DesignHeight="1080">
         <Viewbox x:Name="MissionBackgroundViewBox" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right"/>
         <Viewbox x:Name="MissionTextViewBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
         <Canvas Margin="-7,0,7,0" Grid.RowSpan="3">
-            <Grid x:Name="LockOnPrompt" Width="30" Height="30" Visibility="Collapsed">
-                <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="30" Height="30"/>
+            <Grid x:Name="LockOnPrompt" Width="40" Height="40" Visibility="Collapsed">
+                <Image x:Name="LockOn_Gamepad" Source="Textures/R3.PNG" Width="40" Height="40"/>
                 <Image x:Name="LockOn_Keyboard" Source="Textures/R.PNG" Width="30" Height="30"/>
             </Grid>
             <Grid x:Name="InteractPrompt" Width="30" Height="30" Visibility="Collapsed">

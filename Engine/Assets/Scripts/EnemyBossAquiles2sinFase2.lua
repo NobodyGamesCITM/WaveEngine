@@ -1642,8 +1642,11 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
-            if fase2Active or _G._Aquiles_Fase3Active then return end
-             if hp <= 40 then
+            if fase2Active or _G._Aquiles_Fase3Active then 
+                BaseMat.SetTexture("8744963314714344684")
+                return        
+            end             
+            if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
             elseif hp > 40 and hp <= 70 then
                 BaseMat.SetTexture("15230868181932546860")        
@@ -1975,7 +1978,10 @@ function OnTriggerExit(self, other)
 
     if other:CompareTag("Player") then 
         alreadyHit = false 
-        if fase2Active or _G._Aquiles_Fase3Active then return end
+        if fase2Active or _G._Aquiles_Fase3Active then 
+            BaseMat.SetTexture("8744963314714344684")
+            return        
+        end
 
         if hp <= 40 then
             BaseMat.SetTexture("10242481670410472725")

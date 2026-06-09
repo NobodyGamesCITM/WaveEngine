@@ -244,11 +244,21 @@ local scenesPath = Engine.GetScenesPath()
 if not _G.SavedSoundEffectsVolume then _G.SavedSoundEffectsVolume = 80.0 end
 if not _G.SavedMusicVolume        then _G.SavedMusicVolume        = 80.0 end
 
+_G.RESOLUTIONS_LIST = { "1280 x 720", "1920 x 1080", "2560 x 1440", "3840 x 2160" }
+
 if _G.GraphicsSettings == nil then
     _G.GraphicsSettings = {
         resolutionIndex = 2,
         fullScreen      = false,
         antiAliasing    = false,
+    }
+end
+
+if _G.GraphicsPending == nil then
+    _G.GraphicsPending = {
+        resolutionIndex = _G.GraphicsSettings.resolutionIndex,
+        fullScreen      = _G.GraphicsSettings.fullScreen,
+        antiAliasing    = _G.GraphicsSettings.antiAliasing,
     }
 end
 
@@ -668,6 +678,27 @@ function Update(self, dt)
             end
         else
             if self.soundsMenuInitialized then self.soundsMenuInitialized = false end
+        end
+
+        if self.current == "GraphicsMenu.xaml" then
+            if not self.graphicsMenuInitialized then
+                self.graphicsMenuInitialized = true
+                -- Sincronizamos pendientes con la realidad del motor
+                _G.GraphicsPending.resolutionIndex = _G.GraphicsSettings.resolutionIndex
+                _G.GraphicsPending.fullScreen      = _G.GraphicsSettings.fullScreen
+                _G.GraphicsPending.antiAliasing    = _G.GraphicsSettings.antiAliasing
+                
+                -- Forzamos la actualización visual al entrar
+                local res = _G.RESOLUTIONS_LIST[_G.GraphicsPending.resolutionIndex]
+                if res then
+                    UI.SetElementText("ResolutionValue", res)
+                end
+                
+                UI.SetCheckBox("FullScreen",   _G.GraphicsPending.fullScreen)
+                UI.SetCheckBox("AntiAliasing", _G.GraphicsPending.antiAliasing)
+            end
+        else
+            if self.graphicsMenuInitialized then self.graphicsMenuInitialized = false end
         end
 
         if self.pendingHUDRefresh then

@@ -1,14 +1,8 @@
-local RESOLUTIONS = {
-    "1280 x 720",
-    "1920 x 1080",
-    "2560 x 1440",
-    "3840 x 2160",
-}
-
 local lastFocusedButton = ""
 
 local function RefreshUI(self, animate)
-    local pending = _G.GraphicsPending
+    local pending = _G.GraphicsPending or _G.GraphicsSettings
+    local RESOLUTIONS = _G.RESOLUTIONS_LIST
     local res = RESOLUTIONS[pending.resolutionIndex]
     UI.SetElementText("ResolutionValue", res)
     UI.SetCheckBox("FullScreen",   pending.fullScreen)
@@ -24,6 +18,7 @@ end
 
 local function ApplyChanges(self)
     local pending = _G.GraphicsPending
+    local RESOLUTIONS = _G.RESOLUTIONS_LIST
     local wasFullScreen = _G.GraphicsSettings.fullScreen
     local resChanged = (_G.GraphicsSettings.resolutionIndex ~= pending.resolutionIndex)
 
@@ -57,25 +52,13 @@ function Initialize(self)
     if self.selectSource then self.selectSFX = self.selectSource:GetComponent("Audio Source") end
     self.pressSource = GameObject.Find("UIPressSound")
     if self.pressSource then self.pressSFX = self.pressSource:GetComponent("Audio Source") end
-
-    _G.GraphicsPending.resolutionIndex = _G.GraphicsSettings.resolutionIndex
-    _G.GraphicsPending.fullScreen      = _G.GraphicsSettings.fullScreen
-    _G.GraphicsPending.antiAliasing    = _G.GraphicsSettings.antiAliasing
-
-    self.refreshDelay = 60 
 end
 
 function Start(self)
     self.isMenuOpened = false
-    _G.GraphicsPending = _G.GraphicsPending or {
-        resolutionIndex = _G.GraphicsSettings.resolutionIndex,
-        fullScreen      = _G.GraphicsSettings.fullScreen,
-        antiAliasing    = _G.GraphicsSettings.antiAliasing,
-    }
 end
 
 function Update(self, dt)
-    local pending = _G.GraphicsPending
     local currentXAML = _G.CurrentXAML or ""
     local isGraphics = (currentXAML:find("GraphicsMenu.xaml") ~= nil)
 
@@ -93,10 +76,8 @@ function Update(self, dt)
         return
     end
 
-    if self.refreshDelay and self.refreshDelay > 0 then
-        self.refreshDelay = self.refreshDelay - 1
-        RefreshUI(self, false)
-    end
+    local pending = _G.GraphicsPending or _G.GraphicsSettings
+    local RESOLUTIONS = _G.RESOLUTIONS_LIST
 
     local function PrevRes()
         pending.resolutionIndex = pending.resolutionIndex - 1

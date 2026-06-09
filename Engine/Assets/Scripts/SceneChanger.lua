@@ -136,6 +136,12 @@ function Update(self, dt)
         end
         SetMusicVolume(volume)
         SetSFXVolume(volume)
+
+        -- Si la secuencia de título está activa, no interferimos con la opacidad del canvas
+        if _G.TitleTrigger_Active then
+            return
+        end
+
         SetCanvasAlpha(currentAlpha)
 
     elseif currentState == State.LOADING then

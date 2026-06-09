@@ -340,7 +340,7 @@ function Update(self, dt)
         return
     end
 
-    if (_G.TitleTrigger_HUDShouldStartHidden or _G.TitleTrigger_Active) and not _G.HUD_IsFading then
+    if _G.TitleTrigger_HUDShouldStartHidden and not _G.HUD_IsFading and not _G.TitleTrigger_Active then
         if myCanvas then myCanvas:SetOpacity(0.0) end
         isFadingIn = false
         hadAnimActive = false 

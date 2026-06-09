@@ -86,6 +86,9 @@ function Update(self, dt)
         local dz = pPos.z - self.myPos.z
         if (dx*dx + dz*dz) > (TRIGGER_RADIUS * TRIGGER_RADIUS) then return end
 
+        -- Solo activar si el SceneChanger ha terminado su fade inicial (IDLE = 1)
+        if _G.SceneManagerState and _G.SceneManagerState ~= 1 then return end
+
         if not self.canvas then
             Engine.Log("[TitleTrigger] Canvas no encontrado, reintentando...")
             return

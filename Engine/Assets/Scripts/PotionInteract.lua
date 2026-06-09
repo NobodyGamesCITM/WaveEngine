@@ -4,7 +4,7 @@ public = {
 
     radius = 2.0,
     actionText = "Obtener Poción",
-    itemText   = "¡Poción obtenida!",
+    itemText   = "¡Potion obtained!",
     --chestAnim  = "Open",
     potionType = "Health", -- "Health" o "Berserk"
     updateWhenPaused = true,  
@@ -85,59 +85,50 @@ local function showPopup(self)
     if _G.ShowItemObtained then
         -- Pasamos potionType como segundo argumento para que ItemObtained
         -- muestre el icono correcto (Pocion.png o Berserk.png)
+        local isBerserk = self.public.potionType == "Berserk"
+
         _G.ShowItemObtained(
             self.public.itemText,
             self.public.potionType,
             function() PotionGet(self) end
         )
-        --hidePrompt(self)
+
+        if isBerserk then
+            UI.SetElementVisibility("BerserkUseHint", true)
+        end
+
+        _G._OnItemObtainedClosed = function()
+            UI.SetElementVisibility("BerserkUseHint", false)
+            _G._OnItemObtainedClosed = nil
+        end
 
         self.gameObject:SetActive(false)
-        --GameObject.Destroy(self.gameObject)
-        
     else
         Engine.Log("[Potion] ERROR: _G.ShowItemObtained es nil")
     end
 end
 
-local function FindPotionMesh(self)
-    --self.meshObj = GameObject.FindInChildren(self.gameObject, tostring(self.public.meshName))
-    --if not self.meshObj then Engine.Log("[Potion] Unable to retrieve Mesh Object") end
-end
 
 function Initialize(self)
     self.inRange       = false
-    self.obtained        = false
+    self.obtained      = false
     self.inputCooldown = 0.0
     self.waitingPopup  = false
     self.popupTimer    = 0.0
-    --self.closed = false
-    --self.meshObj = nil
-
-    --FindPotionMesh(self)
-    
 end
 
-
 function Start(self)
-    
     Initialize(self)
 end
 
 function Update(self, dt)
-
     if not self.inputCooldown then self.inputCooldown = 0.0 end
 
-    --if not self.meshObj then FindPotionMesh(self) end
-	
     if self.inputCooldown > 0 then
         self.inputCooldown = self.inputCooldown - dt
     end
 
-    --Engine.Log("[Potion] Is obtainable potion active?: " ..tostring(_G.ItemObtainedActive))
-    --Engine.Log("[Potion] Input cooldown = "..tostring(self.inputCooldown))
-
-    --Esperando popup
+    -- Esperando popup
     if self.waitingPopup then
         self.popupTimer = self.popupTimer + dt
         if self.popupTimer >= POPUP_DELAY then
@@ -151,18 +142,12 @@ function Update(self, dt)
     if _G.ItemObtainedActive and self.inputCooldown <= 0 then
         if Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A") then
             self.inputCooldown = COOLDOWN_TIME
-            if _G.HideItemObtained then
-                _G.HideItemObtained()
-            end
+            if _G.HideItemObtained then _G.HideItemObtained() end
+            if _G._OnItemObtainedClosed then _G._OnItemObtainedClosed() end
             self.closed = true
-            
-            --_G.ItemObtainedActive = false
-            --Initialize(self)
-            
         end
         return
     end
-
 
     if self.obtained then return end
 
@@ -171,38 +156,24 @@ function Update(self, dt)
 
     local myPos     = self.transform.worldPosition
     local playerPos = player.transform.worldPosition
-
     local dx = myPos.x - playerPos.x
     local dz = myPos.z - playerPos.z
     local dist = math.sqrt(dx*dx + dz*dz)
 
-   
-
     if dist < self.public.radius then
         self.inRange = true
-        if not _G.ItemObtainedActive then
-            showPrompt(self)
-        end
+        if not _G.ItemObtainedActive then showPrompt(self) end
     else
-        
-            self.inRange = false
-            hidePrompt(self)
-        
+        self.inRange = false
+        hidePrompt(self)
     end
 
     if self.inRange and not _G.ItemObtainedActive and self.inputCooldown <= 0 and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A")) then
-
         Engine.Log("[Potion] Obteniendo Poción")
-
         self.obtained = true
         hidePrompt(self)
         self.inputCooldown = COOLDOWN_TIME
-
-        --Lanzar popup con delay
         self.waitingPopup = true
         self.popupTimer   = 0.0
     end
-
-
-
 end

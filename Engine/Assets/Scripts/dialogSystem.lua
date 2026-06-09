@@ -14,8 +14,8 @@ local wasAmbient = false
 _G._IsDialogActive = false
 
 local PORTRAIT_MAP = {
-    ["Telémaco"]    = "Portrait_Telemaco",
-    ["Atenea"]      = "Portrait_Atenea",
+    ["Telemachus"]  = "Portrait_Telemaco",
+    ["Athena"]      = "Portrait_Atenea",
     ["John cartel"] = "Portrait_JohnCartel",
 }
 
@@ -28,15 +28,15 @@ local allDialogs = {
         id = "intro",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
-                text      = "Telémaco, al fin despiertas. El océano fue en tu contra, pero no hay tiempo que perder. Adéntrate en el bosque y no te dejes engañar por su aspecto pacífico, el mal habita en él. Sé cauto, pues un solo paso en falso podría ser el último.",
+                text      = "Telemachus, you finally awaken. The ocean turned against you, but there is no time to lose. Enter the forest, and do not be deceived by its peaceful appearance, evil dwells within it. Be cautious, because a single false step could be your last.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
-                text      = " Uf… de acuerdo. ¡Allá voy!",
+                text      = "Ugh… very well. Here I go!",
                 mood      = "Decided"
             }
         }
@@ -46,15 +46,15 @@ local allDialogs = {
         id = "checkpointInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
-                text      = " Has hallado uno de mis altares, si los activas te resguardarán. Mantén los ojos bien abiertos, los encontrarás donde más los necesites.",
+                text      = "You have found one of my altars. If you activate them, they will shelter you. Keep your eyes open, you will find them where you need them most.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Saber que velas por mí, aun desde la distancia, me alivia. Gracias.",
+                text      = "Knowing that you watch over me, even from afar, brings me comfort. Thank you Athena.",
                 mood      = "Relieved"
             }
         }
@@ -64,15 +64,15 @@ local allDialogs = {
         id = "sanctuaryInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
-                text      = "El santuario de la isla, antiguamente lugar de culto a Hades, sirve de puente hacia el inframundo. Para abrirlo deberás encontrar y desactivar las estatuas de Cerbero.",
+                text      = "The island’s sanctuary, once a place of worship to Hades, serves as a bridge to the Underworld. To open it, you must find and deactivate the statues of Cerberus.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
-                text      = "Será una misión ardua, pero no me rendiré ahora.",
+                text      = "It will be a harsh mission, but I will not turn back now.",
                 mood      = "Generic"
             }
         }
@@ -82,9 +82,9 @@ local allDialogs = {
         id = "maskInfo",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
-                text      = "Los dioses otorgaron estas máscaras como favor a sus fieles. Vístelas, sin su poder divino no vencerás.",
+                text      = "The gods granted these masks as a gift to their faithful. Wear them, without their divine power you will not prevail.",
                 mood      = ""
             }
         }
@@ -94,15 +94,15 @@ local allDialogs = {
         id = "portalWarning",
         dialogs = {
             {
-                character = "Atenea",
+                character = "Athena",
                 portrait  = "Textures/Atenea.png",
-                text      = "Extrema cautela, Telémaco. Antaño, el inframundo tenía un orden, ahora el caos y la crueldad reinan en él. Recuerda lo aprendido, pues sólo tú cruzarás el portal. No dudes en regresar si encuentras una considerable amenaza.",
+                text      = "Tread with caution, Telemachus. Long ago, the Underworld had order, now chaos and cruelty reign within it. Remember all you have learned, you alone shall cross the portal. Do not hesitate to return if you encounter a threat beyond your strength.",
                 mood      = ""
             },
             {
-                character = "Telémaco",
+                character = "Telemachus",
                 portrait  = "Textures/Telemaco.png",
-                text      = " ¿Yo solo? No negaré que me provoca pavor, pero no puedo detenerme ahora. Reuniré el valor necesario, cruzaré el portal, y la próxima vez que me veas será con Odiseo.",
+                text      = "Alone? I will not deny that fear grips me, but I cannot stop now. I will gather the courage I need, cross the portal, and the next time you see me, I will be with Odysseus.",
                 mood      = "Scared"
             }
         }
@@ -180,9 +180,11 @@ local function loadDialogEntry(entry)
     setPortrait(entry.character)
 
     if charSFX then
-        if entry.character == "Atenea" then
+
+        if entry.character == "Atenea" or entry.character == "Athena" then
             charSFX:SelectPlayAudioEvent("UI_OwlHoot")
-        elseif entry.character == "Telémaco" or entry.character == "Telemaco" then
+        elseif entry.character == "Telémaco" or entry.character == "Telemachus" then
+
             Audio.SetSwitch("Player_Voice", tostring(entry.mood), charSFX)
             charSFX:SelectPlayAudioEvent("UI_TeleVocals")
         end

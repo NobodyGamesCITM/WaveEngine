@@ -21,10 +21,12 @@ local function updateItemIcon(potionType)
     if potionType == "Berserk" then
         UI.SetElementVisibility("PotionImageHealth",  false)
         UI.SetElementVisibility("PotionImageBerserk", true)
+        UI.SetElementVisibility("BerserkUseHint",     true)   
     else
         -- "Health" o cualquier otro valor
         UI.SetElementVisibility("PotionImageHealth",  true)
         UI.SetElementVisibility("PotionImageBerserk", false)
+        UI.SetElementVisibility("BerserkUseHint",     false)  
     end
 end
 

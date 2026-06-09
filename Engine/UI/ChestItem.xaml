@@ -11,7 +11,6 @@ d:DesignWidth="1280" d:DesignHeight="720">
 
     <Grid.Resources>
         <Storyboard x:Key="PotionAppear">
-
             <DoubleAnimation
                 Storyboard.TargetName="PotionScale"
                 Storyboard.TargetProperty="ScaleX"
@@ -21,7 +20,6 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="8"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
-
             <DoubleAnimation
                 Storyboard.TargetName="PotionScale"
                 Storyboard.TargetProperty="ScaleY"
@@ -31,7 +29,6 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="8"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
-
         </Storyboard>
     </Grid.Resources>
 
@@ -39,13 +36,11 @@ d:DesignWidth="1280" d:DesignHeight="720">
         <Grid Width="1280" Height="720">
 
             <Grid x:Name="ItemObtainedPanel"
-                  Visibility="Hidden"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Width="300"
-                  Height="360">
+                  Height="360" Visibility="Hidden">
 
-                <!-- Fondo con borde dorado -->
                 <Border CornerRadius="12" BorderThickness="2">
                     <Border.Background>
                         <SolidColorBrush Color="#E6000000"/>
@@ -65,9 +60,9 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <!-- Título -->
                     <TextBlock x:Name="ItemObtainedText"
                                Grid.Row="0"
-                               Text="¡Poción obtenida!"
+                               Text="¡Potion obtained!"
                                FontSize="22"
-                               FontFamily="Times New Roman"
+                               FontFamily="./#Cinzel"
                                FontWeight="Bold"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -89,9 +84,7 @@ d:DesignWidth="1280" d:DesignHeight="720">
                     <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image x:Name="PotionImageHealth"
                                Source="Textures/Pocion.PNG"
-                               Width="120" Height="120"
-                               Visibility="Visible"
-                               RenderTransformOrigin="0.5,0.5">
+                               Width="120" Height="120" RenderTransformOrigin="0.5,0.5">
                             <Image.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform x:Name="PotionScale" ScaleX="1" ScaleY="1"/>
@@ -101,10 +94,13 @@ d:DesignWidth="1280" d:DesignHeight="720">
                         </Image>
                         <Image x:Name="PotionImageBerserk"
                                Source="Textures/Berserk.png"
-                               Width="120" Height="120"
-                               Visibility="Hidden"
-                               RenderTransformOrigin="0.5,0.5"/>
+                               Width="120" Height="120" Margin="74,0,74,55" Visibility="Hidden" RenderTransformOrigin="0.5,0.5"/>
                     </Grid>
+                    <StackPanel x:Name="BerserkUseHint" Orientation="Horizontal" Width="103" Height="45" Margin="0,0,0,4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed">
+                        <Image x:Name="rb" Source="Textures/rb.png" Width="39" Height="30" Margin="0,2,6,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ToUse" Text="To use" VerticalAlignment="Center" Foreground="#FFFFFFFF" FontFamily="Arial" FontSize="18"/>
+                    </StackPanel>
+
 
                     <!-- Separador inferior -->
                     <Rectangle Grid.Row="2" Height="1" VerticalAlignment="Top">
@@ -118,21 +114,18 @@ d:DesignWidth="1280" d:DesignHeight="720">
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
-
                         <Image x:Name="ItemObtainedKeyIcon"
                                Source="Textures/F.PNG"
                                Width="32" Height="32"
                                VerticalAlignment="Center"
                                Margin="0,0,8,0"/>
-
                         <Image x:Name="ItemObtainedGamepadIcon"
                                Source="Textures/A.PNG"
                                Width="32" Height="32"
                                VerticalAlignment="Center"
                                Margin="0,0,8,0"
                                Visibility="Hidden"/>
-
-                        <TextBlock Text="Reclamar"
+                        <TextBlock Text="Claim"
                                    FontSize="20"
                                    FontFamily="Arial"
                                    VerticalAlignment="Center">
@@ -140,11 +133,9 @@ d:DesignWidth="1280" d:DesignHeight="720">
                                 <SolidColorBrush Color="#FFCCCCCC"/>
                             </TextBlock.Foreground>
                         </TextBlock>
-
                     </StackPanel>
 
                 </Grid>
-
             </Grid>
 
         </Grid>

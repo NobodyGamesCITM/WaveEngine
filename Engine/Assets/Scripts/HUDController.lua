@@ -49,6 +49,11 @@ local targetIconSizes = {
 
 local prevActiveMaskForSize = ""
 
+local fadeTimer = 0
+local FADE_DURATION = 1.0
+local isFadingIn = false
+local hadAnimActive = false
+
 -- ─── Helpers
 local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
@@ -60,9 +65,9 @@ local MASK_BG_MARGINS = {
         ares   = { 124,  80,  28,   0 },
     },
     ["Hermes"] = {
-        apollo = {   5, 156,  80,   0 },
-        hermes = {  40,  46,   0,  10 },
-        ares   = { 150,   0,  80,   0 },
+        apollo = {  -5,  80, 156,   0 },
+        hermes = {  40,   0,  46,  10 },
+        ares   = { 150,  80,   0,   0 },
     },
     ["Ares"] = {
         apollo = {  24,  50, 128,  30 },
@@ -313,8 +318,11 @@ _G.ForceRefreshHUD = ForceRefreshHUD
 local saveIconTimer = 0.0
 
 function _G.ShowSaveIcon()
+    if myCanvas then
+        myCanvas:PlayStoryboard("SaveFeedbackAnim")
+    end
     UI.SetElementVisibility("SaveIconContainer", true)
-    saveIconTimer = 2.0
+    saveIconTimer = 4.0
 end
 
 function Start(self)
@@ -327,7 +335,36 @@ function Update(self, dt)
         return
     end
 
-    -- Cambio de máscara por D-Pad / teclas de flecha
+    if _G.CinematicActive or _G.PlayerInAnim or _G.SceneManagerState == 3 or _G.SceneManagerState == 0 or _G.SceneManagerState == 2 then
+        if myCanvas then myCanvas:SetOpacity(0.0) end
+        isFadingIn = false
+        hadAnimActive = true
+        _G.HUD_IsFading = false
+        return
+    end
+
+    if _G.TitleTrigger_HUDShouldStartHidden and not _G.HUD_IsFading and not _G.TitleTrigger_Active then
+        if myCanvas then myCanvas:SetOpacity(0.0) end
+        isFadingIn = false
+        hadAnimActive = false 
+        return
+    end
+
+    if isFadingIn then
+        _G.HUD_IsFading = true
+        fadeTimer = fadeTimer + dt
+        local alpha = math.min(fadeTimer / FADE_DURATION, 1.0)
+        if myCanvas then myCanvas:SetOpacity(alpha) end
+        if alpha >= 1.0 then
+            isFadingIn = false
+            _G.HUD_IsFading = false
+        end
+    elseif hadAnimActive then
+        isFadingIn = true
+        fadeTimer = 0.0
+        hadAnimActive = false
+    end
+
     if _G.PlayerInstance and not _G._PlayerController_isDead and not _G.PlayerInAnim then
         local targetMask = nil
         if Input.GetGamepadButtonDown("DPadLeft") or Input.GetKeyDown("Left") then
@@ -383,7 +420,6 @@ function Update(self, dt)
 
     UpdateMaskIconSizeLerp(dt, activeMask)
 
-    -- Icono de guardado
     if saveIconTimer > 0 then
         saveIconTimer = saveIconTimer - dt
         if saveIconTimer <= 0 then

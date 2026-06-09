@@ -6,7 +6,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-  d:DesignWidth="1280" d:DesignHeight="720">
+  d:DesignWidth="1920" d:DesignHeight="1080">
 
     <Grid.Resources>
         <ResourceDictionary>
@@ -309,103 +309,105 @@
     <!-- Overlay oscuro de fondo -->
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <!-- LayoutRoot sin Opacity ni ScaleTransform: visible desde el frame 0 -->
-    <Grid x:Name="LayoutRoot">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="275"/>
-            <ColumnDefinition Width="672*"/>
-            <ColumnDefinition Width="275"/>
-        </Grid.ColumnDefinitions>
+    <!-- EL TRUCO RESPONSIVO: Forzamos la resolución base en un Viewbox principal -->
+    <Viewbox Stretch="Uniform">
+        <Grid x:Name="LayoutRoot" Width="1280" Height="720">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275"/>
+                <ColumnDefinition Width="730*"/>
+                <ColumnDefinition Width="275"/>
+            </Grid.ColumnDefinitions>
 
-        <Viewbox x:Name="BackgroundViewBox" Width="668" Height="668" Margin="31,44,31,8" Grid.Column="1">
-            <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
-        </Viewbox>
+            <Viewbox x:Name="BackgroundViewBox" Width="668" Height="668" Margin="31,44,31,8" Grid.Column="1">
+                <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
+            </Viewbox>
 
-        <Grid x:Name="Menu" Margin="118,79" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="167*"/>
-                <RowDefinition Height="85*"/>
-                <RowDefinition Height="468*"/>
-            </Grid.RowDefinitions>
+            <Grid x:Name="Menu" Margin="118,79" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="167*"/>
+                    <RowDefinition Height="85*"/>
+                    <RowDefinition Height="468*"/>
+                </Grid.RowDefinitions>
 
-            <!-- MainMenu_Viewbox: TransformGroup completo -->
-            <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Margin="62,17,62,348" Grid.Row="1" Grid.RowSpan="2"
-                     RenderTransformOrigin="0.5,0.5">
-                <Viewbox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="0"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform X="-200"/>
-                    </TransformGroup>
-                </Viewbox.RenderTransform>
-                <Grid Height="80" Width="445">
-                    <TextBlock x:Name="MainMenu_text" FontFamily="./#Cinzel Decorative" FontWeight="Bold" TextAlignment="Center" FontSize="65" Text="SETTINGS" Width="445"
-                               Foreground="White"/>
+                <!-- MainMenu_Viewbox: TransformGroup completo -->
+                <Viewbox x:Name="MainMenu_Viewbox" Stretch="Uniform" Margin="62,17,62,348" Grid.Row="1" Grid.RowSpan="2"
+                         RenderTransformOrigin="0.5,0.5">
+                    <Viewbox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="0"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-200"/>
+                        </TransformGroup>
+                    </Viewbox.RenderTransform>
+                    <Grid Height="80" Width="445">
+                        <TextBlock x:Name="MainMenu_text" FontFamily="./#Cinzel Decorative" FontWeight="Bold" TextAlignment="Center" FontSize="65" Text="SETTINGS" Width="445"
+                                   Foreground="White"/>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+
+            <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
+            <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Height="277" Margin="165,331,165,112" Grid.Column="1">
+                <Grid x:Name="Buttons" Margin="36,10,36,-10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition Height="45*"/>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition Height="45*"/>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition Height="45*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="SoundButton" RenderTransformOrigin="0.5,0.5" Content="Audio" Command="{Binding Path=Commands[SoundsButton]}" Margin="0,5,0,25" Grid.Row="1" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="0"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-200"/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Loaded">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                    <Button x:Name="GraphicsButton" RenderTransformOrigin="0.5,0.5" Content="Graphics" Command="{Binding Path=Commands[GraphicsButton]}" Margin="0,0,0,30" Grid.Row="3" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="0"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-200"/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                    <Button x:Name="BackButton" RenderTransformOrigin="0.5,0.5" Content="Back" Command="{Binding Path=Commands[BackButton]}" Margin="0,74,0,35" Grid.Row="3" Grid.RowSpan="3" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="0"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-200"/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <noesis:SetFocusAction/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
                 </Grid>
             </Viewbox>
         </Grid>
-
-        <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
-        <Viewbox x:Name="Buttons_ViewBox" Stretch="Uniform" Height="277" Margin="165,331,165,112" Grid.Column="1">
-            <Grid x:Name="Buttons" Margin="36,10,36,-10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0*"/>
-                    <RowDefinition Height="45*"/>
-                    <RowDefinition Height="0*"/>
-                    <RowDefinition Height="45*"/>
-                    <RowDefinition Height="0*"/>
-                    <RowDefinition Height="45*"/>
-                </Grid.RowDefinitions>
-                <Button x:Name="SoundButton" RenderTransformOrigin="0.5,0.5" Content="Audio" Command="{Binding Path=Commands[SoundsButton]}" Margin="0,5,0,25" Grid.Row="1" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="0"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform X="-200"/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="Loaded">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </Button>
-                <Button x:Name="GraphicsButton" RenderTransformOrigin="0.5,0.5" Content="Graphics" Command="{Binding Path=Commands[GraphicsButton]}" Margin="0,0,0,30" Grid.Row="3" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="0"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform X="-200"/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </Button>
-                <Button x:Name="BackButton" RenderTransformOrigin="0.5,0.5" Content="Back" Command="{Binding Path=Commands[BackButton]}" Margin="0,74,0,35" Grid.Row="3" Grid.RowSpan="3" FontFamily="./#Cinzel" FontWeight="Medium" Style="{StaticResource TextButtonStyle}">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="0"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform X="-200"/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <noesis:SetFocusAction/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </Viewbox>
-    </Grid>
+    </Viewbox>
 </Grid>

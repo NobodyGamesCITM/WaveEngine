@@ -1,4 +1,5 @@
-local BOSS_BAR_MAX_WIDTH = 627
+local BOSS_BAR_MAX_WIDTH_HEALTH = 748.0   
+local BOSS_BAR_MAX_WIDTH_SHIELD = 674.0  
 
 local canvasComponent = nil
 
@@ -10,20 +11,22 @@ local function Lerp(a, b, t)
     return a + (b - a) * math.min(1, t)
 end
 
-local currentDisplayWidth = BOSS_BAR_MAX_WIDTH
+local currentDisplayHealthWidth = BOSS_BAR_MAX_WIDTH_HEALTH
+local currentDisplayShieldWidth = BOSS_BAR_MAX_WIDTH_SHIELD
 
 public = {
     xamlPath    = "UI/BossBar.xaml",
-    barMaxWidth = 627.0,
     fadeSpeed   = FADE_SPEED,
     lerpSpeed   = 10.0,
 }
 
 _G.BossBar_SetVisibility = _G.BossBar_SetVisibility or function() end
 _G.BossBar_RefreshHealth = _G.BossBar_RefreshHealth or function() end
+_G.BossBar_RefreshShield = _G.BossBar_RefreshShield or function() end
 _G.BossBar_ResetToFull   = _G.BossBar_ResetToFull   or function() end
 
-local targetWidth = BOSS_BAR_MAX_WIDTH
+local targetHealthWidth = BOSS_BAR_MAX_WIDTH_HEALTH
+local targetShieldWidth = BOSS_BAR_MAX_WIDTH_SHIELD
 local knownMaxHp  = 300
 
 local function ApplyOpacity()
@@ -40,15 +43,25 @@ local function RefreshBar(currentHp, maxHp)
     knownMaxHp = maxHp
     local clampedHp     = math.max(0, math.min(maxHp, currentHp))
     local healthPercent = clampedHp / maxHp
-    targetWidth = healthPercent * BOSS_BAR_MAX_WIDTH
+    targetHealthWidth   = healthPercent * BOSS_BAR_MAX_WIDTH_HEALTH
+end
+
+local function RefreshShieldBar(currentShield, maxShield)
+    if not maxShield or maxShield <= 0 then return end
+    local clamped     = math.max(0, math.min(maxShield, currentShield))
+    local percent     = clamped / maxShield
+    targetShieldWidth = percent * BOSS_BAR_MAX_WIDTH_SHIELD
 end
 
 local function ResetBarToFull(maxHp)
     if not maxHp or maxHp <= 0 then return end
-    knownMaxHp          = maxHp
-    targetWidth         = BOSS_BAR_MAX_WIDTH
-    currentDisplayWidth = BOSS_BAR_MAX_WIDTH
-    UI.SetElementWidth("BossBarFill", BOSS_BAR_MAX_WIDTH)
+    knownMaxHp                = maxHp
+    targetHealthWidth         = BOSS_BAR_MAX_WIDTH_HEALTH
+    targetShieldWidth         = BOSS_BAR_MAX_WIDTH_SHIELD
+    currentDisplayHealthWidth = BOSS_BAR_MAX_WIDTH_HEALTH
+    currentDisplayShieldWidth = BOSS_BAR_MAX_WIDTH_SHIELD
+    UI.SetElementWidth("HealthBar",      BOSS_BAR_MAX_WIDTH_HEALTH)
+    UI.SetElementWidth("ShieldBar_Grid", BOSS_BAR_MAX_WIDTH_SHIELD)
 end
 
 function Start(self)
@@ -62,20 +75,23 @@ function Start(self)
         return
     end
 
-    BOSS_BAR_MAX_WIDTH  = self.public.barMaxWidth or 627.0
-    FADE_SPEED          = self.public.fadeSpeed   or 3.0
+    FADE_SPEED = self.public.fadeSpeed or 3.0
 
-    currentDisplayWidth = BOSS_BAR_MAX_WIDTH
-    targetWidth         = BOSS_BAR_MAX_WIDTH
+    currentDisplayHealthWidth = BOSS_BAR_MAX_WIDTH_HEALTH
+    currentDisplayShieldWidth = BOSS_BAR_MAX_WIDTH_SHIELD
+    targetHealthWidth         = BOSS_BAR_MAX_WIDTH_HEALTH
+    targetShieldWidth         = BOSS_BAR_MAX_WIDTH_SHIELD
 
     _G.BossBar_SetVisibility = function(isVisible) SetVisible(isVisible) end
     _G.BossBar_RefreshHealth = function(currentHp, maxHp) RefreshBar(currentHp, maxHp) end
+    _G.BossBar_RefreshShield = function(currentShield, maxShield) RefreshShieldBar(currentShield, maxShield) end
     _G.BossBar_ResetToFull   = function(maxHp) ResetBarToFull(maxHp) end
 
     currentOpacity = 0.0
     targetOpacity  = 0.0
     ApplyOpacity()
-    UI.SetElementWidth("BossBarFill", BOSS_BAR_MAX_WIDTH)
+    UI.SetElementWidth("HealthBar",      BOSS_BAR_MAX_WIDTH_HEALTH)
+    UI.SetElementWidth("ShieldBar_Grid", BOSS_BAR_MAX_WIDTH_SHIELD)
 
     Engine.Log("[BossBarController] Ready.")
 end
@@ -90,8 +106,13 @@ function Update(self, dt)
         ApplyOpacity()
     end
 
-    if math.abs(currentDisplayWidth - targetWidth) > 0.1 then
-        currentDisplayWidth = Lerp(currentDisplayWidth, targetWidth, dt * (self.public.lerpSpeed or 10.0))
-        UI.SetElementWidth("BossBarFill", currentDisplayWidth)
+    if math.abs(currentDisplayHealthWidth - targetHealthWidth) > 0.1 then
+        currentDisplayHealthWidth = Lerp(currentDisplayHealthWidth, targetHealthWidth, dt * (self.public.lerpSpeed or 10.0))
+        UI.SetElementWidth("HealthBar", currentDisplayHealthWidth)
+    end
+
+    if math.abs(currentDisplayShieldWidth - targetShieldWidth) > 0.1 then
+        currentDisplayShieldWidth = Lerp(currentDisplayShieldWidth, targetShieldWidth, dt * (self.public.lerpSpeed or 10.0))
+        UI.SetElementWidth("ShieldBar_Grid", currentDisplayShieldWidth)
     end
 end

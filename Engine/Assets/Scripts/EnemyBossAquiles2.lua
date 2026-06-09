@@ -166,7 +166,7 @@ local introPlayed         = false
 local fase2Active    = false
 local fase2Timer     = 0
 local Fase2_Duration = 60        
-
+local timeAnimStartPhase2= 6
 local spawnTimer     = 0
 local SPAWN_INTERVAL = 20 
 
@@ -382,6 +382,13 @@ end
 
 local function UpdateFase2(self, dt)
 
+    if timeAnimStartPhase2>0 then
+        timeAnimStartPhase2 = timeAnimStartPhase2 -dt
+        return
+    else
+        anim:Play("Idle", 0.2) 
+    end
+
     ProcessPendingPositions()
 
     if _G._Fase2SpawnGrace and _G._Fase2SpawnGrace > 0 then
@@ -390,14 +397,28 @@ local function UpdateFase2(self, dt)
 
 
     if rb then
-        if isKinematic then
-            rb:SetBody(1)
-            isKinematic = false
+        if not isKinematic then
+            rb:SetBody(2)
+            isKinematic = true
         end
         rb:SetLinearVelocity(0, 0, 0)
     end
 
     fase2Timer = fase2Timer - dt
+
+    if fase2Timer <= 12 then
+        BaseMat.SetTexture("14923760841240419563")
+    elseif fase2Timer > 12 and fase2Timer <= 24 then
+        BaseMat.SetTexture("14923760841240419563")
+    elseif fase2Timer > 24 and fase2Timer <= 36 then
+        BaseMat.SetTexture("770031546471412972")
+    elseif fase2Timer > 36 and fase2Timer <= 48 then
+        BaseMat.SetTexture("15230868181932546860")        
+    else
+        BaseMat.SetTexture("10242481670410472725")
+
+    end 
+
     local allEnemies  = GameObject.FindByTag("Enemy_Fase2")
     local totalLive   = 0
     if allEnemies then
@@ -416,11 +437,12 @@ local function UpdateFase2(self, dt)
             SpawnSeries(self)
         end
 
-    elseif AllEnemiesDead() and totalLive==0  then
+    elseif totalLive == 0 and AllEnemiesDead() then
         fase2Active    = false
+         BaseMat.SetTexture("8744963314714344684")
         _G._Aquiles_Fase2Active = false
         _G._Aquiles_Fase3Active = true
-        _G._AquilesDefeated = true
+       -- _G._AquilesDefeated = true
         spawnedEnemies = {}
  
         -- Stats fase 3
@@ -438,11 +460,13 @@ local function UpdateFase2(self, dt)
         if _G.BossBar_ResetToFull    then _G.BossBar_ResetToFull(400) end
         if _G.BossBar_SetVisibility  then _G.BossBar_SetVisibility(true) end
         if _G.BossBar_RefreshHealth  then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+        if _G.BossBar_RefreshShield  then _G.BossBar_RefreshShield(posture, 50) end
  
         
         Engine.Log("[AQUILES] Fase 3 comenzada")
         ChangeState(State.COMBAT_MOVE)
     end
+
 end
 
 local function TakeDamage(self, amount, attackerPos)
@@ -470,6 +494,9 @@ local function TakeDamage(self, amount, attackerPos)
     if hasPosture and not inOpportunity then
         posture = posture - amount
         SelectPlaySFX(armorSFX, "SFX_AquilesShield")
+        if _G.BossBar_RefreshShield then
+            _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+        end
         if sparksPs then sparksPs:Play() end
 
         if posture > 0 then
@@ -506,6 +533,9 @@ local function TakeDamage(self, amount, attackerPos)
 
     if _G.BossBar_RefreshHealth then
         _G.BossBar_RefreshHealth(hp, currentMaxHp)
+    end
+    if _G.BossBar_RefreshShield then
+        _G.BossBar_RefreshShield(posture, self.public.maxPosture)
     end
 
 
@@ -544,8 +574,11 @@ local function TakeDamage(self, amount, attackerPos)
             if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
  
         elseif not fase2Active then
+            DestroyChargeFeedback(self)
             fase1       = false
             fase2Active = true
+            _G._AquilesDefeated = false
+            _G._Aquiles_Fase3Active = false
             _G._Aquiles_Fase2Active = true 
             fase2Timer  = Fase2_Duration
             spawnTimer  = 0
@@ -556,9 +589,11 @@ local function TakeDamage(self, amount, attackerPos)
             blockHits = true
  
             StopMovement()
-            if anim then anim:Play("Idle", 0.2) end
+            if anim then anim:Play("Start_Phase2", 0.2) end
 
             -- Primera serie
+            if _G.BossBar_RefreshHealth then _G.BossBar_RefreshHealth(hp, currentMaxHp) end
+            if _G.BossBar_RefreshShield then _G.BossBar_RefreshShield(posture, self.public.maxPosture) end
             SpawnSeries(self)
             Engine.Log("[AQUILES] Fase 2 iniciada")
         end
@@ -694,11 +729,6 @@ local function UpdateIdle(self, dist)
         if nav and nav:CheckDestination(pPos.x, pPos.y, pPos.z) then
             
             if dist <= self.public.detectRange then
-                if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
-                    _G.BossBar_SetVisibility(true)
-                    _G.BossBar_RefreshHealth(hp, currentMaxHp)
-                end
-
                 if not introPlayed then
                     introPlayed         = true
                     isIntroCinematic    = true
@@ -707,6 +737,7 @@ local function UpdateIdle(self, dist)
                     StopMovement()
                     _G._BossIntroCinematic = true
                     Audio.SetMusicState("Boss_Intro")
+                    Engine.Log("Setting Music State to Boss Intro from Aquiles Script")
 
                     self.transform:SetPosition(131.059, -6.862, -648.939)
                     rb:SetRotation(180, 79.759, 180)
@@ -719,7 +750,7 @@ local function UpdateIdle(self, dist)
                             pcall(function() playerAnim:Play("Idle", 0.0) end)
                             pcall(function() playerAnim:Play("Boss", 0.3) end)
                         end
-                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+                        
                     end
 
                     if anim then
@@ -728,8 +759,14 @@ local function UpdateIdle(self, dist)
                     end
                     if _G.PlayBoss2IntroCinematic then
                         _G.PlayBoss2IntroCinematic()
+                        if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(INTRO_DURATION) end
+
                     end
                 else
+                    if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
+                        _G.BossBar_SetVisibility(true)
+                        _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                    end
                     ChangeState(State.COMBAT_MOVE)
                     if Audio.GetMusicState() ~= "Boss" then Audio.SetMusicState("Boss") end
                 end
@@ -1229,7 +1266,7 @@ local function UpdateDeath(self, dt)
             self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
         else
             if not isDead then
-                    local door = GameObject.Find("Puerta_Final") 
+                local door = GameObject.Find("Puerta_Final")
                 if door then
                     local doorScript = door:GetComponent("Script")
                     if doorScript and doorScript.OpenDoor then
@@ -1355,6 +1392,9 @@ function Start(self)
     Engine.RequestResource("770031546471412972")
     Engine.RequestResource("14923760841240419563")
 
+    --Rage
+    Engine.RequestResource("8744963314714344684")
+
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
 
@@ -1427,6 +1467,8 @@ function Update(self, dt)
     if not self.gameObject then return end
 
     if pendingReset then
+        DestroyChargeFeedback(self)
+        
         pendingReset = false
         isDead       = false
         hp           = self.public.maxHp
@@ -1503,16 +1545,23 @@ function Update(self, dt)
         isIntroCinematic    = false
         introCinematicTimer = 0.0
         introPlayed         = false
+        timeAnimStartPhase2= 6
 
         _G._Aquiles_Fase2Active = false
         _G._AquilesDefeated     = false
         _G._Aquiles_Fase3Active = false
         _G._Aquiles_ResetColumns = true
 
-
+        
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
         if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
+        if _G.BossBar_RefreshHealth then
+            _G.BossBar_RefreshHealth(hp, currentMaxHp)
+        end
+        if _G.BossBar_RefreshShield then
+            _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+        end
         Engine.Log("[Aquiles] Reset completo")
         return
     end
@@ -1584,6 +1633,7 @@ function Update(self, dt)
         hitCooldown = hitCooldown - dt
         if hitCooldown <= 0 then
             self.alreadyHit = false
+            if fase2Active or _G._Aquiles_Fase3Active then return end
              if hp <= 40 then
                 BaseMat.SetTexture("10242481670410472725")
             elseif hp > 40 and hp <= 70 then
@@ -1692,7 +1742,7 @@ function Update(self, dt)
             end
         end
 
-        --Why is this 3 seconds less than Player.AnimTimer??
+
         --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
 
         if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
@@ -1704,18 +1754,18 @@ function Update(self, dt)
             SelectPlaySFX(spearSFX, "SFX_SpearPull")
         end
 
-        --displaced
+        --displaced (?)
         if introCinematicTimer <= 19.7 and introCinematicTimer >= 19.5 and not Audio.IsEventPlaying("SFX_SpearPlunge") then
             SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
         end
 
-        if introCinematicTimer <= 7.4 and introCinematicTimer >= 7.3 and not Audio.IsEventPlaying("SFX_SpearPrep") then
-            SelectPlaySFX(spearSFX, "SFX_SpearPrep")
-            Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
-        end
+        -- if introCinematicTimer <= 6.58 and introCinematicTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
+        --     SelectPlaySFX(spearSFX, "SFX_SpearPrep")
+        --     Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
+        -- end
 
-        -- if introCinematicTimer <= 7.0 and introCinematicTimer >= 6.9 then
-        --     SelectPlaySFX(stepSFX, "SFX_IntroRoar")
+        -- if introCinematicTimer <= 6.0 and introCinematicTimer >= 6.9 and not Audio.IsEventPlaying("SFX_IntroRoar") then
+        --     SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
         --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
         -- end
 
@@ -1727,6 +1777,9 @@ function Update(self, dt)
             if _G.BossBar_SetVisibility and _G.BossBar_RefreshHealth then
                 _G.BossBar_SetVisibility(true)
                 _G.BossBar_RefreshHealth(hp, currentMaxHp)
+                if _G.BossBar_RefreshShield then
+                    _G.BossBar_RefreshShield(posture, self.public.maxPosture)
+                end
             end
             ChangeState(State.COMBAT_MOVE)
         end
@@ -1801,7 +1854,7 @@ end
 
 function OnTriggerEnter(self, other)
     if blockHits then return end
-    if isDead and hp<=0 then return end
+    if (isDead or fase2Active) and hp<=0 then return end
 
     if other:CompareTag("Wall") then
         if currentState ~= State.CHARGE then
@@ -1816,7 +1869,7 @@ function OnTriggerEnter(self, other)
         local dz = lancePos.z - wallPos.z
         local distLance = sqrt(dx*dx + dz*dz)
 
-        if distLance > 2.0 then return end
+        if distLance > 4.0 then return end
         
         if currentState == State.WALL or currentState == State.RECOVERY or currentState == State.COMBAT_MOVE or currentState == State.IDLE then 
             return 
@@ -1910,6 +1963,8 @@ function OnTriggerEnter(self, other)
 end
 
 function OnTriggerExit(self, other)
+    if fase2Active or _G._Aquiles_Fase3Active then return end
+
     if other:CompareTag("Player") then 
         alreadyHit = false 
 

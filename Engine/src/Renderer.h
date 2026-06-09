@@ -162,6 +162,7 @@ private:
     void DrawRenderList(const std::multimap<float, RenderObject>& map, const CameraLens* camera);
     void DrawRenderList(const std::vector<RenderObject>& list, const CameraLens* camera);
     void DrawWaterList(const std::vector<RenderObject>& list, const CameraLens* camera);
+    void DrawWaterSoulList(const std::vector<RenderObject>& list, const CameraLens* camera);
 
     void DrawParticlesList(const CameraLens* camera);
     void DrawLinesList(const CameraLens* camera);
@@ -180,6 +181,7 @@ private:
     std::unique_ptr<Shader> postProcessShader;
     std::unique_ptr<Shader> standardShader;
     std::unique_ptr<Shader> waterShader;
+    std::unique_ptr<Shader> waterSoulShader;
     std::unique_ptr<Shader> lineShader;
     std::unique_ptr<Shader> outlineShader;
     std::unique_ptr<Shader> depthShader;
@@ -243,6 +245,7 @@ private:
 
     std::vector<RenderObject> opaqueList;
     std::vector<RenderObject> waterList;
+    std::vector<RenderObject> waterSoulList;
     std::multimap<float, RenderObject> transparentList;
     std::multimap<float, ParticleObject> particlesList;
     std::vector<RenderObject> stencilList;

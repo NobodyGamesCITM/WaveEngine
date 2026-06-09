@@ -6,7 +6,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-  d:DesignWidth="1280" d:DesignHeight="720">
+  d:DesignWidth="2048" d:DesignHeight="1080">
 
     <Grid.Resources>
         <ResourceDictionary>
@@ -44,9 +44,25 @@
                                            Foreground="#F0F0F0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
+
+                                <Image x:Name="ArrowR" Source="Textures/Arrow.PNG" Width="30" Height="30" Margin="15,0,0,0" Visibility="Hidden" Opacity="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="-1"/>
+                                            <TranslateTransform x:Name="ArrowRTrans" X="30"/>
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>
                             </StackPanel>
 
                             <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="TextContent" Property="Foreground" Value="#666666"/>
+                                    <Setter TargetName="ButtonContent" Property="Opacity" Value="0.5"/>
+                                    <Setter TargetName="ArrowL" Property="Visibility" Value="Hidden"/>
+                                    <Setter TargetName="ArrowR" Property="Visibility" Value="Hidden"/>
+                                </Trigger>
+
                                 <Trigger Property="IsFocused" Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard x:Name="HoverFocusStoryboard">
@@ -114,149 +130,34 @@
             </Style>
 
             <Storyboard x:Key="Intro">
-
-                <DoubleAnimation Storyboard.TargetName="StartButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 From="0" To="1" BeginTime="0:0:0.0" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="StartButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 From="200" To="0" BeginTime="0:0:0.0" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="ContinueButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 From="0" To="1" BeginTime="0:0:0.05" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="ContinueButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 From="200" To="0" BeginTime="0:0:0.05" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="SettingsButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 From="0" To="1" BeginTime="0:0:0.1" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="SettingsButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 From="200" To="0" BeginTime="0:0:0.1" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="ExitButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 From="0" To="1" BeginTime="0:0:0.15" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="ExitButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 From="200" To="0" BeginTime="0:0:0.15" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
+                <DoubleAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1" BeginTime="0:0:0.0" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" From="200" To="0" BeginTime="0:0:0.0" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1" BeginTime="0:0:0.05" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" From="200" To="0" BeginTime="0:0:0.05" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ContinueButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1" BeginTime="0:0:0.1" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ContinueButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" From="200" To="0" BeginTime="0:0:0.1" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="SettingsButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1" BeginTime="0:0:0.15" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="SettingsButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" From="200" To="0" BeginTime="0:0:0.15" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ExitButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1" BeginTime="0:0:0.2" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ExitButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" From="200" To="0" BeginTime="0:0:0.2" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
             </Storyboard>
 
             <Storyboard x:Key="FadeOut">
-
-                <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity"
-                                 To="1" Duration="0:0:1.5">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="StartButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 To="0" BeginTime="0:0:0.0" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="StartButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 To="200" BeginTime="0:0:0.0" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="ContinueButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 To="0" BeginTime="0:0:0.05" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="ContinueButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 To="200" BeginTime="0:0:0.05" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="SettingsButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 To="0" BeginTime="0:0:0.1" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="SettingsButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 To="200" BeginTime="0:0:0.1" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
-                <DoubleAnimation Storyboard.TargetName="ExitButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                 To="0" BeginTime="0:0:0.15" Duration="0:0:0.25">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="ExitButton"
-                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                 To="200" BeginTime="0:0:0.15" Duration="0:0:0.35">
-                    <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-
+                <DoubleAnimation Storyboard.TargetName="FadeOverlay" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:1.5"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.0" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="TitleText" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.0" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.05" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.05" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ContinueButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.1" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ContinueButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.1" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="SettingsButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.15" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="SettingsButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.15" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ExitButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0" BeginTime="0:0:0.2" Duration="0:0:0.25"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ExitButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" To="200" BeginTime="0:0:0.2" Duration="0:0:0.35"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn"/></DoubleAnimation.EasingFunction></DoubleAnimation>
             </Storyboard>
-
-            <Storyboard x:Key="Anim3D" RepeatBehavior="Forever">
-
-                <DoubleAnimationUsingKeyFrames
-                    Storyboard.TargetProperty="(noesis:Element.Transform3D).(noesis:CompositeTransform3D.RotationX)"
-                    Storyboard.TargetName="ButtonsPanel">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0"  Value="-8">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:6"  Value="-16">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:12" Value="-8">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:16" Value="-8">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-                <DoubleAnimationUsingKeyFrames
-                    Storyboard.TargetProperty="(noesis:Element.Transform3D).(noesis:CompositeTransform3D.RotationY)"
-                    Storyboard.TargetName="ButtonsPanel">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0"  Value="20">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:4"  Value="28">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:8"  Value="22">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:12" Value="28">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                    <EasingDoubleKeyFrame KeyTime="0:0:16" Value="20">
-                        <EasingDoubleKeyFrame.EasingFunction><SineEase EasingMode="EaseInOut"/></EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-
-            </Storyboard>
-
         </ResourceDictionary>
     </Grid.Resources>
+
     <Grid.Background>
         <LinearGradientBrush StartPoint="-0.0055607,0.772681" EndPoint="0.949027,0.792452">
             <GradientStop Offset="1" Color="#6B000000"/>
@@ -269,137 +170,76 @@
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource Intro}"/>
         </EventTrigger>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource Anim3D}"/>
-        </EventTrigger>
     </Grid.Triggers>
 
-    <Grid x:Name="RootContent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="726*"/>
-            <ColumnDefinition Width="305*"/>
-            <ColumnDefinition Width="249*"/>
-            <ColumnDefinition Width="0*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="39*"/>
-            <RowDefinition Height="98*"/>
-            <RowDefinition Height="466*"/>
-            <RowDefinition Height="96*"/>
-            <RowDefinition Height="21*"/>
-        </Grid.RowDefinitions>
-
-        <Viewbox Stretch="Uniform" Margin="0,189,-54,89" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2">
-            <Grid Width="238" Height="278" Margin="-91,-109,-33,-75" HorizontalAlignment="Right">
+    <Viewbox Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+        <Grid x:Name="RootContent" Width="1920" Height="1080">
+            
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Width="600" Margin="0,0,40,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="151*"/>
-                    <RowDefinition Height="489*"/>
-                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="192*"/>
-                    <ColumnDefinition Width="84*"/>
-                    <ColumnDefinition Width="0*"/>
-                </Grid.ColumnDefinitions>
 
-                <Viewbox Margin="60,60,11,0" Grid.Row="1">
-                    <StackPanel x:Name="ButtonsPanel">
-                        <noesis:Element.Transform3D>
-                            <noesis:CompositeTransform3D CenterX="180" CenterY="150"/>
-                        </noesis:Element.Transform3D>
+                <Image x:Name="TitleText"
+                       Grid.Row="0"
+                       Source="Textures/Title.png"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Right"
+                       RenderTransformOrigin="0.5,0.5" Width="553" Margin="0,0,0,60">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="0"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="200"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
 
-                        <Button x:Name="StartButton" Content="New Game" Command="{Binding Path=Commands[StartButton]}"
-                                Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
-                                RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleY="0"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform X="200"/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="Loaded">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </Button>
+                <StackPanel x:Name="ButtonsPanel" Grid.Row="1" HorizontalAlignment="Right">
+                    <Button x:Name="StartButton" Content="New Game" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Loaded"><noesis:SetFocusAction/></b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                        <Button x:Name="ContinueButton" Content="Continue" Command="{Binding Path=Commands[StartButton]}"
-                                Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
-                                RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleY="0"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform X="200"/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </Button>
+                    <Button x:Name="ContinueButton" Content="Continue" Command="{Binding Path=Commands[StartButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                        <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}"
-                                Style="{StaticResource TextButtonStyle}"
-                                HorizontalAlignment="Right" Margin="0,0,0,60" FontFamily="./#Cinzel" FontWeight="Medium"
-                                RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleY="0"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform X="200"/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                            <Button.LayoutTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Button.LayoutTransform>
-                        </Button>
+                    <Button x:Name="SettingsButton" Content="Settings" Command="{Binding Commands[SettingsButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,45" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
 
-                        <Button x:Name="ExitButton" RenderTransformOrigin="0.5,0.5" Content="Exit" Command="{Binding Commands[ExitButton]}"
-                                Style="{StaticResource TextButtonStyle}" Margin="0,0,5,0" HorizontalAlignment="Right" FontFamily="./#Cinzel" FontWeight="Medium">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform X="200"/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <noesis:SetFocusAction/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </Button>
-
-                    </StackPanel>
-                </Viewbox>
+                    <Button x:Name="ExitButton" Content="Exit" Command="{Binding Commands[ExitButton]}" Style="{StaticResource TextButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,0" FontFamily="./#Cinzel" FontWeight="Medium" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup><ScaleTransform ScaleY="0"/><SkewTransform/><RotateTransform/><TranslateTransform X="200"/></TransformGroup>
+                        </Button.RenderTransform>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter"><noesis:SetFocusAction/></b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+                
             </Grid>
-        </Viewbox>
+        </Grid>
+    </Viewbox>
 
-        <Rectangle x:Name="FadeOverlay" Margin="0,-5,0,5" Grid.ColumnSpan="3" Grid.RowSpan="5" Fill="Black" Opacity="0" IsHitTestVisible="False" d:IsLocked="True"/>
-        <TextBlock Text="SON OF ITHACA" Margin="189,40,31,335" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Foreground="#FFFFFFFF" FontFamily="./#Cinzel Decorative" FontSize="70" FontWeight="Bold" TextWrapping="Wrap"/>
+    <Rectangle x:Name="FadeOverlay" Fill="Black" Opacity="0" IsHitTestVisible="False"/>
 
-    </Grid>
 </Grid>

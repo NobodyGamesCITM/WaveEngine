@@ -25,7 +25,7 @@ local myScale
 
 local destroyQueue = {}
 local destroyCooldown = 0
-local DESTROY_INTERVAL = 0.05
+local destroyInterval = 0.05
 
 
 local function BreakObject(self)
@@ -84,11 +84,11 @@ function Update(self, dt)
 
     -- Process destroy queue
     if #destroyQueue > 0 then
-        destroyCooldown = destroyCooldown - dt
-        if destroyCooldown <= 0 then
+        destroyCooldown = destroyCooldown + dt
+        if destroyCooldown >= destroyInterval then
             local go = table.remove(destroyQueue, 1)
             if go then GameObject.Destroy(go) end
-            destroyCooldown = DESTROY_INTERVAL
+            destroyCooldown = 0
         end
     end
 

@@ -1,4 +1,3 @@
-
 --Scene Changer Script
 public = {
     targetScene = "Level2",
@@ -42,9 +41,12 @@ function Start(self)
         _G._PlayerController_introAnim = false 
     end
     
+    _G.SceneManagerState = State.LOADING
     currentState = State.LOADING
     currentAlpha = 1.0 
     loadingTimer = 0.0
+    musicFadeTimer = 0.0
+    volume = 0.0
     
     _G._NewSceneLoaded = true 
 
@@ -64,7 +66,9 @@ function Start(self)
 
     if self.public.currentLevel == "Level2" then
         if not _G.LoadedFromSave then
-            -- FIX: bloquejem la loading screen fins que la cinemàtica de portal estigui llesta
+            
+            _G.CinematicActive = true
+            _G.PlayerInAnim = true
             _G.PortalCinematicReady = false
             portalExitTimer = 8.0
             if _G.PlayerInstance then 
@@ -76,7 +80,6 @@ function Start(self)
             portalExitTimer = 0.0
         end
     else
-        -- Altres escenes no necessiten esperar cap cinemàtica
         _G.PortalCinematicReady = true
     end
 end
@@ -96,18 +99,18 @@ function Update(self, dt)
         if portalExitTimer <= 0 and _G.PlayerInstance then
             portalExitTimer = 0
             _G.PlayerInstance.public.canMove = false
-            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
+            
             if _G.StartPortalExitAnim then _G.StartPortalExitAnim() end
             
             if _G.PlayPortalExitCinematic then _G.PlayPortalExitCinematic() end
+            if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(18.0) end
 
             local anim = _G.PlayerInstance.gameObject:GetComponent("Animation")
             if anim then
                 pcall(function() anim:Play("Idle", 0.0) end)
                 pcall(function() anim:Play("PortalExit", 0.0) end)
             end
-
-            -- FIX: la cinemàtica ja s'ha llançat, ara podem fer el fade out de la loading screen
+           
             _G.PortalCinematicReady = true
             Engine.Log("[SceneChanger] PortalCinematicReady activat.")
         end
@@ -116,33 +119,49 @@ function Update(self, dt)
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-        volume = (self.public.maxVolume or 100.0) * (progressPercent)
+        local progressPercent = math.min((musicFadeTimer/((self.public.musicFadeTime or 2.0) + 0.001)), 1.0)
         
-        if currentAlpha <= 0.0 and volume >= (self.public.maxVolume or 100.0) then
-            volume = self.public.maxVolume or 100.0
+        local targetVol = _G.SavedMusicVolume or self.public.maxVolume or 100.0
+        volume = targetVol * progressPercent
+        
+        if currentAlpha <= 0.0 and progressPercent >= 1.0 then
+            volume = targetVol
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
 
-            -- FIX: si tornem al MainMenu, avisem el MenuManager
-            if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
+            if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") then
                 _G.MainMenuNeedsIntro = true
+                _G.SceneManagerState = State.IDLE
                 Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")
             end
 
             _G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
-        SetSFXVolume(volume)
+        
+
+        if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") then
+            SetSFXVolume(_G.SavedSoundEffectsVolume or 100.0)
+        else
+            SetSFXVolume(volume)
+        end
+
+        if _G.TitleTrigger_Active then
+            return
+        end
+
         SetCanvasAlpha(currentAlpha)
 
     elseif currentState == State.LOADING then
         loadingTimer = loadingTimer + dt
 
-        -- FIX: per Level2 (sense save), esperem tant el loadingDuration mínim
-        -- com que la cinemàtica de portal estigui llesta (_G.PortalCinematicReady)
-        local minTimeReached = loadingTimer >= (self.public.loadingDuration or 2.5)
+        local waitLimit = self.public.loadingDuration or 2.5
+        if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") or self.public.targetScene == "Splash.scene" then
+            waitLimit = 0.3
+        end
+
+        local minTimeReached = loadingTimer >= waitLimit
         local cinematicReady = (_G.PortalCinematicReady == true)
 
         if minTimeReached and cinematicReady then
@@ -164,12 +183,13 @@ function Update(self, dt)
     elseif currentState == State.FADE_IN then
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-        volume = (self.public.maxVolume or 100.0) * (1 - progressPercent)
+        local progressPercent = math.min((musicFadeTimer/((self.public.musicFadeTime or 2.0) + 0.001)), 1.0)
+        local startVol = _G.SavedMusicVolume or self.public.maxVolume or 100.0
+        volume = startVol * (1 - progressPercent)
         
         if currentAlpha >= 1.0 then
             currentAlpha = 1.0
-            volume = 0
+            volume = 0.0
             musicFadeTimer = 0
             loadingTimer = 0
             currentState = State.LOADING
@@ -201,7 +221,8 @@ function StartTransition(self, sceneName)
             _G._SavedBerserkCount = ps.berserkCount
             _G._SavedMaxBerserk   = ps.maxBerserk
         end
-
+        _G.TitleTrigger_HUDShouldStartHidden = false
+        _G.TitleTrigger_Active = false
         _G._SavedCurrentMask = _G._PlayerController_currentMask
         
         if sceneName then

@@ -1,0 +1,81 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 1080px;
+}
+
+.u-section-1 .u-text-1 {
+  font-family: forgotten_uncial;
+  font-weight: 700;
+  letter-spacing: 5px;
+  font-size: 6rem;
+  margin: 397px auto 0;
+}
+
+.u-section-1 .u-text-2 {
+  font-weight: 700;
+  margin: 23px auto 0;
+}
+
+.u-section-1 .u-btn-1 {
+  background-image: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 23px auto 60px;
+  padding: 10px 75px 10px 74px;
+}
+
+.u-section-1 .embed-responsive-1 {
+  position: absolute;
+  width: 178%;
+  left: -39%;
+  height: 178%;
+  top: -39%;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-text-1 {
+    font-size: 4.5rem;
+  }
+
+  .u-section-1 .embed-responsive-1 {
+    height: 100%;
+    width: 204%;
+    left: -52%;
+    top: 0%;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .embed-responsive-1 {
+    width: 267%;
+    left: -83%;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-text-1 {
+    font-size: 3.75rem;
+  }
+
+  .u-section-1 .embed-responsive-1 {
+    width: 356%;
+    left: -128%;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-text-1 {
+    font-size: 3rem;
+  }
+
+  .u-section-1 .embed-responsive-1 {
+    width: 565%;
+    left: -232%;
+  }
+}
+/* page-custom-fonts */
+@font-face {
+  font-family: 'forgotten_uncial';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/forgotten_uncial.ttf);
+}

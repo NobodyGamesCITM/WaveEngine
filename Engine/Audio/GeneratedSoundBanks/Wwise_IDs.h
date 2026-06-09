@@ -115,6 +115,7 @@ namespace AK
         static const AkUniqueID SFX_SWORDPREP = 2568247301U;
         static const AkUniqueID SFX_SWORDSANDSTAB = 2634076410U;
         static const AkUniqueID SFX_SWORDSANDUNSTAB = 3246991747U;
+        static const AkUniqueID SFX_TELETIRED = 1664108421U;
         static const AkUniqueID SFX_TORCHFIRE = 3020549885U;
         static const AkUniqueID SFX_TREEAMBIENCE = 3983796901U;
         static const AkUniqueID SFX_TURNAROUNDRISER = 972774466U;
@@ -133,6 +134,7 @@ namespace AK
         static const AkUniqueID UI_SKIPDIALOG = 344780467U;
         static const AkUniqueID UI_SLIDERTEST = 1643144237U;
         static const AkUniqueID UI_TELEVOCALS = 3718241572U;
+        static const AkUniqueID UI_THUNDERSTORM = 433465711U;
     } // namespace EVENTS
 
     namespace STATES

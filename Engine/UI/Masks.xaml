@@ -42,9 +42,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            <Grid x:Name="MaskObtainedPanel"
-                  Visibility="Collapsed"
-                  Background="#00000000"
+            <Grid x:Name="MaskObtainedPanel" Visibility="Collapsed" Background="#00000000"
                   IsHitTestVisible="False">
                 <Image Source="Textures/PopUp.PNG" Margin="455,189,440,189"/>
                 <TextBlock x:Name="MaskObtainedTitle" RenderTransformOrigin="0.5,0.5" Text="Has obtenido" Margin="0,0,0,970" HorizontalAlignment="Center" Visibility="Hidden" Foreground="#FFFFFFFF" FontFamily="Times New Roman" FontSize="70" TextAlignment="Center" TextWrapping="WrapWithOverflow">
@@ -58,9 +56,9 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                     </TextBlock.RenderTransform>
                 </TextBlock>
                 <Grid>
-                    <Image x:Name="MaskImg_Ares"   Source="Textures/Ares.PNG"   Margin="524,368,1112,405" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Apolo"  Source="Textures/Apolo.PNG"  Margin="521,386,1071,415" Visibility="Collapsed"/>
-                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="533,394,1131,420" Visibility="Collapsed">
+                    <Image x:Name="MaskImg_Ares"   Source="Textures/Ares.PNG" Margin="648,322,1151,626" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Apolo"  Source="Textures/Apolo.PNG" Margin="578,333,1185,614" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Hermes" Source="Textures/Hermes.PNG" Margin="578,323,1203,612" Visibility="Collapsed">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="1"/>
@@ -70,14 +68,47 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <TextBlock x:Name="MaskObtainedName" Margin="314,368,0,647" HorizontalAlignment="Center" Foreground="#FF5F5341" StrokeThickness="70" FontFamily="./#ForgottenUncial" FontSize="50" TextAlignment="Center" TextWrapping="Wrap" TextDecorations="Underline"/>
+                    <TextBlock x:Name="MaskObtainedName" noesis:RichText.Text="MASK OF APOLO" Text="MASK OF ARES" Margin="0,367,0,648" HorizontalAlignment="Center" Visibility="Collapsed" Foreground="#FF817056" StrokeThickness="70" FontFamily="./#Cinzel" FontSize="50" FontStyle="Oblique" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <Image x:Name="MaskImg_Apolo001" Source="Textures/Apolo.PNG" Margin="1182,331,582,616" Visibility="Collapsed"/>
+                    <Image x:Name="MaskImg_Hermes001" Source="Textures/Hermes.PNG" Margin="1338,323,442,612" Visibility="Collapsed">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="MaskImg_Ares001" Source="Textures/Ares.PNG" Margin="1277,322,521,626" Visibility="Collapsed">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                 </Grid>
-                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="466" Margin="496,300,158,100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Grid Width="82" Height="82">
-                        <Image x:Name="MaskKey_Q_GP" Source="Textures/Y.PNG"   Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Image x:Name="MaskKey_Q_KB" Source="Textures/Q.PNG"   Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Width="831" Height="391" Margin="15,190,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Attack.png" Width="290" Height="275" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="83" Height="100">
+                        <Image x:Name="MaskKey_Q1_GP" Source="Textures/Y.PNG" Width="71" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q1_KB" Source="Textures/Q.PNG" Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
-                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="355" Height="185" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Skill.png" Width="348" Height="279" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid Width="105" Height="98">
+                        <Image x:Name="MaskKey_Shift_GP" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG" Width="86" Height="77" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Shift_KB" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
+                </StackPanel>
+                <StackPanel x:Name="MaskPanel_Apolo" Orientation="Horizontal" Width="624" Height="394" Margin="66,190,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Grid Width="82" Height="82">
+                        <Image x:Name="MaskKey_Q_GP" Source="Textures/Y.PNG" Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q_KB" Source="Textures/Q.PNG" Width="82" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
+                    <Image x:Name="MaskSkill_Apolo_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/MainCharacter_Skill Apolo.png" Width="531" Height="303" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="-1"/>
@@ -88,24 +119,12 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                         </Image.RenderTransform>
                     </Image>
                 </StackPanel>
-                <StackPanel x:Name="MaskPanel_Hermes" Orientation="Horizontal" Width="614.66406" Margin="297,180,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Image x:Name="MaskSkill_Hermes_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Attack.png" Width="185" Height="202" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Grid Width="83" Height="100">
-                        <Image x:Name="MaskKey_Q1_GP" Source="Textures/Y.PNG"     Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Image x:Name="MaskKey_Q1_KB" Source="Textures/Q.PNG"     Width="83" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    </Grid>
-                    <Image x:Name="MaskSkill_Hermes_Run" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Hermes_Skill.png" Width="242" Height="171" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Grid Width="105" Height="98">
-                        <Image x:Name="MaskKey_Shift_GP" RenderTransformOrigin="0.5,0.5" Source="Textures/LT.PNG"    Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Image x:Name="MaskKey_Shift_KB" RenderTransformOrigin="0.5,0.5" Source="Textures/Shift.PNG" Width="105" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    </Grid>
-                </StackPanel>
-                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Margin="300,200,0,70" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                <StackPanel x:Name="MaskPanel_Ares" Orientation="Horizontal" Width="604" Height="380" Margin="15,208,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Grid Width="84" Height="87">
-                        <Image x:Name="MaskKey_Q2_GP" Source="Textures/Y.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Image x:Name="MaskKey_Q2_KB" Source="Textures/Q.PNG" Width="84" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                        <Image x:Name="MaskKey_Q2_GP" Source="Textures/Y.PNG" Width="69" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image x:Name="MaskKey_Q2_KB" Source="Textures/Q.PNG" Width="67" Height="87" Margin="0,0,0,12" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
-                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Ares_Attack.png" Width="423" Height="258">
+                    <Image x:Name="MaskSkill_Ares_Heavy" RenderTransformOrigin="0.5,0.5" Source="Textures/Tutorial_Ares_Attack.png" Width="472" Height="351" Margin="0,0,0,6">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="-1"/>

@@ -5,8 +5,8 @@ public = {
     debugSkip          = true,
 }
 
-local FADE_DURATION       = 0.6
-local PANEL_FADE_DURATION = 0.5
+local FADE_DURATION       = 0
+local PANEL_FADE_DURATION = 0
 local PAGE_BREAK_DURATION = 0.6
 
 local sequence = {
@@ -16,6 +16,9 @@ local sequence = {
     { page = "Page2", panel = "Page2_V1" },
     { page = "Page2", panel = "Page2_V2" },
     { page = "Page2", panel = "Page2_V3" },
+    { page = "Page3", panel = "Page3_V1" },
+    { page = "Page3", panel = "Page3_V2" },
+    { page = "Page3", panel = "Page3_V3" },
 }
 
 local currentStep  = 0
@@ -49,6 +52,7 @@ local function resetAllPanels()
     end
     setOpacity("Page1", 0)
     setOpacity("Page2", 0)
+    setOpacity("Page3", 0)
 end
 
 local function showPanel(name)
@@ -115,6 +119,24 @@ local function loadStep(index)
 
     elseif entry.panel == "Page2_V3" then
         if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("SFX_SeaWater") end
+
+    elseif entry.panel == "Page3_V1" then
+        if ambianceSFX and not Audio.IsEventPlaying("UI_ThunderStorm") then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if televoiceSFX then 
+            Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")
+        end
+
+    elseif entry.panel == "Page3_V2" then
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+
+    elseif entry.panel == "Page3_V3" then
+        if owlWingSFX then owlWingSFX:SelectPlayAudioEvent("UI_OwlFly") end
+        if ambianceSFX then ambianceSFX:SelectPlayAudioEvent("UI_ThunderStorm") end
+        if televoiceSFX then 
+            Audio.SetSwitch("Player_Voice", "Scared", televoiceSFX)
+            televoiceSFX:SelectPlayAudioEvent("UI_Televocals")
+        end
 
     else
         if ambianceSFX then ambianceSFX:StopAudioEvent() end
@@ -208,6 +230,9 @@ function Update(self, dt)
     end
 
     if state == "done" then
+        if ambianceSFX then 
+            if ambianceSFX:IsPlaying("UI_ThunderStorm") then ambianceSFX:StopAudioEvent() end
+        end
         if timer >= FADE_DURATION then
             if canvas then canvas:SetOpacity(0) end
             _G.CinematicActive = false

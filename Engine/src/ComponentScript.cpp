@@ -15,6 +15,8 @@ ComponentScript::ComponentScript(GameObject* owner)
     : Component(owner, ComponentType::SCRIPT)
 {
     name = "Script";
+    static int s_reloadCounter = 0;
+    reloadCheckTimer = (float)(s_reloadCounter++ % 60) / 60.0f;
 }
 
 ComponentScript::~ComponentScript()
@@ -40,9 +42,11 @@ void ComponentScript::Update()
 
     // Permitir update si está marcado explícitamente O si es parte de la UI (Canvas)
     bool isPlaying = (app.GetPlayState() == Application::PlayState::PLAYING);
-    bool isUIScript = (owner->GetComponentInParent(ComponentType::CANVAS) != nullptr);
-    bool canUpdate  = isPlaying || updateWhenPaused || isUIScript;
 
+    if (isUIScriptCache < 0) isUIScriptCache = (owner->GetComponentInParent(ComponentType::CANVAS) != nullptr) ? 1 : 0;
+    bool isUIScript = (isUIScriptCache == 1);
+    bool canUpdate  = isPlaying || updateWhenPaused || isUIScript;
+    
     if (!canUpdate) return;
 
     if (!startCalled) {
@@ -50,11 +54,16 @@ void ComponentScript::Update()
         return;
     }
 
-    //EN GAME ESTO NO SE HA DE HACER
-    if (scriptRes && scriptRes->NeedsReload()) {
-        app.resources.get()->ImportFile(scriptRes->GetAssetFile().c_str(), true);
-        ReloadScript();
+#ifndef WAVE_GAME
+    reloadCheckTimer -= app.time->GetRealDeltaTime();
+    if (reloadCheckTimer <= 0.0f) {
+        reloadCheckTimer = 1.0f;
+        if (scriptRes && scriptRes->NeedsReload()) {
+            app.resources.get()->ImportFile(scriptRes->GetAssetFile().c_str(), true);
+            ReloadScript();
+        }
     }
+#endif
 
     float deltaTime = app.time->GetDeltaTime();
     

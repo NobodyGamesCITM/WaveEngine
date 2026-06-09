@@ -49,8 +49,7 @@
                   HorizontalAlignment="Left"
                   Width="1280"
                   Height="420"
-                  Margin="0,0,0,0"
-                  Visibility="Collapsed">
+                  Margin="0,0,0,0" Visibility="Hidden">
 
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -72,10 +71,10 @@
            HorizontalAlignment="Stretch"
            VerticalAlignment="Stretch"/>
 
-    <Grid Margin="85,20,50,10">
+    <Grid Margin="85,34,50,10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="CharacterName"

@@ -1,5 +1,3 @@
--- CinematicManager.lua
-
 public = {
     updateWhenPaused = true
 }
@@ -161,7 +159,8 @@ function Start(self)
     _G.PlayPortalEnterCinematic = function()
         local track = {
             { time = 0.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } },
-            { time = 20.0, pos = { 104.718, 3.422, -176.426 }, rot = { -20.0, 86.164, 0.0 } }
+            { time = 15.0, pos = { 112.0, 4.7, -176.426 }, rot = { -20.0, 86.164, 5.0 } },
+            { time = 20.0, pos = { 112.0, 4.7, -176.426 }, rot = { -20.0, 86.164, 5.0 } }
         }
         SendTrackToCamera(track, 20.0)
     end
@@ -290,9 +289,10 @@ function Start(self)
             { time = 17.0, pos = { 136.232, -4.661, -635.663 }, rot = { -3.600, 84.300, 0.0 } },
             { time = 21.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
             { time = 25.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } },
-            { time = 30.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
+            { time = 27.0, pos = { 138.532, -4.661, -635.763 }, rot = { 3.200, 62.600, 0.0 } }
         }
-        SendTrackToCamera(track, 2)
+        Engine.Log("Sending Play2BossIntroCinematic to camera")
+        SendTrackToCamera(track, 1.5)
     end
 
     _G.PlayGauntletAresCinematic = function()
@@ -316,14 +316,6 @@ function Update(self, dt)
             
             if _G.TargetLockManager_SetParticleVisibility then
                 _G.TargetLockManager_SetParticleVisibility(true)
-            end
-            
-            local uiManager = GameObject.Find("UIManager")
-            if uiManager then
-                local uiCanvas = uiManager:GetComponent("Canvas")
-                if uiCanvas then
-                    uiCanvas:SetOpacity(1.0)
-                end
             end
         end
     end

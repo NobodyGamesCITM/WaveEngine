@@ -4,6 +4,20 @@
   "BasePlatform": "Windows",
   "PluginLibs": [
    {
+    "LibName": "Wwise Delay",
+    "LibId": "6946819",
+    "Type": "Effect",
+    "DLL": "AkDelay",
+    "StaticLib": "AkDelayFX"
+   },
+   {
+    "LibName": "Wwise Expander",
+    "LibId": "7143427",
+    "Type": "Effect",
+    "DLL": "AkCompressor",
+    "StaticLib": "AkCompressorFX"
+   },
+   {
     "LibName": "Wwise RoomVerb",
     "LibId": "7733251",
     "Type": "Effect",
@@ -35,6 +49,6 @@
     "Type": "AudioDevice"
    }
   ],
-  "FileHash": "{00075B50-5CEE-8132-9B24-48AA583D30EC}"
+  "FileHash": "{AFF76AD5-314A-412B-056E-A5EEC0EC5AE3}"
  }
 }

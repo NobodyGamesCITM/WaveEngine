@@ -390,12 +390,13 @@
 
     <Rectangle x:Name="DimOverlay" Fill="#AA000000" Opacity="0" IsHitTestVisible="False"/>
 
-    <Grid x:Name="LayoutRoot" RenderTransformOrigin="0.5,0.5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="275"/>
-            <ColumnDefinition Width="672*"/>
-            <ColumnDefinition Width="275"/>
-        </Grid.ColumnDefinitions>
+    <Viewbox Stretch="Uniform">
+        <Grid x:Name="LayoutRoot" Width="1280" Height="720" RenderTransformOrigin="0.5,0.5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275"/>
+                <ColumnDefinition Width="730*"/>
+                <ColumnDefinition Width="275"/>
+            </Grid.ColumnDefinitions>
 
         <Viewbox x:Name="BackgroundViewBox" Width="668" Height="688" Grid.Column="1">
             <Image x:Name="BackgroundImage" Source="Textures/Menu.PNG"/>
@@ -504,4 +505,5 @@
         </Grid>
         <Rectangle x:Name="FadeOverlay" Grid.ColumnSpan="3" Opacity="0" Fill="Black" IsHitTestVisible="False"/>
     </Grid>
+    </Viewbox>
 </Grid>

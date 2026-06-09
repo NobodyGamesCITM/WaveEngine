@@ -58,14 +58,16 @@ local function TryChangeMusicState(self, finalMusicState)
 	if found then 
 		if _G.BossIntroCinematic then 
 			Audio.SetMusicState("Boss_Intro") 
+			Engine.Log("Set Music State to Boss_Intro from BGMusicActivator")
 		
 		elseif aquilesDefeated then 
 			--Engine.Log("[BGMusicActivator] Aquiles Defeated!")
 			Audio.SetMusicState("AfterBoss")
 		else 
-			--Engine.Log("[BGMusicActivator] Setting music state to "..tostring(finalMusicState))
+			Engine.Log("[BGMusicActivator] Setting music state to "..tostring(finalMusicState))
 			Audio.SetMusicState(tostring(finalMusicState)) 
 		end
+		_G.InTunnel = false
 	else 
 		--Engine.Log("Trying to change music state to "..tostring(finalMusicState)..", invalid Wwise State")
 		
@@ -82,6 +84,7 @@ function FadeInMusic(self, dt)
 			
             if bgMusic and not Audio.IsEventPlaying("MUS_BGM") then bgMusic:PlayAudioEvent() end
 			--Engine.Log("Playing BGM Again from BGMusicActivator, increasing volume from 0 to "..tostring(_G.SavedMusicVolume))
+			
         end
 
 		fadeTimer = fadeTimer + dt
@@ -128,6 +131,7 @@ end
 function OnTriggerEnter(self, other)
 	if other:CompareTag("Player") and not finishedTransition then
 		enteredNewLevel = true
+		
 		--Engine.Log("Switching to New Music...")
 		fadeTimer = 0
         TryChangeMusicState(self, self.public.nextMusicState)

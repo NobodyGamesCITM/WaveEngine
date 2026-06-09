@@ -4,33 +4,33 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
-  d:DesignWidth="1920"
-  d:DesignHeight="1080"
-  Background="#FF4D5052">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="515*"/>
-      <ColumnDefinition Width="900"/>
-      <ColumnDefinition Width="515"/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="150"/>
-      <RowDefinition Height="634*"/>
-      <RowDefinition Height="30*"/>
-      <RowDefinition Height="120"/>
-      <RowDefinition Height="146"/>
-    </Grid.RowDefinitions>
-    <Grid.Background>
-      <RadialGradientBrush>
-        <GradientStop Color="#00000000" Offset="0.77000004"/>
-        <GradientStop Offset="1" Color="#A6000000"/>
-      </RadialGradientBrush>
-    </Grid.Background>
-    <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="55.644,0">
-      <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold" FontFamily="./#ForgottenUncial" Foreground="#FFFFFFFF"/>
-    </Viewbox>
-    <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="3" Margin="70.484,0">
-      <Image x:Name="Logo" Source="Textures/Logo.png"/>
-    </Viewbox>
-  </Grid>
+  Background="#FF4D5052" d:DesignWidth="1920" d:DesignHeight="1080">
+  <Viewbox Stretch="Uniform">
+    <Grid Width="1920" Height="1080">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="510*"/>
+        <ColumnDefinition Width="900"/>
+        <ColumnDefinition Width="510*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="150"/>
+        <RowDefinition Height="634*"/>
+        <RowDefinition Height="30*"/>
+        <RowDefinition Height="120"/>
+        <RowDefinition Height="146"/>
+      </Grid.RowDefinitions>
+      <Grid.Background>
+        <RadialGradientBrush>
+          <GradientStop Color="#00000000"/>
+          <GradientStop Offset="1" Color="#FF000000"/>
+        </RadialGradientBrush>
+      </Grid.Background>
+      <Viewbox x:Name="ThanksViewBox" Grid.Row="1" Grid.Column="1" Margin="55.644,0">
+        <TextBlock x:Name="ThanksText" TextWrapping="Wrap" Width="80" Text="THANKS FOR PLAYING!" TextAlignment="Center" FontWeight="ExtraBold" FontFamily="./#ForgottenUncial" Foreground="#FFFFFFFF"/>
+      </Viewbox>
+      <Viewbox x:Name="LogoViewBox" Grid.Column="1" Grid.Row="3" Margin="70.484,0">
+        <Image x:Name="Logo" Source="Textures/Logo.png"/>
+      </Viewbox>
+    </Grid>
+  </Viewbox>
 </Page>

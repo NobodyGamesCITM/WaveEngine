@@ -81,6 +81,8 @@ set(SHADERS_SRC
     src/ShaderNoTexture.cpp
     src/ShaderWater.h
     src/ShaderWater.cpp
+    src/ShaderWaterSoul.h
+    src/ShaderWaterSoul.cpp
     src/ShaderLines.h
     src/ShaderLines.cpp
     src/ShaderNormal.h
@@ -364,7 +366,7 @@ source_group("Source\\Lighting" FILES ${LIGHTING_SRC})
 
 set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${EDITOR_SRC} ${GAMEOBJECTS_SRC} ${COMPONENTS_SRC} ${LIGHTING_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
-add_executable(Engine ${SRCS})
+add_executable(Engine ${SRCS} SonOfIthaca.rc)
 target_precompile_headers(Engine PRIVATE src/pch.h)
 
 target_link_libraries(Engine PRIVATE SDL3::SDL3)
@@ -576,7 +578,7 @@ endif()
 # Game (standalone)
 set(SRCS ${CORE_SRC} ${RENDERING_SRC} ${VFX_SRC} ${SHADERS_SRC} ${AUDIO_SRC} ${UTILS_SRC} ${GAMEOBJECTS_SRC} ${LIGHTING_SRC} ${COMPONENTS_SRC} ${LOADERS_SRC} ${IMPORTERS_SRC} ${SCRIPTING_SRC} ${PHYSICS_SRC} ${EVENTS_SRC} ${NAVIGATION_SRC} ${UI_SRC})
 
-add_executable(SonOfIthaca ${SRCS})
+add_executable(SonOfIthaca ${SRCS} SonOfIthaca.rc)
 target_precompile_headers(SonOfIthaca PRIVATE src/pch.h)
 
 if(WIN32)

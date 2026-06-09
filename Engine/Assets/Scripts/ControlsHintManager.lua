@@ -37,7 +37,7 @@ PRESETS = {
     potion_health = {
         duration = 10.0,
         slots = {
-            { img = "HintImg_Health",          key = "HintKey_R",      gp = "HintGP_LB" },
+            { img = "HintImg_Health",          key = "HintKey_3",      gp = "HintGP_LB" },
         },
     },
     potion_berserk = {
@@ -96,18 +96,18 @@ local KEY_GRIDS = { "HintKeyGrid1", "HintKeyGrid2" }
 local IMG_SIZES = {
     HintImg_ApoloFuerte     = { w = 300, h = 80 },
     HintImg_ApoloDisparo    = { w = 300, h = 90 },
-    HintImg_Ares            = { w = 90,  h = 90 },
+    HintImg_Ares            = { w = 180, h = 120 },
     HintImg_Caminar         = { w = 180, h = 100 },
     HintImg_AtaqueNormal    = { w = 180, h = 120 },
-    HintImg_AtaqueFuerte    = { w = 90,  h = 60 },
+    HintImg_AtaqueFuerte    = { w = 180, h = 120 },
     HintImg_Correr          = { w = 180, h = 120 },
-    HintImg_CambiarMascaras = { w = 90,  h = 90 },
+    HintImg_CambiarMascaras = { w = 180, h = 120 },
     HintImg_Health          = { w = 180, h = 100 },
-    HintImg_Berserk         = { w = 90,  h = 90 },
-    HintImg2_Estatua        = { w = 75,  h = 75 },
+    HintImg_Berserk         = { w = 180, h = 120 },
+    HintImg2_Estatua        = { w = 180, h = 120 },
     HintImg2_ApoloFuerte    = { w = 180, h = 120 },
     HintImg2_Roll           = { w = 197, h = 106 },
-    HintImg2_AtaqueNormal   = { w = 100, h = 70 },
+    HintImg2_AtaqueNormal   = { w = 180, h = 120 },
 }
 
 local KEY_SIZES = {
@@ -119,16 +119,17 @@ local KEY_SIZES = {
     HintKey_R        = { w = 75,  h = 75 },
     HintKey_F        = { w = 75,  h = 75 },
     HintKey_8        = { w = 75,  h = 75 },
+    HintKey_3        = { w = 75,  h = 75 },
     HintKey2_Ctrl    = { w = 75,  h = 75 },
     HintKey2_E       = { w = 75,  h = 75 },
-    HintGP_X         = { w = 45,  h = 45 },
-    HintGP_Cruz      = { w = 45,  h = 45 },
-    HintGP_Joystick  = { w = 45,  h = 45 },
-    HintGP_LB        = { w = 45,  h = 45 },
-    HintGP_RB        = { w = 45,  h = 45 },
-    HintGP_LT        = { w = 45,  h = 45 },
-    HintGP_Y         = { w = 45,  h = 45 },
-    HintGP2_B        = { w = 45,  h = 45 },
+    HintGP_X         = { w = 75,  h = 75 },
+    HintGP_Cruz      = { w = 75,  h = 75 },
+    HintGP_Joystick  = { w = 75,  h = 75 },
+    HintGP_LB        = { w = 75,  h = 62 },
+    HintGP_RB        = { w = 75,  h = 75 },
+    HintGP_LT        = { w = 75,  h = 75 },
+    HintGP_Y         = { w = 75,  h = 75 },
+    HintGP2_B        = { w = 75,  h = 75 },
 }
 
 local ALL_IMGS = {}

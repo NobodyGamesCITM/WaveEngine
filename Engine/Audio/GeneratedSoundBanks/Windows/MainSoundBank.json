@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7C55CBAC-5186-4208-888F-0BCE02308A98}",
     "Language": "SFX",
-    "Hash": "{C46295E6-315B-EF2A-9AD9-F0D586219DBC}",
+    "Hash": "{C1C7BA6B-9BC0-1E6B-6034-BC4886E43B21}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
@@ -368,6 +368,14 @@
       "CachePath": "56/{56CE53D9-EE65-7945-FA00-5CD4F8780765}.wem"
      },
      {
+      "Id": "147922469",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "universfield-thunder-124463.wav",
+      "CachePath": "6A/{6A88FD3B-F7C3-D5EC-1F87-B98A33555B5D}.wem"
+     },
+     {
       "Id": "151597588",
       "Language": "SFX",
       "Streaming": "false",
@@ -432,6 +440,14 @@
       "CachePath": "96/{96136C5B-DC41-EE11-66B4-E0CA9A8A406D}.wem"
      },
      {
+      "Id": "181119797",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "tired_01.wav",
+      "CachePath": "F3/{F3D3C140-3803-20E4-B574-9D45970EC0E6}.wem"
+     },
+     {
       "Id": "190699463",
       "Language": "SFX",
       "Streaming": "false",
@@ -453,7 +469,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "heartbeat-sound-snmqh-3.wav",
-      "CachePath": "6E/{6E3E9B47-5EEC-D54B-7444-64E693BA291B}.wem"
+      "CachePath": "40/{407D73A3-6922-7AC8-7B08-2012FAD15FD1}.wem"
      },
      {
       "Id": "202134863",
@@ -760,6 +776,14 @@
       "CachePath": "28/{28B9DEAF-8A43-C343-FAC0-55142AA75F5D}.wem"
      },
      {
+      "Id": "323206877",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 3).wav",
+      "CachePath": "74/{74DA5FD5-C702-E8F5-B797-93FD291BE571}.wem"
+     },
+     {
       "Id": "323885197",
       "Language": "SFX",
       "Streaming": "false",
@@ -830,6 +854,14 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_grass_walk_06.wav",
       "CachePath": "63/{63DE341F-D470-9497-426E-74076A8C943D}.wem"
+     },
+     {
+      "Id": "349433770",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "tired_00.wav",
+      "CachePath": "E1/{E1A3E2F1-6CF7-3F48-3F39-2C3F29D292B5}.wem"
      },
      {
       "Id": "349512848",
@@ -1046,6 +1078,14 @@
       "Location": "Memory",
       "ShortName": "minocabro_wallcrash_rubble.wav",
       "CachePath": "EA/{EA94DE5B-710D-73E8-D50B-FE675A1D5CAB}.wem"
+     },
+     {
+      "Id": "469775460",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "tanweraman-thunder-strike-wav-321628.wav",
+      "CachePath": "3C/{3C530BFA-71CE-9F40-E46A-0F8E8EFC45BF}.wem"
      },
      {
       "Id": "479303077",
@@ -1848,6 +1888,14 @@
       "CachePath": "E7/{E76F254F-99CB-0169-B0E0-7EC222FD916E}.wem"
      },
      {
+      "Id": "833986970",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "soundmarker33-thunder-clap-512544.wav",
+      "CachePath": "F5/{F52BBB08-DB35-4C66-1205-4AB8E5B9BD13}.wem"
+     },
+     {
       "Id": "835188942",
       "Language": "SFX",
       "Streaming": "false",
@@ -1894,6 +1942,14 @@
       "Location": "Memory",
       "ShortName": "aquiles_stuck_00.wav",
       "CachePath": "39/{395F27FC-8D14-9BCE-2890-4EAA54638D61}.wem"
+     },
+     {
+      "Id": "848072375",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 2).wav",
+      "CachePath": "03/{030A75A5-B177-90DE-7405-734B1B6445EB}.wem"
      },
      {
       "Id": "850723638",
@@ -2000,6 +2056,14 @@
       "CachePath": "54/{546A0309-9FA9-4F25-5BA1-DF0607F0C336}.wem"
      },
      {
+      "Id": "895109012",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "tired_02.wav",
+      "CachePath": "5B/{5B04CD33-0EBB-1A93-FE7F-566C0615B9BD}.wem"
+     },
+     {
       "Id": "895508259",
       "Language": "SFX",
       "Streaming": "false",
@@ -2062,6 +2126,14 @@
       "Location": "Memory",
       "ShortName": "alex_jauk-supernatural-scream-192423.wav",
       "CachePath": "F0/{F0FE02D4-F1F1-D31A-993A-65D92361F5AE}.wem"
+     },
+     {
+      "Id": "927618683",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "juliush-heavy-rain-nature-sounds-8186.wav",
+      "CachePath": "FD/{FD4AA848-A094-3977-066B-7561DE7FAAF0}.wem"
      },
      {
       "Id": "943118833",
@@ -2200,6 +2272,14 @@
       "CachePath": "B8/{B89C31F8-5639-BC78-1850-4C5954703FEB}.wem"
      },
      {
+      "Id": "1009377299",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "accelerated_heartbeat_rendered_01.wav",
+      "CachePath": "8F/{8F34B71B-55A7-D7BA-BCF9-A91D3A338D83}.wem"
+     },
+     {
       "Id": "1015733933",
       "Language": "SFX",
       "Streaming": "false",
@@ -2216,6 +2296,14 @@
       "CachePath": "3D/{3D4EC50F-BACC-FA17-98E1-4E9DAF5B1207}.wem"
      },
      {
+      "Id": "1034423948",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "ATTurtlez & JDSherbert - Male Character VOX Pack - Grunt (var - 4).wav",
+      "CachePath": "45/{4500E40A-ED6F-88E2-B7B4-09079C24606E}.wem"
+     },
+     {
       "Id": "1041846858",
       "Language": "SFX",
       "Streaming": "false",
@@ -2230,14 +2318,6 @@
       "Location": "Memory",
       "ShortName": "BAS_Player_Footstep_dirt_run_02.wav",
       "CachePath": "D9/{D9E41754-8D72-EB32-8656-806E11273942}.wem"
-     },
-     {
-      "Id": "1046410207",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "heartbeat-sound-snmqh-3.wav",
-      "CachePath": "D2/{D23D9F74-2D05-8905-B058-5270E7BD4F52}.wem"
      },
      {
       "Id": "1048801786",
@@ -2405,6 +2485,62 @@
        "LibId": "7733251"
       },
       {
+       "Id": "1252796875",
+       "Name": "Light_Expander",
+       "ObjectPath": "\\Effects\\Factory Effects\\Expander\\Light_Expander",
+       "GUID": "{C7E71A3B-745F-47B0-8F31-276DD413F83C}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "1431209347",
+       "Name": "One_Tap_One_Second",
+       "ObjectPath": "\\Effects\\Factory Effects\\Delay\\One_Tap_One_Second",
+       "GUID": "{5B5883FA-85A1-45CA-8A52-9DBBCF3B0A03}",
+       "LibName": "Wwise Delay",
+       "LibId": "6946819"
+      },
+      {
+       "Id": "1588715066",
+       "Name": "Echoes_Linear",
+       "ObjectPath": "\\Effects\\Factory Effects\\Delay\\Echoes_Linear",
+       "GUID": "{D20F3717-EBA2-4E3A-84F8-C8BD431563FB}",
+       "LibName": "Wwise Delay",
+       "LibId": "6946819"
+      },
+      {
+       "Id": "1590660382",
+       "Name": "Nearly_Forever",
+       "ObjectPath": "\\Effects\\Factory Effects\\Delay\\Nearly_Forever",
+       "GUID": "{38550FDA-9236-4FC5-8AE0-68DB08164B25}",
+       "LibName": "Wwise Delay",
+       "LibId": "6946819"
+      },
+      {
+       "Id": "1820854077",
+       "Name": "Noise_Gate_Fast_Attack",
+       "ObjectPath": "\\Effects\\Factory Effects\\Expander\\Noise_Gate_Fast_Attack",
+       "GUID": "{747A6B61-E953-474C-8227-672C884DA616}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "1863245162",
+       "Name": "Noise_Gate_Slow_Attack",
+       "ObjectPath": "\\Effects\\Factory Effects\\Expander\\Noise_Gate_Slow_Attack",
+       "GUID": "{8D16DAF8-FD63-4A83-894E-2E82DA790C71}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "2180422931",
+       "Name": "One_Tap_Quarter_Second",
+       "ObjectPath": "\\Effects\\Factory Effects\\Delay\\One_Tap_Quarter_Second",
+       "GUID": "{6BD2D67D-601A-45A6-AD4C-2C089078EBED}",
+       "LibName": "Wwise Delay",
+       "LibId": "6946819"
+      },
+      {
        "Id": "2891462749",
        "Name": "Room_Medium_High_Absorbtion",
        "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Rooms\\Room_Medium_High_Absorbtion",
@@ -2459,6 +2595,14 @@
        "GUID": "{0F6A7D6D-131C-4650-9561-FC05F5C7A37B}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
+      },
+      {
+       "Id": "3487820010",
+       "Name": "One_Tap_Half_Second",
+       "ObjectPath": "\\Effects\\Factory Effects\\Delay\\One_Tap_Half_Second",
+       "GUID": "{B8FE0D3B-7AAB-4344-89FE-177602B7BF19}",
+       "LibName": "Wwise Delay",
+       "LibId": "6946819"
       }
      ]
     },
@@ -3092,7 +3236,7 @@
       "Name": "SFX_EL_GScream",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GScream",
       "GUID": "{25FCD3FA-2BB2-4298-840D-D24FD63A742E}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "6.064416",
       "DurationMax": "7.4231706",
@@ -3107,7 +3251,7 @@
       "Name": "SFX_EL_GThemin",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GThemin",
       "GUID": "{1537CFFD-E08F-459D-B700-8AC7B33B6380}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "4.008961",
       "DurationMax": "5.19898",
@@ -3122,7 +3266,7 @@
       "Name": "SFX_EL_GWhispers",
       "ObjectPath": "\\Events\\Default Work Unit\\Player\\EnterLVL2\\SFX_EL_GWhispers",
       "GUID": "{EF455109-D3CA-498E-994A-F535916851AE}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "20.872",
       "DurationMax": "20.872",
@@ -3318,7 +3462,7 @@
       "Name": "SFX_GhostScreams",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostScreams",
       "GUID": "{32D371E9-BE5F-40EC-8217-2EAE66DF5B1A}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3340,7 +3484,7 @@
       "Name": "SFX_GhostsThemin",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostsThemin",
       "GUID": "{A535BBCA-6839-4C29-84A0-D04AFD9F23F7}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3362,7 +3506,7 @@
       "Name": "SFX_GhostWhispers",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_GhostWhispers",
       "GUID": "{CD022861-F08E-400E-9060-DB46B34397F5}",
-      "MaxAttenuation": "40",
+      "MaxAttenuation": "50",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -4925,6 +5069,27 @@
       ]
      },
      {
+      "Id": "1664108421",
+      "Name": "SFX_TeleTired",
+      "ObjectPath": "\\Events\\Default Work Unit\\Player\\SFX_TeleTired",
+      "GUID": "{94ECC1BE-9AA6-4B0B-9409-30F76489996C}",
+      "MaxAttenuation": "20",
+      "DurationType": "OneShot",
+      "DurationMin": "0.35172626",
+      "DurationMax": "0.47736365",
+      "MediaRefs": [
+       {
+        "Id": "181119797"
+       },
+       {
+        "Id": "349433770"
+       },
+       {
+        "Id": "895109012"
+       }
+      ]
+     },
+     {
       "Id": "3020549885",
       "Name": "SFX_TorchFire",
       "ObjectPath": "\\Events\\Default Work Unit\\Other\\SFX_TorchFire",
@@ -4956,13 +5121,15 @@
       "ObjectPath": "\\Events\\Default Work Unit\\Aquiles\\Encounter_Cinematic\\SFX_TurnaroundRiser",
       "GUID": "{E2A8634E-4678-4545-8759-17A2139F522A}",
       "MaxAttenuation": "20",
-      "DurationType": "Infinite",
+      "DurationType": "OneShot",
+      "DurationMin": "25.464563",
+      "DurationMax": "25.464563",
       "MediaRefs": [
        {
         "Id": "871849665"
        },
        {
-        "Id": "1046410207"
+        "Id": "1009377299"
        }
       ]
      },
@@ -5281,7 +5448,16 @@
           "Id": "244849618"
          },
          {
+          "Id": "323206877"
+         },
+         {
+          "Id": "848072375"
+         },
+         {
           "Id": "975829108"
+         },
+         {
+          "Id": "1034423948"
          }
         ]
        },
@@ -5325,6 +5501,30 @@
           "Id": "835188942"
          }
         ]
+       }
+      ]
+     },
+     {
+      "Id": "433465711",
+      "Name": "UI_ThunderStorm",
+      "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_ThunderStorm",
+      "GUID": "{CD86E32B-0232-4071-AAAC-47CF6835FDCA}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "147922469"
+       },
+       {
+        "Id": "469775460"
+       },
+       {
+        "Id": "494683163"
+       },
+       {
+        "Id": "833986970"
+       },
+       {
+        "Id": "927618683"
        }
       ]
      }
@@ -5719,6 +5919,6 @@
     ]
    }
   ],
-  "FileHash": "{7748BA6C-90F8-A7D9-0E97-D5C6C284E5EC}"
+  "FileHash": "{71BCBE9D-A2BF-A0B9-AF5A-EC0B6AFF42CF}"
  }
 }

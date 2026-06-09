@@ -10,12 +10,11 @@ d:DesignWidth="1920" d:DesignHeight="1080">
     <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Width="1920" Height="1080">
 
-            <Grid x:Name="ItemObtainedPanel"
-                  Visibility="Hidden">
+            <Grid x:Name="ItemObtainedPanel">
 
                 <!-- Texto arriba: Poción obtenida -->
                 <TextBlock x:Name="ItemObtainedText"
-                           Text="¡Poción obtenida!"
+                           Text="¡Potion obtained!"
                            FontSize="48"
                            FontFamily="Times New Roman"
                            FontWeight="Bold"
@@ -28,13 +27,13 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                 </TextBlock>
 
                 <!-- Icono del ítem obtenido (centro de pantalla) -->
-                <Grid HorizontalAlignment="Center"
+                <Grid Height="227" Margin="0,99,0,0" HorizontalAlignment="Center"
                       VerticalAlignment="Center">
                     <Image x:Name="ItemObtainedIconBerserk"
                            Source="Textures/Berserk.png"
                            Width="128" Height="128"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
+                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Image Source="Textures/rb.png" Width="100" Margin="14,64,14,0" VerticalAlignment="Bottom"/>
                 </Grid>
 
                 <!-- Prompt abajo: icono F + Reclamar -->
@@ -62,7 +61,7 @@ d:DesignWidth="1920" d:DesignHeight="1080">
                                    Visibility="Hidden"/>
                         </Grid>
                     </Border>
-                    <TextBlock Text="Reclamar"
+                    <TextBlock Text="Claim"
                                FontSize="28"
                                FontFamily="Arial"
                                VerticalAlignment="Center">

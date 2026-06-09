@@ -952,6 +952,17 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+						<Event Name="SFX_TeleTired" ID="{94ECC1BE-9AA6-4B0B-9409-30F76489996C}">
+							<ChildrenList>
+								<Action Name="" ID="{53E632AE-FF27-46EB-AEFE-AEB8CC8F5B80}" ShortID="17120571">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="TeleTired" ID="{5293C611-CF42-4AAE-9A5F-BD539BDB6785}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">
@@ -1578,7 +1589,7 @@
 										<Action Name="" ID="{D274C6FF-0E24-479B-95DB-F572A43C933A}" ShortID="909721195">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="accelerating_heartbeat" ID="{061CC7A5-586F-49F3-91F5-535A6E565FC8}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+													<ObjectRef Name="accelerating_heartbeat_01" ID="{A33F61A8-D30F-46C7-B8C3-BE74DDFFE30E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>
@@ -1827,7 +1838,7 @@
 										<Action Name="" ID="{859D6010-9063-459C-9EFB-5C62BA829E9A}" ShortID="866225242">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="12"/>
-												<Property Name="Volume" Type="Real64" Value="15"/>
+												<Property Name="Volume" Type="Real64" Value="8"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
@@ -2238,6 +2249,64 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="LyreNotes" ID="{214968E9-2181-4BC8-A32A-32BD168E15BD}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UI_ThunderStorm" ID="{CD86E32B-0232-4071-AAAC-47CF6835FDCA}">
+							<ChildrenList>
+								<Action Name="" ID="{B3641774-B548-47F1-A0D8-580575775FA4}" ShortID="539572489">
+									<PropertyList>
+										<Property Name="Delay" Type="Real64" Value="0.5"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_ThunderClaps" ID="{1E1190FF-78E0-4036-8068-9FEF733825D4}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{894F8890-3545-4F81-902D-9A32ADF9E317}" ShortID="397863398">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="UI_Rain" ID="{032C20B5-7D65-44D1-B2B7-2CA805E20A9E}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{662816F2-CEAE-4614-AA38-A3D56D03A607}" ShortID="730316280">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="12"/>
+										<Property Name="Volume" Type="Real64" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{C6BADE56-127E-47EE-BCC6-C52B71FBB693}" ShortID="976693107">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{5160D8F9-9CC6-47A1-8020-B87A590ADDCC}" ShortID="608101086">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="16"/>
+										<Property Name="Delay" Type="Real64" Value="5"/>
+										<Property Name="Volume" Type="Real64" Value="10"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SeaWater" ID="{6377EF3A-BD6D-4B9A-A8FB-DE6B5EF9D39F}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

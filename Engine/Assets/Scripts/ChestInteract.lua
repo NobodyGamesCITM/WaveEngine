@@ -3,7 +3,7 @@
 public = {
     radius     = 2.0,
     actionText = "Abrir cofre",
-    itemText   = "¡Poción obtenida!",
+    itemText   = "¡Potion Obtained!",
     chestAnim  = "Open",
     potionType = "Health", -- "Health" o "Berserk"
     updateWhenPaused = true,  

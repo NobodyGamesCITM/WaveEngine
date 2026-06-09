@@ -343,7 +343,6 @@ function Initialize(self)
     ApplyFullVolume(self)
 
     if _G.IsLoadingSaveGame then
-        -- FIX: limpiar flags de TitleTrigger al cargar partida guardada
         _G.TitleTrigger_HUDShouldStartHidden = false
         _G.TitleTrigger_Active = false
         _G.LoadedFromSave = true
@@ -549,9 +548,7 @@ function Update(self, dt)
         elseif sceneVal == "Splash.scene" and _G.SkipSplash then
             musicState = "MainMenu"
         elseif sceneVal == "Splash.scene" and not _G.SkipSplash then
-            --Engine.Log("Music state set to none because Splash Screen is still playing")
         else
-            --Engine.Log("[Menu Manager] Current Scene = " .. tostring(sceneVal).. ", musicState stayed as None!!")
             
         end
         Audio.SetMusicState(tostring(musicState))
@@ -560,8 +557,6 @@ function Update(self, dt)
             Engine.Log("Started playing BGM from MenuManager Update")
         end
     end
-
-    --Engine.Log("Current Music State = "..tostring(Audio.GetMusicState()))
 
     if self.waitingForSplash then
         if _G.ForceStartXAML then
@@ -694,11 +689,9 @@ function Update(self, dt)
             self.deathTimer = 0.0
             if not self.fading and self.canvas and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
                 if self.current == "SonOfIthaca.xaml" or _G.CinematicActive == true or _G.PlayerInAnim == true then
-                    -- no-op
                 elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) and not _G.HUD_IsFading then
                     self.canvas:SetOpacity(0.0)
                 elseif _G.HUD_IsFading == true then
-                    -- no-op: el HUDController está controlando el fundido
                 else
                     self.canvas:SetOpacity(1.0)
                 end
@@ -767,7 +760,6 @@ function Update(self, dt)
                     _G.PendingSaveDataApply = true
                     _G.IsLoadingSaveGame = true
                     _G.LoadedFromSave = true
-                    -- FIX: limpiar flags de TitleTrigger para que el HUD sea visible desde el inicio
                     _G.TitleTrigger_HUDShouldStartHidden = false
                     _G.TitleTrigger_Active = false
                     local sName = _G.LoadedSaveData.scene
@@ -808,13 +800,8 @@ function Update(self, dt)
                 _G.SkipSplash     = true
                 _G.MainMenuNeedsIntro = true
                 _G.TitleTrigger_Active = nil
-                -- FIX: limpiar flag para que no persista entre sesiones
                 _G.TitleTrigger_HUDShouldStartHidden = nil
                 _G.CinematicActive = false
-
-                -- self.selectSFX = nil
-                -- self.pressSFX  = nil
-                -- self.musicComp = nil
 
                 local sceneManagerObj = GameObject.Find("SceneManager")
                 if sceneManagerObj then

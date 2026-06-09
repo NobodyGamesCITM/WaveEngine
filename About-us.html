@@ -297,4 +297,18 @@
   </footer>
   <section class="u-backlink u-clearfix u-grey-80"></section>
 
+  <script>
+    // Reinitialise each carousel independently after the page loads
+    jQuery(window).on('load', function () {
+      jQuery('[data-u-ride="carousel"]').each(function () {
+        var $carousel = jQuery(this);
+        // Remove any existing instance so nicepage re-creates it fresh
+        jQuery.removeData(this, 'bs.u-carousel');
+        jQuery.removeData(this, 'bs.u-carousel.swipe');
+        // Re-init using the element's own data attributes
+        $carousel['u-carousel']($carousel.data());
+      });
+    });
+  </script>
+
 </body></html>

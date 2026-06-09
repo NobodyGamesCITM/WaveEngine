@@ -7,6 +7,7 @@
   d:DesignWidth="1920"
   d:DesignHeight="1080"
   Background="#FF4D5052">
+
   <Grid Background="#FF000000">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="1445*"/>
@@ -21,11 +22,9 @@
     </Grid.RowDefinitions>
 
     <Grid.Resources>
-      <!-- ANIMACION DE SALIDA -->
       <Storyboard x:Key="ExitStoryboard">
-        <!-- Imagen: slide hacia abajo + fade out -->
         <DoubleAnimation
-          Storyboard.TargetName="ImageSlide"
+          Storyboard.TargetName="MaskSlide"
           Storyboard.TargetProperty="Y"
           From="0" To="40"
           BeginTime="0:0:0.8"
@@ -35,31 +34,10 @@
           </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
         <DoubleAnimation
-          Storyboard.TargetName="LoadingViewBox"
+          Storyboard.TargetName="MaskContainer"
           Storyboard.TargetProperty="Opacity"
           From="1" To="0"
           BeginTime="0:0:0.8"
-          Duration="0:0:0.5">
-          <DoubleAnimation.EasingFunction>
-            <CubicEase EasingMode="EaseIn"/>
-          </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
-        <!-- Texto: slide hacia abajo + fade out con ligero delay -->
-        <DoubleAnimation
-          Storyboard.TargetName="TextSlide"
-          Storyboard.TargetProperty="Y"
-          From="0" To="40"
-          BeginTime="0:0:0.85"
-          Duration="0:0:0.5">
-          <DoubleAnimation.EasingFunction>
-            <CubicEase EasingMode="EaseIn"/>
-          </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
-        <DoubleAnimation
-          Storyboard.TargetName="LoadingTextBox"
-          Storyboard.TargetProperty="Opacity"
-          From="1" To="0"
-          BeginTime="0:0:0.85"
           Duration="0:0:0.5">
           <DoubleAnimation.EasingFunction>
             <CubicEase EasingMode="EaseIn"/>
@@ -68,31 +46,42 @@
       </Storyboard>
     </Grid.Resources>
 
-    <!-- Loading Image -->
-    <Viewbox x:Name="LoadingViewBox" Margin="29.5,0" Grid.Row="1" Grid.Column="2"
+    <Viewbox x:Name="MaskContainer"
+             Grid.Row="1" Grid.Column="2"
+             Margin="29.5,0"
              Opacity="0">
-      <Image x:Name="LoadingImage" Source="Textures/LoadingImage.png" Width="100" Height="100"
-             RenderTransformOrigin="0.5,0.5">
-        <Image.RenderTransform>
-          <TransformGroup>
-            <RotateTransform x:Name="SpinTransform" Angle="0"/>
-            <TranslateTransform x:Name="ImageSlide" Y="40"/>
-          </TransformGroup>
-        </Image.RenderTransform>
-        <Image.Triggers>
+      <Viewbox.RenderTransform>
+        <TranslateTransform x:Name="MaskSlide" Y="40"/>
+      </Viewbox.RenderTransform>
+
+      <Grid Width="100" Height="100">
+
+        <Image x:Name="Mask1"
+               Width="100" Height="100"
+               Opacity="0"
+               Source="Textures/Apolo.PNG"
+               Stretch="Uniform"/>
+
+        <Image x:Name="Mask2"
+               Width="100" Height="100"
+               Opacity="0"
+               Source="Textures/Ares.PNG"
+               Stretch="Uniform"/>
+
+        <Image x:Name="Mask3"
+               Width="100" Height="100"
+               Opacity="0"
+               Source="Textures/Hermes.PNG"
+               Stretch="Uniform"/>
+
+        <Grid.Triggers>
           <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard>
               <Storyboard>
-                <!-- Spin infinito -->
-                <DoubleAnimation
-                  Storyboard.TargetName="SpinTransform"
-                  Storyboard.TargetProperty="Angle"
-                  From="360" To="0"
-                  Duration="0:0:1"
-                  RepeatBehavior="Forever"/>
+
                 <!-- Slide entrada desde abajo -->
                 <DoubleAnimation
-                  Storyboard.TargetName="ImageSlide"
+                  Storyboard.TargetName="MaskSlide"
                   Storyboard.TargetProperty="Y"
                   From="40" To="0"
                   Duration="0:0:0.7">
@@ -100,68 +89,78 @@
                     <CubicEase EasingMode="EaseOut"/>
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <!-- Fade in entrada -->
-                <DoubleAnimation
-                  Storyboard.TargetName="LoadingViewBox"
-                  Storyboard.TargetProperty="Opacity"
-                  From="0" To="1"
-                  Duration="0:0:0.7">
-                  <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                  </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-              </Storyboard>
-            </BeginStoryboard>
-          </EventTrigger>
-        </Image.Triggers>
-      </Image>
-    </Viewbox>
 
-    <!-- Loading Text -->
-    <Viewbox x:Name="LoadingTextBox" Grid.Column="1" Grid.Row="1"
-             Opacity="0">
-      <TextBlock x:Name="LoadingText" Text="Loading" FontFamily="Arial" FontSize="65" TextAlignment="Center"
-                 RenderTransformOrigin="0.5,0.5">
-        <TextBlock.RenderTransform>
-          <TranslateTransform x:Name="TextSlide" Y="40"/>
-        </TextBlock.RenderTransform>
-        <TextBlock.Foreground>
-          <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-            <GradientStop Offset="0" Color="#FFFFFFFF"/>
-            <GradientStop Offset="1" Color="#FFFFFFFF"/>
-          </LinearGradientBrush>
-        </TextBlock.Foreground>
-        <TextBlock.Triggers>
-          <EventTrigger RoutedEvent="Loaded">
-            <BeginStoryboard>
-              <Storyboard>
-                <!-- Slide entrada desde abajo con delay -->
+                <!-- Fade in del contenedor -->
                 <DoubleAnimation
-                  Storyboard.TargetName="TextSlide"
-                  Storyboard.TargetProperty="Y"
-                  From="40" To="0"
-                  BeginTime="0:0:0.1"
-                  Duration="0:0:0.7">
-                  <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                  </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <!-- Fade in entrada con delay -->
-                <DoubleAnimation
-                  Storyboard.TargetName="LoadingTextBox"
+                  Storyboard.TargetName="MaskContainer"
                   Storyboard.TargetProperty="Opacity"
                   From="0" To="1"
-                  BeginTime="0:0:0.1"
                   Duration="0:0:0.7">
                   <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseOut"/>
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
+
+                <!-- Mask1 -->
+                <DoubleAnimationUsingKeyFrames
+                  Storyboard.TargetName="Mask1"
+                  Storyboard.TargetProperty="Opacity"
+                  BeginTime="0:0:0.7"
+                  RepeatBehavior="Forever"
+                  Duration="0:0:2.4">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.80" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseIn"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                  <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Mask2 -->
+                <DoubleAnimationUsingKeyFrames
+                  Storyboard.TargetName="Mask2"
+                  Storyboard.TargetProperty="Opacity"
+                  BeginTime="0:0:0.7"
+                  RepeatBehavior="Forever"
+                  Duration="0:0:2.4">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.80" Value="0"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.45" Value="1"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.60" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseIn"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                  <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+
+                <!-- Mask3 -->
+                <DoubleAnimationUsingKeyFrames
+                  Storyboard.TargetName="Mask3"
+                  Storyboard.TargetProperty="Opacity"
+                  BeginTime="0:0:0.7"
+                  RepeatBehavior="Forever"
+                  Duration="0:0:2.4">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.00" Value="0"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.60" Value="0"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.75" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                  <EasingDoubleKeyFrame KeyTime="0:0:2.25" Value="1"/>
+                  <EasingDoubleKeyFrame KeyTime="0:0:2.40" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseIn"/></EasingDoubleKeyFrame.EasingFunction>
+                  </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
               </Storyboard>
             </BeginStoryboard>
           </EventTrigger>
-        </TextBlock.Triggers>
-      </TextBlock>
+        </Grid.Triggers>
+      </Grid>
     </Viewbox>
 
   </Grid>

@@ -1090,7 +1090,7 @@ function OnTriggerEnter(self, other)
     end
 
     
-    if self.currentState == State.HIDE or self.currentState == State.COOLDOWN then return end
+    if self.currentState == State.HIDE then return end
 
 	
     if other:CompareTag("Bullet") then

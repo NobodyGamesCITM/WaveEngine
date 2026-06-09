@@ -50,11 +50,11 @@ function FadeOutMusic(self, dt)
 		fadeTimer = fadeTimer + dt
 		local progressPercent = math.min((fadeTimer/(self.public.fadeTime or 1.5)), 1.0)
 		volume = (_G.SavedMusicVolume or 100.0) * (1 - progressPercent)
-		--Engine.Log("Setting global audio to ".. volume)
+		
 		if volume then 
 			Audio.SetMusicVolume(volume)
 		else
-			--Engine.Log("Could not set music volume!")
+			
 		end
 
 	elseif exitedLevel and volume <= 0 and not finishedTransition then

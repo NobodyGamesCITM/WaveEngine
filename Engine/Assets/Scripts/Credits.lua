@@ -31,6 +31,8 @@ local BG_IMAGE_COUNT = 12
 local bgCurrent      = 1
 local bgSlideTimer   = 0.0
 local bgFinished     = false  
+local music = nil
+local volume = 100.0
 
 
 function Start(self)
@@ -42,6 +44,12 @@ function Start(self)
     for i = 1, BG_IMAGE_COUNT do
         UI.SetElementVisibility("BgImage" .. i, false)
     end
+
+	local musicObj = GameObject.Find("MusicSource")
+    if musicObj then music = musicObj:GetComponent("Audio Source") end
+    if not musicObj then Engine.Log("MusicSource Audio Component not found!") end
+
+    volume = _G.SavedMusicVolume
 
     Engine.Log("[Credits] Listo.")
 end
@@ -84,11 +92,13 @@ end
 function OnTriggerEnter(self, other)
     if triggered then return end
     if other.name ~= "Player" and not other:CompareTag("Player") then return end
-
+	
     triggered = true
     Game.Pause()
     ShowCredits(self)
     Engine.Log("[Credits] Trigger activado por Player.")
+	Audio.SetMusicState("Level1")
+    Audio.SetSFXVolume(0)
 end
 
 
@@ -160,8 +170,21 @@ function Update(self, dt)
         end
 
     elseif phase == PHASE_FADE_OUT then
+        local progressPercent = math.min((phaseTimer/FADE_DURATION), 1.0)
+		volume = (_G.SavedMusicVolume or 100.0) * (1 - progressPercent)
+
+		--Engine.Log("Setting music volume to ".. volume)
+		if volume then 
+			Audio.SetMusicVolume(volume) 
+        end
+
+        if volume <= 0 then
+            Audio.SetMusicVolume(0)
+        end
+
         if phaseTimer >= FADE_DURATION then
             if canvasComp then canvasComp:SetOpacity(0) end
+            
             phase = PHASE_IDLE
             GoToMainMenu()
         end
@@ -172,9 +195,11 @@ end
 function GoToMainMenu()
     Engine.Log("[Credits] Secuencia completa. Volviendo al menú principal.")
     _G.SkipSplash = true
+    if musicSource and Audio.IsEventPlaying("MUS_BGM") then musicSource:StopAudioEvent() end
     if _G.TransitionToScene then
         _G.TransitionToScene("Splash.scene")
     else
         Engine.LoadScene(Engine.GetScenesPath(), "Splash.scene")
+		
     end
 end

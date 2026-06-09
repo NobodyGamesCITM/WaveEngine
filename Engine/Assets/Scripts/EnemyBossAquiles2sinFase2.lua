@@ -62,6 +62,7 @@ local sourceNames = {"AQ_VoiceSource", "AQ_StepSource", "AQ_SpearSource", "AQ_Da
 
 local bloodPs = nil
 local sparksPs = nil
+local deathPs = nil
 
 local alreadyHit   = false
 local playerAttackHandled = false
@@ -1270,6 +1271,12 @@ local function UpdateDeath(self, dt)
         local pos = self.transform.position
         if pos.y > self.targetDeathY then
             self.transform:SetPosition(pos.x, pos.y - 5.0, pos.z)
+            if deathPs then 
+                deathPs:Play() 
+                Engine.Log("[Aquiles] Played Death Particles")
+            else
+                Engine.Log("[Aquiles] Unable to play Death Particles")
+            end
         else
             if not isDead then
                 local door = GameObject.Find("Puerta_Final")
@@ -1329,6 +1336,14 @@ local function FindAquilesParticles(self)
     if sparksVFX then 
         sparksPs = sparksVFX:GetComponent("ParticleSystem")
     end
+
+    
+    local deathVFX = GameObject.FindInChildren(self.gameObject, "DeathSmoke")
+    if deathVFX then 
+        deathPs = deathVFX:GetComponent("ParticleSystem")
+    end
+
+
 end
           
 function Start(self)
@@ -1408,6 +1423,8 @@ function Start(self)
 
     FindAquilesAudioComponents(self)
     FindAquilesParticles(self)
+
+    if deathPs then deathPs:Stop() end
 
     areaAttackColObj = GameObject.FindInChildren(self.gameObject, "AreaAttackCollider")
 
@@ -1726,16 +1743,17 @@ function Update(self, dt)
         pp = playerGO.transform.worldPosition
         end
 
-        if introCinematicTimer <= 6.0 and not Audio.IsEventPlaying("SFX_IntroRoar") then
-            SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
-        end
+        -- if introCinematicTimer <= 6.0 and not Audio.IsEventPlaying("SFX_IntroRoar") then
+        --     SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
+        -- end
+        
         if introCinematicTimer <= 5.5 and introCinematicTimer > 0.7 then
             if postProcess then
-                postProcess:SetRadialBlurEnabled(true)
-                postProcess:SetRadialBlurCenter(0.640, 0.640)
-                local normalized_time = (5.5 - introCinematicTimer) / (5.5 - 0.7) 
-                local pulsation = 0.32 + 0.1 * math.sin(normalized_time * 4 * math.pi) 
-                postProcess:SetRadialBlurIntensity(math.max(0, pulsation))
+                -- postProcess:SetRadialBlurEnabled(true)
+                -- postProcess:SetRadialBlurCenter(0.640, 0.640)
+                -- local normalized_time = (5.5 - introCinematicTimer) / (5.5 - 0.7) 
+                -- local pulsation = 0.32 + 0.1 * math.sin(normalized_time * 4 * math.pi) 
+                -- postProcess:SetRadialBlurIntensity(math.max(0, pulsation))
             end
         else
 

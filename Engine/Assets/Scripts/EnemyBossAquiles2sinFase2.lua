@@ -134,8 +134,6 @@ local playedDeathCry = false
 local playedKneelDown = false
 local playedCollapse = false
 
-
-
 local hitCooldown = 0
 local finishedTransition = false
 
@@ -1295,8 +1293,6 @@ local function UpdateDeath(self, dt)
                 isDead = true
                 Engine.Log("[Aquiles] DEAD i enterrat")
 
-                
-
                 rb       = nil
                 anim     = nil
                 playerGO = nil
@@ -1343,18 +1339,17 @@ local function FindAquilesParticles(self)
         deathPs = deathVFX:GetComponent("ParticleSystem")
     end
 
-
 end
           
 function Start(self)
 
     self.public = {
-        maxHp           = 150, --Antes 300
+        maxHp           = 150,
         maxPosture      = 50,
 
-        detectRange     = 30.0, --Antes 25
-        Lance360Range   = 8.0, --Antes 2
-        chargeRange     = 18.0,
+        detectRange     = 50.0, 
+        Lance360Range   = 8.0, 
+        chargeRange     = 15.0,
         dashApproachRange = 13.0,
 
         moveSpeed       = 6.5,
@@ -1364,12 +1359,12 @@ function Start(self)
         lanceWindup         = 0.6,    
         lanceDuration       = 2.0,
         feedbackScaleTime   = 3.0,   
-        lanceCooldown       = 1.0, -- Antes1.2
+        lanceCooldown       = 1.0,
         lanceDamage         = 15,
 
         preparationTime = 1.0,
-        chargeSpeed     = 30.0, -- antes 22
-        chargeDuration  = 0.6, --antes 0.8 -- antes 0.4
+        chargeSpeed     = 30.0, 
+        chargeDuration  = 0.6, 
         wallStunTime    = 1.5,
         wallSpeedThresh = 1.5,
         afterStunTime   = 1.2,
@@ -1380,13 +1375,12 @@ function Start(self)
         knockbackForce  = 10.0,
         stunDuration    = 1.5,
         hurtStunTime    = 0.4,
-        predictionTime  = 0.2, --Antes 0.4
+        predictionTime  = 0.2, 
 
         opportunityDamageMultiplier = 1.0,
         wallStunDuration = 2.0,
         recoveryLance    = 0.5,
-        recoveryCharge   = 0.5, -- Antes 1.0
-
+        recoveryCharge   = 0.5, 
 
         minDistanceToPlayer=6.0,
 

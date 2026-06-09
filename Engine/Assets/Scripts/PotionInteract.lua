@@ -4,9 +4,9 @@ public = {
 
     radius = 2.0,
     actionText = "Obtener Poción",
-    itemText   = "¡Potion obtained!",
+    itemText   = "¡Potion Obtained!",
     --chestAnim  = "Open",
-    potionType = "Health", -- "Health" o "Berserk"
+    potionType = "Health", 
     updateWhenPaused = true,  
     meshName = "",
     interactPromptName = "",

@@ -373,6 +373,12 @@ local function PlayTiredPS()
         tiredPSCooldown = TIRED_PS_COOLDOWN
     end
     _G.TriggerCameraShake(0.2, 0.5, 5.0)
+
+    if Player.tiredSFX then 
+        Player.tiredSFX:SelectPlayAudioEvent("SFX_TeleTired") 
+    else
+        --Engine.Log("Unable to retrieve Tele Tired Audio Source")
+    end
 end
 
 local function GetAttackInput(self)
@@ -1481,6 +1487,7 @@ local function RefreshAudioSources(self)
     local maskGo   = GameObject.FindInChildren(go, "MaskSource") or GameObject.FindInChildren(go, "SFX_Mask")
     local itemGo   = GameObject.FindInChildren(go, "ItemSource") or GameObject.FindInChildren(go, "SFX_Item")
     local heartGo     = GameObject.FindInChildren(go, "HeartSource")
+    local tiredGo     = GameObject.FindInChildren(go, "TiredPS")
     
     local rootSource = go:GetComponent("Audio Source")
     if not rootSource then
@@ -1494,6 +1501,7 @@ local function RefreshAudioSources(self)
     Player.changeMaskSFX = (maskGo and maskGo:GetComponent("Audio Source")) or rootSource
     Player.itemSFX   = (itemGo and itemGo:GetComponent("Audio Source")) or rootSource
     Player.heartSFX = (heartGo and heartGo:GetComponent("Audio Source")) or rootSource
+    Player.tiredSFX = (tiredGO and tiredGo:GetComponent("Audio Source")) or rootSource
     
     --Engine.Log("[Player] Audio Source Mapping Status:")
     --Engine.Log(" - StepSFX: " .. (stepGo and "CHILD FOUND" or "ROOT DEFAULT"))
@@ -1542,11 +1550,11 @@ function Start(self)
     Player.stepSFX         = nil
     Player.voiceSFX        = nil
     Player.swordSFX        = nil
-    --Player.pickMaskSFX     = nil
     Player.changeMaskSFX   = nil
-    Player.itemSFX     = nil
+    Player.itemSFX         = nil
     Player.hitSFX          = nil
     Player.heartSFX        = nil
+    Player.tiredSFX        = nil
     _G.PlayerInstance = self
 
     --force stats

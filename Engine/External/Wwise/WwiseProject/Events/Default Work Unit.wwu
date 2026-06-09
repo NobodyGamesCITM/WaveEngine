@@ -952,6 +952,17 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+						<Event Name="SFX_TeleTired" ID="{94ECC1BE-9AA6-4B0B-9409-30F76489996C}">
+							<ChildrenList>
+								<Action Name="" ID="{53E632AE-FF27-46EB-AEFE-AEB8CC8F5B80}" ShortID="17120571">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="TeleTired" ID="{5293C611-CF42-4AAE-9A5F-BD539BDB6785}" WorkUnitID="{E6B49273-C487-4B59-8546-E4217EE02E56}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Siren" ID="{EB45F894-493B-442F-869C-A7131C1E7FF0}" ShortID="596693084">

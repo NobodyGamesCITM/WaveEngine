@@ -4078,27 +4078,27 @@
                 "active": true,
                 "publicVariables": [
                     {
-                        "name": "excludeFromSave",
-                        "type": 2,
-                        "value": true
-                    },
-                    {
-                        "name": "doorName",
-                        "type": 1,
-                        "value": "Puerta_Final"
-                    },
-                    {
                         "name": "lockOnSize",
                         "type": 0,
                         "value": 14.0
                     },
                     {
+                        "name": "excludeFromSave",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
                         "name": "attackAreaFinalScale",
                         "type": 0,
                         "value": 25.0
+                    },
+                    {
+                        "name": "doorName",
+                        "type": 1,
+                        "value": "Puerta_Final"
                     }
                 ],
-                "scriptUID": 2892393956142374010,
+                "scriptUID": 18026086811932724963,
                 "type": 6
             }
         ],

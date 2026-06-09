@@ -574,6 +574,7 @@ local function TakeDamage(self, amount, attackerPos)
             if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end
  
         elseif not fase2Active then
+            DestroyChargeFeedback(self)
             fase1       = false
             fase2Active = true
             _G._AquilesDefeated = false
@@ -1466,6 +1467,8 @@ function Update(self, dt)
     if not self.gameObject then return end
 
     if pendingReset then
+        DestroyChargeFeedback(self)
+        
         pendingReset = false
         isDead       = false
         hp           = self.public.maxHp
@@ -1542,13 +1545,14 @@ function Update(self, dt)
         isIntroCinematic    = false
         introCinematicTimer = 0.0
         introPlayed         = false
+        timeAnimStartPhase2= 6
 
         _G._Aquiles_Fase2Active = false
         _G._AquilesDefeated     = false
         _G._Aquiles_Fase3Active = false
         _G._Aquiles_ResetColumns = true
 
-
+        
         if rb   then rb:SetBody(1) end
         if anim then anim:Play("Idle") end
         if _G.BossBar_SetVisibility then _G.BossBar_SetVisibility(false) end

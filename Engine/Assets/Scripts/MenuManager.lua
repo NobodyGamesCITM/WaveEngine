@@ -244,6 +244,14 @@ local scenesPath = Engine.GetScenesPath()
 if not _G.SavedSoundEffectsVolume then _G.SavedSoundEffectsVolume = 80.0 end
 if not _G.SavedMusicVolume        then _G.SavedMusicVolume        = 80.0 end
 
+if _G.GraphicsSettings == nil then
+    _G.GraphicsSettings = {
+        resolutionIndex = 2,
+        fullScreen      = false,
+        antiAliasing    = false,
+    }
+end
+
 public = {
     updateWhenPaused = true,
     currentScene    = { type = "Scene", value = "" },

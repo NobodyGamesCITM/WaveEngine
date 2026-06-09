@@ -5,27 +5,12 @@ local RESOLUTIONS = {
     "3840 x 2160",
 }
 
-if _G.GraphicsSettings == nil then
-    _G.GraphicsSettings = {
-        resolutionIndex = 2,  
-        fullScreen      = false,
-        antiAliasing    = false,
-    }
-end
-
-local pending = {
-    resolutionIndex = 1,
-    fullScreen = false,
-    antiAliasing = false
-}
-
 local lastFocusedButton = ""
 
 local function RefreshUI(self, animate)
+    local pending = _G.GraphicsPending
     local res = RESOLUTIONS[pending.resolutionIndex]
     UI.SetElementText("ResolutionValue", res)
-    
-    -- Sincronizamos el estado visual de los checkboxes con los valores pendientes
     UI.SetCheckBox("FullScreen",   pending.fullScreen)
     UI.SetCheckBox("AntiAliasing", pending.antiAliasing)
 
@@ -38,6 +23,7 @@ local function RefreshUI(self, animate)
 end
 
 local function ApplyChanges(self)
+    local pending = _G.GraphicsPending
     local wasFullScreen = _G.GraphicsSettings.fullScreen
     local resChanged = (_G.GraphicsSettings.resolutionIndex ~= pending.resolutionIndex)
 
@@ -48,9 +34,6 @@ local function ApplyChanges(self)
     local res = RESOLUTIONS[_G.GraphicsSettings.resolutionIndex]
     local w, h = res:match("(%d+) x (%d+)")
 
-    -- Si estamos en pantalla completa y la resolución cambia, desactivamos
-    -- momentáneamente para asegurar que el motor aplique el nuevo tamaño 
-    -- de ventana antes de volver a entrar en modo fullscreen con la nueva resolución.
     if wasFullScreen and _G.GraphicsSettings.fullScreen and resChanged then
         Engine.SetFullScreen(false)
     end
@@ -60,7 +43,6 @@ local function ApplyChanges(self)
     end
 
     Engine.SetFullScreen(_G.GraphicsSettings.fullScreen)
-    -- Verificamos si la función existe en el motor antes de llamarla
     if Engine.SetAntiAliasing then
         Engine.SetAntiAliasing(_G.GraphicsSettings.antiAliasing)
     end
@@ -71,31 +53,35 @@ end
 function Initialize(self)
     Engine.Log("[GraphicsMenu] Initialize")
 
-    pending.resolutionIndex = _G.GraphicsSettings.resolutionIndex
-    pending.fullScreen      = _G.GraphicsSettings.fullScreen
-    pending.antiAliasing    = _G.GraphicsSettings.antiAliasing
-
-    RefreshUI(self, false)
-    
-    -- Recuperamos referencias de audio
     self.selectSource = GameObject.Find("UISelectSound")
     if self.selectSource then self.selectSFX = self.selectSource:GetComponent("Audio Source") end
     self.pressSource = GameObject.Find("UIPressSound")
     if self.pressSource then self.pressSFX = self.pressSource:GetComponent("Audio Source") end
+
+    _G.GraphicsPending.resolutionIndex = _G.GraphicsSettings.resolutionIndex
+    _G.GraphicsPending.fullScreen      = _G.GraphicsSettings.fullScreen
+    _G.GraphicsPending.antiAliasing    = _G.GraphicsSettings.antiAliasing
+
+    self.refreshDelay = 60 
 end
 
 function Start(self)
     self.isMenuOpened = false
+    _G.GraphicsPending = _G.GraphicsPending or {
+        resolutionIndex = _G.GraphicsSettings.resolutionIndex,
+        fullScreen      = _G.GraphicsSettings.fullScreen,
+        antiAliasing    = _G.GraphicsSettings.antiAliasing,
+    }
 end
 
--- ── Update 
 function Update(self, dt)
+    local pending = _G.GraphicsPending
     local currentXAML = _G.CurrentXAML or ""
     local isGraphics = (currentXAML:find("GraphicsMenu.xaml") ~= nil)
 
     if isGraphics and not self.isMenuOpened then
         self.isMenuOpened = true
-        Engine.Log("[GraphicsMenu] Menu opened, initializing UI from global settings...")
+        Engine.Log("[GraphicsMenu] Menu opened, initializing UI from pending settings...")
         lastFocusedButton = ""
         Initialize(self)
         local canvas = self.gameObject:GetComponent("Canvas")
@@ -107,7 +93,11 @@ function Update(self, dt)
         return
     end
 
-    -- ── Lógica de flechas de resolución
+    if self.refreshDelay and self.refreshDelay > 0 then
+        self.refreshDelay = self.refreshDelay - 1
+        RefreshUI(self, false)
+    end
+
     local function PrevRes()
         pending.resolutionIndex = pending.resolutionIndex - 1
         if pending.resolutionIndex < 1 then pending.resolutionIndex = #RESOLUTIONS end
@@ -125,21 +115,19 @@ function Update(self, dt)
     if UI.WasClicked("ResolutionPrev") then PrevRes() end
     if UI.WasClicked("ResolutionNext") then NextRes() end
 
-    -- ── FULLSCREEN toggle 
     if UI.WasClicked("FullScreen") then
         pending.fullScreen = not pending.fullScreen
+        Engine.Log("[GraphicsMenu] FullScreen clicked, pending.fullScreen = " .. tostring(pending.fullScreen))
         RefreshUI(self, false)
         if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end
     end
 
-    -- ── ANTIALIASING toggle
     if UI.WasClicked("AntiAliasing") then
         pending.antiAliasing = not pending.antiAliasing
         RefreshUI(self, false)
         if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end
     end
 
-    -- ── APPLY button
     if UI.WasClicked("ApplyButton") then
         ApplyChanges(self)
         if self.pressSFX then self.pressSFX:SelectPlayAudioEvent("UI_ButtonPress") end

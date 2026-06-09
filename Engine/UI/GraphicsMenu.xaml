@@ -513,24 +513,19 @@
                         <RowDefinition Height="0"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox x:Name="FullScreen"
-                            Grid.Row="1"
-                            Style="{StaticResource SettingToggleStyle}"
-                            RenderTransformOrigin="0.5,0.5" Content="Fullscreen" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
-                        <CheckBox.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform ScaleY="0"/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform X="-200"/>
-                            </TransformGroup>
-                        </CheckBox.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </CheckBox>
+                <CheckBox x:Name="FullScreen"
+                        Grid.Row="1"
+                        Style="{StaticResource SettingToggleStyle}"
+                        RenderTransformOrigin="0.5,0.5" Content="Fullscreen" Margin="0" FontFamily="./#Cinzel" FontWeight="Medium">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="0"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-200"/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                </CheckBox>
 
                     <Grid x:Name="ResolutionRow" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
@@ -581,11 +576,6 @@
                                 <Button x:Name="ResolutionNext"
                                         Style="{StaticResource ArrowButtonStyle}"
                                         Content="►">
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="MouseEnter">
-                                            <noesis:SetFocusAction/>
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
                                 </Button>
                             </StackPanel>
                         </Border>
@@ -605,11 +595,6 @@
                                 <TranslateTransform X="-200"/>
                             </TransformGroup>
                         </Button.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
                     </Button>
 
                     <Button x:Name="BackButton"
@@ -626,11 +611,6 @@
                                 <TranslateTransform X="-200"/>
                             </TransformGroup>
                         </Button.RenderTransform>
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseEnter">
-                                <noesis:SetFocusAction/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
                     </Button>
                   </Grid>
                 </Viewbox>

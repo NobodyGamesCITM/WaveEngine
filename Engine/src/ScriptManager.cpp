@@ -1223,9 +1223,11 @@ static int Lua_UI_SetElementVisibility(lua_State* L) {
 }
 
 static int Lua_UI_SetCheckBox(lua_State* L) {
-    const char* name = luaL_checkstring(L, 1);
-    bool checked = lua_toboolean(L, 2);
-    UIManager::GetInstance().SetCheckBox(name, checked);
+    std::string name(luaL_checkstring(L, 1));
+    bool checked = lua_toboolean(L, 2) != 0;
+    Application::GetInstance().scripts->EnqueueOperation([name, checked]() {
+        UIManager::GetInstance().SetCheckBox(name, checked);
+    });
     return 0;
 }
 

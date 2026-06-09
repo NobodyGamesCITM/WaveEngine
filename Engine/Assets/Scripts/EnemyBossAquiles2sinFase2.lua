@@ -40,6 +40,7 @@ local rb       = nil
 local nav      = nil
 local anim     = nil
 local playerGO = nil
+local postProcess = nil
 local attackCol    = nil
 local attackCol    = nil
 
@@ -1392,6 +1393,11 @@ function Start(self)
     nav  = self.gameObject:GetComponent("Navigation")
     anim = self.gameObject:GetComponent("Animation")
 
+    local camObj = GameObject.Find("MainCamera")
+    if camObj then
+        postProcess = camObj:GetComponent("PostProcessing")
+    end
+
     Engine.RequestResource("10242481670410472725")
     Engine.RequestResource("15230868181932546860")
     Engine.RequestResource("770031546471412972")
@@ -1718,6 +1724,20 @@ function Update(self, dt)
         myRot = self.transform.worldRotation
         myLocalRot = self.transform.rotation
         pp = playerGO.transform.worldPosition
+        end
+
+        if introCinematicTimer <= 6.0 and not Audio.IsEventPlaying("SFX_IntroRoar") then
+            SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
+        end
+        if introCinematicTimer <= 5.5 and introCinematicTimer > 0.7 then
+            if postProcess then
+                postProcess:SetRadialBlurEnabled(true)
+                postProcess:SetRadialBlurCenter(0.640, 0.640)
+                local normalized_time = (5.5 - introCinematicTimer) / (5.5 - 0.7) 
+                local pulsation = 0.32 + 0.1 * math.sin(normalized_time * 4 * math.pi) 
+                postProcess:SetRadialBlurIntensity(math.max(0, pulsation))
+            end
+        else
 
         if currentState ~= State.DEAD then
             local currentVel = rb:GetLinearVelocity()
@@ -1726,10 +1746,8 @@ function Update(self, dt)
             local floorheight = -1.0
 
             if currentPos.y > floorheight then
-            -- Si está flotando aunque sea un milímetro, le metemos un empujón brutal hacia abajo
                 self.transform:SetPosition(currentPos.x, -10, currentPos.z)
             else
-                -- Si está en el suelo, estabilizamos para que no acumule fuerza infinita
                 rb:SetLinearVelocity(currentVel.x, 0, currentVel.z)
             end
         end
@@ -1754,7 +1772,6 @@ function Update(self, dt)
             end
         end
 
-
         --Engine.Log("Intro cinematic timer = "..tostring(introCinematicTimer))
 
         if introCinematicTimer <= 28.29 and introCinematicTimer >= 28.1 and not Audio.IsEventPlaying("SFX_SpearGrab") then
@@ -1771,15 +1788,22 @@ function Update(self, dt)
             SelectPlaySFX(spearSFX, "SFX_SpearPlunge")
         end
 
-        -- if introCinematicTimer <= 6.58 and introCinematicTimer >= 6.4 and not Audio.IsEventPlaying("SFX_SpearPrep") then
-        --     SelectPlaySFX(spearSFX, "SFX_SpearPrep")
-        --     Engine.Log("Playing SpearPrep at "..tostring(introCinematicTimer))
-        -- end
-
-        -- if introCinematicTimer <= 6.0 and introCinematicTimer >= 6.9 and not Audio.IsEventPlaying("SFX_IntroRoar") then
-        --     SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
-        --     Engine.Log("Playing IntroRoar at "..tostring(introCinematicTimer))
-        -- end
+        if introCinematicTimer <= 5.5 and introCinematicTimer > 0.7 then
+            if not Audio.IsEventPlaying("SFX_IntroRoar") then
+                SelectPlaySFX(voiceSFX, "SFX_IntroRoar")
+            end
+            
+            if postProcess then
+                postProcess:SetRadialBlurEnabled(true)
+                local normalized_time = (5.5 - introCinematicTimer) / (5.5 - 0.7) 
+                local pulsation = 0.22 + 0.1 * math.sin(normalized_time * 4 * math.pi) 
+                postProcess:SetRadialBlurIntensity(math.max(0, pulsation)) 
+            end
+        else
+            if postProcess and not _G._berserkVigActive then
+                postProcess:SetRadialBlurEnabled(false)
+            end
+        end
 
         StopMovement()
         if introCinematicTimer <= 0 then

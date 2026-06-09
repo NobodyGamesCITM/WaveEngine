@@ -45,6 +45,8 @@ function Start(self)
     currentState = State.LOADING
     currentAlpha = 1.0 
     loadingTimer = 0.0
+    musicFadeTimer = 0.0
+    volume = 0.0
     
     _G._NewSceneLoaded = true 
 
@@ -78,7 +80,6 @@ function Start(self)
             portalExitTimer = 0.0
         end
     else
-        -- Altres escenes no necessiten esperar cap cinemàtica
         _G.PortalCinematicReady = true
     end
 end
@@ -118,26 +119,34 @@ function Update(self, dt)
     if currentState == State.FADE_OUT then
         currentAlpha = currentAlpha - (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-        volume = (self.public.maxVolume or 100.0) * (progressPercent)
+        local progressPercent = math.min((musicFadeTimer/((self.public.musicFadeTime or 2.0) + 0.001)), 1.0)
         
-        if currentAlpha <= 0.0 and volume >= ((self.public.maxVolume or 100.0) - 0.5) then
-            volume = self.public.maxVolume or 100.0
+        local targetVol = _G.SavedMusicVolume or self.public.maxVolume or 100.0
+        volume = targetVol * progressPercent
+        
+        if currentAlpha <= 0.0 and progressPercent >= 1.0 then
+            volume = targetVol
             currentAlpha = 0.0
             musicFadeTimer = 0
             currentState = State.IDLE
 
-            if self.public.currentLevel == "MainMenu" or self.public.targetScene == "Splash.scene" or self.public.targetScene == "Splash" then
+            if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") then
                 _G.MainMenuNeedsIntro = true
+                _G.SceneManagerState = State.IDLE
                 Engine.Log("[SceneChanger] MainMenuNeedsIntro activat.")
             end
 
             _G._MenuManager_NeedReinit = true
         end
         SetMusicVolume(volume)
-        SetSFXVolume(volume)
+        
 
-        -- Si la secuencia de título está activa, no interferimos con la opacidad del canvas
+        if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") then
+            SetSFXVolume(_G.SavedSoundEffectsVolume or 100.0)
+        else
+            SetSFXVolume(volume)
+        end
+
         if _G.TitleTrigger_Active then
             return
         end
@@ -147,9 +156,12 @@ function Update(self, dt)
     elseif currentState == State.LOADING then
         loadingTimer = loadingTimer + dt
 
-        -- FIX: per Level2 (sense save), esperem tant el loadingDuration mínim
-        -- com que la cinemàtica de portal estigui llesta (_G.PortalCinematicReady)
-        local minTimeReached = loadingTimer >= (self.public.loadingDuration or 2.5)
+        local waitLimit = self.public.loadingDuration or 2.5
+        if self.public.targetScene:find("Splash") or self.public.targetScene:find("MainMenu") or self.public.targetScene == "Splash.scene" then
+            waitLimit = 0.3
+        end
+
+        local minTimeReached = loadingTimer >= waitLimit
         local cinematicReady = (_G.PortalCinematicReady == true)
 
         if minTimeReached and cinematicReady then
@@ -171,12 +183,13 @@ function Update(self, dt)
     elseif currentState == State.FADE_IN then
         currentAlpha = currentAlpha + (self.public.fadeSpeed * dt)
         musicFadeTimer = musicFadeTimer + (self.public.musicFadeTime * dt)
-        local progressPercent = math.min((musicFadeTimer/(self.public.musicFadeTime or 2.0)), 1.0)
-        volume = (self.public.maxVolume or 100.0) * (1 - progressPercent)
+        local progressPercent = math.min((musicFadeTimer/((self.public.musicFadeTime or 2.0) + 0.001)), 1.0)
+        local startVol = _G.SavedMusicVolume or self.public.maxVolume or 100.0
+        volume = startVol * (1 - progressPercent)
         
         if currentAlpha >= 1.0 then
             currentAlpha = 1.0
-            volume = 0
+            volume = 0.0
             musicFadeTimer = 0
             loadingTimer = 0
             currentState = State.LOADING

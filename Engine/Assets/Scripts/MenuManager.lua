@@ -256,6 +256,9 @@ local DROWNING_DEATH_MENU_DELAY = 2.0
 local triedAgain = false
 
 local function ApplyFullVolume(self)
+    if not self.selectSFX or not self.pressSFX then 
+        InitAudioSources(self) 
+    end
     Audio.SetSFXVolume(_G.SavedSoundEffectsVolume)
     Audio.SetMusicVolume(_G.SavedMusicVolume)
 end
@@ -626,7 +629,6 @@ function Update(self, dt)
             Engine.Log("[MenuManager] SceneChanger IDLE, iniciant fadeIn + Intro del MainMenu.")
             SetPhase(self, "fadeIn")
         end
-        return
 
     -- ─── IDLE ────────────────────────────────────────────────────────────────
     elseif self.phase == "idle" then
@@ -663,6 +665,10 @@ function Update(self, dt)
         if self.pendingHUDRefresh then
             self.pendingHUDRefresh = false
             if _G.ForceRefreshHUD then _G.ForceRefreshHUD() end
+        end
+
+        if self.current:find("MainMenu") and _G.SceneManagerState == 1 then
+            ApplyFullVolume(self)
         end
 
         if not self.loggedReady then

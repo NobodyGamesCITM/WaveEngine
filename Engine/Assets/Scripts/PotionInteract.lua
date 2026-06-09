@@ -4,7 +4,7 @@ public = {
 
     radius = 2.0,
     actionText = "Obtener Poción",
-    itemText   = "¡Poción obtenida!",
+    itemText   = "¡Potion obtained!",
     --chestAnim  = "Open",
     potionType = "Health", -- "Health" o "Berserk"
     updateWhenPaused = true,  
@@ -202,7 +202,5 @@ function Update(self, dt)
         self.waitingPopup = true
         self.popupTimer   = 0.0
     end
-
-
 
 end

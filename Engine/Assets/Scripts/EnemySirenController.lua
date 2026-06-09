@@ -328,7 +328,7 @@ local function UpdateHeight(self, targetOffset, dt)
     local pos = self.transform.position
     pos.y = self.baseY + yOffset
     self.transform:SetPosition(pos.x, pos.y, pos.z)
-    if yOffset < 0.2 then
+    if yOffset < 0.1 then
         if not self.isFullyHidden then
             self.isFullyHidden = true
             -- Engine.Log("[Siren] Sumergida: Invulnerable")
@@ -454,24 +454,25 @@ end
 
 local function UpdateHide(self, dt)
     UpdateHeight(self, 0, dt)
+    
     if self.anim and not self.anim:IsPlayingAnimation("Hide") then
         self.anim:Play("Hide")
+        
         if self.wavesPs then self.wavesPs:Play() end
         if self.dipSFX and not Audio.IsEventPlaying("SFX_SirenDip")then self.dipSFX:PlayAudioEvent() end
 
         self.isFullyHidden = false
         self.hideAnimTimer = 0
+        
+        self.protegidaPorParticulas = true
     end
 
     if not self.isFullyHidden then
         self.hideAnimTimer = (self.hideAnimTimer or 0) + dt
         if self.hideAnimTimer >= 0.2 then
             self.isFullyHidden = true
-           -- Engine.Log("[Siren] Completamente escondida. Ahora es invulnerable.")
         end
     end
-
-
 
     self.hideDurationTimer = (self.hideDurationTimer or 0) - dt
 
@@ -482,13 +483,15 @@ local function UpdateHide(self, dt)
     if self.hideDurationTimer <= 0 then
         self.isFullyHidden = false
         self.hideAnimTimer = 0
+        
         self.currentState = State.IDLE
-       -- Engine.Log("[Siren] El player paró de atacar. Salgo a contraatacar.")
     end
 end
 
 local function UpdateIdle(self, dist, dt)
     
+    self.protegidaPorParticulas = true
+
     if anim and not anim:IsPlayingAnimation("Hide") then
         anim:Play("Hide", 0.2)
     end
@@ -527,6 +530,8 @@ local function UpdateIdle(self, dist, dt)
             
             
             self.windUpTimer = 0
+            self.protegidaPorParticulas = false
+
             ChangeState(self, State.WINDUP)
         end
 
@@ -1090,10 +1095,15 @@ function OnTriggerEnter(self, other)
     end
 
     
-    if self.currentState == State.HIDE then return end
+   -- if self.isFullyHidden or (yOffset and yOffset <= 0.3) or (self.currentState == State.HIDE  or self.currentState == State.IDLE) then return end
 
 	
     if other:CompareTag("Bullet") then
+        
+        if self.protegidaPorParticulas or self.currentState == State.HIDE or self.currentState == State.IDLE  then
+            return 
+        end
+        
         -- La bala golpea a la sirena
         if not self.alreadyHit then
             local ap  = other.transform.worldPosition

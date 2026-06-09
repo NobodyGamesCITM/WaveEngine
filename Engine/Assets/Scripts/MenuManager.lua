@@ -689,9 +689,17 @@ function Update(self, dt)
             self.deathTimer = 0.0
             if not self.fading and self.canvas and (_G.SceneManagerState == nil or _G.SceneManagerState == 1) then
                 if self.current == "SonOfIthaca.xaml" or _G.CinematicActive == true or _G.PlayerInAnim == true then
-                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true) and not _G.HUD_IsFading then
-                    self.canvas:SetOpacity(0.0)
+                    -- TitleTrigger controla la opacidad directamente, no interferir
+                elseif self.current == "HUD.xaml" and not _G.LoadedFromSave
+                    and (_G.TitleTrigger_Active == true or _G.TitleTrigger_HUDShouldStartHidden == true)
+                    and not _G.HUD_IsFading then
+                    -- FIX: Solo forzar opacity 0 si TitleTrigger NO está animando activamente el canvas.
+                    -- Cuando TitleTrigger_Active==true, TitleTrigger.lua ya controla SetOpacity cada frame.
+                    if not _G.TitleTrigger_Active then
+                        self.canvas:SetOpacity(0.0)
+                    end
                 elseif _G.HUD_IsFading == true then
+                    -- TitleTrigger está en fase hudFade, no interferir
                 else
                     self.canvas:SetOpacity(1.0)
                 end

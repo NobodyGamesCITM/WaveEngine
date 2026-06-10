@@ -57,7 +57,7 @@ PRESETS = {
         duration = 5.0,
         condition = function() return _G._UnlockedMasks and _G._UnlockedMasks.Apollo == true end,
         slots = {
-            { img = "HintImg_ApoloFuerte",      key = "HintKey_E",           gp = "HintGP_Y" },
+            { img = "HintImg_ApoloFuerte",      key = "HintKey_E",           gp = "HintGP_X" },
         },
     },
     apolo_puzzleDisparo = {

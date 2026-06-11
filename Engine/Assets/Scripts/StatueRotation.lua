@@ -1,14 +1,54 @@
 public = {
-    rotationSpeed = 180.0,  -- speed
-    targetDegrees = 90.0 
+    rotationSpeed = 180.0,
+    targetDegrees = 90.0,
+    promptRadius  = 5.0,
 }
+
+local PROMPT_ROOT     = "StatuePrompt"
+local ICON_KEYBOARD   = "Statue_Keyboard"
+local ICON_GAMEPAD    = "Statue_Gamepad"
+local ICON_W          = 50.0
+local ICON_H          = 50.0
+local PROMPT_OFFSET_Y = 80.0
 
 local baseRotX, baseRotY, baseRotZ = 0.0, 0.0, 0.0
 local currentOffset = 0.0
 local targetOffset  = 0.0
-local rotateSFX = nil
-local hasTurned = false
-local hitCooldown = 0.0
+local rotateSFX     = nil
+local hasTurned     = false
+local hitCooldown   = 0.0
+local inRange       = false
+
+local function updatePromptPosition(self)
+    local pos = self.transform.worldPosition
+    local sx, sy = Camera.WorldToScreen(pos.x, pos.y, pos.z)
+    if not sx or not sy then return false end
+
+    local vw, vh = Camera.GetViewportSize()
+    if not vw or vw == 0 then return false end
+
+    local cx = sx - ICON_W * 0.5 + 5.0
+    local cy = sy - ICON_H * 0.5 - PROMPT_OFFSET_Y
+
+    if cx < 0 or cx > vw or cy < 0 or cy > vh then return false end
+
+    UI.SetCanvasPosition(PROMPT_ROOT, cx, cy)
+    return true
+end
+
+local function showPrompt(self)
+    if not updatePromptPosition(self) then return end
+    local isGamepad = (_G.LastInputType == "gamepad")
+    UI.SetElementVisibility(ICON_KEYBOARD, not isGamepad)
+    UI.SetElementVisibility(ICON_GAMEPAD,  isGamepad)
+    UI.SetElementVisibility(PROMPT_ROOT,   true)
+end
+
+local function hidePrompt()
+    UI.SetElementVisibility(PROMPT_ROOT,   false)
+    UI.SetElementVisibility(ICON_KEYBOARD, false)
+    UI.SetElementVisibility(ICON_GAMEPAD,  false)
+end
 
 function Start(self)
     local rot = self.transform.rotation
@@ -17,29 +57,49 @@ function Start(self)
     baseRotZ = rot.z
     currentOffset = 0.0
     targetOffset  = 0.0
-	rotateSFX = self.gameObject:GetComponent("Audio Source")
-
-	if not rotateSFX then 
-        --Engine.Log("[STATUE ROTATION] Could not retrieve Rotate Statue Audio Source") 
-	else 
-        --Engine.Log("[STATUE ROTATION] Rotate Statue Audio Source found!") 
-    end
+    rotateSFX = self.gameObject:GetComponent("Audio Source")
 end
 
 function OnTriggerEnter(self, other)
-    if other:CompareTag("Player") and _G._PlayerController_lastAttack == "light" and hitCooldown <= 0.0 then
+    if other:CompareTag("Player")
+       and _G._PlayerController_lastAttack == "light"
+       and hitCooldown <= 0.0 then
         targetOffset = targetOffset + self.public.targetDegrees
-        hitCooldown = 0.5
+        hitCooldown  = 0.5
     end
 end
 
 function Update(self, dt)
-	if not turnSFX then
-		rotateSFX = self.gameObject:GetComponent("Audio Source")
-	end
+    -- Re-find audio si perdido
+    if not rotateSFX then
+        rotateSFX = self.gameObject:GetComponent("Audio Source")
+    end
 
     if hitCooldown > 0.0 then
         hitCooldown = hitCooldown - dt
+    end
+
+    local player = _G.PlayerInstance or GameObject.Find("Player")
+    if player then
+        local myPos     = self.transform.worldPosition
+        local playerPos = player.transform.worldPosition
+        local dx   = myPos.x - playerPos.x
+        local dz   = myPos.z - playerPos.z
+        local dist = math.sqrt(dx * dx + dz * dz)
+
+        if dist < self.public.promptRadius then
+            if not inRange then inRange = true end
+            if not _G.DialogActive and not _G.CinematicActive then
+                showPrompt(self)
+            else
+                hidePrompt()
+            end
+        else
+            if inRange then
+                inRange = false
+                hidePrompt()
+            end
+        end
     end
 
     if currentOffset ~= targetOffset then
@@ -47,12 +107,13 @@ function Update(self, dt)
             if rotateSFX then rotateSFX:SelectPlayAudioEvent("SFX_StatueTurn") end
             hasTurned = true
         end
+
         local step = self.public.rotationSpeed * dt
         local diff = targetOffset - currentOffset
 
         if math.abs(diff) <= step then
             currentOffset = targetOffset
-			hasTurned = false
+            hasTurned     = false
         else
             currentOffset = currentOffset + (diff > 0 and step or -step)
         end
@@ -60,4 +121,3 @@ function Update(self, dt)
         self.transform:SetRotation(baseRotX, baseRotY + currentOffset, baseRotZ)
     end
 end
-

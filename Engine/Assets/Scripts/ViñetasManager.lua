@@ -9,6 +9,9 @@ local FADE_DURATION       = 0
 local PANEL_FADE_DURATION = 0
 local PAGE_BREAK_DURATION = 0.6
 
+local SKIP_HOLD_TIME = 1.2
+local skipHoldTimer  = 0.0
+
 local sequence = {
     { page = "Page1", panel = "Page1_V1" },
     { page = "Page1", panel = "Page1_V2" },
@@ -252,6 +255,19 @@ function Update(self, dt)
     if state == "finished" then return end
 
     if not pageTurnSFX then FindAudioSources(self) end
+
+    -- Skip cinematic by holding Up / Triangle (Y)
+    local isSkipHeld = Input.GetKey("Up") or Input.GetKey("W") or Input.GetGamepadButton("Y")
+    if isSkipHeld then
+        skipHoldTimer = skipHoldTimer + math.min(dt, 0.05)
+        if skipHoldTimer >= SKIP_HOLD_TIME then
+            skipHoldTimer = 0.0
+            loadStep(#sequence + 1)
+            return
+        end
+    else
+        skipHoldTimer = 0.0
+    end
 
     if self.public.debugSkip and (Input.GetKeyDown("F") or Input.GetGamepadButtonDown("A")) then
         loadStep(#sequence + 1)

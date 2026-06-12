@@ -58,19 +58,11 @@ function Start(self)
     currentOffset = 0.0
     targetOffset  = 0.0
     rotateSFX = self.gameObject:GetComponent("Audio Source")
-end
-
-function OnTriggerEnter(self, other)
-    if other:CompareTag("Player")
-       and _G._PlayerController_lastAttack == "light"
-       and hitCooldown <= 0.0 then
-        targetOffset = targetOffset + self.public.targetDegrees
-        hitCooldown  = 0.5
-    end
+    print("Estatua inicializada correctamente.")
 end
 
 function Update(self, dt)
-    -- Re-find audio si perdido
+    -- Re-find audio si se pierde
     if not rotateSFX then
         rotateSFX = self.gameObject:GetComponent("Audio Source")
     end
@@ -89,10 +81,19 @@ function Update(self, dt)
 
         if dist < self.public.promptRadius then
             if not inRange then inRange = true end
+            
+            -- UI Prompt
             if not _G.DialogActive and not _G.CinematicActive then
                 showPrompt(self)
             else
                 hidePrompt()
+            end
+
+            -- DETECCIÓN DEL GOLPE (reemplaza a los Triggers)
+            if _G._PlayerController_lastAttack == "light" and hitCooldown <= 0.0 then
+                print("¡Golpe detectado! Rotando 90° a la derecha.")
+                targetOffset = targetOffset - self.public.targetDegrees -- El signo '-' rota a la derecha
+                hitCooldown  = 0.6 -- Cooldown para evitar que gire sin parar durante la animación
             end
         else
             if inRange then
@@ -102,6 +103,7 @@ function Update(self, dt)
         end
     end
 
+    -- Lógica de interpolación de la rotación
     if currentOffset ~= targetOffset then
         if not hasTurned then
             if rotateSFX then rotateSFX:SelectPlayAudioEvent("SFX_StatueTurn") end
@@ -113,7 +115,7 @@ function Update(self, dt)
 
         if math.abs(diff) <= step then
             currentOffset = targetOffset
-            hasTurned     = false
+            hasTurned     = false 
         else
             currentOffset = currentOffset + (diff > 0 and step or -step)
         end

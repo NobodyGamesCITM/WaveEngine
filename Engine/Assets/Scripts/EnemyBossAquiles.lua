@@ -650,6 +650,8 @@ function Update(self, dt)
         if nav then nav:StopMovement() end
         if rb  then HardBrakeXZ() end
         if attackCol then attackCol:Disable() end
+        Game.SetTimeScale(0.1)
+        _impactFrameTimer = 0.15
         currentState = State.DEAD
         isDead       = true
         PlayAnim(self.public.animDeath, 0.05)

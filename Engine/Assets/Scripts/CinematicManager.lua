@@ -5,6 +5,9 @@ public = {
 local cinematicCamComp = nil
 local wasPlaying = false
 
+local SKIP_HOLD_TIME = 1.2
+local skipHoldTimer  = 0.0
+
 local function SendTrackToCamera(track, blendBackTime)
     local camObj = GameObject.Find("MainCamera")
     if not camObj then 
@@ -14,6 +17,7 @@ local function SendTrackToCamera(track, blendBackTime)
     
     cinematicCamComp = camObj:GetComponent("CinematicCamera")
     if cinematicCamComp then
+        skipHoldTimer = 0.0
         _G.CinematicActive = true
         
         if _G.TargetLockManager_ClearLock then _G.TargetLockManager_ClearLock() end
@@ -306,7 +310,32 @@ end
 
 function Update(self, dt)
     if wasPlaying and cinematicCamComp then
-        if not cinematicCamComp:IsPlayingCinematic() then
+        -- Skip cinematic by holding Up / Triangle (Y)
+        local isSkipHeld = Input.GetKey("Up") or Input.GetKey("W") or Input.GetGamepadButton("Y")
+        local forceStop = false
+
+        if isSkipHeld then
+            skipHoldTimer = skipHoldTimer + math.min(dt, 0.05)
+            if skipHoldTimer >= SKIP_HOLD_TIME then
+                skipHoldTimer = 0.0
+                forceStop = true
+            end
+        else
+            skipHoldTimer = 0.0
+        end
+
+        if forceStop or not cinematicCamComp:IsPlayingCinematic() then
+            if forceStop then
+                -- Forzar a la cámara a detenerse y volver a seguir al jugador
+                if cinematicCamComp.StopCinematic then cinematicCamComp:StopCinematic() end
+                if cinematicCamComp.ClearTargets then cinematicCamComp:ClearTargets() end
+                if _G.PlayerInstance and cinematicCamComp.AddTarget then
+                    cinematicCamComp:AddTarget(_G.PlayerInstance.gameObject, 1.0)
+                end
+                -- Forzar el fin del temporizador del jugador
+                if _G.SetPlayerAnimTimer then _G.SetPlayerAnimTimer(0.01) end
+            end
+
             wasPlaying = false
             _G.CinematicActive = false
             
@@ -316,6 +345,13 @@ function Update(self, dt)
             
             if _G.TargetLockManager_SetParticleVisibility then
                 _G.TargetLockManager_SetParticleVisibility(true)
+            end
+
+            -- Restore UI visibility
+            local uiManager = GameObject.Find("UIManager")
+            if uiManager then
+                local uiCanvas = uiManager:GetComponent("Canvas")
+                if uiCanvas then uiCanvas:SetOpacity(1.0) end
             end
         end
     end

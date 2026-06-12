@@ -31,6 +31,8 @@ local playedStep4 = false
 local playedStep5 = false
 local playedStep6 = false
 
+local SKIP_HOLD_TIME = 1.2
+local skipHoldTimer  = 0.0
 
 
 
@@ -2197,6 +2199,29 @@ function Update(self, dt)
         _G.PlayerInAnim = true
         if Player.rb then Player.rb:SetLinearVelocity(0, 0, 0) end
         Player.AnimTimer = Player.AnimTimer - dt
+
+        -- Skip cinematic by holding Up / Triangle (Y)
+        local isSkipHeld = Input.GetKey("Up") or Input.GetKey("W") or Input.GetGamepadButton("Y")
+        if isSkipHeld then
+            skipHoldTimer = skipHoldTimer + dt
+            if skipHoldTimer >= SKIP_HOLD_TIME then
+                skipHoldTimer = 0.0
+                Player.AnimTimer = 0.01 -- Salta al final del temporizador para ejecutar la limpieza
+
+                -- Forzar a la cámara a detener la cinemática y re-enfocar al jugador
+                local camObj = GameObject.Find("MainCamera")
+                if camObj then
+                    local cineCam = camObj:GetComponent("CinematicCamera")
+                    if cineCam then
+                        if cineCam.StopCinematic then cineCam:StopCinematic() end
+                        if cineCam.ClearTargets then cineCam:ClearTargets() end
+                        if cineCam.AddTarget then cineCam:AddTarget(self.gameObject, 1.0) end
+                    end
+                end
+            end
+        else
+            skipHoldTimer = 0.0
+        end
 
         if _G._BossIntroCinematic then
             

@@ -38,6 +38,7 @@ public:
     void ClearTargets();
     void TriggerShake(float duration, float magnitude, float frequency);
     void PlayCinematic(const std::vector<CameraKeyframe>& track, float blendBackTime);
+    void StopCinematic();
     bool IsPlayingCinematic() const { return camState != CameraState::NORMAL; }
 
 private:

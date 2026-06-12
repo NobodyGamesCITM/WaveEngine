@@ -517,7 +517,7 @@ local function UpdateDeath(self,dt)
         Engine.Log("[Minocabro] DEAD")
         Game.SetTimeScale(0.2)
         _impactFrameTimer = 0.1
-        self.isDead = true
+        _impactFrameTimer = 0.07
 
         if _G.TriggerExplorationMusic then _G.TriggerExplorationMusic() end
 

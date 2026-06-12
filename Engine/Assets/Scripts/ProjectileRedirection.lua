@@ -11,7 +11,16 @@ public = {
     shootMode      = false,
     shootDelay     = 0.5,
     shootDuration  = 1.0,
+    lockRange      = 8.0,    -- rango para mostrar el icono de lock-on
 }
+
+-- Lock-on prompt (icono encima de estatuas catalizadoras)
+local PROMPT_ROOT     = "LockOnPrompt"
+local ICON_KEYBOARD   = "LockOn_Keyboard"
+local ICON_GAMEPAD    = "LockOn_Gamepad"
+local PROMPT_OFFSET_Y = 50.0
+local ICON_W          = 40.0
+local ICON_H          = 40.0
 
 local dirX, dirY, dirZ = 0.0, 0.0, 1.0
 local onlyRedirected = false
@@ -24,6 +33,55 @@ local delayTimer     = 0.0
 local fireCooldown   = 0.0
 local shootParticle  = nil
 
+local lockVisible = false
+
+local function getAnchorPos(self)
+    local anchor = GameObject.FindInChildren(self.gameObject, "InteractAnchor")
+    if anchor and anchor.transform then
+        return anchor.transform.worldPosition
+    end
+    return self.transform.worldPosition
+end
+
+local function updateLockPosition(self)
+    local pos = getAnchorPos(self)
+    local sx, sy = Camera.WorldToScreen(pos.x, pos.y, pos.z)
+    if not sx or not sy then return false end
+
+    local vw, vh = Camera.GetViewportSize()
+    if not vw or vw == 0 or not vh or vh == 0 then return false end
+
+    local cx = sx - ICON_W * 0.5 + 0.5
+    local cy = sy - ICON_H * 0.5 - PROMPT_OFFSET_Y
+
+    if cx < 0 or cx > vw or cy < 0 or cy > vh then return false end
+
+    UI.SetCanvasPosition(PROMPT_ROOT, cx, cy)
+    return true
+end
+
+local function showLock(self)
+    if not updateLockPosition(self) then
+        if lockVisible then
+            UI.SetElementVisibility(PROMPT_ROOT, false)
+            lockVisible = false
+        end
+        return
+    end
+
+    local isGamepad = (_G.LastInputType == "gamepad")
+    UI.SetElementVisibility(ICON_KEYBOARD, not isGamepad)
+    UI.SetElementVisibility(ICON_GAMEPAD,  isGamepad)
+    UI.SetElementVisibility(PROMPT_ROOT,   true)
+    lockVisible = true
+end
+
+local function hideLock()
+    if not lockVisible then return end
+    UI.SetElementVisibility(PROMPT_ROOT, false)
+    lockVisible = false
+end
+
 function Start(self)
     dirX           = self.public.dirX
     dirY           = self.public.dirY
@@ -34,11 +92,41 @@ function Start(self)
     anim = self.gameObject:GetComponent("Animation")
     if anim then anim:Play("Idle", 0.0) end
 
+    -- NOTA: las estatuas catalizadoras (shootMode = true) ya NO se registran
+    -- como interactuables normales, para que no aparezca el prompt de F/A
+    -- (el mismo que cofres/checkpoints). Solo muestran el icono de lock-on.
+    -- if self.public.shootMode then
+    --     _G.RegisterInteractable(self.gameObject, "redirector_shoot")
+    -- end
+
     local vfx = GameObject.FindInChildren(self.gameObject, "Particle")
     if vfx then shootParticle = vfx:GetComponent("ParticleSystem") end
 end
 
 function Update(self, dt)
+    -- Lock-on icon (estatuas catalizadoras con shootMode)
+    if self.public.shootMode then
+        if _G.DialogActive or _G.CinematicActive or _G.PlayerInAnim then
+            hideLock()
+        else
+            local player = _G.PlayerInstance or GameObject.Find("Player")
+            if player then
+                local myPos = self.transform.worldPosition
+                local pPos  = player.transform.worldPosition
+                local dx, dy, dz = myPos.x - pPos.x, myPos.y - pPos.y, myPos.z - pPos.z
+                local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
+
+                if dist <= self.public.lockRange then
+                    showLock(self)
+                else
+                    hideLock()
+                end
+            else
+                hideLock()
+            end
+        end
+    end
+
     if not self.public.shootMode then return end
 
     if fireCooldown > 0 then fireCooldown = fireCooldown - dt end

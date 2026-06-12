@@ -16,6 +16,7 @@ local PRIORITY = {
     maskstatue = 2,
     keystatue  = 3,
     portal     = 4,
+    redirector_shoot = 2, -- Misma prioridad que maskstatue
     chest      = 5,
 }
 
@@ -96,16 +97,22 @@ end
 
 local function pickBest(playerPos)
     local best, bestScore = nil, math.huge
+    local MAX_Y_DIFF = 8.0
+
     for obj, itype in pairs(candidates) do
         if obj and obj.transform then
-            local p    = obj.transform.worldPosition
-            local dx   = p.x - playerPos.x
-            local dz   = p.z - playerPos.z
-            local dist = math.sqrt(dx * dx + dz * dz)
-            local score = (PRIORITY[itype] or 99) * 1000 + dist
-            if score < bestScore then
-                bestScore = score
-                best = { obj = obj, itype = itype, dist = dist }
+            local p  = getPromptAnchorPos(obj)
+            local dy = math.abs(p.y - playerPos.y)
+
+            if dy < MAX_Y_DIFF then
+                local dx   = p.x - playerPos.x
+                local dz   = p.z - playerPos.z
+                local dist = math.sqrt(dx * dx + dz * dz)
+                local score = (PRIORITY[itype] or 99) * 1000 + dist
+                if score < bestScore then
+                    bestScore = score
+                    best = { obj = obj, itype = itype, dist = dist }
+                end
             end
         end
     end

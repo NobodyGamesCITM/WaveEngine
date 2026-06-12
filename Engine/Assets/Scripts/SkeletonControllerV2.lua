@@ -367,6 +367,8 @@ function Update(self, dt)
         Skeleton.isDead       = true
         --Engine.Log("[Skeleton] MUERTO")
         --Enemy.dieSFX:PlayAudioEvent()
+        Game.SetTimeScale(0.2)
+        _impactFrameTimer = 0.07
         self:Destroy()
         return
     end

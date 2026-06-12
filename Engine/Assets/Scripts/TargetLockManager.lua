@@ -19,6 +19,13 @@ local SWITCH_DELAY = 0.3
 _G.TargetLockManager_IsLocked = false
 _G.TargetLockManager_CurrentTarget = nil
 
+local PROMPT_ROOT     = "LockOnPrompt"
+local ICON_KEYBOARD   = "LockOn_Keyboard"
+local ICON_GAMEPAD    = "LockOn_Gamepad"
+local PROMPT_OFFSET_Y = 50.0
+local ICON_W          = 40.0
+local ICON_H          = 40.0
+
 local ClearLockInternal 
 
 function Start(self)
@@ -183,6 +190,47 @@ local function SwitchTarget(self, directionStr)
     end
 end
 
+local function UpdateLockPrompt(target, isLocked)
+    if not target or isLocked then
+        UI.SetElementVisibility(PROMPT_ROOT, false)
+        return
+    end
+
+    -- Excluir a Aquiles del prompt visual
+    local name = target.name or ""
+    if name:find("Aquiles") then
+        UI.SetElementVisibility(PROMPT_ROOT, false)
+        return
+    end
+
+    local tPos = target.transform.worldPosition
+    local sx, sy = Camera.WorldToScreen(tPos.x, tPos.y + 2.0, tPos.z)
+    if not sx or not sy then
+        UI.SetElementVisibility(PROMPT_ROOT, false)
+        return
+    end
+
+    local vw, vh = Camera.GetViewportSize()
+    if not vw or vw == 0 or not vh or vh == 0 then
+        UI.SetElementVisibility(PROMPT_ROOT, false)
+        return
+    end
+
+    local cx = sx - ICON_W * 0.5
+    local cy = sy - ICON_H * 0.5 - PROMPT_OFFSET_Y
+
+    if cx < 0 or cx > vw or cy < 0 or cy > vh then
+        UI.SetElementVisibility(PROMPT_ROOT, false)
+        return
+    end
+
+    local isGamepad = (_G.LastInputType == "gamepad")
+    UI.SetElementVisibility(ICON_KEYBOARD, not isGamepad)
+    UI.SetElementVisibility(ICON_GAMEPAD,  isGamepad)
+    UI.SetCanvasPosition(PROMPT_ROOT, cx, cy)
+    UI.SetElementVisibility(PROMPT_ROOT, true)
+end
+
 ClearLockInternal = function(self)
     if not isLocked then return end
     isLocked = false
@@ -228,6 +276,7 @@ end
 function Update(self, dt)
     if _G.CinematicActive then 
         if lockParticleObj then lockParticleObj:SetActive(false) end
+        UI.SetElementVisibility(PROMPT_ROOT, false)
         return 
     end
 
@@ -236,6 +285,7 @@ function Update(self, dt)
             ClearLockInternal(self) 
         end
         if lockParticleObj then lockParticleObj:SetActive(false) end
+        UI.SetElementVisibility(PROMPT_ROOT, false)
         return
     end
 
@@ -249,6 +299,14 @@ function Update(self, dt)
         else
             EngageLock(self)
         end
+    end
+
+    -- Lógica para mostrar el prompt de "Lock On" sobre el objetivo potencial
+    if not isLocked then
+        local potentialTarget = FindBestTarget(self)
+        UpdateLockPrompt(potentialTarget, isLocked)
+    else
+        UI.SetElementVisibility(PROMPT_ROOT, false)
     end
 
     if isLocked and currentTarget then

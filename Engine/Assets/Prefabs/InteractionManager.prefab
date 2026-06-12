@@ -1,0 +1,79 @@
+[
+    {
+        "active": true,
+        "children": [],
+        "components": [
+            {
+                "active": true,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": 0
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    }
+                ],
+                "scriptUID": 6903236906432829183,
+                "type": 6
+            },
+            {
+                "active": true,
+                "publicVariables": [
+                    {
+                        "name": "updateWhenPaused",
+                        "type": 2,
+                        "value": true
+                    },
+                    {
+                        "name": "offsetZ",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "offsetX",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "offsetY",
+                        "type": 0,
+                        "value": 0.0
+                    },
+                    {
+                        "name": "near",
+                        "type": 0,
+                        "value": 10.0
+                    },
+                    {
+                        "name": "saveCooldown",
+                        "type": 0,
+                        "value": 5.0
+                    }
+                ],
+                "scriptUID": 13425693025005370964,
+                "type": 6
+            }
+        ],
+        "name": "InteractionManager",
+        "tag": "",
+        "uid": 3996494690685538504
+    }
+]

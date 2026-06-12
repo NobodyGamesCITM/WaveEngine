@@ -349,6 +349,17 @@ void ComponentCinematicCamera::PlayCinematic(const std::vector<CameraKeyframe>& 
     LOG_CONSOLE("[CinematicCamera] Started cinematic with %d keyframes.", track.size());
 }
 
+void ComponentCinematicCamera::StopCinematic() {
+    if (camState == CameraState::NORMAL) return;
+
+    cinematicEndPos = currentPos;
+    cinematicEndRot = currentRot;
+    camState = CameraState::BLENDING_BACK;
+    blendBackTimer = 0.0f;
+
+    LOG_CONSOLE("[CinematicCamera] StopCinematic called, blending back to player.");
+}
+
 glm::vec3 ComponentCinematicCamera::EvaluateCatmullRom(const glm::vec3& p0, const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3, float t) {
     float t2 = t * t;
     float t3 = t2 * t;

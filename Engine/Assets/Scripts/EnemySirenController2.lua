@@ -201,7 +201,7 @@ local function TakeDamage(self, amount, attackerPos)
 			--if deathSFX then deathSFX:PlayAudioEvent() end
             SelectPlaySFX(waterSFX, "SFX_SirenDie")
 			hasDeathPlayed = true
-            Game.SetTimeScale(0.2)
+            Game.SetTimeScale(0.2) -- Already 0.2
             _impactFrameTimer = 0.07
 		end
 

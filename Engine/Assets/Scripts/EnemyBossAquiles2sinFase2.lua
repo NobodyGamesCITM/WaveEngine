@@ -567,8 +567,8 @@ local function TakeDamage(self, amount, attackerPos)
             _G._AquilesDefeated = true
             _G._Aquiles_Fase3Active = true
             _G._Aquiles_Fase2Active = false
-            Game.SetTimeScale(0.1)
-            _impactFrameTimer = 0.3
+            Game.SetTimeScale(0.1) -- Already 0.1
+            _impactFrameTimer = 0.15
             blockHits = true
             ChangeState(State.DEAD)
             SelectPlaySFX(voiceSFX, "SFX_AquilesDeath")

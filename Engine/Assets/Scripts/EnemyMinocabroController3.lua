@@ -157,7 +157,7 @@ local function TakeDamage(self, amount, attackerPos)
 
     if self.hp <= 0 and self.currentState ~= State.DEAD then
         Game.SetTimeScale(0.3)
-        _impactFrameTimer = 0.2
+        _impactFrameTimer = 0.07
     end
 
     if self.hp <= 0 then
@@ -563,7 +563,7 @@ local function UpdateDeath(self, dt)
     end
 
     if self.voiceSFX then
-        if not self.voiceSFX:IsPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 then 
+        if not self.voiceSFX:IsPlaying("SFX_MinoDieCry") and self.deathTimer >= 3.0 and self.deathTimer <= 3.2 then 
             self.voiceSFX:StopAudioEvent()
             self.voiceSFX:SelectPlayAudioEvent("SFX_MinoDieCry") 
             --Engine.Log("[Minocabro] Playing Death SFX Part 1")
@@ -729,6 +729,7 @@ function Start(self)
         enemyDamageMax = 35,
 
         predictionTime = 0.4,
+        interactionHeight = 3.5,
     }
 
     self.hp               = self.public.maxHp
@@ -1030,6 +1031,3 @@ function OnTriggerExit(self, other)
         end
     end
 end
-
-
-

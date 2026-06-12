@@ -171,8 +171,8 @@ local function TakeDamage(self, amount, attackerPos)
     if  Skeleton.hp <= 0 and Skeleton.currentState ~= State.DEAD then
         if  Skeleton.nav then  Skeleton.nav:StopMovement()  end
         if self.dieSFX then self.dieSFX:PlayAudioEvent() end
-        Game.SetTimeScale(0.3)
-        _impactFrameTimer = 0.2
+        Game.SetTimeScale(0.2)
+        _impactFrameTimer = 0.07
         initChase = false
         Skeleton.Ares = false
         ChangeState(self, State.DEAD)

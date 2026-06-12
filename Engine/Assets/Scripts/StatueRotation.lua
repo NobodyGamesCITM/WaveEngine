@@ -19,8 +19,22 @@ local hasTurned     = false
 local hitCooldown   = 0.0
 local inRange       = false
 
+local function getPromptAnchorPos(self)
+    local anchor = GameObject.FindInChildren(self.gameObject, "InteractAnchor")
+    if anchor and anchor.transform then
+        return anchor.transform.worldPosition
+    end
+
+    if self.public and self.public.interactionHeight then
+        local pos = self.transform.worldPosition
+        return { x = pos.x, y = pos.y + self.public.interactionHeight, z = pos.z }
+    end
+
+    return self.transform.worldPosition
+end
+
 local function updatePromptPosition(self)
-    local pos = self.transform.worldPosition
+    local pos = getPromptAnchorPos(self)
     local sx, sy = Camera.WorldToScreen(pos.x, pos.y, pos.z)
     if not sx or not sy then return false end
 

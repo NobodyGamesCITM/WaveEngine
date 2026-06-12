@@ -27,11 +27,17 @@ local COOLDOWN   = 0.5
 local promptVisible = false
 
 local function getPromptAnchorPos(obj)
-    -- Intenta usar un hijo "InteractAnchor", si no usa el root
     local anchor = GameObject.FindInChildren(obj, "InteractAnchor")
     if anchor and anchor.transform then
         return anchor.transform.worldPosition
     end
+
+    local script = GameObject.GetScript(obj)
+    if script and script.public and script.public.interactionHeight then
+        local pos = obj.transform.worldPosition
+        return { x = pos.x, y = pos.y + script.public.interactionHeight, z = pos.z }
+    end
+
     return obj.transform.worldPosition
 end
 
